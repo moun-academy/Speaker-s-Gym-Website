@@ -74,21 +74,21 @@ export default function SpeakersGym() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap');
 
         :root {
-          --bg: #0a0a0a;
-          --bg2: #111111;
-          --bg3: #181818;
-          --surface: #1a1a1a;
-          --border: #2a2a2a;
-          --text: #f0efe9;
-          --text-dim: #8a8a8a;
-          --accent: #d4a843;
-          --accent-dim: #b8922e;
-          --accent-glow: rgba(212,168,67,.15);
+          --bg: #111111;
+          --bg2: #141414;
+          --bg3: #1b1b1b;
+          --surface: #171717;
+          --border: rgba(217, 192, 111, 0.14);
+          --text: #e0ddd4;
+          --text-dim: #9a9790;
+          --accent: #d9c06f;
+          --accent-dim: #e8d590;
+          --accent-glow: rgba(217, 192, 111, 0.12);
           --danger: #ff4d4d;
-          --font-display: 'Bebas Neue', sans-serif;
+          --font-display: 'Playfair Display', Georgia, serif;
           --font-body: 'DM Sans', sans-serif;
         }
 
@@ -102,9 +102,9 @@ export default function SpeakersGym() {
         .reveal--visible { opacity: 1; transform: translateY(0); }
 
         /* ── NAV ── */
-        .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(10,10,10,.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+        .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(17,17,17,.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
         .nav-inner { max-width:1200px; margin:0 auto; padding: 0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .nav-logo { font-family:var(--font-display); font-size:1.5rem; letter-spacing:.06em; color:var(--text); text-decoration:none; }
+        .nav-logo { font-family:var(--font-display); font-size:1.3rem; font-style: italic; font-weight: 600; letter-spacing:.02em; color:var(--text); text-decoration:none; }
         .nav-logo span { color:var(--accent); }
         .nav-links { display:flex; gap:28px; align-items:center; }
         .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.875rem; font-weight:500; transition: color .2s; }
@@ -117,20 +117,53 @@ export default function SpeakersGym() {
           .nav-links { display:none; }
           .nav-hamburger { display:block; }
           .mobile-menu { position:fixed; inset:0; z-index:99; background:rgba(10,10,10,.97); backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
-          .mobile-menu a { color:var(--text); font-family:var(--font-display); font-size:2rem; text-decoration:none; letter-spacing:.04em; }
+          .mobile-menu a { color:var(--text); font-family:var(--font-display); font-size:2rem; text-decoration:none; letter-spacing:.02em; font-style: italic; }
           .mobile-menu a:hover { color:var(--accent); }
           .mobile-close { position:absolute; top:20px; right:24px; background:none; border:none; color:var(--text); font-size:2rem; cursor:pointer; }
         }
 
         /* ── HERO ── */
+        .hero-wrap::before {
+          content: '';
+          display: block;
+          height: 3px;
+          background: linear-gradient(90deg, transparent 5%, var(--accent) 30%, var(--accent-dim) 50%, var(--accent) 70%, transparent 95%);
+        }
         .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding: 120px 24px 80px; position:relative; overflow:hidden; }
-        .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-glow) 0%, transparent 70%); pointer-events:none; }
-        .hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:200px; background:linear-gradient(transparent, var(--bg)); pointer-events:none; }
+        .hero::before {
+          content:'';
+          position:absolute;
+          inset:0;
+          background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+          background-size: 200px;
+          pointer-events:none;
+        }
+        .hero::after {
+          content:'';
+          position:absolute;
+          top:-60px;
+          left:50%;
+          transform:translateX(-50%);
+          width:900px;
+          height:520px;
+          background: radial-gradient(ellipse, rgba(217, 192, 111, 0.06) 0%, transparent 65%);
+          pointer-events:none;
+        }
         .hero-content { position:relative; z-index:1; max-width:820px; }
-        .hero-badge { display:inline-block; border:1px solid var(--accent); color:var(--accent); font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 16px; border-radius:100px; margin-bottom:28px; }
-        .hero h1 { font-family:var(--font-display); font-size:clamp(3rem,8vw,6.5rem); line-height:.95; letter-spacing:.02em; margin-bottom:24px; }
-        .hero h1 span { color:var(--accent); }
-        .hero p { font-size:1.15rem; color:var(--text-dim); max-width:600px; margin:0 auto 40px; line-height:1.65; }
+        .hero-badge { display:inline-block; border:1px solid var(--accent); color:var(--accent); font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 16px; border-radius:100px; margin-bottom:28px; }
+        .hero-flourish { display:flex; align-items:center; justify-content:center; gap:16px; margin: 0 auto 36px; }
+        .hero-flourish-line { width:60px; height:1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .hero-flourish-diamond { width:8px; height:8px; background:var(--accent); transform:rotate(45deg); opacity:.7; }
+        .hero h1 { font-family:var(--font-display); font-size:clamp(2.3rem,6vw,3.6rem); line-height:1.2; letter-spacing:.01em; margin-bottom:18px; font-style: italic; font-weight:600; color: var(--accent); }
+        .hero p { font-size:1.1rem; color:var(--text-dim); max-width:650px; margin:0 auto 30px; line-height:1.7; }
+        .hero-transforms { display:flex; flex-direction:column; align-items:center; margin:0 auto 40px; }
+        .hero-transform-line { display:flex; align-items:center; gap:16px; padding:14px 0; }
+        .hero-transform-line:not(:last-child) { border-bottom: 1px solid rgba(217, 192, 111, 0.08); }
+        .hero-transform-from { font-size:16px; color:#5a5550; text-align:right; min-width:120px; }
+        .hero-transform-arrow { display:flex; align-items:center; gap:6px; }
+        .hero-transform-arrow-line { width:24px; height:1px; background:var(--accent); opacity:0.4; }
+        .hero-transform-arrow-tip { width:6px; height:6px; border-top:1.5px solid var(--accent); border-right:1.5px solid var(--accent); transform:rotate(45deg); opacity:.6; }
+        .hero-transform-to { font-family:var(--font-display); font-size:20px; font-style:italic; font-weight:600; color:#fff; text-align:left; min-width:120px; }
         .hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
         .btn-primary { background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.85rem; padding:14px 32px; border-radius:8px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; display:inline-block; }
         .btn-primary:hover { transform:translateY(-2px); box-shadow: 0 4px 30px var(--accent-glow); }
@@ -140,7 +173,7 @@ export default function SpeakersGym() {
         /* ── SECTION SHARED ── */
         .section { padding: 100px 24px; max-width:1200px; margin:0 auto; }
         .section-label { font-size:.75rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
-        .section-title { font-family:var(--font-display); font-size:clamp(2rem,5vw,3.2rem); letter-spacing:.02em; margin-bottom:20px; }
+        .section-title { font-family:var(--font-display); font-size:clamp(2rem,5vw,3rem); font-style:italic; font-weight:600; letter-spacing:.01em; margin-bottom:20px; color: #f2ecdf; }
         .section-subtitle { color:var(--text-dim); max-width:580px; line-height:1.6; font-size:1rem; }
 
         /* ── WHO IT'S FOR ── */
@@ -148,14 +181,14 @@ export default function SpeakersGym() {
         .who-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:36px 32px; transition: border-color .3s, transform .3s; }
         .who-card:hover { border-color:var(--accent); transform:translateY(-4px); }
         .who-card-icon { font-size:2rem; margin-bottom:16px; display:block; }
-        .who-card h3 { font-family:var(--font-display); font-size:1.4rem; letter-spacing:.03em; margin-bottom:10px; }
+        .who-card h3 { font-family:var(--font-display); font-size:1.35rem; font-style: italic; margin-bottom:10px; }
         .who-card p { color:var(--text-dim); line-height:1.6; font-size:.95rem; }
 
         /* ── HOW IT WORKS ── */
         .how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; margin-top:48px; }
         .how-card { position:relative; padding:40px 32px 36px; background:var(--bg2); border:1px solid var(--border); border-radius:14px; }
-        .how-num { font-family:var(--font-display); font-size:4rem; color:var(--accent); opacity:.25; position:absolute; top:12px; right:24px; line-height:1; }
-        .how-card h3 { font-family:var(--font-display); font-size:1.3rem; letter-spacing:.03em; margin-bottom:10px; }
+        .how-num { font-family:var(--font-display); font-size:4rem; color:var(--accent); opacity:.2; position:absolute; top:12px; right:24px; line-height:1; font-style: italic; }
+        .how-card h3 { font-family:var(--font-display); font-size:1.25rem; font-style: italic; margin-bottom:10px; }
         .how-card p { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
 
         /* ── PRICING ── */
@@ -163,7 +196,7 @@ export default function SpeakersGym() {
         .pricing-inner { max-width:1200px; margin:0 auto; }
         .countdown-bar { display:flex; gap:20px; justify-content:center; margin:32px 0 48px; }
         .countdown-unit { text-align:center; }
-        .countdown-num { font-family:var(--font-display); font-size:2.4rem; color:var(--accent); display:block; }
+        .countdown-num { font-family:var(--font-display); font-size:2.4rem; color:var(--accent); display:block; font-style: italic; }
         .countdown-lbl { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim); }
         .countdown-sep { font-family:var(--font-display); font-size:2rem; color:var(--border); line-height:1.3; }
 
@@ -173,10 +206,10 @@ export default function SpeakersGym() {
         .price-card--pop::before { content:'Most Popular'; position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--accent); color:#0a0a0a; font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:5px 18px; border-radius:100px; }
         .price-card:hover { border-color:var(--accent); transform:translateY(-4px); }
         .price-tier { font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
-        .price-label { font-family:var(--font-display); font-size:1.6rem; letter-spacing:.03em; margin-bottom:16px; }
+        .price-label { font-family:var(--font-display); font-size:1.5rem; font-style: italic; margin-bottom:16px; }
         .price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
         .price-old { font-size:1.1rem; color:var(--text-dim); text-decoration:line-through; }
-        .price-now { font-family:var(--font-display); font-size:3rem; color:var(--text); }
+        .price-now { font-family:var(--font-display); font-size:3rem; color:var(--text); font-style: italic; }
         .price-per { color:var(--text-dim); font-size:.85rem; margin-bottom:6px; }
         .price-save { display:inline-block; background:rgba(200,255,0,.1); color:var(--accent); font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:6px; margin-bottom:20px; }
         .price-hours { font-size:.85rem; color:var(--text-dim); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
@@ -191,9 +224,9 @@ export default function SpeakersGym() {
         .roadmap-line { position:absolute; left:27px; top:0; bottom:0; width:2px; background:var(--border); }
         @media(max-width:600px){ .roadmap-line{ left:19px; } }
         .roadmap-week { display:flex; gap:32px; margin-bottom:48px; position:relative; }
-        .roadmap-dot { width:56px; min-width:56px; height:56px; border-radius:50%; background:var(--surface); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:1.3rem; color:var(--accent); position:relative; z-index:1; }
+        .roadmap-dot { width:56px; min-width:56px; height:56px; border-radius:50%; background:var(--surface); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:1.3rem; color:var(--accent); position:relative; z-index:1; font-style: italic; }
         @media(max-width:600px){ .roadmap-dot{ width:40px; min-width:40px; height:40px; font-size:1rem; } }
-        .roadmap-body h3 { font-family:var(--font-display); font-size:1.4rem; letter-spacing:.03em; margin-bottom:4px; }
+        .roadmap-body h3 { font-family:var(--font-display); font-size:1.4rem; font-style: italic; margin-bottom:4px; }
         .roadmap-body h3 span { color:var(--accent); }
         .roadmap-body .sub { font-size:.8rem; color:var(--text-dim); margin-bottom:8px; }
         .roadmap-body p { color:var(--text-dim); font-size:.95rem; line-height:1.6; margin-bottom:10px; }
@@ -202,21 +235,21 @@ export default function SpeakersGym() {
 
         /* between sessions */
         .between { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px 36px; margin-top:16px; }
-        .between h4 { font-family:var(--font-display); font-size:1.2rem; letter-spacing:.03em; margin-bottom:16px; color:var(--accent); }
+        .between h4 { font-family:var(--font-display); font-size:1.2rem; font-style: italic; margin-bottom:16px; color:var(--accent); }
         .between ul { list-style:none; }
         .between li { padding:6px 0 6px 22px; position:relative; color:var(--text-dim); font-size:.95rem; line-height:1.5; }
         .between li::before { content:'→'; position:absolute; left:0; color:var(--accent); }
 
         /* ── GUARANTEE ── */
         .guarantee { text-align:center; padding:100px 24px; }
-        .guarantee-badge { font-family:var(--font-display); font-size:6rem; color:var(--accent); margin-bottom:8px; }
+        .guarantee-badge { font-family:var(--font-display); font-size:6rem; color:var(--accent); margin-bottom:8px; font-style: italic; }
         .guarantee p { color:var(--text-dim); max-width:600px; margin:16px auto 32px; line-height:1.65; font-size:1rem; }
 
         /* ── FAQ ── */
         .faq-list { max-width:760px; margin:48px auto 0; }
         .faq-item { border-bottom:1px solid var(--border); cursor:pointer; }
         .faq-q { display:flex; justify-content:space-between; align-items:center; padding:20px 0; font-weight:600; font-size:1rem; gap:16px; }
-        .faq-icon { font-family:var(--font-display); font-size:1.5rem; color:var(--accent); transition:transform .3s; flex-shrink:0; }
+        .faq-icon { font-family:var(--font-display); font-size:1.5rem; color:var(--accent); transition:transform .3s; flex-shrink:0; font-style: italic; }
         .faq-icon--open { transform:rotate(45deg); }
         .faq-a { max-height:0; overflow:hidden; transition: max-height .4s ease; }
         .faq-a--open { max-height:600px; }
@@ -224,7 +257,14 @@ export default function SpeakersGym() {
 
         /* ── FOOTER ── */
         .footer { border-top:1px solid var(--border); padding:48px 24px; text-align:center; }
-        .footer-logo { font-family:var(--font-display); font-size:1.3rem; letter-spacing:.06em; margin-bottom:8px; }
+        .footer-logo { font-family:var(--font-display); font-size:1.3rem; font-style: italic; letter-spacing:.02em; margin-bottom:8px; }
+
+        @media (max-width: 600px) {
+          .hero-transform-from { font-size: 14px; min-width: 90px; }
+          .hero-transform-to { font-size: 17px; min-width: 90px; }
+          .hero-transform-arrow-line { width: 16px; }
+          .hero-flourish-line { width: 36px; }
+        }
         .footer-logo span { color:var(--accent); }
         .footer p { color:var(--text-dim); font-size:.8rem; }
 
@@ -262,26 +302,53 @@ export default function SpeakersGym() {
       )}
 
       {/* ── HERO ── */}
-      <section className="hero">
-        <div className="hero-content">
-          <Reveal>
-            <div className="hero-badge">Public Speaking Coach for Socially Nervous Professionals</div>
-          </Reveal>
-          <Reveal delay={100}>
-            <h1>FROM NERVOUS<br />TO <span>CONFIDENT</span></h1>
-          </Reveal>
-          <Reveal delay={200}>
-            <p>A 4-week training program where you practice speaking twice a week, get real feedback, and build the confidence to speak clearly at work and in conversations.</p>
-          </Reveal>
-          <Reveal delay={300}>
-            <div className="hero-btns">
-              <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
-              <a href="#roadmap" className="btn-secondary">View Program</a>
-              <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <div className="hero-wrap">
+        <section className="hero">
+          <div className="hero-content">
+            <Reveal>
+              <div className="hero-badge">Public Speaking Coach for Socially Nervous Professionals</div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="hero-flourish">
+                <div className="hero-flourish-line" />
+                <div className="hero-flourish-diamond" />
+                <div className="hero-flourish-line" />
+              </div>
+            </Reveal>
+            <Reveal delay={150}>
+              <h1>From Nervous Professional to Confident Communicator</h1>
+            </Reveal>
+            <Reveal delay={220}>
+              <div className="hero-transforms">
+                {[
+                  ["Rambling", "Articulate"],
+                  ["Monotone", "Expressive"],
+                  ["Shy", "Confident"],
+                ].map(([from, to]) => (
+                  <div key={from} className="hero-transform-line">
+                    <span className="hero-transform-from">{from}</span>
+                    <span className="hero-transform-arrow">
+                      <span className="hero-transform-arrow-line" />
+                      <span className="hero-transform-arrow-tip" />
+                    </span>
+                    <span className="hero-transform-to">{to}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={260}>
+              <p>A 4-week training program where you practice speaking twice a week, get real feedback, and build the confidence to speak clearly at work and in conversations.</p>
+            </Reveal>
+            <Reveal delay={320}>
+              <div className="hero-btns">
+                <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
+                <a href="#roadmap" className="btn-secondary">View Program</a>
+                <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </div>
 
       {/* ── WHO IT'S FOR ── */}
       <section className="section" id="who">
