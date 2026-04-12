@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const SCHEDULE_URL = "https://marouanealmandri.com/schedule";
-const COMMUNITY_URL = "https://www.skool.com/speakers-gym/about";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
@@ -71,6 +70,12 @@ export default function SpeakersGym() {
   const countdown = useCountdown("2026-04-30T23:59:59");
   const [mobileNav, setMobileNav] = useState(false);
 
+  const trackLead = () => {
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "Lead");
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -123,52 +128,38 @@ export default function SpeakersGym() {
         }
 
         /* ── HERO ── */
-        .hero-wrap::before {
-          content: '';
-          display: block;
-          height: 3px;
-          background: linear-gradient(90deg, transparent 5%, var(--accent) 30%, var(--accent-dim) 50%, var(--accent) 70%, transparent 95%);
-        }
-        .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding: 120px 24px 80px; position:relative; overflow:hidden; }
-        .hero::before {
-          content:'';
-          position:absolute;
-          inset:0;
-          background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-          background-size: 200px;
-          pointer-events:none;
-        }
-        .hero::after {
-          content:'';
-          position:absolute;
-          top:-60px;
-          left:50%;
-          transform:translateX(-50%);
-          width:900px;
-          height:520px;
-          background: radial-gradient(ellipse, rgba(217, 192, 111, 0.06) 0%, transparent 65%);
-          pointer-events:none;
-        }
-        .hero-content { position:relative; z-index:1; max-width:820px; }
-        .hero-badge { display:inline-block; border:1px solid var(--accent); color:var(--accent); font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 16px; border-radius:100px; margin-bottom:28px; }
-        .hero-flourish { display:flex; align-items:center; justify-content:center; gap:16px; margin: 0 auto 36px; }
-        .hero-flourish-line { width:60px; height:1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-        .hero-flourish-diamond { width:8px; height:8px; background:var(--accent); transform:rotate(45deg); opacity:.7; }
-        .hero h1 { font-family:var(--font-display); font-size:clamp(2.3rem,6vw,3.6rem); line-height:1.2; letter-spacing:.01em; margin-bottom:18px; font-style: italic; font-weight:600; color: var(--accent); }
-        .hero p { font-size:1.1rem; color:var(--text-dim); max-width:650px; margin:0 auto 30px; line-height:1.7; }
-        .hero-transforms { display:flex; flex-direction:column; align-items:center; margin:0 auto 40px; }
-        .hero-transform-line { display:flex; align-items:center; gap:16px; padding:14px 0; }
-        .hero-transform-line:not(:last-child) { border-bottom: 1px solid rgba(217, 192, 111, 0.08); }
-        .hero-transform-from { font-size:16px; color:#5a5550; text-align:right; min-width:120px; }
-        .hero-transform-arrow { display:flex; align-items:center; gap:6px; }
-        .hero-transform-arrow-line { width:24px; height:1px; background:var(--accent); opacity:0.4; }
-        .hero-transform-arrow-tip { width:6px; height:6px; border-top:1.5px solid var(--accent); border-right:1.5px solid var(--accent); transform:rotate(45deg); opacity:.6; }
-        .hero-transform-to { font-family:var(--font-display); font-size:20px; font-style:italic; font-weight:600; color:#fff; text-align:left; min-width:120px; }
-        .hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+        .sg-hero-wrap::before { content:''; display:block; height:3px; background: linear-gradient(90deg, transparent 5%, var(--accent) 30%, var(--accent-dim) 50%, var(--accent) 70%, transparent 95%); }
+        .sg-hero { background:var(--bg); padding:60px 24px 80px; text-align:center; position:relative; overflow:hidden; }
+        .sg-hero::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:200px; pointer-events:none; z-index:0; }
+        .sg-hero::after { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:800px; height:500px; background:radial-gradient(ellipse, rgba(217, 192, 111, 0.06) 0%, transparent 65%); pointer-events:none; z-index:0; }
+        .sg-hero-inner { position:relative; z-index:1; max-width:820px; margin:0 auto; }
+        .sg-flourish { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:36px; opacity:0; animation:fadeDown .7s .2s ease forwards; }
+        .sg-flourish-line { width:60px; height:1px; background:linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .sg-flourish-diamond { width:8px; height:8px; background:var(--accent); transform:rotate(45deg); opacity:.7; }
+        .sg-hero h1 { font-family:var(--font-display); font-size:clamp(36px, 6vw, 56px); font-style:italic; font-weight:600; line-height:1.2; color:var(--accent); margin-bottom:40px; opacity:0; animation:fadeUp .8s .35s ease forwards; }
+        .sg-transforms { display:flex; flex-direction:column; align-items:center; gap:0; opacity:0; animation:fadeUp .7s .55s ease forwards; }
+        .sg-transform-line { display:flex; align-items:center; gap:16px; padding:14px 0; }
+        .sg-transform-line:not(:last-child) { border-bottom:1px solid rgba(217, 192, 111, 0.08); }
+        .sg-transform-from { font-size:16px; font-weight:400; color:#5a5550; text-align:right; min-width:120px; }
+        .sg-transform-arrow { display:flex; align-items:center; gap:6px; }
+        .sg-transform-arrow-line { width:24px; height:1px; background:var(--accent); opacity:0.4; }
+        .sg-transform-arrow-tip { width:6px; height:6px; border-top:1.5px solid var(--accent); border-right:1.5px solid var(--accent); transform:rotate(45deg); opacity:.6; }
+        .sg-transform-to { font-family:var(--font-display); font-size:20px; font-weight:600; font-style:italic; color:#fff; text-align:left; min-width:120px; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeDown { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
         .btn-primary { background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.85rem; padding:14px 32px; border-radius:8px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; display:inline-block; }
         .btn-primary:hover { transform:translateY(-2px); box-shadow: 0 4px 30px var(--accent-glow); }
         .btn-secondary { border:1px solid var(--border); color:var(--text); font-weight:600; font-size:.85rem; padding:14px 32px; border-radius:8px; text-decoration:none; letter-spacing:.02em; transition: border-color .2s, color .2s; display:inline-block; }
         .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ── TESTIMONIALS ── */
+        .testimonials-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:48px; }
+        .testimonial-card { border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#000; }
+        .testimonial-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; }
+        .testimonial-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+        @media(max-width:768px) {
+          .testimonials-grid { grid-template-columns:1fr; }
+        }
 
         /* ── SECTION SHARED ── */
         .section { padding: 100px 24px; max-width:1200px; margin:0 auto; }
@@ -192,32 +183,59 @@ export default function SpeakersGym() {
         .how-card p { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
 
         /* ── PRICING ── */
-        .pricing-section { background: var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding: 100px 24px; }
-        .pricing-inner { max-width:1200px; margin:0 auto; }
-        .countdown-bar { display:flex; gap:20px; justify-content:center; margin:32px 0 48px; }
-        .countdown-unit { text-align:center; }
-        .countdown-num { font-family:var(--font-display); font-size:2.4rem; color:var(--accent); display:block; font-style: italic; }
-        .countdown-lbl { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim); }
-        .countdown-sep { font-family:var(--font-display); font-size:2rem; color:var(--border); line-height:1.3; }
-
-        .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
-        .price-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:40px 32px; display:flex; flex-direction:column; transition: border-color .3s, transform .3s; }
-        .price-card--pop { border-color:var(--accent); position:relative; }
-        .price-card--pop::before { content:'Most Popular'; position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--accent); color:#0a0a0a; font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:5px 18px; border-radius:100px; }
-        .price-card:hover { border-color:var(--accent); transform:translateY(-4px); }
-        .price-tier { font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
-        .price-label { font-family:var(--font-display); font-size:1.5rem; font-style: italic; margin-bottom:16px; }
-        .price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
-        .price-old { font-size:1.1rem; color:var(--text-dim); text-decoration:line-through; }
-        .price-now { font-family:var(--font-display); font-size:3rem; color:var(--text); font-style: italic; }
-        .price-per { color:var(--text-dim); font-size:.85rem; margin-bottom:6px; }
-        .price-save { display:inline-block; background:rgba(200,255,0,.1); color:var(--accent); font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:6px; margin-bottom:20px; }
-        .price-hours { font-size:.85rem; color:var(--text-dim); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
-        .price-features { list-style:none; flex:1; margin-bottom:28px; }
-        .price-features li { font-size:.9rem; color:var(--text-dim); padding:6px 0; padding-left:22px; position:relative; line-height:1.5; }
-        .price-features li::before { content:'✓'; position:absolute; left:0; color:var(--accent); font-weight:700; }
-        .price-cta { display:block; text-align:center; background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.85rem; padding:14px; border-radius:8px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; }
-        .price-cta:hover { transform:translateY(-2px); box-shadow: 0 4px 30px var(--accent-glow); }
+        .sgp-section { width:100%; padding:80px 24px; background:#0f0f0f; font-family:var(--font-body); box-sizing:border-box; }
+        .sgp-inner { max-width:980px; margin:0 auto; }
+        .sgp-eyebrow { font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:#d9c06f; text-align:center; margin:0 0 16px; }
+        .sgp-headline { font-family:var(--font-display); font-size:clamp(28px,4vw,42px); font-weight:600; color:#f5eedb; text-align:center; margin:0 0 12px; line-height:1.2; }
+        .sgp-subline { font-size:15px; color:#7a6f55; text-align:center; margin:0 0 20px; font-weight:300; }
+        .sgp-timer-wrap { text-align:center; margin:0 0 48px; }
+        .sgp-timer-label { font-size:13px; color:#c0503a; font-weight:500; margin:0 0 12px; letter-spacing:.05em; }
+        .sgp-timer { display:inline-flex; gap:12px; align-items:center; }
+        .sgp-timer-unit { display:flex; flex-direction:column; align-items:center; gap:4px; }
+        .sgp-timer-num { font-family:var(--font-display); font-size:32px; font-weight:700; color:#d9c06f; background:#141414; border:1px solid rgba(217,192,111,.2); border-radius:10px; padding:8px 14px; min-width:56px; text-align:center; line-height:1; }
+        .sgp-timer-text { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#5a5040; }
+        .sgp-timer-sep { font-family:var(--font-display); font-size:28px; color:rgba(217,192,111,.3); margin-bottom:18px; }
+        .sgp-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; align-items:start; }
+        .sgp-card { background:#141414; border:1px solid rgba(217,192,111,.12); border-radius:16px; padding:36px 28px; box-sizing:border-box; display:flex; flex-direction:column; position:relative; }
+        .sgp-card.featured { background:#181610; border-color:rgba(217,192,111,.35); padding:44px 28px; margin-top:-12px; }
+        .sgp-card.vip { background:#0e100e; border-color:rgba(138,173,110,.2); }
+        .sgp-popular { position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:#d9c06f; color:#0f0f0f; font-size:10px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; padding:4px 16px; border-radius:20px; white-space:nowrap; }
+        .sgp-tier { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:#6a5f45; margin:0 0 10px; }
+        .sgp-card.vip .sgp-tier { color:#6a8a5a; }
+        .sgp-title { font-family:var(--font-display); font-size:20px; font-weight:600; color:#f0e8cc; margin:0 0 24px; line-height:1.2; min-height:52px; }
+        .sgp-price-block { margin-bottom:24px; }
+        .sgp-original { font-size:15px; color:#c0503a; text-decoration:line-through; font-weight:300; margin:0 0 2px; min-height:22px; }
+        .sgp-price-row { display:flex; align-items:baseline; gap:8px; }
+        .sgp-price { font-family:var(--font-display); font-size:48px; font-weight:700; color:#d9c06f; line-height:1; }
+        .sgp-card.vip .sgp-price { color:#8aad6e; }
+        .sgp-period { font-size:13px; color:#5a5040; font-weight:300; }
+        .sgp-save { font-size:12px; color:#8aad6e; font-weight:500; margin:6px 0 0; min-height:18px; }
+        .sgp-rule { height:1px; background:rgba(217,192,111,.07); margin:0 0 24px; }
+        .sgp-card.vip .sgp-rule { background:rgba(138,173,110,.07); }
+        .sgp-features { list-style:none; padding:0; margin:0 0 32px; display:flex; flex-direction:column; gap:12px; flex:1; }
+        .sgp-feature { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:#8a7f65; line-height:1.45; }
+        .sgp-feature .tick { flex-shrink:0; width:16px; height:16px; border-radius:50%; background:rgba(217,192,111,.1); border:1px solid rgba(217,192,111,.2); display:flex; align-items:center; justify-content:center; margin-top:1px; color:#d9c06f; font-size:10px; line-height:1; }
+        .sgp-card.vip .sgp-feature .tick { background:rgba(138,173,110,.1); border-color:rgba(138,173,110,.2); color:#8aad6e; }
+        .sgp-feature .tick svg { width:8px; height:8px; }
+        .sgp-feature strong { color:#c8bc9a; font-weight:500; }
+        .sgp-hours-badge { display:inline-block; font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#d9c06f; background:rgba(217,192,111,.08); border:1px solid rgba(217,192,111,.15); padding:5px 12px; border-radius:20px; margin-bottom:20px; }
+        .sgp-card.vip .sgp-hours-badge { color:#8aad6e; background:rgba(138,173,110,.08); border-color:rgba(138,173,110,.15); }
+        .sgp-btn { display:block; width:100%; padding:15px 20px; border-radius:10px; font-family:var(--font-body); font-size:14px; font-weight:500; text-align:center; text-decoration:none; cursor:pointer; transition:opacity .15s ease, transform .15s ease; box-sizing:border-box; letter-spacing:.01em; }
+        .sgp-btn:hover { opacity:.88; transform:translateY(-1px); }
+        .sgp-btn:active { transform:translateY(0); opacity:1; }
+        .sgp-btn.outline { background:transparent; color:#d9c06f; border:1px solid rgba(217,192,111,.3); }
+        .sgp-btn.solid { background:#d9c06f; color:#0f0f0f; border:none; }
+        .sgp-btn.green { background:transparent; color:#8aad6e; border:1px solid rgba(138,173,110,.35); }
+        .sgp-footer-note { font-size:12px; color:#4a4030; text-align:center; margin:32px 0 0; font-weight:300; }
+        @media (max-width:760px) {
+          .sgp-grid { grid-template-columns:1fr; gap:16px; }
+          .sgp-card.featured { margin-top:0; padding:36px 28px; }
+          .sgp-section { padding:56px 20px; }
+          .sgp-price { font-size:40px; }
+          .sgp-title { min-height:unset; }
+          .sgp-timer-num { font-size:24px; min-width:46px; padding:6px 10px; }
+          .sgp-timer-sep { font-size:22px; }
+        }
 
         /* ── ROADMAP ── */
         .roadmap-timeline { position:relative; margin-top:56px; }
@@ -260,10 +278,11 @@ export default function SpeakersGym() {
         .footer-logo { font-family:var(--font-display); font-size:1.3rem; font-style: italic; letter-spacing:.02em; margin-bottom:8px; }
 
         @media (max-width: 600px) {
-          .hero-transform-from { font-size: 14px; min-width: 90px; }
-          .hero-transform-to { font-size: 17px; min-width: 90px; }
-          .hero-transform-arrow-line { width: 16px; }
-          .hero-flourish-line { width: 36px; }
+          .sg-hero { padding: 44px 20px 60px; }
+          .sg-transform-from { font-size: 14px; min-width: 90px; }
+          .sg-transform-to { font-size: 17px; min-width: 90px; }
+          .sg-transform-arrow-line { width: 16px; }
+          .sg-flourish-line { width: 36px; }
         }
         .footer-logo span { color:var(--accent); }
         .footer p { color:var(--text-dim); font-size:.8rem; }
@@ -282,8 +301,9 @@ export default function SpeakersGym() {
             <a href="#how">How It Works</a>
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
+            <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta">Book a Call</a>
+            <a href={SCHEDULE_URL} className="nav-cta" onClick={trackLead}>Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -296,56 +316,39 @@ export default function SpeakersGym() {
           <a href="#how" onClick={() => setMobileNav(false)}>How It Works</a>
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
+          <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
         </div>
       )}
 
       {/* ── HERO ── */}
-      <div className="hero-wrap">
-        <section className="hero">
-          <div className="hero-content">
-            <Reveal>
-              <div className="hero-badge">Public Speaking Coach for Socially Nervous Professionals</div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div className="hero-flourish">
-                <div className="hero-flourish-line" />
-                <div className="hero-flourish-diamond" />
-                <div className="hero-flourish-line" />
-              </div>
-            </Reveal>
-            <Reveal delay={150}>
-              <h1>From Nervous Professional to Confident Communicator</h1>
-            </Reveal>
-            <Reveal delay={220}>
-              <div className="hero-transforms">
-                {[
-                  ["Rambling", "Articulate"],
-                  ["Monotone", "Expressive"],
-                  ["Shy", "Confident"],
-                ].map(([from, to]) => (
-                  <div key={from} className="hero-transform-line">
-                    <span className="hero-transform-from">{from}</span>
-                    <span className="hero-transform-arrow">
-                      <span className="hero-transform-arrow-line" />
-                      <span className="hero-transform-arrow-tip" />
-                    </span>
-                    <span className="hero-transform-to">{to}</span>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-            <Reveal delay={260}>
-              <p>A 4-week training program where you practice speaking twice a week, get real feedback, and build the confidence to speak clearly at work and in conversations.</p>
-            </Reveal>
-            <Reveal delay={320}>
-              <div className="hero-btns">
-                <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
-                <a href="#roadmap" className="btn-secondary">View Program</a>
-                <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
-              </div>
-            </Reveal>
+      <div className="sg-hero-wrap">
+        <section className="sg-hero">
+          <div className="sg-hero-inner">
+            <div className="sg-flourish">
+              <div className="sg-flourish-line" />
+              <div className="sg-flourish-diamond" />
+              <div className="sg-flourish-line" />
+            </div>
+            <h1>From Nervous Professional to Confident Communicator</h1>
+
+            <div className="sg-transforms">
+              {[
+                ["Rambling", "Articulate"],
+                ["Monotone", "Expressive"],
+                ["Shy", "Confident"],
+              ].map(([from, to]) => (
+                <div key={from} className="sg-transform-line">
+                  <span className="sg-transform-from">{from}</span>
+                  <span className="sg-transform-arrow">
+                    <span className="sg-transform-arrow-line" />
+                    <span className="sg-transform-arrow-tip" />
+                  </span>
+                  <span className="sg-transform-to">{to}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </div>
@@ -393,96 +396,6 @@ export default function SpeakersGym() {
               </div>
             </Reveal>
           ))}
-        </div>
-      </section>
-
-      {/* ── PRICING ── */}
-      <section className="pricing-section" id="pricing">
-        <div className="pricing-inner">
-          <Reveal>
-            <div className="text-center">
-              <div className="section-label">Pricing</div>
-              <div className="section-title">Pick Your Group</div>
-              <p className="section-subtitle mx-auto">Every plan includes the full MOUN Academy course, Speaker's Gym App, and performance tracking.</p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <div style={{ textAlign: "center", margin: "24px 0 8px", color: "var(--accent)", fontWeight: 600, fontSize: ".9rem" }}>
-              50% off — limited time offer
-            </div>
-            <div className="countdown-bar">
-              {[["days", countdown.days], ["hours", countdown.hours], ["min", countdown.min], ["sec", countdown.sec]].map(([label, val], i) => (
-                <div key={label} style={{ display: "flex", alignItems: "center", gap: i < 3 ? 20 : 0 }}>
-                  <div className="countdown-unit">
-                    <span className="countdown-num">{val}</span>
-                    <span className="countdown-lbl">{label}</span>
-                  </div>
-                  {i < 3 && <span className="countdown-sep">:</span>}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <div className="pricing-grid">
-            {[
-              {
-                tier: "Standard", label: "3+ Members", old: "$94", now: "$47", per: "per person / 4 weeks",
-                save: "Save 50%", hours: "4 hours live training", pop: false,
-                features: [
-                  "One live workshop per week for 4 weeks",
-                  "3-hour MOUN Academy course with exercises",
-                  "Premium Speaker's Gym App with AI feedback",
-                  "Conversation Playbook (bonus)",
-                ],
-              },
-              {
-                tier: "Small Group", label: "Group of 3", old: "$194", now: "$97", per: "per person / 4 weeks",
-                save: "Save 50%", hours: "8 hours live training", pop: true,
-                features: [
-                  "2 live sessions per week for 4 weeks",
-                  "3-hour MOUN Academy course with exercises",
-                  "Premium Speaker's Gym App with AI feedback",
-                  "Performance tracking — always know where you stand",
-                  "Conversation Playbook (bonus)",
-                ],
-              },
-              {
-                tier: "VIP", label: "1-on-1 Coaching", old: "$294", now: "$147", per: "/ 4 weeks",
-                save: "Save 50%", hours: "8 hours private coaching", pop: false,
-                features: [
-                  "Everything in Small Group",
-                  "8 private 1-on-1 sessions (2/week, 1 hour each)",
-                  "Feedback on real meetings & presentations",
-                  "Action plan built around your specific goals",
-                ],
-              },
-            ].map((p, i) => (
-              <Reveal key={i} delay={i * 120}>
-                <div className={cx("price-card", p.pop && "price-card--pop")}>
-                  <div className="price-tier">{p.tier}</div>
-                  <div className="price-label">{p.label}</div>
-                  <div className="price-row">
-                    <span className="price-old">{p.old}</span>
-                    <span className="price-now">{p.now}</span>
-                  </div>
-                  <div className="price-per">{p.per}</div>
-                  <div className="price-save">{p.save}</div>
-                  <div className="price-hours">{p.hours}</div>
-                  <ul className="price-features">
-                    {p.features.map((f, j) => <li key={j}>{f}</li>)}
-                  </ul>
-                  <a href={SCHEDULE_URL} className="price-cta">Book a Call →</a>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal>
-            <p style={{ textAlign: "center", color: "var(--text-dim)", marginTop: 28, fontSize: ".9rem" }}>
-              All plans start with a free strategy call. Click any button above to book yours.
-            </p>
-          </Reveal>
         </div>
       </section>
 
@@ -536,6 +449,139 @@ export default function SpeakersGym() {
         </Reveal>
       </section>
 
+      {/* ── TESTIMONIALS ── */}
+      <section className="section" id="testimonials">
+        <Reveal>
+          <div className="section-label">Testimonials</div>
+          <div className="section-title">What Others Are Saying</div>
+        </Reveal>
+        <div className="testimonials-grid">
+          {[
+            "AmX2dVv8qcM",
+            "cm3G7biEwHI",
+            "Kctzf04s41c",
+            "QzFvN_5MPWI",
+            "fiyvwTk2Iq4",
+            "XQ5x8_tnI7M",
+          ].map((videoId, i) => (
+            <Reveal key={videoId} delay={i * 80}>
+              <div className="testimonial-card">
+                <div className="testimonial-embed">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0`}
+                    title={`Testimonial video ${i + 1}`}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section className="sgp-section" id="pricing">
+        <div className="sgp-inner">
+          <p className="sgp-eyebrow">Pricing</p>
+          <h2 className="sgp-headline">Pick Your Group</h2>
+          <p className="sgp-subline">Every plan includes the full MOUN Academy course, Speaker's Gym App, and performance tracking.</p>
+
+          <div className="sgp-timer-wrap">
+            <p className="sgp-timer-label">50% off ends April 30th</p>
+            <div className="sgp-timer">
+              {[
+                ["Days", countdown.days],
+                ["Hours", countdown.hours],
+                ["Min", countdown.min],
+                ["Sec", countdown.sec],
+              ].map(([label, value], i) => (
+                <div key={label} style={{ display: "contents" }}>
+                  <div className="sgp-timer-unit">
+                    <span className="sgp-timer-num">{value}</span>
+                    <span className="sgp-timer-text">{label}</span>
+                  </div>
+                  {i < 3 && <span className="sgp-timer-sep">:</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="sgp-grid">
+            <div className="sgp-card">
+              <p className="sgp-tier">Standard</p>
+              <h3 className="sgp-title">3+ Members</h3>
+              <div className="sgp-price-block">
+                <p className="sgp-original">$94</p>
+                <div className="sgp-price-row">
+                  <span className="sgp-price">$47</span>
+                  <span className="sgp-period">per person / 4 weeks</span>
+                </div>
+                <p className="sgp-save">Save 50%</p>
+              </div>
+              <span className="sgp-hours-badge">4 hours live training</span>
+              <div className="sgp-rule" />
+              <ul className="sgp-features">
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>One live workshop per week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
+              </ul>
+              <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead}>Book a Call →</a>
+            </div>
+
+            <div className="sgp-card featured">
+              <span className="sgp-popular">Most Popular</span>
+              <p className="sgp-tier">Small Group</p>
+              <h3 className="sgp-title">Group of 3</h3>
+              <div className="sgp-price-block">
+                <p className="sgp-original">$194</p>
+                <div className="sgp-price-row">
+                  <span className="sgp-price">$97</span>
+                  <span className="sgp-period">per person / 4 weeks</span>
+                </div>
+                <p className="sgp-save">Save 50% — more personal attention</p>
+              </div>
+              <span className="sgp-hours-badge">8 hours live training</span>
+              <div className="sgp-rule" />
+              <ul className="sgp-features">
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>2 live sessions per week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
+              </ul>
+              <a href={SCHEDULE_URL} className="sgp-btn solid" onClick={trackLead}>Book a Call →</a>
+            </div>
+
+            <div className="sgp-card vip">
+              <p className="sgp-tier">VIP</p>
+              <h3 className="sgp-title">1-on-1 Coaching</h3>
+              <div className="sgp-price-block">
+                <p className="sgp-original">$335</p>
+                <div className="sgp-price-row">
+                  <span className="sgp-price">$167</span>
+                  <span className="sgp-period">/ 4 weeks</span>
+                </div>
+                <p className="sgp-save">Save 50% — fastest path to results</p>
+              </div>
+              <span className="sgp-hours-badge">8 hours private coaching</span>
+              <div className="sgp-rule" />
+              <ul className="sgp-features">
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Everything in Small Group</strong></span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span><strong>8 private 1-on-1 sessions</strong> (2 per week for 4 weeks, 1 hour each)</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
+                <li className="sgp-feature"><span className="tick">✓</span><span>Clear action plan built around your specific goals</span></li>
+              </ul>
+              <a href={SCHEDULE_URL} className="sgp-btn green" onClick={trackLead}>Book a Call →</a>
+            </div>
+          </div>
+
+          <p className="sgp-footer-note">All plans start with a free strategy call. Click any button above to book yours.</p>
+        </div>
+      </section>
+
       {/* ── GUARANTEE ── */}
       <section className="guarantee">
         <Reveal>
@@ -543,7 +589,7 @@ export default function SpeakersGym() {
           <div className="section-label">Try It Risk Free</div>
           <div className="section-title">Money-Back Guarantee</div>
           <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary">Book Free Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book Free Call</a>
         </Reveal>
       </section>
 
