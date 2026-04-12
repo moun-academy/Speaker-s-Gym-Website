@@ -457,6 +457,88 @@ export default function SpeakersGym() {
         </div>
       </section>
 
+      {/* ── ROADMAP ── */}
+      <section className="section" id="roadmap">
+        <Reveal>
+          <div className="section-label">The Roadmap</div>
+          <div className="section-title">Your 4-Week Transformation</div>
+          <p className="section-subtitle">Each week builds on the last. Two live sessions per week, plus daily practice on the app. By Week 4, you'll speak with clarity and confidence.</p>
+        </Reveal>
+
+        <div className="roadmap-timeline">
+          <div className="roadmap-line" />
+          {[
+            { w: 1, name: "Foundation", focus: "Clarity", desc: "Learn and practice simple frameworks to answer any question clearly and on the spot. No more rambling. No more going blank.", tags: ["Speech frameworks", "Live practice", "Daily app reps"] },
+            { w: 2, name: "Vocal Power", focus: "Volume & Pace", desc: "Train your volume and pace variety. Learn how to slow down for impact, speed up for energy, and use volume to hold attention.", tags: ["Volume training", "Pace training", "Daily app reps"] },
+            { w: 3, name: "Expression", focus: "Pitch & Pauses", desc: "Work on pitch variety and effective pauses. This is what separates someone who sounds flat from someone people actually listen to.", tags: ["Pitch training", "Pause training", "Daily app reps"] },
+            { w: 4, name: "Transformation", focus: "Full Integration", desc: "Bring it all together. Practice speaking with clarity, vocal variety, and presence in real scenarios like presentations and networking.", tags: ["Full skill integration", "Real scenario practice", "Before vs after review"] },
+          ].map((wk, i) => (
+            <Reveal key={i} delay={i * 100}>
+              <div className="roadmap-week">
+                <div className="roadmap-dot">{wk.w}</div>
+                <div className="roadmap-body">
+                  <h3>{wk.name} — <span>{wk.focus}</span></h3>
+                  <div className="sub">2 live sessions</div>
+                  <p>{wk.desc}</p>
+                  <div className="roadmap-tags">
+                    {wk.tags.map((t, j) => <span key={j} className="roadmap-tag">{t}</span>)}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal>
+          <div className="between">
+            <h4>Between Sessions</h4>
+            <ul>
+              <li>Daily reps on the Speaker's Gym App with AI feedback</li>
+              <li>Post your practice on the community and get feedback from me personally</li>
+              <li>Individual performance tracking so you always know where you stand</li>
+            </ul>
+          </div>
+        </Reveal>
+
+        <Reveal>
+          <p style={{ color: "var(--text-dim)", marginTop: 32, lineHeight: 1.6 }}>
+            By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
+          </p>
+        </Reveal>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="section" id="testimonials">
+        <Reveal>
+          <div className="section-label">Testimonials</div>
+          <div className="section-title">What Others Are Saying</div>
+        </Reveal>
+        <div className="testimonials-grid">
+          {[
+            "AmX2dVv8qcM",
+            "cm3G7biEwHI",
+            "Kctzf04s41c",
+            "QzFvN_5MPWI",
+            "fiyvwTk2Iq4",
+            "XQ5x8_tnI7M",
+          ].map((videoId, i) => (
+            <Reveal key={videoId} delay={i * 80}>
+              <div className="testimonial-card">
+                <div className="testimonial-embed">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0`}
+                    title={`Testimonial video ${i + 1}`}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── PRICING ── */}
       <section className="sgp-section" id="pricing">
         <div className="sgp-inner">
@@ -555,88 +637,6 @@ export default function SpeakersGym() {
           </div>
 
           <p className="sgp-footer-note">All plans start with a free strategy call. Click any button above to book yours.</p>
-        </div>
-      </section>
-
-      {/* ── ROADMAP ── */}
-      <section className="section" id="roadmap">
-        <Reveal>
-          <div className="section-label">The Roadmap</div>
-          <div className="section-title">Your 4-Week Transformation</div>
-          <p className="section-subtitle">Each week builds on the last. Two live sessions per week, plus daily practice on the app. By Week 4, you'll speak with clarity and confidence.</p>
-        </Reveal>
-
-        <div className="roadmap-timeline">
-          <div className="roadmap-line" />
-          {[
-            { w: 1, name: "Foundation", focus: "Clarity", desc: "Learn and practice simple frameworks to answer any question clearly and on the spot. No more rambling. No more going blank.", tags: ["Speech frameworks", "Live practice", "Daily app reps"] },
-            { w: 2, name: "Vocal Power", focus: "Volume & Pace", desc: "Train your volume and pace variety. Learn how to slow down for impact, speed up for energy, and use volume to hold attention.", tags: ["Volume training", "Pace training", "Daily app reps"] },
-            { w: 3, name: "Expression", focus: "Pitch & Pauses", desc: "Work on pitch variety and effective pauses. This is what separates someone who sounds flat from someone people actually listen to.", tags: ["Pitch training", "Pause training", "Daily app reps"] },
-            { w: 4, name: "Transformation", focus: "Full Integration", desc: "Bring it all together. Practice speaking with clarity, vocal variety, and presence in real scenarios like presentations and networking.", tags: ["Full skill integration", "Real scenario practice", "Before vs after review"] },
-          ].map((wk, i) => (
-            <Reveal key={i} delay={i * 100}>
-              <div className="roadmap-week">
-                <div className="roadmap-dot">{wk.w}</div>
-                <div className="roadmap-body">
-                  <h3>{wk.name} — <span>{wk.focus}</span></h3>
-                  <div className="sub">2 live sessions</div>
-                  <p>{wk.desc}</p>
-                  <div className="roadmap-tags">
-                    {wk.tags.map((t, j) => <span key={j} className="roadmap-tag">{t}</span>)}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal>
-          <div className="between">
-            <h4>Between Sessions</h4>
-            <ul>
-              <li>Daily reps on the Speaker's Gym App with AI feedback</li>
-              <li>Post your practice on the community and get feedback from me personally</li>
-              <li>Individual performance tracking so you always know where you stand</li>
-            </ul>
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <p style={{ color: "var(--text-dim)", marginTop: 32, lineHeight: 1.6 }}>
-            By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section className="section" id="testimonials">
-        <Reveal>
-          <div className="section-label">Testimonials</div>
-          <div className="section-title">What Others Are Saying</div>
-        </Reveal>
-        <div className="testimonials-grid">
-          {[
-            "AmX2dVv8qcM",
-            "cm3G7biEwHI",
-            "Kctzf04s41c",
-            "QzFvN_5MPWI",
-            "fiyvwTk2Iq4",
-            "XQ5x8_tnI7M",
-          ].map((videoId, i) => (
-            <Reveal key={videoId} delay={i * 80}>
-              <div className="testimonial-card">
-                <div className="testimonial-embed">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0`}
-                    title={`Testimonial video ${i + 1}`}
-                    loading="lazy"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
