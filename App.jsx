@@ -106,6 +106,10 @@ export default function SpeakersGym() {
         /* reveal animation */
         .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
         .reveal--visible { opacity: 1; transform: translateY(0); }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
 
         /* ── NAV ── */
         .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(17,17,17,.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
@@ -195,20 +199,191 @@ export default function SpeakersGym() {
         .section-title { font-family:var(--font-display); font-size:clamp(2rem,5vw,3rem); font-style:italic; font-weight:600; letter-spacing:.01em; margin-bottom:20px; color: #f2ecdf; }
         .section-subtitle { color:var(--text-dim); max-width:580px; line-height:1.6; font-size:1rem; }
 
+        /* ── FEATURE SECTIONS (WHO + HOW) ── */
+        .section-feature {
+          position: relative;
+          overflow: hidden;
+          background: #1a1a1a;
+          border: 1px solid rgba(217, 192, 111, 0.08);
+          border-radius: 20px;
+          margin-top: 32px;
+        }
+        .section-feature::before {
+          content:'';
+          position:absolute;
+          inset:0;
+          background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+          background-size: 260px;
+          pointer-events:none;
+        }
+        .section-feature::after {
+          content:'';
+          position:absolute;
+          top:-220px;
+          left:50%;
+          transform:translateX(-50%);
+          width:960px;
+          height:520px;
+          background: radial-gradient(ellipse at top center, rgba(217, 192, 111, 0.05) 0%, transparent 70%);
+          pointer-events:none;
+        }
+        .section-feature > * { position: relative; z-index: 1; }
+        .section-feature .section-heading { text-align:center; }
+        .section-feature .section-label {
+          margin: 0 auto 16px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          width: fit-content;
+          font-family: var(--font-body);
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #d9c06f;
+        }
+        .section-feature .section-label::before,
+        .section-feature .section-label::after {
+          content:'';
+          width: 40px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(217, 192, 111, 0.95), transparent);
+        }
+        .section-feature .section-title {
+          font-family: var(--font-display);
+          font-style: italic;
+          font-weight: 600;
+          color: #d9c06f;
+          font-size: clamp(32px, 5vw, 44px);
+          text-align: center;
+          margin-bottom: 8px;
+        }
+
         /* ── WHO IT'S FOR ── */
-        .who-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; margin-top:48px; }
-        .who-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:36px 32px; transition: border-color .3s, transform .3s; }
-        .who-card:hover { border-color:var(--accent); transform:translateY(-4px); }
-        .who-card-icon { font-size:2rem; margin-bottom:16px; display:block; }
-        .who-card h3 { font-family:var(--font-display); font-size:1.35rem; font-style: italic; margin-bottom:10px; }
-        .who-card p { color:var(--text-dim); line-height:1.6; font-size:.95rem; }
+        .who-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:48px; }
+        .who-grid .reveal--visible .who-card { animation: fadeUp .55s ease forwards; opacity:0; }
+        .who-grid .reveal:nth-child(1) .who-card { animation-delay: .15s; }
+        .who-grid .reveal:nth-child(2) .who-card { animation-delay: .25s; }
+        .who-grid .reveal:nth-child(3) .who-card { animation-delay: .35s; }
+        .who-card {
+          background:#141414;
+          border:1px solid rgba(217, 192, 111, 0.15);
+          border-radius:16px;
+          padding:36px 28px 32px;
+          position:relative;
+          overflow:hidden;
+          transition: border-color .32s, transform .32s, box-shadow .32s;
+        }
+        .who-card::before {
+          content:'';
+          position:absolute;
+          left:18px;
+          right:18px;
+          top:0;
+          height:2px;
+          background:linear-gradient(90deg, transparent, rgba(217, 192, 111, 0.92), transparent);
+          opacity:0;
+          transition:opacity .32s;
+        }
+        .who-card:hover {
+          border-color: rgba(217, 192, 111, 0.4);
+          transform:translateY(-4px);
+          box-shadow: 0 18px 34px rgba(0,0,0,.45), 0 0 26px rgba(217, 192, 111, 0.12);
+        }
+        .who-card:hover::before { opacity:1; }
+        .who-card-icon-box {
+          width:44px;
+          height:44px;
+          border-radius:12px;
+          background: rgba(217, 192, 111, 0.12);
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          margin-bottom:16px;
+          border:1px solid rgba(217, 192, 111, 0.2);
+        }
+        .who-card-icon { font-size:1.25rem; line-height:1; }
+        .who-card h3 {
+          font-family: var(--font-body);
+          font-size:20px;
+          font-weight:600;
+          color:#fff;
+          margin-bottom:10px;
+          line-height:1.3;
+        }
+        .who-card p { color:#9a9790; line-height:1.65; font-size:15.5px; }
 
         /* ── HOW IT WORKS ── */
-        .how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; margin-top:48px; }
-        .how-card { position:relative; padding:40px 32px 36px; background:var(--bg2); border:1px solid var(--border); border-radius:14px; }
-        .how-num { font-family:var(--font-display); font-size:4rem; color:var(--accent); opacity:.2; position:absolute; top:12px; right:24px; line-height:1; font-style: italic; }
-        .how-card h3 { font-family:var(--font-display); font-size:1.25rem; font-style: italic; margin-bottom:10px; }
-        .how-card p { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
+        .how-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:48px; }
+        .how-grid .reveal--visible .how-card { animation: fadeUp .55s ease forwards; opacity:0; }
+        .how-grid .reveal:nth-child(1) .how-card { animation-delay: .15s; }
+        .how-grid .reveal:nth-child(2) .how-card { animation-delay: .3s; }
+        .how-grid .reveal:nth-child(3) .how-card { animation-delay: .45s; }
+        .how-card {
+          position:relative;
+          padding:36px 28px 32px;
+          background:#141414;
+          border:1px solid rgba(217, 192, 111, 0.15);
+          border-radius:16px;
+          text-align:center;
+          transition: border-color .32s, transform .32s, box-shadow .32s;
+          overflow: visible;
+        }
+        .how-card:hover {
+          border-color: rgba(217, 192, 111, 0.4);
+          transform:translateY(-4px);
+          box-shadow: 0 18px 34px rgba(0,0,0,.45), 0 0 26px rgba(217, 192, 111, 0.12);
+        }
+        .how-step-number {
+          width:52px;
+          height:52px;
+          margin:0 auto 18px;
+          border-radius:50%;
+          background:#d9c06f;
+          color:#111;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-family: var(--font-display);
+          font-size:22px;
+          font-weight:700;
+          box-shadow: 0 0 0 6px rgba(217, 192, 111, 0.1), 0 8px 22px rgba(217, 192, 111, 0.24);
+          transition: transform .28s, box-shadow .28s;
+          position:relative;
+          z-index:2;
+        }
+        .how-card:hover .how-step-number {
+          transform: scale(1.06);
+          box-shadow: 0 0 0 8px rgba(217, 192, 111, 0.16), 0 12px 24px rgba(217, 192, 111, 0.3);
+        }
+        .how-grid .reveal:not(:last-child) .how-card::after {
+          content:'';
+          position:absolute;
+          top:62px;
+          right:-36px;
+          width:48px;
+          height:2px;
+          background:linear-gradient(90deg, rgba(217, 192, 111, 0.92), rgba(217, 192, 111, 0.15));
+          pointer-events:none;
+        }
+        .how-card h3 {
+          font-family: var(--font-body);
+          font-size:20px;
+          font-weight:600;
+          color:#fff;
+          margin-bottom:10px;
+          line-height:1.3;
+        }
+        .how-card p { color:#9a9790; font-size:15.5px; line-height:1.65; }
+        @media(max-width:768px) {
+          .section-feature { margin-top: 22px; border-radius: 16px; }
+          .section-feature .section-label { letter-spacing: 2.4px; gap: 10px; }
+          .section-feature .section-label::before,
+          .section-feature .section-label::after { width: 26px; }
+          .who-grid, .how-grid { grid-template-columns:1fr; max-width:480px; margin:42px auto 0; }
+          .how-grid .reveal:not(:last-child) .how-card::after { display:none; }
+        }
 
         /* ── PRICING ── */
         .sgp-section { width:100%; padding:80px 24px; background:#0f0f0f; font-family:var(--font-body); box-sizing:border-box; }
@@ -353,9 +528,6 @@ export default function SpeakersGym() {
       <div className="hero-wrap">
         <section className="hero">
           <div className="hero-content">
-            <Reveal>
-              <div className="hero-badge">Public Speaking Coach for Socially Nervous Professionals</div>
-            </Reveal>
             <Reveal delay={100}>
               <div className="hero-flourish">
                 <div className="hero-flourish-line" />
@@ -384,9 +556,6 @@ export default function SpeakersGym() {
                 ))}
               </div>
             </Reveal>
-            <Reveal delay={260}>
-              <p>A 4-week training program where you practice speaking twice a week, get real feedback, and build the confidence to speak clearly at work and in conversations.</p>
-            </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
                 <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book a Strategy Call</a>
@@ -412,10 +581,12 @@ export default function SpeakersGym() {
       </div>
 
       {/* ── WHO IT'S FOR ── */}
-      <section className="section" id="who">
+      <section className="section section-feature" id="who">
         <Reveal>
-          <div className="section-label">Find Your Fit</div>
-          <div className="section-title">Who The Speaker's Gym Is For</div>
+          <div className="section-heading">
+            <div className="section-label">Find Your Fit</div>
+            <div className="section-title">Who The Speaker's Gym Is For</div>
+          </div>
         </Reveal>
         <div className="who-grid">
           {[
@@ -423,9 +594,11 @@ export default function SpeakersGym() {
             { icon: "💭", title: "People Who Overthink", desc: "You have ideas in your head, but you struggle to say them clearly and confidently in the moment." },
             { icon: "🎯", title: "People Who Want Real Practice", desc: "You don't want more theory. You want reps, feedback, and a system that helps you improve fast." },
           ].map((c, i) => (
-            <Reveal key={i} delay={i * 120}>
+            <Reveal key={i} delay={[150, 250, 350][i] ?? i * 120}>
               <div className="who-card">
-                <span className="who-card-icon">{c.icon}</span>
+                <span className="who-card-icon-box">
+                  <span className="who-card-icon">{c.icon}</span>
+                </span>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
               </div>
@@ -435,20 +608,22 @@ export default function SpeakersGym() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section className="section" id="how">
+      <section className="section section-feature" id="how">
         <Reveal>
-          <div className="section-label">The Process</div>
-          <div className="section-title">How It Works</div>
+          <div className="section-heading">
+            <div className="section-label">The Process</div>
+            <div className="section-title">How It Works</div>
+          </div>
         </Reveal>
         <div className="how-grid">
           {[
-            { n: "01", title: "Live Coaching", desc: "Practice speaking live and receive direct feedback on your structure, delivery, and presence." },
-            { n: "02", title: "Daily Speaking Reps", desc: "Build confidence with daily speaking reps inside the Premium Speaker's Gym app with AI feedback." },
-            { n: "03", title: "The Full Roadmap", desc: "Master vocal variety and speech structure with the complete MOUN Academy roadmap." },
+            { n: "1", title: "Live Coaching", desc: "Practice speaking live and receive direct feedback on your structure, delivery, and presence." },
+            { n: "2", title: "Daily Speaking Reps", desc: "Build confidence with daily speaking reps inside the Premium Speaker's Gym app with AI feedback." },
+            { n: "3", title: "The Full Roadmap", desc: "Master vocal variety and speech structure with the complete MOUN Academy roadmap." },
           ].map((c, i) => (
-            <Reveal key={i} delay={i * 120}>
+            <Reveal key={i} delay={[150, 300, 450][i] ?? i * 120}>
               <div className="how-card">
-                <span className="how-num">{c.n}</span>
+                <span className="how-step-number">{c.n}</span>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
               </div>
