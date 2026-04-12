@@ -71,6 +71,12 @@ export default function SpeakersGym() {
   const countdown = useCountdown("2026-04-30T23:59:59");
   const [mobileNav, setMobileNav] = useState(false);
 
+  const trackLead = () => {
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "Lead");
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -287,7 +293,7 @@ export default function SpeakersGym() {
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta">Book a Call</a>
+            <a href={SCHEDULE_URL} className="nav-cta" onClick={trackLead}>Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -301,7 +307,7 @@ export default function SpeakersGym() {
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
         </div>
       )}
 
@@ -345,7 +351,7 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
-                <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
+                <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
               </div>
@@ -489,7 +495,7 @@ export default function SpeakersGym() {
                   <ul className="price-features">
                     {p.features.map((f, j) => <li key={j}>{f}</li>)}
                   </ul>
-                  <a href={SCHEDULE_URL} className="price-cta">Book a Call →</a>
+                  <a href={SCHEDULE_URL} className="price-cta" onClick={trackLead}>Book a Call →</a>
                 </div>
               </Reveal>
             ))}
@@ -560,7 +566,7 @@ export default function SpeakersGym() {
           <div className="section-label">Try It Risk Free</div>
           <div className="section-title">Money-Back Guarantee</div>
           <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary">Book Free Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book Free Call</a>
         </Reveal>
       </section>
 
