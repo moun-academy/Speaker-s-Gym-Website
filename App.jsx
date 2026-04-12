@@ -180,6 +180,15 @@ export default function SpeakersGym() {
         .hero-video-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; }
         .hero-video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
 
+        /* ── TESTIMONIALS ── */
+        .testimonials-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:48px; }
+        .testimonial-card { border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#000; }
+        .testimonial-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; }
+        .testimonial-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+        @media(max-width:768px) {
+          .testimonials-grid { grid-template-columns:1fr; }
+        }
+
         /* ── SECTION SHARED ── */
         .section { padding: 100px 24px; max-width:1200px; margin:0 auto; }
         .section-label { font-size:.75rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
@@ -292,6 +301,7 @@ export default function SpeakersGym() {
             <a href="#how">How It Works</a>
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
+            <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
             <a href={SCHEDULE_URL} className="nav-cta" onClick={trackLead}>Book a Call</a>
           </div>
@@ -306,6 +316,7 @@ export default function SpeakersGym() {
           <a href="#how" onClick={() => setMobileNav(false)}>How It Works</a>
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
+          <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
           <a href={SCHEDULE_URL} className="btn-primary" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
         </div>
@@ -557,6 +568,38 @@ export default function SpeakersGym() {
             By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
           </p>
         </Reveal>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="section" id="testimonials">
+        <Reveal>
+          <div className="section-label">Testimonials</div>
+          <div className="section-title">What Others Are Saying</div>
+        </Reveal>
+        <div className="testimonials-grid">
+          {[
+            "AmX2dVv8qcM",
+            "cm3G7biEwHI",
+            "Kctzf04s41c",
+            "QzFvN_5MPWI",
+            "fiyvwTk2Iq4",
+            "XQ5x8_tnI7M",
+          ].map((videoId, i) => (
+            <Reveal key={videoId} delay={i * 80}>
+              <div className="testimonial-card">
+                <div className="testimonial-embed">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0`}
+                    title={`Testimonial video ${i + 1}`}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ── GUARANTEE ── */}
