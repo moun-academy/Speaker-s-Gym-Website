@@ -353,9 +353,6 @@ export default function SpeakersGym() {
       <div className="hero-wrap">
         <section className="hero">
           <div className="hero-content">
-            <Reveal>
-              <div className="hero-badge">Public Speaking Coach for Socially Nervous Professionals</div>
-            </Reveal>
             <Reveal delay={100}>
               <div className="hero-flourish">
                 <div className="hero-flourish-line" />
@@ -383,9 +380,6 @@ export default function SpeakersGym() {
                   </div>
                 ))}
               </div>
-            </Reveal>
-            <Reveal delay={260}>
-              <p>A 4-week training program where you practice speaking twice a week, get real feedback, and build the confidence to speak clearly at work and in conversations.</p>
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
