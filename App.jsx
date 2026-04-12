@@ -71,6 +71,12 @@ export default function SpeakersGym() {
   const countdown = useCountdown("2026-04-30T23:59:59");
   const [mobileNav, setMobileNav] = useState(false);
 
+  const trackLead = () => {
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "Lead");
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -149,7 +155,7 @@ export default function SpeakersGym() {
           background: radial-gradient(ellipse, rgba(217, 192, 111, 0.06) 0%, transparent 65%);
           pointer-events:none;
         }
-        .hero-content { position:relative; z-index:1; max-width:820px; }
+        .hero-content { position:relative; z-index:1; max-width:900px; }
         .hero-badge { display:inline-block; border:1px solid var(--accent); color:var(--accent); font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 16px; border-radius:100px; margin-bottom:28px; }
         .hero-flourish { display:flex; align-items:center; justify-content:center; gap:16px; margin: 0 auto 36px; }
         .hero-flourish-line { width:60px; height:1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
@@ -169,6 +175,10 @@ export default function SpeakersGym() {
         .btn-primary:hover { transform:translateY(-2px); box-shadow: 0 4px 30px var(--accent-glow); }
         .btn-secondary { border:1px solid var(--border); color:var(--text); font-weight:600; font-size:.85rem; padding:14px 32px; border-radius:8px; text-decoration:none; letter-spacing:.02em; transition: border-color .2s, color .2s; display:inline-block; }
         .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+
+        .hero-video { max-width:900px; width:100%; margin:48px auto 0; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+        .hero-video-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; }
+        .hero-video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
 
         /* ── SECTION SHARED ── */
         .section { padding: 100px 24px; max-width:1200px; margin:0 auto; }
@@ -283,7 +293,7 @@ export default function SpeakersGym() {
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta">Book a Call</a>
+            <a href={SCHEDULE_URL} className="nav-cta" onClick={trackLead}>Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -297,7 +307,7 @@ export default function SpeakersGym() {
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
         </div>
       )}
 
@@ -341,9 +351,22 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
-                <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
+                <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
+              </div>
+            </Reveal>
+            <Reveal delay={380}>
+              <div className="hero-video">
+                <div className="hero-video-embed">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/ast-27XSUsE?rel=0&modestbranding=1"
+                    title="Speaker's Gym video"
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             </Reveal>
           </div>
@@ -472,7 +495,7 @@ export default function SpeakersGym() {
                   <ul className="price-features">
                     {p.features.map((f, j) => <li key={j}>{f}</li>)}
                   </ul>
-                  <a href={SCHEDULE_URL} className="price-cta">Book a Call →</a>
+                  <a href={SCHEDULE_URL} className="price-cta" onClick={trackLead}>Book a Call →</a>
                 </div>
               </Reveal>
             ))}
@@ -543,7 +566,7 @@ export default function SpeakersGym() {
           <div className="section-label">Try It Risk Free</div>
           <div className="section-title">Money-Back Guarantee</div>
           <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary">Book Free Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book Free Call</a>
         </Reveal>
       </section>
 
