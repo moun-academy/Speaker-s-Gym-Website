@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 const SCHEDULE_URL = "https://marouanealmandri.com/schedule";
-const COMMUNITY_URL = "https://www.skool.com/speakers-gym/about";
+const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
