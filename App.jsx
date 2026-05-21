@@ -109,8 +109,8 @@ export default function SpeakersGym() {
         .nav-links { display:flex; gap:28px; align-items:center; }
         .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.875rem; font-weight:500; transition: color .2s; }
         .nav-links a:hover { color:var(--accent); }
-        .nav-cta { background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.8rem; padding:10px 22px; border-radius:6px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; }
-        .nav-cta:hover { transform:translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); color:#0a0a0a; }
+        .nav-links a.nav-cta { background:var(--accent); color:#000; font-weight:700; font-size:.8rem; padding:10px 22px; border-radius:6px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; }
+        .nav-links a.nav-cta:hover { transform:translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); color:#000; }
         .nav-hamburger { display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; }
 
         @media(max-width:768px) {
