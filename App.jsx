@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const SCHEDULE_URL = "https://marouanealmandri.com/schedule";
+const SCHEDULE_URL = "https://calendly.com/speakersgym-marouanealmandri/free-strategy-call";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 
 /* ─── tiny helpers ─── */
@@ -243,7 +243,7 @@ export default function SpeakersGym() {
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta">Book a Call</a>
+            <a href={SCHEDULE_URL} className="nav-cta" target="_blank" rel="noopener noreferrer">Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -257,7 +257,7 @@ export default function SpeakersGym() {
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={() => setMobileNav(false)}>Book a Call</a>
         </div>
       )}
 
@@ -275,7 +275,7 @@ export default function SpeakersGym() {
           </Reveal>
           <Reveal delay={300}>
             <div className="hero-btns">
-              <a href={SCHEDULE_URL} className="btn-primary">Book a Strategy Call</a>
+              <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
               <a href="#roadmap" className="btn-secondary">View Program</a>
               <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
             </div>
@@ -405,7 +405,7 @@ export default function SpeakersGym() {
                   <ul className="price-features">
                     {p.features.map((f, j) => <li key={j}>{f}</li>)}
                   </ul>
-                  <a href={SCHEDULE_URL} className="price-cta">Book a Call →</a>
+                  <a href={SCHEDULE_URL} className="price-cta" target="_blank" rel="noopener noreferrer">Book a Call →</a>
                 </div>
               </Reveal>
             ))}
@@ -476,7 +476,7 @@ export default function SpeakersGym() {
           <div className="section-label">Try It Risk Free</div>
           <div className="section-title">Money-Back Guarantee</div>
           <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary">Book Free Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">Book Free Call</a>
         </Reveal>
       </section>
 
@@ -507,7 +507,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a href={SCHEDULE_URL} className="btn-primary">Book a Free Strategy Call</a>
+            <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">Book a Free Strategy Call</a>
           </div>
         </Reveal>
       </section>
