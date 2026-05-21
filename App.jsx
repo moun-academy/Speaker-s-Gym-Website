@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const SCHEDULE_URL = "https://marouanealmandri.com/schedule";
+const SCHEDULE_URL = "https://calendly.com/speakersgym-marouanealmandri/free-strategy-call";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 
 /* ─── tiny helpers ─── */
@@ -330,7 +330,7 @@ export default function SpeakersGym() {
             <a href="#roadmap">Roadmap</a>
             <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta" onClick={trackLead}>Book a Call</a>
+            <a href={SCHEDULE_URL} className="nav-cta" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -345,7 +345,7 @@ export default function SpeakersGym() {
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
         </div>
       )}
 
@@ -383,7 +383,7 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
-                <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book a Strategy Call</a>
+                <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
               </div>
@@ -580,7 +580,7 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick">✓</span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
                 <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
               </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead}>Book a Call →</a>
+              <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
             </div>
 
             <div className="sgp-card featured">
@@ -604,7 +604,7 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick">✓</span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
                 <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
               </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn solid" onClick={trackLead}>Book a Call →</a>
+              <a href={SCHEDULE_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
             </div>
 
             <div className="sgp-card vip">
@@ -626,7 +626,7 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick">✓</span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
                 <li className="sgp-feature"><span className="tick">✓</span><span>Clear action plan built around your specific goals</span></li>
               </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn green" onClick={trackLead}>Book a Call →</a>
+              <a href={SCHEDULE_URL} className="sgp-btn green" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
             </div>
           </div>
 
@@ -641,7 +641,7 @@ export default function SpeakersGym() {
           <div className="section-label">Try It Risk Free</div>
           <div className="section-title">Money-Back Guarantee</div>
           <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead}>Book Free Call</a>
+          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book Free Call</a>
         </Reveal>
       </section>
 
@@ -672,7 +672,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a href={SCHEDULE_URL} className="btn-primary">Book a Free Strategy Call</a>
+            <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Free Strategy Call</a>
           </div>
         </Reveal>
       </section>
