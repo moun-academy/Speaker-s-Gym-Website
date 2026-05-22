@@ -212,7 +212,7 @@ export default function SpeakersGym() {
 
         /* ── PRICING ── */
         .sgp-section { width:100%; padding:80px 24px; background:#0f0f0f; font-family:var(--font-body); box-sizing:border-box; }
-        .sgp-inner { max-width:980px; margin:0 auto; }
+        .sgp-inner { max-width:760px; margin:0 auto; }
         .sgp-eyebrow { font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:#d9c06f; text-align:center; margin:0 0 16px; }
         .sgp-headline { font-family:var(--font-display); font-size:clamp(28px,4vw,42px); font-weight:600; color:#f5eedb; text-align:center; margin:0 0 12px; line-height:1.2; }
         .sgp-subline { font-size:15px; color:#7a6f55; text-align:center; margin:0 0 20px; font-weight:300; }
@@ -223,7 +223,7 @@ export default function SpeakersGym() {
         .sgp-timer-num { font-family:var(--font-display); font-size:32px; font-weight:700; color:#d9c06f; background:#141414; border:1px solid rgba(217,192,111,.2); border-radius:10px; padding:8px 14px; min-width:56px; text-align:center; line-height:1; }
         .sgp-timer-text { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#5a5040; }
         .sgp-timer-sep { font-family:var(--font-display); font-size:28px; color:rgba(217,192,111,.3); margin-bottom:18px; }
-        .sgp-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; align-items:start; }
+        .sgp-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
         .sgp-card { background:#141414; border:1px solid rgba(217,192,111,.12); border-radius:16px; padding:36px 28px; box-sizing:border-box; display:flex; flex-direction:column; position:relative; }
         .sgp-card.featured { background:#181610; border-color:rgba(217,192,111,.35); padding:44px 28px; margin-top:-12px; }
         .sgp-card.vip { background:#0e100e; border-color:rgba(138,173,110,.2); }
@@ -256,7 +256,7 @@ export default function SpeakersGym() {
         .sgp-btn.green { background:transparent; color:#8aad6e; border:1px solid rgba(138,173,110,.35); }
         .sgp-footer-note { font-size:12px; color:#4a4030; text-align:center; margin:32px 0 0; font-weight:300; }
         @media (max-width:760px) {
-          .sgp-grid { grid-template-columns:1fr; gap:16px; }
+          .sgp-grid { grid-template-columns:1fr; gap:16px; max-width:400px; margin:0 auto; }
           .sgp-card.featured { margin-top:0; padding:36px 28px; }
           .sgp-section { padding:56px 20px; }
           .sgp-price { font-size:40px; }
@@ -533,98 +533,57 @@ export default function SpeakersGym() {
       {/* ── PRICING ── */}
       <section className="sgp-section" id="pricing">
         <div className="sgp-inner">
-          <p className="sgp-eyebrow">Pricing</p>
-          <h2 className="sgp-headline">Pick Your Group</h2>
-          <p className="sgp-subline">Every plan includes the full MOUN Academy course, Speaker's Gym App, and performance tracking.</p>
-
-          <div className="sgp-timer-wrap">
-            <p className="sgp-timer-label">50% off ends April 30th</p>
-            <div className="sgp-timer">
-              {[
-                ["Days", countdown.days],
-                ["Hours", countdown.hours],
-                ["Min", countdown.min],
-                ["Sec", countdown.sec],
-              ].map(([label, value], i) => (
-                <div key={label} style={{ display: "contents" }}>
-                  <div className="sgp-timer-unit">
-                    <span className="sgp-timer-num">{value}</span>
-                    <span className="sgp-timer-text">{label}</span>
-                  </div>
-                  {i < 3 && <span className="sgp-timer-sep">:</span>}
-                </div>
-              ))}
-            </div>
-          </div>
 
           <div className="sgp-grid">
-            <div className="sgp-card">
-              <p className="sgp-tier">Standard</p>
-              <h3 className="sgp-title">3+ Members</h3>
-              <div className="sgp-price-block">
-                <p className="sgp-original">$94</p>
-                <div className="sgp-price-row">
-                  <span className="sgp-price">$47</span>
-                  <span className="sgp-period">per person / 4 weeks</span>
-                </div>
-                <p className="sgp-save">Save 50%</p>
-              </div>
-              <span className="sgp-hours-badge">4 hours live training</span>
-              <div className="sgp-rule" />
-              <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>One live workshop per week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
-              </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
-            </div>
 
+            {/* TIER 1: 6-Week Group — FEATURED */}
             <div className="sgp-card featured">
               <span className="sgp-popular">Most Popular</span>
-              <p className="sgp-tier">Small Group</p>
-              <h3 className="sgp-title">Group of 3</h3>
+              <p className="sgp-tier">6-Week Group</p>
+              <h3 className="sgp-title">Group of 6</h3>
               <div className="sgp-price-block">
-                <p className="sgp-original">$194</p>
+                <p className="sgp-original">$147</p>
                 <div className="sgp-price-row">
                   <span className="sgp-price">$97</span>
-                  <span className="sgp-period">per person / 4 weeks</span>
+                  <span className="sgp-period">per person / 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save 50% — more personal attention</p>
+                <p className="sgp-save">Save $50</p>
               </div>
-              <span className="sgp-hours-badge">8 hours live training</span>
+              <span className="sgp-hours-badge">12 hours live training</span>
               <div className="sgp-rule" />
               <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>2 live sessions per week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>2-hour live workshop every weekend</strong> for 6 weeks (frameworks + vocal variety)</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
               </ul>
               <a href={SCHEDULE_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
             </div>
 
+            {/* TIER 2: 1-on-1 Coaching */}
             <div className="sgp-card vip">
               <p className="sgp-tier">VIP</p>
               <h3 className="sgp-title">1-on-1 Coaching</h3>
               <div className="sgp-price-block">
-                <p className="sgp-original">$335</p>
+                <p className="sgp-original">$300</p>
                 <div className="sgp-price-row">
-                  <span className="sgp-price">$167</span>
-                  <span className="sgp-period">/ 4 weeks</span>
+                  <span className="sgp-price">$197</span>
+                  <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save 50% — fastest path to results</p>
+                <p className="sgp-save">Save $103 — fastest path to results</p>
               </div>
-              <span className="sgp-hours-badge">8 hours private coaching</span>
+              <span className="sgp-hours-badge">Group + private coaching</span>
               <div className="sgp-rule" />
               <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>Everything in Small Group</strong></span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span><strong>8 private 1-on-1 sessions</strong> (2 per week for 4 weeks, 1 hour each)</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
-                <li className="sgp-feature"><span className="tick">✓</span><span>Clear action plan built around your specific goals</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Everything in the 6-Week Group plan</strong></span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Weekly 1-on-1 session</strong> where I focus on your specific weaknesses and work with you directly to get results faster</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Clear action plan built around your specific goals</span></li>
               </ul>
               <a href={SCHEDULE_URL} className="sgp-btn green" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
             </div>
+
           </div>
 
           <p className="sgp-footer-note">All plans start with a free strategy call. Click any button above to book yours.</p>
