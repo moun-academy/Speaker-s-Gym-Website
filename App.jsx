@@ -455,28 +455,25 @@ export default function SpeakersGym() {
       <section className="section" id="roadmap">
         <Reveal>
           <div className="section-label">The Roadmap</div>
-          <div className="section-title">Your 4-Week Transformation</div>
-          <p className="section-subtitle">Each week builds on the last. Two live sessions per week, plus daily practice on the app. By Week 4, you'll speak with clarity and confidence.</p>
+          <div className="section-title">Your 6-Week Communication Plan</div>
+          <p className="section-subtitle">Each phase builds on the last. By Week 6, you'll speak with more clarity, control, and confidence in real situations.</p>
         </Reveal>
 
         <div className="roadmap-timeline">
           <div className="roadmap-line" />
           {[
-            { w: 1, name: "Foundation", focus: "Clarity", desc: "Learn and practice simple frameworks to answer any question clearly and on the spot. No more rambling. No more going blank.", tags: ["Speech frameworks", "Live practice", "Daily app reps"] },
-            { w: 2, name: "Vocal Power", focus: "Volume & Pace", desc: "Train your volume and pace variety. Learn how to slow down for impact, speed up for energy, and use volume to hold attention.", tags: ["Volume training", "Pace training", "Daily app reps"] },
-            { w: 3, name: "Expression", focus: "Pitch & Pauses", desc: "Work on pitch variety and effective pauses. This is what separates someone who sounds flat from someone people actually listen to.", tags: ["Pitch training", "Pause training", "Daily app reps"] },
-            { w: 4, name: "Transformation", focus: "Full Integration", desc: "Bring it all together. Practice speaking with clarity, vocal variety, and presence in real scenarios like presentations and networking.", tags: ["Full skill integration", "Real scenario practice", "Before vs after review"] },
+            { w: "1-2", name: "Speak With Structure", sub: "Weeks 1 & 2", desc: "You learn simple frameworks to organize your thoughts, answer questions with more structure, and speak without going in circles. The goal is to help you sound clearer and more prepared, even when you are speaking on the spot." },
+            { w: "3-4", name: "Build a Stronger Voice", sub: "Weeks 3 & 4", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
+            { w: "5", name: "Add Energy and Expression", sub: "Week 5", desc: "You practice using pitch and pace to sound more natural and engaged. The goal is not to perform. It is to sound more like yourself, with more energy and control." },
+            { w: "6", name: "Put It Into Real Life", sub: "Week 6", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 6 speaking to Week 1 so you can clearly see your progress." },
           ].map((wk, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className="roadmap-week">
                 <div className="roadmap-dot">{wk.w}</div>
                 <div className="roadmap-body">
-                  <h3>{wk.name} — <span>{wk.focus}</span></h3>
-                  <div className="sub">2 live sessions</div>
+                  <h3>{wk.name}</h3>
+                  <div className="sub">{wk.sub}</div>
                   <p>{wk.desc}</p>
-                  <div className="roadmap-tags">
-                    {wk.tags.map((t, j) => <span key={j} className="roadmap-tag">{t}</span>)}
-                  </div>
                 </div>
               </div>
             </Reveal>
@@ -496,7 +493,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <p style={{ color: "var(--text-dim)", marginTop: 32, lineHeight: 1.6 }}>
-            By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
+            By the end of 6 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
           </p>
         </Reveal>
       </section>
