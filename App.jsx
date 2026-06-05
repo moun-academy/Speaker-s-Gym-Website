@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const SCHEDULE_URL = "https://calendly.com/speakersgym-marouanealmandri/free-strategy-call";
+const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 
 /* ─── tiny helpers ─── */
