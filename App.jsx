@@ -282,6 +282,17 @@ export default function SpeakersGym() {
         .sgp-btn.solid { background:#d9c06f; color:#0f0f0f; border:none; }
         .sgp-btn.green { background:transparent; color:#8aad6e; border:1px solid rgba(138,173,110,.35); }
         .sgp-footer-note { font-size:12px; color:#4a4030; text-align:center; margin:32px 0 0; font-weight:300; }
+        .sgp-access-note { display:flex; align-items:flex-start; gap:7px; font-size:12px; color:#8a7f65; line-height:1.45; margin:12px 2px 0; }
+        .sgp-access-note .dot { flex-shrink:0; color:#8aad6e; font-size:13px; line-height:1.3; }
+        .sgp-trustbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 28px; margin:28px auto 0; max-width:620px; }
+        .sgp-trust-item { display:flex; align-items:center; gap:8px; font-size:12.5px; color:#8a7f65; }
+        .sgp-trust-item svg { flex-shrink:0; }
+        .sgp-trust-item strong { color:#c8bc9a; font-weight:600; }
+        .sgp-guarantee-strip { display:flex; align-items:center; gap:16px; justify-content:center; text-align:left; background:#141414; border:1px solid rgba(217,192,111,.18); border-radius:14px; padding:18px 24px; margin:24px auto 0; max-width:620px; }
+        .sgp-guarantee-badge { font-family:var(--font-display); font-style:italic; font-weight:700; font-size:2.2rem; color:#d9c06f; line-height:1; flex-shrink:0; }
+        .sgp-guarantee-text { font-size:13px; color:#8a7f65; line-height:1.5; }
+        .sgp-guarantee-text strong { color:#f0e8cc; font-weight:600; }
+        @media(max-width:520px){ .sgp-guarantee-strip { flex-direction:column; text-align:center; } }
         @media (max-width:760px) {
           .sgp-grid { grid-template-columns:1fr; gap:16px; max-width:400px; margin:0 auto; }
           .sgp-card.featured { margin-top:0; padding:36px 28px; }
@@ -659,6 +670,7 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
               </ul>
               <a href={STRIPE_GROUP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
+              <p className="sgp-access-note"><span className="dot">✓</span><span>Instant access to the app + course right after checkout. You'll get an email with your next live session date.</span></p>
             </div>
 
             {/* TIER 2: 1-on-1 Coaching */}
@@ -682,24 +694,38 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Clear action plan built around your specific goals</span></li>
               </ul>
               <a href={STRIPE_VIP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
+              <p className="sgp-access-note"><span className="dot">✓</span><span>Instant access after checkout. I'll personally reach out to schedule your first 1-on-1 session.</span></p>
             </div>
 
           </div>
 
-          <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer" style={{ marginTop: 16 }}>Book a Free Strategy Call</a>
+          <div className="sgp-guarantee-strip">
+            <span className="sgp-guarantee-badge">100%</span>
+            <p className="sgp-guarantee-text">
+              <strong>Money-back guarantee.</strong> If you don't feel significantly more confident speaking by the end,
+              I'll refund every penny and coach you free for another 30 days until we fix it.
+            </p>
+          </div>
+
+          <div className="sgp-trustbar">
+            <span className="sgp-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V5l7-3z" stroke="#8aad6e" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke="#8aad6e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <span>Secure checkout via <strong>Stripe</strong></span>
+            </span>
+            <span className="sgp-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#d9c06f" strokeWidth="1.6"/><path d="M3 10h18" stroke="#d9c06f" strokeWidth="1.6"/></svg>
+              <span>Cards &amp; Apple Pay accepted</span>
+            </span>
+            <span className="sgp-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#d9c06f" strokeWidth="1.6"/><path d="M8 11V8a4 4 0 018 0v3" stroke="#d9c06f" strokeWidth="1.6"/></svg>
+              <span>SSL encrypted &amp; private</span>
+            </span>
+          </div>
+
+          <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer" style={{ marginTop: 24 }}>Not ready? Book a Free Strategy Call</a>
         </div>
       </section>
 
-      {/* ── GUARANTEE ── */}
-      <section className="guarantee">
-        <Reveal>
-          <div className="guarantee-badge">100%</div>
-          <div className="section-label">Try It Risk Free</div>
-          <div className="section-title">Money-Back Guarantee</div>
-          <p>If by the end you don't feel significantly more confident speaking in conversations and meetings, I'll refund you 100% of your money and personally coach you for another 30 days for free until we fix it.</p>
-          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book Free Call</a>
-        </Reveal>
-      </section>
 
       {/* ── FAQ ── */}
       <section className="section" id="faq">
