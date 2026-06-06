@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import marouanePhoto from "./Marouane.png";
 
 const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
@@ -215,6 +216,20 @@ export default function SpeakersGym() {
         .who-card h3 { font-family:var(--font-display); font-size:1.35rem; font-style: italic; margin-bottom:10px; }
         .who-card p { color:var(--text-dim); line-height:1.6; font-size:.95rem; }
 
+        /* ── ABOUT ME ── */
+        .about-grid { display:grid; grid-template-columns: 0.85fr 1.15fr; gap:56px; align-items:center; margin-top:8px; }
+        .about-photo-wrap { position:relative; }
+        .about-photo-wrap::before { content:''; position:absolute; inset:-1px; border-radius:18px; background: radial-gradient(ellipse at 30% 0%, var(--accent-glow), transparent 70%); pointer-events:none; }
+        .about-photo { width:100%; height:auto; display:block; border-radius:16px; border:1px solid var(--border); object-fit:cover; }
+        .about-text h2 { font-family:var(--font-display); font-style:italic; font-weight:600; font-size:clamp(2rem,4.5vw,2.8rem); color:#f2ecdf; margin-bottom:22px; }
+        .about-text p { color:var(--text-dim); line-height:1.8; font-size:1.02rem; margin-bottom:18px; }
+        .about-text p:last-child { margin-bottom:0; }
+        .about-text strong { color:var(--accent); font-weight:600; }
+        @media(max-width:768px) {
+          .about-grid { grid-template-columns:1fr; gap:32px; }
+          .about-photo { max-width:340px; margin:0 auto; }
+        }
+
         /* ── HOW IT WORKS ── */
         .how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; margin-top:48px; }
         .how-card { position:relative; padding:40px 32px 36px; background:var(--bg2); border:1px solid var(--border); border-radius:14px; }
@@ -346,6 +361,7 @@ export default function SpeakersGym() {
           <div className="nav-links">
             <a href="#who">Who It's For</a>
             <a href="#how">How It Works</a>
+            <a href="#about">About</a>
             <a href="#pricing">Pricing</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#testimonials">Testimonials</a>
@@ -361,6 +377,7 @@ export default function SpeakersGym() {
           <button className="mobile-close" onClick={() => setMobileNav(false)}>✕</button>
           <a href="#who" onClick={() => setMobileNav(false)}>Who It's For</a>
           <a href="#how" onClick={() => setMobileNav(false)}>How It Works</a>
+          <a href="#about" onClick={() => setMobileNav(false)}>About</a>
           <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
@@ -468,6 +485,37 @@ export default function SpeakersGym() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* ── ABOUT ME ── */}
+      <section className="section" id="about">
+        <div className="about-grid">
+          <Reveal>
+            <div className="about-photo-wrap">
+              <img src={marouanePhoto} alt="Marouane Al Mandri, public speaking coach" className="about-photo" loading="lazy" />
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="about-text">
+              <div className="section-label">Your Coach</div>
+              <h2>Hi, I'm Marouane</h2>
+              <p>
+                I am <strong>Marouane Al Mandri</strong>, a public speaking coach for socially nervous professionals.
+                I know what it feels like to have the knowledge but struggle to express it clearly. To freeze in
+                meetings, ramble under pressure, or go unnoticed because your voice does not match your ability.
+              </p>
+              <p>
+                I built The Speaker's Gym because I believe <strong>communication is a skill, not a talent</strong>.
+                With the right training and real feedback, anyone can learn to speak with clarity, confidence, and presence.
+              </p>
+              <p>
+                My approach is practical, not theoretical. No generic tips. No "just be confident" advice. Just
+                structured exercises, honest feedback, and a system that works in real situations: meetings,
+                presentations, and conversations.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
