@@ -34,10 +34,13 @@ function Reveal({ children, className = "", delay = 0 }) {
   );
 }
 
-/* ─── countdown (static target — swap to your real date) ─── */
-function useCountdown(target) {
+/* ─── countdown (dynamic — resets at the start of every month, ends at month end) ─── */
+function useCountdown() {
   const calc = () => {
-    const diff = Math.max(0, new Date(target) - new Date());
+    const now = new Date();
+    // End of the current month: midnight on the 1st of next month, minus 1 second.
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
+    const diff = Math.max(0, end - now);
     return {
       days: String(Math.floor(diff / 864e5)).padStart(2, "0"),
       hours: String(Math.floor((diff % 864e5) / 36e5)).padStart(2, "0"),
@@ -68,7 +71,7 @@ function FAQ({ q, a }) {
 
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
-  const countdown = useCountdown("2026-04-30T23:59:59");
+  const countdown = useCountdown();
   const [mobileNav, setMobileNav] = useState(false);
 
   const trackLead = () => {
@@ -179,6 +182,13 @@ export default function SpeakersGym() {
         .hero-video { max-width:900px; width:100%; margin:48px auto 0; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
         .hero-video-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; }
         .hero-video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+
+        /* ── PROOF STAT BAND ── */
+        .proof-band { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px; padding:36px 32px; background:var(--surface); border:1px solid var(--border); border-radius:16px; }
+        .proof-stat { text-align:center; }
+        .proof-num { font-family:var(--font-display); font-style:italic; font-weight:700; font-size:clamp(2rem,4vw,2.8rem); color:var(--accent); line-height:1; }
+        .proof-label { font-size:.8rem; color:var(--text-dim); margin-top:8px; letter-spacing:.02em; line-height:1.4; }
+        @media(max-width:680px){ .proof-band { grid-template-columns:repeat(2,1fr); gap:28px 16px; padding:28px 20px; } }
 
         /* ── TESTIMONIALS ── */
         .testimonials-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:48px; }
@@ -314,6 +324,14 @@ export default function SpeakersGym() {
         .footer-logo span { color:var(--accent); }
         .footer p { color:var(--text-dim); font-size:.8rem; }
 
+        /* ── STICKY MOBILE CTA ── */
+        .sticky-cta { display:none; }
+        @media(max-width:768px){
+          .sticky-cta { display:block; position:fixed; left:0; right:0; bottom:0; z-index:90; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); background:rgba(17,17,17,.92); backdrop-filter:blur(14px); border-top:1px solid var(--border); }
+          .sticky-cta a { display:block; width:100%; text-align:center; background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.9rem; padding:15px 20px; border-radius:8px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; }
+          .footer { padding-bottom:96px; }
+        }
+
         /* ── UTILITY ── */
         .text-center { text-align:center; }
         .mx-auto { margin-left:auto; margin-right:auto; }
@@ -385,7 +403,7 @@ export default function SpeakersGym() {
               <div className="hero-btns">
                 <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
-                <a href={COMMUNITY_URL} className="btn-secondary">Join Free Community</a>
+                <a href={COMMUNITY_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer">Join Free Community</a>
               </div>
             </Reveal>
             <Reveal delay={380}>
@@ -504,6 +522,21 @@ export default function SpeakersGym() {
           <div className="section-label">Testimonials</div>
           <div className="section-title">What Others Are Saying</div>
         </Reveal>
+        <Reveal>
+          <div className="proof-band">
+            {[
+              { num: "200+", label: "Professionals trained" },
+              { num: "4.9★", label: "Average rating" },
+              { num: "6 wks", label: "To visible results" },
+              { num: "100%", label: "Money-back guarantee" },
+            ].map((s, i) => (
+              <div className="proof-stat" key={i}>
+                <div className="proof-num">{s.num}</div>
+                <div className="proof-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
         <div className="testimonials-grid">
           {[
             "AmX2dVv8qcM",
@@ -534,6 +567,23 @@ export default function SpeakersGym() {
       <section className="sgp-section" id="pricing">
         <div className="sgp-inner">
 
+          <p className="sgp-eyebrow">Pricing</p>
+          <h2 className="sgp-headline">Train Your Voice. Transform Your Career.</h2>
+          <p className="sgp-subline">50% off — this month only.</p>
+
+          <div className="sgp-timer-wrap">
+            <p className="sgp-timer-label">⚡ 50% discount ends in</p>
+            <div className="sgp-timer">
+              <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.days}</span><span className="sgp-timer-text">Days</span></div>
+              <span className="sgp-timer-sep">:</span>
+              <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.hours}</span><span className="sgp-timer-text">Hrs</span></div>
+              <span className="sgp-timer-sep">:</span>
+              <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.min}</span><span className="sgp-timer-text">Min</span></div>
+              <span className="sgp-timer-sep">:</span>
+              <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.sec}</span><span className="sgp-timer-text">Sec</span></div>
+            </div>
+          </div>
+
           <div className="sgp-grid">
 
             {/* TIER 1: 6-Week Group — FEATURED */}
@@ -542,17 +592,17 @@ export default function SpeakersGym() {
               <p className="sgp-tier">6-Week Group</p>
               <h3 className="sgp-title">Group of 6</h3>
               <div className="sgp-price-block">
-                <p className="sgp-original">$147</p>
+                <p className="sgp-original">$94</p>
                 <div className="sgp-price-row">
-                  <span className="sgp-price">$97</span>
+                  <span className="sgp-price">$47</span>
                   <span className="sgp-period">per person / 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $50</p>
+                <p className="sgp-save">Save 50% — $47 off</p>
               </div>
-              <span className="sgp-hours-badge">12 hours live training</span>
+              <span className="sgp-hours-badge">6 hours live training</span>
               <div className="sgp-rule" />
               <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>2-hour live workshop every weekend</strong> for 6 weeks (frameworks + vocal variety)</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>1-hour live workshop every weekend</strong> for 6 weeks (frameworks + vocal variety)</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
@@ -568,10 +618,10 @@ export default function SpeakersGym() {
               <div className="sgp-price-block">
                 <p className="sgp-original">$300</p>
                 <div className="sgp-price-row">
-                  <span className="sgp-price">$197</span>
+                  <span className="sgp-price">$147</span>
                   <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $103 — fastest path to results</p>
+                <p className="sgp-save">Save $153 — fastest path to results</p>
               </div>
               <span className="sgp-hours-badge">Group + private coaching</span>
               <div className="sgp-rule" />
@@ -611,13 +661,13 @@ export default function SpeakersGym() {
         </Reveal>
         <div className="faq-list">
           {[
-            { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. Standard and Small Group plans include 8 hours of live group training. VIP gives you 8 hours of private 1-on-1 coaching." },
-            { q: "What do we cover in the 4 weeks?", a: "Week 1: Speech frameworks so you can answer any question clearly on the spot. Week 2: Volume variety and pace variety. Week 3: Pitch variety and effective pauses. Week 4: Full integration in real scenarios like presentations and networking." },
+            { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. The 6-Week Group plan includes 6 hours of live group training (one 1-hour workshop every weekend for 6 weeks). The VIP plan includes everything in the Group plan plus a weekly private 1-on-1 session." },
+            { q: "What do we cover in the 6 weeks?", a: "Weeks 1-2: Speak with structure — simple frameworks so you can answer any question clearly and on the spot. Weeks 3-4: Build a stronger voice — volume, pauses, and vocal variety so you sound steady and intentional. Week 5: Add energy and expression using pitch and pace. Week 6: Put it into real life — interviews, meetings, conversations, and presentations, then compare your Week 6 speaking to Week 1 to see your progress." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
-            { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking twice a week in live sessions, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
-            { q: "How much time do I need each week?", a: "Two live sessions of 1 hour each, plus 10 to 15 minutes of daily reps on the app. In total, expect around 3 to 4 hours per week." },
-            { q: "What if I feel shy or nervous speaking in front of others?", a: "That's exactly who this is for. The groups are small (3 or 6 people max). You start with low-pressure practice and build up gradually. Most people say the nerves start fading within the first two weeks." },
-            { q: "What is the difference between the three plans?", a: "Standard is a group of 6. Small Group is a group of 3, so you get more personal attention. VIP is private 1-on-1 coaching. All three include the same core content: the full course, the app, and performance tracking." },
+            { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
+            { q: "How much time do I need each week?", a: "One 1-hour live workshop on the weekend, plus 10 to 15 minutes of daily reps on the app. In total, expect around 2 to 3 hours per week." },
+            { q: "What if I feel shy or nervous speaking in front of others?", a: "That's exactly who this is for. The group is small (6 people max). You start with low-pressure practice and build up gradually. Most people say the nerves start fading within the first two weeks." },
+            { q: "What is the difference between the two plans?", a: "The 6-Week Group is a group of 6, with a 1-hour live workshop every weekend. VIP gives you everything in the Group plan plus a weekly private 1-on-1 session focused on your specific weaknesses and your real meetings, presentations, and conversations. Both include the same core content: the full course, the app, and performance tracking." },
             { q: "When does the program start?", a: "The next cohort starts soon. As soon as you join, you get immediate access to the course and the app so you can start before the live sessions begin." },
           ].map((item, i) => (
             <Reveal key={i} delay={i * 60}>
@@ -638,6 +688,11 @@ export default function SpeakersGym() {
         <div className="footer-logo">THE SPEAKER'S <span>GYM</span></div>
         <p>© {new Date().getFullYear()} The Speaker's Gym · All Rights Reserved</p>
       </footer>
+
+      {/* ── STICKY MOBILE CTA ── */}
+      <div className="sticky-cta">
+        <a href={SCHEDULE_URL} target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Free Call</a>
+      </div>
     </>
   );
 }
