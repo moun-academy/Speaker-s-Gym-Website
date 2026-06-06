@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 
 const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
+const STRIPE_GROUP_URL = "https://buy.stripe.com/28EaEXfZP6RLekDbTb1ck00";
+const STRIPE_VIP_URL = "https://buy.stripe.com/5kQ00j5lb6RLccvf5n1ck01";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
@@ -608,7 +610,7 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
               </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
+              <a href={STRIPE_GROUP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
             </div>
 
             {/* TIER 2: 1-on-1 Coaching */}
@@ -631,12 +633,12 @@ export default function SpeakersGym() {
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Clear action plan built around your specific goals</span></li>
               </ul>
-              <a href={SCHEDULE_URL} className="sgp-btn green" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Call →</a>
+              <a href={STRIPE_VIP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
             </div>
 
           </div>
 
-          <p className="sgp-footer-note">All plans start with a free strategy call. Click any button above to book yours.</p>
+          <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer" style={{ marginTop: 16 }}>Book a Free Strategy Call</a>
         </div>
       </section>
 
