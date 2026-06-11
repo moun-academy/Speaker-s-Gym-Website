@@ -763,6 +763,7 @@ export default function SpeakersGym() {
       <footer className="footer">
         <div className="footer-logo">THE SPEAKER'S <span>GYM</span></div>
         <p>© {new Date().getFullYear()} The Speaker's Gym · All Rights Reserved</p>
+        <p style={{ marginTop: 8 }}><a href="/privacy" style={{ color: "var(--accent)", textDecoration: "none" }}>Privacy Policy</a></p>
       </footer>
 
       {/* ── STICKY MOBILE CTA ── */}
