@@ -61,7 +61,6 @@ export default function Privacy() {
           <p>To provide the app's features, we may collect the following:</p>
           <ul>
             <li><strong>Account sign-in information</strong> — such as your name and email address used to create and access your account.</li>
-            <li><strong>Speaking recordings</strong> — audio or video of your speaking practice, only when you choose to save it.</li>
             <li><strong>Transcripts</strong> — text generated from your speaking practice.</li>
             <li><strong>Speaking practice metrics</strong> — such as pace, clarity, and progress over time.</li>
             <li><strong>AI feedback</strong> — feedback generated about your speaking practice.</li>
