@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import marouanePhoto from "./Marouane.png";
 
 const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
+const BOOK_URL = "/book-a-call";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 const STRIPE_GROUP_URL = "https://buy.stripe.com/28EaEXfZP6RLekDbTb1ck00";
 const STRIPE_VIP_URL = "https://buy.stripe.com/5kQ00j5lb6RLccvf5n1ck01";
@@ -377,7 +378,7 @@ export default function SpeakersGym() {
             <a href="#roadmap">Roadmap</a>
             <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
-            <a href={SCHEDULE_URL} className="nav-cta" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Call</a>
+            <a href={BOOK_URL} className="nav-cta">Book a Call</a>
           </div>
           <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
         </div>
@@ -393,7 +394,7 @@ export default function SpeakersGym() {
           <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
           <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
           <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={() => { trackLead(); setMobileNav(false); }}>Book a Call</a>
+          <a href={BOOK_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
         </div>
       )}
 
@@ -431,7 +432,7 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
-                <a href={SCHEDULE_URL} className="btn-primary" onClick={trackLead} target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
+                <a href={BOOK_URL} className="btn-primary">Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer">Join Free Community</a>
               </div>
@@ -722,7 +723,7 @@ export default function SpeakersGym() {
             </span>
           </div>
 
-          <a href={SCHEDULE_URL} className="sgp-btn outline" onClick={trackLead} target="_blank" rel="noopener noreferrer" style={{ marginTop: 24 }}>Not ready? Book a Free Strategy Call</a>
+          <a href={BOOK_URL} className="sgp-btn outline" style={{ marginTop: 24 }}>Not ready? Book a Free Strategy Call</a>
         </div>
       </section>
 
@@ -754,7 +755,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a href={SCHEDULE_URL} className="btn-primary" target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Free Strategy Call</a>
+            <a href={BOOK_URL} className="btn-primary">Book a Free Strategy Call</a>
           </div>
         </Reveal>
       </section>
@@ -768,7 +769,7 @@ export default function SpeakersGym() {
 
       {/* ── STICKY MOBILE CTA ── */}
       <div className="sticky-cta">
-        <a href={SCHEDULE_URL} target="_blank" rel="noopener noreferrer" onClick={trackLead}>Book a Free Call</a>
+        <a href={BOOK_URL}>Book a Free Call</a>
       </div>
     </>
   );

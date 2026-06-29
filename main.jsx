@@ -5,12 +5,14 @@ import App from './App.jsx'
 import { ThankYouCall, ThankYouPurchase } from './ThankYou.jsx'
 import Privacy from './Privacy.jsx'
 import DeleteAccount from './DeleteAccount.jsx'
+import BookACall from './BookACall.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/book-a-call" element={<BookACall />} />
         <Route path="/thank-you-call" element={<ThankYouCall />} />
         <Route path="/thank-you-purchase" element={<ThankYouPurchase />} />
         <Route path="/privacy" element={<Privacy />} />
