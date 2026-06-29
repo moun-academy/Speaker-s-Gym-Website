@@ -35,15 +35,16 @@ export default function BookACall() {
     };
     window.addEventListener("message", onMessage);
 
-    // Inject Calendly's stylesheet + widget script once, then init inline.
+    // Initialise the Calendly inline widget exactly once. Guarding on the
+    // container node prevents a second init (e.g. StrictMode double-invoke or
+    // multiple script "load" callbacks) from stacking a second iframe on top —
+    // which is what caused the overlapping/ghosting calendar dates.
     const initWidget = () => {
-      if (window.Calendly && widgetRef.current) {
-        widgetRef.current.innerHTML = "";
-        window.Calendly.initInlineWidget({
-          url: CALENDLY_URL,
-          parentElement: widgetRef.current,
-        });
-      }
+      const el = widgetRef.current;
+      if (!window.Calendly || !el || el.dataset.calInit === "1") return;
+      el.dataset.calInit = "1";
+      el.innerHTML = "";
+      window.Calendly.initInlineWidget({ url: CALENDLY_URL, parentElement: el });
     };
 
     if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
@@ -53,17 +54,17 @@ export default function BookACall() {
       document.head.appendChild(link);
     }
 
-    const existing = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
     if (window.Calendly) {
       initWidget();
-    } else if (existing) {
-      existing.addEventListener("load", initWidget);
     } else {
-      const script = document.createElement("script");
-      script.src = "https://assets.calendly.com/assets/external/widget.js";
-      script.async = true;
-      script.onload = initWidget;
-      document.body.appendChild(script);
+      let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
+      if (!script) {
+        script = document.createElement("script");
+        script.src = "https://assets.calendly.com/assets/external/widget.js";
+        script.async = true;
+        document.body.appendChild(script);
+      }
+      script.addEventListener("load", initWidget);
     }
 
     return () => window.removeEventListener("message", onMessage);
