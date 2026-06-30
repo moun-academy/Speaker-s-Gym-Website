@@ -2,13 +2,11 @@ import { useEffect, useRef } from "react";
 
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
 
-/* Calendly renders in its default light theme (clean + readable) inside a
-   white card. We only override primary_color so the brand gold carries over
-   to the buttons — forcing a dark background_color leaves Calendly's calendar
-   grid half-styled, which looks broken. */
+/* Calendly renders in dark mode to match the site's dark surface. */
 const CALENDLY_URL =
   `${CALENDLY_SLUG}` +
-  "?hide_gdpr_banner=1" +
+  "?background_color=1a1a1a" +
+  "&hide_gdpr_banner=1" +
   "&primary_color=c2a14a";
 
 export default function BookACall() {
@@ -121,9 +119,9 @@ export default function BookACall() {
         .bc-point svg { flex-shrink:0; }
         .bc-point strong { color:#c8bc9a; font-weight:600; }
 
-        .bc-widget-wrap { margin:36px auto 0; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#ffffff; box-shadow:0 20px 60px rgba(0,0,0,.35); }
-        .bc-widget { min-width:320px; width:100%; height:760px; }
-        .bc-widget-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; height:760px; gap:18px; color:#6a6a6a; background:#ffffff; }
+        .bc-widget-wrap { margin:36px auto 0; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#1a1a1a; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+        .bc-widget { min-width:320px; width:100%; height:700px; }
+        .bc-widget-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; height:700px; gap:18px; color:var(--text-dim); background:#1a1a1a; }
         .bc-spinner { width:34px; height:34px; border:3px solid #e5e5e5; border-top-color:var(--accent); border-radius:50%; animation:bc-spin .8s linear infinite; }
         @keyframes bc-spin { to { transform:rotate(360deg); } }
 
@@ -133,7 +131,7 @@ export default function BookACall() {
 
         @media(max-width:680px){
           .bc-main { padding:32px 16px 48px; }
-          .bc-widget, .bc-widget-loading { height:680px; }
+          .bc-widget, .bc-widget-loading { height:700px; }
         }
       `}</style>
 
