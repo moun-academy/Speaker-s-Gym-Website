@@ -20,15 +20,16 @@ export default function BookACall() {
       window.fbq("track", "Lead");
     }
 
-    // Listen for a successful booking so we can fire a Lead conversion event.
+    // Listen for a successful booking, then send the visitor to a dedicated
+    // success page (/thank-you-call). Routing the conversion to its own URL
+    // lets the Meta pixel track bookings as a clean page-view event instead of
+    // an inline fire that's easy to miss.
     const onMessage = (e) => {
       if (
         e.origin === "https://calendly.com" &&
         e.data?.event === "calendly.event_scheduled"
       ) {
-        if (typeof window !== "undefined" && typeof window.fbq === "function") {
-          window.fbq("track", "Schedule");
-        }
+        window.location.assign("/thank-you-call");
       }
     };
     window.addEventListener("message", onMessage);
