@@ -42,7 +42,11 @@ export default function BookACall() {
     // which is what caused the overlapping/ghosting calendar dates.
     const initWidget = () => {
       const el = widgetRef.current;
-      if (!window.Calendly || !el || el.dataset.calInit === "1") return;
+      if (!window.Calendly || !el) return;
+      // Belt-and-suspenders against the overlapping/ghosting dates: bail if this
+      // container is already flagged OR already holds a Calendly iframe. Either
+      // signal means a widget was mounted, so a second init would stack a ghost.
+      if (el.dataset.calInit === "1" || el.querySelector("iframe")) return;
       el.dataset.calInit = "1";
       el.innerHTML = "";
       window.Calendly.initInlineWidget({ url: CALENDLY_URL, parentElement: el });
@@ -65,7 +69,12 @@ export default function BookACall() {
         script.async = true;
         document.body.appendChild(script);
       }
-      script.addEventListener("load", initWidget);
+      // Guard against attaching the load callback twice (e.g. StrictMode's
+      // setup→cleanup→setup), which would fire initWidget twice on one load.
+      if (script.dataset.calListener !== "1") {
+        script.dataset.calListener = "1";
+        script.addEventListener("load", initWidget);
+      }
     }
 
     return () => window.removeEventListener("message", onMessage);
