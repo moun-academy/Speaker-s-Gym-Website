@@ -1,11 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import marouanePhoto from "./Marouane.png";
 
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
-
-/* Calendly renders in its default light theme (clean + readable) inside a
-   white card. We only override primary_color so the brand gold carries over
-   to the buttons — forcing a dark background_color leaves Calendly's calendar
-   grid half-styled, which looks broken. */
 const CALENDLY_URL =
   `${CALENDLY_SLUG}` +
   "?hide_gdpr_banner=1" +
@@ -13,43 +9,40 @@ const CALENDLY_URL =
 
 export default function BookACall() {
   const widgetRef = useRef(null);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
-    document.title = "Book a Free Strategy Call — The Speaker's Gym";
+    document.title = "Book a Free Strategy Call - The Speaker's Gym";
 
-    // Fire the Meta "Lead" pixel as soon as someone lands on the booking page.
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq("track", "Lead");
     }
 
-    // Listen for a successful booking, then send the visitor to a dedicated
-    // success page (/success). Routing the conversion to its own URL lets the
-    // Meta pixel track bookings as a clean page-view event instead of an inline
-    // fire that's easy to miss.
-    const onMessage = (e) => {
+    const onMessage = (event) => {
       if (
-        e.origin === "https://calendly.com" &&
-        e.data?.event === "calendly.event_scheduled"
+        event.origin === "https://calendly.com" &&
+        event.data?.event === "calendly.event_scheduled"
       ) {
         window.location.assign("/success");
       }
     };
     window.addEventListener("message", onMessage);
 
-    // Initialise the Calendly inline widget exactly once. Guarding on the
-    // container node prevents a second init (e.g. StrictMode double-invoke or
-    // multiple script "load" callbacks) from stacking a second iframe on top —
-    // which is what caused the overlapping/ghosting calendar dates.
     const initWidget = () => {
-      const el = widgetRef.current;
-      if (!window.Calendly || !el) return;
-      // Belt-and-suspenders against the overlapping/ghosting dates: bail if this
-      // container is already flagged OR already holds a Calendly iframe. Either
-      // signal means a widget was mounted, so a second init would stack a ghost.
-      if (el.dataset.calInit === "1" || el.querySelector("iframe")) return;
-      el.dataset.calInit = "1";
-      el.innerHTML = "";
-      window.Calendly.initInlineWidget({ url: CALENDLY_URL, parentElement: el });
+      const element = widgetRef.current;
+      if (!window.Calendly || !element) return;
+      if (element.dataset.calInit === "1" || element.querySelector("iframe")) {
+        setStatus("ready");
+        return;
+      }
+
+      element.dataset.calInit = "1";
+      element.innerHTML = "";
+      window.Calendly.initInlineWidget({
+        url: CALENDLY_URL,
+        parentElement: element,
+      });
+      setStatus("ready");
     };
 
     if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
@@ -67,17 +60,23 @@ export default function BookACall() {
         script = document.createElement("script");
         script.src = "https://assets.calendly.com/assets/external/widget.js";
         script.async = true;
+        script.addEventListener("error", () => setStatus("error"), { once: true });
         document.body.appendChild(script);
       }
-      // Guard against attaching the load callback twice (e.g. StrictMode's
-      // setup→cleanup→setup), which would fire initWidget twice on one load.
       if (script.dataset.calListener !== "1") {
         script.dataset.calListener = "1";
         script.addEventListener("load", initWidget);
       }
     }
 
-    return () => window.removeEventListener("message", onMessage);
+    const timeoutId = window.setTimeout(() => {
+      if (!widgetRef.current?.querySelector("iframe")) setStatus("error");
+    }, 9000);
+
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
@@ -87,120 +86,391 @@ export default function BookACall() {
 
         :root {
           --bg: #111111;
-          --bg2: #141414;
-          --surface: #171717;
-          --border: rgba(217, 192, 111, 0.14);
+          --surface-strong: rgba(16, 16, 16, 0.9);
+          --border: rgba(217, 192, 111, 0.2);
           --text: #e0ddd4;
           --text-dim: #9a9790;
           --accent: #d9c06f;
-          --accent-dim: #e8d590;
-          --accent-glow: rgba(217, 192, 111, 0.12);
           --font-display: 'Playfair Display', Georgia, serif;
           --font-body: 'DM Sans', sans-serif;
         }
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; background:var(--bg); }
-        body { font-family:var(--font-body); color:var(--text); background:var(--bg); -webkit-font-smoothing:antialiased; }
 
-        .bc-nav { position:sticky; top:0; z-index:100; background:rgba(17,17,17,.82); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); }
-        .bc-nav-inner { max-width:1100px; margin:0 auto; padding:0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .bc-logo { font-family:var(--font-display); font-size:1.3rem; font-style:italic; font-weight:600; letter-spacing:.02em; color:var(--text); text-decoration:none; }
-        .bc-logo span { color:var(--accent); }
-        .bc-back { color:var(--text-dim); text-decoration:none; font-size:.875rem; font-weight:500; transition:color .2s; }
-        .bc-back:hover { color:var(--accent); }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { background: var(--bg); }
+        body { font-family: var(--font-body); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-        .bc-main { min-height:calc(100vh - 64px); position:relative; overflow:hidden; padding:48px 24px 64px; }
-        .bc-main::before {
-          content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%);
-          width:900px; height:520px; max-width:100%;
-          background:radial-gradient(ellipse, rgba(217,192,111,.07) 0%, transparent 65%);
-          pointer-events:none;
+        .book-page {
+          min-height: 100vh;
+          position: relative;
+          overflow-x: hidden;
+          background:
+            radial-gradient(circle at 22% 18%, rgba(217, 192, 111, 0.12), transparent 28%),
+            linear-gradient(135deg, #080808 0%, #111111 48%, #17130d 100%);
         }
-        .bc-inner { position:relative; z-index:1; max-width:1000px; margin:0 auto; }
 
-        .bc-head { text-align:center; margin-bottom:36px; }
-        .bc-flourish { display:flex; align-items:center; justify-content:center; gap:16px; margin:0 auto 22px; }
-        .bc-flourish-line { width:60px; height:1px; background:linear-gradient(90deg, transparent, var(--accent), transparent); }
-        .bc-flourish-diamond { width:8px; height:8px; background:var(--accent); transform:rotate(45deg); opacity:.7; }
-        .bc-badge { display:inline-block; border:1px solid var(--accent); color:var(--accent); font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 16px; border-radius:100px; margin-bottom:20px; }
-        .bc-title { font-family:var(--font-display); font-style:italic; font-weight:600; font-size:clamp(2.1rem,5.5vw,3.2rem); line-height:1.15; color:var(--accent); margin-bottom:14px; }
-        .bc-sub { font-size:1.05rem; color:var(--text-dim); max-width:560px; margin:0 auto; line-height:1.65; }
+        .book-page::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(90deg, rgba(8,8,8,.98) 0%, rgba(8,8,8,.86) 34%, rgba(8,8,8,.6) 58%, rgba(8,8,8,.86) 100%),
+            linear-gradient(0deg, rgba(8,8,8,.96) 0%, rgba(8,8,8,.18) 50%, rgba(8,8,8,.76) 100%);
+          z-index: 1;
+        }
 
-        .bc-points { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 28px; margin:24px auto 0; max-width:760px; }
-        .bc-point { display:flex; align-items:center; gap:9px; font-size:.92rem; color:var(--text-dim); }
-        .bc-point svg { flex-shrink:0; }
-        .bc-point strong { color:#c8bc9a; font-weight:600; }
+        .book-page::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+          background-size: 210px;
+          pointer-events: none;
+          z-index: 2;
+        }
 
-        .bc-widget-wrap { margin:36px auto 0; border:1px solid var(--border); border-radius:18px; overflow:hidden; background:#ffffff; box-shadow:0 24px 70px rgba(0,0,0,.45), 0 0 0 1px rgba(217,192,111,.06); position:relative; }
-        .bc-widget-wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent 8%, var(--accent) 35%, var(--accent-dim) 50%, var(--accent) 65%, transparent 92%); z-index:2; }
-        .bc-widget { min-width:320px; width:100%; height:760px; }
-        .bc-widget-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; height:760px; gap:18px; color:#6a6a6a; background:#ffffff; }
-        .bc-spinner { width:34px; height:34px; border:3px solid #e5e5e5; border-top-color:var(--accent); border-radius:50%; animation:bc-spin .8s linear infinite; }
-        @keyframes bc-spin { to { transform:rotate(360deg); } }
+        .book-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: 70% center;
+          filter: saturate(.82) contrast(1.08);
+          opacity: .58;
+        }
 
-        .bc-footnote { text-align:center; margin-top:28px; font-size:.85rem; color:var(--text-dim); }
-        .bc-footnote a { color:var(--accent); text-decoration:none; }
-        .bc-footnote a:hover { text-decoration:underline; }
+        .book-nav {
+          position: relative;
+          z-index: 3;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 18px;
+          padding: 24px clamp(20px, 5vw, 56px);
+        }
 
-        @media(max-width:680px){
-          .bc-main { padding:32px 16px 48px; }
-          .bc-widget, .bc-widget-loading { height:680px; }
+        .book-logo {
+          font-family: var(--font-display);
+          font-size: 1.25rem;
+          font-style: italic;
+          font-weight: 600;
+          letter-spacing: .02em;
+          color: var(--text);
+          text-decoration: none;
+        }
+        .book-logo span { color: var(--accent); }
+
+        .book-back {
+          color: var(--text-dim);
+          font-size: .88rem;
+          font-weight: 600;
+          text-decoration: none;
+          border: 1px solid rgba(224,221,212,.18);
+          border-radius: 999px;
+          padding: 9px 16px;
+          background: rgba(10,10,10,.32);
+          backdrop-filter: blur(10px);
+          transition: border-color .2s, color .2s;
+        }
+        .book-back:hover { color: var(--accent); border-color: rgba(217,192,111,.42); }
+
+        .book-shell {
+          position: relative;
+          z-index: 3;
+          min-height: calc(100vh - 86px);
+          display: grid;
+          grid-template-columns: minmax(0, 0.86fr) minmax(380px, 1.14fr);
+          align-items: center;
+          gap: clamp(28px, 4vw, 64px);
+          padding: 20px clamp(20px, 5vw, 72px) 56px;
+        }
+
+        .book-content { width: min(100%, 660px); }
+
+        .book-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          color: var(--accent);
+          font-size: .74rem;
+          font-weight: 700;
+          letter-spacing: .16em;
+          text-transform: uppercase;
+          margin-bottom: 22px;
+        }
+        .book-eyebrow::before {
+          content: "";
+          width: 34px;
+          height: 1px;
+          background: var(--accent);
+          opacity: .72;
+        }
+
+        .book-title {
+          font-family: var(--font-display);
+          font-size: clamp(3.15rem, 8vw, 6.75rem);
+          font-style: italic;
+          font-weight: 600;
+          line-height: .98;
+          letter-spacing: 0;
+          color: #f6efdf;
+          max-width: 640px;
+          margin-bottom: 24px;
+        }
+        .book-title span { display: block; }
+
+        .book-copy {
+          color: #bbb5a6;
+          font-size: clamp(1rem, 2vw, 1.18rem);
+          line-height: 1.72;
+          max-width: 560px;
+          margin-bottom: 30px;
+        }
+
+        .book-meta {
+          display: grid;
+          gap: 12px;
+          margin-bottom: 34px;
+          color: #c8c0ad;
+          font-size: .96rem;
+          line-height: 1.55;
+        }
+        .book-meta span {
+          display: grid;
+          grid-template-columns: 7px minmax(0, 1fr);
+          align-items: start;
+          gap: 11px;
+        }
+        .book-meta span::before {
+          content: "";
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: var(--accent);
+          box-shadow: 0 0 0 6px rgba(217, 192, 111, 0.12);
+          margin-top: .48em;
+        }
+
+        .book-proof {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 14px;
+          width: min(100%, 660px);
+          border-top: 1px solid rgba(217,192,111,.16);
+          padding-top: 24px;
+        }
+        .book-proof-item strong {
+          display: block;
+          font-family: var(--font-display);
+          font-size: 1.7rem;
+          font-style: italic;
+          color: var(--accent);
+          line-height: 1;
+          margin-bottom: 8px;
+        }
+        .book-proof-item span {
+          display: block;
+          color: #8d8677;
+          font-size: .82rem;
+          line-height: 1.45;
+        }
+
+        .calendar-panel {
+          position: relative;
+          width: min(100%, 900px);
+          justify-self: end;
+          padding: 14px;
+          border: 1px solid rgba(217, 192, 111, 0.28);
+          border-radius: 18px;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+            var(--surface-strong);
+          box-shadow: 0 28px 80px rgba(0, 0, 0, .45);
+          backdrop-filter: blur(18px);
+        }
+
+        .calendar-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          padding: 8px 8px 14px;
+        }
+        .calendar-header h2 {
+          font-family: var(--font-display);
+          font-size: clamp(1.6rem, 3vw, 2.35rem);
+          font-style: italic;
+          font-weight: 600;
+          line-height: 1.08;
+          color: #f6efdf;
+        }
+        .calendar-status {
+          color: var(--text-dim);
+          font-size: .84rem;
+          line-height: 1.45;
+          text-align: right;
+          max-width: 230px;
+        }
+
+        .calendar-frame {
+          position: relative;
+          min-width: 320px;
+          min-height: 710px;
+          overflow: hidden;
+          border-radius: 12px;
+          background: #ffffff;
+        }
+        .calendly-inline-widget {
+          width: 100%;
+          min-width: 320px;
+          height: 710px;
+        }
+
+        .calendar-loading,
+        .calendar-fallback {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          padding: 28px;
+          background: #ffffff;
+          color: #1d1d1d;
+          text-align: center;
+          font-weight: 700;
+          line-height: 1.45;
+          z-index: 2;
+        }
+        .calendar-fallback {
+          gap: 14px;
+          align-content: center;
+        }
+        .calendar-fallback a {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          border-radius: 8px;
+          background: #111111;
+          color: #ffffff;
+          padding: 13px 20px;
+          text-decoration: none;
+        }
+
+        @media (max-width: 860px) {
+          .book-page::before {
+            background:
+              linear-gradient(0deg, rgba(10,10,10,.98) 0%, rgba(10,10,10,.82) 48%, rgba(10,10,10,.38) 100%),
+              linear-gradient(90deg, rgba(10,10,10,.84) 0%, rgba(10,10,10,.38) 100%);
+          }
+          .book-bg { object-position: 64% top; opacity: .58; }
+          .book-shell {
+            grid-template-columns: 1fr;
+            align-items: start;
+            padding-top: 70px;
+          }
+          .book-title { font-size: clamp(3rem, 14vw, 5.25rem); }
+          .book-copy { max-width: 620px; }
+          .book-proof {
+            grid-template-columns: 1fr;
+            gap: 18px;
+            width: min(100%, 420px);
+          }
+          .book-proof-item {
+            display: grid;
+            grid-template-columns: 76px 1fr;
+            align-items: center;
+            gap: 14px;
+          }
+          .book-proof-item strong { margin-bottom: 0; }
+          .calendar-panel { justify-self: stretch; }
+        }
+
+        @media (max-width: 520px) {
+          .book-nav { padding: 20px; align-items: flex-start; }
+          .book-logo { font-size: 1.05rem; }
+          .book-back { font-size: .8rem; padding: 8px 12px; }
+          .book-shell { padding: 20px 16px 34px; gap: 22px; }
+          .book-eyebrow { margin-bottom: 12px; }
+          .book-title {
+            font-size: clamp(2.25rem, 11vw, 2.85rem);
+            margin-bottom: 14px;
+            max-width: 100%;
+          }
+          .book-copy { line-height: 1.55; margin-bottom: 18px; }
+          .book-meta { gap: 10px; font-size: .92rem; }
+          .book-meta { margin-bottom: 0; }
+          .book-proof { display: none; }
+          .calendar-panel { padding: 8px; border-radius: 14px; }
+          .calendar-header { display: block; padding: 8px 8px 12px; }
+          .calendar-status { margin-top: 8px; text-align: left; max-width: none; }
+          .calendar-frame { min-height: 660px; }
+          .calendly-inline-widget { height: 660px; }
         }
       `}</style>
 
-      <nav className="bc-nav">
-        <div className="bc-nav-inner">
-          <a href="/" className="bc-logo">THE SPEAKER'S <span>GYM</span></a>
-          <a href="/" className="bc-back">← Back to site</a>
-        </div>
-      </nav>
+      <main className="book-page">
+        <img src={marouanePhoto} alt="" className="book-bg" aria-hidden="true" />
+        <nav className="book-nav" aria-label="Book a call navigation">
+          <a href="/" className="book-logo">THE SPEAKER'S <span>GYM</span></a>
+          <a href="/" className="book-back">Back to site</a>
+        </nav>
 
-      <main className="bc-main">
-        <div className="bc-inner">
-          <div className="bc-head">
-            <div className="bc-flourish">
-              <div className="bc-flourish-line" />
-              <div className="bc-flourish-diamond" />
-              <div className="bc-flourish-line" />
-            </div>
-            <div className="bc-badge">Free · 30 Minutes</div>
-            <h1 className="bc-title">Book Your Free Strategy Call</h1>
-            <p className="bc-sub">
-              Pick a time below and we'll talk about where you are now, what's holding
-              you back, and whether the Speaker's Gym is the right fit. No pressure, no pitch.
+        <section className="book-shell" aria-labelledby="book-call-title">
+          <div className="book-content">
+            <p className="book-eyebrow">Book a Call</p>
+            <h1 className="book-title" id="book-call-title">
+              <span>Your</span>
+              <span>voice</span>
+              <span>deserves</span>
+              <span>a plan.</span>
+            </h1>
+            <p className="book-copy">
+              Pick a time for a free 30-minute strategy call. We will look at where your speaking confidence is getting blocked and what to train first.
             </p>
-
-            <div className="bc-points">
-              <span className="bc-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#d9c06f" strokeWidth="1.6"/><path d="M12 7v5l3 2" stroke="#d9c06f" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                <span><strong>30-minute</strong> 1-on-1 call</span>
-              </span>
-              <span className="bc-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#d9c06f" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                <span>Honest, <strong>no-pressure</strong> conversation</span>
-              </span>
-              <span className="bc-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="#d9c06f" strokeWidth="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="#d9c06f" strokeWidth="1.6" strokeLinecap="round"/></svg>
-                <span>Instant calendar <strong>confirmation</strong></span>
-              </span>
+            <div className="book-meta" aria-label="Call details">
+              <span>Free 30-minute strategy session</span>
+              <span>Clear next steps for your speaking confidence</span>
+              <span>No pressure, just a useful plan</span>
             </div>
-          </div>
 
-          <div className="bc-widget-wrap">
-            <div ref={widgetRef} className="bc-widget">
-              {/* Calendly inline widget mounts here; fallback shown until it loads */}
-              <div className="bc-widget-loading">
-                <div className="bc-spinner" />
-                <span>Loading available times…</span>
+            <div className="book-proof" aria-label="Program proof">
+              <div className="book-proof-item">
+                <strong>200+</strong>
+                <span>professionals trained</span>
+              </div>
+              <div className="book-proof-item">
+                <strong>6 wks</strong>
+                <span>to visible speaking progress</span>
+              </div>
+              <div className="book-proof-item">
+                <strong>4.9</strong>
+                <span>average student rating</span>
               </div>
             </div>
           </div>
 
-          <p className="bc-footnote">
-            Trouble loading the calendar?{" "}
-            <a href={CALENDLY_SLUG} target="_blank" rel="noopener noreferrer">Open the booking page in a new tab</a>.
-          </p>
-        </div>
+          <aside className="calendar-panel" aria-label="Schedule your call">
+            <div className="calendar-header">
+              <h2>Choose your time</h2>
+              <p className="calendar-status" aria-live="polite">
+                {status === "loading" && "Loading available times..."}
+                {status === "ready" && "Times are shown in your local timezone."}
+                {status === "error" && "Calendar could not load here."}
+              </p>
+            </div>
+            <div className="calendar-frame">
+              {status === "loading" && <div className="calendar-loading">Loading available times...</div>}
+              {status === "error" && (
+                <div className="calendar-fallback">
+                  <p>The calendar did not load in this browser.</p>
+                  <a href={CALENDLY_SLUG} target="_blank" rel="noopener noreferrer">Open Calendly</a>
+                </div>
+              )}
+              <div ref={widgetRef} className="calendly-inline-widget" data-url={CALENDLY_URL} />
+            </div>
+          </aside>
+        </section>
       </main>
     </>
   );
