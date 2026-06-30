@@ -72,7 +72,7 @@ function ThankYouLayout({ badge, title, subtitle, body, footerNote }) {
   );
 }
 
-/* ─── /thank-you-call ───
+/* ─── /success ───
    Dedicated booking-confirmation page. Visitors land here only after a
    successful Calendly booking (BookACall redirects on calendly.event_scheduled),
    so its own URL doubles as the Meta pixel conversion event. */
