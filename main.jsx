@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import App from './App.jsx'
 import { ThankYouCall, ThankYouPurchase } from './ThankYou.jsx'
 import Privacy from './Privacy.jsx'
@@ -13,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
-        <Route path="/thank-you-call" element={<ThankYouCall />} />
+        <Route path="/success" element={<ThankYouCall />} />
+        {/* Old booking success URL — redirect so any existing links keep working */}
+        <Route path="/thank-you-call" element={<Navigate to="/success" replace />} />
         <Route path="/thank-you-purchase" element={<ThankYouPurchase />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/delete-account" element={<DeleteAccount />} />

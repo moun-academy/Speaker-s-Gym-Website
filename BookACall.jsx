@@ -21,15 +21,15 @@ export default function BookACall() {
     }
 
     // Listen for a successful booking, then send the visitor to a dedicated
-    // success page (/thank-you-call). Routing the conversion to its own URL
-    // lets the Meta pixel track bookings as a clean page-view event instead of
-    // an inline fire that's easy to miss.
+    // success page (/success). Routing the conversion to its own URL lets the
+    // Meta pixel track bookings as a clean page-view event instead of an inline
+    // fire that's easy to miss.
     const onMessage = (e) => {
       if (
         e.origin === "https://calendly.com" &&
         e.data?.event === "calendly.event_scheduled"
       ) {
-        window.location.assign("/thank-you-call");
+        window.location.assign("/success");
       }
     };
     window.addEventListener("message", onMessage);
