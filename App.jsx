@@ -5,7 +5,7 @@ const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
 const BOOK_URL = "/book-a-call";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
 const STRIPE_GROUP_URL = "https://buy.stripe.com/28EaEXfZP6RLekDbTb1ck00";
-const STRIPE_VIP_URL = "https://buy.stripe.com/5kQ00j5lb6RLccvf5n1ck01";
+const STRIPE_VIP_URL = "https://buy.stripe.com/fZu3cv5lb7VP1xR8GZ1ck02";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
