@@ -681,10 +681,10 @@ export default function SpeakersGym() {
               <div className="sgp-price-block">
                 <p className="sgp-original">$300</p>
                 <div className="sgp-price-row">
-                  <span className="sgp-price">$147</span>
+                  <span className="sgp-price">$167</span>
                   <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $153 — fastest path to results</p>
+                <p className="sgp-save">Save $133 — fastest path to results</p>
               </div>
               <span className="sgp-hours-badge">Group + private coaching</span>
               <div className="sgp-rule" />
