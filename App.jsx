@@ -535,16 +535,17 @@ export default function SpeakersGym() {
       <section className="section" id="roadmap">
         <Reveal>
           <div className="section-label">The Roadmap</div>
-          <div className="section-title">Your 4-Week Group Coaching Plan</div>
-          <p className="section-subtitle">Each phase builds on the last. By Week 4, you'll speak with more clarity, control, and confidence in real situations.</p>
+          <div className="section-title">Your 6-Week Communication Plan</div>
+          <p className="section-subtitle">Each phase builds on the last. By Week 6, you'll speak with more clarity, control, and confidence in real situations.</p>
         </Reveal>
 
         <div className="roadmap-timeline">
           <div className="roadmap-line" />
           {[
             { w: "1-2", name: "Speak With Structure", sub: "Weeks 1 & 2", desc: "You learn simple frameworks to organize your thoughts, answer questions with more structure, and speak without going in circles. The goal is to help you sound clearer and more prepared, even when you are speaking on the spot." },
-            { w: "3", name: "Build a Stronger Voice", sub: "Week 3", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
-            { w: "4", name: "Put It Into Real Life", sub: "Week 4", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 4 speaking to Week 1 so you can clearly see your progress." },
+            { w: "3-4", name: "Build a Stronger Voice", sub: "Weeks 3 & 4", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
+            { w: "5", name: "Add Energy and Expression", sub: "Week 5", desc: "You practice using pitch and pace to sound more natural and engaged. The goal is not to perform. It is to sound more like yourself, with more energy and control." },
+            { w: "6", name: "Put It Into Real Life", sub: "Week 6", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 6 speaking to Week 1 so you can clearly see your progress." },
           ].map((wk, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className="roadmap-week">
@@ -572,7 +573,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <p style={{ color: "var(--text-dim)", marginTop: 32, lineHeight: 1.6 }}>
-            By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
+            By the end of 6 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
           </p>
         </Reveal>
       </section>
