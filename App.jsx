@@ -535,17 +535,16 @@ export default function SpeakersGym() {
       <section className="section" id="roadmap">
         <Reveal>
           <div className="section-label">The Roadmap</div>
-          <div className="section-title">Your 6-Week Communication Plan</div>
-          <p className="section-subtitle">Each phase builds on the last. By Week 6, you'll speak with more clarity, control, and confidence in real situations.</p>
+          <div className="section-title">Your 4-Week Group Coaching Plan</div>
+          <p className="section-subtitle">Each phase builds on the last. By Week 4, you'll speak with more clarity, control, and confidence in real situations.</p>
         </Reveal>
 
         <div className="roadmap-timeline">
           <div className="roadmap-line" />
           {[
             { w: "1-2", name: "Speak With Structure", sub: "Weeks 1 & 2", desc: "You learn simple frameworks to organize your thoughts, answer questions with more structure, and speak without going in circles. The goal is to help you sound clearer and more prepared, even when you are speaking on the spot." },
-            { w: "3-4", name: "Build a Stronger Voice", sub: "Weeks 3 & 4", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
-            { w: "5", name: "Add Energy and Expression", sub: "Week 5", desc: "You practice using pitch and pace to sound more natural and engaged. The goal is not to perform. It is to sound more like yourself, with more energy and control." },
-            { w: "6", name: "Put It Into Real Life", sub: "Week 6", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 6 speaking to Week 1 so you can clearly see your progress." },
+            { w: "3", name: "Build a Stronger Voice", sub: "Week 3", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
+            { w: "4", name: "Put It Into Real Life", sub: "Week 4", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 4 speaking to Week 1 so you can clearly see your progress." },
           ].map((wk, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className="roadmap-week">
@@ -573,7 +572,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <p style={{ color: "var(--text-dim)", marginTop: 32, lineHeight: 1.6 }}>
-            By the end of 6 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
+            By the end of 4 weeks, you'll speak with more clarity in presentations at work and connect with more confidence at networking events.
           </p>
         </Reveal>
       </section>
@@ -648,23 +647,23 @@ export default function SpeakersGym() {
 
           <div className="sgp-grid">
 
-            {/* TIER 1: 6-Week Group — FEATURED */}
+            {/* TIER 1: Monthly Group Coaching — FEATURED */}
             <div className="sgp-card featured">
               <span className="sgp-popular">Most Popular</span>
-              <p className="sgp-tier">6-Week Group</p>
-              <h3 className="sgp-title">Group of 6</h3>
+              <p className="sgp-tier">Monthly Group Coaching</p>
+              <h3 className="sgp-title">Group Coaching</h3>
               <div className="sgp-price-block">
                 <p className="sgp-original">$94</p>
                 <div className="sgp-price-row">
                   <span className="sgp-price">$47</span>
-                  <span className="sgp-period">per person / 6 weeks</span>
+                  <span className="sgp-period">per person / 4 weeks</span>
                 </div>
                 <p className="sgp-save">Save 50% — $47 off</p>
               </div>
-              <span className="sgp-hours-badge">6 hours live training</span>
+              <span className="sgp-hours-badge">4 hours live training monthly</span>
               <div className="sgp-rule" />
               <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>1-hour live workshop every weekend</strong> for 6 weeks (frameworks + vocal variety)</span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>1-hour live training every week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
@@ -689,7 +688,7 @@ export default function SpeakersGym() {
               <span className="sgp-hours-badge">Group + private coaching</span>
               <div className="sgp-rule" />
               <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Everything in the 6-Week Group plan</strong></span></li>
+                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Everything in the Group Coaching plan</strong></span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Weekly 1-on-1 session</strong> where I focus on your specific weaknesses and work with you directly to get results faster</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
                 <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Clear action plan built around your specific goals</span></li>
@@ -738,13 +737,13 @@ export default function SpeakersGym() {
         </Reveal>
         <div className="faq-list">
           {[
-            { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. The 6-Week Group plan includes 6 hours of live group training (one 1-hour workshop every weekend for 6 weeks). The VIP plan includes everything in the Group plan plus a weekly private 1-on-1 session." },
-            { q: "What do we cover in the 6 weeks?", a: "Weeks 1-2: Speak with structure — simple frameworks so you can answer any question clearly and on the spot. Weeks 3-4: Build a stronger voice — volume, pauses, and vocal variety so you sound steady and intentional. Week 5: Add energy and expression using pitch and pace. Week 6: Put it into real life — interviews, meetings, conversations, and presentations, then compare your Week 6 speaking to Week 1 to see your progress." },
+            { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. Group Coaching includes 4 hours of live training each month, with one 1-hour session each week for 4 weeks. The VIP plan includes everything in Group Coaching plus a weekly private 1-on-1 session." },
+            { q: "What do we cover in the 4 weeks?", a: "Weeks 1-2: Speak with structure — simple frameworks so you can answer any question clearly and on the spot. Week 3: Build a stronger voice with volume, pauses, and vocal variety. Week 4: Put it into real life through interviews, meetings, conversations, and presentations, then compare your Week 4 speaking to Week 1." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
             { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
             { q: "How much time do I need each week?", a: "One 1-hour live workshop on the weekend, plus 10 to 15 minutes of daily reps on the app. In total, expect around 2 to 3 hours per week." },
             { q: "What if I feel shy or nervous speaking in front of others?", a: "That's exactly who this is for. The group is small (6 people max). You start with low-pressure practice and build up gradually. Most people say the nerves start fading within the first two weeks." },
-            { q: "What is the difference between the two plans?", a: "The 6-Week Group is a group of 6, with a 1-hour live workshop every weekend. VIP gives you everything in the Group plan plus a weekly private 1-on-1 session focused on your specific weaknesses and your real meetings, presentations, and conversations. Both include the same core content: the full course, the app, and performance tracking." },
+            { q: "What is the difference between the two plans?", a: "Group Coaching is a monthly 4-week plan with one 1-hour live training session each week. VIP gives you everything in Group Coaching plus a weekly private 1-on-1 session focused on your specific weaknesses and your real meetings, presentations, and conversations. Both include the same core content: the full course, the app, and performance tracking." },
             { q: "When does the program start?", a: "The next cohort starts soon. As soon as you join, you get immediate access to the course and the app so you can start before the live sessions begin." },
           ].map((item, i) => (
             <Reveal key={i} delay={i * 60}>
