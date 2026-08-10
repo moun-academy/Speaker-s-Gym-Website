@@ -4,7 +4,6 @@ import marouanePhoto from "./Marouane.png";
 const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
 const BOOK_URL = "/book-a-call";
 const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
-const STRIPE_GROUP_URL = "https://buy.stripe.com/28EaEXfZP6RLekDbTb1ck00";
 const STRIPE_VIP_URL = "https://buy.stripe.com/fZu3cv5lb7VP1xR8GZ1ck02";
 
 /* ─── tiny helpers ─── */
@@ -240,7 +239,7 @@ export default function SpeakersGym() {
 
         /* ── PRICING ── */
         .sgp-section { width:100%; padding:80px 24px; background:#0f0f0f; font-family:var(--font-body); box-sizing:border-box; }
-        .sgp-inner { max-width:760px; margin:0 auto; }
+        .sgp-inner { max-width:920px; margin:0 auto; }
         .sgp-eyebrow { font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:#d9c06f; text-align:center; margin:0 0 16px; }
         .sgp-headline { font-family:var(--font-display); font-size:clamp(28px,4vw,42px); font-weight:600; color:#f5eedb; text-align:center; margin:0 0 12px; line-height:1.2; }
         .sgp-subline { font-size:15px; color:#7a6f55; text-align:center; margin:0 0 20px; font-weight:300; }
@@ -251,31 +250,29 @@ export default function SpeakersGym() {
         .sgp-timer-num { font-family:var(--font-display); font-size:32px; font-weight:700; color:#d9c06f; background:#141414; border:1px solid rgba(217,192,111,.2); border-radius:10px; padding:8px 14px; min-width:56px; text-align:center; line-height:1; }
         .sgp-timer-text { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#5a5040; }
         .sgp-timer-sep { font-family:var(--font-display); font-size:28px; color:rgba(217,192,111,.3); margin-bottom:18px; }
-        .sgp-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
-        .sgp-card { background:#141414; border:1px solid rgba(217,192,111,.12); border-radius:16px; padding:36px 28px; box-sizing:border-box; display:flex; flex-direction:column; position:relative; }
-        .sgp-card.featured { background:#181610; border-color:rgba(217,192,111,.35); padding:44px 28px; margin-top:-12px; }
-        .sgp-card.vip { background:#0e100e; border-color:rgba(138,173,110,.2); }
-        .sgp-popular { position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:#d9c06f; color:#0f0f0f; font-size:10px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; padding:4px 16px; border-radius:20px; white-space:nowrap; }
-        .sgp-tier { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:#6a5f45; margin:0 0 10px; }
-        .sgp-card.vip .sgp-tier { color:#6a8a5a; }
-        .sgp-title { font-family:var(--font-display); font-size:20px; font-weight:600; color:#f0e8cc; margin:0 0 24px; line-height:1.2; min-height:52px; }
-        .sgp-price-block { margin-bottom:24px; }
+        .sgp-offer-card { position:relative; overflow:hidden; background:linear-gradient(145deg,#1b1912 0%,#121311 52%,#101210 100%); border:1px solid rgba(217,192,111,.35); border-radius:24px; padding:48px; box-shadow:0 30px 90px rgba(0,0,0,.32); }
+        .sgp-offer-card::before { content:''; position:absolute; width:380px; height:380px; top:-230px; right:-120px; border-radius:50%; background:radial-gradient(circle,rgba(217,192,111,.2),transparent 68%); pointer-events:none; }
+        .sgp-offer-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+        .sgp-popular { position:absolute; top:22px; right:24px; background:rgba(217,192,111,.12); border:1px solid rgba(217,192,111,.28); color:#e8d590; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:7px 14px; border-radius:20px; white-space:nowrap; }
+        .sgp-offer-top { display:grid; grid-template-columns:1.25fr .75fr; gap:44px; align-items:end; position:relative; }
+        .sgp-tier { font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#d9c06f; margin:0 0 12px; }
+        .sgp-title { max-width:540px; font-family:var(--font-display); font-size:clamp(30px,5vw,48px); font-style:italic; font-weight:600; color:#f5eedb; margin:0 0 16px; line-height:1.08; }
+        .sgp-offer-description { max-width:540px; color:#a59d88; font-size:15px; line-height:1.65; }
+        .sgp-price-block { margin:0; padding:22px; background:rgba(8,8,8,.32); border:1px solid rgba(217,192,111,.13); border-radius:16px; }
         .sgp-original { font-size:15px; color:#c0503a; text-decoration:line-through; font-weight:300; margin:0 0 2px; min-height:22px; }
         .sgp-price-row { display:flex; align-items:baseline; gap:8px; }
         .sgp-price { font-family:var(--font-display); font-size:48px; font-weight:700; color:#d9c06f; line-height:1; }
-        .sgp-card.vip .sgp-price { color:#8aad6e; }
         .sgp-period { font-size:13px; color:#5a5040; font-weight:300; }
         .sgp-save { font-size:12px; color:#8aad6e; font-weight:500; margin:6px 0 0; min-height:18px; }
-        .sgp-rule { height:1px; background:rgba(217,192,111,.07); margin:0 0 24px; }
-        .sgp-card.vip .sgp-rule { background:rgba(138,173,110,.07); }
-        .sgp-features { list-style:none; padding:0; margin:0 0 32px; display:flex; flex-direction:column; gap:12px; flex:1; }
-        .sgp-feature { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:#8a7f65; line-height:1.45; }
-        .sgp-feature .tick { flex-shrink:0; width:16px; height:16px; border-radius:50%; background:rgba(217,192,111,.1); border:1px solid rgba(217,192,111,.2); display:flex; align-items:center; justify-content:center; margin-top:1px; color:#d9c06f; font-size:10px; line-height:1; }
-        .sgp-card.vip .sgp-feature .tick { background:rgba(138,173,110,.1); border-color:rgba(138,173,110,.2); color:#8aad6e; }
-        .sgp-feature .tick svg { width:8px; height:8px; }
-        .sgp-feature strong { color:#c8bc9a; font-weight:500; }
-        .sgp-hours-badge { display:inline-block; font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#d9c06f; background:rgba(217,192,111,.08); border:1px solid rgba(217,192,111,.15); padding:5px 12px; border-radius:20px; margin-bottom:20px; }
-        .sgp-card.vip .sgp-hours-badge { color:#8aad6e; background:rgba(138,173,110,.08); border-color:rgba(138,173,110,.15); }
+        .sgp-rule { height:1px; background:linear-gradient(90deg,transparent,rgba(217,192,111,.22),transparent); margin:34px 0; }
+        .sgp-included-title { font-family:var(--font-display); font-size:20px; font-style:italic; color:#f0e8cc; margin:0 0 20px; }
+        .sgp-features { list-style:none; padding:0; margin:0 0 32px; display:grid; grid-template-columns:1fr 1fr; gap:16px 24px; }
+        .sgp-feature { display:flex; align-items:flex-start; gap:12px; padding:15px; font-size:13px; color:#998f77; line-height:1.5; background:rgba(255,255,255,.018); border:1px solid rgba(217,192,111,.08); border-radius:12px; }
+        .sgp-feature .tick { flex-shrink:0; width:20px; height:20px; border-radius:50%; background:rgba(217,192,111,.1); border:1px solid rgba(217,192,111,.25); display:flex; align-items:center; justify-content:center; margin-top:1px; color:#d9c06f; font-size:10px; line-height:1; }
+        .sgp-feature .tick svg { width:9px; height:9px; }
+        .sgp-feature strong { display:block; color:#ddd2b5; font-weight:600; margin-bottom:2px; }
+        .sgp-offer-action { display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; }
+        .sgp-offer-action .sgp-btn { min-width:280px; }
         .sgp-btn { display:block; width:100%; padding:15px 20px; border-radius:10px; font-family:var(--font-body); font-size:14px; font-weight:500; text-align:center; text-decoration:none; cursor:pointer; transition:opacity .15s ease, transform .15s ease; box-sizing:border-box; letter-spacing:.01em; }
         .sgp-btn:hover { opacity:.88; transform:translateY(-1px); }
         .sgp-btn:active { transform:translateY(0); opacity:1; }
@@ -283,7 +280,7 @@ export default function SpeakersGym() {
         .sgp-btn.solid { background:#d9c06f; color:#0f0f0f; border:none; }
         .sgp-btn.green { background:transparent; color:#8aad6e; border:1px solid rgba(138,173,110,.35); }
         .sgp-footer-note { font-size:12px; color:#4a4030; text-align:center; margin:32px 0 0; font-weight:300; }
-        .sgp-access-note { display:flex; align-items:flex-start; gap:7px; font-size:12px; color:#8a7f65; line-height:1.45; margin:12px 2px 0; }
+        .sgp-access-note { display:flex; align-items:flex-start; gap:7px; font-size:12px; color:#8a7f65; line-height:1.45; margin:0; }
         .sgp-access-note .dot { flex-shrink:0; color:#8aad6e; font-size:13px; line-height:1.3; }
         .sgp-trustbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 28px; margin:28px auto 0; max-width:620px; }
         .sgp-trust-item { display:flex; align-items:center; gap:8px; font-size:12.5px; color:#8a7f65; }
@@ -295,11 +292,14 @@ export default function SpeakersGym() {
         .sgp-guarantee-text strong { color:#f0e8cc; font-weight:600; }
         @media(max-width:520px){ .sgp-guarantee-strip { flex-direction:column; text-align:center; } }
         @media (max-width:760px) {
-          .sgp-grid { grid-template-columns:1fr; gap:16px; max-width:400px; margin:0 auto; }
-          .sgp-card.featured { margin-top:0; padding:36px 28px; }
+          .sgp-offer-card { padding:38px 24px 28px; }
+          .sgp-popular { position:static; display:inline-block; margin-bottom:22px; }
+          .sgp-offer-top { grid-template-columns:1fr; gap:26px; }
+          .sgp-features { grid-template-columns:1fr; }
+          .sgp-offer-action { grid-template-columns:1fr; }
+          .sgp-offer-action .sgp-btn { min-width:0; }
           .sgp-section { padding:56px 20px; }
           .sgp-price { font-size:40px; }
-          .sgp-title { min-height:unset; }
           .sgp-timer-num { font-size:24px; min-width:46px; padding:6px 10px; }
           .sgp-timer-sep { font-size:22px; }
         }
@@ -656,38 +656,14 @@ export default function SpeakersGym() {
             </div>
           </div>
 
-          <div className="sgp-grid">
-
-            {/* TIER 1: Monthly Group Coaching, featured */}
-            <div className="sgp-card featured">
-              <span className="sgp-popular">Most Popular</span>
-              <p className="sgp-tier">Monthly Group Coaching</p>
-              <h3 className="sgp-title">Group Coaching</h3>
-              <div className="sgp-price-block">
-                <p className="sgp-original">$94</p>
-                <div className="sgp-price-row">
-                  <span className="sgp-price">$47</span>
-                  <span className="sgp-period">per person / 4 weeks</span>
-                </div>
-                <p className="sgp-save">Save 50%: $47 off</p>
+          <div className="sgp-offer-card">
+            <span className="sgp-popular">Private Coaching</span>
+            <div className="sgp-offer-top">
+              <div>
+                <p className="sgp-tier">The Complete 6-Week Experience</p>
+                <h3 className="sgp-title">Private 1-on-1 Communication Coaching</h3>
+                <p className="sgp-offer-description">A focused coaching experience built around your voice, your challenges, and the real speaking situations that matter in your life and career.</p>
               </div>
-              <span className="sgp-hours-badge">4 hours live training monthly</span>
-              <div className="sgp-rule" />
-              <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>1-hour live training every week</strong> for 4 weeks (frameworks + vocal variety)</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>3-hour MOUN Academy course</strong> with exercises for each lecture</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Premium Speaker's Gym App</strong> with AI feedback</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Performance tracking</strong> so you always know where you stand</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Conversation Playbook</strong> (bonus)</span></li>
-              </ul>
-              <a href={STRIPE_GROUP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
-              <p className="sgp-access-note"><span className="dot">✓</span><span>Instant access to the app + course right after checkout. You'll get an email with your next live session date.</span></p>
-            </div>
-
-            {/* TIER 2: 1-on-1 Coaching */}
-            <div className="sgp-card vip">
-              <p className="sgp-tier">VIP</p>
-              <h3 className="sgp-title">1-on-1 Coaching</h3>
               <div className="sgp-price-block">
                 <p className="sgp-original">$300</p>
                 <div className="sgp-price-row">
@@ -696,18 +672,27 @@ export default function SpeakersGym() {
                 </div>
                 <p className="sgp-save">Save $133. Fastest path to results.</p>
               </div>
-              <span className="sgp-hours-badge">Group + private coaching</span>
-              <div className="sgp-rule" />
-              <ul className="sgp-features">
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Everything in the Group Coaching plan</strong></span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>Weekly 1-on-1 session</strong> where I focus on your specific weaknesses and work with you directly to get results faster</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Direct feedback on your real meetings, presentations, and conversations</span></li>
-                <li className="sgp-feature"><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#8aad6e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>Clear action plan built around your specific goals</span></li>
-              </ul>
-              <a href={STRIPE_VIP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Join the Program Now →</a>
-              <p className="sgp-access-note"><span className="dot">✓</span><span>Instant access after checkout. I'll personally reach out to schedule your first 1-on-1 session.</span></p>
             </div>
-
+            <div className="sgp-rule" />
+            <h4 className="sgp-included-title">Everything you need to transform how you communicate</h4>
+            <ul className="sgp-features">
+              {[
+                ["6 private coaching sessions", "One focused 1-hour session with me every week."],
+                ["A personal communication plan", "Training shaped around your goals, habits, and real challenges."],
+                ["The complete 6-week roadmap", "Structure, voice, pace, expression, courage, and confident application."],
+                ["Feedback on real situations", "Bring your meetings, presentations, interviews, and conversations."],
+                ["Premium Speaker's Gym App", "Daily speaking reps with AI feedback and performance tracking."],
+                ["Full MOUN Academy course", "Three hours of practical lessons and guided exercises."],
+                ["Between-session support", "Stay accountable and get direction while you practice each week."],
+                ["Conversation Playbook bonus", "Practical tools for starting, leading, and deepening conversations."],
+              ].map(([title, detail]) => (
+                <li className="sgp-feature" key={title}><span className="tick"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#d9c06f" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span><strong>{title}</strong>{detail}</span></li>
+              ))}
+            </ul>
+            <div className="sgp-offer-action">
+              <p className="sgp-access-note"><span className="dot">✓</span><span>Get instant access to the app and course. I will personally contact you to schedule your first private session.</span></p>
+              <a href={STRIPE_VIP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Start Your 6-Week Transformation →</a>
+            </div>
           </div>
 
           <div className="sgp-guarantee-strip">
@@ -748,14 +733,14 @@ export default function SpeakersGym() {
         </Reveal>
         <div className="faq-list">
           {[
-            { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. Group Coaching includes 4 hours of live training each month, with one 1-hour session each week for 4 weeks. The VIP plan includes everything in Group Coaching plus a weekly private 1-on-1 session." },
+            { q: "What is included in the Speaker's Gym program?", a: "You receive six weekly private coaching sessions, a communication plan built around your goals, the complete 6-week roadmap, feedback on your real speaking situations, full access to the 3-hour MOUN Academy course, the Premium Speaker's Gym App with AI feedback and performance tracking, between-session support, and the Conversation Playbook bonus." },
             { q: "What do we cover in the 6-week program?", a: "Week 1 builds clear, concise answers with PREP. Week 2 develops volume, breathing, and posture. Week 3 focuses on pace, pauses, and calm silence. Week 4 brings in pitch, tonality, and vocal contrast. Week 5 helps you speak before fear wins. Week 6 combines every skill in real meetings, conversations, presentations, and impromptu questions." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
             { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
-            { q: "How much time do I need each week?", a: "One 1-hour live workshop on the weekend, plus 10 to 15 minutes of daily reps on the app. In total, expect around 2 to 3 hours per week." },
-            { q: "What if I feel shy or nervous speaking in front of others?", a: "That's exactly who this is for. The group is small (6 people max). You start with low-pressure practice and build up gradually. Most people say the nerves start fading within the first two weeks." },
-            { q: "What is the difference between the two plans?", a: "Group Coaching is a monthly 4-week plan with one 1-hour live training session each week. VIP gives you everything in Group Coaching plus a weekly private 1-on-1 session focused on your specific weaknesses and your real meetings, presentations, and conversations. Both include the same core content: the full course, the app, and performance tracking." },
-            { q: "When does the program start?", a: "The next cohort starts soon. As soon as you join, you get immediate access to the course and the app so you can start before the live sessions begin." },
+            { q: "How much time do I need each week?", a: "Plan for one 1-hour private coaching session plus 10 to 15 minutes of daily speaking practice. In total, expect around 2 to 3 hours per week." },
+            { q: "What if I feel shy or nervous speaking in front of others?", a: "That is exactly who this is for. Every coaching session is private, supportive, and adapted to your current level. We start with low-pressure practice and build your confidence gradually." },
+            { q: "Is the coaching personalized?", a: "Yes. Your sessions and action plan are built around your specific weaknesses, goals, and real speaking situations. You can bring upcoming meetings, presentations, interviews, and conversations into our work together." },
+            { q: "When does the program start?", a: "You get immediate access to the course and app after joining. I will personally contact you to schedule your first private coaching session." },
           ].map((item, i) => (
             <Reveal key={i} delay={i * 60}>
               <FAQ q={item.q} a={item.a} />
