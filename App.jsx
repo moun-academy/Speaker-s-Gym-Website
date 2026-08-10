@@ -38,7 +38,7 @@ function Reveal({ children, className = "", delay = 0 }) {
   );
 }
 
-/* ─── countdown (dynamic — resets at the start of every month, ends at month end) ─── */
+/* ─── countdown (dynamic, resets at the start of every month and ends at month end) ─── */
 function useCountdown() {
   const calc = () => {
     const now = new Date();
@@ -305,18 +305,26 @@ export default function SpeakersGym() {
         }
 
         /* ── ROADMAP ── */
-        .roadmap-timeline { position:relative; margin-top:56px; }
-        .roadmap-line { position:absolute; left:27px; top:0; bottom:0; width:2px; background:var(--border); }
-        @media(max-width:600px){ .roadmap-line{ left:19px; } }
-        .roadmap-week { display:flex; gap:32px; margin-bottom:48px; position:relative; }
-        .roadmap-dot { width:56px; min-width:56px; height:56px; border-radius:50%; background:var(--surface); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:1.3rem; color:var(--accent); position:relative; z-index:1; font-style: italic; }
-        @media(max-width:600px){ .roadmap-dot{ width:40px; min-width:40px; height:40px; font-size:1rem; } }
-        .roadmap-body h3 { font-family:var(--font-display); font-size:1.4rem; font-style: italic; margin-bottom:4px; }
-        .roadmap-body h3 span { color:var(--accent); }
-        .roadmap-body .sub { font-size:.8rem; color:var(--text-dim); margin-bottom:8px; }
-        .roadmap-body p { color:var(--text-dim); font-size:.95rem; line-height:1.6; margin-bottom:10px; }
-        .roadmap-tags { display:flex; flex-wrap:wrap; gap:8px; }
-        .roadmap-tag { background:var(--bg3); border:1px solid var(--border); font-size:.75rem; padding:4px 12px; border-radius:100px; color:var(--text-dim); }
+        .roadmap-section { position:relative; overflow:hidden; }
+        .roadmap-section::before { content:''; position:absolute; width:440px; height:440px; top:80px; right:-240px; border-radius:50%; background:radial-gradient(circle, rgba(217,192,111,.09), transparent 68%); pointer-events:none; }
+        .roadmap-intro { max-width:760px; }
+        .roadmap-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; margin-top:56px; position:relative; }
+        .roadmap-card { position:relative; min-height:250px; padding:32px; overflow:hidden; border:1px solid var(--border); border-radius:20px; background:linear-gradient(145deg, rgba(27,27,27,.98), rgba(20,20,20,.96)); transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+        .roadmap-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, var(--accent), transparent 75%); opacity:.75; }
+        .roadmap-card:hover { transform:translateY(-5px); border-color:rgba(217,192,111,.32); box-shadow:0 24px 60px rgba(0,0,0,.24); }
+        .roadmap-card-head { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+        .roadmap-step { width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 6px var(--accent-glow); }
+        .roadmap-week-label { color:var(--accent); font-size:.72rem; line-height:1; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+        .roadmap-number { position:absolute; top:14px; right:22px; color:rgba(217,192,111,.07); font-family:var(--font-display); font-size:6rem; font-style:italic; line-height:1; pointer-events:none; }
+        .roadmap-card h3 { max-width:82%; margin-bottom:14px; font-family:var(--font-display); font-size:1.55rem; font-style:italic; line-height:1.2; color:var(--text); }
+        .roadmap-card p { color:var(--text-dim); font-size:.95rem; line-height:1.7; }
+        @media(max-width:760px){
+          .roadmap-grid { grid-template-columns:1fr; margin-top:40px; }
+          .roadmap-card { min-height:0; padding:28px 24px; }
+          .roadmap-card-head { margin-bottom:22px; }
+          .roadmap-card h3 { max-width:88%; font-size:1.4rem; }
+          .roadmap-number { font-size:5rem; }
+        }
 
         /* between sessions */
         .between { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px 36px; margin-top:16px; }
@@ -532,30 +540,32 @@ export default function SpeakersGym() {
       </section>
 
       {/* ── ROADMAP ── */}
-      <section className="section" id="roadmap">
-        <Reveal>
+      <section className="section roadmap-section" id="roadmap">
+        <Reveal className="roadmap-intro">
           <div className="section-label">The Roadmap</div>
-          <div className="section-title">Your 6-Week Communication Plan</div>
-          <p className="section-subtitle">Each phase builds on the last. By Week 6, you'll speak with more clarity, control, and confidence in real situations.</p>
+          <div className="section-title">The Speaker's Gym: 6-Week Program</div>
+          <p className="section-subtitle">Build clear thinking, a stronger voice, and the confidence to speak when it matters. Every week adds a practical skill you can use immediately.</p>
         </Reveal>
 
-        <div className="roadmap-timeline">
-          <div className="roadmap-line" />
+        <div className="roadmap-grid">
           {[
-            { w: "1-2", name: "Speak With Structure", sub: "Weeks 1 & 2", desc: "You learn simple frameworks to organize your thoughts, answer questions with more structure, and speak without going in circles. The goal is to help you sound clearer and more prepared, even when you are speaking on the spot." },
-            { w: "3-4", name: "Build a Stronger Voice", sub: "Weeks 3 & 4", desc: "You work on volume, pauses, and vocal variety so your voice sounds more steady and intentional. This helps you avoid speaking too quietly, too fast, or in a way that makes people lose attention." },
-            { w: "5", name: "Add Energy and Expression", sub: "Week 5", desc: "You practice using pitch and pace to sound more natural and engaged. The goal is not to perform. It is to sound more like yourself, with more energy and control." },
-            { w: "6", name: "Put It Into Real Life", sub: "Week 6", desc: "You apply everything in real situations such as interviews, meetings, conversations, and presentations. Then we compare your Week 6 speaking to Week 1 so you can clearly see your progress." },
+            { w: "1", name: "Think Clearly, Speak Simply", desc: "Use the PREP framework to organize your thoughts, answer questions concisely, and stop rambling under pressure." },
+            { w: "2", name: "Be Heard", desc: "Develop stronger volume, breathing, and posture so you stop shrinking your voice and begin speaking with authority." },
+            { w: "3", name: "Slow Down and Own the Moment", desc: "Control your pace, use intentional pauses, and replace filler words with calm silence." },
+            { w: "4", name: "Bring Your Voice to Life", desc: "Use pitch, melody, tonality, and vocal contrast to sound expressive, engaging, and naturally confident." },
+            { w: "5", name: "Speak Before Fear Wins", desc: "Use the five-second rule to overcome hesitation, contribute during meetings, express opinions, and disagree respectfully." },
+            { w: "6", name: "Communicate With Confidence", desc: "Combine structure, voice, expression, and presence in real meetings, conversations, presentations, and impromptu questions." },
           ].map((wk, i) => (
             <Reveal key={i} delay={i * 100}>
-              <div className="roadmap-week">
-                <div className="roadmap-dot">{wk.w}</div>
-                <div className="roadmap-body">
-                  <h3>{wk.name}</h3>
-                  <div className="sub">{wk.sub}</div>
-                  <p>{wk.desc}</p>
+              <article className="roadmap-card">
+                <span className="roadmap-number" aria-hidden="true">{wk.w}</span>
+                <div className="roadmap-card-head">
+                  <span className="roadmap-step" />
+                  <span className="roadmap-week-label">Week {wk.w}</span>
                 </div>
-              </div>
+                <h3>{wk.name}</h3>
+                <p>{wk.desc}</p>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -631,7 +641,7 @@ export default function SpeakersGym() {
 
           <p className="sgp-eyebrow">Pricing</p>
           <h2 className="sgp-headline">Train Your Voice. Transform Your Career.</h2>
-          <p className="sgp-subline">50% off — this month only.</p>
+          <p className="sgp-subline">50% off. This month only.</p>
 
           <div className="sgp-timer-wrap">
             <p className="sgp-timer-label">⚡ 50% discount ends in</p>
@@ -648,7 +658,7 @@ export default function SpeakersGym() {
 
           <div className="sgp-grid">
 
-            {/* TIER 1: Monthly Group Coaching — FEATURED */}
+            {/* TIER 1: Monthly Group Coaching, featured */}
             <div className="sgp-card featured">
               <span className="sgp-popular">Most Popular</span>
               <p className="sgp-tier">Monthly Group Coaching</p>
@@ -659,7 +669,7 @@ export default function SpeakersGym() {
                   <span className="sgp-price">$47</span>
                   <span className="sgp-period">per person / 4 weeks</span>
                 </div>
-                <p className="sgp-save">Save 50% — $47 off</p>
+                <p className="sgp-save">Save 50%: $47 off</p>
               </div>
               <span className="sgp-hours-badge">4 hours live training monthly</span>
               <div className="sgp-rule" />
@@ -684,7 +694,7 @@ export default function SpeakersGym() {
                   <span className="sgp-price">$167</span>
                   <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $133 — fastest path to results</p>
+                <p className="sgp-save">Save $133. Fastest path to results.</p>
               </div>
               <span className="sgp-hours-badge">Group + private coaching</span>
               <div className="sgp-rule" />
@@ -739,7 +749,7 @@ export default function SpeakersGym() {
         <div className="faq-list">
           {[
             { q: "What is included in the Speaker's Gym program?", a: "Every plan includes full access to the 3-hour MOUN Academy course on speech structure and vocal variety with exercises, the Premium Speaker's Gym App with AI feedback, performance tracking, and a Conversation Playbook bonus. Group Coaching includes 4 hours of live training each month, with one 1-hour session each week for 4 weeks. The VIP plan includes everything in Group Coaching plus a weekly private 1-on-1 session." },
-            { q: "What do we cover in the 4 weeks?", a: "Weeks 1-2: Speak with structure — simple frameworks so you can answer any question clearly and on the spot. Week 3: Build a stronger voice with volume, pauses, and vocal variety. Week 4: Put it into real life through interviews, meetings, conversations, and presentations, then compare your Week 4 speaking to Week 1." },
+            { q: "What do we cover in the 6-week program?", a: "Week 1 builds clear, concise answers with PREP. Week 2 develops volume, breathing, and posture. Week 3 focuses on pace, pauses, and calm silence. Week 4 brings in pitch, tonality, and vocal contrast. Week 5 helps you speak before fear wins. Week 6 combines every skill in real meetings, conversations, presentations, and impromptu questions." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
             { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
             { q: "How much time do I need each week?", a: "One 1-hour live workshop on the weekend, plus 10 to 15 minutes of daily reps on the app. In total, expect around 2 to 3 hours per week." },
