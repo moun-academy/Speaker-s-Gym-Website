@@ -286,11 +286,20 @@ export default function SpeakersGym() {
         .sgp-trust-item { display:flex; align-items:center; gap:8px; font-size:12.5px; color:#8a7f65; }
         .sgp-trust-item svg { flex-shrink:0; }
         .sgp-trust-item strong { color:#c8bc9a; font-weight:600; }
-        .sgp-guarantee-strip { display:flex; align-items:center; gap:16px; justify-content:center; text-align:left; background:#141414; border:1px solid rgba(217,192,111,.18); border-radius:14px; padding:18px 24px; margin:24px auto 0; max-width:620px; }
-        .sgp-guarantee-badge { font-family:var(--font-display); font-style:italic; font-weight:700; font-size:2.2rem; color:#d9c06f; line-height:1; flex-shrink:0; }
-        .sgp-guarantee-text { font-size:13px; color:#8a7f65; line-height:1.5; }
-        .sgp-guarantee-text strong { color:#f0e8cc; font-weight:600; }
-        @media(max-width:520px){ .sgp-guarantee-strip { flex-direction:column; text-align:center; } }
+        .sgp-guarantee { position:relative; display:grid; grid-template-columns:190px 1fr; align-items:center; gap:46px; overflow:hidden; margin:32px auto 0; padding:48px 52px; background:linear-gradient(135deg,#1b1810 0%,#151510 48%,#101310 100%); border:1px solid rgba(217,192,111,.34); border-radius:24px; box-shadow:0 24px 70px rgba(0,0,0,.28); }
+        .sgp-guarantee::before { content:''; position:absolute; width:360px; height:360px; left:-170px; top:-190px; border-radius:50%; background:radial-gradient(circle,rgba(217,192,111,.2),transparent 68%); pointer-events:none; }
+        .sgp-guarantee::after { content:''; position:absolute; top:0; left:12%; right:12%; height:2px; background:linear-gradient(90deg,transparent,#d9c06f,transparent); }
+        .sgp-guarantee-seal { position:relative; z-index:1; width:164px; height:164px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid rgba(217,192,111,.42); border-radius:50%; background:radial-gradient(circle at 35% 30%,rgba(217,192,111,.18),rgba(10,10,9,.72) 68%); box-shadow:inset 0 0 0 8px rgba(217,192,111,.04),0 12px 40px rgba(0,0,0,.3); }
+        .sgp-guarantee-seal svg { width:28px; height:28px; margin-bottom:7px; }
+        .sgp-guarantee-seal strong { font-family:var(--font-display); font-size:2.35rem; font-style:italic; color:#e8d590; line-height:1; }
+        .sgp-guarantee-seal span { margin-top:7px; font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#8f835f; }
+        .sgp-guarantee-content { position:relative; z-index:1; }
+        .sgp-guarantee-eyebrow { margin:0 0 10px; color:#d9c06f; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+        .sgp-guarantee-title { max-width:650px; margin:0 0 16px; font-family:var(--font-display); font-size:clamp(2rem,4.8vw,3.5rem); font-style:italic; font-weight:600; color:#f5eedb; line-height:1.05; }
+        .sgp-guarantee-text { max-width:650px; margin:0; color:#a59d88; font-size:14px; line-height:1.7; }
+        .sgp-guarantee-benefits { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:22px; }
+        .sgp-guarantee-benefit { display:flex; align-items:center; gap:8px; color:#c8bc9a; font-size:12px; font-weight:600; }
+        .sgp-guarantee-check { width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:50%; color:#d9c06f; background:rgba(217,192,111,.1); border:1px solid rgba(217,192,111,.24); }
         @media (max-width:760px) {
           .sgp-offer-card { padding:38px 24px 28px; }
           .sgp-popular { position:static; display:inline-block; margin-bottom:22px; }
@@ -302,6 +311,11 @@ export default function SpeakersGym() {
           .sgp-price { font-size:40px; }
           .sgp-timer-num { font-size:24px; min-width:46px; padding:6px 10px; }
           .sgp-timer-sep { font-size:22px; }
+          .sgp-guarantee { grid-template-columns:1fr; gap:28px; padding:38px 24px; text-align:center; }
+          .sgp-guarantee-seal { width:132px; height:132px; margin:0 auto; }
+          .sgp-guarantee-seal strong { font-size:2rem; }
+          .sgp-guarantee-title { font-size:2.2rem; }
+          .sgp-guarantee-benefits { justify-content:center; }
         }
 
         /* ── ROADMAP ── */
@@ -695,11 +709,21 @@ export default function SpeakersGym() {
             </div>
           </div>
 
-          <div className="sgp-guarantee-strip">
-            <span className="sgp-guarantee-badge">100%</span>
-            <p className="sgp-guarantee-text">
-              <strong>100% Money-Back Guarantee.</strong> Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free. I'm committed to helping you get there.
-            </p>
+          <div className="sgp-guarantee">
+            <div className="sgp-guarantee-seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5l7 3v5.6c0 4.8-3.2 8.3-7 9.4-3.8-1.1-7-4.6-7-9.4V5.5l7-3z" stroke="#d9c06f" strokeWidth="1.5"/><path d="M8.7 11.8l2.1 2.1 4.6-4.7" stroke="#d9c06f" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <strong>100%</strong>
+              <span>Protected</span>
+            </div>
+            <div className="sgp-guarantee-content">
+              <p className="sgp-guarantee-eyebrow">Train With Complete Confidence</p>
+              <h3 className="sgp-guarantee-title">100% Money-Back Guarantee</h3>
+              <p className="sgp-guarantee-text">Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free. I'm committed to helping you get there.</p>
+              <div className="sgp-guarantee-benefits">
+                <span className="sgp-guarantee-benefit"><span className="sgp-guarantee-check">✓</span>Every penny refunded</span>
+                <span className="sgp-guarantee-benefit"><span className="sgp-guarantee-check">✓</span>30 extra days of coaching free</span>
+              </div>
+            </div>
           </div>
 
           <div className="sgp-trustbar">
