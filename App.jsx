@@ -698,7 +698,7 @@ export default function SpeakersGym() {
           <div className="sgp-guarantee-strip">
             <span className="sgp-guarantee-badge">100%</span>
             <p className="sgp-guarantee-text">
-              <strong>The Speak With Confidence Guarantee.</strong> Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free. I'm committed to helping you get there.
+              <strong>100% Money-Back Guarantee.</strong> Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free. I'm committed to helping you get there.
             </p>
           </div>
 
