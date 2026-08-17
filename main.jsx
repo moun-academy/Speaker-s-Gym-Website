@@ -6,6 +6,7 @@ import { ThankYouCall, ThankYouPurchase } from './ThankYou.jsx'
 import Privacy from './Privacy.jsx'
 import DeleteAccount from './DeleteAccount.jsx'
 import BookACall from './BookACall.jsx'
+import MethodPage from './Method.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -13,8 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
+        <Route path="/method" element={<MethodPage />} />
         <Route path="/success" element={<ThankYouCall />} />
-        {/* Old booking success URL — redirect so any existing links keep working */}
+        {/* Old booking success URL, redirected so existing links keep working */}
         <Route path="/thank-you-call" element={<Navigate to="/success" replace />} />
         <Route path="/thank-you-purchase" element={<ThankYouPurchase />} />
         <Route path="/privacy" element={<Privacy />} />

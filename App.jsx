@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import marouanePhoto from "./Marouane.png";
-
-const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
-const BOOK_URL = "/book-a-call";
-const COMMUNITY_URL = "https://www.skool.com/moun-academy-2097/about";
-const STRIPE_VIP_URL = "https://buy.stripe.com/fZu3cv5lb7VP1xR8GZ1ck02";
+import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
+import { BOOK_URL, COMMUNITY_URL, PURCHASE_URL } from "./siteConfig.js";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
@@ -75,7 +72,6 @@ function FAQ({ q, a }) {
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
   const countdown = useCountdown();
-  const [mobileNav, setMobileNav] = useState(false);
 
   const trackLead = () => {
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
@@ -125,7 +121,7 @@ export default function SpeakersGym() {
         .nav-links a.nav-cta:hover { transform:translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); color:#000; }
         .nav-hamburger { display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; }
 
-        @media(max-width:768px) {
+        @media(max-width:1120px) {
           .nav-links { display:none; }
           .nav-hamburger { display:block; }
           .mobile-menu { position:fixed; inset:0; z-index:99; background:rgba(10,10,10,.97); backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
@@ -236,6 +232,23 @@ export default function SpeakersGym() {
         .how-num { font-family:var(--font-display); font-size:4rem; color:var(--accent); opacity:.2; position:absolute; top:12px; right:24px; line-height:1; font-style: italic; }
         .how-card h3 { font-family:var(--font-display); font-size:1.25rem; font-style: italic; margin-bottom:10px; }
         .how-card p { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
+
+        /* ── METHOD PREVIEW ── */
+        .method-preview { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:54px; align-items:center; overflow:hidden; padding:54px; border:1px solid rgba(217,192,111,.28); border-radius:24px; background:#14201c; box-shadow:0 28px 70px rgba(0,0,0,.22); }
+        .method-preview::before { content:''; position:absolute; width:360px; height:360px; right:-180px; top:-210px; border-radius:50%; background:radial-gradient(circle,rgba(217,192,111,.16),transparent 68%); pointer-events:none; }
+        .method-preview-copy { position:relative; z-index:1; }
+        .method-preview-copy h2 { margin:0 0 16px; color:#f2ecdf; font-family:var(--font-display); font-size:clamp(2rem,4vw,3.15rem); font-style:italic; font-weight:600; line-height:1.08; }
+        .method-preview-copy p { max-width:560px; margin:0 0 26px; color:#a2aaa5; line-height:1.7; }
+        .method-preview-link { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border:1px solid rgba(217,192,111,.36); border-radius:8px; color:var(--accent); font-size:.82rem; font-weight:700; text-decoration:none; transition:transform .2s ease,background .2s ease; }
+        .method-preview-link:hover { transform:translateY(-2px); background:rgba(217,192,111,.06); }
+        .method-equation { position:relative; z-index:1; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; }
+        .method-equation-card { min-height:150px; padding:22px 16px; display:flex; flex-direction:column; justify-content:center; border:1px solid rgba(217,192,111,.18); border-radius:16px; background:rgba(8,13,11,.42); text-align:center; }
+        .method-equation-card span { display:block; margin-bottom:10px; color:var(--accent); font-family:var(--font-display); font-size:2rem; font-style:italic; }
+        .method-equation-card strong { color:#f2ecdf; font-size:.76rem; line-height:1.4; }
+        .method-equation-symbol { color:#8fa99d; font-family:var(--font-display); font-size:1.8rem; font-style:italic; }
+        .method-equation-result { grid-column:1/-1; padding:13px; border:1px solid rgba(143,169,157,.3); border-radius:10px; color:#cddbd4; background:rgba(143,169,157,.07); font-size:.74rem; font-weight:700; letter-spacing:.06em; text-align:center; text-transform:uppercase; }
+        @media(max-width:820px){ .method-preview{grid-template-columns:1fr;padding:38px 28px;gap:36px;} }
+        @media(max-width:460px){ .method-equation{grid-template-columns:1fr;} .method-equation-symbol{transform:rotate(90deg);text-align:center;} .method-equation-result{grid-column:auto;} }
 
         /* ── PRICING ── */
         .sgp-section { width:100%; padding:80px 24px; background:#0f0f0f; font-family:var(--font-body); box-sizing:border-box; }
@@ -388,37 +401,7 @@ export default function SpeakersGym() {
         .mx-auto { margin-left:auto; margin-right:auto; }
       `}</style>
 
-      {/* ── NAV ── */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <a href="#" className="nav-logo">THE SPEAKER'S <span>GYM</span></a>
-          <div className="nav-links">
-            <a href="#who">Who It's For</a>
-            <a href="#how">How It Works</a>
-            <a href="#about">About</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#faq">FAQ</a>
-            <a href={BOOK_URL} className="nav-cta">Book a Call</a>
-          </div>
-          <button className="nav-hamburger" onClick={() => setMobileNav(true)}>☰</button>
-        </div>
-      </nav>
-
-      {mobileNav && (
-        <div className="mobile-menu">
-          <button className="mobile-close" onClick={() => setMobileNav(false)}>✕</button>
-          <a href="#who" onClick={() => setMobileNav(false)}>Who It's For</a>
-          <a href="#how" onClick={() => setMobileNav(false)}>How It Works</a>
-          <a href="#about" onClick={() => setMobileNav(false)}>About</a>
-          <a href="#pricing" onClick={() => setMobileNav(false)}>Pricing</a>
-          <a href="#roadmap" onClick={() => setMobileNav(false)}>Roadmap</a>
-          <a href="#testimonials" onClick={() => setMobileNav(false)}>Testimonials</a>
-          <a href="#faq" onClick={() => setMobileNav(false)}>FAQ</a>
-          <a href={BOOK_URL} className="btn-primary" onClick={() => setMobileNav(false)}>Book a Call</a>
-        </div>
-      )}
+      <SiteHeader />
 
       {/* ── HERO ── */}
       <div className="hero-wrap">
@@ -520,6 +503,26 @@ export default function SpeakersGym() {
             </Reveal>
           ))}
         </div>
+      </section>
+
+      {/* ── METHOD PREVIEW ── */}
+      <section className="section" id="method-preview">
+        <Reveal>
+          <div className="method-preview">
+            <div className="method-preview-copy">
+              <div className="section-label">The Speaker's Gym Method</div>
+              <h2>Technique is only half the transformation.</h2>
+              <p>Learn the communication skills. Apply them through gradual exposure. Build confidence through real evidence.</p>
+              <a className="method-preview-link" href="/method">Explore the Method <span aria-hidden="true">→</span></a>
+            </div>
+            <div className="method-equation" aria-label="Technical Training plus Exposure Training equals Confident Communication">
+              <div className="method-equation-card"><span>01</span><strong>Technical Training</strong></div>
+              <div className="method-equation-symbol" aria-hidden="true">+</div>
+              <div className="method-equation-card"><span>02</span><strong>Exposure Training</strong></div>
+              <div className="method-equation-result">Confident Communication</div>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── ABOUT ME ── */}
@@ -705,7 +708,7 @@ export default function SpeakersGym() {
             </ul>
             <div className="sgp-offer-action">
               <p className="sgp-access-note"><span className="dot">✓</span><span>Get instant access to the app and course. I will personally contact you to schedule your first private session.</span></p>
-              <a href={STRIPE_VIP_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Start Your 6-Week Transformation →</a>
+              <a href={PURCHASE_URL} className="sgp-btn solid" onClick={trackLead} target="_blank" rel="noopener noreferrer">Start Your 6-Week Transformation →</a>
             </div>
           </div>
 
@@ -778,12 +781,7 @@ export default function SpeakersGym() {
         </Reveal>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="footer">
-        <div className="footer-logo">THE SPEAKER'S <span>GYM</span></div>
-        <p>© {new Date().getFullYear()} The Speaker's Gym · All Rights Reserved</p>
-        <p style={{ marginTop: 8 }}><a href="/privacy" style={{ color: "var(--accent)", textDecoration: "none" }}>Privacy Policy</a></p>
-      </footer>
+      <SiteFooter />
 
       {/* ── STICKY MOBILE CTA ── */}
       <div className="sticky-cta">
