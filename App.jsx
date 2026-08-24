@@ -658,10 +658,10 @@ export default function SpeakersGym() {
 
           <p className="sgp-eyebrow">Pricing</p>
           <h2 className="sgp-headline">Train Your Voice. Transform Your Career.</h2>
-          <p className="sgp-subline">50% off. This month only.</p>
+          <p className="sgp-subline">34% off. This month only.</p>
 
           <div className="sgp-timer-wrap">
-            <p className="sgp-timer-label">⚡ 50% discount ends in</p>
+            <p className="sgp-timer-label">⚡ 34% discount ends in</p>
             <div className="sgp-timer">
               <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.days}</span><span className="sgp-timer-text">Days</span></div>
               <span className="sgp-timer-sep">:</span>
