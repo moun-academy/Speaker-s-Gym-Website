@@ -658,10 +658,10 @@ export default function SpeakersGym() {
 
           <p className="sgp-eyebrow">Pricing</p>
           <h2 className="sgp-headline">Train Your Voice. Transform Your Career.</h2>
-          <p className="sgp-subline">34% off. This month only.</p>
+          <p className="sgp-subline">50% off. This month only.</p>
 
           <div className="sgp-timer-wrap">
-            <p className="sgp-timer-label">⚡ 34% discount ends in</p>
+            <p className="sgp-timer-label">⚡ 50% discount ends in</p>
             <div className="sgp-timer">
               <div className="sgp-timer-unit"><span className="sgp-timer-num">{countdown.days}</span><span className="sgp-timer-text">Days</span></div>
               <span className="sgp-timer-sep">:</span>
@@ -682,12 +682,12 @@ export default function SpeakersGym() {
                 <p className="sgp-offer-description">A focused coaching experience built around your voice, your challenges, and the real speaking situations that matter in your life and career.</p>
               </div>
               <div className="sgp-price-block">
-                <p className="sgp-original">$300</p>
+                <p className="sgp-original">$399</p>
                 <div className="sgp-price-row">
                   <span className="sgp-price">$197</span>
                   <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $103. Fastest path to results.</p>
+                <p className="sgp-save">Save $202. Fastest path to results.</p>
               </div>
             </div>
             <div className="sgp-rule" />
