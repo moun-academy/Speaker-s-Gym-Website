@@ -267,7 +267,7 @@ function PrivateSalesPage() {
               <h2 id="offer-title">Your Six-Week Speaker's Gym <em>Transformation</em></h2>
               <p>One focused system built around your voice, your goals and the real moments where you want to speak with confidence.</p>
               <div className="offer-price">
-                <div><span>Standard price</span><s>$167</s></div>
+                <div><span>Standard price</span><s>$197</s></div>
                 <div><span>Exclusive new-member offer</span><strong>$147</strong></div>
               </div>
             </div>

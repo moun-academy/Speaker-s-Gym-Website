@@ -684,10 +684,10 @@ export default function SpeakersGym() {
               <div className="sgp-price-block">
                 <p className="sgp-original">$300</p>
                 <div className="sgp-price-row">
-                  <span className="sgp-price">$167</span>
+                  <span className="sgp-price">$197</span>
                   <span className="sgp-period">/ 6 weeks</span>
                 </div>
-                <p className="sgp-save">Save $133. Fastest path to results.</p>
+                <p className="sgp-save">Save $103. Fastest path to results.</p>
               </div>
             </div>
             <div className="sgp-rule" />
@@ -760,6 +760,7 @@ export default function SpeakersGym() {
         <div className="faq-list">
           {[
             { q: "What is included in the Speaker's Gym program?", a: "You receive six weekly private coaching sessions, a communication plan built around your goals, the complete 6-week roadmap, feedback on your real speaking situations, full access to the 3-hour MOUN Academy course, the Premium Speaker's Gym App with AI feedback and performance tracking, between-session support, and the Conversation Playbook bonus." },
+            { q: "How much does the Speaker's Gym program cost?", a: "The complete six-week one-on-one program is $197. This includes six private coaching sessions, the MOUN Academy course, Speaker's Gym App access, performance tracking, personalized feedback, and the Conversation Playbook bonus." },
             { q: "What do we cover in the 6-week program?", a: "Week 1 builds clear, concise answers with PREP. Week 2 develops volume, breathing, and posture. Week 3 focuses on pace, pauses, and calm silence. Week 4 brings in pitch, tonality, and vocal contrast. Week 5 helps you speak before fear wins. Week 6 combines every skill in real meetings, conversations, presentations, and impromptu questions." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
             { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
