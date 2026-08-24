@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import App from './App.jsx'
@@ -8,6 +8,8 @@ import DeleteAccount from './DeleteAccount.jsx'
 import BookACall from './BookACall.jsx'
 import MethodPage from './Method.jsx'
 
+const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -15,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
         <Route path="/method" element={<MethodPage />} />
+        <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
         <Route path="/success" element={<ThankYouCall />} />
         {/* Old booking success URL, redirected so existing links keep working */}
         <Route path="/thank-you-call" element={<Navigate to="/success" replace />} />
