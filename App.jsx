@@ -561,17 +561,17 @@ export default function SpeakersGym() {
         <Reveal className="roadmap-intro">
           <div className="section-label">The Roadmap</div>
           <div className="section-title">The Speaker's Gym: 6-Week Program</div>
-          <p className="section-subtitle">Build clear thinking, a stronger voice, and the confidence to speak when it matters. Every week adds a practical skill you can use immediately.</p>
+          <p className="section-subtitle">Build clear thinking, a stronger voice, and the confidence to speak when it matters. Real-world exposure starts in Week 1 and continues every week.</p>
         </Reveal>
 
         <div className="roadmap-grid">
           {[
-            { w: "1", name: "Think Clearly, Speak Simply", desc: "Use the PREP framework to organize your thoughts, answer questions concisely, and stop rambling under pressure." },
-            { w: "2", name: "Be Heard", desc: "Develop stronger volume, breathing, and posture so you stop shrinking your voice and begin speaking with authority." },
-            { w: "3", name: "Slow Down and Own the Moment", desc: "Control your pace, use intentional pauses, and replace filler words with calm silence." },
-            { w: "4", name: "Bring Your Voice to Life", desc: "Use pitch, melody, tonality, and vocal contrast to sound expressive, engaging, and naturally confident." },
-            { w: "5", name: "Speak Before Fear Wins", desc: "Use the five-second rule to overcome hesitation, contribute during meetings, express opinions, and disagree respectfully." },
-            { w: "6", name: "Communicate With Confidence", desc: "Combine structure, voice, expression, and presence in real meetings, conversations, presentations, and impromptu questions." },
+            { w: "1", name: "PREP + Your Exposure System", desc: "Organize your thoughts with PREP, build your personalized exposure system, and complete your first real-world speaking mission." },
+            { w: "2", name: "Volume + Pauses", desc: "Strengthen your voice, pause with intention, and apply both skills in real situations that matter to you." },
+            { w: "3", name: "Pace + Spontaneous Speaking", desc: "Control your pace and practise answering clearly in the moment without overthinking or rushing." },
+            { w: "4", name: "Pause to Think + Comfort With Silence", desc: "Give yourself time to think, replace filler words with calm silence, and stay composed while attention is on you." },
+            { w: "5", name: "Tone + Pitch + Personality", desc: "Use vocal variation, show more personality, and integrate your structure, volume, pauses, and pace under pressure." },
+            { w: "6", name: "Full Integration + Your Real Target", desc: "Bring every skill into your most important real-world speaking situation and leave with a long-term progress plan." },
           ].map((wk, i) => (
             <Reveal key={i} delay={i * 100}>
               <article className="roadmap-card">
@@ -761,7 +761,7 @@ export default function SpeakersGym() {
           {[
             { q: "What is included in the Speaker's Gym program?", a: "You receive six weekly private coaching sessions, a communication plan built around your goals, the complete 6-week roadmap, feedback on your real speaking situations, full access to the 3-hour MOUN Academy course, the Premium Speaker's Gym App with AI feedback and performance tracking, between-session support, and the Conversation Playbook bonus." },
             { q: "How much does the Speaker's Gym program cost?", a: "The complete six-week one-on-one program is $197. This includes six private coaching sessions, the MOUN Academy course, Speaker's Gym App access, performance tracking, personalized feedback, and the Conversation Playbook bonus." },
-            { q: "What do we cover in the 6-week program?", a: "Week 1 builds clear, concise answers with PREP. Week 2 develops volume, breathing, and posture. Week 3 focuses on pace, pauses, and calm silence. Week 4 brings in pitch, tonality, and vocal contrast. Week 5 helps you speak before fear wins. Week 6 combines every skill in real meetings, conversations, presentations, and impromptu questions." },
+            { q: "What do we cover in the 6-week program?", a: "Week 1 introduces PREP and your personalized exposure system. Week 2 develops volume and intentional pauses. Week 3 builds pace control and spontaneous speaking. Week 4 develops comfort with thinking pauses and silence. Week 5 adds tone, pitch variation, personality, and skill integration. Week 6 brings everything together in your real target situation and creates your long-term plan. Real-world exposure happens every week starting in Week 1." },
             { q: "Is this for beginners or people who already speak well?", a: "Both. Whether you're just starting to work on your speaking or you already present regularly but want to sharpen your delivery, the training adapts to your level through direct feedback and daily practice." },
             { q: "What makes this different from a public speaking course?", a: "Most courses give you theory to watch. This is a training program. You practice speaking live every week, get direct feedback, and build the habit with daily reps on the app. It's closer to working with a personal trainer than watching a course." },
             { q: "How much time do I need each week?", a: "Plan for one 1-hour private coaching session plus 10 to 15 minutes of daily speaking practice. In total, expect around 2 to 3 hours per week." },

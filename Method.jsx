@@ -26,12 +26,12 @@ const assessmentStatements = [
 ];
 
 const programWeeks = [
-  ["1", "Think Clearly", "Learn PREP and simple frameworks that remove the fear of not knowing what to say."],
-  ["2", "Start the Exposure Journey", "Identify your current level, build your first version and begin small real-world speaking actions."],
-  ["3", "Build a Stronger Voice", "Develop volume and vocal strength while continuing your exposure missions."],
-  ["4", "Slow Down and Take Space", "Use pauses, pace and composure while moving higher through the Exposure Ladder."],
-  ["5", "Show More Personality", "Develop vocal variety, expression and body language as confidence becomes more accessible."],
-  ["6", "Communicate Under Pressure", "Apply everything during meetings, interviews, presentations and difficult conversations."],
+  ["1", "PREP + Your Exposure System", "Organize your thoughts, build your personalized exposure system and complete your first real-world mission."],
+  ["2", "Volume + Pauses", "Strengthen your voice and use intentional pauses while continuing your weekly exposure missions."],
+  ["3", "Pace + Spontaneous Speaking", "Control your pace and practise responding clearly without overthinking or rushing."],
+  ["4", "Pause to Think + Comfort With Silence", "Use calm silence to think, replace filler words and stay composed under attention."],
+  ["5", "Tone + Pitch + Personality", "Add vocal variation, show more personality and integrate every skill learned so far."],
+  ["6", "Full Integration + Your Real Target", "Apply the complete method in your target situation and build your long-term progress plan."],
 ];
 
 function useOnScreen(ref, threshold = 0.12) {
@@ -413,7 +413,7 @@ function MethodPage() {
           <Reveal className="method-heading">
             <p className="method-eyebrow">The Method in Action</p>
             <h2>Six weeks. One connected transformation.</h2>
-            <p>Exposure begins in Week 2 and continues through every remaining week. Each new communication skill is carried into real life.</p>
+            <p>Real-world exposure begins in Week 1 and continues every week. Each new communication skill is carried directly into real life.</p>
           </Reveal>
           <div className="program-timeline">
             {programWeeks.map(([week, title, description], index) => (
