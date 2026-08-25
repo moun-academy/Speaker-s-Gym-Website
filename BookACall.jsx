@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import marouanePhoto from "./Marouane.png";
 
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
 const CALENDLY_URL =
@@ -126,17 +125,6 @@ export default function BookACall() {
           background-size: 210px;
           pointer-events: none;
           z-index: 2;
-        }
-
-        .book-bg {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: 70% center;
-          filter: saturate(.82) contrast(1.08);
-          opacity: .58;
         }
 
         .book-nav {
@@ -363,7 +351,6 @@ export default function BookACall() {
               linear-gradient(0deg, rgba(10,10,10,.98) 0%, rgba(10,10,10,.82) 48%, rgba(10,10,10,.38) 100%),
               linear-gradient(90deg, rgba(10,10,10,.84) 0%, rgba(10,10,10,.38) 100%);
           }
-          .book-bg { object-position: 64% top; opacity: .58; }
           .book-shell {
             grid-template-columns: 1fr;
             align-items: start;
@@ -410,7 +397,6 @@ export default function BookACall() {
       `}</style>
 
       <main className="book-page">
-        <img src={marouanePhoto} alt="" className="book-bg" aria-hidden="true" />
         <nav className="book-nav" aria-label="Book a call navigation">
           <a href="/" className="book-logo">THE SPEAKER'S <span>GYM</span></a>
           <a href="/" className="book-back">Back to site</a>
