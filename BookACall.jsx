@@ -197,16 +197,16 @@ export default function BookACall() {
 
         .book-title {
           font-family: var(--font-display);
-          font-size: clamp(3.15rem, 8vw, 6.75rem);
+          font-size: clamp(3rem, 5vw, 6rem);
           font-style: italic;
           font-weight: 600;
           line-height: .98;
           letter-spacing: 0;
           color: #f6efdf;
-          max-width: 640px;
+          max-width: 760px;
           margin-bottom: 24px;
         }
-        .book-title span { display: block; }
+        .book-title span { display: block; white-space: nowrap; }
 
         .book-copy {
           color: #bbb5a6;
@@ -406,10 +406,8 @@ export default function BookACall() {
           <div className="book-content">
             <p className="book-eyebrow">Book a Call</p>
             <h1 className="book-title" id="book-call-title">
-              <span>Your</span>
-              <span>voice</span>
-              <span>deserves</span>
-              <span>a plan.</span>
+              <span>Your Voice</span>
+              <span>Deserves a Plan.</span>
             </h1>
             <p className="book-copy">
               Pick a time for a free 30-minute strategy call. We will look at where your speaking confidence is getting blocked and what to train first.
