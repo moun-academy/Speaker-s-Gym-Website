@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import heroVideoThumbnail from "./4X3A5011.jpg";
 import marouanePhoto from "./Marouane.png";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL, COMMUNITY_URL, PURCHASE_URL } from "./siteConfig.js";
@@ -72,6 +73,7 @@ function FAQ({ q, a }) {
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
   const countdown = useCountdown();
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
 
   const trackLead = () => {
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
@@ -181,6 +183,15 @@ export default function SpeakersGym() {
         .hero-video { max-width:900px; width:100%; margin:48px auto 0; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
         .hero-video-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; }
         .hero-video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+        .hero-video-poster { position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; cursor:pointer; background:#000; color:#fff; display:block; }
+        .hero-video-poster img { width:100%; height:100%; object-fit:cover; display:block; }
+        .hero-video-poster::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(0,0,0,.3)); transition:background .2s ease; }
+        .hero-video-poster:hover::after { background:rgba(0,0,0,.12); }
+        .hero-video-play { position:absolute; z-index:1; left:50%; top:50%; width:76px; height:76px; transform:translate(-50%,-50%); border-radius:50%; background:var(--accent); box-shadow:0 8px 35px rgba(0,0,0,.4); display:grid; place-items:center; transition:transform .2s ease, box-shadow .2s ease; }
+        .hero-video-play::before { content:''; width:0; height:0; margin-left:5px; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:19px solid #111; }
+        .hero-video-poster:hover .hero-video-play { transform:translate(-50%,-50%) scale(1.06); box-shadow:0 10px 42px rgba(0,0,0,.5); }
+        .hero-video-poster:focus-visible { outline:3px solid var(--accent); outline-offset:-3px; }
+        @media(max-width:600px) { .hero-video-play { width:60px; height:60px; } }
 
         /* ── PROOF STAT BAND ── */
         .proof-band { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px; padding:36px 32px; background:var(--surface); border:1px solid var(--border); border-radius:16px; }
@@ -445,13 +456,29 @@ export default function SpeakersGym() {
             <Reveal delay={380}>
               <div className="hero-video">
                 <div className="hero-video-embed">
-                  <iframe
-                    src="https://www.youtube-nocookie.com/embed/ast-27XSUsE?rel=0&modestbranding=1"
-                    title="Speaker's Gym video"
-                    loading="lazy"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
+                  {heroVideoPlaying ? (
+                    <iframe
+                      src="https://player.vimeo.com/video/1221427112?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                      title="VSL final-1"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      className="hero-video-poster"
+                      onClick={() => setHeroVideoPlaying(true)}
+                      aria-label="Play Speaker's Gym video with sound"
+                    >
+                      <img
+                        src={heroVideoThumbnail}
+                        alt=""
+                        loading="lazy"
+                      />
+                      <span className="hero-video-play" aria-hidden="true" />
+                    </button>
+                  )}
                 </div>
               </div>
             </Reveal>
