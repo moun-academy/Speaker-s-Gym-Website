@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Khadija's private six-week Speaker's Gym communication journey." />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="theme-color" content="#101a17" />
+    <title>Khadija's Speaking Journey | Speaker's Gym</title>
+    <link rel="icon" href="Logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="lecture.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <button class="menu-close" type="button" aria-label="Close navigation">×</button>
+        <a class="brand" href="#top" aria-label="Speaker's Gym home">
+          <img class="brand-logo" src="Logo.png" alt="" />
+          <span class="brand-copy">
+            <strong>THE SPEAKER'S GYM</strong>
+            <small>Private coaching portal</small>
+          </span>
+        </a>
+
+        <nav class="side-nav">
+          <a class="active" href="#today" data-nav="today"><span>01</span> Today</a>
+          <a href="#exposure" data-nav="exposure"><span>02</span> My levels</a>
+          <a href="#journey" data-nav="journey"><span>03</span> My journey</a>
+          <a href="#reflection" data-nav="reflection"><span>04</span> Reflections</a>
+        </nav>
+
+        <div class="sidebar-resources" aria-label="Program resources">
+          <small>Quick access</small>
+          <a href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noreferrer">Practice app <span aria-hidden="true">↗</span></a>
+          <a href="https://www.skool.com/moun-academy-2097" target="_blank" rel="noreferrer">Community <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="sidebar-quote">
+          <span class="eyebrow light">Your reminder</span>
+          <blockquote>“I can pause, look up and say one clear thing.”</blockquote>
+        </div>
+
+        <div class="coach-card">
+          <div class="coach-avatar" aria-hidden="true">M</div>
+          <div>
+            <small>Your coach</small>
+            <strong>Marouane</strong>
+          </div>
+          <span class="online-dot" title="Coach support"></span>
+        </div>
+      </aside>
+
+      <button class="menu-backdrop" type="button" aria-label="Close navigation"></button>
+
+      <main id="top">
+        <header class="topbar">
+          <button class="mobile-menu" type="button" aria-label="Open navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <p class="date-label" id="todayDate">Tuesday, August 4</p>
+            <h1 id="clientWelcome">Welcome back.</h1>
+          </div>
+          <div class="top-actions">
+            <a class="text-link" href="https://www.skool.com/moun-academy-2097" target="_blank" rel="noreferrer">
+              Open community <span aria-hidden="true">↗</span>
+            </a>
+            <a class="button button-dark" href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noreferrer">
+              Open Speaker's Gym app <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="purpose-card" aria-labelledby="purpose-title">
+            <div class="purpose-copy">
+              <span class="eyebrow">Your reason for showing up</span>
+              <h2 id="purpose-title">Your experience is ready to lead.</h2>
+              <p>
+                You are building the ability to stay present with new people, organize your thoughts under pressure and communicate your experience with calm, concise authority.
+              </p>
+            </div>
+            <div class="outcome-card">
+              <span class="outcome-icon" aria-hidden="true">✦</span>
+              <div>
+                <small>Your six-week vision</small>
+                <p>I make eye contact, stay composed and express one clear idea even when pressure appears. I communicate like the experienced professional and future leader I am.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="progress-strip" aria-label="Program progress">
+            <div class="progress-main">
+              <div class="progress-ring" id="progressRing" style="--progress: 0">
+                <span id="progressPercent">0%</span>
+              </div>
+              <div>
+                <span class="eyebrow">Overall progress</span>
+                <strong id="progressSummary">Week 1 · Day 1 of 42</strong>
+              </div>
+            </div>
+            <div class="metric">
+              <span class="metric-icon flame" aria-hidden="true">◆</span>
+              <div><strong id="streakValue">0</strong><small>day streak</small></div>
+            </div>
+            <div class="metric">
+              <span class="metric-icon" aria-hidden="true">✓</span>
+              <div><strong id="courageValue">0</strong><small>real-world reps</small></div>
+            </div>
+            <button class="start-date-button" id="startDateButton" type="button">
+              <small>Program started</small>
+              <strong id="startDateLabel">Today</strong>
+              <span aria-hidden="true">⌄</span>
+            </button>
+            <input type="date" id="startDateInput" aria-label="Program start date" />
+          </section>
+
+          <section class="today-section" id="today" aria-labelledby="today-title">
+            <div class="section-heading">
+              <div>
+                <span class="eyebrow" id="todayWeekLabel">Week 1 · Structure</span>
+                <h2 id="today-title">Today’s practice</h2>
+              </div>
+              <div class="day-switcher" aria-label="Change program day">
+                <button id="previousDay" type="button" aria-label="Previous day">←</button>
+                <span id="daySwitcherLabel">Day 1</span>
+                <button id="nextDay" type="button" aria-label="Next day">→</button>
+              </div>
+            </div>
+
+            <div class="today-grid">
+              <article class="daily-plan card">
+                <div class="card-heading">
+                  <div class="day-number" id="dayNumber">01</div>
+                  <div>
+                    <span class="eyebrow" id="dayType">Foundation day</span>
+                    <h3 id="dayTitle">Find your starting point</h3>
+                  </div>
+                </div>
+                <div class="practice-duration"><span aria-hidden="true">◷</span> Your 15-minute practice ritual</div>
+                <p class="day-intention" id="dayIntention">Today is not about being impressive. It is about creating honest evidence of where you are beginning.</p>
+                <div class="task-list" id="taskList"></div>
+                <div class="daily-completion">
+                  <div>
+                    <span id="taskCount">0 of 3 complete</span>
+                    <div class="mini-progress"><span id="taskProgress"></span></div>
+                  </div>
+                  <button class="button button-accent" id="completeDayButton" type="button">Complete today</button>
+                </div>
+              </article>
+
+              <aside class="focus-panel card">
+                <span class="eyebrow">This week’s transformation</span>
+                <h3 id="focusTitle">Think Clearly, Speak Simply</h3>
+                <div class="why-block">
+                  <span>WHY THIS MATTERS</span>
+                  <p id="focusWhy">You have valuable opinions. Structure helps you trust yourself enough to express them.</p>
+                </div>
+                <div class="outcome-line">
+                  <span class="check-seal" aria-hidden="true">✓</span>
+                  <p><strong>By Sunday:</strong> <span id="focusOutcome">You can deliver one clear workplace opinion without rambling.</span></p>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="exposure-dashboard" id="exposure" aria-labelledby="exposure-title">
+            <div class="section-heading journey-heading exposure-heading">
+              <div>
+                <span class="eyebrow">Your communication exposure path</span>
+                <h2 id="exposure-title">One level at a time.</h2>
+              </div>
+              <p>Your level is not your identity. It is simply the highest communication behavior you can repeat reliably today.</p>
+            </div>
+
+            <div class="exposure-dashboard-shell">
+              <div class="exposure-summary-bar">
+                <div><small>YOU ARE HERE</small><strong id="mainCurrentLevel">Level 1 · Ask One Question</strong></div>
+                <span aria-hidden="true">→</span>
+                <div><small>PRACTISE NEXT</small><strong id="mainNextLevel">Level 2 · Be Seen Practising</strong></div>
+                <button class="button button-dark" type="button" data-open-week2-lecture>Open Lecture 2</button>
+              </div>
+              <div class="exposure-axis"><span>START SMALL</span><i></i><span>FREEDOM OF EXPRESSION</span></div>
+              <div class="exposure-rail" id="mainExposureStaircase" role="group" aria-label="Your ten communication exposure levels"></div>
+              <div class="main-level-focus" id="mainExposureDetail" aria-live="polite"></div>
+              <details class="exposure-plan-disclosure">
+                <summary>See the next-level practice plan <span aria-hidden="true">+</span></summary>
+                <div class="main-exposure-plan" id="mainExposurePlan"></div>
+              </details>
+              <p class="exposure-reliability"><strong>Move up after three repetitions.</strong> Build reliability first. Comfort follows.</p>
+            </div>
+          </section>
+
+          <section class="journey-section" id="journey" aria-labelledby="journey-title">
+            <div class="section-heading journey-heading">
+              <div>
+                <span class="eyebrow">Full visibility, one focus at a time</span>
+                <h2 id="journey-title">Your six-week journey</h2>
+              </div>
+              <p>Every week builds evidence that the confident version of you is already emerging.</p>
+            </div>
+            <div class="week-roadmap" id="weekRoadmap"></div>
+
+            <article class="week-detail" id="weekDetail">
+              <div class="week-detail-top">
+                <div>
+                  <span class="eyebrow" id="detailWeek">Week 1 lecture</span>
+                  <h3 id="detailTitle">Think Clearly, Speak Simply</h3>
+                </div>
+                <span class="week-status" id="weekStatus">Current focus</span>
+              </div>
+              <div class="week-quick-view">
+                <div><span class="detail-label">WEEKLY OUTCOME</span><p id="weekOutcomeSummary"></p></div>
+                <div><span class="detail-label">CORE SKILL</span><strong id="weekCoreSkill"></strong></div>
+                <div class="coach-call-pill"><span>60</span><p><strong>Minutes with your coach</strong><small>Review, learn and practise live</small></p></div>
+              </div>
+              <div class="lecture-entry" id="week2LectureEntry" hidden>
+                <div id="week2LectureStatus">
+                  <strong>Live coaching experience</strong>
+                  <span>Understand, choose, speak, repeat and commit.</span>
+                </div>
+                <button class="button button-accent" id="week2LectureButton" data-open-week2-lecture type="button">Start Lecture 2</button>
+              </div>
+              <details class="week-plan-disclosure">
+                <summary>Explore this week's complete coaching plan <span aria-hidden="true">+</span></summary>
+                <div class="week-detail-grid">
+                  <div>
+                    <span class="detail-label">YOU WILL LEARN</span>
+                    <ul class="learn-list" id="learnList"></ul>
+                  </div>
+                  <div>
+                    <span class="detail-label">COACHING SPOTLIGHT SPEECH</span>
+                    <p class="spotlight-copy" id="spotlightCopy"></p>
+                  </div>
+                  <div>
+                    <span class="detail-label">REAL-LIFE MISSIONS</span>
+                    <div class="mission-card work"><small>AT WORK</small><p id="workMission"></p></div>
+                    <div class="mission-card home"><small>AT HOME</small><p id="homeMission"></p></div>
+                  </div>
+                </div>
+              </details>
+            </article>
+          </section>
+
+          <section class="reflection-section" id="reflection" aria-labelledby="reflection-title">
+            <div class="section-heading journey-heading">
+              <div>
+                <span class="eyebrow">Your evidence journal</span>
+                <h2 id="reflection-title">Save what your progress proves.</h2>
+              </div>
+              <p>Every honest reflection becomes evidence you can return to when confidence feels uncertain.</p>
+            </div>
+            <div class="reflection-experience">
+              <div class="reflection-panel">
+                <div class="reflection-copy">
+                  <span class="eyebrow">Reflection turns action into confidence</span>
+                  <h3>What did today prove?</h3>
+                  <div class="reflection-prompt">
+                    <span aria-hidden="true">“</span>
+                    <p id="reflectionPrompt">Where did I choose action before perfection today?</p>
+                  </div>
+                </div>
+                <form class="reflection-form card" id="reflectionForm">
+                  <div class="reflection-meta">
+                    <div><span class="eyebrow" id="reflectionDay">Day 1 reflection</span><h3 id="reflectionTopic">Find your starting point</h3></div>
+                    <span class="saved-badge" id="savedBadge" aria-live="polite">Saved</span>
+                  </div>
+                  <label for="reflectionText">Your reflection</label>
+                  <textarea id="reflectionText" rows="4" placeholder="What happened? What did you notice? What will you carry forward?"></textarea>
+                  <fieldset>
+                    <legend>How confident did you feel after the practice?</legend>
+                    <div class="confidence-scale" id="confidenceScale">
+                      <label><input type="radio" name="confidence" value="1" /><span>1<small>Unsteady</small></span></label>
+                      <label><input type="radio" name="confidence" value="2" /><span>2<small>Unsure</small></span></label>
+                      <label><input type="radio" name="confidence" value="3" /><span>3<small>Growing</small></span></label>
+                      <label><input type="radio" name="confidence" value="4" /><span>4<small>Strong</small></span></label>
+                      <label><input type="radio" name="confidence" value="5" /><span>5<small>Free</small></span></label>
+                    </div>
+                  </fieldset>
+                  <button class="button button-dark" type="submit">Save reflection</button>
+                </form>
+              </div>
+              <aside class="reflection-history card" aria-labelledby="saved-reflections-title">
+                <div class="reflection-history-head">
+                  <div>
+                    <span class="eyebrow">Your growing evidence</span>
+                    <h3 id="saved-reflections-title">Saved reflections</h3>
+                  </div>
+                  <strong id="reflectionCount">0</strong>
+                </div>
+                <div class="reflection-history-list" id="reflectionHistory" aria-live="polite"></div>
+              </aside>
+            </div>
+          </section>
+
+          <footer>
+            <div class="brand footer-brand">
+              <img class="brand-logo" src="Logo.png" alt="" />
+              <span class="brand-copy"><strong>THE SPEAKER'S GYM</strong><small>Communication is a skill. Train it.</small></span>
+            </div>
+            <p id="clientFooter">Private six-week coaching journey · Progress is saved on this device.</p>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="lectureRoot"></div>
+    <script src="client-config.js"></script>
+    <script src="exposure-levels.js"></script>
+    <script src="app.js"></script>
+    <script src="lecture.js"></script>
+  </body>
+</html>

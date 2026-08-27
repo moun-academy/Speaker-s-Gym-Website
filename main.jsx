@@ -7,6 +7,7 @@ import Privacy from './Privacy.jsx'
 import DeleteAccount from './DeleteAccount.jsx'
 import BookACall from './BookACall.jsx'
 import MethodPage from './Method.jsx'
+import KhadijaPortal from './KhadijaPortal.jsx'
 
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
 
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/book-a-call" element={<BookACall />} />
         <Route path="/method" element={<MethodPage />} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
+        <Route path="/khadija" element={<KhadijaPortal />} />
         <Route path="/success" element={<ThankYouCall />} />
         {/* Old booking success URL, redirected so existing links keep working */}
         <Route path="/thank-you-call" element={<Navigate to="/success" replace />} />
