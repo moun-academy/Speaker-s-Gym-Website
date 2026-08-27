@@ -137,7 +137,7 @@
         </section>
 
         <section class="keynote-section live-practice" data-reveal>
-          <p class="eyebrow">PRACTISE THE NEXT LEVEL NOW</p>
+          <p class="eyebrow">PRACTICE THE NEXT LEVEL NOW</p>
           <h2>Three attempts.<br />The same small behavior.</h2>
           <div class="practice-sequence">
             <article><span>01</span><strong>Choose</strong><p>Use the next-level behavior shown above.</p></article>
@@ -171,7 +171,7 @@
           </div>
           <div class="final">
             <h2>Do not come back with perfection.<br /><strong>Come back with evidence.</strong></h2>
-            <p>Use the technique. Practise the next level. Collect the evidence.</p>
+            <p>Use the technique. Practice the next level. Collect the evidence.</p>
           </div>
         </section>
       </main>
@@ -215,7 +215,7 @@
       button.setAttribute("aria-pressed", level === selected);
       button.querySelector("em")?.remove();
       if (state === "current") button.insertAdjacentHTML("beforeend", "<em>You are here</em>");
-      if (state === "next" && nextNumber !== selected) button.insertAdjacentHTML("beforeend", "<em>Practise next</em>");
+      if (state === "next" && nextNumber !== selected) button.insertAdjacentHTML("beforeend", "<em>Practice next</em>");
     });
 
     root.querySelector(".level-detail").innerHTML = exposure.detail(selected);

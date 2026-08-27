@@ -28,7 +28,7 @@
       meaning: "Move from avoiding unfamiliar interactions to participating in one manageable way.",
       actions: ["Choose a situational question", "Begin within five seconds", "Stay present for the complete answer"],
       starter: "Can I ask you one quick question?",
-      practice: "Practise three natural questions in the app with calm volume and pace.",
+      practice: "Practice three natural questions in the app with calm volume and pace.",
       community: "Post your strongest opener and name the real situation where you will use it.",
       evidence: "The question was asked and the answer was heard without leaving early."
     },
@@ -45,7 +45,7 @@
     {
       name: "Start an Unplanned Conversation",
       behavior: "Initiate and sustain a two-minute conversation with someone less familiar.",
-      meaning: "Practise staying available when an interaction was not completely scripted in advance.",
+      meaning: "Practice staying available when an interaction was not completely scripted in advance.",
       actions: ["Use one natural opener", "Ask one follow-up question", "Share one thought of your own"],
       starter: "How has your day been so far?",
       practice: "Role-play an opener, follow-up and personal response in the app.",
@@ -75,7 +75,7 @@
     {
       name: "Lead a Short Discussion",
       behavior: "Guide a five-minute professional conversation with structure, eye contact and follow-up questions.",
-      meaning: "Practise the visible behaviors of leadership in a manageable setting.",
+      meaning: "Practice the visible behaviors of leadership in a manageable setting.",
       actions: ["State the purpose", "Invite one response", "Summarize the decision or next step"],
       starter: "The goal of this conversation is...",
       practice: "Record a two-minute opening and closing for the discussion in the app.",
@@ -113,7 +113,7 @@
       const number = index + 1;
       const state = number < selected ? "done" : number === selected ? "current" : number === next ? "next" : "ahead";
       const marker = number === selected ? "<em>You are here</em>"
-        : number === next && next !== selected ? "<em>Practise next</em>" : "";
+        : number === next && next !== selected ? "<em>Practice next</em>" : "";
       return `<button type="button" class="step ${state}" ${attribute}="${number}" style="--rise:${index}" aria-pressed="${number === selected}">
         <span class="step-number">${String(number).padStart(2, "0")}</span>
         <span class="step-copy"><strong>${level.name}</strong><small>${level.behavior}</small></span>
@@ -144,7 +144,7 @@
         <ul>${next.actions.map(action => `<li>${action}</li>`).join("")}</ul>
         <blockquote><small>FIRST SENTENCE</small>${next.starter}</blockquote>
         <div class="exposure-plan">
-          <div><small>PRACTISE IN THE APP</small><p>${next.practice}</p></div>
+          <div><small>PRACTICE IN THE APP</small><p>${next.practice}</p></div>
           <div><small>POST ON SKOOL</small><p>${next.community}</p></div>
           <div><small>COLLECT THE EVIDENCE</small><p>${next.evidence}</p></div>
         </div>

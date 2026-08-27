@@ -17,13 +17,13 @@ const weeks = [
     work: "Share one clear recommendation or observation during a professional conversation.",
     home: "Explain one everyday opinion in three clear sentences.",
     days: [
-      day("Foundation day", "Create your baseline", "Your starting point is information, not a judgment.", "Record a 90-second answer about a change you would make at work", "Notice where your voice, eye contact or thoughts become unsteady", "Write the situations that trigger the most pressure", "What happens in my body and thoughts when pressure begins?"),
-      day("Framework day", "Build with PREP", "Structure gives your thoughts somewhere to go.", "Turn three workplace opinions into PREP keywords", "Practise one answer in the Speaker's Gym app", "Deliver it once without reading a script", "Which part of PREP helped me stay clear?"),
-      day("Conciseness day", "Say the point first", "Leadership communication begins with a clear recommendation.", "Answer one question in 30 seconds", "Remove every sentence that does not support the main point", "Repeat the shorter version in the app", "What became stronger when I used fewer words?"),
-      day("Recovery day", "Return after a blank", "A pause is a recovery tool, not proof that you failed.", "Intentionally stop halfway through an answer", "Pause, breathe and say: Let me put that clearly", "Restart with your main point", "What helped me continue instead of retreating?"),
-      day("Real-world day", "Contribute one clear idea", "Confidence grows when your skill enters a real situation.", "Choose one useful observation from your work", "Prepare only three PREP keywords", "Share the idea with a colleague or supervisor", "What happened after I made my thinking visible?"),
-      day("Spotlight day", "Let your experience be heard", "Your professional experience deserves a concise voice.", "Record your 90-second PREP opinion", "Post your honest attempt in the community", "Ask whether your main point was easy to follow", "What part of this speech already sounds leader-like?"),
-      day("Integration day", "Keep the evidence", "Reflection teaches your brain to recognize progress.", "Compare your first and final Week 1 recordings", "Name three visible improvements", "Choose one structure cue for next week", "What can I now do more clearly than seven days ago?")
+      weekOneDay("Coaching day", "Think clearly, speak simply", "Today is a coaching session. Build PREP, speak twice and accept one real-world mission.", "Open the Week 1 coaching experience and accept your mission", "Practice another PREP response", "Record an extra Version in the Speaker's Gym app", "Which part of PREP made speaking feel easier?"),
+      weekOneDay("Mission day", "Use the skill once", "One meaningful action is enough. The win is attempting it.", "Attempt your accepted Week 1 Mission", "Practice another PREP response", "Share an optional rep with the community", "What happened when I acted before I felt completely ready?"),
+      weekOneDay("Mission day", "Collect real evidence", "Reality is more useful than the prediction your mind made in advance.", "Attempt your accepted Week 1 Mission", "Record another Version", "Ask AI for one optional focus point", "What did reality show me?"),
+      weekOneDay("Mission day", "Speak from anchors", "Remember the idea, not the sentence.", "Attempt your accepted Week 1 Mission", "Practice from four PREP keywords", "Try one gentle workplace question", "What helped me continue without a script?"),
+      weekOneDay("Mission day", "Make your thinking visible", "A clear contribution is evidence, even when nerves are present.", "Attempt your accepted Week 1 Mission", "Practice a second workplace PREP answer", "Share an optional community update", "What did I make visible by speaking?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Confidence grows when you notice what your action proved.", "Return to Week 1 and record what actually happened", "Record one extra PREP Version", "Share your evidence card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep the evidence", "One completed exposure can become a reference point for the next one.", "Complete your Week 1 Mission reflection", "Practice another PREP response", "Choose one PREP cue to carry into Week 2", "What can I now do more clearly than seven days ago?")
     ]
   },
   {
@@ -35,11 +35,11 @@ const weeks = [
     learn: ["Breath-supported volume", "Steady sentence endings", "Starting despite a shaky voice", "Choosing your current exposure level", "Using gentle eye contact"],
     spotlight: "Deliver a 60-second PREP answer with grounded volume and two intentional moments of eye contact.",
     work: "Use a stronger opening sentence in one professional interaction.",
-    home: "Practise comfortable eye contact while completing one full thought.",
+    home: "Practice comfortable eye contact while completing one full thought.",
     days: [
-      day("Breath day", "Steady the first sentence", "You do not need to eliminate nerves before you begin.", "Take one low breath and speak on the exhale", "Practise three opening sentences at normal volume", "Notice what reduces throat and jaw tension", "What helped my voice settle after I started?"),
+      day("Breath day", "Steady the first sentence", "You do not need to eliminate nerves before you begin.", "Take one low breath and speak on the exhale", "Practice three opening sentences at normal volume", "Notice what reduces throat and jaw tension", "What helped my voice settle after I started?"),
       day("Volume day", "Project without pushing", "Being clearly heard is not the same as being aggressive.", "Say one sentence at quiet, normal and strong volume", "Choose the level that sounds grounded", "Repeat it in the app with relaxed shoulders", "Which volume felt confident and still like me?"),
-      day("Eye-contact day", "Look up, then return", "Eye contact can be brief, natural and manageable.", "Practise looking at the listener for one complete phrase", "Look away naturally while thinking", "Return for your final sentence", "What made eye contact feel safer today?"),
+      day("Eye-contact day", "Look up, then return", "Eye contact can be brief, natural and manageable.", "Practice looking at the listener for one complete phrase", "Look away naturally while thinking", "Return for your final sentence", "What made eye contact feel safer today?"),
       day("Level day", "Choose your current reliable level", "Your level is a training position, not an identity.", "Open the level-based coaching experience", "Choose the highest behavior you can repeat reliably", "Write three small next-level attempts", "Why is this level challenging and possible?"),
       day("Exposure day", "Complete one small visible action", "Action gives your brain new evidence about what is safe.", "Use your next-level first sentence", "Complete one real interaction within five seconds", "Record exactly what happened afterward", "What did reality teach me that anxiety did not?"),
       day("Spotlight day", "Sound present", "We measure observable behavior, not how nervous you felt.", "Record a one-minute structured answer", "Use grounded volume and two moments of eye contact", "Post it in the community for one focus point", "Which behavior became more reliable?"),
@@ -77,7 +77,7 @@ const weeks = [
     days: [
       day("Awareness day", "Notice the rush", "Awareness creates choice.", "Record one unexpected answer", "Mark where your pace speeds up or your thoughts disappear", "Choose one place where a pause would help", "What triggers me to rush?"),
       day("Pause day", "Let silence support you", "A pause can sound composed even when you feel nervous.", "Pause before your first word", "Breathe without adding filler words", "Repeat one answer in the app", "What changed when I allowed the silence?"),
-      day("Thinking-time day", "Buy time with confidence", "You can ask for a moment without losing credibility.", "Practise: Let me think about that for a moment", "Choose three keywords before continuing", "Answer with one clear point", "Which phrase helped me feel most in control?"),
+      day("Thinking-time day", "Buy time with confidence", "You can ask for a moment without losing credibility.", "Practice: Let me think about that for a moment", "Choose three keywords before continuing", "Answer with one clear point", "Which phrase helped me feel most in control?"),
       day("Blank-mind day", "Recover without retreating", "A blank moment does not have to end the conversation.", "Stop intentionally during an answer", "Look up, breathe and restate the question", "Continue from one PREP keyword", "What proves that I can recover?"),
       day("Real-world day", "Pause in the real moment", "The skill becomes reliable when it leaves practice.", "Choose one likely professional question", "Use one full pause before answering", "Record what the listener actually did", "How did the pause affect the interaction?"),
       day("Spotlight day", "Stay composed through surprise", "Composure means continuing with choice.", "Ask someone to give you three surprise questions", "Use a pause and one recovery phrase", "Post your strongest answer for feedback", "Where did I sound most composed?"),
@@ -92,13 +92,13 @@ const weeks = [
     learn: ["Starting conversations", "Open questions and follow-ups", "Sharing your perspective", "Natural eye contact", "Professional presence"],
     spotlight: "Lead a five-minute conversation that moves from a simple opener to a meaningful exchange.",
     work: "Initiate one conversation with a colleague you do not normally speak with.",
-    home: "Practise curiosity, listening and personal sharing in one relaxed conversation.",
+    home: "Practice curiosity, listening and personal sharing in one relaxed conversation.",
     days: [
       day("Opener day", "Start naturally", "A conversation only needs one simple opening.", "Prepare three situational openers", "Say each opener with a warm tone and brief eye contact", "Use one with someone less familiar", "What happened after I opened the door?"),
-      day("Curiosity day", "Ask what invites more", "Open questions reduce the pressure to perform.", "Turn five closed questions into open questions", "Practise asking them naturally", "Use one and listen to the full answer", "Which question created the most openness?"),
-      day("Follow-up day", "Stay with the answer", "Connection grows when people feel genuinely heard.", "Practise two follow-up questions", "Reflect back one detail you heard", "Keep your attention on the other person", "What did I notice when I stopped monitoring myself?"),
+      day("Curiosity day", "Ask what invites more", "Open questions reduce the pressure to perform.", "Turn five closed questions into open questions", "Practice asking them naturally", "Use one and listen to the full answer", "Which question created the most openness?"),
+      day("Follow-up day", "Stay with the answer", "Connection grows when people feel genuinely heard.", "Practice two follow-up questions", "Reflect back one detail you heard", "Keep your attention on the other person", "What did I notice when I stopped monitoring myself?"),
       day("Sharing day", "Let yourself be known", "A real conversation includes some of your perspective too.", "Respond with one opinion or related experience", "Keep it concise and connected to what was said", "Notice whether the conversation deepens", "How comfortable was I sharing more of myself?"),
-      day("Work connection day", "Initiate professionally", "Leadership starts with visible, human connection.", "Choose a colleague you rarely speak with", "Open a short work-related conversation", "Ask one follow-up and share one useful thought", "What leadership quality did I practise?"),
+      day("Work connection day", "Initiate professionally", "Leadership starts with visible, human connection.", "Choose a colleague you rarely speak with", "Open a short work-related conversation", "Ask one follow-up and share one useful thought", "What leadership quality did I practice?"),
       day("Spotlight day", "Lead a complete conversation", "Presence is measured through connection, not perfect wording.", "Hold a five-minute conversation with someone less familiar", "Use eye contact, curiosity and one personal contribution", "Write the moment you felt most present", "Which part felt more natural than before?"),
       day("Integration day", "Recognize social courage", "Every completed conversation expands what feels possible.", "Review three conversations from this week", "Name the strongest connection behavior", "Choose one weekly conversation ritual", "What evidence shows I can connect beyond my comfort zone?")
     ]
@@ -129,10 +129,18 @@ function day(type, title, intention, task1, task2, task3, prompt) {
     type, title, intention, prompt,
     tasks: [
       { title: task1, description: `Complete this first focused step for ${title.toLowerCase()}.`, tag: "5 min" },
-      { title: task2, description: "Practise deliberately, then notice one observable change.", tag: "5 min" },
+      { title: task2, description: "Practice deliberately, then notice one observable change.", tag: "5 min" },
       { title: task3, description: "Take the skill into a visible action and save the evidence.", tag: "5 min" }
     ]
   };
+}
+
+function weekOneDay(type, title, intention, required, optionalOne, optionalTwo, prompt) {
+  const item = day(type, title, intention, required, optionalOne, optionalTwo, prompt);
+  item.tasks[0] = { ...item.tasks[0], kind: "required", tag: "Required" };
+  item.tasks[1] = { ...item.tasks[1], kind: "optional", tag: "Optional" };
+  item.tasks[2] = { ...item.tasks[2], kind: "optional", tag: "Optional" };
+  return item;
 }
 
 const defaultState = {
@@ -143,6 +151,28 @@ const defaultState = {
   completedDays: {},
   reflections: {},
   confidence: {},
+  evidenceBank: [],
+  week1Lecture: {
+    currentStep: 0,
+    selectedTopic: "",
+    prep: { point: "", reason: "", example: "", finalPoint: "" },
+    keywords: { point: "", reason: "", example: "", finalPoint: "" },
+    versionsCompleted: 0,
+    coachImprovement: "",
+    workplaceQuestion: "",
+    workplacePrep: { point: "", reason: "", example: "", finalPoint: "" },
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    completedAt: null,
+    lastViewedAt: null
+  },
   week2Lecture: {
     currentLevel: null,
     missions: ["", "", ""],
@@ -163,6 +193,14 @@ function loadState() {
     return {
       ...defaultState,
       ...stored,
+      evidenceBank: Array.isArray(stored?.evidenceBank) ? stored.evidenceBank : [],
+      week1Lecture: {
+        ...defaultState.week1Lecture,
+        ...(stored?.week1Lecture || {}),
+        prep: { ...defaultState.week1Lecture.prep, ...(stored?.week1Lecture?.prep || {}) },
+        keywords: { ...defaultState.week1Lecture.keywords, ...(stored?.week1Lecture?.keywords || {}) },
+        workplacePrep: { ...defaultState.week1Lecture.workplacePrep, ...(stored?.week1Lecture?.workplacePrep || {}) }
+      },
       week2Lecture: {
         ...defaultState.week2Lecture,
         ...(stored?.week2Lecture || {}),
@@ -249,10 +287,13 @@ function renderToday() {
   $("#dayType").textContent = currentDay.type;
   $("#dayTitle").textContent = currentDay.title;
   $("#dayIntention").textContent = currentDay.intention;
+  $("#practiceDuration").innerHTML = weekIndex === 0 && dayOfWeek === 0
+    ? '<span aria-hidden="true">◷</span> Your 60-minute coaching session'
+    : '<span aria-hidden="true">◷</span> Your 15-minute practice ritual';
   $("#focusTitle").textContent = week.title;
   $("#focusWhy").textContent = week.why;
   $("#focusOutcome").textContent = week.outcome;
-  $("#taskCount").textContent = `${tasksDone} of 3 complete`;
+  $("#taskCount").textContent = weekIndex === 0 ? "One mission · optional extra reps" : `${tasksDone} of 3 complete`;
   $("#taskProgress").style.width = `${(tasksDone / 3) * 100}%`;
 
   const complete = Boolean(state.completedDays[dayKey(state.selectedDay)]);
@@ -261,7 +302,7 @@ function renderToday() {
 
   $("#taskList").innerHTML = currentDay.tasks.map((task, i) => {
     const done = Boolean(state.completedTasks[taskKey(state.selectedDay, i)]);
-    return `<label class="task-item ${done ? "done" : ""}">
+    return `<label class="task-item ${task.kind || "standard"} ${done ? "done" : ""}">
       <input type="checkbox" data-task-index="${i}" ${done ? "checked" : ""} />
       <span class="task-check" aria-hidden="true">✓</span>
       <span class="task-copy"><strong>${task.title}</strong><small>${task.description}</small></span>
@@ -283,6 +324,14 @@ function renderToday() {
 function renderActiveVersion() {
   const panel = $("#activeVersionMission");
   if (!panel) return;
+  const week1 = state.week1Lecture;
+  if (week1?.missionStatus && week1.missionStatus !== "not-started" && week1.mission) {
+    panel.hidden = false;
+    $("#activeVersionLevel").textContent = `Week 1 · Level ${week1.missionLevel || state.week2Lecture.currentLevel || 1}`;
+    $("#activeVersionTitle").textContent = week1.missionStatus === "completed" ? "Evidence collected" : "Your accepted mission";
+    $("#activeVersionMissions").innerHTML = `<li>${escapeHTML(week1.mission)}</li>`;
+    return;
+  }
   const lecture = state.week2Lecture;
   const missions = (lecture?.missions || []).filter(Boolean);
   if (!lecture?.currentLevel && !missions.length) {
@@ -329,7 +378,7 @@ function renderExposureDashboard() {
     </article>
     <span class="level-focus-arrow" aria-hidden="true">→</span>
     <article class="level-focus-card next">
-      <small>${isTop ? "KEEP EXPRESSING" : "PRACTISE NEXT"}</small>
+      <small>${isTop ? "KEEP EXPRESSING" : "PRACTICE NEXT"}</small>
       <span>LEVEL ${next}</span>
       <h3>${nextLevel.name}</h3>
       <p>${nextLevel.behavior}</p>
@@ -337,7 +386,7 @@ function renderExposureDashboard() {
     </article>
     ${missions.length ? `<article class="level-focus-card commitments"><small>THIS WEEK</small><ul>${missions.map(mission => `<li>${escapeHTML(mission)}</li>`).join("")}</ul></article>` : ""}`;
 
-  plan.innerHTML = `<div><small>PRACTISE IN THE APP</small><p>${nextLevel.practice}</p></div>
+  plan.innerHTML = `<div><small>PRACTICE IN THE APP</small><p>${nextLevel.practice}</p></div>
     <div><small>POST ON SKOOL</small><p>${nextLevel.community}</p></div>
     <div><small>COLLECT THE EVIDENCE</small><p>${nextLevel.evidence}</p></div>`;
   $("#mainCurrentLevel").textContent = `Level ${selected} · ${EXPOSURE.levels[selected - 1].name}`;
@@ -404,6 +453,21 @@ function renderWeekDetail() {
   $("#spotlightCopy").textContent = week.spotlight;
   $("#workMission").textContent = week.work;
   $("#homeMission").textContent = week.home;
+  const week1Entry = $("#week1LectureEntry");
+  if (week1Entry) {
+    const showWeek1 = state.selectedWeek === 0;
+    week1Entry.hidden = !showWeek1;
+    if (showWeek1) {
+      const week1 = state.week1Lecture;
+      const completed = Boolean(week1.completedAt);
+      $("#week1LectureButton").textContent = completed ? "Review Week 1" : week1.lastViewedAt ? "Continue Week 1" : "Start Week 1";
+      $("#week1LectureStatus").innerHTML = completed
+        ? `<strong>Week 1 complete</strong><span>PREP unlocked · ${week1.versionsCompleted || 0} Versions · Evidence collected</span>`
+        : week1.missionStatus === "accepted"
+          ? `<strong>Mission accepted</strong><span>${escapeHTML(week1.mission)}</span>`
+          : `<strong>Discover → Build → Speak → Prove</strong><span>A live PREP coaching experience with one real-world mission.</span>`;
+    }
+  }
   const lectureEntry = $("#week2LectureEntry");
   if (lectureEntry) {
     const show = state.selectedWeek === 1;
@@ -445,14 +509,20 @@ function renderReflection() {
     })
     .sort((a, b) => b.dayIndex - a.dayIndex);
 
-  $("#reflectionCount").textContent = reflections.length;
-  $("#reflectionHistory").innerHTML = reflections.length
-    ? reflections.map(item => `<button class="reflection-entry" type="button" data-reflection-day="${item.dayIndex}">
+  const evidenceCards = [...state.evidenceBank].sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+  $("#reflectionCount").textContent = reflections.length + evidenceCards.length;
+  $("#reflectionHistory").innerHTML = evidenceCards.length || reflections.length
+    ? `${evidenceCards.map(item => `<article class="evidence-bank-entry">
+        <header><small>WEEK ${item.week} · ${escapeHTML(item.skill)}</small><span>EVIDENCE</span></header>
+        <div><strong>Prediction</strong><p>${escapeHTML(item.prediction)}</p></div>
+        <div><strong>Reality</strong><p>${escapeHTML(item.reality)}</p></div>
+        <footer><span>Belief</span><strong>${item.beliefBefore}% → ${item.beliefAfter}%</strong></footer>
+      </article>`).join("")}${reflections.map(item => `<button class="reflection-entry" type="button" data-reflection-day="${item.dayIndex}">
         <span><small>DAY ${item.dayIndex + 1}</small><time>${new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(item.date)}</time></span>
         <strong>${escapeHTML(item.title)}</strong>
         <p>${escapeHTML(item.text)}</p>
         ${item.confidence ? `<em>Confidence ${item.confidence}/5</em>` : ""}
-      </button>`).join("")
+      </button>`).join("")}`
     : `<div class="reflection-empty"><span>✦</span><strong>Your evidence will collect here.</strong><p>Save your first reflection and return to it whenever you need proof of your progress.</p></div>`;
 
   $$("[data-reflection-day]").forEach(button => button.addEventListener("click", () => {
@@ -480,6 +550,21 @@ window.SpeakersGymPortal = {
   client: CLIENT_PROFILE,
   weeks,
   getState: () => state,
+  updateWeek1(patch) {
+    state.week1Lecture = { ...state.week1Lecture, ...patch };
+    saveState();
+  },
+  setExposureLevel(level) {
+    state.week2Lecture.currentLevel = EXPOSURE?.clampLevel(level) || 1;
+    saveState();
+    renderAll();
+  },
+  saveEvidence(card) {
+    const existing = state.evidenceBank.findIndex(item => item.id === card.id);
+    if (existing >= 0) state.evidenceBank[existing] = card;
+    else state.evidenceBank.push(card);
+    saveState();
+  },
   updateLecture(patch) {
     state.week2Lecture = { ...state.week2Lecture, ...patch };
     saveState();
