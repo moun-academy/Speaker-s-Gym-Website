@@ -14,16 +14,25 @@
   ];
 
   const missionTemplates = [
-    "Share one prepared PREP point with a familiar person.",
-    "Give one short PREP answer with two natural moments of eye contact.",
-    "Ask one new question, then share one clear PREP opinion when it fits.",
-    "Give one concise PREP opinion to a colleague or familiar professional contact.",
-    "Start a short conversation and share one PREP opinion.",
-    "Contribute one PREP point during a small professional group conversation.",
-    "Make one PREP recommendation with a reason, example and next step.",
-    "Open a short discussion with one clear PREP point.",
-    "Answer one unexpected question using PREP without scripting the full answer.",
-    "Lead a discussion and respond naturally from four PREP anchors."
+    "Use PREP once in a relaxed conversation with someone you trust.",
+    "Use PREP once in a familiar one-to-one conversation.",
+    "Use PREP once in a low-pressure conversation with a familiar colleague.",
+    "Use PREP once in a planned professional conversation.",
+    "Use PREP once while speaking to a small, familiar group.",
+    "Use PREP for one prepared contribution during a routine meeting.",
+    "Use PREP once in an unplanned professional conversation.",
+    "Use PREP while guiding one short professional discussion.",
+    "Use PREP to answer one unexpected question without scripting every sentence.",
+    "Use PREP once in a visible, high-pressure leadership moment."
+  ];
+
+  const chapters = [
+    { title: "Turn Overthinking into One Clear Point", start: 2, end: 3 },
+    { title: "Build a Strong Answer in Four Simple Steps", start: 4, end: 10 },
+    { title: "Speak Freely Without Memorizing", start: 11, end: 12 },
+    { title: "Feel the Difference Between Version 1 and Version 2", start: 13, end: 13 },
+    { title: "Turn Fear into a Testable Prediction", start: 14, end: 16 },
+    { title: "Leave with One Mission You Can Attempt", start: 17, end: 19 }
   ];
 
   const stages = [
@@ -46,6 +55,7 @@
   const getLevel = () => exposure.clampLevel(portal.getState().week2Lecture.currentLevel || 1);
   const update = patch => portal.updateWeek1(patch);
   const stageFor = step => stages.find(stage => step <= stage.end) || stages[3];
+  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
 
   function keywordFrom(value, fallback) {
     const words = String(value || "").replace(/[^a-zA-Z0-9' -]/g, " ").split(/\s+/)
@@ -72,11 +82,16 @@
     const canBack = step > 0 && !options.lockBack;
     const afterMission = step >= lectureStepCount;
     const progress = Math.round((Math.min(lectureStepCount, step + 1) / lectureStepCount) * 100);
+    const chapter = chapterFor(step);
+    const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
+    const chapterLabel = step <= 1 ? "YOUR SIX OUTCOMES" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 1";
+    const chapterTitle = chapter?.title || (step <= 1 ? "Think Clearly, Speak Simply" : "Turn experience into evidence");
     return `<div class="week1-page" role="dialog" aria-modal="true" aria-labelledby="week1Title">
       <header class="w1-header">
         <div class="w1-brand"><img src="Logo.png?v=khadija-v2" alt="" /><div><small>THE SPEAKER'S GYM</small><strong>WEEK 1 · SPEAK WITH STRUCTURE</strong></div></div>
-        <div class="w1-stage-track" aria-label="Discover, Build, Speak, Prove">
-          ${stages.map(item => `<span class="${item.name === stage.name ? "active" : ""}">${item.name}</span>`).join('<i aria-hidden="true">→</i>')}
+        <div class="w1-chapter-track" aria-label="${esc(chapter ? `Chapter ${chapterIndex + 1} of 6: ${chapterTitle}` : chapterTitle)}">
+          <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF 06` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
+          <div class="w1-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
         <button class="w1-close" type="button" data-w1-action="close" aria-label="Save and close">&times;</button>
         <div class="w1-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
@@ -202,7 +217,7 @@
     } else if (step === 9) {
       page = prepInput("example", "EXAMPLE", "What is one personal or practical example?", "Be specific. Choose one moment, action, or observation.", ["For example…", "For instance…"], 2);
     } else if (step === 10) {
-      page = prepInput("finalPoint", "FINAL POINT", "What should the listener remember?", "Restate your opinion, make a recommendation, or summarize the takeaway.", ["That’s why…", "That’s the takeaway…"], 3);
+      page = prepInput("finalPoint", "FINAL POINT", "What should the listener remember?", "Restate your opinion, make a recommendation, or reinforce what you believe.", ["That’s why…", "That is why I believe…"], 3);
     } else if (step === 11) {
       const suggested = {
         point: state.keywords.point || keywordFrom(state.prep.point, "IDEA"),
@@ -280,7 +295,7 @@
         <div class="w1-experiment">
           <article><small>PREDICTION</small><p>${esc(state.prediction || "What do you predict will happen?")}</p></article>
           <i>↓</i>
-          <article><small>MISSION</small><p>Use PREP once during a real conversation or meeting.</p></article>
+          <article><small>MISSION</small><p>Use PREP once in a situation that matches your current level.</p></article>
           <i>↓</i>
           <article><small>REALITY</small><p>What actually happened?</p></article>
         </div>
@@ -290,13 +305,13 @@
       const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
         <p class="w1-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
-        <h1>One meaningful action<br />is enough.</h1>
-        <p class="w1-lede">Use your existing Speaker's Gym level. Choose the highest behavior you can repeat reliably.</p>
+        <h1>One skill.<br />The right situation.</h1>
+        <p class="w1-lede">PREP is the only new challenge. Your level simply chooses how safe or demanding the real-life situation will be.</p>
         <div class="w1-level-picker" role="group" aria-label="Exposure level">
           ${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w1-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}
         </div>
         <div class="w1-level-focus">
-          <small>LEVEL ${level}</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p>
+          <small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p>
         </div>
         <label class="w1-mission-edit"><span>YOUR WEEK 1 CHALLENGE</span><textarea data-w1-mission rows="2">${esc(mission)}</textarea></label>
       `, { nextLabel: "Build mission card" });
@@ -304,10 +319,10 @@
       const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
         <p class="w1-eyebrow">WEEK 1 MISSION</p>
-        <h1>Skill meets exposure.</h1>
+        <h1>One skill.<br />One real-life attempt.</h1>
         <article class="w1-mission-card ${state.missionStatus === "accepted" ? "activated" : ""}">
           <div><small>SKILL</small><strong>PREP</strong></div>
-          <div><small>LEVEL</small><strong>Level ${state.missionLevel || level}</strong></div>
+          <div><small>SITUATION</small><strong>Level ${state.missionLevel || level} · ${esc(levelData.name)}</strong></div>
           <section><small>CHALLENGE</small><p>${esc(mission)}</p></section>
           <section><small>YOUR PREDICTION</small><p>“${esc(state.prediction)}”</p></section>
           <section class="win"><small>WIN CONDITION</small><strong>I attempted the mission.</strong><p>You do not need to sound confident, feel calm, or deliver PREP perfectly.</p></section>

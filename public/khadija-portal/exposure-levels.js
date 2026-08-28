@@ -3,104 +3,104 @@
 
   const levels = [
     {
-      name: "Look Up and Begin",
-      behavior: "Say one prepared sentence to a familiar person with one second of eye contact.",
-      meaning: "Teach your body that looking up and beginning can be safe, brief and successful.",
-      actions: ["Take one low breath", "Look at the listener for the first phrase", "Finish the sentence before evaluating yourself"],
-      starter: "I wanted to share one thing...",
-      practice: "Record the sentence three times in the Speaker's Gym app with a steady first word.",
-      community: "Post your clearest practice and name the person you will try it with.",
-      evidence: "One complete sentence was delivered with brief eye contact."
+      name: "Safe Practice",
+      behavior: "Use the week's communication skill once with your coach or someone you deeply trust.",
+      meaning: "Make the skill feel usable before adding social pressure.",
+      actions: ["Choose your safest listener", "Use the weekly skill once", "Stop after the attempt and notice what happened"],
+      starter: "I want to practice one short answer...",
+      practice: "Rehearse the weekly skill once in the Speaker's Gym app before the conversation.",
+      community: "Optionally share that you completed your first low-pressure attempt.",
+      evidence: "The weekly skill was attempted once in a safe setting."
     },
     {
-      name: "Hold Gentle Eye Contact",
-      behavior: "Complete one short answer with two natural moments of eye contact.",
-      meaning: "Build connection without forcing yourself to stare or perform confidence.",
-      actions: ["Look up for the opening phrase", "Look away naturally while thinking", "Return for the final sentence"],
-      starter: "My answer is...",
-      practice: "Record a 30-second answer and mark the two places where you will look up.",
-      community: "Post the practice and ask whether your eye contact feels natural and connected.",
-      evidence: "The answer was completed with two intentional moments of eye contact."
+      name: "Familiar One-to-One",
+      behavior: "Use the week's communication skill once in a relaxed conversation with a familiar person.",
+      meaning: "Transfer the skill into real life without making the situation itself demanding.",
+      actions: ["Choose a familiar person", "Wait for a natural opening", "Use the weekly skill once"],
+      starter: "I want to share one thought...",
+      practice: "Practice one short version in the app, then let the real wording change.",
+      community: "Optionally share what felt different when the skill entered a real conversation.",
+      evidence: "The weekly skill was used once in a familiar one-to-one conversation."
     },
     {
-      name: "Ask a New Question",
-      behavior: "Ask one simple question during an interaction with someone less familiar.",
-      meaning: "Move from avoiding unfamiliar interactions to participating in one manageable way.",
-      actions: ["Choose a situational question", "Begin within five seconds", "Stay present for the complete answer"],
-      starter: "Can I ask you one quick question?",
-      practice: "Practice three natural questions in the app with calm volume and pace.",
-      community: "Post your strongest opener and name the real situation where you will use it.",
-      evidence: "The question was asked and the answer was heard without leaving early."
-    },
-    {
-      name: "Share One Clear Opinion",
-      behavior: "Give one concise PREP opinion to a colleague or familiar professional contact.",
-      meaning: "Let your experience become visible before overthinking closes the opportunity.",
-      actions: ["Lead with the point", "Give one reason or example", "Finish without apologizing"],
+      name: "Familiar Colleague",
+      behavior: "Use the week's communication skill once with a colleague you already feel comfortable around.",
+      meaning: "Introduce a small amount of professional visibility while keeping the relationship familiar.",
+      actions: ["Choose a supportive colleague", "Choose a routine topic", "Use the weekly skill once"],
       starter: "My view is...",
-      practice: "Record a 45-second PREP opinion and begin within five seconds.",
-      community: "Post the practice and ask whether your main point is easy to follow.",
-      evidence: "The opinion was expressed clearly from beginning to end."
+      practice: "Prepare one concise response in the app using this week's skill.",
+      community: "Optionally name the work situation where you used the skill.",
+      evidence: "The weekly skill was used once with a familiar colleague."
     },
     {
-      name: "Start an Unplanned Conversation",
-      behavior: "Initiate and sustain a two-minute conversation with someone less familiar.",
-      meaning: "Practice staying available when an interaction was not completely scripted in advance.",
-      actions: ["Use one natural opener", "Ask one follow-up question", "Share one thought of your own"],
-      starter: "How has your day been so far?",
-      practice: "Role-play an opener, follow-up and personal response in the app.",
-      community: "Post the role-play and ask whether you sound curious and present.",
-      evidence: "A two-minute conversation was initiated and completed."
+      name: "Planned Professional Moment",
+      behavior: "Use the week's communication skill once in a professional conversation you can anticipate.",
+      meaning: "Increase visibility while keeping enough predictability to support success.",
+      actions: ["Choose the conversation in advance", "Decide when you will contribute", "Use the weekly skill once"],
+      starter: "I would like to add one thought...",
+      practice: "Record one version in the app, then reduce it to a few anchors.",
+      community: "Optionally share the situation you chose and what you learned.",
+      evidence: "The weekly skill was used during one planned professional moment."
     },
     {
-      name: "Contribute in a Group",
-      behavior: "Ask a question or share one point during a small professional group conversation.",
-      meaning: "Enter the room as a contributor instead of waiting to feel completely calm.",
-      actions: ["Prepare one keyword", "Look at one person as you begin", "Complete the point at a steady pace"],
+      name: "Small Familiar Group",
+      behavior: "Use the week's communication skill once while speaking to a small group of familiar people.",
+      meaning: "Let more than one person hear you without making the setting high stakes.",
+      actions: ["Choose a familiar group", "Prepare only the opening idea", "Use the weekly skill once"],
+      starter: "There is one point I want to share...",
+      practice: "Practice a short contribution in the app without memorizing full sentences.",
+      community: "Optionally share what helped you speak while more people were listening.",
+      evidence: "The weekly skill was used once in a small familiar group."
+    },
+    {
+      name: "Routine Meeting",
+      behavior: "Use the week's communication skill for one prepared contribution during a routine meeting.",
+      meaning: "Practice becoming visible in a real professional group where your contribution belongs.",
+      actions: ["Choose a routine meeting", "Know the moment you want to enter", "Use the weekly skill once"],
       starter: "I would like to add one point...",
-      practice: "Record a 60-second contribution with one pause and a firm ending.",
-      community: "Post the contribution and name the group situation where you will use it.",
-      evidence: "One useful contribution was made before the group conversation ended."
+      practice: "Record a meeting-sized response in the app and keep only the essential anchors.",
+      community: "Optionally share that you made your planned contribution.",
+      evidence: "The weekly skill was used for one contribution during a routine meeting."
     },
     {
-      name: "Make a Recommendation",
-      behavior: "Present one professional recommendation with a reason, example and next step.",
-      meaning: "Translate more than a decade of experience into leadership thinking others can act on.",
-      actions: ["Open with the recommendation", "Support it with one specific example", "End with the next action"],
-      starter: "My recommendation is...",
-      practice: "Record a 90-second recommendation and review the AI report for clarity and logical flow.",
-      community: "Post the answer and ask whether your recommendation feels clear and credible.",
-      evidence: "The recommendation, reasoning and next step were all communicated."
+      name: "Unplanned Professional Moment",
+      behavior: "Use the week's communication skill once when a professional conversation develops unexpectedly.",
+      meaning: "Keep the skill available when you have less time to prepare the situation.",
+      actions: ["Notice a relevant opening", "Use the weekly skill once", "Let imperfect wording be acceptable"],
+      starter: "One thought that comes to mind is...",
+      practice: "Use the app to answer one surprise prompt with the weekly skill.",
+      community: "Optionally share what happened when you responded without complete preparation.",
+      evidence: "The weekly skill was used once in an unplanned professional moment."
     },
     {
-      name: "Lead a Short Discussion",
-      behavior: "Guide a five-minute professional conversation with structure, eye contact and follow-up questions.",
-      meaning: "Practice the visible behaviors of leadership in a manageable setting.",
-      actions: ["State the purpose", "Invite one response", "Summarize the decision or next step"],
-      starter: "The goal of this conversation is...",
-      practice: "Record a two-minute opening and closing for the discussion in the app.",
-      community: "Post the opening and ask whether you sound clear, warm and in charge of the structure.",
-      evidence: "A complete short discussion was opened, guided and closed."
+      name: "Lead a Short Conversation",
+      behavior: "Use the week's communication skill while guiding one short professional conversation.",
+      meaning: "Apply the skill while carrying a little more responsibility for the interaction.",
+      actions: ["Choose a clear purpose", "Use the weekly skill at the key moment", "Bring the conversation to a clear close"],
+      starter: "The main thing I want us to consider is...",
+      practice: "Practice the key contribution in the app, not the entire conversation.",
+      community: "Optionally share what the skill helped you communicate as the conversation's guide.",
+      evidence: "The weekly skill was used while guiding a short professional conversation."
     },
     {
-      name: "Speak Under Pressure",
-      behavior: "Present a recommendation and respond to an unexpected question or objection.",
-      meaning: "Keep access to your voice and structure when attention and consequences feel higher.",
-      actions: ["Pause before responding", "Maintain natural eye contact", "Return to one clear recommendation without excessive apology"],
-      starter: "Let me take a moment to organize my answer...",
-      practice: "Record a recommendation, then answer one surprise follow-up in the app.",
-      community: "Post both responses and ask for feedback on composure and structure.",
-      evidence: "The recommendation and follow-up were completed without retreating from the message."
+      name: "Unexpected Question",
+      behavior: "Use the week's communication skill to answer one unexpected question in a visible setting.",
+      meaning: "Rely on the trained skill when preparation time and control are limited.",
+      actions: ["Allow yourself one moment to think", "Use the weekly skill once", "Complete the answer without restarting"],
+      starter: "Let me organize that into one clear answer...",
+      practice: "Ask the app for one surprise prompt and respond using the weekly skill.",
+      community: "Optionally share what helped the skill remain available under pressure.",
+      evidence: "The weekly skill was used to answer one unexpected question."
     },
     {
-      name: "Lead With Confident Presence",
-      behavior: "Lead a discussion or presentation with structure, eye contact, personality and spontaneity.",
-      meaning: "Communicate as the experienced professional and future leader you are, even when some nerves remain.",
-      actions: ["Guide the room with clear structure", "Use vocal variety and connected eye contact", "Respond naturally when the moment changes"],
-      starter: "Here is what I want us to accomplish...",
-      practice: "Record a three-minute leadership presentation using your complete communication toolkit.",
-      community: "Post the final speech and ask what feels most authentic, confident and leader-like.",
-      evidence: "A complete discussion or presentation was led with visible structure, composure and personal expression."
+      name: "High-Stakes Leadership Moment",
+      behavior: "Use the week's communication skill once when visibility, responsibility or consequences feel high.",
+      meaning: "Make the trained skill available where your professional voice matters most.",
+      actions: ["Choose one meaningful leadership moment", "Use the weekly skill at the most important point", "Judge success by the attempt"],
+      starter: "The key point I want to make is...",
+      practice: "Use the app to prepare the core message, then keep only the anchors you need.",
+      community: "Optionally share the evidence you collected from the high-stakes attempt.",
+      evidence: "The weekly skill was used once in a high-stakes leadership moment."
     }
   ];
 

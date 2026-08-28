@@ -154,6 +154,7 @@ const defaultState = {
   evidenceBank: [],
   week1Lecture: {
     flowVersion: 2,
+    missionModelVersion: 2,
     currentStep: 0,
     selectedTopic: "",
     prep: { point: "", reason: "", example: "", finalPoint: "" },
@@ -193,6 +194,8 @@ function loadState() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROGRAM_KEY));
     const storedWeek1 = stored?.week1Lecture || {};
+    const keepStoredMission = Number(storedWeek1.missionModelVersion || 0) === 2
+      || (storedWeek1.missionStatus === "completed" && Boolean(storedWeek1.evidenceId));
     const legacyStep = Number(storedWeek1.currentStep || 0);
     const migratedStep = legacyStep === 0 ? 0
       : legacyStep <= 12 ? legacyStep + 1
@@ -203,6 +206,7 @@ function loadState() {
       : legacyStep === 22 ? 18
       : legacyStep === 23 ? (storedWeek1.missionStatus === "completed" ? 21 : 20)
       : 22;
+    const flowStep = storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep;
     return {
       ...defaultState,
       ...stored,
@@ -211,10 +215,20 @@ function loadState() {
         ...defaultState.week1Lecture,
         ...storedWeek1,
         flowVersion: 2,
-        currentStep: storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep,
-        lectureCompletedAt: storedWeek1.flowVersion === 2
-          ? (storedWeek1.lectureCompletedAt || null)
-          : (storedWeek1.missionStatus && storedWeek1.missionStatus !== "not-started" ? storedWeek1.acceptedAt || null : null),
+        missionModelVersion: 2,
+        currentStep: keepStoredMission ? flowStep : Math.min(flowStep, 17),
+        missionLevel: keepStoredMission ? (storedWeek1.missionLevel || null) : null,
+        mission: keepStoredMission ? (storedWeek1.mission || "") : "",
+        missionStatus: keepStoredMission ? (storedWeek1.missionStatus || "not-started") : "not-started",
+        acceptedAt: keepStoredMission ? (storedWeek1.acceptedAt || null) : null,
+        actualResult: keepStoredMission ? (storedWeek1.actualResult || "") : "",
+        evidenceId: keepStoredMission ? (storedWeek1.evidenceId || null) : null,
+        lectureCompletedAt: keepStoredMission
+          ? (storedWeek1.flowVersion === 2
+            ? (storedWeek1.lectureCompletedAt || null)
+            : (storedWeek1.missionStatus && storedWeek1.missionStatus !== "not-started" ? storedWeek1.acceptedAt || null : null))
+          : null,
+        completedAt: keepStoredMission ? (storedWeek1.completedAt || null) : null,
         prep: { ...defaultState.week1Lecture.prep, ...(storedWeek1.prep || {}) },
         keywords: { ...defaultState.week1Lecture.keywords, ...(storedWeek1.keywords || {}) },
         workplacePrep: { ...defaultState.week1Lecture.workplacePrep, ...(storedWeek1.workplacePrep || {}) }
