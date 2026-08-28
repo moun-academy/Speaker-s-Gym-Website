@@ -30,20 +30,20 @@ const weeks = [
     short: "Voice",
     title: "Develop a Stronger Voice",
     subtitle: "From physical anxiety to audible presence",
-    why: "Breath, volume and steady sentence endings help your voice remain available even when your body feels nervous.",
-    outcome: "You can begin audibly, finish sentences firmly and complete your next exposure level with evidence.",
-    learn: ["Breath-supported volume", "Steady sentence endings", "Starting despite a shaky voice", "Choosing your current exposure level", "Using gentle eye contact"],
-    spotlight: "Deliver a 60-second PREP answer with grounded volume and two intentional moments of eye contact.",
-    work: "Use a stronger opening sentence in one professional interaction.",
-    home: "Practice comfortable eye contact while completing one full thought.",
+    why: "Grounded volume keeps your message audible from the first word through the final word without forcing your voice.",
+    outcome: "You can deliver one complete answer at a clear, natural volume and test that voice in one right-sized real situation.",
+    learn: ["Grounded volume", "Audible sentence endings", "Speaking without pushing", "Choosing a right-sized situation", "Collecting voice evidence"],
+    spotlight: "Deliver your familiar PREP answer with grounded volume from beginning to end.",
+    work: "Make one complete professional sentence clearly audible.",
+    home: "Practice one familiar answer at a clear, natural and sustainable volume.",
     days: [
-      day("Breath day", "Steady the first sentence", "You do not need to eliminate nerves before you begin.", "Take one low breath and speak on the exhale", "Practice three opening sentences at normal volume", "Notice what reduces throat and jaw tension", "What helped my voice settle after I started?"),
-      day("Volume day", "Project without pushing", "Being clearly heard is not the same as being aggressive.", "Say one sentence at quiet, normal and strong volume", "Choose the level that sounds grounded", "Repeat it in the app with relaxed shoulders", "Which volume felt confident and still like me?"),
-      day("Eye-contact day", "Look up, then return", "Eye contact can be brief, natural and manageable.", "Practice looking at the listener for one complete phrase", "Look away naturally while thinking", "Return for your final sentence", "What made eye contact feel safer today?"),
-      day("Level day", "Choose your current reliable level", "Your level is a training position, not an identity.", "Open the level-based coaching experience", "Choose the highest behavior you can repeat reliably", "Write three small next-level attempts", "Why is this level challenging and possible?"),
-      day("Exposure day", "Complete one small visible action", "Action gives your brain new evidence about what is safe.", "Use your next-level first sentence", "Complete one real interaction within five seconds", "Record exactly what happened afterward", "What did reality teach me that anxiety did not?"),
-      day("Spotlight day", "Sound present", "We measure observable behavior, not how nervous you felt.", "Record a one-minute structured answer", "Use grounded volume and two moments of eye contact", "Post it in the community for one focus point", "Which behavior became more reliable?"),
-      day("Integration day", "Collect your voice evidence", "Confidence grows when you notice what your action proved.", "Review your three exposure attempts", "Name three changes in volume or eye contact", "Choose your next useful level", "What can I now repeat that felt harder last week?")
+      weekOneDay("Coaching day", "Make your message arrive", "Calibrate grounded volume, speak two Versions and accept one real-world mission.", "Open the Week 2 coaching experience and accept your mission", "Practice the volume ladder once more", "Record an extra grounded-volume Version", "What made my voice feel strong without feeling forced?"),
+      weekOneDay("Mission day", "Use your voice once", "One clearly audible sentence is enough. The win is attempting it.", "Attempt your accepted Week 2 Mission", "Practice one familiar sentence at grounded volume", "Share an optional voice rep with the community", "What happened when I allowed myself to be heard?"),
+      weekOneDay("Mission day", "Keep the ending alive", "Your message deserves the final word as much as the first.", "Attempt your accepted Week 2 Mission", "Practice carrying one sentence through its final three words", "Record one optional Version in the app", "Where did my voice usually fade, and what changed?"),
+      weekOneDay("Mission day", "Send the message", "Focus on the listener receiving the sentence, not on whether you feel loud.", "Attempt your accepted Week 2 Mission", "Practice sending one Point to an imagined listener", "Ask AI for one optional voice focus", "Did the sentence arrive clearly?"),
+      weekOneDay("Mission day", "Make yourself audible", "A shaky voice can still carry a complete message.", "Attempt your accepted Week 2 Mission", "Repeat your PREP answer at grounded volume", "Share an optional community update", "What did I communicate even with nerves present?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Reality is more useful than what voice anxiety predicted.", "Return to Week 2 and record what actually happened", "Record one extra grounded-volume Version", "Share your Evidence Card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep your stronger setting", "One completed voice exposure becomes a reference point for the next one.", "Complete your Week 2 Mission reflection", "Practice one sentence from first word to final word", "Choose one grounded-volume cue to keep", "What can my voice now do more reliably than last week?")
     ]
   },
   {
@@ -177,9 +177,24 @@ const defaultState = {
     lastViewedAt: null
   },
   week2Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
     currentLevel: null,
-    missions: ["", "", ""],
-    lastScroll: 0,
+    voicePattern: "",
+    voiceZone: "",
+    versionsCompleted: 0,
+    coachImprovement: "",
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
     lastViewedAt: null
   }
 };
@@ -194,6 +209,7 @@ function loadState() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROGRAM_KEY));
     const storedWeek1 = stored?.week1Lecture || {};
+    const storedWeek2 = stored?.week2Lecture || {};
     const keepStoredMission = Number(storedWeek1.missionModelVersion || 0) === 2
       || (storedWeek1.missionStatus === "completed" && Boolean(storedWeek1.evidenceId));
     const legacyStep = Number(storedWeek1.currentStep || 0);
@@ -238,8 +254,9 @@ function loadState() {
       },
       week2Lecture: {
         ...defaultState.week2Lecture,
-        ...(stored?.week2Lecture || {}),
-        missions: Array.isArray(stored?.week2Lecture?.missions) ? stored.week2Lecture.missions.slice(0, 3) : ["", "", ""]
+        ...(storedWeek2.flowVersion === 1 ? storedWeek2 : {}),
+        flowVersion: 1,
+        currentLevel: storedWeek2.currentLevel || null
       }
     };
   } catch {
@@ -359,6 +376,14 @@ function renderToday() {
 function renderActiveVersion() {
   const panel = $("#activeVersionMission");
   if (!panel) return;
+  const week2 = state.week2Lecture;
+  if (state.selectedWeek === 1 && week2?.missionStatus && week2.missionStatus !== "not-started" && week2.mission) {
+    panel.hidden = false;
+    $("#activeVersionLevel").textContent = `Week 2 · Level ${week2.missionLevel || week2.currentLevel || 1}`;
+    $("#activeVersionTitle").textContent = week2.missionStatus === "completed" ? "Voice evidence collected" : "Your grounded-volume mission";
+    $("#activeVersionMissions").innerHTML = `<li>${escapeHTML(week2.mission)}</li>`;
+    return;
+  }
   const week1 = state.week1Lecture;
   if (week1?.missionStatus && week1.missionStatus !== "not-started" && week1.mission) {
     panel.hidden = false;
@@ -368,8 +393,7 @@ function renderActiveVersion() {
     return;
   }
   const lecture = state.week2Lecture;
-  const missions = (lecture?.missions || []).filter(Boolean);
-  if (!lecture?.currentLevel && !missions.length) {
+  if (!lecture?.currentLevel) {
     panel.hidden = true;
     return;
   }
@@ -377,10 +401,8 @@ function renderActiveVersion() {
   const currentLevel = Number(lecture.currentLevel || 1);
   const nextLevel = Math.min(10, currentLevel + 1);
   $("#activeVersionLevel").textContent = `Level ${currentLevel} → Level ${nextLevel}`;
-  $("#activeVersionTitle").textContent = "This week's exposure commitments";
-  $("#activeVersionMissions").innerHTML = missions.length
-    ? missions.map(mission => `<li>${escapeHTML(mission)}</li>`).join("")
-    : "<li>Choose three small actions inside Lecture 2.</li>";
+  $("#activeVersionTitle").textContent = "Your current voice-exposure level";
+  $("#activeVersionMissions").innerHTML = "<li>Complete Lecture 2 to activate one grounded-volume mission.</li>";
 }
 
 function renderExposureDashboard() {
@@ -394,7 +416,9 @@ function renderExposureDashboard() {
   const currentLevel = EXPOSURE.levels[selected - 1];
   const nextLevel = EXPOSURE.levels[next - 1];
   const isTop = selected === 10;
-  const missions = (state.week2Lecture.missions || []).filter(Boolean);
+  const missions = state.week2Lecture.missionStatus !== "not-started" && state.week2Lecture.mission
+    ? [state.week2Lecture.mission]
+    : [];
   staircase.style.setProperty("--current-level", selected);
 
   staircase.innerHTML = EXPOSURE.levels.map((level, index) => {
@@ -512,11 +536,16 @@ function renderWeekDetail() {
     lectureEntry.hidden = !show;
     if (show) {
       const lecture = state.week2Lecture;
-      const missions = (lecture.missions || []).filter(Boolean);
-      $("#week2LectureButton").textContent = lecture.lastViewedAt ? "Open Lecture 2" : "Start Lecture 2";
-      $("#week2LectureStatus").innerHTML = lecture.currentLevel
-        ? `<strong>Current level: Level ${lecture.currentLevel}</strong><span>Next level: Level ${Math.min(10, Number(lecture.currentLevel) + 1)}</span><span>${missions.length}/3 weekly commitments saved</span>`
-        : `<strong>Live coaching experience</strong><span>Understand, choose, speak, repeat and commit.</span>`;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week2LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 2" : lecture.lastViewedAt ? "Continue Lecture 2" : "Start Lecture 2";
+      const reportButton = $("#week2MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week2LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 2 complete</strong><span>Grounded Volume unlocked · ${lecture.versionsCompleted || 0} Versions · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Voice mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Calibrate → Speak → Prove</strong><span>A live grounded-volume coaching experience with one real-world mission.</span>`;
     }
   }
 }
@@ -610,6 +639,12 @@ window.SpeakersGymPortal = {
     saveState();
     renderAll();
   },
+  resetWeek2() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 2);
+    state.week2Lecture = JSON.parse(JSON.stringify(defaultState.week2Lecture));
+    saveState();
+    renderAll();
+  },
   updateLecture(patch) {
     state.week2Lecture = { ...state.week2Lecture, ...patch };
     saveState();
@@ -627,6 +662,12 @@ $("#week1ResetButton")?.addEventListener("click", () => {
   if (!confirmed) return;
   window.SpeakersGymPortal.resetWeek1();
   showToast("Lecture 1 is ready for a fresh start.");
+});
+$("#week2ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 2? This will clear the voice pattern, Versions, prediction, mission, Week 2 evidence and selected situation level. The rest of Khadija's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek2();
+  showToast("Lecture 2 is ready for a fresh start.");
 });
 $("#completeDayButton").addEventListener("click", () => {
   const key = dayKey(state.selectedDay);
