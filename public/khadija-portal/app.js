@@ -153,6 +153,7 @@ const defaultState = {
   confidence: {},
   evidenceBank: [],
   week1Lecture: {
+    flowVersion: 2,
     currentStep: 0,
     selectedTopic: "",
     prep: { point: "", reason: "", example: "", finalPoint: "" },
@@ -170,6 +171,7 @@ const defaultState = {
     actualResult: "",
     beliefAfter: 50,
     evidenceId: null,
+    lectureCompletedAt: null,
     completedAt: null,
     lastViewedAt: null
   },
@@ -190,16 +192,32 @@ const $$ = (selector) => [...document.querySelectorAll(selector)];
 function loadState() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROGRAM_KEY));
+    const storedWeek1 = stored?.week1Lecture || {};
+    const legacyStep = Number(storedWeek1.currentStep || 0);
+    const migratedStep = legacyStep === 0 ? 0
+      : legacyStep <= 12 ? legacyStep + 1
+      : legacyStep <= 18 ? 14
+      : legacyStep === 19 ? 15
+      : legacyStep === 20 ? 16
+      : legacyStep === 21 ? 17
+      : legacyStep === 22 ? 18
+      : legacyStep === 23 ? (storedWeek1.missionStatus === "completed" ? 21 : 20)
+      : 22;
     return {
       ...defaultState,
       ...stored,
       evidenceBank: Array.isArray(stored?.evidenceBank) ? stored.evidenceBank : [],
       week1Lecture: {
         ...defaultState.week1Lecture,
-        ...(stored?.week1Lecture || {}),
-        prep: { ...defaultState.week1Lecture.prep, ...(stored?.week1Lecture?.prep || {}) },
-        keywords: { ...defaultState.week1Lecture.keywords, ...(stored?.week1Lecture?.keywords || {}) },
-        workplacePrep: { ...defaultState.week1Lecture.workplacePrep, ...(stored?.week1Lecture?.workplacePrep || {}) }
+        ...storedWeek1,
+        flowVersion: 2,
+        currentStep: storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep,
+        lectureCompletedAt: storedWeek1.flowVersion === 2
+          ? (storedWeek1.lectureCompletedAt || null)
+          : (storedWeek1.missionStatus && storedWeek1.missionStatus !== "not-started" ? storedWeek1.acceptedAt || null : null),
+        prep: { ...defaultState.week1Lecture.prep, ...(storedWeek1.prep || {}) },
+        keywords: { ...defaultState.week1Lecture.keywords, ...(storedWeek1.keywords || {}) },
+        workplacePrep: { ...defaultState.week1Lecture.workplacePrep, ...(storedWeek1.workplacePrep || {}) }
       },
       week2Lecture: {
         ...defaultState.week2Lecture,
@@ -459,12 +477,15 @@ function renderWeekDetail() {
     week1Entry.hidden = !showWeek1;
     if (showWeek1) {
       const week1 = state.week1Lecture;
-      const completed = Boolean(week1.completedAt);
-      $("#week1LectureButton").textContent = completed ? "Review Week 1" : week1.lastViewedAt ? "Continue Week 1" : "Start Week 1";
-      $("#week1LectureStatus").innerHTML = completed
+      const evidenceComplete = Boolean(week1.completedAt);
+      const lectureComplete = Boolean(week1.lectureCompletedAt);
+      $("#week1LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 1" : week1.lastViewedAt ? "Continue Lecture 1" : "Start Lecture 1";
+      const reportButton = $("#week1MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week1LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 1 complete</strong><span>PREP unlocked · ${week1.versionsCompleted || 0} Versions · Evidence collected</span>`
-        : week1.missionStatus === "accepted"
-          ? `<strong>Mission accepted</strong><span>${escapeHTML(week1.mission)}</span>`
+        : lectureComplete
+          ? `<strong>Mission active</strong><span>${escapeHTML(week1.mission)} Return after the real conversation to record what happened.</span>`
           : `<strong>Discover → Build → Speak → Prove</strong><span>A live PREP coaching experience with one real-world mission.</span>`;
     }
   }
@@ -565,6 +586,13 @@ window.SpeakersGymPortal = {
     else state.evidenceBank.push(card);
     saveState();
   },
+  resetWeek1() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 1);
+    state.week1Lecture = JSON.parse(JSON.stringify(defaultState.week1Lecture));
+    state.week2Lecture.currentLevel = null;
+    saveState();
+    renderAll();
+  },
   updateLecture(patch) {
     state.week2Lecture = { ...state.week2Lecture, ...patch };
     saveState();
@@ -577,6 +605,12 @@ window.SpeakersGymPortal = {
 
 $("#previousDay").addEventListener("click", () => selectDay(state.selectedDay - 1));
 $("#nextDay").addEventListener("click", () => selectDay(state.selectedDay + 1));
+$("#week1ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 1? This will clear the PREP answers, Versions, prediction, mission, Week 1 evidence and selected test level. The rest of Khadija's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek1();
+  showToast("Lecture 1 is ready for a fresh start.");
+});
 $("#completeDayButton").addEventListener("click", () => {
   const key = dayKey(state.selectedDay);
   const completing = !state.completedDays[key];
