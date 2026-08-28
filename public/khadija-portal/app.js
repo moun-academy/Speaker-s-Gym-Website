@@ -153,7 +153,7 @@ const defaultState = {
   confidence: {},
   evidenceBank: [],
   week1Lecture: {
-    flowVersion: 2,
+    flowVersion: 3,
     missionModelVersion: 2,
     currentStep: 0,
     selectedTopic: "",
@@ -206,7 +206,10 @@ function loadState() {
       : legacyStep === 22 ? 18
       : legacyStep === 23 ? (storedWeek1.missionStatus === "completed" ? 21 : 20)
       : 22;
-    const flowStep = storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep;
+    const versionTwoStep = storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep;
+    const flowStep = storedWeek1.flowVersion === 3
+      ? Number(storedWeek1.currentStep || 0)
+      : versionTwoStep <= 2 ? versionTwoStep : versionTwoStep - 1;
     return {
       ...defaultState,
       ...stored,
@@ -214,9 +217,9 @@ function loadState() {
       week1Lecture: {
         ...defaultState.week1Lecture,
         ...storedWeek1,
-        flowVersion: 2,
+        flowVersion: 3,
         missionModelVersion: 2,
-        currentStep: keepStoredMission ? flowStep : Math.min(flowStep, 17),
+        currentStep: keepStoredMission ? flowStep : Math.min(flowStep, 16),
         missionLevel: keepStoredMission ? (storedWeek1.missionLevel || null) : null,
         mission: keepStoredMission ? (storedWeek1.mission || "") : "",
         missionStatus: keepStoredMission ? (storedWeek1.missionStatus || "not-started") : "not-started",
@@ -224,7 +227,7 @@ function loadState() {
         actualResult: keepStoredMission ? (storedWeek1.actualResult || "") : "",
         evidenceId: keepStoredMission ? (storedWeek1.evidenceId || null) : null,
         lectureCompletedAt: keepStoredMission
-          ? (storedWeek1.flowVersion === 2
+          ? (Number(storedWeek1.flowVersion || 0) >= 2
             ? (storedWeek1.lectureCompletedAt || null)
             : (storedWeek1.missionStatus && storedWeek1.missionStatus !== "not-started" ? storedWeek1.acceptedAt || null : null))
           : null,

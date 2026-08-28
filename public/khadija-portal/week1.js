@@ -27,23 +27,23 @@
   ];
 
   const chapters = [
-    { title: "Turn Overthinking into One Clear Point", start: 2, end: 3 },
-    { title: "Build a Strong Answer in Four Simple Steps", start: 4, end: 10 },
-    { title: "Speak Freely Without Memorizing", start: 11, end: 12 },
-    { title: "Feel the Difference Between Version 1 and Version 2", start: 13, end: 13 },
-    { title: "Turn Fear into a Testable Prediction", start: 14, end: 16 },
-    { title: "Leave with One Mission You Can Attempt", start: 17, end: 19 }
+    { title: "Turn Overthinking into One Clear Point", start: 2, end: 2 },
+    { title: "Build a Strong Answer in Four Simple Steps", start: 3, end: 9 },
+    { title: "Speak Freely Without Memorizing", start: 10, end: 11 },
+    { title: "Feel the Difference Between Version 1 and Version 2", start: 12, end: 12 },
+    { title: "Turn Fear into a Testable Prediction", start: 13, end: 15 },
+    { title: "Leave with One Mission You Can Attempt", start: 16, end: 18 }
   ];
 
   const stages = [
-    { name: "DISCOVER", end: 5 },
-    { name: "BUILD", end: 11 },
-    { name: "SPEAK", end: 14 },
-    { name: "PROVE", end: 22 }
+    { name: "DISCOVER", end: 4 },
+    { name: "BUILD", end: 10 },
+    { name: "SPEAK", end: 13 },
+    { name: "PROVE", end: 21 }
   ];
 
-  const lectureStepCount = 20;
-  const lastStep = 22;
+  const lectureStepCount = 19;
+  const lastStep = 21;
   let previousFocus = null;
   let timer = null;
 
@@ -73,6 +73,16 @@
     return `<div class="w1-prep-rail">${items.map((item, index) => `<div class="${index === active ? "active" : ""} ${item[2] ? "filled" : ""}">
       <span>${item[0]}</span><small>${item[1]}</small>
     </div>`).join('<i aria-hidden="true">→</i>')}</div>`;
+  }
+
+  function prepKeywordGuide(values) {
+    const items = [
+      ["P", "POINT", values?.point || "IDEA"],
+      ["R", "REASON", values?.reason || "WHY"],
+      ["E", "EXAMPLE", values?.example || "MOMENT"],
+      ["P", "FINAL POINT", values?.finalPoint || "TAKEAWAY"]
+    ];
+    return `<div class="w1-prep-keyword-guide">${items.map(item => `<article><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong></div></article>`).join("")}</div>`;
   }
 
   function shell(content, options = {}) {
@@ -160,18 +170,6 @@
       `, { className: "agenda", nextLabel: "Start the transformation" });
     } else if (step === 2) {
       page = shell(`
-        <p class="w1-eyebrow">THE SPEAKER'S GYM PHILOSOPHY</p>
-        <h1>Train the skill.<br />Use it when it matters.</h1>
-        <div class="w1-two-tracks">
-          <article><span>01</span><small>SKILL</small><h2>How you speak</h2><p>Structure · Pace · Volume · Pauses · Expression</p></article>
-          <i>+</i>
-          <article><span>02</span><small>EXPOSURE</small><h2>When you use it</h2><p>Speak sooner · Initiate · Share opinions · Handle attention · Show personality</p></article>
-        </div>
-        <div class="w1-equation"><strong>SKILL + EXPOSURE</strong><i>→</i><strong>EVIDENCE</strong><i>→</i><strong>CONFIDENCE</strong></div>
-        <p class="w1-coach-note">Confidence is built from repeated evidence, not from waiting to feel ready.</p>
-      `, { className: "philosophy" });
-    } else if (step === 3) {
-      page = shell(`
         <p class="w1-eyebrow">MEET PREP</p>
         <h1>A clear answer<br />from four anchors.</h1>
         ${prepRail()}
@@ -179,7 +177,7 @@
         <div class="w1-benefits"><span>Speak sooner</span><span>Stay clear</span><span>Sound considered</span><span>Finish strongly</span></div>
         <blockquote>PREP is a framework for speaking clearly,<br /><strong>not a script to memorize.</strong></blockquote>
       `);
-    } else if (step === 4) {
+    } else if (step === 3) {
       page = shell(`
         <p class="w1-eyebrow">FOUR DISCOVERY QUESTIONS</p>
         <h1>One question at a time.</h1>
@@ -190,7 +188,7 @@
           <article><span>P</span><small>FINAL POINT</small><strong>What should they remember?</strong></article>
         </div>
       `);
-    } else if (step === 5) {
+    } else if (step === 4) {
       page = shell(`
         <p class="w1-eyebrow">PREP IN ACTION</p>
         <h1>A short walk is a good way<br />to clear your mind.</h1>
@@ -203,22 +201,22 @@
         <div class="w1-anchor-reveal"><small>NOW REDUCE IT</small><strong>RESET → DISTANCE → STRESSFUL MEETING → WALK</strong></div>
         <blockquote>Remember the idea,<br /><strong>not the sentence.</strong></blockquote>
       `, { nextLabel: "Build my answer" });
-    } else if (step === 6) {
+    } else if (step === 5) {
       page = shell(`
         <p class="w1-eyebrow">CHOOSE AN EASY TOPIC</p>
         <h1>Start where speaking feels light.</h1>
         <p class="w1-lede">Choose the easiest option. You will keep seeing it while you build all four PREP steps.</p>
         ${choiceButtons(topics, state.selectedTopic, "data-w1-topic")}
       `);
-    } else if (step === 7) {
+    } else if (step === 6) {
       page = prepInput("point", "POINT", "What is the one thing you are trying to say?", "One sentence. Say the idea before you explain it.", ["I believe…", "In my opinion…"], 0);
-    } else if (step === 8) {
+    } else if (step === 7) {
       page = prepInput("reason", "REASON", "What is the main reason you believe this?", "One strong why. Choose the reason that matters most.", ["The main reason is…", "This matters because…"], 1);
-    } else if (step === 9) {
+    } else if (step === 8) {
       page = prepInput("example", "EXAMPLE", "What is one personal or practical example?", "Be specific. Choose one moment, action, or observation.", ["For example…", "For instance…"], 2);
-    } else if (step === 10) {
+    } else if (step === 9) {
       page = prepInput("finalPoint", "FINAL POINT", "What should the listener remember?", "Restate your opinion, make a recommendation, or reinforce what you believe.", ["That’s why…", "That is why I believe…"], 3);
-    } else if (step === 11) {
+    } else if (step === 10) {
       const suggested = {
         point: state.keywords.point || keywordFrom(state.prep.point, "IDEA"),
         reason: state.keywords.reason || keywordFrom(state.prep.reason, "WHY"),
@@ -228,6 +226,7 @@
       if (!Object.values(state.keywords).some(Boolean)) update({ keywords: suggested });
       page = shell(`
         <p class="w1-eyebrow">REDUCE THE ANSWER</p>
+        <span class="w1-topic-chip"><small>YOUR TOPIC</small>${esc(state.selectedTopic)}</span>
         <h1>Speak from four keywords.</h1>
         <p class="w1-lede">Keep the meaning. Let the wording change.</p>
         <div class="w1-keywords">
@@ -235,24 +234,24 @@
         </div>
         <blockquote>One keyword per step.<br /><strong>No memorized sentences.</strong></blockquote>
       `, { nextLabel: "Speak Version 1" });
-    } else if (step === 12) {
+    } else if (step === 11) {
       page = shell(`
         <p class="w1-eyebrow">VERSION 1</p>
+        <span class="w1-topic-chip"><small>YOUR TOPIC</small>${esc(state.selectedTopic)}</span>
         <h1>Say it naturally.</h1>
         <p class="w1-lede">Use only your four anchors. Give yourself 30 to 60 seconds.</p>
-        ${prepRail(-1, state.keywords)}
-        <div class="w1-speaking-card">
-          <div class="w1-anchor-line">${Object.values(state.keywords).map(word => `<strong>${esc(word)}</strong>`).join("<i>→</i>")}</div>
+        ${prepKeywordGuide(state.keywords)}
+        <div class="w1-speaking-card timer-only">
           <div class="w1-timer"><strong data-w1-timer-display>60</strong><span>seconds</span><button type="button" data-w1-action="timer">Start timer</button></div>
         </div>
         <blockquote>There are no failed speeches.<br /><strong>There are only Versions.</strong></blockquote>
         <div class="w1-version-loop"><span>V1</span><i>→</i><span>LEARN</span><i>→</i><span>V2</span><i>→</i><span>LEARN</span><i>→</i><span>V3</span></div>
       `, { footer: `<button class="w1-next" type="button" data-w1-action="complete-v1">Version 1 complete</button>` });
-    } else if (step === 13) {
+    } else if (step === 12) {
       page = shell(`
         <p class="w1-eyebrow">ONE IMPROVEMENT</p>
+        <span class="w1-topic-chip"><small>YOUR TOPIC</small>${esc(state.selectedTopic)}</span>
         <h1>Change one thing.<br />Then speak again.</h1>
-        <p class="w1-lede">The coach chooses only one or two improvements. Do not overload the next Version.</p>
         <div class="w1-version-stack">
           <article class="done"><span>VERSION 1</span><strong>Initial attempt complete</strong></article>
           <i>↓</i>
@@ -260,9 +259,9 @@
           <i>↓</i>
           <article><span>VERSION 2</span><strong>Try the same answer again</strong></article>
         </div>
-        <div class="w1-anchor-line compact">${Object.values(state.keywords).map(word => `<strong>${esc(word)}</strong>`).join("<i>→</i>")}</div>
+        ${prepKeywordGuide(state.keywords)}
       `, { footer: `<button class="w1-next" type="button" data-w1-action="complete-v2">Version 2 complete</button>` });
-    } else if (step === 14) {
+    } else if (step === 13) {
       page = shell(`
         <p class="w1-eyebrow">FROM PRACTICE TO REAL LIFE</p>
         <h1>You proved you can<br />build a clear answer.</h1>
@@ -274,7 +273,7 @@
         </div>
         <blockquote>Before choosing your mission,<br /><strong>let's name what makes you hold back.</strong></blockquote>
       `, { nextLabel: "Name the prediction" });
-    } else if (step === 15) {
+    } else if (step === 14) {
       page = shell(`
         <p class="w1-eyebrow">IDENTIFY THE WORST-CASE SCENARIO</p>
         <h1>What are you afraid<br />would happen?</h1>
@@ -288,7 +287,7 @@
         </div>
         <p class="w1-coach-note">Keep this tied to communication. This is a prediction, not a verdict.</p>
       `);
-    } else if (step === 16) {
+    } else if (step === 15) {
       page = shell(`
         <p class="w1-eyebrow">LET'S RUN AN EXPERIMENT</p>
         <h1>We know the prediction.<br />Now we test it.</h1>
@@ -301,7 +300,7 @@
         </div>
         <div class="w1-equation compact"><strong>PREDICTION</strong><i>→</i><strong>EXPOSURE</strong><i>→</i><strong>EVIDENCE</strong></div>
       `);
-    } else if (step === 17) {
+    } else if (step === 16) {
       const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
         <p class="w1-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
@@ -315,7 +314,7 @@
         </div>
         <label class="w1-mission-edit"><span>YOUR WEEK 1 CHALLENGE</span><textarea data-w1-mission rows="2">${esc(mission)}</textarea></label>
       `, { nextLabel: "Build mission card" });
-    } else if (step === 18) {
+    } else if (step === 17) {
       const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
         <p class="w1-eyebrow">WEEK 1 MISSION</p>
@@ -330,7 +329,7 @@
       `, {
         footer: `<button class="w1-next mission-accept" type="button" data-w1-action="accept-mission">Accept mission</button>`
       });
-    } else if (step === 19) {
+    } else if (step === 18) {
       page = shell(`
         <p class="w1-eyebrow">LECTURE 1 COMPLETE</p>
         <h1>Your skill is ready.<br /><em>Your mission is active.</em></h1>
@@ -342,7 +341,7 @@
         </div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins in real life.</strong></blockquote>
       `, { lockBack: true, footer: '<button class="w1-next" type="button" data-w1-action="close">Return to my portal</button>' });
-    } else if (step === 20) {
+    } else if (step === 19) {
       page = shell(`
         <p class="w1-eyebrow">WELCOME BACK</p>
         <h1>Did you attempt<br />your mission?</h1>
@@ -353,7 +352,7 @@
           <button type="button" class="yes" data-w1-action="mission-yes"><span>YES</span><small>I attempted it</small></button>
         </div>
       `, { lockBack: true, footer: '<span class="w1-footer-hint">Your mission stays active until you attempt it.</span>' });
-    } else if (step === 21) {
+    } else if (step === 20) {
       page = shell(`
         <p class="w1-eyebrow">REALITY CHECK</p>
         <h1>What actually happened?</h1>
@@ -397,13 +396,13 @@
     const state = getState();
     const step = Number(state.currentStep || 0);
     const requirements = {
-      6: [state.selectedTopic, "Choose one easy topic."],
-      7: [state.prep.point, "Add one clear Point."],
-      8: [state.prep.reason, "Add one main Reason."],
-      9: [state.prep.example, "Add one specific Example."],
-      10: [state.prep.finalPoint, "Add one Final Point."],
-      15: [state.prediction, "Name the communication outcome you are afraid of."],
-      17: [state.mission || missionTemplates[getLevel() - 1], "Choose a small mission."]
+      5: [state.selectedTopic, "Choose one easy topic."],
+      6: [state.prep.point, "Add one clear Point."],
+      7: [state.prep.reason, "Add one main Reason."],
+      8: [state.prep.example, "Add one specific Example."],
+      9: [state.prep.finalPoint, "Add one Final Point."],
+      14: [state.prediction, "Name the communication outcome you are afraid of."],
+      16: [state.mission || missionTemplates[getLevel() - 1], "Choose a small mission."]
     };
     if (requirements[step] && !String(requirements[step][0] || "").trim()) {
       portal.showToast(requirements[step][1]);
@@ -411,7 +410,7 @@
       return;
     }
     const patch = { currentStep: Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
-    if (step === 11 && !Object.values(state.keywords).every(Boolean)) {
+    if (step === 10 && !Object.values(state.keywords).every(Boolean)) {
       patch.keywords = {
         point: state.keywords.point || keywordFrom(state.prep.point, "IDEA"),
         reason: state.keywords.reason || keywordFrom(state.prep.reason, "WHY"),
@@ -419,7 +418,7 @@
         finalPoint: state.keywords.finalPoint || keywordFrom(state.prep.finalPoint, "TAKEAWAY")
       };
     }
-    if (step === 17 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
+    if (step === 16 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
     update(patch);
     renderStep();
   }
@@ -480,7 +479,7 @@
       completedAt: new Date().toISOString()
     };
     portal.saveEvidence(card);
-    update({ evidenceId: id, completedAt: card.completedAt, currentStep: 22 });
+    update({ evidenceId: id, completedAt: card.completedAt, currentStep: 21 });
     portal.showToast("Evidence collected.");
     renderStep();
   }
@@ -492,12 +491,12 @@
     if (action === "next") return validateAndNext();
     if (action === "timer") return startTimer(event.target.closest("[data-w1-action]"));
     if (action === "complete-v1") {
-      update({ versionsCompleted: Math.max(1, Number(getState().versionsCompleted || 0)), currentStep: 13 });
+      update({ versionsCompleted: Math.max(1, Number(getState().versionsCompleted || 0)), currentStep: 12 });
       portal.showToast("Version 1 complete. Choose one improvement.");
       return renderStep();
     }
     if (action === "complete-v2") {
-      update({ versionsCompleted: Math.max(2, Number(getState().versionsCompleted || 0)), currentStep: 14 });
+      update({ versionsCompleted: Math.max(2, Number(getState().versionsCompleted || 0)), currentStep: 13 });
       portal.showToast("Version 2 complete. Improvement is evidence.");
       return renderStep();
     }
@@ -510,14 +509,14 @@
         missionStatus: "accepted",
         acceptedAt: new Date().toISOString(),
         lectureCompletedAt: new Date().toISOString(),
-        currentStep: 19
+        currentStep: 18
       });
       portal.showToast("Mission accepted. The win is attempting it.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
     if (action === "mission-yes") {
-      update({ missionStatus: "completed", currentStep: 21 });
+      update({ missionStatus: "completed", currentStep: 20 });
       return renderStep();
     }
     if (action === "collect-evidence") return collectEvidence();
@@ -575,7 +574,7 @@
   document.addEventListener("click", event => {
     if (event.target.closest("[data-open-week1-reflection]")) {
       previousFocus = document.activeElement;
-      update({ currentStep: 20 });
+      update({ currentStep: 19 });
       return renderStep();
     }
     if (!event.target.closest("[data-open-week1]")) return;
