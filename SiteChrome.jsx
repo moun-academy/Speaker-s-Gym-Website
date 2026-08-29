@@ -24,25 +24,36 @@ const methodLinks = [
 export function SiteHeader({ page = "home" }) {
   const [open, setOpen] = useState(false);
   const links = page === "method" ? methodLinks : homeLinks;
+  const splitAt = Math.ceil(links.length / 2);
+  const leftLinks = links.slice(0, splitAt);
+  const rightLinks = links.slice(splitAt);
 
   useEffect(() => {
     if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
     const onKeyDown = (event) => {
       if (event.key === "Escape") setOpen(false);
     };
+    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
   return (
     <>
       <nav className="nav" aria-label="Main navigation">
         <div className="nav-inner">
+          <div className="nav-links nav-links--left">
+            {leftLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
+          </div>
           <a href={page === "home" ? "#" : "/"} className="nav-logo" aria-label="The Speaker's Gym home">
             <img src={brandLogo} alt="The Speaker's Gym" />
           </a>
-          <div className="nav-links">
-            {links.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
+          <div className="nav-links nav-links--right">
+            {rightLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
             <a href={BOOK_URL} className="nav-cta">Book a Call</a>
           </div>
           <button
@@ -52,15 +63,34 @@ export function SiteHeader({ page = "home" }) {
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
-          >☰</button>
+          >
+            <span className="nav-hamburger-lines" aria-hidden="true"><i /><i /><i /></span>
+          </button>
         </div>
       </nav>
 
       {open && (
         <div className="mobile-menu" id="mobile-navigation" role="dialog" aria-modal="true" aria-label="Navigation menu">
-          <button className="mobile-close" type="button" aria-label="Close navigation menu" onClick={() => setOpen(false)}>✕</button>
-          {links.map(([label, href]) => <a href={href} key={href} onClick={() => setOpen(false)}>{label}</a>)}
-          <a href={BOOK_URL} className="btn-primary" onClick={() => setOpen(false)}>Book a Call</a>
+          <div className="mobile-menu-top">
+            <a href={page === "home" ? "#" : "/"} className="mobile-menu-logo" aria-label="The Speaker's Gym home" onClick={() => setOpen(false)}>
+              <img src={brandLogo} alt="The Speaker's Gym" />
+            </a>
+            <button className="mobile-close" type="button" aria-label="Close navigation menu" onClick={() => setOpen(false)}>
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div className="mobile-menu-panel">
+            <p className="mobile-menu-label">Explore</p>
+            <div className="mobile-menu-links">
+              {links.map(([label, href], index) => (
+                <a href={href} key={href} onClick={() => setOpen(false)}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {label}
+                </a>
+              ))}
+            </div>
+            <a href={BOOK_URL} className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Book a Strategy Call</a>
+          </div>
         </div>
       )}
     </>

@@ -112,24 +112,44 @@ export default function SpeakersGym() {
         .reveal--visible { opacity: 1; transform: translateY(0); }
 
         /* ── NAV ── */
-        .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(17,17,17,.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
-        .nav-inner { max-width:1200px; margin:0 auto; padding: 0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .nav-logo { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; text-decoration:none; }
+        .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(17,17,17,.88); backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width:1400px; height:78px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr); align-items:center; gap:22px; }
+        .nav-logo { grid-column:2; width:76px; height:76px; display:inline-flex; align-items:center; justify-content:center; justify-self:center; flex-shrink:0; text-decoration:none; }
         .nav-logo img { width:100%; height:100%; display:block; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,.3)); }
-        .nav-links { display:flex; gap:28px; align-items:center; }
-        .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.875rem; font-weight:500; transition: color .2s; }
+        .nav-links { display:flex; align-items:center; gap:clamp(14px,1.65vw,25px); min-width:0; }
+        .nav-links--left { grid-column:1; justify-content:flex-end; }
+        .nav-links--right { grid-column:3; justify-content:flex-start; }
+        .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.79rem; font-weight:600; white-space:nowrap; transition: color .2s; }
         .nav-links a:hover { color:var(--accent); }
-        .nav-links a.nav-cta { background:var(--accent); color:#000; font-weight:700; font-size:.8rem; padding:10px 22px; border-radius:6px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; }
+        .nav-links a.nav-cta { background:var(--accent); color:#000; font-weight:700; font-size:.72rem; padding:11px 17px; border-radius:6px; text-decoration:none; letter-spacing:.05em; text-transform:uppercase; transition: transform .2s, box-shadow .2s; }
         .nav-links a.nav-cta:hover { transform:translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); color:#000; }
-        .nav-hamburger { display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; }
+        .nav-hamburger { display:none; width:42px; height:42px; padding:0; border:1px solid rgba(224,221,212,.14); border-radius:50%; background:rgba(255,255,255,.025); color:var(--text); cursor:pointer; }
+        .nav-hamburger-lines { width:17px; display:grid; gap:4px; margin:auto; }
+        .nav-hamburger-lines i { display:block; height:1px; background:currentColor; }
 
-        @media(max-width:1120px) {
+        @media(max-width:1180px) {
+          .nav-inner { height:72px; grid-template-columns:1fr 76px 1fr; padding:0 20px; }
           .nav-links { display:none; }
-          .nav-hamburger { display:block; }
-          .mobile-menu { position:fixed; inset:0; z-index:99; background:rgba(10,10,10,.97); backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
-          .mobile-menu a { color:var(--text); font-family:var(--font-display); font-size:2rem; text-decoration:none; letter-spacing:.02em; font-style: italic; }
-          .mobile-menu a:hover { color:var(--accent); }
-          .mobile-close { position:absolute; top:20px; right:24px; background:none; border:none; color:var(--text); font-size:2rem; cursor:pointer; }
+          .nav-logo { width:68px; height:68px; }
+          .nav-hamburger { grid-column:3; grid-row:1; justify-self:end; display:grid; place-items:center; }
+          .mobile-menu { position:fixed; inset:0; z-index:200; overflow-y:auto; background:rgba(12,12,12,.985); backdrop-filter:blur(24px); animation:menu-fade .22s ease both; }
+          .mobile-menu-top { position:sticky; top:0; z-index:2; height:88px; display:grid; grid-template-columns:1fr 80px 1fr; align-items:center; padding:0 22px; border-bottom:1px solid var(--border); background:rgba(12,12,12,.94); }
+          .mobile-menu-logo { grid-column:2; width:78px; height:78px; display:block; justify-self:center; }
+          .mobile-menu-logo img { width:100%; height:100%; display:block; object-fit:contain; filter:drop-shadow(0 6px 16px rgba(0,0,0,.35)); }
+          .mobile-menu-panel { width:min(100%,430px); margin:0 auto; padding:42px 28px 38px; animation:menu-rise .32s cubic-bezier(.16,1,.3,1) both; }
+          .mobile-menu-label { margin:0 0 16px; color:var(--accent); font-size:.65rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
+          .mobile-menu-links { border-top:1px solid var(--border); }
+          .mobile-menu-links a { min-height:51px; display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:.88rem; font-style:normal; font-weight:600; letter-spacing:.07em; text-decoration:none; text-transform:uppercase; transition:color .2s,padding-left .2s; }
+          .mobile-menu-links a span { min-width:22px; color:var(--accent); font-size:.58rem; letter-spacing:.12em; }
+          .mobile-menu-links a:hover { padding-left:5px; color:var(--accent-dim); }
+          .mobile-menu-cta { width:100%; margin-top:28px; display:block; padding:15px 20px; border-radius:7px; background:var(--accent); color:#0a0a0a; font-size:.76rem; font-weight:700; letter-spacing:.09em; text-align:center; text-decoration:none; text-transform:uppercase; }
+          .mobile-close { grid-column:3; justify-self:end; width:42px; height:42px; display:grid; place-items:center; padding:0; border:1px solid rgba(224,221,212,.14); border-radius:50%; background:rgba(255,255,255,.025); color:var(--text); cursor:pointer; }
+          .mobile-close span { margin-top:-2px; font-family:Arial,sans-serif; font-size:1.55rem; font-weight:200; line-height:1; }
+          @keyframes menu-fade { from { opacity:0; } to { opacity:1; } }
+          @keyframes menu-rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+        }
+        @media(prefers-reduced-motion:reduce) {
+          .mobile-menu, .mobile-menu-panel { animation:none; }
         }
 
         /* ── HERO ── */

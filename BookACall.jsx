@@ -138,16 +138,19 @@ export default function BookACall() {
           z-index: 3;
           width: 100%;
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-end;
           align-items: center;
           gap: 18px;
           padding: 24px clamp(20px, 5vw, 56px);
         }
 
         .book-logo {
-          width: 64px;
-          height: 64px;
+          position: absolute;
+          left: 50%;
+          width: 78px;
+          height: 78px;
           display: block;
+          transform: translateX(-50%);
           text-decoration: none;
         }
         .book-logo img { width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 6px 16px rgba(0,0,0,.32)); }
@@ -378,7 +381,7 @@ export default function BookACall() {
 
         @media (max-width: 520px) {
           .book-nav { padding: 20px; align-items: flex-start; }
-          .book-logo { width: 56px; height: 56px; }
+          .book-logo { width: 68px; height: 68px; }
           .book-back { font-size: .8rem; padding: 8px 12px; }
           .book-shell { padding: 20px 16px 34px; gap: 22px; }
           .book-eyebrow { margin-bottom: 12px; }
