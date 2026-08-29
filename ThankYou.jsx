@@ -73,15 +73,10 @@ function ThankYouLayout({ badge, title, subtitle, body, footerNote }) {
 }
 
 /* ─── /success ───
-   Dedicated booking-confirmation page. Visitors land here only after a
-   successful Calendly booking (BookACall redirects on calendly.event_scheduled),
-   so its own URL doubles as the Meta pixel conversion event. */
+   Dedicated booking-confirmation page. The Schedule conversion is sent from
+   BookACall only after Calendly confirms the booking, before this redirect. */
 export function ThankYouCall() {
   useEffect(() => {
-    if (typeof window !== "undefined" && typeof window.fbq === "function") {
-      // A booked call is the conversion we care about on this page.
-      window.fbq("track", "Schedule");
-    }
     document.title = "You're Booked! — The Speaker's Gym";
   }, []);
 

@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import brandLogo from "./Logo.png";
+import {
+  isConfirmedCalendlyBooking,
+  trackConfirmedCalendlyBooking,
+} from "./metaTracking.js";
 
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
 const CALENDLY_URL =
@@ -15,20 +19,20 @@ export default function BookACall() {
   useEffect(() => {
     document.title = "Book a Free Strategy Call - The Speaker's Gym";
 
-    if (typeof window !== "undefined" && typeof window.fbq === "function") {
-      window.fbq("track", "Lead");
-    }
-
     const onMessage = (event) => {
       if (
-        event.origin === "https://calendly.com" &&
-        event.data?.event === "calendly.event_scheduled" &&
+        isConfirmedCalendlyBooking(event) &&
         !bookingTrackedRef.current
       ) {
         bookingTrackedRef.current = true;
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "calendly_booking_complete" });
-        window.location.assign("/success");
+        const trackingTimeout = new Promise((resolve) => {
+          window.setTimeout(resolve, 1200);
+        });
+
+        void Promise.race([
+          trackConfirmedCalendlyBooking(event).catch(() => undefined),
+          trackingTimeout,
+        ]).finally(() => window.location.assign("/success"));
       }
     };
     window.addEventListener("message", onMessage);
