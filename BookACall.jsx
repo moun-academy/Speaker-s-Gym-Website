@@ -8,6 +8,7 @@ const CALENDLY_URL =
 
 export default function BookACall() {
   const widgetRef = useRef(null);
+  const bookingTrackedRef = useRef(false);
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
@@ -20,8 +21,12 @@ export default function BookACall() {
     const onMessage = (event) => {
       if (
         event.origin === "https://calendly.com" &&
-        event.data?.event === "calendly.event_scheduled"
+        event.data?.event === "calendly.event_scheduled" &&
+        !bookingTrackedRef.current
       ) {
+        bookingTrackedRef.current = true;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "calendly_booking_complete" });
         window.location.assign("/success");
       }
     };
