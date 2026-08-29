@@ -135,12 +135,16 @@ export default async function handler(request, response) {
   }
 
   try {
-    const metaResponse = await fetch(
+    const metaEndpoint = new URL(
       `https://graph.facebook.com/${graphVersion}/${PIXEL_ID}/events`,
+    );
+    metaEndpoint.searchParams.set("access_token", accessToken);
+
+    const metaResponse = await fetch(
+      metaEndpoint,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
