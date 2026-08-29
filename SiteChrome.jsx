@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BOOK_URL } from "./siteConfig.js";
+import brandLogo from "./Logo.png";
 
 const homeLinks = [
   ["Who It's For", "#who"],
@@ -37,7 +38,9 @@ export function SiteHeader({ page = "home" }) {
     <>
       <nav className="nav" aria-label="Main navigation">
         <div className="nav-inner">
-          <a href={page === "home" ? "#" : "/"} className="nav-logo">THE SPEAKER'S <span>GYM</span></a>
+          <a href={page === "home" ? "#" : "/"} className="nav-logo" aria-label="The Speaker's Gym home">
+            <img src={brandLogo} alt="The Speaker's Gym" />
+          </a>
           <div className="nav-links">
             {links.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
             <a href={BOOK_URL} className="nav-cta">Book a Call</a>
@@ -67,7 +70,23 @@ export function SiteHeader({ page = "home" }) {
 export function SiteFooter() {
   return (
     <footer className="footer">
-      <div className="footer-logo">THE SPEAKER'S <span>GYM</span></div>
+      <a href="/" className="footer-logo" aria-label="The Speaker's Gym home">
+        <img src={brandLogo} alt="The Speaker's Gym" />
+      </a>
+      <a
+        className="footer-social"
+        href="https://www.instagram.com/speakers_gym/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Follow The Speaker's Gym on Instagram"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1" className="instagram-dot" />
+        </svg>
+        <span>@speakers_gym</span>
+      </a>
       <p>© {new Date().getFullYear()} The Speaker's Gym · All Rights Reserved</p>
       <p style={{ marginTop: 8 }}><a href="/privacy" style={{ color: "var(--accent)", textDecoration: "none" }}>Privacy Policy</a></p>
     </footer>

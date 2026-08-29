@@ -33,8 +33,8 @@
 
 .method-page .nav { position: fixed; inset: 0 0 auto; z-index: 100; background: rgba(17,17,17,.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
 .method-page .nav-inner { max-width: 1200px; height: 64px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-.method-page .nav-logo { color: var(--text); font-family: var(--font-display); font-size: 1.3rem; font-style: italic; font-weight: 600; letter-spacing: .02em; text-decoration: none; }
-.method-page .nav-logo span { color: var(--gold); }
+.method-page .nav-logo { width: 56px; height: 56px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; text-decoration: none; }
+.method-page .nav-logo img { width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,.3)); }
 .method-page .nav-links { display: flex; align-items: center; gap: 24px; }
 .method-page .nav-links a { color: var(--text-dim); font-size: .82rem; font-weight: 500; text-decoration: none; transition: color .2s ease; }
 .method-page .nav-links a:hover { color: var(--gold); }
@@ -229,8 +229,12 @@
 .method-closing-copy > p { margin-bottom: 30px; color: var(--text-dim); line-height: 1.75; }
 
 .method-page .footer { padding: 48px 24px 110px; border-top: 1px solid var(--border); text-align: center; }
-.method-page .footer-logo { margin-bottom: 8px; font-family: var(--font-display); font-size: 1.3rem; font-style: italic; }
-.method-page .footer-logo span { color: var(--gold); }
+.method-page .footer-logo { width: 116px; height: 116px; margin: 0 auto 12px; display: block; }
+.method-page .footer-logo img { width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 10px 24px rgba(0,0,0,.35)); }
+.method-page .footer-social { width: max-content; margin: 0 auto 18px; display: flex; align-items: center; gap: 8px; color: var(--gold); font-size: .82rem; font-weight: 600; text-decoration: none; transition: color .2s, transform .2s; }
+.method-page .footer-social:hover { color: var(--gold-soft); transform: translateY(-1px); }
+.method-page .footer-social svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.method-page .footer-social .instagram-dot { fill: currentColor; stroke: none; }
 .method-page .footer p { margin-bottom: 0; color: var(--text-dim); font-size: .8rem; }
 .method-sticky-cta { display: none; }
 

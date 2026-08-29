@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import brandLogo from "./Logo.png";
 
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
 const CALENDLY_URL =
@@ -144,15 +145,12 @@ export default function BookACall() {
         }
 
         .book-logo {
-          font-family: var(--font-display);
-          font-size: 1.25rem;
-          font-style: italic;
-          font-weight: 600;
-          letter-spacing: .02em;
-          color: var(--text);
+          width: 64px;
+          height: 64px;
+          display: block;
           text-decoration: none;
         }
-        .book-logo span { color: var(--accent); }
+        .book-logo img { width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 6px 16px rgba(0,0,0,.32)); }
 
         .book-back {
           color: var(--text-dim);
@@ -380,7 +378,7 @@ export default function BookACall() {
 
         @media (max-width: 520px) {
           .book-nav { padding: 20px; align-items: flex-start; }
-          .book-logo { font-size: 1.05rem; }
+          .book-logo { width: 56px; height: 56px; }
           .book-back { font-size: .8rem; padding: 8px 12px; }
           .book-shell { padding: 20px 16px 34px; gap: 22px; }
           .book-eyebrow { margin-bottom: 12px; }
@@ -403,7 +401,9 @@ export default function BookACall() {
 
       <main className="book-page">
         <nav className="book-nav" aria-label="Book a call navigation">
-          <a href="/" className="book-logo">THE SPEAKER'S <span>GYM</span></a>
+          <a href="/" className="book-logo" aria-label="The Speaker's Gym home">
+            <img src={brandLogo} alt="The Speaker's Gym" />
+          </a>
           <a href="/" className="book-back">Back to site</a>
         </nav>
 

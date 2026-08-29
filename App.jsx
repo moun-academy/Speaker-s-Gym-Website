@@ -114,8 +114,8 @@ export default function SpeakersGym() {
         /* ── NAV ── */
         .nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(17,17,17,.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
         .nav-inner { max-width:1200px; margin:0 auto; padding: 0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .nav-logo { font-family:var(--font-display); font-size:1.3rem; font-style: italic; font-weight: 600; letter-spacing:.02em; color:var(--text); text-decoration:none; }
-        .nav-logo span { color:var(--accent); }
+        .nav-logo { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; text-decoration:none; }
+        .nav-logo img { width:100%; height:100%; display:block; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,.3)); }
         .nav-links { display:flex; gap:28px; align-items:center; }
         .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.875rem; font-weight:500; transition: color .2s; }
         .nav-links a:hover { color:var(--accent); }
@@ -388,7 +388,12 @@ export default function SpeakersGym() {
 
         /* ── FOOTER ── */
         .footer { border-top:1px solid var(--border); padding:48px 24px; text-align:center; }
-        .footer-logo { font-family:var(--font-display); font-size:1.3rem; font-style: italic; letter-spacing:.02em; margin-bottom:8px; }
+        .footer-logo { width:116px; height:116px; margin:0 auto 12px; display:block; }
+        .footer-logo img { width:100%; height:100%; display:block; object-fit:contain; filter:drop-shadow(0 10px 24px rgba(0,0,0,.35)); }
+        .footer-social { width:max-content; margin:0 auto 18px; display:flex; align-items:center; gap:8px; color:var(--accent); font-size:.82rem; font-weight:600; text-decoration:none; transition:color .2s, transform .2s; }
+        .footer-social:hover { color:var(--accent-dim); transform:translateY(-1px); }
+        .footer-social svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; }
+        .footer-social .instagram-dot { fill:currentColor; stroke:none; }
 
         @media (max-width: 600px) {
           .hero-transform-from { font-size: 14px; min-width: 90px; }
@@ -396,7 +401,6 @@ export default function SpeakersGym() {
           .hero-transform-arrow-line { width: 16px; }
           .hero-flourish-line { width: 36px; }
         }
-        .footer-logo span { color:var(--accent); }
         .footer p { color:var(--text-dim); font-size:.8rem; }
 
         /* ── STICKY MOBILE CTA ── */

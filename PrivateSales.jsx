@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PURCHASE_URL } from "./siteConfig.js";
+import brandLogo from "./Logo.png";
 import "./PrivateSales.css";
 
 const sections = ["Transformation", "The Difference", "Your Levels", "The System", "The Offer"];
@@ -135,7 +136,9 @@ function PrivateSalesPage() {
   return (
     <div className="private-sales-page">
       <header className="sales-brandbar">
-        <a href="/" className="sales-wordmark" aria-label="The Speaker's Gym home">THE SPEAKER'S <span>GYM</span></a>
+        <a href="/" className="sales-wordmark" aria-label="The Speaker's Gym home">
+          <img src={brandLogo} alt="The Speaker's Gym" />
+        </a>
         <span className="sales-private-label">Private presentation</span>
       </header>
 
