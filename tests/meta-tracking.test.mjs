@@ -13,6 +13,14 @@ test("recognizes only confirmed Calendly booking messages", () => {
     data: { event: "calendly.event_scheduled" },
   }), true);
   assert.equal(isConfirmedCalendlyBooking({
+    origin: "https://assets.calendly.com",
+    data: { event: "calendly.event_scheduled" },
+  }), true);
+  assert.equal(isConfirmedCalendlyBooking({
+    origin: "https://calendly.com.evil.example",
+    data: { event: "calendly.event_scheduled" },
+  }), false);
+  assert.equal(isConfirmedCalendlyBooking({
     origin: "https://example.com",
     data: { event: "calendly.event_scheduled" },
   }), false);
