@@ -9,8 +9,11 @@ import BookACall from './BookACall.jsx'
 import MethodPage from './Method.jsx'
 import KhadijaPortal from './KhadijaPortal.jsx'
 import NadiraPortal from './NadiraPortal.jsx'
+import { installCalendlyBookingTracking } from './metaTracking.js'
 
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
+
+installCalendlyBookingTracking({ redirectTo: '/success' })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
