@@ -1,5 +1,7 @@
 const META_EVENT_NAME = "Schedule";
-const CALENDLY_ORIGIN = "https://calendly.com";
+
+let calendlyListenerInstalled = false;
+let bookingInFlight = false;
 
 function readCookie(name) {
   if (typeof document === "undefined") return undefined;
@@ -73,11 +75,50 @@ function cleanCustomerData(calendlyEvent) {
   };
 }
 
+function isTrustedCalendlyOrigin(origin) {
+  try {
+    const url = new URL(origin);
+    return (
+      url.protocol === "https:" &&
+      (url.hostname === "calendly.com" || url.hostname.endsWith(".calendly.com"))
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function isConfirmedCalendlyBooking(event) {
   return (
-    event?.origin === CALENDLY_ORIGIN &&
+    isTrustedCalendlyOrigin(event?.origin) &&
     event?.data?.event === "calendly.event_scheduled"
   );
+}
+
+export function installCalendlyBookingTracking({ redirectTo = "/success" } = {}) {
+  if (typeof window === "undefined" || calendlyListenerInstalled) return;
+
+  calendlyListenerInstalled = true;
+  window.addEventListener("message", (event) => {
+    if (!isConfirmedCalendlyBooking(event) || bookingInFlight) return;
+
+    bookingInFlight = true;
+    let redirected = false;
+    const redirect = () => {
+      if (redirected) return;
+      redirected = true;
+      if (window.location.pathname !== redirectTo) {
+        window.location.assign(redirectTo);
+      }
+    };
+
+    const timeoutId = window.setTimeout(redirect, 3000);
+    void trackConfirmedCalendlyBooking(event)
+      .catch(() => undefined)
+      .finally(() => {
+        window.clearTimeout(timeoutId);
+        redirect();
+      });
+  });
 }
 
 export async function trackConfirmedCalendlyBooking(calendlyEvent) {
