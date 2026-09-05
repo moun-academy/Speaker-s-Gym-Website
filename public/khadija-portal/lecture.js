@@ -182,16 +182,19 @@
       `);
     } else if (step === 5) {
       page = shell(`
-        <p class="w2-eyebrow">CALIBRATE YOUR VOICE</p>
-        <h1>One sentence.<br />Two attempts.</h1>
-        <article class="w2-practice-line"><small>SAY THIS SENTENCE</small><p>A short walk is a good way to clear your mind.</p></article>
-        <div class="w2-leave-plan">
-          <article><span>01 · YOU</span><strong>Say it naturally.</strong><p>Read the sentence aloud at your usual speaking volume.</p></article>
-          <article><span>02 · COACH</span><strong>Check what arrived.</strong><p>Tell her whether every word was clear, including the ending.</p></article>
-          <article><span>03 · YOU</span><strong>Say it again.</strong><p>Use one cue: “Let the last words reach my coach.” Keep your voice comfortable.</p></article>
-        </div>
-        <p class="w2-coach-note">Keep your microphone position steady. Coach: was the second attempt clear and easy to hear?</p>
-      `, { nextLabel: "Both attempts complete" });
+        <p class="w2-eyebrow">VOICE PRACTICE · TWO ATTEMPTS</p>
+        <h1>Make every word arrive.</h1>
+        <article class="w2-calibration-sentence">
+          <small>READ ALOUD</small>
+          <p>A short walk is a good way to <strong>clear your mind.</strong></p>
+          <div class="w2-calibration-trail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </article>
+        <ol class="w2-attempts" aria-label="Exercise instructions">
+          <li><span aria-hidden="true">01</span><div><h2>Say it naturally.</h2><p>Read the sentence at your usual speaking volume.</p></div></li>
+          <li><span aria-hidden="true">02</span><div><h2>Say it again.</h2><p>Keep “clear your mind” audible. Then pause.</p></div></li>
+        </ol>
+        <p class="w2-calibration-note">Keep your microphone position steady. Speak comfortably.</p>
+      `, { className: "w2-calibration", nextLabel: "Both attempts complete" });
     } else if (step === 6) {
       page = shell(`
         <p class="w2-eyebrow">ONE SIMPLE CUE</p>
