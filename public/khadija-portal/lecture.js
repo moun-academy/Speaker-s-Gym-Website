@@ -7,12 +7,12 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Stop Letting Nerves Shrink Your Voice", start: 2, end: 3 },
-    { title: "Find the Volume That Sounds Strong and Natural", start: 4, end: 6 },
-    { title: "Carry Your Voice Through the Final Word", start: 7, end: 8 },
-    { title: "Hear Your Voice Become Stronger in Version 2", start: 9, end: 11 },
-    { title: "Turn Voice Anxiety Into a Testable Prediction", start: 12, end: 14 },
-    { title: "Leave With One Moment to Make Yourself Heard", start: 15, end: 17 }
+    { title: "Notice your voice pattern", start: 2, end: 3 },
+    { title: "Find your clear, comfortable voice", start: 4, end: 6 },
+    { title: "Let the last words land", start: 7, end: 8 },
+    { title: "One answer. One adjustment.", start: 9, end: 11 },
+    { title: "Name the prediction. Test it.", start: 12, end: 14 },
+    { title: "Choose one audible moment", start: 15, end: 17 }
   ];
 
   const missionTemplates = [
@@ -61,6 +61,7 @@
     return {
       topic: week1.selectedTopic || "A habit that improves your day",
       pointSentence: prep.point || "A short walk is a good way to clear your mind.",
+      sentences: [prep.point, prep.reason, prep.example, prep.finalPoint],
       keywords: {
         point: savedKeywords.point || keywordFrom(prep.point, "RESET"),
         reason: savedKeywords.reason || keywordFrom(prep.reason, "DISTANCE"),
@@ -81,7 +82,18 @@
       ["E", "EXAMPLE", material.keywords.example],
       ["P", "FINAL POINT", material.keywords.finalPoint]
     ];
-    return `<div class="w2-prep-guide">${items.map(item => `<article><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong></div></article>`).join("")}</div>`;
+    const hasAnswer = material.sentences.every(sentence => String(sentence || "").trim());
+    const sentences = hasAnswer ? material.sentences : [
+      "We should send an agenda before meetings.",
+      "It helps everyone prepare.",
+      "Last Tuesday, we spent ten minutes deciding what to discuss.",
+      "Let's send the agenda the day before."
+    ];
+    return `<div class="w2-prep-guide" aria-label="PREP speaking guide">${items.map((item, index) => `<article style="--cue-order:${index}"><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong></div><em>${index === 3 ? "Land the ending" : "Pause · breathe if needed"}</em></article>`).join("")}</div>
+      <details class="w2-prep-example"><summary>${hasAnswer ? "See my answer with pause cues" : "See a PREP example"}</summary>
+        <p class="w2-example-note">${hasAnswer ? "Your Week 1 answer" : "Example topic: better meetings"} · Read once. Close it. Speak from keywords.</p>
+        <div>${items.map((item, index) => `<article><small>${item[1]}</small>${endingSentence(sentences[index])}<span class="w2-pause-cue">${index === 3 ? "● Finish. Let it land." : "Ⅱ Pause. Breathe if needed."}</span></article>`).join("")}</div>
+      </details>`;
   }
 
   function endingSentence(sentence) {
@@ -134,7 +146,7 @@
       page = shell(`
         <p class="w2-eyebrow">WEEK 2 · DEVELOP A STRONGER VOICE</p>
         <h1 id="lecturePageTitle">Make your voice easy to hear<br /><em>without forcing it.</em></h1>
-        <blockquote>Your goal is not to sound loud.<br /><strong>Your goal is to make the message arrive.</strong></blockquote>
+        <blockquote><strong>Clear to your listener.<br />Comfortable for you.</strong></blockquote>
         <div class="w2-sound-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       `, { className: "opening", nextLabel: "See what you will achieve" });
     } else if (step === 1) {
@@ -148,14 +160,14 @@
         <p class="w2-eyebrow">WHEN PRESSURE RISES</p>
         <h1>Your voice can shrink<br />before your ideas do.</h1>
         <div class="w2-pressure-path"><article><small>01</small><strong>Pressure rises</strong></article><i>→</i><article><small>02</small><strong>The body tightens</strong></article><i>→</i><article><small>03</small><strong>The voice gets smaller</strong></article></div>
-        <p class="w2-lede">This does not mean you lack confidence or ideas. It means your voice needs one reliable setting under pressure.</p>
+        <p class="w2-lede">Your ideas are there. Give them a voice the listener can hear.</p>
       `);
     } else if (step === 3) {
       page = shell(`
         <p class="w2-eyebrow">NOTICE YOUR PATTERN</p>
         <h1>Where does your voice<br />usually disappear?</h1>
         <div class="w2-patterns">${voicePatterns.map(item => `<button type="button" class="${state.voicePattern === item.id ? "selected" : ""}" data-w2-pattern="${item.id}"><strong>${esc(item.label)}</strong><span>${esc(item.note)}</span></button>`).join("")}</div>
-        <p class="w2-coach-note">Choose the closest pattern. We are not diagnosing it; we are choosing what to train.</p>
+        <p class="w2-coach-note">Choose one pattern to train today.</p>
       `);
     } else if (step === 4) {
       page = shell(`
@@ -172,29 +184,29 @@
       page = shell(`
         <p class="w2-eyebrow">CALIBRATE YOUR VOICE</p>
         ${topicChip(material)}
-        <h1>Say the same Point<br />three different ways.</h1>
+        <h1>One Point.<br />Clear across the call.</h1>
         <article class="w2-practice-line"><small>YOUR POINT</small><p>${esc(material.pointSentence)}</p></article>
         <div class="w2-zone-buttons">
           <button type="button" class="${state.voiceZone === "held-back" ? "selected" : ""}" data-w2-zone="held-back"><span>01</span><strong>Held back</strong><small>Too small</small></button>
           <button type="button" class="grounded ${state.voiceZone === "grounded" ? "selected" : ""}" data-w2-zone="grounded"><span>02</span><strong>Grounded</strong><small>Clear and natural</small></button>
           <button type="button" class="${state.voiceZone === "forced" ? "selected" : ""}" data-w2-zone="forced"><span>03</span><strong>Forced</strong><small>Too much effort</small></button>
         </div>
-        <p class="w2-coach-note">Try all three. Then select the setting that feels both audible and sustainable.</p>
+        <p class="w2-coach-note">Keep your microphone position steady. Say your Point comfortably; your coach checks clarity. Select what you noticed.</p>
       `);
     } else if (step === 6) {
       page = shell(`
         <p class="w2-eyebrow">ONE SIMPLE CUE</p>
         <h1>Send the sentence<br />to the listener.</h1>
-        <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>YOUR MESSAGE</strong></div><article><i class="listener"></i><span>LISTENER</span></article></div>
-        <p class="w2-lede">Do not monitor how loud you feel. Choose a listener and let the sentence travel all the way to them.</p>
+        <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>ACROSS THE CALL</strong></div><article><i class="listener"></i><span>YOUR COACH</span></article></div>
+        <p class="w2-lede">Speak to the person on screen. Let your last words reach them.</p>
         <article class="w2-practice-line compact"><small>SEND THIS POINT</small><p>${esc(material.pointSentence)}</p></article>
-        <blockquote>The question is not “Do I feel loud?”<br /><strong>It is “Did the sentence arrive?”</strong></blockquote>
+        <blockquote><strong>“Could you hear every word?”</strong></blockquote>
       `);
     } else if (step === 7) {
       page = shell(`
         <p class="w2-eyebrow">THE FINAL-WORD TEST</p>
         <h1>Do not abandon<br />the sentence.</h1>
-        <p class="w2-lede">Nervous voices often begin clearly and fade at the moment the message should land.</p>
+        <p class="w2-lede">Let the final words stay clear, even as your pitch falls.</p>
         ${endingSentence(material.pointSentence)}
         <div class="w2-energy-line"><span>FIRST WORD</span><i></i><strong>=</strong><i></i><span>FINAL WORD</span></div>
         <p class="w2-coach-note">Keep the highlighted final words as audible as the opening words.</p>
@@ -205,17 +217,17 @@
         ${topicChip(material)}
         <h1>Begin grounded.<br />Finish grounded.</h1>
         ${endingSentence(material.pointSentence)}
-        <div class="w2-one-rule"><span>ONE RULE</span><strong>Keep the same vocal energy through the final word.</strong></div>
+        <div class="w2-one-rule"><span>ONE RULE</span><strong>Finish the thought. Then pause.</strong></div>
       `, { nextLabel: "Speak Version 1" });
     } else if (step === 9) {
       page = shell(`
         <p class="w2-eyebrow">VERSION 1</p>
         ${topicChip(material)}
         <h1>Let your message arrive.</h1>
-        <p class="w2-lede">Use your familiar PREP anchors. Your only focus is grounded volume from beginning to end.</p>
+        <p class="w2-lede">Follow four keywords. Pause between ideas. Keep the endings clear.</p>
         ${prepGuide(material)}
         <div class="w2-timer"><strong data-w2-timer-display>60</strong><span>seconds</span><button type="button" data-w2-action="timer">Start timer</button></div>
-        <blockquote>Do not improve everything.<br /><strong>Only notice whether the voice arrived.</strong></blockquote>
+        <p class="w2-coach-note">Coach listens for clear endings. You notice comfortable effort.</p>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="complete-v1">Version 1 complete</button>' });
     } else if (step === 10) {
       page = shell(`
@@ -240,9 +252,9 @@
     } else if (step === 12) {
       page = shell(`
         <p class="w2-eyebrow">FROM PRACTICE TO REAL LIFE</p>
-        <h1>You heard your voice<br />become more available.</h1>
-        <div class="w2-version-result"><article><small>VERSION 1</small><strong>Your natural baseline</strong></article><i>→</i><article><small>ONE CHANGE</small><strong>${esc(state.coachImprovement || "Grounded through the ending")}</strong></article><i>→</i><article class="strong"><small>VERSION 2</small><strong>A clearer, stronger message</strong></article></div>
-        <p class="w2-lede">Inside the session, you knew what to say and had permission to repeat. Real life adds one decision: making yourself audible when attention is real.</p>
+        <h1>What changed<br />the second time?</h1>
+        <div class="w2-version-result"><article><small>VERSION 1</small><strong>Your natural baseline</strong></article><i>→</i><article><small>ONE CHANGE</small><strong>${esc(state.coachImprovement || "Grounded through the ending")}</strong></article><i>→</i><article class="strong"><small>VERSION 2</small><strong>What sounded clearer?</strong></article></div>
+        <p class="w2-lede">Name one difference with your coach. Take one useful cue into your week.</p>
         <blockquote>Before choosing the mission,<br /><strong>let's name what speaking audibly predicts.</strong></blockquote>
       `, { nextLabel: "Name the prediction" });
     } else if (step === 13) {
@@ -326,6 +338,7 @@
     }
 
     root.innerHTML = page;
+    root.querySelector("h1")?.setAttribute("id", "lecturePageTitle");
     document.body.classList.add("lecture-open");
     requestAnimationFrame(() => root.querySelector("textarea, input, button")?.focus({ preventScroll: true }));
   }
@@ -335,7 +348,7 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [state.voicePattern, "Choose the voice pattern that feels closest."],
-      5: [state.voiceZone, "Try the three settings and choose the one that feels grounded."],
+      5: [state.voiceZone, "Say your Point and select the voice setting you noticed."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
@@ -425,7 +438,7 @@
     }
     if (action === "complete-v2") {
       update({ versionsCompleted: Math.max(2, Number(getState().versionsCompleted || 0)), currentStep: 12 });
-      portal.showToast("Version 2 complete. Your stronger voice is evidence.");
+      portal.showToast("Version 2 complete. Compare what you noticed.");
       return renderStep();
     }
     if (action === "accept-mission") {
