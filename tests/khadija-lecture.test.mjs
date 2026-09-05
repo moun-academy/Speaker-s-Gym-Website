@@ -44,34 +44,36 @@ function lecture(savedStep) {
   };
 }
 
-test('combined exercise keeps its fixed sentence and moves directly to final-word practice', () => {
+test('combined exercise keeps its fixed sentence and moves directly to the full PREP speaking round', () => {
   const app = lecture(5);
   app.open();
   assert.match(app.html(), /A short walk is a good way to/);
   assert.doesNotMatch(app.html(), /A different saved Week 1 point/);
   assert.match(app.html(), /w2-arrival/);
-  assert.match(app.html(), /WEEK 2 · 6 \/ 17/);
+  assert.match(app.html(), /WEEK 2 · 6 \/ 15/);
   app.action('next');
-  assert.match(app.html(), /THE FINAL-WORD TEST/);
-  assert.match(app.html(), /WEEK 2 · 7 \/ 17/);
+  assert.match(app.html(), /Let your message arrive/);
+  assert.match(app.html(), /PREP speaking guide/);
+  assert.doesNotMatch(app.html(), /THE FINAL-WORD TEST|ONE COMPLETE SENTENCE/);
+  assert.match(app.html(), /WEEK 2 · 7 \/ 15/);
   app.action('back');
   assert.match(app.html(), /Make every word arrive/);
-  assert.match(app.html(), /WEEK 2 · 6 \/ 17/);
+  assert.match(app.html(), /WEEK 2 · 6 \/ 15/);
 });
 
-test('a saved position on the removed slide resumes the combined exercise once', () => {
-  const app = lecture(6);
+for (const retiredStep of [6, 7, 8]) test(`saved position ${retiredStep} resumes the combined exercise once`, () => {
+  const app = lecture(retiredStep);
   app.open();
   assert.match(app.html(), /Make every word arrive/);
   app.action('close');
   app.open();
-  assert.match(app.html(), /WEEK 2 · 6 \/ 17/);
+  assert.match(app.html(), /WEEK 2 · 6 \/ 15/);
 });
 
 test('speaking rounds and their saved positions retain their original actions', () => {
   const app = lecture(9);
   app.open();
-  assert.match(app.html(), /WEEK 2 · 9 \/ 17/);
+  assert.match(app.html(), /WEEK 2 · 7 \/ 15/);
   app.action('complete-v1');
   assert.match(app.html(), /ONE VOICE ADJUSTMENT/);
   app.action('next');
@@ -81,11 +83,11 @@ test('speaking rounds and their saved positions retain their original actions', 
   assert.equal(app.state.week2Lecture.versionsCompleted, 2);
 });
 
-test('lecture completion remains slide 17 and mission reporting still saves evidence', () => {
+test('lecture completion remains the last lecture slide and mission reporting still saves evidence', () => {
   const app = lecture(16);
   app.open();
   app.action('accept-mission');
-  assert.match(app.html(), /WEEK 2 · 17 \/ 17/);
+  assert.match(app.html(), /WEEK 2 · 15 \/ 15/);
   assert.doesNotMatch(app.html(), /AFTER THE MISSION/);
   app.report();
   assert.match(app.html(), /AFTER THE MISSION/);

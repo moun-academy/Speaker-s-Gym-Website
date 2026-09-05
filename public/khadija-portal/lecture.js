@@ -9,7 +9,6 @@
   const chapters = [
     { title: "Notice your voice pattern", start: 2, end: 3 },
     { title: "Find your clear, comfortable voice", start: 4, end: 5 },
-    { title: "Let the last words land", start: 7, end: 8 },
     { title: "One answer. One adjustment.", start: 9, end: 11 },
     { title: "Name the prediction. Test it.", start: 12, end: 14 },
     { title: "Choose one audible moment", start: 15, end: 17 }
@@ -36,9 +35,10 @@
 
   // Keep stored step IDs stable so existing practice and mission progress resumes correctly.
   const mergedPracticeStep = 5;
-  const retiredListenerStep = 6;
+  const retiredSteps = [6, 7, 8];
+  const firstSpeakingStep = 9;
   const missionFollowUpStep = 18;
-  const lectureStepCount = 17;
+  const lectureStepCount = 15;
   const lastStep = 20;
   let previousFocus = null;
   let timer = null;
@@ -112,18 +112,18 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const afterMission = step >= missionFollowUpStep;
-    const slideNumber = step > retiredListenerStep ? step : step + 1;
+    const slideNumber = step + 1 - retiredSteps.filter(retired => retired < step).length;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
-    const chapterLabel = step <= 1 ? "YOUR SIX OUTCOMES" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 2";
+    const chapterLabel = step <= 1 ? "YOUR FIVE OUTCOMES" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 2";
     const chapterTitle = chapter?.title || (step <= 1 ? "Develop a Stronger Voice" : "Turn experience into evidence");
 
     return `<div class="week2-page" role="dialog" aria-modal="true" aria-labelledby="lecturePageTitle">
       <header class="w2-header">
         <div class="w2-brand"><img src="Logo.png?v=khadija-v2" alt="" /><div><small>THE SPEAKER'S GYM</small><strong>WEEK 2 · DEVELOP A STRONGER VOICE</strong></div></div>
-        <div class="w2-chapter-track" aria-label="${esc(chapter ? `Chapter ${chapterIndex + 1} of 6: ${chapterTitle}` : chapterTitle)}">
-          <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF 06` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
-          <div class="w2-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
+        <div class="w2-chapter-track" aria-label="${esc(chapter ? `Chapter ${chapterIndex + 1} of ${chapters.length}: ${chapterTitle}` : chapterTitle)}">
+          <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
+          <div class="w2-chapter-dots" style="grid-template-columns:repeat(${chapters.length},1fr)" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
         <button class="w2-close" type="button" data-w2-action="close" aria-label="Save and close">&times;</button>
         <div class="w2-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
@@ -142,8 +142,8 @@
     timer = null;
     const state = getState();
     const step = Number(state.currentStep || 0);
-    // Someone saved on the former slide 7 resumes at the combined exercise.
-    if (step === retiredListenerStep) {
+    // Resume retired sentence drills at the single combined exercise.
+    if (retiredSteps.includes(step)) {
       update({ currentStep: mergedPracticeStep });
       return renderStep();
     }
@@ -204,24 +204,7 @@
           <li><span aria-hidden="true">02</span><div><h2>Say it again.</h2><p>Send it to your listener. Keep “clear your mind” audible.</p></div></li>
         </ol>
         <p class="w2-calibration-note">Keep your microphone position steady. Speak comfortably.</p>
-      `, { className: "w2-calibration", nextLabel: "Both attempts complete" });
-    } else if (step === 7) {
-      page = shell(`
-        <p class="w2-eyebrow">THE FINAL-WORD TEST</p>
-        <h1>Do not abandon<br />the sentence.</h1>
-        <p class="w2-lede">Let the final words stay clear, even as your pitch falls.</p>
-        ${endingSentence(material.pointSentence)}
-        <div class="w2-energy-line"><span>FIRST WORD</span><i></i><strong>=</strong><i></i><span>FINAL WORD</span></div>
-        <p class="w2-coach-note">Keep the highlighted final words as audible as the opening words.</p>
-      `);
-    } else if (step === 8) {
-      page = shell(`
-        <p class="w2-eyebrow">ONE COMPLETE SENTENCE</p>
-        ${topicChip(material)}
-        <h1>Begin grounded.<br />Finish grounded.</h1>
-        ${endingSentence(material.pointSentence)}
-        <div class="w2-one-rule"><span>ONE RULE</span><strong>Finish the thought. Then pause.</strong></div>
-      `, { nextLabel: "Speak Version 1" });
+      `, { className: "w2-calibration", nextLabel: "Speak with PREP" });
     } else if (step === 9) {
       page = shell(`
         <p class="w2-eyebrow">VERSION 1</p>
@@ -360,7 +343,7 @@
       root.querySelector("textarea, input, button")?.focus();
       return;
     }
-    const patch = { currentStep: step === mergedPracticeStep ? retiredListenerStep + 1 : Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
+    const patch = { currentStep: step === mergedPracticeStep ? firstSpeakingStep : Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
     if (step === 15 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
     update(patch);
     renderStep();
@@ -369,7 +352,7 @@
   function back() {
     const step = Number(getState().currentStep || 0);
     if (step <= 0) return;
-    update({ currentStep: step === retiredListenerStep + 1 ? mergedPracticeStep : step - 1 });
+    update({ currentStep: step === firstSpeakingStep ? mergedPracticeStep : step - 1 });
     renderStep();
   }
 
