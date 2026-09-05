@@ -8,7 +8,7 @@
 
   const chapters = [
     { title: "Notice your voice pattern", start: 2, end: 3 },
-    { title: "Find your clear, comfortable voice", start: 4, end: 6 },
+    { title: "Find your clear, comfortable voice", start: 4, end: 5 },
     { title: "Let the last words land", start: 7, end: 8 },
     { title: "One answer. One adjustment.", start: 9, end: 11 },
     { title: "Name the prediction. Test it.", start: 12, end: 14 },
@@ -34,7 +34,11 @@
     { id: "push", label: "I push from my throat", note: "I try to sound louder and become tense." }
   ];
 
-  const lectureStepCount = 18;
+  // Keep stored step IDs stable so existing practice and mission progress resumes correctly.
+  const mergedPracticeStep = 5;
+  const retiredListenerStep = 6;
+  const missionFollowUpStep = 18;
+  const lectureStepCount = 17;
   const lastStep = 20;
   let previousFocus = null;
   let timer = null;
@@ -107,9 +111,10 @@
     const step = Number(state.currentStep || 0);
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
-    const afterMission = step >= lectureStepCount;
+    const afterMission = step >= missionFollowUpStep;
+    const slideNumber = step > retiredListenerStep ? step : step + 1;
     const canBack = step > 0 && !options.lockBack;
-    const progress = Math.round((Math.min(lectureStepCount, step + 1) / lectureStepCount) * 100);
+    const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step <= 1 ? "YOUR SIX OUTCOMES" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 2";
     const chapterTitle = chapter?.title || (step <= 1 ? "Develop a Stronger Voice" : "Turn experience into evidence");
 
@@ -126,7 +131,7 @@
       <main class="w2-main"><section class="w2-screen ${options.className || ""}">${content}</section></main>
       <footer class="w2-footer">
         <button class="w2-back" type="button" data-w2-action="back" ${canBack ? "" : "disabled"}>Back</button>
-        <span>${afterMission ? "AFTER THE MISSION" : `WEEK 2 · ${step + 1} / ${lectureStepCount}`}</span>
+        <span>${afterMission ? "AFTER THE MISSION" : `WEEK 2 · ${slideNumber} / ${lectureStepCount}`}</span>
         <div class="w2-footer-actions">${options.footer || `<button class="w2-next" type="button" data-w2-action="next">${options.nextLabel || "Continue"}</button>`}</div>
       </footer>
     </div>`;
@@ -137,6 +142,11 @@
     timer = null;
     const state = getState();
     const step = Number(state.currentStep || 0);
+    // Someone saved on the former slide 7 resumes at the combined exercise.
+    if (step === retiredListenerStep) {
+      update({ currentStep: mergedPracticeStep });
+      return renderStep();
+    }
     const material = practiceMaterial();
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -187,23 +197,14 @@
         <article class="w2-calibration-sentence">
           <small>READ ALOUD</small>
           <p>A short walk is a good way to <strong>clear your mind.</strong></p>
-          <div class="w2-calibration-trail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>ACROSS THE CALL</strong></div><article><i class="listener"></i><span>LISTENER</span></article></div>
         </article>
         <ol class="w2-attempts" aria-label="Exercise instructions">
           <li><span aria-hidden="true">01</span><div><h2>Say it naturally.</h2><p>Read the sentence at your usual speaking volume.</p></div></li>
-          <li><span aria-hidden="true">02</span><div><h2>Say it again.</h2><p>Keep “clear your mind” audible. Then pause.</p></div></li>
+          <li><span aria-hidden="true">02</span><div><h2>Say it again.</h2><p>Send it to your listener. Keep “clear your mind” audible.</p></div></li>
         </ol>
         <p class="w2-calibration-note">Keep your microphone position steady. Speak comfortably.</p>
       `, { className: "w2-calibration", nextLabel: "Both attempts complete" });
-    } else if (step === 6) {
-      page = shell(`
-        <p class="w2-eyebrow">ONE SIMPLE CUE</p>
-        <h1>Send the sentence<br />to the listener.</h1>
-        <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>ACROSS THE CALL</strong></div><article><i class="listener"></i><span>YOUR COACH</span></article></div>
-        <p class="w2-lede">Speak to the person on screen. Let your last words reach them.</p>
-        <article class="w2-practice-line compact"><small>SEND THIS POINT</small><p>${esc(material.pointSentence)}</p></article>
-        <blockquote><strong>“Could you hear every word?”</strong></blockquote>
-      `);
     } else if (step === 7) {
       page = shell(`
         <p class="w2-eyebrow">THE FINAL-WORD TEST</p>
@@ -359,7 +360,7 @@
       root.querySelector("textarea, input, button")?.focus();
       return;
     }
-    const patch = { currentStep: Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
+    const patch = { currentStep: step === mergedPracticeStep ? retiredListenerStep + 1 : Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
     if (step === 15 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
     update(patch);
     renderStep();
@@ -368,7 +369,7 @@
   function back() {
     const step = Number(getState().currentStep || 0);
     if (step <= 0) return;
-    update({ currentStep: step - 1 });
+    update({ currentStep: step === retiredListenerStep + 1 ? mergedPracticeStep : step - 1 });
     renderStep();
   }
 
