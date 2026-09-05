@@ -52,31 +52,27 @@
   const getLevel = () => exposure.clampLevel(getState().currentLevel || 1);
   const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
 
-  function keywordFrom(value, fallback) {
-    const words = String(value || "").replace(/[^a-zA-Z0-9' -]/g, " ").split(/\s+/)
-      .filter(word => word.length > 3 && !["this", "that", "with", "because", "believe", "opinion", "main", "reason", "example"].includes(word.toLowerCase()));
-    return (words[0] || fallback).toUpperCase();
-  }
-
   function practiceMaterial() {
-    const week1 = portal.getState().week1Lecture || {};
-    const prep = week1.prep || {};
-    const savedKeywords = week1.keywords || {};
     return {
-      topic: week1.selectedTopic || "A habit that improves your day",
-      pointSentence: prep.point || "A short walk is a good way to clear your mind.",
-      sentences: [prep.point, prep.reason, prep.example, prep.finalPoint],
+      topic: "A habit that improves your day",
+      pointSentence: "A short walk is a habit that improves my day.",
+      sentences: [
+        "A short walk is a habit that improves my day.",
+        "It gives me a mental reset and helps me return with more focus.",
+        "After a stressful meeting, a ten-minute walk helps me clear my mind.",
+        "That is why I believe a short daily walk improves my day."
+      ],
       keywords: {
-        point: savedKeywords.point || keywordFrom(prep.point, "RESET"),
-        reason: savedKeywords.reason || keywordFrom(prep.reason, "DISTANCE"),
-        example: savedKeywords.example || keywordFrom(prep.example, "MOMENT"),
-        finalPoint: savedKeywords.finalPoint || keywordFrom(prep.finalPoint, "WALK")
+        point: "DAILY WALK",
+        reason: "MENTAL RESET",
+        example: "STRESSFUL MEETING",
+        finalPoint: "BETTER DAY"
       }
     };
   }
 
   function topicChip(material) {
-    return `<span class="w2-topic-chip"><small>YOUR WEEK 1 TOPIC</small>${esc(material.topic)}</span>`;
+    return `<span class="w2-topic-chip"><small>TODAY'S PRACTICE TOPIC</small>${esc(material.topic)}</span>`;
   }
 
   function prepGuide(material) {
@@ -86,17 +82,10 @@
       ["E", "EXAMPLE", material.keywords.example],
       ["P", "FINAL POINT", material.keywords.finalPoint]
     ];
-    const hasAnswer = material.sentences.every(sentence => String(sentence || "").trim());
-    const sentences = hasAnswer ? material.sentences : [
-      "We should send an agenda before meetings.",
-      "It helps everyone prepare.",
-      "Last Tuesday, we spent ten minutes deciding what to discuss.",
-      "Let's send the agenda the day before."
-    ];
     return `<div class="w2-prep-guide" aria-label="PREP speaking guide">${items.map((item, index) => `<article style="--cue-order:${index}"><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong></div><em>${index === 3 ? "Land the ending" : "Pause · breathe if needed"}</em></article>`).join("")}</div>
-      <details class="w2-prep-example"><summary>${hasAnswer ? "See my answer with pause cues" : "See a PREP example"}</summary>
-        <p class="w2-example-note">${hasAnswer ? "Your Week 1 answer" : "Example topic: better meetings"} · Read once. Close it. Speak from keywords.</p>
-        <div>${items.map((item, index) => `<article><small>${item[1]}</small>${endingSentence(sentences[index])}<span class="w2-pause-cue">${index === 3 ? "● Finish. Let it land." : "Ⅱ Pause. Breathe if needed."}</span></article>`).join("")}</div>
+      <details class="w2-prep-example"><summary>See the complete PREP example</summary>
+        <p class="w2-example-note">Practice example: a habit that improves your day · Read once. Close it. Speak from keywords.</p>
+        <div>${items.map((item, index) => `<article><small>${item[1]}</small>${endingSentence(material.sentences[index])}<span class="w2-pause-cue">${index === 3 ? "● Finish. Let it land." : "Ⅱ Pause. Breathe if needed."}</span></article>`).join("")}</div>
       </details>`;
   }
 
@@ -196,7 +185,7 @@
         <h1>Make every word arrive.</h1>
         <article class="w2-calibration-sentence">
           <small>READ ALOUD</small>
-          <p>A short walk is a good way to <strong>clear your mind.</strong></p>
+          <p>A short walk is a habit that improves <strong>my day.</strong></p>
           <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>ACROSS THE CALL</strong></div><article><i class="listener"></i><span>LISTENER</span></article></div>
         </article>
         <ol class="w2-attempts" aria-label="Exercise instructions">

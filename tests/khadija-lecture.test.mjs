@@ -47,7 +47,7 @@ function lecture(savedStep) {
 test('combined exercise keeps its fixed sentence and moves directly to the full PREP speaking round', () => {
   const app = lecture(5);
   app.open();
-  assert.match(app.html(), /A short walk is a good way to/);
+  assert.match(app.html(), /A short walk is a habit that improves/);
   assert.doesNotMatch(app.html(), /A different saved Week 1 point/);
   assert.match(app.html(), /w2-arrival/);
   assert.match(app.html(), /WEEK 2 · 6 \/ 15/);
@@ -59,6 +59,25 @@ test('combined exercise keeps its fixed sentence and moves directly to the full 
   app.action('back');
   assert.match(app.html(), /Make every word arrive/);
   assert.match(app.html(), /WEEK 2 · 6 \/ 15/);
+});
+
+test('PREP practice stays independent from Week 1 and uses one coherent daily-walk example', () => {
+  const app = lecture(9);
+  app.open();
+  assert.match(app.html(), /TODAY'S PRACTICE TOPIC/);
+  assert.match(app.html(), /A habit that improves your day/);
+  assert.match(app.html(), /DAILY WALK/);
+  assert.match(app.html(), /MENTAL RESET/);
+  assert.match(app.html(), /STRESSFUL MEETING/);
+  assert.match(app.html(), /BETTER DAY/);
+  assert.match(app.html(), /A short walk is a habit that[\s\S]*improves my day/);
+  assert.match(app.html(), /That is why I believe a short daily walk[\s\S]*improves my day/);
+  assert.doesNotMatch(app.html(), /A different saved Week 1 point|YOUR WEEK 1 TOPIC|better meetings/);
+  app.action('complete-v1');
+  app.action('next');
+  assert.match(app.html(), /TODAY'S PRACTICE TOPIC/);
+  assert.match(app.html(), /DAILY WALK/);
+  assert.match(app.html(), /That is why I believe a short daily walk[\s\S]*improves my day/);
 });
 
 for (const retiredStep of [6, 7, 8]) test(`saved position ${retiredStep} resumes the combined exercise once`, () => {
