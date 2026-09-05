@@ -183,16 +183,15 @@
     } else if (step === 5) {
       page = shell(`
         <p class="w2-eyebrow">CALIBRATE YOUR VOICE</p>
-        ${topicChip(material)}
-        <h1>One Point.<br />Clear across the call.</h1>
-        <article class="w2-practice-line"><small>YOUR POINT</small><p>${esc(material.pointSentence)}</p></article>
-        <div class="w2-zone-buttons">
-          <button type="button" class="${state.voiceZone === "held-back" ? "selected" : ""}" data-w2-zone="held-back"><span>01</span><strong>Held back</strong><small>Too small</small></button>
-          <button type="button" class="grounded ${state.voiceZone === "grounded" ? "selected" : ""}" data-w2-zone="grounded"><span>02</span><strong>Grounded</strong><small>Clear and natural</small></button>
-          <button type="button" class="${state.voiceZone === "forced" ? "selected" : ""}" data-w2-zone="forced"><span>03</span><strong>Forced</strong><small>Too much effort</small></button>
+        <h1>One sentence.<br />Two attempts.</h1>
+        <article class="w2-practice-line"><small>SAY THIS SENTENCE</small><p>A short walk is a good way to clear your mind.</p></article>
+        <div class="w2-leave-plan">
+          <article><span>01 · YOU</span><strong>Say it naturally.</strong><p>Read the sentence aloud at your usual speaking volume.</p></article>
+          <article><span>02 · COACH</span><strong>Check what arrived.</strong><p>Tell her whether every word was clear, including the ending.</p></article>
+          <article><span>03 · YOU</span><strong>Say it again.</strong><p>Use one cue: “Let the last words reach my coach.” Keep your voice comfortable.</p></article>
         </div>
-        <p class="w2-coach-note">Keep your microphone position steady. Say your Point comfortably; your coach checks clarity. Select what you noticed.</p>
-      `);
+        <p class="w2-coach-note">Keep your microphone position steady. Coach: was the second attempt clear and easy to hear?</p>
+      `, { nextLabel: "Both attempts complete" });
     } else if (step === 6) {
       page = shell(`
         <p class="w2-eyebrow">ONE SIMPLE CUE</p>
@@ -348,7 +347,6 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [state.voicePattern, "Choose the voice pattern that feels closest."],
-      5: [state.voiceZone, "Say your Point and select the voice setting you noticed."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
