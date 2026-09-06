@@ -7,7 +7,6 @@ const homeLinks = [
   ["How It Works", "#how"],
   ["The Method", "/method"],
   ["About", "#about"],
-  ["Pricing", "#pricing"],
   ["Roadmap", "#roadmap"],
   ["Testimonials", "#testimonials"],
   ["FAQ", "#faq"],
