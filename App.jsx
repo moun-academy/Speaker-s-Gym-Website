@@ -256,45 +256,29 @@ export default function SpeakersGym() {
         @media(max-width:460px){ .method-equation{grid-template-columns:1fr;} .method-equation-symbol{transform:rotate(90deg);text-align:center;} .method-equation-result{grid-column:auto;} }
 
         /* ── ROADMAP ── */
-        .roadmap-section { position:relative; max-width:1240px; overflow:hidden; }
-        .roadmap-section::before { content:''; position:absolute; width:520px; height:520px; top:20px; right:-260px; border-radius:50%; background:radial-gradient(circle, rgba(217,192,111,.09), transparent 68%); pointer-events:none; }
-        .roadmap-shell { position:relative; overflow:hidden; margin-top:52px; padding:44px 38px 34px; border:1px solid rgba(217,192,111,.2); border-radius:24px; background:linear-gradient(145deg,rgba(20,22,22,.98),rgba(13,15,16,.99)); box-shadow:0 30px 90px rgba(0,0,0,.24); }
-        .roadmap-shell::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px); background-size:16.666% 100%; pointer-events:none; }
-        .roadmap-intro { position:relative; z-index:1; max-width:860px; }
-        .roadmap-intro .section-title { max-width:1100px; font-size:clamp(2.6rem,4.3vw,4rem); text-transform:uppercase; letter-spacing:.015em; }
-        .roadmap-intro .section-subtitle { max-width:650px; }
-        .roadmap-journey { position:relative; z-index:1; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:16px; padding-top:54px; }
-        .roadmap-track { position:absolute; top:17px; left:8.333%; right:8.333%; height:2px; background:linear-gradient(90deg,rgba(217,192,111,.35),var(--accent) 18%,var(--accent) 82%,rgba(217,192,111,.35)); }
-        .roadmap-card { position:relative; min-height:260px; padding:28px 18px 22px; border:1px solid rgba(224,221,212,.14); border-top:3px solid var(--accent); border-radius:0 0 8px 8px; background:rgba(28,30,32,.88); transition:transform .3s ease,border-color .3s ease,background .3s ease; }
-        .roadmap-card:hover { transform:translateY(-5px); border-color:rgba(217,192,111,.38); background:rgba(32,34,35,.98); }
-        .roadmap-node { position:absolute; top:-54px; left:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; transform:translateX(-50%); border:1px solid #f0d77f; border-radius:50%; color:#111; background:var(--accent); box-shadow:0 0 0 7px #111314,0 0 28px rgba(217,192,111,.18); font-size:.8rem; font-weight:800; }
-        .roadmap-week-label { position:absolute; top:-88px; left:50%; transform:translateX(-50%); color:var(--accent); font-size:.68rem; line-height:1; font-weight:700; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; }
-        .roadmap-focus { display:block; margin-bottom:20px; color:var(--accent); font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
-        .roadmap-card h3 { min-height:68px; margin:0 0 28px; color:#f2eee5; font-family:var(--font-body); font-size:1rem; font-style:normal; font-weight:700; line-height:1.45; }
-        .roadmap-card p { margin-top:auto; color:#9f9d9a; font-size:.78rem; line-height:1.55; }
-        .roadmap-exposure { position:relative; z-index:1; display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:center; margin-top:30px; padding:20px 24px; border-top:1px solid rgba(217,192,111,.24); border-bottom:1px solid rgba(217,192,111,.24); background:rgba(217,192,111,.025); }
-        .roadmap-exposure strong { color:var(--accent); font-family:var(--font-display); font-size:1rem; font-style:italic; white-space:nowrap; }
-        .roadmap-exposure-flow { display:flex; align-items:center; justify-content:flex-end; gap:10px; color:#c7c2b7; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-        .roadmap-exposure-flow i { width:26px; height:1px; background:rgba(217,192,111,.45); }
-        @media(max-width:1050px){
-          .roadmap-journey { grid-template-columns:repeat(3,minmax(0,1fr)); gap:68px 18px; }
-          .roadmap-track { display:none; }
-          .roadmap-card { min-height:230px; }
-        }
-        @media(max-width:700px){
-          .roadmap-shell { margin-top:38px; padding:34px 20px 28px; border-radius:18px; }
-          .roadmap-shell::before { background-size:50% 100%; }
-          .roadmap-journey { grid-template-columns:1fr; gap:18px; padding:0 0 0 42px; }
-          .roadmap-journey::before { content:''; position:absolute; top:18px; bottom:18px; left:17px; width:1px; background:linear-gradient(var(--accent),rgba(217,192,111,.18)); }
-          .roadmap-card { min-height:0; padding:24px 22px; border-top-width:1px; border-left:3px solid var(--accent); border-radius:0 10px 10px 0; }
-          .roadmap-node { top:22px; left:-43px; width:34px; height:34px; transform:none; box-shadow:0 0 0 6px #111314; }
-          .roadmap-week-label { position:static; display:block; transform:none; margin-bottom:14px; }
-          .roadmap-focus { margin-bottom:10px; }
-          .roadmap-card h3 { min-height:0; margin-bottom:12px; font-size:1.05rem; }
-          .roadmap-exposure { grid-template-columns:1fr; gap:12px; padding:20px 4px; }
-          .roadmap-exposure strong { white-space:normal; }
-          .roadmap-exposure-flow { justify-content:flex-start; flex-wrap:wrap; gap:8px; }
-          .roadmap-exposure-flow i { width:14px; }
+        .roadmap-section { position:relative; overflow:hidden; }
+        .roadmap-section::before { content:''; position:absolute; width:440px; height:440px; top:80px; right:-240px; border-radius:50%; background:radial-gradient(circle, rgba(217,192,111,.09), transparent 68%); pointer-events:none; }
+        .roadmap-intro { max-width:760px; }
+        .roadmap-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; margin-top:56px; position:relative; }
+        .roadmap-card { position:relative; min-height:250px; padding:32px; overflow:hidden; border:1px solid var(--border); border-radius:20px; background:linear-gradient(145deg, rgba(27,27,27,.98), rgba(20,20,20,.96)); transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+        .roadmap-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, var(--accent), transparent 75%); opacity:.75; }
+        .roadmap-card:hover { transform:translateY(-5px); border-color:rgba(217,192,111,.32); box-shadow:0 24px 60px rgba(0,0,0,.24); }
+        .roadmap-card-head { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+        .roadmap-step { width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 6px var(--accent-glow); }
+        .roadmap-week-label { color:var(--accent); font-size:.72rem; line-height:1; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+        .roadmap-number { position:absolute; top:14px; right:22px; color:rgba(217,192,111,.07); font-family:var(--font-display); font-size:6rem; font-style:italic; line-height:1; pointer-events:none; }
+        .roadmap-card h3 { max-width:82%; margin-bottom:14px; font-family:var(--font-display); font-size:1.55rem; font-style:italic; line-height:1.2; color:var(--text); }
+        .roadmap-card p { color:var(--text-dim); font-size:.95rem; line-height:1.7; }
+        .roadmap-exposure-note { display:flex; align-items:center; gap:14px; margin-top:28px; padding:18px 22px; border:1px solid rgba(217,192,111,.18); border-radius:12px; color:#c9c1aa; background:rgba(217,192,111,.035); font-size:.9rem; line-height:1.55; }
+        .roadmap-exposure-note span { width:9px; height:9px; flex:0 0 auto; border-radius:50%; background:var(--accent); box-shadow:0 0 0 6px var(--accent-glow); }
+        @media(max-width:760px){
+          .roadmap-grid { grid-template-columns:1fr; margin-top:40px; }
+          .roadmap-card { min-height:0; padding:28px 24px; }
+          .roadmap-card-head { margin-bottom:22px; }
+          .roadmap-card h3 { max-width:88%; font-size:1.4rem; }
+          .roadmap-number { font-size:5rem; }
+          .roadmap-exposure-note { align-items:flex-start; padding:17px 18px; }
+          .roadmap-exposure-note span { margin-top:6px; }
         }
 
         /* between sessions */
@@ -523,38 +507,38 @@ export default function SpeakersGym() {
       {/* ── ROADMAP ── */}
       <section className="section roadmap-section" id="roadmap">
         <Reveal className="roadmap-intro">
-          <div className="section-label">Your Six-Week Journey</div>
-          <div className="section-title">Build Your Voice. Week by Week.</div>
-          <p className="section-subtitle">Technique and real-world practice, together.</p>
+          <div className="section-label">The Roadmap</div>
+          <div className="section-title">The Speaker's Gym: 6-Week Program</div>
+          <p className="section-subtitle">Build clear thinking, a stronger voice, and the confidence to speak when it matters.</p>
         </Reveal>
 
-        <Reveal>
-          <div className="roadmap-shell">
-            <div className="roadmap-journey">
-              <span className="roadmap-track" aria-hidden="true" />
-              {[
-                { w: "1", focus: "Structure", outcome: "Organize your thoughts.", tools: "PREP frameworks + baseline video" },
-                { w: "2", focus: "Volume", outcome: "Make your voice heard.", tools: "Volume + grounded voice practice" },
-                { w: "3", focus: "Pace", outcome: "Take control of your speed.", tools: "Pace + spontaneous delivery" },
-                { w: "4", focus: "Pauses", outcome: "Give your words room to land.", tools: "Thinking pauses + comfort with silence" },
-                { w: "5", focus: "Storytelling", outcome: "Bring your personality out.", tools: "Stories + tone + pitch + expression" },
-                { w: "6", focus: "Progress", outcome: "See how far you have come.", tools: "Full integration + video comparison + next steps" },
-              ].map((wk) => (
-                <article className="roadmap-card" key={wk.w}>
+        <div className="roadmap-grid">
+          {[
+            { w: "1", name: "Organize Your Thoughts with PREP", desc: "Structure your ideas clearly, answer with confidence, and stop rambling under pressure." },
+            { w: "2", name: "Make Your Voice Heard", desc: "Develop stronger volume and speak clearly without forcing or straining your voice." },
+            { w: "3", name: "Take Control of Your Pace", desc: "Slow down, stay composed, and respond spontaneously without rushing." },
+            { w: "4", name: "Pause, Think, and Own the Silence", desc: "Give yourself time to think and use intentional silence instead of filler words." },
+            { w: "5", name: "Storytelling That Brings Out Your Personality", desc: "Turn ideas and experiences into engaging stories using tone, pitch, and expression." },
+            { w: "6", name: "Full Integration + Your Real Target", desc: "Apply every skill in the situation that matters most, review your progress, and create your long-term plan." },
+          ].map((wk, i) => (
+            <Reveal key={wk.w} delay={i * 100}>
+              <article className="roadmap-card">
+                <span className="roadmap-number" aria-hidden="true">{wk.w}</span>
+                <div className="roadmap-card-head">
+                  <span className="roadmap-step" />
                   <span className="roadmap-week-label">Week {wk.w}</span>
-                  <span className="roadmap-node" aria-hidden="true">{wk.w}</span>
-                  <span className="roadmap-focus">{wk.focus}</span>
-                  <h3>{wk.outcome}</h3>
-                  <p>{wk.tools}</p>
-                </article>
-              ))}
-            </div>
-            <div className="roadmap-exposure">
-              <strong>Personalized exposure runs through every week.</strong>
-              <div className="roadmap-exposure-flow" aria-label="Learn, practise, use it in real life, collect evidence">
-                <span>Learn</span><i /><span>Practise</span><i /><span>Use it in real life</span><i /><span>Collect evidence</span>
-              </div>
-            </div>
+                </div>
+                <h3>{wk.name}</h3>
+                <p>{wk.desc}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal>
+          <div className="roadmap-exposure-note">
+            <span aria-hidden="true" />
+            <strong>Real-world exposure begins in Week 1 and continues every week.</strong>
           </div>
         </Reveal>
 
