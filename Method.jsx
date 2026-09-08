@@ -26,12 +26,12 @@ const assessmentStatements = [
 ];
 
 const programWeeks = [
-  ["1", "PREP + Your Exposure System", "Organize your thoughts, build your personalized exposure system and complete your first real-world mission."],
-  ["2", "Volume + Pauses", "Strengthen your voice and use intentional pauses while continuing your weekly exposure missions."],
-  ["3", "Pace + Spontaneous Speaking", "Control your pace and practise responding clearly without overthinking or rushing."],
-  ["4", "Pause to Think + Comfort With Silence", "Use calm silence to think, replace filler words and stay composed under attention."],
-  ["5", "Tone + Pitch + Personality", "Add vocal variation, show more personality and integrate every skill learned so far."],
-  ["6", "Full Integration + Your Real Target", "Apply the complete method in your target situation and build your long-term progress plan."],
+  ["1", "Organize Your Thoughts", "Use PREP frameworks, record your baseline and begin your personalized exposure journey."],
+  ["2", "Make Your Voice Heard", "Develop grounded volume and use your stronger voice in real situations."],
+  ["3", "Take Control of Your Speed", "Control your pace and practise responding clearly without overthinking or rushing."],
+  ["4", "Give Your Words Room to Land", "Use intentional pauses to think clearly and become comfortable with silence."],
+  ["5", "Bring Your Personality Out", "Use storytelling, tone, pitch and expression to sound more natural and engaging."],
+  ["6", "See How Far You Have Come", "Integrate every skill, compare your progress and build your long-term next-step plan."],
 ];
 
 function useOnScreen(ref, threshold = 0.12) {
