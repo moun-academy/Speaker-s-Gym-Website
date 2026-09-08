@@ -47,22 +47,23 @@ const weeks = [
     ]
   },
   {
-    short: "Vocal Variety",
-    title: "Speak With Vocal Variety",
-    why: "Pace, tone and emphasis help your meaning come through so you sound engaged rather than guarded.",
-    outcome: "You use pace, tone and emphasis to sound natural, warm and confident in a professional story.",
-    learn: ["Intentional pace", "Pitch and emphasis", "Warm professional tone", "Eye contact while telling a story"],
-    spotlight: "Tell a two-minute career story with clear emphasis, natural pace and connected eye contact.",
-    work: "Tell one concise example from your medical-scribe experience with visible enthusiasm.",
-    home: "Tell a short story using your face, tone and voice instead of only the words.",
+    short: "Pace",
+    title: "Pace Variety",
+    subtitle: "From one flat speed to a pace that carries meaning",
+    why: "Engagement does not come from a speed. It comes from the change. Pace tells the listener what matters before the words do.",
+    outcome: "You can deliver your PREP answer with three deliberate gears: hold the point, run the familiar, stop before what matters.",
+    learn: ["Why pace decides what lands", "Your default rate in words per minute", "The three gears: hold, run, stop", "Slow the new, speed the known", "Mapping the pace of your own answer"],
+    spotlight: "Deliver your familiar PREP answer with a deliberate pace map: hold the Point, run the Reason and Example, stop before the Final Point.",
+    work: "Change pace on purpose at least once in one professional conversation.",
+    home: "Slow one sentence that matters in one relaxed conversation.",
     days: [
-      day("Pace day", "Change speed with purpose", "Important ideas deserve a little more time.", "Record one answer at your natural pace", "Slow only the sentence that carries the main point", "Listen for where the message becomes easier to follow", "Where did a slower pace add authority?"),
-      day("Emphasis day", "Make the key words land", "Emphasis guides the listener through your thinking.", "Underline three key words in a short answer", "Stress only those words while speaking", "Repeat without sounding rehearsed", "Which word carried the meaning most clearly?"),
-      day("Tone day", "Sound warm and capable", "Professional confidence can include warmth.", "Say the same sentence with neutral, uncertain and assured tone", "Choose the version that feels both kind and credible", "Use it in one real conversation", "What did my tone communicate beyond my words?"),
-      day("Story day", "Turn experience into evidence", "A concise story makes your value memorable.", "Choose one challenge from your work experience", "Tell it as situation, action and result", "Add one moment of vocal emphasis", "What value does this story reveal about me?"),
-      day("Connection day", "Stay connected while speaking", "Eye contact helps your message feel shared rather than performed.", "Tell your story to one safe listener", "Hold eye contact for one complete key sentence", "Notice the listener instead of monitoring yourself", "What changed when I focused on connection?"),
-      day("Spotlight day", "Let your personality be heard", "Expression makes competence easier to remember.", "Record your two-minute career story", "Use deliberate pace, tone and emphasis", "Post it and ask what felt most engaging", "Where can I hear more of myself?"),
-      day("Integration day", "Keep your natural authority", "Vocal variety is meaning made audible.", "Compare your first and final recordings", "Name three moments that sound more engaging", "Choose one vocal cue to keep", "How has my delivery changed the way my experience lands?")
+      weekOneDay("Coaching day", "Put the speed where it belongs", "Find your default rate, feel three gears, map the pace of your own answer and accept one real-world mission.", "Open the Week 3 coaching experience and accept your mission", "Play your pace map once more", "Record an extra shaped-pace Version in the Speaker's Gym app", "Which gear felt most like me, and which felt like a stranger?"),
+      weekOneDay("Mission day", "Change pace once", "One deliberate change of speed is enough. The win is attempting it.", "Attempt your accepted Week 3 Mission", "Practice holding one Point at 110 words per minute", "Share an optional pace rep with the community", "What happened when I slowed down on purpose?"),
+      weekOneDay("Mission day", "Hold the point", "The sentence that matters deserves the most time.", "Attempt your accepted Week 3 Mission", "Say one Point one word at a time, then run the Reason", "Record one optional Version in the app", "Did anyone interrupt the slow sentence? What did they actually do?"),
+      weekOneDay("Mission day", "Run the known", "Familiar ground can move. Speed there reads as confidence.", "Attempt your accepted Week 3 Mission", "Run one piece of background at 170 and feel the difference", "Ask AI for one optional pace focus", "Where did speeding up feel natural instead of nervous?"),
+      weekOneDay("Mission day", "Stop before it matters", "One beat of silence makes the next sentence heavier.", "Attempt your accepted Week 3 Mission", "Practice one full beat of silence before your Final Point", "Share an optional community update", "How long did the silence feel to me, and how long was it really?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Reality is more useful than what your pace anxiety predicted.", "Return to Week 3 and record what actually happened", "Record one extra shaped-pace Version", "Share your Evidence Card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep your three gears", "One shaped answer becomes the reference point for the next one.", "Complete your Week 3 Mission reflection", "Play your pace map and speak it once more", "Choose one gear cue to carry into Week 4", "What can my pace now do on purpose that it could not last week?")
     ]
   },
   {
@@ -196,6 +197,31 @@ const defaultState = {
     lectureCompletedAt: null,
     completedAt: null,
     lastViewedAt: null
+  },
+  week3Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
+    currentLevel: null,
+    demoMode: "",
+    baselineWpm: null,
+    baselineSeconds: null,
+    feltRates: {},
+    sortAnswers: {},
+    paceMap: { point: "hold", reason: "run", example: "run", finalPoint: "stop" },
+    versionsCompleted: 0,
+    coachImprovement: "",
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
+    lastViewedAt: null
   }
 };
 
@@ -257,6 +283,14 @@ function loadState() {
         ...(storedWeek2.flowVersion === 1 ? storedWeek2 : {}),
         flowVersion: 1,
         currentLevel: storedWeek2.currentLevel || null
+      },
+      week3Lecture: {
+        ...defaultState.week3Lecture,
+        ...(stored?.week3Lecture || {}),
+        flowVersion: 1,
+        feltRates: { ...(stored?.week3Lecture?.feltRates || {}) },
+        sortAnswers: { ...(stored?.week3Lecture?.sortAnswers || {}) },
+        paceMap: { ...defaultState.week3Lecture.paceMap, ...(stored?.week3Lecture?.paceMap || {}) }
       }
     };
   } catch {
@@ -339,13 +373,13 @@ function renderToday() {
   $("#dayType").textContent = currentDay.type;
   $("#dayTitle").textContent = currentDay.title;
   $("#dayIntention").textContent = currentDay.intention;
-  $("#practiceDuration").innerHTML = weekIndex === 0 && dayOfWeek === 0
+  $("#practiceDuration").innerHTML = currentDay.type === "Coaching day"
     ? '<span aria-hidden="true">◷</span> Your 60-minute coaching session'
     : '<span aria-hidden="true">◷</span> Your 15-minute practice ritual';
   $("#focusTitle").textContent = week.title;
   $("#focusWhy").textContent = week.why;
   $("#focusOutcome").textContent = week.outcome;
-  $("#taskCount").textContent = weekIndex === 0 ? "One mission · optional extra reps" : `${tasksDone} of 3 complete`;
+  $("#taskCount").textContent = currentDay.tasks[0].kind === "required" ? "One mission · optional extra reps" : `${tasksDone} of 3 complete`;
   $("#taskProgress").style.width = `${(tasksDone / 3) * 100}%`;
 
   const complete = Boolean(state.completedDays[dayKey(state.selectedDay)]);
@@ -548,6 +582,24 @@ function renderWeekDetail() {
           : `<strong>Discover → Calibrate → Speak → Prove</strong><span>A live grounded-volume coaching experience with one real-world mission.</span>`;
     }
   }
+  const week3Entry = $("#week3LectureEntry");
+  if (week3Entry) {
+    const show = state.selectedWeek === 2;
+    week3Entry.hidden = !show;
+    if (show) {
+      const lecture = state.week3Lecture;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week3LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 3" : lecture.lastViewedAt ? "Continue Lecture 3" : "Start Lecture 3";
+      const reportButton = $("#week3MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week3LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 3 complete</strong><span>Pace Variety unlocked · ${lecture.baselineWpm ? `${lecture.baselineWpm} wpm default` : `${lecture.versionsCompleted || 0} Versions`} · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Pace mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Tune → Speak → Prove</strong><span>A live pace coaching experience with one real-world mission.</span>`;
+    }
+  }
 }
 
 function renderReflection() {
@@ -645,6 +697,16 @@ window.SpeakersGymPortal = {
     saveState();
     renderAll();
   },
+  resetWeek3() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 3);
+    state.week3Lecture = JSON.parse(JSON.stringify(defaultState.week3Lecture));
+    saveState();
+    renderAll();
+  },
+  updateWeek3(patch) {
+    state.week3Lecture = { ...state.week3Lecture, ...patch };
+    saveState();
+  },
   updateLecture(patch) {
     state.week2Lecture = { ...state.week2Lecture, ...patch };
     saveState();
@@ -668,6 +730,12 @@ $("#week2ResetButton")?.addEventListener("click", () => {
   if (!confirmed) return;
   window.SpeakersGymPortal.resetWeek2();
   showToast("Lecture 2 is ready for a fresh start.");
+});
+$("#week3ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 3? This will clear the default rate, gear choices, pace map, Versions, prediction, mission and Week 3 evidence. The rest of Khadija's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek3();
+  showToast("Lecture 3 is ready for a fresh start.");
 });
 $("#completeDayButton").addEventListener("click", () => {
   const key = dayKey(state.selectedDay);

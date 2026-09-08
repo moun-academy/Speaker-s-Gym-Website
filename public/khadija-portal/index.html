@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="styles.css?v=khadija-v3" />
     <link rel="stylesheet" href="lecture.css?v=khadija-v9" />
     <link rel="stylesheet" href="week1.css?v=khadija-v5" />
+    <link rel="stylesheet" href="week3.css?v=khadija-v1" />
   </head>
   <body>
     <div class="app-shell">
@@ -242,6 +243,17 @@
                   <button class="button button-accent" id="week2LectureButton" data-open-week2-lecture type="button">Start Lecture 2</button>
                 </div>
               </div>
+              <div class="lecture-entry" id="week3LectureEntry" hidden>
+                <div id="week3LectureStatus">
+                  <strong>Discover → Tune → Speak → Prove</strong>
+                  <span>A live pace coaching experience with one real-world mission.</span>
+                </div>
+                <div class="lecture-entry-actions">
+                  <button class="lecture-reset" id="week3ResetButton" type="button">Reset Week 3</button>
+                  <button class="button button-dark" id="week3MissionButton" data-open-week3-reflection type="button" hidden>Report mission</button>
+                  <button class="button button-accent" id="week3LectureButton" data-open-week3-lecture type="button">Start Lecture 3</button>
+                </div>
+              </div>
               <details class="week-plan-disclosure">
                 <summary>Explore this week's complete coaching plan <span aria-hidden="true">+</span></summary>
                 <div class="week-detail-grid">
@@ -328,10 +340,12 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <div id="week1Root"></div>
     <div id="lectureRoot"></div>
+    <div id="week3Root"></div>
     <script src="client-config.js?v=khadija-v2"></script>
     <script src="exposure-levels.js?v=khadija-v3"></script>
-    <script src="app.js?v=khadija-v6"></script>
+    <script src="app.js?v=khadija-v7"></script>
     <script src="week1.js?v=khadija-v5"></script>
     <script src="lecture.js?v=khadija-v9"></script>
+    <script src="week3.js?v=khadija-v1"></script>
   </body>
 </html>
