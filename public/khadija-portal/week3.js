@@ -58,7 +58,7 @@
   const demoModes = {
     flat: { label: "Flat", meaning: "Sounds like a list.", note: "Every word the same weight. The listener does the sorting.", timings: null, perWord: 300 },
     rushed: { label: "Rushed", meaning: "Sounds like an apology.", note: "Pressure in the voice becomes pressure in the room.", timings: null, perWord: 130 },
-    shaped: { label: "Shaped", meaning: "Sounds like a decision.", note: "Run the setup. Stop. Hold the point.", timings: [150, 150, 150, 150, 150, 150, 170, 900, 240, 240, 320, 900], perWord: null }
+    shaped: { label: "Dynamic", meaning: "Sounds like a decision.", note: "Run the setup. Stop. Hold the point.", timings: [150, 150, 150, 150, 150, 150, 900, 240, 240, 320, 900], perWord: null }
   };
 
   const lectureStepCount = 15;
