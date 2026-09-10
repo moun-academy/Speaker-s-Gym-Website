@@ -1,5 +1,59 @@
 body.week3-open { overflow: hidden; }
 
+/* Fast / Slow / Stop are presented consistently as traffic-light cues. */
+.week3-page .w3-gears article.run, .week3-page .w3-map-segment.run { background: #e3f3df; border-color: #9ac593; color: #203d27; }
+.week3-page .w3-gears article.hold, .week3-page .w3-map-segment.hold { background: #fff0d5; border-color: #e5b66d; color: #573810; }
+.week3-page .w3-gears article.run > span { color: #285d33; }
+.week3-page .w3-gears article.hold > span { color: #85510e; }
+.week3-page .w3-gear-pill.run, .week3-page .w3-sort-buttons button.run.chosen { background: #c8e7c3; border-color: #94bd8d; color: #214b2a; }
+.week3-page .w3-gear-pill.hold, .week3-page .w3-sort-buttons button.hold.chosen { background: #ffe1a6; border-color: #d3a354; color: #63420a; }
+.week3-page .w3-ribbon.run em { background: #48894b; }
+.week3-page .w3-ribbon.hold em { background: #b87721; }
+.week3-page .w3-pace-map { grid-template-columns: repeat(3,minmax(0,1fr)) 90px minmax(0,1fr); }
+.week3-page .w3-map-segment { min-width: 0; }
+.week3-page .w3-map-segment p { font-size: 15px; line-height: 1.5; color: #3c443d; overflow-wrap: anywhere; }
+.week3-page .w3-map-segment header { grid-template-columns: 25px 1fr; }
+.week3-page .w3-map-segment header b { grid-column: 1 / -1; justify-self: start; }
+.w3-map-pause { display: grid; align-content: center; justify-items: center; gap: 10px; padding: 15px 8px; border: 2px dashed #ca5244; border-radius: 14px; background: #fff1ec; color: #a82f27; text-align: center; }
+.w3-map-pause strong { font: 800 16px/1.2 Inter,sans-serif; }
+.w3-map-pause small { font: 500 11px/1.4 Inter,sans-serif; }
+.w3-map-pause.playing { background: #ad3028; border-style: solid; border-color: #ad3028; color: white; box-shadow: 0 0 0 5px #eaa79d; }
+.w3-play-status { min-height: 48px; display: grid; place-items: center; margin: 18px 0 0; padding: 10px 15px; border-radius: 10px; color: #294130; font: 700 14px/1.5 Inter,sans-serif; text-align: center; }
+.w3-play-status.pausing { background: #ad3028; color: white; }
+
+/* Rocky reading: a boxing poster, ring ropes, and a legible training script. */
+.week3-page:has(.rocky) { background: #15191a; }
+.week3-page .rocky { width: min(1040px,calc(100% - 40px)); justify-content: flex-start; color: #f5f0df; padding-top: 32px; }
+.w3-rocky-heading { position: relative; padding: 25px 22px; border-top: 3px solid #b3483d; border-bottom: 3px solid #b3483d; background: radial-gradient(ellipse at top, #424333, #1c2021 75%); box-shadow: inset 0 7px #15191a, inset 0 -7px #15191a; }
+.rocky .w3-eyebrow { color: #e9cc86; margin-bottom: 14px; }
+.week3-page .rocky h1 { font-family: Impact, 'Arial Narrow', sans-serif; text-transform: uppercase; font-size: clamp(48px,7vw,86px); letter-spacing: .02em; line-height: .95; }
+.week3-page .rocky h1 em { color: #edc96c; }
+.w3-rocky-credit { margin: 16px 0 0; text-align: center; color: #cbc8be; font: 600 11px/1.5 Inter,sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+.w3-rocky-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 24px 0 0; }
+.w3-rocky-legend > span { padding: 8px 12px; border: 1px solid currentColor; border-radius: 5px; font: 800 11px/1.4 Inter,sans-serif; letter-spacing: .08em; }
+.rocky .fast { color: #a8e2a3; }
+.rocky .slow { color: #f6d576; }
+.rocky .pause { color: #ff968c; }
+.w3-rocky-instruction { margin: 15px auto 22px; max-width: 690px; font: 400 14px/1.6 Inter,sans-serif; text-align: center; color: #d0cec5; }
+.w3-rocky-script { padding: clamp(18px,3vw,36px); border: 1px solid #42463e; border-radius: 5px; background: #1d2222; box-shadow: 0 20px 45px #0004; }
+.w3-rocky-script p { margin: 0 0 18px; font: 500 clamp(20px,2.4vw,28px)/1.6 Georgia,serif; }
+.w3-rocky-script p > small, .w3-rocky-script span > small { display: inline-block; margin-right: 10px; padding: 3px 7px; border: 1px solid currentColor; border-radius: 4px; vertical-align: middle; font: 800 9px/1.3 Inter,sans-serif; letter-spacing: .1em; }
+.w3-rocky-script > .pause { display: flex; align-items: center; gap: 12px; margin: 8px 0 22px; font: 800 12px/1.4 Inter,sans-serif; letter-spacing: .14em; }
+.w3-rocky-script > .pause::before, .w3-rocky-script > .pause::after { content: ''; height: 1px; flex: 1; background: #a04b43; }
+.w3-rocky-script .pause small { font-size: 10px; font-weight: 500; letter-spacing: normal; }
+.w3-rocky-script p.finish { margin-bottom: 0; font-weight: 700; font-size: clamp(25px,3vw,36px); }
+@media (max-width: 1050px) {
+  .week3-page .w3-pace-map { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .week3-page .w3-pace-map > :nth-child(n+3) { grid-column: 1 / -1; }
+  .w3-map-pause { padding: 12px; grid-template-columns: auto auto; justify-content: center; }
+}
+@media (max-width: 600px) {
+  .week3-page .w3-pace-map { grid-template-columns: minmax(0,1fr); }
+  .week3-page .w3-gears { grid-template-columns: minmax(0,1fr); }
+  .week3-page .w3-gears article { min-height: 0; }
+  .week3-page .rocky { width: calc(100% - 24px); }
+}
+
 .week3-page {
   position: fixed;
   inset: 0;
@@ -24,7 +78,7 @@ body.week3-open { overflow: hidden; }
 .w3-chapter-track > div:first-child { display: grid; gap: 4px; }
 .w3-chapter-track small { width: max-content; padding: 3px 7px; border-radius: 999px; background: rgba(243,201,105,.22); color: #76612e; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .w3-chapter-track strong { color: var(--ink); font: 500 clamp(17px,1.45vw,22px)/1.08 var(--display); letter-spacing: -.015em; }
-.w3-chapter-dots { display: grid; grid-template-columns: repeat(6,1fr); gap: 5px; }
+.w3-chapter-dots { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; }
 .w3-chapter-dots i { height: 4px; border-radius: 99px; background: #d7d6ce; }
 .w3-chapter-dots i.done { background: #c5a95f; }
 .w3-chapter-dots i.active { background: var(--coral); }
@@ -228,7 +282,7 @@ button.w3-map-segment:hover { transform: translateY(-2px); box-shadow: 0 12px 28
 .w3-map-segment strong { font: 700 11px Inter,sans-serif; letter-spacing: .05em; }
 .w3-map-segment p { margin: 0; color: var(--muted); font: 400 12px/1.45 var(--display); }
 .w3-map-segment.hold p { font-size: 13px; }
-.w3-pace-map.compact .w3-map-segment p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.w3-pace-map.compact .w3-map-segment p { display: block; overflow: visible; }
 .w3-map-segment.playing { transform: translateY(-4px); box-shadow: 0 0 0 4px rgba(237,116,92,.18), 0 18px 40px rgba(23,35,31,.12); }
 .w3-map-segment.played { opacity: .62; }
 .w3-map-segment.beat { animation: w3-beatflash 1.5s ease-out; }
