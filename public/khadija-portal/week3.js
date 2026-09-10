@@ -273,7 +273,7 @@
         <article class="w3-mission-mini active"><small>YOUR WEEK 3 MISSION</small><p>${esc(state.mission)}</p><strong>Win by changing pace on purpose at least once.</strong></article>
         <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take three gears into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>Nervous and imperfect are allowed.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time you slow down on purpose.</strong></blockquote>
-      `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w3-action="close">Return to my portal</button>' });
+      `, { footer: '<button class="w3-next" type="button" data-w3-action="close">Return to my portal</button>' });
     } else if (step === 15) {
       page = shell(`
         <p class="w3-eyebrow">WELCOME BACK</p>
