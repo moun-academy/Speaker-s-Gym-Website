@@ -7,10 +7,13 @@ body.week3-open { overflow: hidden; }
 .week3-page .w3-gears article.hold > span { color: #85510e; }
 .week3-page .w3-gear-pill.run, .week3-page .w3-sort-buttons button.run.chosen { background: #c8e7c3; border-color: #94bd8d; color: #214b2a; }
 .week3-page .w3-gear-pill.hold, .week3-page .w3-sort-buttons button.hold.chosen { background: #ffe1a6; border-color: #d3a354; color: #63420a; }
+.week3-page .w3-gear-pill.neutral { background: #eceae2; border: 1px solid #cfcdc4; color: #77766f; }
 .week3-page .w3-ribbon.run em { background: #48894b; }
 .week3-page .w3-ribbon.hold em { background: #b87721; }
 .week3-page .w3-pace-map { grid-template-columns: repeat(3,minmax(0,1fr)) 90px minmax(0,1fr); }
 .week3-page .w3-map-segment { min-width: 0; }
+.week3-page .w3-map-segment.neutral { background: #f5f3ed; border-color: #d5d2c8; color: #68675f; }
+.week3-page .w3-map-segment.neutral .w3-ribbon em { background: #cfcdc4; animation: none; }
 .week3-page .w3-map-segment p { font-size: 15px; line-height: 1.5; color: #3c443d; overflow-wrap: anywhere; }
 .week3-page .w3-map-segment header { grid-template-columns: 25px 1fr; }
 .week3-page .w3-map-segment header b { grid-column: 1 / -1; justify-self: start; }
@@ -20,6 +23,10 @@ body.week3-open { overflow: hidden; }
 .w3-map-pause.playing { background: #ad3028; border-style: solid; border-color: #ad3028; color: white; box-shadow: 0 0 0 5px #eaa79d; }
 .w3-play-status { min-height: 48px; display: grid; place-items: center; margin: 18px 0 0; padding: 10px 15px; border-radius: 10px; color: #294130; font: 700 14px/1.5 Inter,sans-serif; text-align: center; }
 .w3-play-status.pausing { background: #ad3028; color: white; }
+.w3-coach-actions { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 18px auto 0; }
+.w3-coach-actions .w3-coach-note { margin: 0; }
+.w3-reset-button { padding: 9px 15px; border: 1px solid #bdbab0; border-radius: 999px; background: rgba(255,255,255,.8); color: var(--ink); font: 700 9px/1 Inter,sans-serif; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.w3-reset-button:hover { border-color: var(--coral); color: var(--coral-dark); }
 
 /* Rocky reading: a boxing poster, ring ropes, and a legible training script. */
 .week3-page:has(.rocky) { background: #15191a; }
@@ -52,6 +59,7 @@ body.week3-open { overflow: hidden; }
   .week3-page .w3-gears { grid-template-columns: minmax(0,1fr); }
   .week3-page .w3-gears article { min-height: 0; }
   .week3-page .rocky { width: calc(100% - 24px); }
+  .w3-coach-actions { flex-direction: column; }
 }
 
 .week3-page {

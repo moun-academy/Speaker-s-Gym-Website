@@ -35,7 +35,7 @@
   ];
 
   const gears = {
-    hold: { label: "SLOW", action: "Slow down", rate: "100 to 120 wpm", tagline: "for what must land" },
+    hold: { label: "SLOW", action: "Slow down", rate: "100 to 120 wpm", tagline: "for what is important" },
     run: { label: "FAST", action: "Speed up", rate: "150 to 170 wpm", tagline: "for what they already know" },
     stop: { label: "STOP", rate: "0 wpm", tagline: "for what must be felt" }
   };
@@ -55,13 +55,14 @@
 
   function currentPaceMap() {
     const saved = getState().paceMap || {};
-    return Object.fromEntries(Object.entries({ point: "hold", reason: "run", example: "run", finalPoint: "hold" })
-      .map(([id, fallback]) => [id, ["hold", "run"].includes(saved[id]) ? saved[id] : fallback]));
+    const ids = ["point", "reason", "example", "finalPoint"];
+    if (!getState().paceMapConfigured) return Object.fromEntries(ids.map(id => [id, null]));
+    return Object.fromEntries(ids.map(id => [id, ["hold", "run"].includes(saved[id]) ? saved[id] : null]));
   }
 
   const demoModes = {
-    flat: { label: "Flat", meaning: "Sounds like a list.", note: "Every word the same weight. The listener does the sorting.", timings: null, perWord: 300 },
-    rushed: { label: "Rushed", meaning: "Sounds like an apology.", note: "Pressure in the voice becomes pressure in the room.", timings: null, perWord: 130 },
+    flat: { label: "Slow", meaning: "Sounds calm and deliberate.", note: "Every word gets time and space.", timings: null, perWord: 650 },
+    rushed: { label: "Fast", meaning: "Sounds urgent and energetic.", note: "Every word moves quickly.", timings: null, perWord: 130 },
     shaped: { label: "Dynamic", meaning: "Sounds like a decision.", note: "Fast setup. Pause. Slow point.", timings: [150, 150, 150, 150, 150, 150, 1050, 600, 600, 600, 600], perWord: null }
   };
 
@@ -108,12 +109,13 @@
 
   function paceMapMarkup(material, map, options = {}) {
     return `<div class="w3-pace-map ${options.compact ? "compact" : ""}" ${options.interactive ? 'data-w3-map-interactive' : ""}>${material.segments.map(segment => {
-      const gear = map[segment.id] || "run";
-      return `${segment.id === "finalPoint" ? '<div class="w3-map-pause" data-w3-map-pause><strong>Pause</strong><small>2 seconds of silence</small></div>' : ""}<${options.interactive ? "button type=\"button\"" : "article"} class="w3-map-segment ${gear}" ${options.interactive ? `data-w3-map-segment="${segment.id}"` : ""} data-w3-segment="${segment.id}">
-        <header><span>${segment.letter}</span><small>${segment.name}</small><b class="w3-gear-pill ${gear}">${gears[gear].label}</b></header>
+      const gear = map[segment.id];
+      const label = gear ? gears[gear].label : "CHOOSE";
+      return `${segment.id === "finalPoint" ? '<div class="w3-map-pause" data-w3-map-pause><strong>Pause</strong><small>2 seconds of silence</small></div>' : ""}<${options.interactive ? "button type=\"button\"" : "article"} class="w3-map-segment ${gear || "neutral"}" ${options.interactive ? `data-w3-map-segment="${segment.id}"` : ""} data-w3-segment="${segment.id}">
+        <header><span>${segment.letter}</span><small>${segment.name}</small><b class="w3-gear-pill ${gear || "neutral"}">${label}</b></header>
         <strong>${esc(segment.keyword)}</strong>
         <p>${esc(segment.sentence)}</p>
-        <i class="w3-ribbon ${gear}" aria-hidden="true"><em></em><em></em><em></em><em></em><em></em><em></em><em></em><em></em></i>
+        <i class="w3-ribbon ${gear || "neutral"}" aria-hidden="true"><em></em><em></em><em></em><em></em><em></em><em></em><em></em><em></em></i>
       </${options.interactive ? "button" : "article"}>`;
     }).join("")}</div>`;
   }
@@ -177,9 +179,9 @@
         <article class="w3-demo-card">
           <p class="w3-demo-line" data-w3-demo-line>${wordSpans(demoSentence, "data-w3-demo-word")}</p>
           <div class="w3-demo-meaning" data-w3-demo-meaning aria-live="polite">${mode ? `<strong>${esc(mode.meaning)}</strong><span>${esc(mode.note)}</span>` : `<span>Press a pace to hear the same sentence change its meaning.</span>`}</div>
-          <div class="w3-demo-buttons">${Object.entries(demoModes).map(([id, item]) => `<button type="button" class="${state.demoMode === id ? "selected" : ""} ${id}" data-w3-demo="${id}"><strong>${item.label}</strong><small>${id === "flat" ? "one speed" : id === "rushed" ? "all fast" : "fast · pause · slow"}</small></button>`).join("")}</div>
+          <div class="w3-demo-buttons">${Object.entries(demoModes).map(([id, item]) => `<button type="button" class="${state.demoMode === id ? "selected" : ""} ${id}" data-w3-demo="${id}"><strong>${item.label}</strong><small>${id === "flat" ? "all slow" : id === "rushed" ? "all fast" : "fast · pause · slow"}</small></button>`).join("")}</div>
         </article>
-        <p class="w3-coach-note">Flat pace makes your priorities the listener's problem. Most listeners will not do that work.</p>
+        <p class="w3-coach-note">One unchanging pace makes your priorities the listener's problem. Most listeners will not do that work.</p>
       `);
     } else if (step === 6) {
       page = shell(`
@@ -191,7 +193,7 @@
             <i class="w3-ribbon ${id}" aria-hidden="true"><em></em><em></em><em></em><em></em><em></em><em></em><em></em><em></em></i>
             <p>${id === "hold" ? "Your point. A number. Your recommendation. Say it one word at a time." : id === "run" ? "Background, transitions, the familiar. Move, and let the movement read as confidence." : "One beat of silence before the sentence that matters. Pace taken to zero is the strongest emphasis you have."}</p>
           </article>`).join("")}</div>
-        <blockquote>Engagement does not come from a speed.<br /><strong>It comes from the change.</strong></blockquote>
+        <blockquote>Engagement does not come from speed.<br /><strong>It comes from variety.</strong></blockquote>
       `);
     } else if (step === 7) {
       const answers = state.sortAnswers || {};
@@ -210,7 +212,7 @@
             <small>${chosen ? `${correct ? "Yes." : `${gears[item.answer].label}.`} ${esc(item.why)}` : "&nbsp;"}</small>
           </article>`;
         }).join("")}</div>
-        <p class="w3-coach-note">Choose Fast or Slow for each example. Notice where you naturally speed up and where the listener needs you to slow down.</p>
+        <div class="w3-coach-actions"><p class="w3-coach-note">Choose Fast or Slow for each example. Notice where you naturally speed up and where the listener needs you to slow down.</p><button type="button" class="w3-reset-button" data-w3-action="reset-sort">Reset</button></div>
       `);
     } else if (step === 9) {
       page = shell(`
@@ -218,11 +220,10 @@
         <h1>Give each part of your answer<br /><em>its own speed.</em></h1>
         ${topicChip(material)}
         ${paceMapMarkup(material, map, { interactive: true })}
-        <p class="w3-coach-note">Tap a box to switch between Fast and Slow. Try a slow Point, fast Reason and Example, then Pause before a slow Final Point.</p>
-      `, { nextLabel: "Speak Version 1" });
+        <div class="w3-coach-actions"><p class="w3-coach-note">Choose Fast or Slow for every box, then Pause before the Final Point.</p><button type="button" class="w3-reset-button" data-w3-action="reset-map">Reset</button></div>
+      `, { nextLabel: "Practice my map" });
     } else if (step === 10) {
       page = shell(`
-        <p class="w3-eyebrow">VERSION 1</p>
         ${topicChip(material)}
         <h1>Speak your answer<br /><em>with the map.</em></h1>
         ${paceMapMarkup(material, map, { compact: true })}
@@ -233,7 +234,7 @@
         </div>
         <p class="w3-play-status" data-w3-play-status role="status">Follow the highlighted box. When Pause lights up, stop speaking for two seconds.</p>
         <blockquote>Do not perfect the words.<br /><strong>Only notice where the speed changed.</strong></blockquote>
-      `, { footer: '<button class="w3-next" type="button" data-w3-action="complete-v1">Version 1 complete</button>' });
+      `, { footer: '<button class="w3-next" type="button" data-w3-action="complete-v1">Practice complete</button>' });
     } else if (step === 11) {
       page = shell(`
         <div class="w3-rocky-heading"><p class="w3-eyebrow">IN THE RING · READ ALOUD</p>
@@ -407,9 +408,11 @@
     const state = getState();
     const step = Number(state.currentStep || 0);
     const sortedAll = sortItems.every(item => (state.sortAnswers || {})[item.id]);
+    const mapComplete = ["point", "reason", "example", "finalPoint"].every(id => currentPaceMap()[id]);
     const requirements = {
       1: [state.demoMode, "Press at least one pace to hear the sentence change."],
       7: [sortedAll ? "ok" : "", "Choose a gear for every line before continuing."],
+      9: [mapComplete ? "ok" : "", "Choose Fast or Slow for every box before practicing your map."],
       13: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
     if (requirements[step] && !String(requirements[step][0] || "").trim()) {
@@ -473,6 +476,14 @@
     if (action === "next") return validateAndNext();
     if (action === "timer") return startTimer(actionEl);
     if (action === "play-map") return playMap(actionEl);
+    if (action === "reset-sort") {
+      update({ sortAnswers: {} });
+      return renderStep();
+    }
+    if (action === "reset-map") {
+      update({ paceMap: {}, paceMapConfigured: false });
+      return renderStep();
+    }
     if (action === "complete-v1") {
       update({ versionsCompleted: Math.max(1, Number(getState().versionsCompleted || 0)), currentStep: 11 });
       portal.showToast("Map practice complete. Take your pace into the Rocky reading.");
@@ -514,7 +525,7 @@
       const current = currentPaceMap();
       const id = segment.dataset.w3MapSegment;
       const next = current[id] === "run" ? "hold" : "run";
-      update({ paceMap: { ...current, [id]: next } });
+      update({ paceMap: { ...current, [id]: next }, paceMapConfigured: true });
       return renderStep();
     }
     const improvement = event.target.closest("[data-w3-improvement-option]");
