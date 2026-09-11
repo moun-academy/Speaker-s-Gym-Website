@@ -6,6 +6,8 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const flatDays = DATA.weeks.flatMap((week, weekIndex) => week.days.map((day, dayIndex) => ({ ...day, weekIndex, dayIndex })));
+  const clampLevel = value => Math.max(1, Math.min(10, Number(value) || 1));
+  window.SpeakersGymExposure = { levels: DATA.levels, clampLevel };
   let toastTimer;
 
   const todayISO = (() => {
@@ -15,7 +17,7 @@
   })();
 
   const defaults = {
-    version: 1,
+    version: 2,
     startDate: todayISO,
     selectedDay: 0,
     selectedWeek: 0,
@@ -28,7 +30,78 @@
     confidence: {},
     repetitions: [],
     evidence: [],
-    coachNotes: { appNotes: "", upcomingMoment: "", pressureSkill: "", nextTarget: "" }
+    coachNotes: { appNotes: "", upcomingMoment: "", pressureSkill: "", nextTarget: "" },
+    week1Lecture: {
+      flowVersion: 3,
+      missionModelVersion: 2,
+      currentStep: 0,
+      selectedTopic: "",
+      prep: { point: "", reason: "", example: "", finalPoint: "" },
+      keywords: { point: "", reason: "", example: "", finalPoint: "" },
+      versionsCompleted: 0,
+      coachImprovement: "",
+      workplaceQuestion: "",
+      workplacePrep: { point: "", reason: "", example: "", finalPoint: "" },
+      prediction: "",
+      beliefBefore: 50,
+      missionLevel: null,
+      mission: "",
+      missionStatus: "not-started",
+      acceptedAt: null,
+      actualResult: "",
+      beliefAfter: 50,
+      evidenceId: null,
+      lectureCompletedAt: null,
+      completedAt: null,
+      lastViewedAt: null
+    },
+    week2Lecture: {
+      flowVersion: 1,
+      currentStep: 0,
+      currentLevel: null,
+      voicePattern: "",
+      voiceZone: "",
+      versionsCompleted: 0,
+      coachImprovement: "",
+      prediction: "",
+      beliefBefore: 50,
+      missionLevel: null,
+      mission: "",
+      missionStatus: "not-started",
+      acceptedAt: null,
+      actualResult: "",
+      beliefAfter: 50,
+      evidenceId: null,
+      lectureCompletedAt: null,
+      completedAt: null,
+      lastViewedAt: null
+    },
+    week3Lecture: {
+      flowVersion: 1,
+      currentStep: 0,
+      currentLevel: null,
+      demoMode: "",
+      baselineWpm: null,
+      baselineSeconds: null,
+      feltRates: {},
+      sortAnswers: {},
+      paceMap: { point: "hold", reason: "run", example: "run", finalPoint: "stop" },
+      paceMapConfigured: false,
+      versionsCompleted: 0,
+      coachImprovement: "",
+      prediction: "",
+      beliefBefore: 50,
+      missionLevel: null,
+      mission: "",
+      missionStatus: "not-started",
+      acceptedAt: null,
+      actualResult: "",
+      beliefAfter: 50,
+      evidenceId: null,
+      lectureCompletedAt: null,
+      completedAt: null,
+      lastViewedAt: null
+    }
   };
 
   function loadState() {
@@ -38,13 +111,29 @@
       return {
         ...structuredClone(defaults),
         ...saved,
+        version: 2,
         completedDays: { ...defaults.completedDays, ...(saved.completedDays || {}) },
         completedTasks: { ...defaults.completedTasks, ...(saved.completedTasks || {}) },
         reflections: { ...defaults.reflections, ...(saved.reflections || {}) },
         confidence: { ...defaults.confidence, ...(saved.confidence || {}) },
         repetitions: Array.isArray(saved.repetitions) ? saved.repetitions : [],
         evidence: Array.isArray(saved.evidence) ? saved.evidence : [],
-        coachNotes: { ...defaults.coachNotes, ...(saved.coachNotes || {}) }
+        coachNotes: { ...defaults.coachNotes, ...(saved.coachNotes || {}) },
+        week1Lecture: {
+          ...defaults.week1Lecture,
+          ...(saved.week1Lecture || {}),
+          prep: { ...defaults.week1Lecture.prep, ...(saved.week1Lecture?.prep || {}) },
+          keywords: { ...defaults.week1Lecture.keywords, ...(saved.week1Lecture?.keywords || {}) },
+          workplacePrep: { ...defaults.week1Lecture.workplacePrep, ...(saved.week1Lecture?.workplacePrep || {}) }
+        },
+        week2Lecture: { ...defaults.week2Lecture, ...(saved.week2Lecture || {}) },
+        week3Lecture: {
+          ...defaults.week3Lecture,
+          ...(saved.week3Lecture || {}),
+          feltRates: { ...defaults.week3Lecture.feltRates, ...(saved.week3Lecture?.feltRates || {}) },
+          sortAnswers: { ...defaults.week3Lecture.sortAnswers, ...(saved.week3Lecture?.sortAnswers || {}) },
+          paceMap: { ...defaults.week3Lecture.paceMap, ...(saved.week3Lecture?.paceMap || {}) }
+        }
       };
     } catch (error) {
       return structuredClone(defaults);
@@ -250,10 +339,33 @@
       <div><span class="eyebrow">Week ${state.selectedWeek + 1} · Transformation</span><h3>${escapeHTML(week.title)}</h3><p>${escapeHTML(week.transformation)}</p></div>
       <div class="week-outcome"><small>MY WEEKLY OUTCOME</small><p>${escapeHTML(week.outcome)}</p></div>
     </header>
+    ${renderLectureEntry(state.selectedWeek)}
     <div class="week-detail-body">
       <div><h4>CORE SKILLS</h4><ul>${week.skills.map(skill => `<li>${escapeHTML(skill)}</li>`).join("")}</ul></div>
       <div><h4>COACHING ACTIVITIES</h4><ul>${week.activities.map(activity => `<li>${escapeHTML(activity)}</li>`).join("")}</ul></div>
       <div><h4>REAL-WORLD MISSION</h4><div class="mission-box"><strong>${escapeHTML(week.mission)}</strong><p>${escapeHTML(week.why)}</p></div><p class="week-reflection">Reflection: ${escapeHTML(week.reflection)}</p></div>
+    </div>`;
+  }
+
+  function renderLectureEntry(weekIndex) {
+    if (weekIndex > 2) return "";
+    const settings = [
+      { key: "week1Lecture", label: "Lecture 1", path: "Discover · Build · Speak · Prove", summary: "Build and deliver a complete PREP answer, then choose one real-world mission.", open: "data-open-week1", report: "data-open-week1-reflection" },
+      { key: "week2Lecture", label: "Lecture 2", path: "Discover · Calibrate · Speak · Prove", summary: "Find grounded volume, carry the final words and test one audible moment.", open: "data-open-week2-lecture", report: "data-open-week2-reflection" },
+      { key: "week3Lecture", label: "Lecture 3", path: "Discover · Tune · Speak · Prove", summary: "Use fast, slow and stop to shape the meaning of a professional answer.", open: "data-open-week3-lecture", report: "data-open-week3-reflection" }
+    ][weekIndex];
+    const lecture = state[settings.key];
+    const evidenceComplete = Boolean(lecture.completedAt || lecture.evidenceId);
+    const lectureComplete = Boolean(lecture.lectureCompletedAt);
+    const viewed = Boolean(lecture.lastViewedAt || Number(lecture.currentStep) > 0);
+    const actionLabel = evidenceComplete ? `Review ${settings.label}` : viewed ? `Continue ${settings.label}` : `Start ${settings.label}`;
+    return `<div class="lecture-entry">
+      <div class="lecture-entry-copy"><span class="lecture-icon">${weekIndex + 1}</span><div><small>INTERACTIVE COACHING EXPERIENCE</small><strong>${settings.path}</strong><p>${settings.summary}</p></div></div>
+      <div class="lecture-entry-actions">
+        <button class="lecture-reset" type="button" data-reset-lecture="${weekIndex + 1}">Reset</button>
+        ${lectureComplete && !evidenceComplete ? `<button class="button dark small" type="button" ${settings.report}>Report mission</button>` : ""}
+        <button class="button gold" type="button" ${settings.open}>${actionLabel}</button>
+      </div>
     </div>`;
   }
 
@@ -429,6 +541,71 @@
   }, { threshold: [0.12, 0.3], rootMargin: "-15% 0px -60%" });
   $$("#today, #levels, #journey, #reflections").forEach(section => observer.observe(section));
 
-  window.PankajPortal = { getState: () => structuredClone(state), storageKey: STORAGE_KEY, data: DATA };
+  document.addEventListener("click", event => {
+    const resetButton = event.target.closest("[data-reset-lecture]");
+    if (!resetButton) return;
+    const week = Number(resetButton.dataset.resetLecture);
+    const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety" };
+    const confirmed = window.confirm(`Reset Lecture ${week}? This clears its ${labels[week]} answers, mission and lecture evidence. The rest of Pankaj's progress stays unchanged.`);
+    if (!confirmed) return;
+    state.evidence = state.evidence.filter(item => Number(item.sourceLecture) !== week);
+    if (week === 1) state.week1Lecture = structuredClone(defaults.week1Lecture);
+    if (week === 2) state.week2Lecture = structuredClone(defaults.week2Lecture);
+    if (week === 3) state.week3Lecture = structuredClone(defaults.week3Lecture);
+    saveState();
+    renderAll();
+    showToast(`Lecture ${week} is ready for a fresh start.`);
+  });
+
+  function saveLectureEvidence(card) {
+    const categories = {
+      1: "I led with the point.",
+      2: "I used my voice intentionally.",
+      3: "I used my voice intentionally."
+    };
+    const createdAt = Date.parse(card.completedAt || "") || Date.now();
+    const normalized = {
+      id: card.id,
+      week: Number(card.week),
+      category: categories[card.week] || "I remained composed under pressure.",
+      situation: card.mission || `${card.skill} real-world mission`,
+      action: `Completed the ${card.skill} mission at exposure level ${card.level}.`,
+      result: card.reality || "Mission completed.",
+      lesson: card.prediction ? `My prediction was: ${card.prediction}` : `This repetition created evidence for ${card.skill}.`,
+      next: `Confidence evidence: ${card.beliefBefore}% before, ${card.beliefAfter}% after.`,
+      createdAt,
+      sourceLecture: Number(card.week)
+    };
+    const existing = state.evidence.findIndex(item => item.id === normalized.id);
+    if (existing >= 0) state.evidence[existing] = normalized;
+    else state.evidence.unshift(normalized);
+    saveState();
+    renderEvidence();
+    renderCoachDashboard();
+  }
+
+  const portalApi = {
+    client: { id: "pankaj", name: "Pankaj", storageKey: STORAGE_KEY },
+    getState: () => state,
+    updateWeek1(patch) { state.week1Lecture = { ...state.week1Lecture, ...patch }; saveState(); },
+    updateLecture(patch) { state.week2Lecture = { ...state.week2Lecture, ...patch }; saveState(); },
+    updateWeek3(patch) { state.week3Lecture = { ...state.week3Lecture, ...patch }; saveState(); },
+    setExposureLevel(level) {
+      const next = clampLevel(level);
+      state.currentLevel = next;
+      state.nextLevel = Math.min(10, next + 1);
+      state.viewLevel = next;
+      state.week2Lecture.currentLevel = next;
+      saveState();
+      renderAll();
+    },
+    saveEvidence: saveLectureEvidence,
+    renderAll,
+    showToast,
+    saveState
+  };
+
+  window.SpeakersGymPortal = portalApi;
+  window.PankajPortal = { ...portalApi, getState: () => structuredClone(state), storageKey: STORAGE_KEY, data: DATA };
   renderAll();
 })();

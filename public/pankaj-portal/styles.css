@@ -8,10 +8,15 @@
   --gold: #caa85e;
   --gold-light: #ead7a5;
   --gold-dark: #947331;
+  --coral: #caa85e;
+  --coral-dark: #947331;
+  --forest: #0b0c0c;
+  --yellow: #ead7a5;
   --muted: #6d6b64;
   --line: #ded7c8;
   --green: #315c4c;
   --serif: "Playfair Display", Georgia, serif;
+  --display: "Playfair Display", Georgia, serif;
   --sans: "DM Sans", Arial, sans-serif;
   --detail: "Manrope", Arial, sans-serif;
   --shadow: 0 24px 70px rgba(25, 21, 13, 0.09);
@@ -198,6 +203,16 @@ textarea, input, select { color: var(--ink); }
 .week-tab.active { color: #fff; background: var(--black); }
 .week-tab.active span { color: var(--gold); }
 .week-detail { background: var(--paper); border: 1px solid var(--line); border-top: 0; box-shadow: var(--shadow); }
+.lecture-entry { padding: 22px 34px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #f2eee4; background: var(--black); border-bottom: 1px solid #2f312f; }
+.lecture-entry-copy { min-width: 0; display: flex; align-items: center; gap: 16px; }
+.lecture-icon { width: 46px; height: 46px; flex: 0 0 46px; display: grid; place-items: center; color: #18140b; background: var(--gold); font: 600 20px var(--serif); }
+.lecture-entry-copy div { min-width: 0; }
+.lecture-entry-copy small { display: block; color: var(--gold); font: 700 8px var(--detail); letter-spacing: .14em; }
+.lecture-entry-copy strong { display: block; margin-top: 6px; font: 500 15px var(--detail); }
+.lecture-entry-copy p { margin: 5px 0 0; color: #999b96; font: 400 11px/1.45 var(--detail); }
+.lecture-entry-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 9px; }
+.lecture-reset { min-height: 38px; padding: 0 12px; color: #878983; background: transparent; border: 1px solid #3a3c39; cursor: pointer; font: 700 9px var(--detail); letter-spacing: .06em; text-transform: uppercase; }
+.lecture-reset:hover { color: var(--gold-light); border-color: var(--gold); }
 .week-detail-header { padding: 34px; display: grid; grid-template-columns: minmax(0,1.5fr) minmax(260px,.5fr); gap: 35px; background: #eae3d4; border-bottom: 1px solid var(--line); }
 .week-detail-header h3 { margin: 11px 0 10px; font: 500 34px/1.2 var(--serif); }
 .week-detail-header p { margin: 0; color: #5c5952; font: italic 500 15px/1.6 var(--serif); }
@@ -311,6 +326,7 @@ textarea, input, select { color: var(--ink); }
   .week-tab:nth-child(3) { border-right: 0; }
   .week-tab:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
   .week-detail-header, .week-detail-body { grid-template-columns: 1fr; }
+  .lecture-entry { align-items: flex-start; flex-direction: column; }
   .journal-grid { grid-template-columns: 1fr; }
 }
 
@@ -351,6 +367,9 @@ textarea, input, select { color: var(--ink); }
   .week-tabs { display: flex; overflow-x: auto; }
   .week-tab { min-width: 130px; border-bottom: 0 !important; }
   .week-detail-header, .week-detail-body { padding: 24px 20px; }
+  .lecture-entry { padding: 20px; }
+  .lecture-entry-actions { width: 100%; flex-wrap: wrap; }
+  .lecture-entry-actions .button { flex: 1; }
   .dashboard-head { align-items: start; flex-direction: column; }
   .coach-dashboard { padding: 22px 18px; }
   .dashboard-metrics { grid-template-columns: repeat(2,1fr); }
