@@ -306,7 +306,11 @@
     $("#levelGrid").innerHTML = DATA.levels.map((level, index) => {
       const number = index + 1;
       const status = number < state.currentLevel ? "done" : number === state.currentLevel ? "current" : number === state.nextLevel ? "next" : "";
-      return `<button type="button" class="level-step ${status}" style="--i:${index}" data-level="${number}" title="Level ${number}: ${escapeHTML(level.name)}"><span>${String(number).padStart(2, "0")}</span><strong>${escapeHTML(level.name)}</strong></button>`;
+      return `<button type="button" class="level-step ${status}" style="--i:${index}" data-level="${number}" title="Level ${number}: ${escapeHTML(level.name)}">
+        <span>LEVEL ${String(number).padStart(2, "0")}</span>
+        <strong>${escapeHTML(level.name)}</strong>
+        <em>${escapeHTML(level.card || level.behavior)}</em>
+      </button>`;
     }).join("");
     $$("[data-level]").forEach(button => button.addEventListener("click", () => {
       state.viewLevel = Number(button.dataset.level);

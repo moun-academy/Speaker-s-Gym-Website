@@ -16,6 +16,7 @@ window.PANKAJ_PORTAL_DATA = {
   levels: [
     {
       name: "Safe Practice",
+      card: "Build a clear point in private.",
       behavior: "Record one 60-second PREP answer in the Speaker's Gym app or practice it with the coach.",
       starter: "My main point is...",
       app: "Choose one professional prompt. Record a 60-second PREP answer, listen once and note one strength.",
@@ -23,23 +24,26 @@ window.PANKAJ_PORTAL_DATA = {
       evidence: "A saved recording or a coach-confirmed attempt with a clear point, reason, example and final point."
     },
     {
-      name: "Familiar Personal Conversation",
-      behavior: "Share one structured thought with a trusted friend or family member.",
-      starter: "I have one thought about that...",
-      app: "Rehearse the opening point once, then allow the real conversation to sound natural.",
-      community: "Share what changed when you used structure outside work.",
-      evidence: "A brief note naming the conversation, the point shared and how the listener responded."
+      name: "Post Audio of Your Speech in the Community",
+      card: "Let your voice be heard.",
+      behavior: "Record and post one concise audio speech in the Speaker's Gym community.",
+      starter: "My main message is...",
+      app: "Record a 60-second PREP response. Listen once for clarity, pace and a confident final sentence.",
+      community: "Post the audio of your speech in the community and ask for feedback on one clear communication behavior.",
+      evidence: "A posted audio speech with one clear point and a note about the feedback you received."
     },
     {
-      name: "Familiar Colleague",
-      behavior: "Give one concise opinion or recommendation in a relaxed one-to-one conversation with a colleague.",
+      name: "Post Video of Your Speech in the Community",
+      card: "Make your presence visible.",
+      behavior: "Record and post one concise video speech in the Speaker's Gym community.",
       starter: "My recommendation is...",
-      app: "Record the recommendation in 45 seconds and remove any detail the colleague does not need.",
-      community: "Share the sentence that helped you lead with your recommendation.",
-      evidence: "A logged colleague conversation where the recommendation came before the background."
+      app: "Record a 60-second video. Lead with the point, keep steady eye contact and finish the final sentence with intention.",
+      community: "Post the video of your speech in the community and ask for feedback on clarity and presence.",
+      evidence: "A posted video speech that shows a clear opening point, controlled pace and a complete conclusion."
     },
     {
       name: "Planned Professional Moment",
+      card: "Prepare one point, then deliver it.",
       behavior: "Prepare one point and deliver it during a scheduled professional conversation.",
       starter: "The key point I want us to consider is...",
       app: "Practice only the headline and two supporting anchors. Do not script the whole contribution.",
@@ -48,6 +52,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "Small Familiar Group",
+      card: "Connect through a concise story.",
       behavior: "Share a structured idea or short story with two to four familiar people.",
       starter: "A short example that may help is...",
       app: "Record a 60-second story with situation, action, result and lesson.",
@@ -56,6 +61,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "Routine Meeting Contribution",
+      card: "Contribute before the moment passes.",
       behavior: "Speak once during a normal meeting using an entry phrase or the Teams raise-hand feature.",
       starter: "Before we move on, I have one recommendation.",
       app: "Practice the entry phrase five times, then record the contribution in under 60 seconds.",
@@ -64,6 +70,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "Unplanned Professional Moment",
+      card: "Pause, organize and respond.",
       behavior: "Respond to a live question without scripting, using a two-second pause and PREP.",
       starter: "Let me organize that into one clear answer...",
       app: "Use a surprise prompt. Pause for two seconds, then answer without restarting.",
@@ -72,6 +79,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "Lead a Short Update",
+      card: "Make your expertise easy to follow.",
       behavior: "Lead a three to five-minute workplace update with a headline, supporting points and conclusion.",
       starter: "The headline today is...",
       app: "Record the 20-second headline and final recommendation separately before the full update.",
@@ -80,6 +88,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "Unexpected Management Question",
+      card: "Answer pressure with calm structure.",
       behavior: "Answer an unplanned question from a senior colleague with calm structure and concise detail.",
       starter: "The short answer is...",
       app: "Ask for an unexpected management prompt and answer in 45 to 90 seconds using PREP.",
@@ -88,6 +97,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       name: "High-Stakes Leadership Moment",
+      card: "Communicate with executive presence.",
       behavior: "Present a recommendation or lead part of a meaningful management meeting with executive presence.",
       starter: "My recommendation is clear: ...",
       app: "Rehearse the opening, the strongest evidence and the final ask. Keep the rest flexible.",
@@ -178,7 +188,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       title: "Storytelling That Brings Out Your Personality",
-      short: "Leadership story",
+      short: "Storytelling That Brings Out Your Personality",
       transformation: "Turn ideas and experiences into engaging stories using tone, pitch, and expression.",
       skills: ["Conversational energy", "Facial expression", "Eye contact", "Personal examples", "Concise storytelling"],
       why: "Leadership communication is not only accurate. It helps people feel the meaning and remember the point.",
