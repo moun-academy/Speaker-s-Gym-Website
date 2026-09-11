@@ -177,9 +177,9 @@ window.PANKAJ_PORTAL_DATA = {
       ]
     },
     {
-      title: "Communicate With Personality and Story",
+      title: "Storytelling That Brings Out Your Personality",
       short: "Leadership story",
-      transformation: "From technically correct but flat communication to warm, memorable leadership presence.",
+      transformation: "Turn ideas and experiences into engaging stories using tone, pitch, and expression.",
       skills: ["Conversational energy", "Facial expression", "Eye contact", "Personal examples", "Concise storytelling"],
       why: "Leadership communication is not only accurate. It helps people feel the meaning and remember the point.",
       outcome: "I can tell one concise professional story that shows my experience, keeps a clear point and sounds like me.",
