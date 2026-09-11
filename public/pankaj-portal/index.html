@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=pankaj-v2" />
+    <link rel="stylesheet" href="styles.css?v=pankaj-v3" />
     <link rel="stylesheet" href="week1.css?v=pankaj-lecture-v1" />
     <link rel="stylesheet" href="lecture.css?v=pankaj-lecture-v1" />
     <link rel="stylesheet" href="week3.css?v=pankaj-lecture-v1" />
@@ -80,9 +80,7 @@
             <div><span class="eyebrow">Six-week progress</span><strong id="progressSummary">0 of 42 days</strong></div>
           </div>
           <div class="metric"><span>↗</span><p><strong id="streakValue">0</strong><small>day streak</small></p></div>
-          <div class="metric"><span>◎</span><p><strong id="appRepsValue">0</strong><small>app reps</small></p></div>
           <div class="metric"><span>✓</span><p><strong id="realRepsValue">0</strong><small>real-world reps</small></p></div>
-          <label class="date-control"><small>PROGRAM START</small><input id="startDate" type="date" /></label>
         </section>
 
         <section id="today" class="section reveal">
@@ -96,11 +94,11 @@
               <p class="day-intention" id="dayIntention"></p>
               <div class="task-list" id="taskList"></div>
               <div class="practice-reflection">
-                <label for="dailyReflection"><span>QUICK REFLECTION</span><em id="dailyPrompt"></em></label>
-                <textarea id="dailyReflection" rows="3" placeholder="Capture one useful observation..."></textarea>
-                <div class="confidence-row"><span>Confidence after practice</span><div id="dailyConfidence" class="confidence-scale" aria-label="Confidence after practice"></div></div>
+                <label for="dailyReflection"><span>ONE QUICK REFLECTION</span><em id="dailyPrompt">What did today's practice prove?</em></label>
+                <textarea id="dailyReflection" rows="2" placeholder="One or two sentences are enough."></textarea>
+                <div class="confidence-row"><span>Optional confidence check</span><div id="dailyConfidence" class="confidence-scale" aria-label="Optional confidence after practice"></div></div>
               </div>
-              <footer><div><span id="taskCount">0 of 1 complete</span><i><b id="taskProgress"></b></i></div><button class="button gold" id="completeDay" type="button">Complete day</button></footer>
+              <footer><div><span id="taskCount">Complete the required action</span><i><b id="taskProgress"></b></i></div><button class="button gold" id="completeDay" type="button">Complete day</button></footer>
             </article>
             <aside class="week-focus card">
               <span class="eyebrow">This week's transformation</span>
@@ -114,7 +112,7 @@
         </section>
 
         <section id="levels" class="section reveal">
-          <div class="section-head split"><div><span class="eyebrow">Your communication exposure path</span><h2>Build reliable access under pressure.</h2></div><p>Move up after three reliable repetitions, not one perfect performance. Your level describes a practiced behavior, not your identity.</p></div>
+          <div class="section-head split"><div><span class="eyebrow">Your next step</span><h2>Practice one level at a time.</h2></div><p>Move up after three reliable repetitions, not one perfect performance.</p></div>
           <div class="level-dashboard">
             <div class="level-controls">
               <label><small>CURRENT RELIABLE LEVEL</small><select id="currentLevel"></select></label>
@@ -122,57 +120,79 @@
               <label><small>NEXT PRACTICE LEVEL</small><select id="nextLevel"></select></label>
               <strong id="levelRepProgress">0 of 3 reliable reps</strong>
             </div>
-            <div class="level-grid" id="levelGrid"></div>
             <article class="level-detail" id="levelDetail"></article>
+            <details class="portal-disclosure level-disclosure">
+              <summary><span>View all 10 exposure levels</span><small>Open the complete ladder</small></summary>
+              <div class="level-grid" id="levelGrid"></div>
+            </details>
           </div>
         </section>
 
         <section id="journey" class="section reveal">
-          <div class="section-head split"><div><span class="eyebrow">Full visibility, one focus at a time</span><h2>Your six-week journey</h2></div><p>Each week turns existing knowledge into communication behavior you can access when it matters.</p></div>
-          <div class="week-tabs" id="weekTabs" role="tablist" aria-label="Six-week journey"></div>
+          <div class="section-head split"><div><span class="eyebrow">One focus this week</span><h2>Your current week.</h2></div><p>Use the full journey only when you need the bigger picture.</p></div>
           <article class="week-detail" id="weekDetail"></article>
+          <details class="portal-disclosure journey-disclosure">
+            <summary><span>View the full six-week journey</span><small>Choose another week</small></summary>
+            <div class="week-tabs" id="weekTabs" role="tablist" aria-label="Six-week journey"></div>
+          </details>
         </section>
 
         <section id="reflections" class="section reveal">
-          <div class="section-head split"><div><span class="eyebrow">Your evidence journal</span><h2>Save what your progress proves.</h2></div><p>Confidence grows faster when you can point to observable actions, not vague impressions.</p></div>
-
-          <div class="coach-dashboard card">
-            <div class="dashboard-head"><div><span class="eyebrow">Before the next coaching session</span><h3>Coach review</h3></div><span class="privacy-badge">SAVED ON THIS DEVICE</span></div>
-            <div class="dashboard-metrics" id="coachMetrics"></div>
-            <div class="coach-fields">
-              <label>Latest app score or report note<textarea id="appNotes" rows="2" placeholder="Paste the useful headline from the latest report..."></textarea></label>
-              <label>Upcoming real meeting or presentation<textarea id="upcomingMoment" rows="2" placeholder="What is coming up, and when?"></textarea></label>
-              <label>Skill that broke down under pressure<textarea id="pressureSkill" rows="2" placeholder="Name the observable behavior..."></textarea></label>
-              <label>One target for the next seven days<textarea id="nextTarget" rows="2" placeholder="One action you can count..."></textarea></label>
-            </div>
-            <button class="button dark small" id="saveCoachNotes" type="button">Save coach notes</button>
-            <div class="recent-reps"><small>THREE MOST RECENT REPETITIONS</small><div id="recentReps"></div></div>
-          </div>
+          <div class="section-head split"><div><span class="eyebrow">Useful reflection, not homework</span><h2>Notice, learn, continue.</h2></div><p>Keep daily notes short. Use the weekly review for deeper thinking.</p></div>
 
           <div class="journal-grid">
-            <form class="card form-card" id="repetitionForm">
-              <span class="eyebrow">Log a repetition</span><h3>What did you practice?</h3>
+            <form class="card form-card weekly-review-card" id="weeklyReviewForm">
+              <span class="eyebrow">Weekly review</span><h3>Three questions, once a week.</h3>
+              <label>Week<select id="weeklyReviewWeek" aria-label="Week to review"></select></label>
+              <label>What improved?<textarea id="weeklyImproved" rows="2" placeholder="Name one observable change."></textarea></label>
+              <label>Where did the skill break down?<textarea id="weeklyBreakdown" rows="2" placeholder="Describe the behavior, not your identity."></textarea></label>
+              <label>What is my one focus next week?<textarea id="weeklyNextFocus" rows="2" placeholder="Choose one action you can repeat."></textarea></label>
+              <button class="button gold" type="submit">Save weekly review</button>
+            </form>
+
+            <form class="card form-card" id="evidenceForm">
+              <span class="eyebrow">After a real conversation</span><h3>Capture the useful evidence.</h3>
+              <label>What did I do?<textarea id="evidenceAction" rows="2" required placeholder="One observable communication action."></textarea></label>
+              <label>What happened?<textarea id="evidenceResult" rows="2" required placeholder="What changed or became clearer?"></textarea></label>
+              <label>What will I repeat or adjust?<textarea id="evidenceNext" rows="2" required placeholder="Choose one practical next step."></textarea></label>
+              <details class="optional-fields"><summary>Add confidence ratings <small>Optional</small></summary><div class="field-row"><label>Before<select id="evidenceConfidenceBefore"><option value="">Not set</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>After<select id="evidenceConfidenceAfter"><option value="">Not set</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div></details>
+              <button class="button dark" type="submit">Save reflection and repetition</button>
+            </form>
+          </div>
+
+          <details class="portal-disclosure progress-disclosure">
+            <summary><span>Progress and evidence</span><small>Detailed records for coaching sessions</small></summary>
+            <div class="detail-settings">
+              <div class="detail-stat"><small>APP REPETITIONS</small><strong id="appRepsValue">0</strong></div>
+              <label class="date-control"><small>PROGRAM START</small><input id="startDate" type="date" /></label>
+            </div>
+
+            <div class="coach-dashboard card">
+              <div class="dashboard-head"><div><span class="eyebrow">Before the next coaching session</span><h3>Coach review</h3></div><span class="privacy-badge">SAVED ON THIS DEVICE</span></div>
+              <div class="dashboard-metrics" id="coachMetrics"></div>
+              <div class="coach-fields">
+                <label>Latest app score or report note<textarea id="appNotes" rows="2" placeholder="Paste the useful headline from the latest report..."></textarea></label>
+                <label>Upcoming real meeting or presentation<textarea id="upcomingMoment" rows="2" placeholder="What is coming up, and when?"></textarea></label>
+                <label>Skill that broke down under pressure<textarea id="pressureSkill" rows="2" placeholder="Name the observable behavior..."></textarea></label>
+                <label>One target for the next seven days<textarea id="nextTarget" rows="2" placeholder="One action you can count..."></textarea></label>
+              </div>
+              <button class="button dark small" id="saveCoachNotes" type="button">Save coach notes</button>
+              <div class="recent-reps"><small>THREE MOST RECENT REPETITIONS</small><div id="recentReps"></div></div>
+            </div>
+
+            <form class="card form-card repetition-form" id="repetitionForm">
+              <span class="eyebrow">Detailed repetition log</span><h3>Add a specific practice record.</h3>
               <div class="field-row"><label>Type<select id="repType"><option value="app">App practice</option><option value="real">Real-world conversation</option><option value="meeting">Meeting contribution</option><option value="structured">Structured answer under 90 seconds</option><option value="story">Story with a clear final point</option></select></label><label>Exposure level<select id="repLevel"></select></label></div>
-              <label>What happened?<textarea id="repNote" rows="3" required placeholder="One sentence about the observable action..."></textarea></label>
+              <label>What happened?<textarea id="repNote" rows="2" required placeholder="One sentence about the observable action..."></textarea></label>
               <div class="field-row"><label>Confidence before<select id="confidenceBefore"><option value="">Optional</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>Confidence after<select id="confidenceAfter"><option value="">Optional</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div>
               <button class="button gold" type="submit">Add repetition</button>
             </form>
 
-            <form class="card form-card" id="evidenceForm">
-              <span class="eyebrow">Weekly evidence card</span><h3>Turn experience into a lesson.</h3>
-              <label>Evidence category<select id="evidenceCategory"></select></label>
-              <label>Situation<input id="evidenceSituation" required placeholder="Where and with whom?" /></label>
-              <label>Action<textarea id="evidenceAction" rows="2" required placeholder="What did you do?" ></textarea></label>
-              <label>Result<textarea id="evidenceResult" rows="2" required placeholder="What changed or became clearer?"></textarea></label>
-              <div class="field-row"><label>Lesson<input id="evidenceLesson" required placeholder="What did this prove?" /></label><label>Next adjustment<input id="evidenceNext" required placeholder="What will you refine?" /></label></div>
-              <button class="button dark" type="submit">Save evidence</button>
-            </form>
-          </div>
-
-          <div class="evidence-section">
-            <div class="evidence-head"><div><span class="eyebrow">Visible expertise</span><h3>Your evidence bank</h3></div><strong id="evidenceCount">0 entries</strong></div>
-            <div class="evidence-list" id="evidenceList"></div>
-          </div>
+            <div class="evidence-section">
+              <div class="evidence-head"><div><span class="eyebrow">Visible expertise</span><h3>Your evidence bank</h3></div><strong id="evidenceCount">0 entries</strong></div>
+              <div class="evidence-list" id="evidenceList"></div>
+            </div>
+          </details>
         </section>
 
         <footer class="site-footer"><div class="mini-brand"><img src="Logo.png?v=pankaj-v2" alt="" /><span>The Speaker's Gym</span></div><p>Private six-week coaching journey · Progress is saved on this device.</p></footer>
@@ -183,7 +203,7 @@
     <div id="lectureRoot"></div>
     <div id="week3Root"></div>
     <script src="data.js?v=pankaj-v2"></script>
-    <script src="app.js?v=pankaj-lecture-v1"></script>
+    <script src="app.js?v=pankaj-simplified-v1"></script>
     <script src="week1.js?v=pankaj-lecture-v1"></script>
     <script src="lecture.js?v=pankaj-lecture-v1"></script>
     <script src="week3.js?v=pankaj-lecture-v1"></script>

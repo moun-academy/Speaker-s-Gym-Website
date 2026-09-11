@@ -17,16 +17,18 @@
   })();
 
   const defaults = {
-    version: 2,
+    version: 3,
     startDate: todayISO,
     selectedDay: 0,
     selectedWeek: 0,
-    viewLevel: 1,
+    selectedReviewWeek: 1,
+    viewLevel: 2,
     currentLevel: 1,
     nextLevel: 2,
     completedDays: {},
     completedTasks: {},
     reflections: {},
+    weeklyReviews: {},
     confidence: {},
     repetitions: [],
     evidence: [],
@@ -111,10 +113,13 @@
       return {
         ...structuredClone(defaults),
         ...saved,
-        version: 2,
+        version: 3,
+        selectedReviewWeek: Math.max(1, Math.min(6, Number(saved.selectedReviewWeek) || Math.floor((Number(saved.selectedDay) || 0) / 7) + 1)),
+        viewLevel: Number(saved.version) >= 3 ? clampLevel(saved.viewLevel) : clampLevel(saved.nextLevel || 2),
         completedDays: { ...defaults.completedDays, ...(saved.completedDays || {}) },
         completedTasks: { ...defaults.completedTasks, ...(saved.completedTasks || {}) },
         reflections: { ...defaults.reflections, ...(saved.reflections || {}) },
+        weeklyReviews: { ...defaults.weeklyReviews, ...(saved.weeklyReviews || {}) },
         confidence: { ...defaults.confidence, ...(saved.confidence || {}) },
         repetitions: Array.isArray(saved.repetitions) ? saved.repetitions : [],
         evidence: Array.isArray(saved.evidence) ? saved.evidence : [],
@@ -219,7 +224,7 @@
     state.selectedDay = absoluteDay;
     const day = flatDays[absoluteDay];
     const week = DATA.weeks[day.weekIndex];
-    const tasks = [day.required, ...(day.extras || [])];
+    const extras = day.extras || [];
 
     $("#daySelect").value = String(absoluteDay);
     $("#prevDay").disabled = absoluteDay === 0;
@@ -230,25 +235,28 @@
     $("#dayTitle").textContent = day.title;
     $("#dayDuration").textContent = day.time;
     $("#dayIntention").textContent = day.intention;
-    $("#dailyPrompt").textContent = day.prompt;
+    $("#dailyPrompt").textContent = "What did today's practice prove?";
     $("#dailyReflection").value = state.reflections[absoluteDay] || "";
     $("#focusTitle").textContent = week.title;
     $("#focusTransformation").textContent = week.transformation;
     $("#focusWhy").textContent = week.why;
     $("#focusOutcome").textContent = week.outcome;
 
-    $("#taskList").innerHTML = tasks.map((task, taskIndex) => {
-      const checked = Boolean(state.completedTasks[taskKey(absoluteDay, taskIndex)]);
-      const isRequired = taskIndex === 0;
-      const appLink = isRequired && day.app ? `<a href="${DATA.links.app}" target="_blank" rel="noreferrer">OPEN APP ↗</a>` : "";
-      const realBadge = isRequired && day.real ? `<span class="eyebrow">REAL-WORLD ACTION</span>` : "";
-      return `<label class="task">
-        <input type="checkbox" data-task-index="${taskIndex}" ${checked ? "checked" : ""} />
+    const requiredChecked = Boolean(state.completedTasks[taskKey(absoluteDay, 0)]);
+    const appLink = day.app ? `<a href="${DATA.links.app}" target="_blank" rel="noreferrer">OPEN APP ↗</a>` : "";
+    const realBadge = day.real ? `<span class="eyebrow">REAL-WORLD ACTION</span>` : "";
+    const requiredTask = `<label class="task required-task">
+        <input type="checkbox" data-task-index="0" ${requiredChecked ? "checked" : ""} />
         <span class="task-check"></span>
-        <span class="task-copy"><small>${isRequired ? "REQUIRED ACTION" : `OPTIONAL REP ${taskIndex}`}</small>${escapeHTML(task)}${realBadge}</span>
+        <span class="task-copy"><small>REQUIRED ACTION</small>${escapeHTML(day.required)}${realBadge}</span>
         ${appLink}
       </label>`;
-    }).join("");
+    const optionalTasks = extras.length ? `<details class="optional-reps"><summary><span>Do more</span><small>${extras.length} optional ${extras.length === 1 ? "repetition" : "repetitions"}</small></summary><div>${extras.map((task, index) => {
+      const taskIndex = index + 1;
+      const checked = Boolean(state.completedTasks[taskKey(absoluteDay, taskIndex)]);
+      return `<label class="task optional-task"><input type="checkbox" data-task-index="${taskIndex}" ${checked ? "checked" : ""} /><span class="task-check"></span><span class="task-copy"><small>OPTIONAL REP ${taskIndex}</small>${escapeHTML(task)}</span></label>`;
+    }).join("")}</div></details>` : "";
+    $("#taskList").innerHTML = requiredTask + optionalTasks;
 
     $$("[data-task-index]").forEach(input => input.addEventListener("change", event => {
       state.completedTasks[taskKey(absoluteDay, Number(event.target.dataset.taskIndex))] = event.target.checked;
@@ -272,11 +280,9 @@
 
   function renderDayCompletion() {
     const absoluteDay = state.selectedDay;
-    const day = flatDays[absoluteDay];
-    const count = 1 + (day.extras || []).length;
-    const completedTasks = Array.from({ length: count }, (_, taskIndex) => Boolean(state.completedTasks[taskKey(absoluteDay, taskIndex)])).filter(Boolean).length;
-    $("#taskCount").textContent = `${completedTasks} of ${count} actions checked`;
-    $("#taskProgress").style.width = `${Math.round((completedTasks / count) * 100)}%`;
+    const requiredComplete = Boolean(state.completedTasks[taskKey(absoluteDay, 0)]);
+    $("#taskCount").textContent = requiredComplete ? "Required action complete" : "Complete the required action";
+    $("#taskProgress").style.width = requiredComplete ? "100%" : "0%";
     const completed = Boolean(state.completedDays[absoluteDay]);
     $("#completeDay").textContent = completed ? "Reopen day" : "Complete day";
     $("#completeDay").classList.toggle("dark", completed);
@@ -290,7 +296,7 @@
   function renderLevels() {
     state.currentLevel = Math.max(1, Math.min(10, Number(state.currentLevel) || 1));
     state.nextLevel = Math.max(1, Math.min(10, Number(state.nextLevel) || Math.min(10, state.currentLevel + 1)));
-    state.viewLevel = Math.max(1, Math.min(10, Number(state.viewLevel) || state.currentLevel));
+    state.viewLevel = Math.max(1, Math.min(10, Number(state.viewLevel) || state.nextLevel));
     $("#currentLevel").innerHTML = levelOptions(state.currentLevel);
     $("#nextLevel").innerHTML = levelOptions(state.nextLevel);
     $("#repLevel").innerHTML = levelOptions(state.nextLevel);
@@ -345,6 +351,17 @@
       <div><h4>COACHING ACTIVITIES</h4><ul>${week.activities.map(activity => `<li>${escapeHTML(activity)}</li>`).join("")}</ul></div>
       <div><h4>REAL-WORLD MISSION</h4><div class="mission-box"><strong>${escapeHTML(week.mission)}</strong><p>${escapeHTML(week.why)}</p></div><p class="week-reflection">Reflection: ${escapeHTML(week.reflection)}</p></div>
     </div>`;
+  }
+
+  function renderWeeklyReview() {
+    state.selectedReviewWeek = Math.max(1, Math.min(6, Number(state.selectedReviewWeek) || Math.floor(state.selectedDay / 7) + 1));
+    const select = $("#weeklyReviewWeek");
+    select.innerHTML = DATA.weeks.map((week, index) => `<option value="${index + 1}">Week ${index + 1} · ${escapeHTML(week.short)}</option>`).join("");
+    select.value = String(state.selectedReviewWeek);
+    const review = state.weeklyReviews[state.selectedReviewWeek] || {};
+    $("#weeklyImproved").value = review.improved || "";
+    $("#weeklyBreakdown").value = review.breakdown || "";
+    $("#weeklyNextFocus").value = review.nextFocus || "";
   }
 
   function renderLectureEntry(weekIndex) {
@@ -408,17 +425,24 @@
 
   function renderEvidence() {
     const evidence = state.evidence.map(item => ({ ...item, kind: "evidence" }));
+    const weeklyReviews = Object.entries(state.weeklyReviews)
+      .filter(([, review]) => review && [review.improved, review.breakdown, review.nextFocus].some(value => String(value || "").trim()))
+      .map(([week, review]) => ({ ...review, id: `weekly-${week}`, kind: "weekly", week: Number(week), createdAt: review.updatedAt || Number(week) }));
     const reflections = Object.entries(state.reflections)
       .filter(([, text]) => String(text).trim())
       .map(([day, text]) => ({ id: `reflection-${day}`, kind: "reflection", day: Number(day), text, createdAt: Number(day) }));
-    const items = [...evidence, ...reflections].sort((a, b) => Number(b.createdAt) - Number(a.createdAt));
+    const items = [...evidence, ...weeklyReviews, ...reflections].sort((a, b) => Number(b.createdAt) - Number(a.createdAt));
     $("#evidenceCount").textContent = `${items.length} ${items.length === 1 ? "entry" : "entries"}`;
     $("#evidenceList").innerHTML = items.length ? items.map(item => {
       if (item.kind === "reflection") {
         const day = flatDays[item.day] || flatDays[0];
-        return `<article class="evidence-card"><header><span>DAY ${item.day + 1} REFLECTION</span><span>${state.confidence[item.day] ? `CONFIDENCE ${state.confidence[item.day]}/5` : "REFLECTION"}</span></header><h4>${escapeHTML(day.title)}</h4><dl><div><dt>What I noticed</dt><dd>${escapeHTML(item.text)}</dd></div><div><dt>Question</dt><dd>${escapeHTML(day.prompt)}</dd></div></dl></article>`;
+        return `<article class="evidence-card"><header><span>DAY ${item.day + 1} REFLECTION</span><span>${state.confidence[item.day] ? `CONFIDENCE ${state.confidence[item.day]}/5` : "REFLECTION"}</span></header><h4>${escapeHTML(day.title)}</h4><dl><div><dt>What today's practice proved</dt><dd>${escapeHTML(item.text)}</dd></div></dl></article>`;
       }
-      return `<article class="evidence-card"><header><span>WEEK ${item.week} EVIDENCE</span><span>${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" }).format(new Date(item.createdAt))}</span></header><h4>${escapeHTML(item.category)}</h4><dl><div><dt>Situation</dt><dd>${escapeHTML(item.situation)}</dd></div><div><dt>Action</dt><dd>${escapeHTML(item.action)}</dd></div><div><dt>Result</dt><dd>${escapeHTML(item.result)}</dd></div><div><dt>Lesson</dt><dd>${escapeHTML(item.lesson)}</dd></div><div><dt>Next adjustment</dt><dd>${escapeHTML(item.next)}</dd></div></dl></article>`;
+      if (item.kind === "weekly") {
+        return `<article class="evidence-card"><header><span>WEEK ${item.week} REVIEW</span><span>WEEKLY</span></header><h4>${escapeHTML(DATA.weeks[item.week - 1]?.title || `Week ${item.week}`)}</h4><dl><div><dt>What improved</dt><dd>${escapeHTML(item.improved || "Not recorded")}</dd></div><div><dt>Where the skill broke down</dt><dd>${escapeHTML(item.breakdown || "Not recorded")}</dd></div><div><dt>One focus next week</dt><dd>${escapeHTML(item.nextFocus || "Not recorded")}</dd></div></dl></article>`;
+      }
+      const confidence = item.confidenceBefore || item.confidenceAfter ? `<div><dt>Confidence</dt><dd>${item.confidenceBefore || "Not set"} before · ${item.confidenceAfter || "Not set"} after</dd></div>` : "";
+      return `<article class="evidence-card"><header><span>WEEK ${item.week} EVIDENCE</span><span>${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" }).format(new Date(item.createdAt))}</span></header><h4>${escapeHTML(item.category)}</h4><dl><div><dt>What I did</dt><dd>${escapeHTML(item.action || item.situation)}</dd></div><div><dt>What happened</dt><dd>${escapeHTML(item.result || item.lesson)}</dd></div><div><dt>What I will repeat or adjust</dt><dd>${escapeHTML(item.next)}</dd></div>${confidence}</dl></article>`;
     }).join("") : `<div class="empty-state"><span>✦</span><strong>Your evidence will collect here.</strong><p>Save a reflection or evidence card after one observable communication action.</p></div>`;
   }
 
@@ -429,6 +453,7 @@
     renderToday();
     renderLevels();
     renderJourney();
+    renderWeeklyReview();
     renderCoachDashboard();
     renderEvidence();
   }
@@ -473,7 +498,7 @@
   });
   $("#currentLevel").addEventListener("change", event => {
     state.currentLevel = Number(event.target.value);
-    state.viewLevel = state.currentLevel;
+    state.viewLevel = state.nextLevel;
     saveState(); renderLevels(); renderCoachDashboard(); showToast("Current reliable level updated.");
   });
   $("#nextLevel").addEventListener("change", event => {
@@ -501,24 +526,42 @@
     showToast("Repetition added to your practice record.");
   });
 
-  $("#evidenceCategory").innerHTML = DATA.evidenceCategories.map(category => `<option>${escapeHTML(category)}</option>`).join("");
+  $("#weeklyReviewWeek").addEventListener("change", event => {
+    state.selectedReviewWeek = Number(event.target.value);
+    saveState();
+    renderWeeklyReview();
+  });
+
+  $("#weeklyReviewForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const week = state.selectedReviewWeek;
+    state.weeklyReviews[week] = {
+      improved: $("#weeklyImproved").value.trim(),
+      breakdown: $("#weeklyBreakdown").value.trim(),
+      nextFocus: $("#weeklyNextFocus").value.trim(),
+      updatedAt: Date.now()
+    };
+    saveState();
+    renderEvidence();
+    showToast("Weekly review saved on this device.");
+  });
+
   $("#evidenceForm").addEventListener("submit", event => {
     event.preventDefault();
-    state.evidence.unshift({
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-      week: Math.floor(state.selectedDay / 7) + 1,
-      category: $("#evidenceCategory").value,
-      situation: $("#evidenceSituation").value.trim(),
-      action: $("#evidenceAction").value.trim(),
-      result: $("#evidenceResult").value.trim(),
-      lesson: $("#evidenceLesson").value.trim(),
-      next: $("#evidenceNext").value.trim(),
-      createdAt: Date.now()
-    });
+    const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
+    const week = Math.floor(state.selectedDay / 7) + 1;
+    const action = $("#evidenceAction").value.trim();
+    const result = $("#evidenceResult").value.trim();
+    const next = $("#evidenceNext").value.trim();
+    const confidenceBefore = Number($("#evidenceConfidenceBefore").value) || null;
+    const confidenceAfter = Number($("#evidenceConfidenceAfter").value) || null;
+    const categories = ["I led with the point.", "I remained composed under pressure.", "I used my voice intentionally.", "I spoke before the moment passed.", "I told a story that supported the message.", "I remained composed under pressure."];
+    state.evidence.unshift({ id, week, category: categories[week - 1], situation: "Real-world communication", action, result, lesson: result, next, confidenceBefore, confidenceAfter, createdAt: Date.now() });
+    state.repetitions.unshift({ id: `rep-${id}`, type: "real", level: state.currentLevel, note: action, confidenceBefore, confidenceAfter, createdAt: Date.now(), sourceEvidence: id });
     saveState();
     event.target.reset();
-    renderEvidence(); renderCoachDashboard();
-    showToast("Evidence saved privately on this device.");
+    renderEvidence(); renderCoachDashboard(); renderProgress(); renderLevels();
+    showToast("Reflection saved and counted as a real-world repetition.");
   });
 
   $("#saveCoachNotes").addEventListener("click", () => {
@@ -594,7 +637,7 @@
       const next = clampLevel(level);
       state.currentLevel = next;
       state.nextLevel = Math.min(10, next + 1);
-      state.viewLevel = next;
+      state.viewLevel = state.nextLevel;
       state.week2Lecture.currentLevel = next;
       saveState();
       renderAll();
