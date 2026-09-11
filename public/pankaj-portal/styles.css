@@ -215,11 +215,15 @@ textarea, input, select { color: var(--ink); }
 .advance-rule span { width: 27px; height: 27px; display: grid; place-items: center; color: #17140c; background: var(--gold); border-radius: 50%; font-weight: 700; }
 .advance-rule strong { font-size: 11px; color: var(--gold-light); }
 
-.week-tabs { display: grid; grid-template-columns: repeat(6,1fr); border: 1px solid var(--line); background: var(--paper); }
+.journey-program { margin-bottom: 14px; border: 1px solid var(--line); background: var(--paper); box-shadow: var(--shadow); }
+.journey-program-head { min-height: 60px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+.journey-program-head strong { color: #33312c; font: 700 12px var(--detail); }
+.journey-program-head span { color: var(--muted); font: 600 9px var(--detail); letter-spacing: .04em; }
+.week-tabs { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); background: var(--paper); }
 .week-tab { min-width: 0; padding: 18px 10px; border: 0; border-right: 1px solid var(--line); background: transparent; cursor: pointer; text-align: left; }
 .week-tab:last-child { border-right: 0; }
 .week-tab span { color: var(--gold-dark); font: 700 8px var(--detail); letter-spacing: .14em; }
-.week-tab strong { display: block; margin-top: 8px; overflow: hidden; font: 500 12px/1.3 var(--detail); text-overflow: ellipsis; white-space: nowrap; }
+.week-tab strong { display: block; margin-top: 8px; font: 500 12px/1.35 var(--detail); overflow-wrap: anywhere; }
 .week-tab.active { color: #fff; background: var(--black); }
 .week-tab.active span { color: var(--gold); }
 .week-detail { background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); }
@@ -253,8 +257,6 @@ textarea, input, select { color: var(--ink); }
 .portal-disclosure > summary { min-height: 62px; padding: 16px 20px; color: #33312c; font: 700 12px var(--detail); }
 .portal-disclosure > summary span { display: block; }
 .portal-disclosure > summary::after { color: var(--gold-dark); }
-.journey-disclosure { margin-top: 12px; }
-.journey-disclosure .week-tabs { border-width: 1px 0 0; }
 
 .coach-dashboard { margin: 18px; padding: 30px; }
 .dashboard-head, .evidence-head { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
@@ -406,8 +408,12 @@ textarea, input, select { color: var(--ink); }
   .level-step strong { font-size: 13px; }
   .level-detail { padding: 24px 19px; }
   .level-info { grid-template-columns: 1fr; }
-  .week-tabs { display: flex; overflow-x: auto; }
-  .week-tab { min-width: 130px; border-bottom: 0 !important; }
+  .journey-program-head { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .week-tabs { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .week-tab { min-width: 0; border-bottom: 1px solid var(--line) !important; }
+  .week-tab:nth-child(odd) { border-right: 1px solid var(--line); }
+  .week-tab:nth-child(even) { border-right: 0; }
+  .week-tab:nth-last-child(-n+2) { border-bottom: 0 !important; }
   .week-detail-header, .week-detail-body { padding: 24px 20px; }
   .lecture-entry { padding: 20px; }
   .lecture-entry-actions { width: 100%; flex-wrap: wrap; }
