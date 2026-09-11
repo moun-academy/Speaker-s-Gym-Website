@@ -1,0 +1,26 @@
+html:has(.pankaj-portal-shell),
+body:has(.pankaj-portal-shell),
+#root:has(.pankaj-portal-shell) {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #0b0c0c;
+}
+
+.pankaj-portal-shell {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  background: #0b0c0c;
+}
+
+.pankaj-portal-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #f3efe5;
+}

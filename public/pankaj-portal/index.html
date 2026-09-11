@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Pankaj's private six-week Speaker's Gym coaching journey." />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="theme-color" content="#0b0c0c" />
+    <title>Pankaj's Speaking Journey | Speaker's Gym</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=pankaj-v1" />
+  </head>
+  <body>
+    <div class="mobile-bar">
+      <a class="mini-brand" href="#today"><span>SG</span> Speaker's Gym</a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-expanded="false"><i></i><i></i></button>
+    </div>
+
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <button class="menu-close" id="menuClose" type="button" aria-label="Close navigation">×</button>
+      <a class="brand" href="#today">
+        <span class="brand-mark" aria-hidden="true"><b>S</b><b>G</b></span>
+        <span><strong>THE SPEAKER'S GYM</strong><small>Private coaching portal</small></span>
+      </a>
+      <nav>
+        <a class="active" href="#today" data-section="today"><span>01</span>Today</a>
+        <a href="#levels" data-section="levels"><span>02</span>My Levels</a>
+        <a href="#journey" data-section="journey"><span>03</span>My Journey</a>
+        <a href="#reflections" data-section="reflections"><span>04</span>Reflections</a>
+      </nav>
+      <div class="quick-links">
+        <small>QUICK LINKS</small>
+        <a href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noreferrer">Practice app <span>↗</span></a>
+        <a href="https://www.skool.com/moun-academy-2097" target="_blank" rel="noreferrer">Community <span>↗</span></a>
+      </div>
+      <blockquote>
+        <span>Your reminder</span>
+        “One clear point first.<br />Then the evidence.”
+      </blockquote>
+      <div class="coach-chip"><span>M</span><p><small>Your coach</small><strong>Marouane</strong></p><i></i></div>
+    </aside>
+    <button class="backdrop" id="backdrop" type="button" aria-label="Close navigation"></button>
+
+    <main>
+      <header class="topbar">
+        <div><p id="todayDate"></p><h1>Welcome back, Pankaj.</h1></div>
+        <div class="top-actions">
+          <a class="link-button" href="https://www.skool.com/moun-academy-2097" target="_blank" rel="noreferrer">Community ↗</a>
+          <a class="button dark" href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noreferrer">Open practice app ↗</a>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="hero reveal" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <span class="eyebrow">Your reason for showing up</span>
+            <h2 id="hero-title">Your expertise deserves to be heard.</h2>
+            <p>You already have the knowledge and experience. You are building the ability to organize that knowledge quickly, express it with concise authority and stay present when the room feels demanding. The goal is not to become someone else. It is to make your real professional value easier for other people to recognize.</p>
+          </div>
+          <div class="vision-card">
+            <span class="star">✦</span>
+            <div><small>MY SIX-WEEK VISION</small><p>I organize my thoughts quickly and lead with one clear point. I speak with a strong, varied voice, contribute before the moment passes and use concise stories that help people understand and remember my ideas. In meetings with colleagues and management, I communicate like the experienced professional and future executive I am becoming.</p><div class="program-commitment">6 weekly coaching sessions · 5 to 15 minutes on most days · Weekend timing confirmed together</div></div>
+          </div>
+        </section>
+
+        <section class="progress-panel reveal" aria-label="Program progress">
+          <div class="progress-primary">
+            <div class="progress-ring" id="progressRing"><strong id="progressPercent">0%</strong></div>
+            <div><span class="eyebrow">Six-week progress</span><strong id="progressSummary">0 of 42 days</strong></div>
+          </div>
+          <div class="metric"><span>↗</span><p><strong id="streakValue">0</strong><small>day streak</small></p></div>
+          <div class="metric"><span>◎</span><p><strong id="appRepsValue">0</strong><small>app reps</small></p></div>
+          <div class="metric"><span>✓</span><p><strong id="realRepsValue">0</strong><small>real-world reps</small></p></div>
+          <label class="date-control"><small>PROGRAM START</small><input id="startDate" type="date" /></label>
+        </section>
+
+        <section id="today" class="section reveal">
+          <div class="section-head">
+            <div><span class="eyebrow" id="todayWeek">Week 1 · Clear structure</span><h2>Today's practice</h2></div>
+            <div class="day-nav"><button id="prevDay" type="button" aria-label="Previous day">←</button><label><small>PROGRAM DAY</small><select id="daySelect" aria-label="Select program day"></select></label><button id="nextDay" type="button" aria-label="Next day">→</button></div>
+          </div>
+          <div class="today-grid">
+            <article class="practice-card card">
+              <header><span class="day-number" id="dayNumber">01</span><div><span class="eyebrow" id="dayType">Coaching session</span><h3 id="dayTitle"></h3></div><span class="duration" id="dayDuration"></span></header>
+              <p class="day-intention" id="dayIntention"></p>
+              <div class="task-list" id="taskList"></div>
+              <div class="practice-reflection">
+                <label for="dailyReflection"><span>QUICK REFLECTION</span><em id="dailyPrompt"></em></label>
+                <textarea id="dailyReflection" rows="3" placeholder="Capture one useful observation..."></textarea>
+                <div class="confidence-row"><span>Confidence after practice</span><div id="dailyConfidence" class="confidence-scale" aria-label="Confidence after practice"></div></div>
+              </div>
+              <footer><div><span id="taskCount">0 of 1 complete</span><i><b id="taskProgress"></b></i></div><button class="button gold" id="completeDay" type="button">Complete day</button></footer>
+            </article>
+            <aside class="week-focus card">
+              <span class="eyebrow">This week's transformation</span>
+              <h3 id="focusTitle"></h3>
+              <p class="transformation" id="focusTransformation"></p>
+              <div><small>WHY THIS MATTERS</small><p id="focusWhy"></p></div>
+              <div class="outcome"><span>✓</span><p><small>BY SUNDAY</small><strong id="focusOutcome"></strong></p></div>
+              <a class="text-link" href="#journey">View the full week plan →</a>
+            </aside>
+          </div>
+        </section>
+
+        <section id="levels" class="section reveal">
+          <div class="section-head split"><div><span class="eyebrow">Your communication exposure path</span><h2>Build reliable access under pressure.</h2></div><p>Move up after three reliable repetitions, not one perfect performance. Your level describes a practiced behavior, not your identity.</p></div>
+          <div class="level-dashboard">
+            <div class="level-controls">
+              <label><small>CURRENT RELIABLE LEVEL</small><select id="currentLevel"></select></label>
+              <span>→</span>
+              <label><small>NEXT PRACTICE LEVEL</small><select id="nextLevel"></select></label>
+              <strong id="levelRepProgress">0 of 3 reliable reps</strong>
+            </div>
+            <div class="level-grid" id="levelGrid"></div>
+            <article class="level-detail" id="levelDetail"></article>
+          </div>
+        </section>
+
+        <section id="journey" class="section reveal">
+          <div class="section-head split"><div><span class="eyebrow">Full visibility, one focus at a time</span><h2>Your six-week journey</h2></div><p>Each week turns existing knowledge into communication behavior you can access when it matters.</p></div>
+          <div class="week-tabs" id="weekTabs" role="tablist" aria-label="Six-week journey"></div>
+          <article class="week-detail" id="weekDetail"></article>
+        </section>
+
+        <section id="reflections" class="section reveal">
+          <div class="section-head split"><div><span class="eyebrow">Your evidence journal</span><h2>Save what your progress proves.</h2></div><p>Confidence grows faster when you can point to observable actions, not vague impressions.</p></div>
+
+          <div class="coach-dashboard card">
+            <div class="dashboard-head"><div><span class="eyebrow">Before the next coaching session</span><h3>Coach review</h3></div><span class="privacy-badge">SAVED ON THIS DEVICE</span></div>
+            <div class="dashboard-metrics" id="coachMetrics"></div>
+            <div class="coach-fields">
+              <label>Latest app score or report note<textarea id="appNotes" rows="2" placeholder="Paste the useful headline from the latest report..."></textarea></label>
+              <label>Upcoming real meeting or presentation<textarea id="upcomingMoment" rows="2" placeholder="What is coming up, and when?"></textarea></label>
+              <label>Skill that broke down under pressure<textarea id="pressureSkill" rows="2" placeholder="Name the observable behavior..."></textarea></label>
+              <label>One target for the next seven days<textarea id="nextTarget" rows="2" placeholder="One action you can count..."></textarea></label>
+            </div>
+            <button class="button dark small" id="saveCoachNotes" type="button">Save coach notes</button>
+            <div class="recent-reps"><small>THREE MOST RECENT REPETITIONS</small><div id="recentReps"></div></div>
+          </div>
+
+          <div class="journal-grid">
+            <form class="card form-card" id="repetitionForm">
+              <span class="eyebrow">Log a repetition</span><h3>What did you practice?</h3>
+              <div class="field-row"><label>Type<select id="repType"><option value="app">App practice</option><option value="real">Real-world conversation</option><option value="meeting">Meeting contribution</option><option value="structured">Structured answer under 90 seconds</option><option value="story">Story with a clear final point</option></select></label><label>Exposure level<select id="repLevel"></select></label></div>
+              <label>What happened?<textarea id="repNote" rows="3" required placeholder="One sentence about the observable action..."></textarea></label>
+              <div class="field-row"><label>Confidence before<select id="confidenceBefore"><option value="">Optional</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>Confidence after<select id="confidenceAfter"><option value="">Optional</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div>
+              <button class="button gold" type="submit">Add repetition</button>
+            </form>
+
+            <form class="card form-card" id="evidenceForm">
+              <span class="eyebrow">Weekly evidence card</span><h3>Turn experience into a lesson.</h3>
+              <label>Evidence category<select id="evidenceCategory"></select></label>
+              <label>Situation<input id="evidenceSituation" required placeholder="Where and with whom?" /></label>
+              <label>Action<textarea id="evidenceAction" rows="2" required placeholder="What did you do?" ></textarea></label>
+              <label>Result<textarea id="evidenceResult" rows="2" required placeholder="What changed or became clearer?"></textarea></label>
+              <div class="field-row"><label>Lesson<input id="evidenceLesson" required placeholder="What did this prove?" /></label><label>Next adjustment<input id="evidenceNext" required placeholder="What will you refine?" /></label></div>
+              <button class="button dark" type="submit">Save evidence</button>
+            </form>
+          </div>
+
+          <div class="evidence-section">
+            <div class="evidence-head"><div><span class="eyebrow">Visible expertise</span><h3>Your evidence bank</h3></div><strong id="evidenceCount">0 entries</strong></div>
+            <div class="evidence-list" id="evidenceList"></div>
+          </div>
+        </section>
+
+        <footer class="site-footer"><div class="mini-brand"><span>SG</span> The Speaker's Gym</div><p>Private six-week coaching journey · Progress is saved on this device.</p></footer>
+      </div>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="data.js?v=pankaj-v1"></script>
+    <script src="app.js?v=pankaj-v1"></script>
+  </body>
+</html>
