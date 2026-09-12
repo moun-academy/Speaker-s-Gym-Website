@@ -93,7 +93,7 @@
               <header><span class="day-number" id="dayNumber">01</span><div><span class="eyebrow" id="dayType">Coaching session</span><h3 id="dayTitle"></h3></div><span class="duration" id="dayDuration"></span></header>
               <p class="day-intention" id="dayIntention"></p>
               <div class="task-list" id="taskList"></div>
-              <div class="practice-reflection">
+              <div class="practice-reflection" hidden>
                 <label for="dailyReflection"><span>ONE QUICK REFLECTION</span><em id="dailyPrompt">What did today's practice prove?</em></label>
                 <textarea id="dailyReflection" rows="2" placeholder="One or two sentences are enough."></textarea>
                 <div class="confidence-row"><span>Optional confidence check</span><div id="dailyConfidence" class="confidence-scale" aria-label="Optional confidence after practice"></div></div>
@@ -157,7 +157,7 @@
             </form>
           </div>
 
-          <details class="portal-disclosure progress-disclosure">
+          <details class="portal-disclosure progress-disclosure" hidden>
             <summary><span>Progress and evidence</span><small>Detailed records for coaching sessions</small></summary>
             <div class="detail-settings">
               <div class="detail-stat"><small>APP REPETITIONS</small><strong id="appRepsValue">0</strong></div>
@@ -199,8 +199,8 @@
     <div id="week1Root"></div>
     <div id="lectureRoot"></div>
     <div id="week3Root"></div>
-    <script src="data.js?v=pankaj-v4"></script>
-    <script src="app.js?v=pankaj-levels-v2"></script>
+    <script src="data.js?v=pankaj-v5"></script>
+    <script src="app.js?v=pankaj-today-v3"></script>
     <script src="week1.js?v=pankaj-lecture-v1"></script>
     <script src="lecture.js?v=pankaj-lecture-v1"></script>
     <script src="week3.js?v=pankaj-lecture-v1"></script>

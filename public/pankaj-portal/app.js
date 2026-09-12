@@ -224,7 +224,9 @@
     state.selectedDay = absoluteDay;
     const day = flatDays[absoluteDay];
     const week = DATA.weeks[day.weekIndex];
-    const extras = day.extras || [];
+    const actions = Array.isArray(day.actions) && day.actions.length
+      ? day.actions
+      : [{ text: day.required, destination: day.app ? "app" : "" }];
 
     $("#daySelect").value = String(absoluteDay);
     $("#prevDay").disabled = absoluteDay === 0;
@@ -242,21 +244,23 @@
     $("#focusWhy").textContent = week.why;
     $("#focusOutcome").textContent = week.outcome;
 
-    const requiredChecked = Boolean(state.completedTasks[taskKey(absoluteDay, 0)]);
-    const appLink = day.app ? `<a href="${DATA.links.app}" target="_blank" rel="noreferrer">OPEN APP ↗</a>` : "";
     const realBadge = day.real ? `<span class="eyebrow">REAL-WORLD ACTION</span>` : "";
-    const requiredTask = `<label class="task required-task">
-        <input type="checkbox" data-task-index="0" ${requiredChecked ? "checked" : ""} />
-        <span class="task-check"></span>
-        <span class="task-copy"><small>REQUIRED ACTION</small>${escapeHTML(day.required)}${realBadge}</span>
-        ${appLink}
-      </label>`;
-    const optionalTasks = extras.length ? `<details class="optional-reps"><summary><span>Do more</span><small>${extras.length} optional ${extras.length === 1 ? "repetition" : "repetitions"}</small></summary><div>${extras.map((task, index) => {
-      const taskIndex = index + 1;
+    const requiredTasks = actions.map((action, taskIndex) => {
       const checked = Boolean(state.completedTasks[taskKey(absoluteDay, taskIndex)]);
-      return `<label class="task optional-task"><input type="checkbox" data-task-index="${taskIndex}" ${checked ? "checked" : ""} /><span class="task-check"></span><span class="task-copy"><small>OPTIONAL REP ${taskIndex}</small>${escapeHTML(task)}</span></label>`;
-    }).join("")}</div></details>` : "";
-    $("#taskList").innerHTML = requiredTask + optionalTasks;
+      const destination = action.destination === "community"
+        ? { href: DATA.links.community, label: "OPEN COMMUNITY ↗" }
+        : action.destination === "app"
+          ? { href: DATA.links.app, label: "OPEN APP ↗" }
+          : null;
+      const destinationLink = destination ? `<a href="${destination.href}" target="_blank" rel="noreferrer">${destination.label}</a>` : "";
+      return `<label class="task required-task">
+        <input type="checkbox" data-task-index="${taskIndex}" ${checked ? "checked" : ""} />
+        <span class="task-check"></span>
+        <span class="task-copy"><small>REQUIRED ACTION${actions.length > 1 ? ` ${taskIndex + 1}` : ""}</small>${escapeHTML(action.text)}${taskIndex === 0 ? realBadge : ""}</span>
+        ${destinationLink}
+      </label>`;
+    }).join("");
+    $("#taskList").innerHTML = requiredTasks;
 
     $$("[data-task-index]").forEach(input => input.addEventListener("change", event => {
       state.completedTasks[taskKey(absoluteDay, Number(event.target.dataset.taskIndex))] = event.target.checked;
@@ -280,8 +284,11 @@
 
   function renderDayCompletion() {
     const absoluteDay = state.selectedDay;
-    const requiredComplete = Boolean(state.completedTasks[taskKey(absoluteDay, 0)]);
-    $("#taskCount").textContent = requiredComplete ? "Required action complete" : "Complete the required action";
+    const day = flatDays[absoluteDay];
+    const requiredCount = Array.isArray(day.actions) && day.actions.length ? day.actions.length : 1;
+    const completedRequired = Array.from({ length: requiredCount }, (_, index) => Boolean(state.completedTasks[taskKey(absoluteDay, index)])).filter(Boolean).length;
+    const requiredComplete = completedRequired === requiredCount;
+    $("#taskCount").textContent = requiredComplete ? "Required actions complete" : `Complete ${requiredCount - completedRequired} required ${requiredCount - completedRequired === 1 ? "action" : "actions"}`;
     $("#taskProgress").style.width = requiredComplete ? "100%" : "0%";
     const completed = Boolean(state.completedDays[absoluteDay]);
     $("#completeDay").textContent = completed ? "Reopen day" : "Complete day";
@@ -323,6 +330,7 @@
   function renderLevelDetail() {
     const number = state.viewLevel;
     const level = DATA.levels[number - 1];
+    const addSpeechChannel = text => /in the community/i.test(text) && !/speech channel/i.test(text) ? text.replace(/in the community/i, "in the speech channel on the community") : text;
     $("#levelDetail").innerHTML = `<div class="level-detail-main">
       <small>LEVEL ${number} ${number === state.currentLevel ? "· CURRENT" : number === state.nextLevel ? "· PRACTICE NEXT" : ""}</small>
       <h3>${escapeHTML(level.name)}</h3>
@@ -331,7 +339,7 @@
     </div>
     <div class="level-info">
       <div><small>APP PRACTICE</small><p>${escapeHTML(level.app)}</p></div>
-      <div><small>OPTIONAL COMMUNITY SHARE</small><p>${escapeHTML(level.community)}</p></div>
+      <div><small>OPTIONAL COMMUNITY SHARE</small><p>${escapeHTML(addSpeechChannel(level.community || ""))}</p></div>
       <div><small>EVIDENCE REQUIRED</small><p>${escapeHTML(level.evidence)}</p></div>
       <div class="advance-rule"><span>3</span><strong>Advance after three reliable repetitions, not after one perfect performance.</strong></div>
     </div>`;
@@ -481,7 +489,13 @@
     const dayIndex = state.selectedDay;
     const completing = !state.completedDays[dayIndex];
     state.completedDays[dayIndex] = completing;
-    if (completing) state.completedTasks[taskKey(dayIndex, 0)] = true;
+    if (completing) {
+      const day = flatDays[dayIndex];
+      const requiredCount = Array.isArray(day.actions) && day.actions.length ? day.actions.length : 1;
+      Array.from({ length: requiredCount }, (_, index) => index).forEach(index => {
+        state.completedTasks[taskKey(dayIndex, index)] = true;
+      });
+    }
     saveState(); renderToday(); renderProgress(); renderCoachDashboard();
     showToast(completing ? "Day complete. That is useful evidence." : "Day reopened for another pass.");
   });
