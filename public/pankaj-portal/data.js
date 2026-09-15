@@ -42,13 +42,13 @@ window.PANKAJ_PORTAL_DATA = {
       evidence: "A posted video speech that shows a clear opening point, controlled pace and a complete conclusion."
     },
     {
-      name: "Planned Professional Moment",
-      card: "Prepare one point, then deliver it.",
-      behavior: "Prepare one point and deliver it during a scheduled professional conversation.",
+      name: "Prepared One-to-One or Project Update",
+      card: "Choose the moment. Prepare one point. Deliver it.",
+      behavior: "Before a scheduled one-to-one or project update, prepare one PREP answer to a likely question and deliver it.",
       starter: "The key point I want us to consider is...",
       app: "Practice only the headline and two supporting anchors. Do not script the whole contribution.",
-      community: "Share the planned moment and the two anchors you will use.",
-      evidence: "The planned point was delivered in the intended conversation and recorded in the repetition log."
+      community: "Share which meeting you chose and the two anchors you will use, without confidential details.",
+      evidence: "The prepared PREP answer was delivered during the chosen one-to-one or project update."
     },
     {
       name: "Small Familiar Group",

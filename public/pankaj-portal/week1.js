@@ -17,7 +17,7 @@
     "Use PREP once in a relaxed conversation with someone you trust.",
     "Use PREP once in a familiar one-to-one conversation.",
     "Use PREP once in a low-pressure conversation with a familiar colleague.",
-    "Use PREP once in a planned professional conversation.",
+    "Before a scheduled one-to-one or project update, prepare one PREP answer to a likely question and deliver it.",
     "Use PREP once while speaking to a small, familiar group.",
     "Use PREP for one prepared contribution during a routine meeting.",
     "Use PREP once in an unplanned professional conversation.",
@@ -27,7 +27,7 @@
   ];
 
   const chapters = [
-    { title: "Turn Overthinking into One Clear Point", start: 2, end: 2 },
+    { title: "See Why Structure Changes Everything", start: 2, end: 2 },
     { title: "Build a Strong Answer in Four Simple Steps", start: 3, end: 9 },
     { title: "Speak Freely Without Memorizing", start: 10, end: 11 },
     { title: "Feel the Difference Between Version 1 and Version 2", start: 12, end: 12 },
@@ -170,13 +170,32 @@
       `, { className: "agenda", nextLabel: "Start the transformation" });
     } else if (step === 2) {
       page = shell(`
-        <p class="w1-eyebrow">MEET PREP</p>
-        <h1>A clear answer<br />from four anchors.</h1>
-        ${prepRail()}
-        <p class="w1-lede centered">A simple structure for organizing an opinion quickly, without memorizing a script.</p>
-        <div class="w1-benefits"><span>Speak sooner</span><span>Stay clear</span><span>Sound considered</span><span>Finish strongly</span></div>
-        <blockquote>PREP is a framework for speaking clearly,<br /><strong>not a script to memorize.</strong></blockquote>
-      `);
+        <p class="w1-eyebrow">WHY A FRAMEWORK MATTERS</p>
+        <h1>Without structure,<br /><em>strong ideas get lost.</em></h1>
+        <div class="w1-framework-shift">
+          <section class="w1-framework-pain">
+            <small>WITHOUT A FRAMEWORK</small>
+            <div class="w1-pain-moments">
+              <article><span>01</span><div><strong>In interviews</strong><p>You know the answer, but too many details arrive at once.</p></div></article>
+              <article><span>02</span><div><strong>In discussions</strong><p>You keep explaining, ramble, and lose the conclusion.</p></div></article>
+              <article><span>03</span><div><strong>With unexpected questions</strong><p>You search for the perfect wording while the listener waits.</p></div></article>
+            </div>
+            <p class="w1-pain-result">The expertise is there. The listener has to work too hard to find the point.</p>
+          </section>
+          <div class="w1-shift-arrow" aria-hidden="true"><span>→</span><small>STRUCTURE</small></div>
+          <section class="w1-framework-gain">
+            <small>WITH A FRAMEWORK</small>
+            <h2>You can organize the answer as you speak.</h2>
+            <ul>
+              <li><span>✓</span> Lead with one clear point</li>
+              <li><span>✓</span> Choose only the evidence the listener needs</li>
+              <li><span>✓</span> Answer questions without scripting every sentence</li>
+              <li><span>✓</span> Finish with a clear takeaway</li>
+            </ul>
+            <p class="w1-gain-result">Your idea becomes easier to follow, remember, and respond to.</p>
+          </section>
+        </div>
+      `, { className: "framework-shift", nextLabel: "Show me the framework" });
     } else if (step === 3) {
       page = shell(`
         <p class="w1-eyebrow">FOUR DISCOVERY QUESTIONS</p>
@@ -275,18 +294,31 @@
       `, { nextLabel: "Name the prediction" });
     } else if (step === 14) {
       page = shell(`
-        <p class="w1-eyebrow">IDENTIFY THE WORST-CASE SCENARIO</p>
-        <h1>What are you afraid<br />would happen?</h1>
-        <p class="w1-lede">If you spoke more freely instead of holding yourself back, what are you afraid would happen?</p>
-        <div class="w1-coach-card">
-          <textarea data-w1-prediction rows="3" placeholder="If I speak during a meeting without rehearsing, I'll freeze…">${esc(state.prediction)}</textarea>
-          <div class="w1-prediction-examples"><span>I'll freeze.</span><span>People won't understand me.</span><span>I'll lose my train of thought.</span><span>Someone will challenge me.</span></div>
-          <label class="w1-slider-label"><span>How likely does this feel right now?</span><strong data-w1-before-value>${state.beliefBefore}%</strong></label>
+        <p class="w1-eyebrow">TURN FEAR INTO A TESTABLE PREDICTION</p>
+        <h1>A fear feels like a fact<br /><em>until you test it.</em></h1>
+        <p class="w1-lede">The goal is not to force the fear away. It is to name it precisely, test it safely, and replace assumption with real evidence.</p>
+        <div class="w1-belief-path" aria-label="Three steps for testing a limiting belief">
+          <article class="active"><span>01</span><strong>Name the feared outcome</strong></article>
+          <i>→</i>
+          <article><span>02</span><strong>Attempt one small action</strong></article>
+          <i>→</i>
+          <article><span>03</span><strong>Compare fear with reality</strong></article>
+        </div>
+        <div class="w1-coach-card w1-belief-card">
+          <label for="w1Prediction">Complete this sentence with one specific outcome:</label>
+          <textarea id="w1Prediction" data-w1-prediction rows="2" placeholder="If I answer without rehearsing every sentence, I will…">${esc(state.prediction)}</textarea>
+          <div class="w1-prediction-examples" aria-label="Prediction examples">
+            <button type="button" data-w1-prediction-example="I will freeze and be unable to finish my answer.">I will freeze.</button>
+            <button type="button" data-w1-prediction-example="People will not understand my main point.">They will not understand me.</button>
+            <button type="button" data-w1-prediction-example="I will lose my train of thought and sound unprepared.">I will lose my train of thought.</button>
+            <button type="button" data-w1-prediction-example="Someone will challenge my answer and I will not recover.">I will not recover if challenged.</button>
+          </div>
+          <label class="w1-slider-label"><span>How strongly do you believe this prediction right now?</span><strong data-w1-before-value>${state.beliefBefore}%</strong></label>
           <input class="w1-slider" type="range" min="0" max="100" step="5" value="${state.beliefBefore}" data-w1-before />
           <div class="w1-slider-scale"><span>0%</span><span>100%</span></div>
         </div>
-        <p class="w1-coach-note">Keep this tied to communication. This is a prediction, not a verdict.</p>
-      `);
+        <p class="w1-belief-goal"><small>THE GOAL</small><strong>Stop treating the prediction as a verdict.</strong><span>Your mission will collect one piece of real evidence about what actually happens.</span></p>
+      `, { className: "belief-reset", nextLabel: "Turn this into an experiment" });
     } else if (step === 15) {
       page = shell(`
         <p class="w1-eyebrow">LET'S RUN AN EXPERIMENT</p>
@@ -305,7 +337,7 @@
       page = shell(`
         <p class="w1-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
         <h1>One skill.<br />The right situation.</h1>
-        <p class="w1-lede">PREP is the only new challenge. Your level simply chooses how safe or demanding the real-life situation will be.</p>
+        <p class="w1-lede">PREP is the only new challenge. Choose a situation you can clearly identify and realistically attempt this week.</p>
         <div class="w1-level-picker" role="group" aria-label="Exposure level">
           ${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w1-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}
         </div>
@@ -365,7 +397,7 @@
         </div>
       `, { lockBack: true, footer: '<button class="w1-next" type="button" data-w1-action="collect-evidence">Collect evidence</button>' });
     } else {
-      const evidence = portal.getState().evidenceBank.find(item => item.id === state.evidenceId);
+      const evidence = (portal.getState().evidence || []).find(item => item.id === state.evidenceId);
       page = shell(`
         <p class="w1-eyebrow">WEEK 1 COMPLETE</p>
         <h1>You built the skill.<br />You proved you can use it.</h1>
@@ -543,6 +575,11 @@
         update({ prep });
         field.focus();
       }
+    }
+    const predictionExample = event.target.closest("[data-w1-prediction-example]");
+    if (predictionExample) {
+      update({ prediction: predictionExample.dataset.w1PredictionExample });
+      return renderStep();
     }
   });
 
