@@ -7,24 +7,37 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Notice your voice pattern", start: 2, end: 3 },
-    { title: "Find your clear, comfortable voice", start: 4, end: 5 },
-    { title: "One answer. One adjustment.", start: 9, end: 11 },
-    { title: "Name the prediction. Test it.", start: 12, end: 14 },
-    { title: "Choose one audible moment", start: 15, end: 17 }
+    { title: "Understand what your voice signals", steps: [6, 7, 2, 3] },
+    { title: "Build a strong, supported voice", steps: [4, 5] },
+    { title: "One answer. One adjustment.", steps: [9, 10, 11] },
+    { title: "Name the prediction. Test it.", steps: [12, 13, 14] },
+    { title: "Choose one audible moment", steps: [15, 16, 17] }
+  ];
+
+  const volumeExposureLevels = [
+    { name: "Private projection", behavior: "Record a 45-second answer at a clear 5/10 volume. Every word should be easy to hear without throat tension." },
+    { name: "Trusted listener", behavior: "Share one complete answer with a trusted person using a clear, supported voice from the first word to the last." },
+    { name: "Community audio", behavior: "Post an audio response in the community and keep your volume steady through the final sentence." },
+    { name: "Colleague conversation", behavior: "Speak with a familiar colleague using a volume one level louder than you normally use." },
+    { name: "Small-group contribution", behavior: "Share one point with two to four familiar people at a volume that reaches everyone comfortably." },
+    { name: "Routine meeting", behavior: "Contribute once in a normal meeting using a steady 6/10 volume and a fully audible ending." },
+    { name: "Unplanned answer", behavior: "Answer a live professional question without preparation and keep your voice supported while you think." },
+    { name: "Lead a short update", behavior: "Lead a three to five-minute update with room-filling projection, vocal variety and no fading endings." },
+    { name: "Senior question", behavior: "Answer an unexpected question from a senior colleague without shrinking your volume or rushing the conclusion." },
+    { name: "Leadership moment", behavior: "Present an important recommendation with calibrated projection that reaches the room without sounding forced." }
   ];
 
   const missionTemplates = [
-    "Use grounded volume for one prepared sentence with your coach or someone you deeply trust.",
-    "Use grounded volume for one complete answer in a relaxed conversation with a familiar person.",
-    "Use grounded volume for one complete answer with a familiar colleague.",
-    "Use grounded volume for one planned contribution in a professional conversation.",
-    "Use grounded volume for one contribution while speaking to a small, familiar group.",
-    "Use grounded volume for one prepared contribution during a routine meeting.",
-    "Use grounded volume once when an unplanned professional conversation develops.",
-    "Use grounded volume while making the key point in one short professional discussion.",
-    "Use grounded volume to answer one unexpected question without rushing the ending.",
-    "Use grounded volume for one important message in a high-pressure leadership moment."
+    "Record one 45-second answer at a clear 5/10 volume. Keep every word audible without tightening your throat.",
+    "Give one complete answer to a trusted person with supported volume from the first word to the last.",
+    "Post one audio response in the community and keep your volume steady through the final sentence.",
+    "Speak with a familiar colleague using a volume one level louder than you normally use.",
+    "Share one point with a small familiar group at a volume that reaches everyone comfortably.",
+    "Contribute once in a routine meeting at a steady 6/10 volume with a fully audible ending.",
+    "Answer one unplanned professional question while keeping your voice supported as you think.",
+    "Lead a three to five-minute update with room-filling projection, vocal variety and no fading endings.",
+    "Answer one unexpected question from a senior colleague without shrinking your volume or rushing the conclusion.",
+    "Present one important recommendation with calibrated projection that reaches the room without sounding forced."
   ];
 
   const voicePatterns = [
@@ -33,12 +46,12 @@
     { id: "push", label: "I push from my throat", note: "I try to sound louder and become tense." }
   ];
 
-  // Keep stored step IDs stable so existing practice and mission progress resumes correctly.
+  // Keep stored step IDs stable while placing two new teaching screens after Slide 2.
+  const lectureFlow = [0, 1, 6, 7, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17];
   const mergedPracticeStep = 5;
-  const retiredSteps = [6, 7, 8];
-  const firstSpeakingStep = 9;
+  const retiredSteps = [8];
   const missionFollowUpStep = 18;
-  const lectureStepCount = 15;
+  const lectureStepCount = lectureFlow.length;
   const lastStep = 20;
   let previousFocus = null;
   let timer = null;
@@ -50,7 +63,7 @@
   const getState = () => portal.getState().week2Lecture;
   const update = patch => portal.updateLecture(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
+  const chapterFor = step => chapters.find(chapter => chapter.steps.includes(step));
 
   function practiceMaterial() {
     return {
@@ -101,8 +114,9 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const afterMission = step >= missionFollowUpStep;
-    const slideNumber = step + 1 - retiredSteps.filter(retired => retired < step).length;
-    const canBack = step > 0 && !options.lockBack;
+    const flowIndex = lectureFlow.indexOf(step);
+    const slideNumber = flowIndex >= 0 ? flowIndex + 1 : lectureStepCount;
+    const canBack = flowIndex > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step <= 1 ? "YOUR FIVE OUTCOMES" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 2";
     const chapterTitle = chapter?.title || (step <= 1 ? "Develop a Stronger Voice" : "Turn experience into evidence");
@@ -138,7 +152,7 @@
     }
     const material = practiceMaterial();
     const level = getLevel();
-    const levelData = exposure.levels[level - 1];
+    const levelData = volumeExposureLevels[level - 1];
     let page = "";
 
     if (step === 0) {
@@ -153,7 +167,31 @@
         <p class="w2-eyebrow">YOUR WEEK 2 TRANSFORMATION</p>
         <h1>What you will<br />walk away with.</h1>
         <div class="w2-agenda">${chapters.map((chapter, index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
-      `, { className: "agenda", nextLabel: "Start with my voice" });
+      `, { className: "agenda", nextLabel: "Why projection matters" });
+    } else if (step === 6) {
+      page = shell(`
+        <p class="w2-eyebrow">WHY PROJECTION MATTERS</p>
+        <h1>Your voice carries more<br />than your words.</h1>
+        <div class="w2-voice-signal">
+          <article class="quiet"><header><span>3/10</span><small>WHEN THE VOICE SHRINKS</small></header><div class="w2-mini-wave"><i></i><i></i><i></i><i></i><i></i></div><p>The listener may read hesitation, shyness or self-doubt, even when your idea is strong.</p></article>
+          <div class="w2-signal-shift" aria-hidden="true"><span>PROJECT</span><i>→</i></div>
+          <article class="present"><header><span>6/10</span><small>WHEN THE VOICE ARRIVES</small></header><div class="w2-mini-wave"><i></i><i></i><i></i><i></i><i></i></div><p>Your idea is easier to follow, carries more weight and can strengthen impressions of confidence, presence and respect.</p></article>
+        </div>
+        <blockquote>Your voice is part of your personality.<br /><strong>Make your expertise audible.</strong></blockquote>
+        <p class="w2-source-note"><strong>RESEARCH NOTE</strong> Vocal loudness and prosody help shape how listeners judge confidence. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8553728/" target="_blank" rel="noopener">Review the research</a> · Vinh Giang teaches the voice as an instrument, with projection and pacing among the foundations. <a href="https://vinhgiang.com/programs/stage-workshop" target="_blank" rel="noopener">See Vinh's framework</a></p>
+      `, { className: "w2-why-volume", nextLabel: "Build a stronger voice" });
+    } else if (step === 7) {
+      page = shell(`
+        <p class="w2-eyebrow">BUILD THE VOICE, DO NOT FORCE IT</p>
+        <h1>Three habits make<br />projection sustainable.</h1>
+        <div class="w2-strong-voice">
+          <article><span>01</span><div class="w2-tip-icon breath" aria-hidden="true"><i></i><i></i><i></i></div><small>BREATH</small><h2>Support the sound.</h2><p>Inhale low and quietly. Speak on a steady exhale so the throat does not have to push.</p></article>
+          <article><span>02</span><div class="w2-tip-icon posture" aria-hidden="true"><i></i></div><small>POSTURE</small><h2>Give the voice space.</h2><p>Ground your feet. Lengthen your spine. Release your shoulders, jaw and face.</p></article>
+          <article><span>03</span><div class="w2-tip-icon habit" aria-hidden="true"><i></i><i></i><i></i></div><small>HABIT</small><h2>Train a volume ladder.</h2><p>Say one sentence at 3/10, 5/10 and 7/10. Record it until 6/10 feels natural.</p></article>
+        </div>
+        <div class="w2-projection-formula"><strong>SUPPORTED BREATH</strong><i>+</i><strong>OPEN POSTURE</strong><i>+</i><strong>DAILY REPETITION</strong><span>= STRONGER VOICE</span></div>
+        <p class="w2-coach-note">Add melody as volume rises. A louder flat voice can sound aggressive. A supported, varied voice sounds present.</p>
+      `, { className: "w2-voice-tips", nextLabel: "Notice my pressure pattern" });
     } else if (step === 2) {
       page = shell(`
         <p class="w2-eyebrow">WHEN PRESSURE RISES</p>
@@ -196,13 +234,17 @@
       `, { className: "w2-calibration", nextLabel: "Speak with PREP" });
     } else if (step === 9) {
       page = shell(`
-        <p class="w2-eyebrow">VERSION 1</p>
+        <p class="w2-eyebrow">VERSION 1 · PROJECTION DRILL</p>
         ${topicChip(material)}
-        <h1>Let your message arrive.</h1>
-        <p class="w2-lede">Follow four keywords. Pause between ideas. Keep the endings clear.</p>
+        <h1>PREP gives you the words.<br /><em>Projection delivers them.</em></h1>
+        <div class="w2-projection-brief">
+          <article><span>01</span><p>Use the four PREP keywords to build a 45 to 60-second answer. Do not read a script.</p></article>
+          <article><span>02</span><p>Deliver every PREP section at a supported 6/10 volume, as if speaking to someone across the room.</p></article>
+          <article><span>03</span><p>Keep the final three words of each section fully audible. Do not rush, fade or shout.</p></article>
+        </div>
         ${prepGuide(material)}
         <div class="w2-timer"><strong data-w2-timer-display>60</strong><span>seconds</span><button type="button" data-w2-action="timer">Start timer</button></div>
-        <p class="w2-coach-note">Coach listens for clear endings. You notice comfortable effort.</p>
+        <p class="w2-coach-note">Listener test: could someone across the room hear every word without strain? PREP is the content. Supported volume is the skill.</p>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="complete-v1">Version 1 complete</button>' });
     } else if (step === 10) {
       page = shell(`
@@ -257,7 +299,7 @@
         <p class="w2-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
         <h1>One voice skill.<br />The right situation.</h1>
         <p class="w2-lede">Grounded volume is the only new challenge. Your level simply chooses how safe or demanding the situation will be.</p>
-        <div class="w2-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w2-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
+        <div class="w2-level-picker" role="group" aria-label="Volume exposure level">${volumeExposureLevels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w2-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
         <div class="w2-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
         <label class="w2-mission-edit"><span>YOUR WEEK 2 CHALLENGE</span><textarea data-w2-mission rows="2">${esc(mission)}</textarea></label>
       `, { nextLabel: "Build mission card" });
@@ -332,7 +374,9 @@
       root.querySelector("textarea, input, button")?.focus();
       return;
     }
-    const patch = { currentStep: step === mergedPracticeStep ? firstSpeakingStep : Math.min(lastStep, step + 1), lastViewedAt: new Date().toISOString() };
+    const flowIndex = lectureFlow.indexOf(step);
+    const nextStep = flowIndex >= 0 && flowIndex < lectureFlow.length - 1 ? lectureFlow[flowIndex + 1] : Math.min(lastStep, step + 1);
+    const patch = { currentStep: nextStep, lastViewedAt: new Date().toISOString() };
     if (step === 15 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
     update(patch);
     renderStep();
@@ -340,8 +384,9 @@
 
   function back() {
     const step = Number(getState().currentStep || 0);
-    if (step <= 0) return;
-    update({ currentStep: step === firstSpeakingStep ? mergedPracticeStep : step - 1 });
+    const flowIndex = lectureFlow.indexOf(step);
+    if (flowIndex <= 0) return;
+    update({ currentStep: lectureFlow[flowIndex - 1] });
     renderStep();
   }
 
