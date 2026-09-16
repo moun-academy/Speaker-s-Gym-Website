@@ -15,94 +15,94 @@ window.PANKAJ_PORTAL_DATA = {
   ],
   levels: [
     {
-      name: "Safe Practice",
-      card: "Build a clear point in private.",
-      behavior: "Record one 60-second PREP answer in the Speaker's Gym app or practice it with the coach.",
+      name: "Practice Privately in the App",
+      card: "Build one clear answer before adding an audience.",
+      behavior: "Record one 60-second PREP answer privately in the Speaker's Gym app.",
       starter: "My main point is...",
       app: "Choose one professional prompt. Record a 60-second PREP answer, listen once and note one strength.",
-      community: "Share one sentence about what became clearer when you used PREP.",
-      evidence: "A saved recording or a coach-confirmed attempt with a clear point, reason, example and final point."
+      community: "Optional: share one sentence about what became clearer when you used PREP.",
+      evidence: "One saved 60-second recording with a clear point, reason, example and final point."
     },
     {
-      name: "Post Audio of Your Speech in the Community",
+      name: "Post an Audio Speech in the Community",
       card: "Let your voice be heard.",
-      behavior: "Record and post one concise audio speech in the Speaker's Gym community.",
+      behavior: "Post one 60-second audio speech in the Speech channel of the Speaker's Gym community.",
       starter: "My main message is...",
       app: "Record a 60-second PREP response. Listen once for clarity, pace and a confident final sentence.",
-      community: "Post the audio of your speech in the community and ask for feedback on one clear communication behavior.",
-      evidence: "A posted audio speech with one clear point and a note about the feedback you received."
+      community: "Post the audio in the Speech channel and ask for feedback on one clear communication behavior.",
+      evidence: "The audio is posted in the Speech channel with one clear point and one feedback request."
     },
     {
-      name: "Post Video of Your Speech in the Community",
+      name: "Post a Video Speech in the Community",
       card: "Make your presence visible.",
-      behavior: "Record and post one concise video speech in the Speaker's Gym community.",
+      behavior: "Post one 60-second video speech in the Speech channel of the Speaker's Gym community.",
       starter: "My recommendation is...",
       app: "Record a 60-second video. Lead with the point, keep steady eye contact and finish the final sentence with intention.",
-      community: "Post the video of your speech in the community and ask for feedback on clarity and presence.",
-      evidence: "A posted video speech that shows a clear opening point, controlled pace and a complete conclusion."
+      community: "Post the video in the Speech channel and ask for feedback on clarity and presence.",
+      evidence: "The video is posted in the Speech channel with a clear opening point and complete conclusion."
     },
     {
-      name: "Prepared One-to-One or Project Update",
-      card: "Choose the moment. Prepare one point. Deliver it.",
-      behavior: "Before a scheduled one-to-one or project update, prepare one PREP answer to a likely question and deliver it.",
+      name: "Speak With a Colleague",
+      card: "Make one clear point in a familiar work conversation.",
+      behavior: "In a familiar one-to-one conversation with a colleague, state one clear opinion or recommendation and support it with one relevant reason.",
       starter: "The key point I want us to consider is...",
-      app: "Practice only the headline and two supporting anchors. Do not script the whole contribution.",
-      community: "Share which meeting you chose and the two anchors you will use, without confidential details.",
-      evidence: "The prepared PREP answer was delivered during the chosen one-to-one or project update."
+      app: "Practice the opening sentence and one supporting reason. Do not script the whole conversation.",
+      community: "Optional: share the opening sentence you plan to use, without confidential details.",
+      evidence: "You gave the opinion or recommendation directly to a colleague and completed the point."
     },
     {
-      name: "Small Familiar Group",
+      name: "Speak to a Small Familiar Group",
       card: "Connect through a concise story.",
-      behavior: "Share a structured idea or short story with two to four familiar people.",
+      behavior: "Share one structured idea or short story with two to four familiar people.",
       starter: "A short example that may help is...",
       app: "Record a 60-second story with situation, action, result and lesson.",
       community: "Share the lesson from the story, without confidential details.",
-      evidence: "A concise story or idea delivered to a small group with a clear final point."
+      evidence: "Two to four people heard the complete idea or story, including its clear final point."
     },
     {
-      name: "Routine Meeting Contribution",
+      name: "Contribute Once in a Routine Meeting",
       card: "Contribute before the moment passes.",
       behavior: "Speak once during a normal meeting using an entry phrase or the Teams raise-hand feature.",
       starter: "Before we move on, I have one recommendation.",
       app: "Practice the entry phrase five times, then record the contribution in under 60 seconds.",
       community: "Share which entry method helped you contribute before the moment passed.",
-      evidence: "A meeting log showing that you entered, made one concise contribution and completed the point."
+      evidence: "You entered the meeting discussion, made one concise contribution and completed the point before the meeting moved on."
     },
     {
-      name: "Unplanned Professional Moment",
+      name: "Answer an Unplanned Workplace Question",
       card: "Pause, organize and respond.",
-      behavior: "Respond to a live question without scripting, using a two-second pause and PREP.",
+      behavior: "Answer a live workplace question without preparation, using a two-second pause and a 45 to 90-second PREP response.",
       starter: "Let me organize that into one clear answer...",
       app: "Use a surprise prompt. Pause for two seconds, then answer without restarting.",
       community: "Share what the pause made possible under pressure.",
-      evidence: "An unplanned answer completed with a visible pause, clear point and relevant detail."
+      evidence: "You paused, gave the main point first and completed the unplanned answer within 90 seconds."
     },
     {
-      name: "Lead a Short Update",
+      name: "Lead a 3 to 5-Minute Workplace Update",
       card: "Make your expertise easy to follow.",
-      behavior: "Lead a three to five-minute workplace update with a headline, supporting points and conclusion.",
+      behavior: "Lead a three to five-minute workplace update with one headline, no more than three supporting points and a clear next step.",
       starter: "The headline today is...",
       app: "Record the 20-second headline and final recommendation separately before the full update.",
       community: "Share the headline structure that kept the update easy to follow.",
-      evidence: "A completed update with a clear opening headline, no more than three supporting points and a conclusion."
+      evidence: "You led the full update, stayed within five minutes and closed with a recommendation or next step."
     },
     {
-      name: "Unexpected Management Question",
+      name: "Answer an Unexpected Management Question",
       card: "Answer pressure with calm structure.",
-      behavior: "Answer an unplanned question from a senior colleague with calm structure and concise detail.",
+      behavior: "Answer an unexpected question from a manager or senior colleague in 45 to 90 seconds, leading with the short answer before the supporting detail.",
       starter: "The short answer is...",
       app: "Ask for an unexpected management prompt and answer in 45 to 90 seconds using PREP.",
       community: "Share how you selected the details a leader needed most.",
-      evidence: "A management question answered without rushing, overexplaining or losing the conclusion."
+      evidence: "You answered the real management question point-first, used only relevant detail and finished the conclusion calmly."
     },
     {
-      name: "High-Stakes Leadership Moment",
+      name: "Present a Recommendation in a High-Stakes Meeting",
       card: "Communicate with executive presence.",
-      behavior: "Present a recommendation or lead part of a meaningful management meeting with executive presence.",
+      behavior: "In a meaningful management or client meeting, present one recommendation with evidence and a clear ask or next step.",
       starter: "My recommendation is clear: ...",
       app: "Rehearse the opening, the strongest evidence and the final ask. Keep the rest flexible.",
       community: "Share the behavior that helped your expertise remain visible in a high-pressure moment.",
-      evidence: "A meaningful leadership contribution delivered with structure, vocal intention and composure."
+      evidence: "You presented the recommendation, supported it with relevant evidence and stated the ask or next step."
     }
   ],
   weeks: [

@@ -16,15 +16,15 @@
 
   const missionTemplates = [
     "Record one 60-second PREP answer in the Speaker's Gym app at your ideal 7/10 volume.",
-    "Post one concise audio speech in the community and keep a steady 7/10 volume through the final sentence.",
-    "Post one concise video speech in the community using a supported 7/10 volume and a fully audible ending.",
-    "During a prepared one-to-one or project update, deliver one clear point at your ideal 7/10 volume.",
-    "Share one structured idea or short story with a small familiar group at a volume that comfortably reaches everyone.",
+    "Post one 60-second audio speech in the community Speech channel and keep a steady 7/10 volume through the final sentence.",
+    "Post one 60-second video speech in the community Speech channel using a supported 7/10 volume and a fully audible ending.",
+    "Speak with a colleague in a familiar one-to-one conversation and deliver one clear opinion or recommendation at your ideal 7/10 volume.",
+    "Share one structured idea or short story with two to four familiar people at a volume that comfortably reaches everyone.",
     "Contribute once in a routine meeting at your ideal 7/10 volume with a fully audible ending.",
-    "Answer one unplanned professional question while keeping your voice supported at 7/10 as you think.",
-    "Lead a three to five-minute update with room-filling 7/10 projection, vocal variety and no fading endings.",
-    "Answer one unexpected management question without shrinking your volume or rushing the conclusion.",
-    "Present one important recommendation with calibrated 7/10 projection that reaches the room without sounding forced."
+    "Answer one unplanned workplace question in 45 to 90 seconds while keeping your voice supported at 7/10 as you think.",
+    "Lead a three to five-minute workplace update with room-filling 7/10 projection, no more than three supporting points and a clear next step.",
+    "Answer one unexpected management question in 45 to 90 seconds without shrinking your volume or rushing the conclusion.",
+    "Present one recommendation in a meaningful management or client meeting with calibrated 7/10 projection, relevant evidence and a clear next step."
   ];
 
   const voicePatterns = [

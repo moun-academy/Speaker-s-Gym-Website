@@ -22,16 +22,16 @@
   ];
 
   const missionTemplates = [
-    "Slow one key sentence on purpose with your coach or someone you deeply trust.",
-    "Shape the pace of one short answer with a familiar person: use a fast setup and a slow point.",
-    "Use one deliberate slow-down on your main point with a familiar colleague.",
-    "In one planned professional conversation, use a fast background and a slow point.",
-    "Speaking to a small familiar group, slow the one sentence that matters most.",
+    "Record one private 60-second answer in the Speaker's Gym app and slow the key sentence on purpose.",
+    "Post one 60-second audio speech in the community Speech channel with a faster setup and a slower main point.",
+    "Post one 60-second video speech in the community Speech channel and slow the main point on purpose.",
+    "Speak with a colleague in a familiar one-to-one conversation and slow the one sentence that matters most.",
+    "Share one idea with two to four familiar people and slow the one sentence that matters most.",
     "In one routine meeting, stop for one beat before your main point, then say it slowly.",
-    "When an unplanned professional conversation develops, make your point slow and the rest fast.",
-    "While guiding one short professional discussion, change pace at least once on purpose.",
-    "Answer one unexpected question with a stop first, then a slow point and a quicker explanation.",
-    "In one high-pressure leadership moment, shape the pace: use a fast setup, pause, then a slow point."
+    "Answer one unplanned workplace question in 45 to 90 seconds, using a pause and a slower main point.",
+    "Lead a three to five-minute workplace update, using a faster setup, a pause and a slower recommendation.",
+    "Answer one unexpected management question in 45 to 90 seconds, pausing before a slower main point.",
+    "Present one recommendation in a meaningful management or client meeting, using a faster setup, a pause and a slower recommendation."
   ];
 
   const gears = {

@@ -14,16 +14,16 @@
   ];
 
   const missionTemplates = [
-    "Use PREP once in a relaxed conversation with someone you trust.",
-    "Use PREP once in a familiar one-to-one conversation.",
-    "Use PREP once in a low-pressure conversation with a familiar colleague.",
-    "Before a scheduled one-to-one or project update, prepare one PREP answer to a likely question and deliver it.",
-    "Use PREP once while speaking to a small, familiar group.",
-    "Use PREP for one prepared contribution during a routine meeting.",
-    "Use PREP once in an unplanned professional conversation.",
-    "Use PREP while guiding one short professional discussion.",
-    "Use PREP to answer one unexpected question without scripting every sentence.",
-    "Use PREP once in a visible, high-pressure leadership moment."
+    "Record one private 60-second PREP answer in the Speaker's Gym app.",
+    "Post one 60-second PREP audio speech in the community Speech channel.",
+    "Post one 60-second PREP video speech in the community Speech channel.",
+    "Speak with a colleague in a familiar one-to-one conversation and use PREP to give one clear opinion or recommendation.",
+    "Use PREP to share one clear idea or short story with two to four familiar people.",
+    "Contribute once in a routine meeting and complete one PREP point before the meeting moves on.",
+    "Answer one unplanned workplace question in 45 to 90 seconds, using a two-second pause and PREP.",
+    "Lead a three to five-minute workplace update with one headline, no more than three supporting points and a clear next step.",
+    "Answer one unexpected management question in 45 to 90 seconds, leading with the short answer.",
+    "Present one recommendation in a meaningful management or client meeting, supported by evidence and a clear next step."
   ];
 
   const chapters = [
