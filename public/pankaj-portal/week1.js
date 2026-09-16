@@ -89,7 +89,7 @@
     const state = getState();
     const step = Number(state.currentStep || 0);
     const stage = stageFor(step);
-    const canBack = step > 0 && !options.lockBack;
+    const canBack = step > 0;
     const afterMission = step >= lectureStepCount;
     const progress = Math.round((Math.min(lectureStepCount, step + 1) / lectureStepCount) * 100);
     const chapter = chapterFor(step);
@@ -103,7 +103,7 @@
           <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF 06` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
           <div class="w1-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
-        <button class="w1-close" type="button" data-w1-action="close" aria-label="Save and close">&times;</button>
+        <div class="w1-header-actions"><button class="w1-reset" type="button" data-w1-action="reset">Reset</button><button class="w1-close" type="button" data-w1-action="close" aria-label="Save and close">&times;</button></div>
         <div class="w1-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
       </header>
       <main class="w1-main">
@@ -372,7 +372,7 @@
           <article><span>03</span><strong>Return with reality</strong><p>Use “Report mission” in your portal.</p></article>
         </div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins in real life.</strong></blockquote>
-      `, { lockBack: true, footer: '<button class="w1-next" type="button" data-w1-action="close">Return to my portal</button>' });
+      `, { footer: '<button class="w1-next" type="button" data-w1-action="close">Return to my portal</button>' });
     } else if (step === 19) {
       page = shell(`
         <p class="w1-eyebrow">WELCOME BACK</p>
@@ -383,7 +383,7 @@
           <button type="button" data-w1-action="mission-not-yet"><span>NOT YET</span><small>Save and return later</small></button>
           <button type="button" class="yes" data-w1-action="mission-yes"><span>YES</span><small>I attempted it</small></button>
         </div>
-      `, { lockBack: true, footer: '<span class="w1-footer-hint">Your mission stays active until you attempt it.</span>' });
+      `, { footer: '<span class="w1-footer-hint">Your mission stays active until you attempt it.</span>' });
     } else if (step === 20) {
       page = shell(`
         <p class="w1-eyebrow">REALITY CHECK</p>
@@ -395,7 +395,7 @@
           <input class="w1-slider" type="range" min="0" max="100" step="5" value="${state.beliefAfter}" data-w1-after />
           <div class="w1-belief-change"><div><small>BEFORE</small><strong>${state.beliefBefore}%</strong></div><i>→</i><div><small>AFTER</small><strong data-w1-after-card>${state.beliefAfter}%</strong></div></div>
         </div>
-      `, { lockBack: true, footer: '<button class="w1-next" type="button" data-w1-action="collect-evidence">Collect evidence</button>' });
+      `, { footer: '<button class="w1-next" type="button" data-w1-action="collect-evidence">Collect evidence</button>' });
     } else {
       const evidence = (portal.getState().evidence || []).find(item => item.id === state.evidenceId);
       page = shell(`
@@ -416,7 +416,7 @@
         <div class="w1-week-progress"><span class="complete">W1 <i>●</i></span>${[2,3,4,5,6].map(number => `<span>W${number} <i>○</i></span>`).join("")}</div>
         <div class="w1-next-week"><small>NEXT</small><strong>Use your voice with more authority.</strong></div>
         <details class="w1-optional"><summary>Optional extra reps</summary><ul><li>Practice another PREP response</li><li>Record another Version</li><li>Share with the community</li><li>Ask AI for feedback</li></ul></details>
-      `, { lockBack: true, footer: '<button class="w1-next" type="button" data-w1-action="close">Return to my portal</button>' });
+      `, { footer: '<button class="w1-next" type="button" data-w1-action="close">Return to my portal</button>' });
     }
 
     root.innerHTML = page;
@@ -459,6 +459,12 @@
     const step = Number(getState().currentStep || 0);
     if (step <= 0) return;
     update({ currentStep: step - 1 });
+    renderStep();
+  }
+
+  function resetLecture() {
+    clearInterval(timer);
+    if (!portal.resetLecture(1)) return;
     renderStep();
   }
 
@@ -520,6 +526,7 @@
     const action = event.target.closest("[data-w1-action]")?.dataset.w1Action;
     if (action === "close") return close();
     if (action === "back") return back();
+    if (action === "reset") return resetLecture();
     if (action === "next") return validateAndNext();
     if (action === "timer") return startTimer(event.target.closest("[data-w1-action]"));
     if (action === "complete-v1") {

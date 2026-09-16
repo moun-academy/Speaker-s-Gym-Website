@@ -602,13 +602,10 @@
   }, { threshold: [0.12, 0.3], rootMargin: "-15% 0px -60%" });
   $$("#today, #levels, #journey, #reflections").forEach(section => observer.observe(section));
 
-  document.addEventListener("click", event => {
-    const resetButton = event.target.closest("[data-reset-lecture]");
-    if (!resetButton) return;
-    const week = Number(resetButton.dataset.resetLecture);
+  function resetLecture(week) {
     const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety" };
     const confirmed = window.confirm(`Reset Lecture ${week}? This clears its ${labels[week]} answers, mission and lecture evidence. The rest of Pankaj's progress stays unchanged.`);
-    if (!confirmed) return;
+    if (!confirmed) return false;
     state.evidence = state.evidence.filter(item => Number(item.sourceLecture) !== week);
     if (week === 1) state.week1Lecture = structuredClone(defaults.week1Lecture);
     if (week === 2) state.week2Lecture = structuredClone(defaults.week2Lecture);
@@ -616,6 +613,13 @@
     saveState();
     renderAll();
     showToast(`Lecture ${week} is ready for a fresh start.`);
+    return true;
+  }
+
+  document.addEventListener("click", event => {
+    const resetButton = event.target.closest("[data-reset-lecture]");
+    if (!resetButton) return;
+    resetLecture(Number(resetButton.dataset.resetLecture));
   });
 
   function saveLectureEvidence(card) {
@@ -661,6 +665,7 @@
       renderAll();
     },
     saveEvidence: saveLectureEvidence,
+    resetLecture,
     renderAll,
     showToast,
     saveState

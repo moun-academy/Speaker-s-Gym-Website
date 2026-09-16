@@ -16,7 +16,7 @@ body.lecture-open { overflow: hidden; }
 .w2-header {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(200px,.85fr) minmax(460px,1.75fr) 54px;
+  grid-template-columns: minmax(200px,.85fr) minmax(460px,1.75fr) minmax(128px,auto);
   align-items: center;
   gap: clamp(18px,2.2vw,30px);
   padding: 0 clamp(22px,3vw,44px);
@@ -37,7 +37,10 @@ body.lecture-open { overflow: hidden; }
 .w2-chapter-dots i { height: 6px; border-radius: 99px; background: #d7d6ce; }
 .w2-chapter-dots i.done { background: #c5a95f; }
 .w2-chapter-dots i.active { background: var(--coral); }
-.w2-close { justify-self: end; width: 52px; height: 52px; border: 1px solid #d2d1c8; border-radius: 50%; background: transparent; color: var(--ink); font-size: 30px; line-height: 1; cursor: pointer; }
+.w2-header-actions { justify-self: end; display: flex; align-items: center; gap: 9px; }
+.w2-reset { padding: 10px 13px; border: 1px solid #c8c5bb; border-radius: 999px; background: rgba(255,255,255,.72); color: var(--ink); font-size: 9px; font-weight: 800; letter-spacing: .06em; cursor: pointer; }
+.w2-reset:hover { border-color: var(--coral); color: var(--coral-dark); }
+.w2-close { width: 52px; height: 52px; border: 1px solid #d2d1c8; border-radius: 50%; background: transparent; color: var(--ink); font-size: 30px; line-height: 1; cursor: pointer; }
 .w2-progress { position: absolute; inset: auto 0 -1px; height: 2px; }
 .w2-progress i { display: block; height: 100%; background: linear-gradient(90deg,var(--yellow),var(--coral)); transition: width .35s ease; }
 
@@ -95,10 +98,6 @@ body.lecture-open { overflow: hidden; }
 .w2-signal-shift span { padding: 7px 10px; border: 1px solid #d8c9a2; border-radius: 999px; background: #fffaf0; font-size: 8px; font-weight: 800; letter-spacing: .13em; }
 .w2-signal-shift i { font-style: normal; font-size: 34px; animation: w2-arrow-across 1.8s ease-in-out 2; }
 .w2-why-volume blockquote { margin-top: 13px; padding-block: 10px; font-size: clamp(15px,1.7vw,20px); line-height: 1.25; }
-.w2-source-note { max-width: 880px; margin: 8px auto 0; color: var(--muted); font-size: 8px; line-height: 1.45; text-align: center; }
-.w2-source-note strong { color: var(--coral-dark); font-size: 8px; letter-spacing: .12em; }
-.w2-source-note a { color: var(--forest); font-weight: 700; text-decoration-color: #c5a95f; text-underline-offset: 3px; }
-
 .w2-voice-tips { padding-block: 18px; }
 .w2-strong-voice { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 18px; }
 .w2-strong-voice article { position: relative; min-height: 183px; display: grid; align-content: start; justify-items: start; gap: 6px; overflow: hidden; padding: 18px 21px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.75); box-shadow: 0 16px 38px rgba(23,35,31,.07); animation: w2-cue-enter .5s ease-out both; }
@@ -312,6 +311,8 @@ body.lecture-open { overflow: hidden; }
   .w2-header { grid-template-columns: auto minmax(0,1fr) auto; gap: 12px; padding-inline: 18px; }
   .w2-brand img { width: 44px; height: 44px; }
   .w2-brand div { display: none; }
+  .w2-header-actions { gap: 5px; }
+  .w2-reset { padding: 8px 9px; font-size: 8px; }
   .w2-chapter-track { width: 100%; gap: 7px; padding: 11px 14px; border-radius: 12px; }
   .w2-chapter-track > div:first-child { gap: 3px; }
   .w2-chapter-track small { padding: 3px 7px; font-size: 8px; }

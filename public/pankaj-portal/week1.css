@@ -16,7 +16,7 @@ body.week1-open { overflow: hidden; }
 .w1-header {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(190px, 1fr) minmax(420px, 1.6fr) minmax(80px, 1fr);
+  grid-template-columns: minmax(190px, 1fr) minmax(420px, 1.6fr) minmax(126px, 1fr);
   align-items: center;
   gap: 22px;
   padding: 0 clamp(22px, 4vw, 54px);
@@ -37,8 +37,10 @@ body.week1-open { overflow: hidden; }
 .w1-chapter-dots i { height: 4px; border-radius: 99px; background: #d7d6ce; }
 .w1-chapter-dots i.done { background: #cf8d7e; }
 .w1-chapter-dots i.active { background: var(--coral); }
+.w1-header-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.w1-reset { padding: 9px 12px; border: 1px solid #c8c5bb; border-radius: 999px; background: rgba(255,255,255,.72); color: var(--ink); font-size: 9px; font-weight: 800; letter-spacing: .06em; cursor: pointer; }
+.w1-reset:hover { border-color: var(--coral); color: var(--coral-dark); }
 .w1-close {
-  justify-self: end;
   width: 38px;
   height: 38px;
   border: 1px solid #d2d1c8;
@@ -443,6 +445,8 @@ body.week1-open { overflow: hidden; }
   .w1-brand img { width: 36px; height: 36px; }
   .w1-brand div { display: none; }
   .w1-brand strong { display: none; }
+  .w1-header-actions { gap: 5px; }
+  .w1-reset { padding: 8px 9px; font-size: 8px; }
   .w1-chapter-track { width: 100%; gap: 5px; padding: 8px 11px; border-radius: 10px; }
   .w1-chapter-track > div:first-child { gap: 2px; }
   .w1-chapter-track small { padding: 2px 5px; font-size: 6px; }
