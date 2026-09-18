@@ -22,16 +22,16 @@
   ];
 
   const missionTemplates = [
-    "Slow one key sentence on purpose with your coach or someone you deeply trust.",
-    "Shape the pace of one short answer with a familiar person: use a fast setup and a slow point.",
-    "Use one deliberate slow-down on your main point with a familiar colleague.",
-    "In one planned professional conversation, use a fast background and a slow point.",
-    "Speaking to a small familiar group, slow the one sentence that matters most.",
+    "With your coach or someone you deeply trust, slow one key sentence on purpose and pause before it.",
+    "In a relaxed conversation with a familiar person, use a faster setup and a slower main point in one complete answer.",
+    "With a familiar colleague, slow the one sentence that matters most and keep the surrounding detail moving.",
+    "In one planned professional conversation, use a faster background, pause, then deliver the main point slowly.",
+    "While speaking to a small familiar group, slow the one sentence that matters most and let it finish before continuing.",
     "In one routine meeting, stop for one beat before your main point, then say it slowly.",
-    "When an unplanned professional conversation develops, make your point slow and the rest fast.",
-    "While guiding one short professional discussion, change pace at least once on purpose.",
-    "Answer one unexpected question with a stop first, then a slow point and a quicker explanation.",
-    "In one high-pressure leadership moment, shape the pace: use a fast setup, pause, then a slow point."
+    "When an unplanned professional conversation develops, pause before the main point, say it slowly and keep the rest concise.",
+    "While guiding one short professional conversation, use a faster setup, pause, then slow the key recommendation.",
+    "Answer one unexpected question by stopping first, delivering the main point slowly and explaining the detail more quickly.",
+    "In one high-pressure leadership moment, use a faster setup, pause, then deliver the key message slowly and clearly."
   ];
 
   const gears = {
@@ -135,7 +135,7 @@
 
     return `<div class="week3-page" role="dialog" aria-modal="true" aria-labelledby="week3PageTitle">
       <header class="w3-header">
-        <div class="w3-brand"><img src="Logo.png?v=khadija-v2" alt="" /><div><small>THE SPEAKER'S GYM</small><strong>WEEK 3 · PACE VARIETY</strong></div></div>
+        <div class="w3-brand"><img src="Logo.png?v=${esc(portal.client.id)}-lecture-v2" alt="" /><div><small>THE SPEAKER'S GYM</small><strong>WEEK 3 · PACE VARIETY</strong></div></div>
         <div class="w3-chapter-track" aria-label="${esc(chapter ? `Chapter ${chapterIndex + 1} of ${chapters.length}: ${chapterTitle}` : chapterTitle)}">
           <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
           <div class="w3-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
