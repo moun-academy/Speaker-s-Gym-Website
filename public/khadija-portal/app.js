@@ -69,20 +69,20 @@ const weeks = [
   {
     short: "Pauses",
     title: "Think While You Speak",
-    why: "Silence gives your thoughts room to arrive and lets you recover without hiding or apologizing.",
-    outcome: "You can pause, organize and continue through an unexpected professional question.",
-    learn: ["Purposeful pauses", "Buying thinking time", "Recovering from a mind blank", "Answering unexpected questions"],
-    spotlight: "Answer three surprise questions while using calm pauses and clear recovery language.",
-    work: "Use one full pause before answering an unexpected question.",
-    home: "Allow silence in one conversation without rushing to fill it.",
+    why: "A well-placed pause gives you room to breathe, shows that a thought is being considered, and lets an important idea land.",
+    outcome: "You can choose a purposeful pause and complete one clear thought when a question catches you off guard.",
+    learn: ["Pause to breathe", "Pause to think and let an idea land", "Pause to change pace", "Recovering from a blank"],
+    spotlight: "Answer a real professional question before and after learning three reasons to pause.",
+    work: "Use one purposeful pause in a real professional conversation and complete your point.",
+    home: "Let one complete idea land before starting the next.",
     days: [
-      day("Awareness day", "Notice the rush", "Awareness creates choice.", "Record one unexpected answer", "Mark where your pace speeds up or your thoughts disappear", "Choose one place where a pause would help", "What triggers me to rush?"),
-      day("Pause day", "Let silence support you", "A pause can sound composed even when you feel nervous.", "Pause before your first word", "Breathe without adding filler words", "Repeat one answer in the app", "What changed when I allowed the silence?"),
-      day("Thinking-time day", "Buy time with confidence", "You can ask for a moment without losing credibility.", "Practice: Let me think about that for a moment", "Choose three keywords before continuing", "Answer with one clear point", "Which phrase helped me feel most in control?"),
-      day("Blank-mind day", "Recover without retreating", "A blank moment does not have to end the conversation.", "Stop intentionally during an answer", "Look up, breathe and restate the question", "Continue from one PREP keyword", "What proves that I can recover?"),
-      day("Real-world day", "Pause in the real moment", "The skill becomes reliable when it leaves practice.", "Choose one likely professional question", "Use one full pause before answering", "Record what the listener actually did", "How did the pause affect the interaction?"),
-      day("Spotlight day", "Stay composed through surprise", "Composure means continuing with choice.", "Ask someone to give you three surprise questions", "Use a pause and one recovery phrase", "Post your strongest answer for feedback", "Where did I sound most composed?"),
-      day("Integration day", "Trust the space", "Silence is now part of your communication toolkit.", "Review your three surprise answers", "Name three pieces of recovery evidence", "Choose your permanent pause cue", "What have I learned about my ability to think under pressure?")
+      day("Awareness day", "Notice the rush", "Awareness creates choice.", "Open Lecture 4 and speak your baseline answer", "Notice where you needed a breath or a clearer thought", "Choose one reason to pause", "What triggers me to rush?"),
+      day("Breath day", "Make room for a breath", "One natural breath can help you choose your next sentence, even when you still feel nervous.", "Speak one answer with a natural breath between complete thoughts", "Notice whether the next sentence is easier to control", "Repeat without forcing a long silence", "What changed in my voice?"),
+      day("Listener day", "Let the idea land", "A listener needs space after a complete thought.", "Say one point and stop briefly", "Watch whether the listener follows", "Continue with your reason or example", "Which thought needed room?"),
+      day("Gear-change day", "Change pace with purpose", "A pause can mark the turn from quick context to the point that matters.", "Give a short fast setup", "Pause at the idea boundary", "Say the key point more slowly", "Could the listener hear the shift?"),
+      day("Real-world day", "Choose the pause that fits", "A useful pause has a purpose.", "Choose one real professional conversation", "Use a natural pause to breathe, think, or change pace", "Complete one clear thought", "What did the pause allow me to do?"),
+      day("Spotlight day", "Continue through surprise", "Composure means returning to one point when your mind goes blank.", "Answer one surprise question", "Use a brief pause or signal that you need a moment", "Try two harder questions only if useful", "Where did I regain control?"),
+      day("Integration day", "Trust the space", "Silence is now a tool you can choose.", "Report your Week 4 mission", "Compare the first and final answer", "Choose one pause cue to keep", "What has changed in how I answer under pressure?")
     ]
   },
   {
@@ -222,6 +222,38 @@ const defaultState = {
     lectureCompletedAt: null,
     completedAt: null,
     lastViewedAt: null
+  },
+  week4Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
+    currentLevel: null,
+    baselineNote: "",
+    finalNote: "",
+    baselineDone: false,
+    breathDone: false,
+    questionChoice: "",
+    listenerChoice: "",
+    gearDemo: "",
+    silenceEstimate: null,
+    reasonAnswers: {},
+    completeQuestionChoice: "",
+    openingChoices: {},
+    pauseMarkers: [],
+    recoveryChoice: "",
+    finalDone: false,
+    selfReview: {},
+    surpriseDone: false,
+    surpriseOptional: {},
+    missionReason: "",
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    lectureCompletedAt: null,
+    actualResult: "",
+    evidenceId: null,
+    completedAt: null,
+    lastViewedAt: null
   }
 };
 
@@ -291,6 +323,15 @@ function loadState() {
         feltRates: { ...(stored?.week3Lecture?.feltRates || {}) },
         sortAnswers: { ...(stored?.week3Lecture?.sortAnswers || {}) },
         paceMap: { ...defaultState.week3Lecture.paceMap, ...(stored?.week3Lecture?.paceMap || {}) }
+      },
+      week4Lecture: {
+        ...defaultState.week4Lecture,
+        ...(stored?.week4Lecture?.flowVersion === 1 ? stored.week4Lecture : {}),
+        reasonAnswers: { ...(stored?.week4Lecture?.reasonAnswers || {}) },
+        openingChoices: { ...(stored?.week4Lecture?.openingChoices || {}) },
+        pauseMarkers: Array.isArray(stored?.week4Lecture?.pauseMarkers) ? stored.week4Lecture.pauseMarkers : [],
+        selfReview: { ...(stored?.week4Lecture?.selfReview || {}) },
+        surpriseOptional: { ...(stored?.week4Lecture?.surpriseOptional || {}) }
       }
     };
   } catch {
@@ -600,6 +641,23 @@ function renderWeekDetail() {
           : `<strong>Discover → Tune → Speak → Prove</strong><span>A live pace coaching experience with one real-world mission.</span>`;
     }
   }
+  const week4Entry = $("#week4LectureEntry");
+  if (week4Entry) {
+    const show = state.selectedWeek === 3;
+    week4Entry.hidden = !show;
+    if (show) {
+      const lecture = state.week4Lecture;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week4LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 4" : lecture.lastViewedAt ? "Continue Lecture 4" : "Start Lecture 4";
+      $("#week4MissionButton").hidden = !(lectureComplete && !evidenceComplete);
+      $("#week4LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 4 complete</strong><span>Purposeful Pauses unlocked · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Pause mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Feel → Understand → Practice → Prove</strong><span>Pause to breathe, let an idea land, or change gears.</span>`;
+    }
+  }
 }
 
 function renderReflection() {
@@ -703,6 +761,16 @@ window.SpeakersGymPortal = {
     saveState();
     renderAll();
   },
+  resetWeek4() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 4);
+    state.week4Lecture = JSON.parse(JSON.stringify(defaultState.week4Lecture));
+    saveState();
+    renderAll();
+  },
+  updateWeek4(patch) {
+    state.week4Lecture = { ...state.week4Lecture, ...patch };
+    saveState();
+  },
   updateWeek3(patch) {
     state.week3Lecture = { ...state.week3Lecture, ...patch };
     saveState();
@@ -736,6 +804,12 @@ $("#week3ResetButton")?.addEventListener("click", () => {
   if (!confirmed) return;
   window.SpeakersGymPortal.resetWeek3();
   showToast("Lecture 3 is ready for a fresh start.");
+});
+$("#week4ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 4? This will clear its answers, practice, mission and Week 4 evidence. Khadija's other weeks will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek4();
+  showToast("Lecture 4 is ready for a fresh start.");
 });
 $("#completeDayButton").addEventListener("click", () => {
   const key = dayKey(state.selectedDay);

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="lecture.css?v=khadija-v10" />
     <link rel="stylesheet" href="week1.css?v=khadija-v5" />
     <link rel="stylesheet" href="week3.css?v=khadija-v1" />
+    <link rel="stylesheet" href="week4.css?v=khadija-v1" />
   </head>
   <body>
     <div class="app-shell">
@@ -254,6 +255,17 @@
                   <button class="button button-accent" id="week3LectureButton" data-open-week3-lecture type="button">Start Lecture 3</button>
                 </div>
               </div>
+              <div class="lecture-entry" id="week4LectureEntry" hidden>
+                <div id="week4LectureStatus">
+                  <strong>Feel → Understand → Practice → Prove</strong>
+                  <span>Pause to breathe, let an idea land, or change gears.</span>
+                </div>
+                <div class="lecture-entry-actions">
+                  <button class="lecture-reset" id="week4ResetButton" type="button">Reset Week 4</button>
+                  <button class="button button-dark" id="week4MissionButton" data-open-week4-reflection type="button" hidden>Report mission</button>
+                  <button class="button button-accent" id="week4LectureButton" data-open-week4-lecture type="button">Start Lecture 4</button>
+                </div>
+              </div>
               <details class="week-plan-disclosure">
                 <summary>Explore this week's complete coaching plan <span aria-hidden="true">+</span></summary>
                 <div class="week-detail-grid">
@@ -341,11 +353,13 @@
     <div id="week1Root"></div>
     <div id="lectureRoot"></div>
     <div id="week3Root"></div>
+    <div id="week4Root"></div>
     <script src="client-config.js?v=khadija-v2"></script>
     <script src="exposure-levels.js?v=khadija-v3"></script>
-    <script src="app.js?v=khadija-v7"></script>
+    <script src="app.js?v=khadija-v8"></script>
     <script src="week1.js?v=khadija-v5"></script>
     <script src="lecture.js?v=khadija-v10"></script>
     <script src="week3.js?v=khadija-v2"></script>
+    <script src="week4.js?v=khadija-v1"></script>
   </body>
 </html>
