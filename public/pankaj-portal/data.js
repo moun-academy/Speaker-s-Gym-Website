@@ -168,7 +168,7 @@ window.PANKAJ_PORTAL_DATA = {
     },
     {
       title: "Pause, Think, and Enter the Conversation",
-      short: "Meeting entry",
+      short: "The pause",
       transformation: "From waiting for the perfect opening or rushing to composed participation.",
       skills: ["Thinking pauses", "Meeting-entry phrases", "Building on a point", "Nonverbal intent", "Teams raise hand and chat"],
       why: "A valuable contribution cannot be recognized if the meeting ends before you make it. Participation is a trainable behavior.",

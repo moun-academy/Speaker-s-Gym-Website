@@ -35,7 +35,6 @@
   ];
 
   const coachVoices = [
-    { name: "Vinh Giang", source: "Stage Academy", idea: "Receive the question, breathe, refine the thought, then answer. The pause turns impulse into insight." },
     { name: "Matt Abrahams", source: "Stanford · Think Faster, Talk Smarter", idea: "A beat of silence reads as thoughtfulness. Paraphrasing the question buys you time honestly." },
     { name: "Toastmasters", source: "The Power of Pauses", idea: "Listeners need time to process. Nobody remembers your silence. They do remember the ums." }
   ];
@@ -64,14 +63,16 @@
   const sortOrder = ["lips", "um", "paraphrase", "basically", "look", "sorry"];
 
   const trainerQuestions = [
-    "What is the biggest risk in this project right now?",
-    "Why should we choose your approach over the alternative?",
-    "Can you explain this to someone without a technical background?",
-    "What would you do differently next time?",
-    "Where are we against the timeline?",
-    "What do you need from us to move faster?"
+    "What did you do last weekend?",
+    "What do you enjoy most about your work?",
+    "What is your favourite meal?",
+    "Where would you like to travel next?",
+    "What makes a good day for you?",
+    "What is a hobby you enjoy?"
   ];
   const trainerTarget = 3;
+  const questionWordMs = 320;
+  const questionHoldMs = 1200;
   const pauseTarget = 2000;
   const ringCircumference = 2 * Math.PI * 96;
 
@@ -203,14 +204,14 @@
             <small>INSIDE YOUR ANSWER</small>
             <h2>The bridge pause</h2>
             <p class="w4-swap" aria-label="changed the format, pause, I think we should">…changed the format. <s>um,</s>${breathMark()} I think we should…</p>
-            <p>Where "um" used to be: close your lips, breathe in through your nose, continue when the next thought arrives.</p>
+            <p>The pause is what removes filler words. Where "um" used to be, close your lips, breathe in through your nose and continue when the next thought arrives.</p>
             <b>1 breath</b>
           </article>
           <article class="escape" data-w3-animate style="--i:2">
             <small>WHEN YOU NEED LONGER</small>
             <h2>Name the pause</h2>
-            <p class="w4-escape-lines"><span>"Let me think about that for a moment."</span><span>"The biggest risk? …"</span></p>
-            <p>On a hard question, say you are thinking or repeat its key words. Honest, calm and still in control.</p>
+            <p class="w4-escape-lines"><span>"Let me think about that for a moment."</span><span>"Give me a second to get this right."</span><span>"Let me pull my thoughts together."</span><span>"That's worth a proper answer. One moment."</span><span>"The biggest risk? …" <small>repeat the key words</small></span></p>
+            <p>On a hard question, say you are thinking or repeat its key words. Then pause. Honest, calm and still in control.</p>
             <b>Any length</b>
           </article>
         </div>
@@ -452,18 +453,37 @@
     const els = trainerEls();
     const guided = Number(getState().trainerReps || 0) < 2;
     trainer.question = (trainer.question + 1) % trainerQuestions.length;
-    trainer.phase = "waiting";
-    trainer.startedAt = performance.now();
-    els.question.textContent = `"${trainerQuestions[trainer.question]}"`;
+    trainer.phase = "reading";
+    const questionWords = trainerQuestions[trainer.question].split(" ");
+    els.question.innerHTML = questionWords.map(word => `<span>${esc(word)}</span>`).join(" ");
     els.question.classList.remove("in");
     void els.question.offsetWidth;
-    els.question.classList.add("in");
-    els.wrap.classList.remove("ready", "rushed", "composed");
+    els.question.classList.add("in", "asking");
+    els.wrap.classList.remove("ready", "rushed", "composed", "live");
     els.wrap.classList.toggle("unguided", !guided);
-    els.wrap.classList.add("live");
+    els.wrap.classList.add("listening");
+    els.fill.style.strokeDashoffset = String(ringCircumference);
+    els.label.textContent = "Listen";
+    els.time.textContent = "the question is being asked";
+    els.phases.forEach(li => li.classList.remove("active", "past"));
     els.feedback.textContent = "";
     els.feedback.className = "w4-feedback";
     els.ask.hidden = true;
+    els.speak.hidden = true;
+
+    // The question is "spoken" word by word, then held briefly so it can be read in full.
+    // The pause only starts once the question has finished.
+    const spans = [...els.question.querySelectorAll("span")];
+    spans.forEach((span, index) => later(() => span.classList.add("said"), index * questionWordMs));
+    later(() => startPause(els, guided), spans.length * questionWordMs + questionHoldMs);
+  }
+
+  function startPause(els, guided) {
+    trainer.phase = "waiting";
+    trainer.startedAt = performance.now();
+    els.question.classList.remove("asking");
+    els.wrap.classList.remove("listening");
+    els.wrap.classList.add("live");
     els.speak.hidden = false;
     els.speak.focus({ preventScroll: true });
     const phaseLabels = ["Receive", "Breathe", "Find the point"];
