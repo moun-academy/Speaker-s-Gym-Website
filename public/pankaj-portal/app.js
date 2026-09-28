@@ -103,6 +103,29 @@
       lectureCompletedAt: null,
       completedAt: null,
       lastViewedAt: null
+    },
+    week4Lecture: {
+      flowVersion: 1,
+      currentStep: 0,
+      currentLevel: null,
+      feltSilence: false,
+      spotFound: [],
+      sortAnswers: {},
+      trainerReps: 0,
+      trainerAttempts: 0,
+      readingCompleted: false,
+      prediction: "",
+      beliefBefore: 50,
+      missionLevel: null,
+      mission: "",
+      missionStatus: "not-started",
+      acceptedAt: null,
+      actualResult: "",
+      beliefAfter: 50,
+      evidenceId: null,
+      lectureCompletedAt: null,
+      completedAt: null,
+      lastViewedAt: null
     }
   };
 
@@ -138,6 +161,12 @@
           feltRates: { ...defaults.week3Lecture.feltRates, ...(saved.week3Lecture?.feltRates || {}) },
           sortAnswers: { ...defaults.week3Lecture.sortAnswers, ...(saved.week3Lecture?.sortAnswers || {}) },
           paceMap: { ...defaults.week3Lecture.paceMap, ...(saved.week3Lecture?.paceMap || {}) }
+        },
+        week4Lecture: {
+          ...defaults.week4Lecture,
+          ...(saved.week4Lecture || {}),
+          spotFound: Array.isArray(saved.week4Lecture?.spotFound) ? saved.week4Lecture.spotFound : [],
+          sortAnswers: { ...(saved.week4Lecture?.sortAnswers || {}) }
         }
       };
     } catch (error) {
@@ -377,11 +406,12 @@
   }
 
   function renderLectureEntry(weekIndex) {
-    if (weekIndex > 2) return "";
+    if (weekIndex > 3) return "";
     const settings = [
       { key: "week1Lecture", label: "Lecture 1", path: "Discover · Build · Speak · Prove", summary: "Build and deliver a complete PREP answer, then choose one real-world mission.", open: "data-open-week1", report: "data-open-week1-reflection" },
       { key: "week2Lecture", label: "Lecture 2", path: "Discover · Calibrate · Speak · Prove", summary: "Find grounded volume, carry the final words and test one audible moment.", open: "data-open-week2-lecture", report: "data-open-week2-reflection" },
-      { key: "week3Lecture", label: "Lecture 3", path: "Discover · Tune · Speak · Prove", summary: "Use fast, slow and stop to shape the meaning of a professional answer.", open: "data-open-week3-lecture", report: "data-open-week3-reflection" }
+      { key: "week3Lecture", label: "Lecture 3", path: "Discover · Tune · Speak · Prove", summary: "Use fast, slow and stop to shape the meaning of a professional answer.", open: "data-open-week3-lecture", report: "data-open-week3-reflection" },
+      { key: "week4Lecture", label: "Lecture 4", path: "Discover · Still · Speak · Prove", summary: "Replace fillers with silence and take a calm two-second pause before you answer.", open: "data-open-week4-lecture", report: "data-open-week4-reflection" }
     ][weekIndex];
     const lecture = state[settings.key];
     const evidenceComplete = Boolean(lecture.completedAt || lecture.evidenceId);
@@ -603,13 +633,14 @@
   $$("#today, #levels, #journey, #reflections").forEach(section => observer.observe(section));
 
   function resetLecture(week) {
-    const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety" };
+    const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety", 4: "pause" };
     const confirmed = window.confirm(`Reset Lecture ${week}? This clears its ${labels[week]} answers, mission and lecture evidence. The rest of Pankaj's progress stays unchanged.`);
     if (!confirmed) return false;
     state.evidence = state.evidence.filter(item => Number(item.sourceLecture) !== week);
     if (week === 1) state.week1Lecture = structuredClone(defaults.week1Lecture);
     if (week === 2) state.week2Lecture = structuredClone(defaults.week2Lecture);
     if (week === 3) state.week3Lecture = structuredClone(defaults.week3Lecture);
+    if (week === 4) state.week4Lecture = structuredClone(defaults.week4Lecture);
     saveState();
     renderAll();
     showToast(`Lecture ${week} is ready for a fresh start.`);
@@ -626,7 +657,8 @@
     const categories = {
       1: "I led with the point.",
       2: "I used my voice intentionally.",
-      3: "I used my voice intentionally."
+      3: "I used my voice intentionally.",
+      4: "I remained composed under pressure."
     };
     const createdAt = Date.parse(card.completedAt || "") || Date.now();
     const normalized = {
@@ -655,6 +687,7 @@
     updateWeek1(patch) { state.week1Lecture = { ...state.week1Lecture, ...patch }; saveState(); },
     updateLecture(patch) { state.week2Lecture = { ...state.week2Lecture, ...patch }; saveState(); },
     updateWeek3(patch) { state.week3Lecture = { ...state.week3Lecture, ...patch }; saveState(); },
+    updateWeek4(patch) { state.week4Lecture = { ...state.week4Lecture, ...patch }; saveState(); },
     setExposureLevel(level) {
       const next = clampLevel(level);
       state.currentLevel = next;
