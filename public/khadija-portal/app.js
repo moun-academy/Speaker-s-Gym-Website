@@ -69,14 +69,14 @@ const weeks = [
   {
     short: "Pauses",
     title: "Think While You Speak",
-    why: "A well-placed pause gives you room to breathe, shows that a thought is being considered, and lets an important idea land.",
-    outcome: "You can choose a purposeful pause and complete one clear thought when a question catches you off guard.",
-    learn: ["Pause to breathe", "Pause to think and let an idea land", "Pause to change pace", "Recovering from a blank"],
-    spotlight: "Answer a real professional question before and after learning three reasons to pause.",
-    work: "Use one purposeful pause in a real professional conversation and complete your point.",
+    why: "A purposeful pause makes room for your next thought, replaces filler words and lets an important idea land.",
+    outcome: "You can hear a complete question, take a calm pause and give one clear answer, even when the moment is unplanned.",
+    learn: ["A two-second thinking pause", "Replacing fillers with a silent breath", "Pausing between complete thoughts", "Answering an unexpected question with composure"],
+    spotlight: "Answer surprise questions with a two-second pause, then bring the skill into one real conversation.",
+    work: "Let one question finish, pause before answering and complete one clear point.",
     home: "Let one complete idea land before starting the next.",
     days: [
-      day("Awareness day", "Notice the rush", "Awareness creates choice.", "Open Lecture 4 and speak your baseline answer", "Notice where you needed a breath or a clearer thought", "Choose one reason to pause", "What triggers me to rush?"),
+      day("Awareness day", "Notice the rush", "Awareness creates choice.", "Open Lecture 4 and try the two-second silence exercise", "Notice where you are tempted to fill the gap", "Choose one question to answer after a pause", "What changed when I let the question finish?"),
       day("Breath day", "Make room for a breath", "One natural breath can help you choose your next sentence, even when you still feel nervous.", "Speak one answer with a natural breath between complete thoughts", "Notice whether the next sentence is easier to control", "Repeat without forcing a long silence", "What changed in my voice?"),
       day("Listener day", "Let the idea land", "A listener needs space after a complete thought.", "Say one point and stop briefly", "Watch whether the listener follows", "Continue with your reason or example", "Which thought needed room?"),
       day("Gear-change day", "Change pace with purpose", "A pause can mark the turn from quick context to the point that matters.", "Give a short fast setup", "Pause at the idea boundary", "Say the key point more slowly", "Could the listener hear the shift?"),
@@ -224,9 +224,15 @@ const defaultState = {
     lastViewedAt: null
   },
   week4Lecture: {
-    flowVersion: 1,
+    flowVersion: 2,
     currentStep: 0,
     currentLevel: null,
+    feltSilence: false,
+    spotFound: [],
+    sortAnswers: {},
+    trainerReps: 0,
+    trainerAttempts: 0,
+    readingCompleted: false,
     baselineNote: "",
     finalNote: "",
     baselineDone: false,
@@ -326,7 +332,14 @@ function loadState() {
       },
       week4Lecture: {
         ...defaultState.week4Lecture,
-        ...(stored?.week4Lecture?.flowVersion === 1 ? stored.week4Lecture : {}),
+        ...(stored?.week4Lecture || {}),
+        flowVersion: 2,
+        currentStep: stored?.week4Lecture?.flowVersion === 2
+          ? Math.max(0, Math.min(11, Number(stored.week4Lecture.currentStep) || 0))
+          : stored?.week4Lecture?.completedAt ? 11
+            : stored?.week4Lecture?.lectureCompletedAt ? 8 : 0,
+        spotFound: Array.isArray(stored?.week4Lecture?.spotFound) ? stored.week4Lecture.spotFound : [],
+        sortAnswers: { ...(stored?.week4Lecture?.sortAnswers || {}) },
         reasonAnswers: { ...(stored?.week4Lecture?.reasonAnswers || {}) },
         openingChoices: { ...(stored?.week4Lecture?.openingChoices || {}) },
         pauseMarkers: Array.isArray(stored?.week4Lecture?.pauseMarkers) ? stored.week4Lecture.pauseMarkers : [],
@@ -655,7 +668,7 @@ function renderWeekDetail() {
         ? `<strong>Week 4 complete</strong><span>Purposeful Pauses unlocked · Evidence collected</span>`
         : lectureComplete
           ? `<strong>Pause mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
-          : `<strong>Feel → Understand → Practice → Prove</strong><span>Pause to breathe, let an idea land, or change gears.</span>`;
+          : `<strong>Discover → Still → Speak → Prove</strong><span>Replace fillers with silence and let one clear point land.</span>`;
     }
   }
 }
@@ -691,9 +704,9 @@ function renderReflection() {
   $("#reflectionHistory").innerHTML = evidenceCards.length || reflections.length
     ? `${evidenceCards.map(item => `<article class="evidence-bank-entry">
         <header><small>WEEK ${item.week} · ${escapeHTML(item.skill)}</small><span>EVIDENCE</span></header>
-        <div><strong>Prediction</strong><p>${escapeHTML(item.prediction)}</p></div>
+        <div><strong>${item.mission ? "Mission" : "Prediction"}</strong><p>${escapeHTML(item.mission || item.prediction || "")}</p></div>
         <div><strong>Reality</strong><p>${escapeHTML(item.reality)}</p></div>
-        <footer><span>Belief</span><strong>${item.beliefBefore}% → ${item.beliefAfter}%</strong></footer>
+        ${Number.isFinite(item.beliefBefore) && Number.isFinite(item.beliefAfter) ? `<footer><span>Belief</span><strong>${item.beliefBefore}% → ${item.beliefAfter}%</strong></footer>` : ""}
       </article>`).join("")}${reflections.map(item => `<button class="reflection-entry" type="button" data-reflection-day="${item.dayIndex}">
         <span><small>DAY ${item.dayIndex + 1}</small><time>${new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(item.date)}</time></span>
         <strong>${escapeHTML(item.title)}</strong>

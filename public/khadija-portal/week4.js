@@ -1,4 +1,4 @@
-(() => {
+(function () {
   "use strict";
 
   const portal = window.SpeakersGymPortal;
@@ -6,272 +6,616 @@
   const root = document.querySelector("#week4Root");
   if (!portal || !exposure || !root) return;
 
+  const chapters = [
+    { title: "Why Silence Feels So Long", start: 1, end: 1 },
+    { title: "Two Kinds of Pause", start: 2, end: 4 },
+    { title: "The Two-Second Answer", start: 5, end: 5 },
+    { title: "Read With the Pauses", start: 6, end: 6 },
+    { title: "Leave With One Pause to Prove", start: 7, end: 8 }
+  ];
+
+  const stages = [
+    { name: "DISCOVER", end: 1 },
+    { name: "STILL", end: 4 },
+    { name: "SPEAK", end: 6 },
+    { name: "PROVE", end: 8 }
+  ];
+
+  const missionTemplates = [
+    "Answer three surprise prompts with your coach or a trusted person. Let each question finish, then take one calm pause before your point.",
+    "In a relaxed conversation with someone familiar, pause once before answering and complete one clear thought.",
+    "When a familiar colleague asks for your view, take one natural breath before giving your point.",
+    "Choose a professional conversation you know is coming. Pause after your main point so the other person can take it in.",
+    "Share one clear idea with a small familiar group. Replace one filler with a silent breath.",
+    "In a routine meeting, pause before contributing and let your first complete thought land.",
+    "When an unplanned work conversation develops, let the question finish, pause briefly, then give one clear point.",
+    "Guide one short professional conversation. Pause between the purpose, your recommendation and the next step.",
+    "Answer one unexpected question in a visible setting. Allow a moment to think, then complete your answer without restarting.",
+    "In one meaningful leadership moment, pause before your key point and let it land before you add detail."
+  ];
+
+  const coachVoices = [
+    { name: "For your thinking", source: "BEFORE THE ANSWER", idea: "Let the whole question finish. A short pause gives you room to choose one clear point." },
+    { name: "For your listener", source: "AFTER THE POINT", idea: "A moment of space can help the idea land before you add another detail." }
+  ];
+
+  // Fillers are wrapped in [brackets]. Everything else carries meaning.
+  const spotScript = "[So,] [um,] the biggest challenge this week is [like,] our two urgent priorities. We [uh,] [basically] have one fixed deadline and [you know,] another request from the team. [I mean,] I think we should [um,] confirm the deadline first.";
+  const spotTokens = (() => {
+    const tokens = [];
+    spotScript.replace(/\[([^\]]+)\]|([^\s[\]]+)/g, (match, filler, word) => {
+      tokens.push({ text: filler || word, filler: Boolean(filler) });
+      return match;
+    });
+    return tokens.map((token, index) => ({ ...token, index }));
+  })();
+  const fillerCount = spotTokens.filter(token => token.filler).length;
+  const cleanScript = ["The biggest challenge this week is our two urgent priorities.", "We have one fixed deadline and another request from the team.", "I think we should confirm the deadline first."];
+
+  const sortItems = [
+    { id: "lips", text: "Close your lips and breathe in through your nose", answer: "do", why: "A closed mouth cannot say um. The breath resets you." },
+    { id: "um", text: "Say \"um\" so they know you're still going", answer: "avoid", why: "Your face already tells them. The sound adds nothing." },
+    { id: "paraphrase", text: "Repeat the key words back: \"Both priorities?\"", answer: "do", why: "An honest bridge. It buys time and checks understanding." },
+    { id: "basically", text: "Start with \"So, basically…\" to buy a second", answer: "avoid", why: "A filler in a suit. Silence buys the same second." },
+    { id: "sorry", text: "Apologise for needing a moment", answer: "avoid", why: "Thinking is not a mistake. Do not label it as one." },
+    { id: "look", text: "Glance away briefly while you find the point", answer: "do", why: "It reads as thinking. Return your eyes when you speak." }
+  ];
+  const sortOrder = ["lips", "um", "paraphrase", "basically", "look", "sorry"];
+
+  const trainerQuestions = [
+    "What would you do when two priorities compete?",
+    "What part of your experience helps you lead a team?",
+    "What would you change about a process you know well?",
+    "How would you explain a recent decision to a colleague?",
+    "What is one recommendation you would make this week?",
+    "What did a difficult moment teach you?"
+  ];
+  const trainerTarget = 3;
+  const questionWordMs = 320;
+  const questionHoldMs = 1200;
+  const pauseTarget = 2000;
+  const ringCircumference = 2 * Math.PI * 96;
+
+  const moonScript = [
+    { text: "Here is the recommendation I would make.", pause: 1600 },
+    { text: "We have two priorities and one fixed deadline.", pause: 900 },
+    { text: "I would protect that deadline first.", pause: 900 },
+    { text: "Then I would give the second request a clear owner and a realistic date.", pause: 2000, long: true },
+    { text: "This is not about doing less.", pause: 900 },
+    { text: "It is about helping both teams know what to expect.", pause: 900 },
+    { text: "That gives us a workable plan,", pause: 900 },
+    { text: "and a clear next step for everyone.", pause: 0, finish: true }
+  ];
+
+  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const lectureStepCount = 9;
+  let previousFocus = null;
+  let timers = [];
+  let frame = null;
+  let trainer = { phase: "idle", question: -1, startedAt: 0, feedback: null };
+
+  const esc = (value = "") => String(value).replace(/[&<>'"]/g, character => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
+  })[character]);
+
   const getState = () => portal.getState().week4Lecture;
   const update = patch => portal.updateWeek4(patch);
-  const esc = value => String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  })[character]);
-  const baselineQuestion = "Tell me about a time you had to handle multiple priorities at once.";
-  const purposes = {
-    breathe: { number: "01", label: "Breathe", line: "Make room for your next sentence.", icon: "◌" },
-    land: { number: "02", label: "Let it land", line: "Give a complete idea room to be understood.", icon: "◎" },
-    shift: { number: "03", label: "Change gears", line: "Mark the move from quick context to a slower point.", icon: "↘" }
-  };
-  const slides = [
-    ["Feel", "Your starting point"], ["Understand", "Three reasons"], ["Understand", "Room to breathe"],
-    ["Understand", "Time to think"], ["Understand", "Space for the listener"], ["Understand", "Change gears"],
-    ["Understand", "The feeling of silence"], ["Choose", "Which pause?"], ["Choose", "Hear the whole question"],
-    ["Choose", "The right opening"], ["Practice", "Between complete thoughts"], ["Practice", "Recover and continue"],
-    ["Practice", "Before and after"], ["Practice", "The surprise round"], ["Prove", "Take it into life"]
-  ];
-  const situations = [
-    { id: "breath", title: "Your sentence is running out of air.", right: "breathe", reason: "A natural breath helps you choose the next complete thought." },
-    { id: "listener", title: "You have just said the key recommendation.", right: "land", reason: "Let that complete idea arrive before adding the reason." },
-    { id: "transition", title: "You have moved quickly through familiar context.", right: "shift", reason: "A pause marks the move into a slower, important point." }
-  ];
-  const questions = [
-    { id: "required", label: "01 · START HERE", question: "Tell me about a time you faced a challenge. How did you handle it?", hint: "Choose one point, then one concrete action. The pause can happen where it helps.", source: "University of Michigan interview practice" },
-    { id: "optional1", label: "02 · IF USEFUL", question: "What would you improve about a process you know well, and why?", hint: "Let the whole question finish. Think about both the change and the reason." },
-    { id: "optional2", label: "03 · STRETCH", question: "Tell me about a time when you failed or made a mistake.", hint: "Acknowledge the event, then pause and focus on what you learned.", source: "University of Michigan interview practice" }
-  ];
+  const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().week2Lecture.currentLevel || 1);
+  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
+  const stageFor = step => stages.find(stage => step <= stage.end) || stages[3];
 
-  let previousFocus = null;
-  let demoToken = 0;
-  let activeTimer = null;
-  let recorder = null;
-  let recordingStream = null;
-  let recordingKind = null;
-  const recordings = { baseline: null, final: null };
-
-  function clearDemo() {
-    demoToken++;
-    if (activeTimer) clearTimeout(activeTimer);
-    activeTimer = null;
-    window.speechSynthesis?.cancel();
-  }
-
-  function getLevel() {
-    return exposure.clampLevel(getState().currentLevel || portal.getState().week2Lecture.currentLevel || 1);
-  }
-
-  function missionText(reason, level) {
-    const place = exposure.levels[level - 1]?.name || "a real conversation";
-    const purpose = purposes[reason]?.label.toLowerCase() || "pause with purpose";
-    return `In ${place.toLowerCase()}, I will pause to ${purpose} once, then complete one clear thought.`;
-  }
-
-  function feature(icon, title, text, index = 0, extra = "") {
-    return `<article class="w4-feature" data-w4-reveal style="--i:${index}"><span class="w4-feature-icon" aria-hidden="true">${icon}</span><h2>${title}</h2><p>${text}</p>${extra}</article>`;
-  }
-
-  function statement(text, label = "SAY IT ALOUD") {
-    return `<div class="w4-statement"><span>${label}</span><p>${esc(text)}</p></div>`;
-  }
-
-  function choiceButtons(options, selected, attr) {
-    return `<div class="w4-choice-row">${options.map(option => `<button type="button" class="w4-choice ${selected === option.id ? "selected" : ""}" ${attr}="${option.id}">${esc(option.label)}</button>`).join("")}</div>`;
-  }
-
-  function recordingControls(kind) {
-    const current = recordings[kind];
-    return `<div class="w4-recording"><div><strong>Want to hear yourself?</strong><small>Optional. Recording stays in this visit and is not uploaded.</small></div><button type="button" class="w4-secondary" data-w4-action="record-${kind}">${recordingKind === kind ? "Stop recording" : current ? "Record again" : "Record answer"}</button>${current ? `<audio controls src="${current}" aria-label="Play your ${kind} answer"></audio>` : ""}</div>`;
-  }
-
-  function markDone(label, done, action) {
-    return `<button type="button" class="w4-done ${done ? "done" : ""}" data-w4-action="${action}"><span aria-hidden="true">${done ? "✓" : "○"}</span>${label}</button>`;
+  function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
+  function clearTimers() {
+    timers.forEach(id => clearTimeout(id));
+    timers = [];
+    if (frame) cancelAnimationFrame(frame);
+    frame = null;
   }
 
   function shell(content, options = {}) {
     const state = getState();
-    const step = Math.min(14, Math.max(0, Number(state.currentStep || 0)));
-    const stage = slides[step][0];
-    const progress = Math.round(((step + 1) / 15) * 100);
-    const missionActive = step === 14 && Boolean(state.lectureCompletedAt);
-    return `<div class="w4-page" role="dialog" aria-modal="true" aria-labelledby="week4Title">
-      <header class="w4-header">
-        <div class="w4-brand"><img src="Logo.png?v=khadija-v2" alt="" /><span><small>THE SPEAKER'S GYM</small><strong>WEEK 4 · THINK WHILE YOU SPEAK</strong></span></div>
-        <div class="w4-track"><span>${esc(stage)} <i aria-hidden="true">/</i> ${esc(slides[step][1])}</span><div class="w4-track-dots" aria-hidden="true">${[0, 1, 2, 3, 4].map((_, i) => `<b class="${i <= ["Feel", "Understand", "Choose", "Practice", "Prove"].indexOf(stage) ? "on" : ""}"></b>`).join("")}</div></div>
-        <button type="button" class="w4-close" data-w4-action="close" aria-label="Save and close">×</button>
-        <div class="w4-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
+    const step = Number(state.currentStep || 0);
+    const chapter = chapterFor(step);
+    const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
+    const slideNumber = stepOrder.indexOf(step) + 1;
+    const afterMission = step >= 9;
+    const canBack = step > 0 && !options.lockBack;
+    const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
+    const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 4";
+    const chapterTitle = chapter?.title || (step === 0 ? "The Pause" : "Turn experience into evidence");
+    const stage = stageFor(step);
+
+    return `<div class="week3-page week4-page" role="dialog" aria-modal="true" aria-labelledby="week4PageTitle">
+      <header class="w3-header">
+        <div class="w3-brand"><img src="Logo.png?v=khadija-v2" alt="" /><div><small>THE SPEAKER'S GYM</small><strong>WEEK 4 · THINK WHILE YOU SPEAK</strong></div></div>
+        <div class="w3-chapter-track" aria-label="${esc(chapter ? `Chapter ${chapterIndex + 1} of ${chapters.length}: ${chapterTitle}` : chapterTitle)}">
+          <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
+          <div class="w3-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
+        </div>
+        <button class="w3-close" type="button" data-w4-action="close" aria-label="Save and close">&times;</button>
+        <div class="w3-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
       </header>
-      <main class="w4-main"><section class="w4-screen ${options.className || ""}">${content}</section></main>
-      <footer class="w4-footer"><button type="button" class="w4-back" data-w4-action="back" ${step === 0 || missionActive ? "disabled" : ""}>Back</button><span>${String(step + 1).padStart(2, "0")} <i>/</i> 15</span><div>${options.footer || `<button type="button" class="w4-next" data-w4-action="next">${options.nextLabel || "Continue"}<span aria-hidden="true">→</span></button>`}</div></footer>
+      <main class="w3-main"><section class="w3-screen ${options.className || ""}">${content}</section></main>
+      <footer class="w3-footer">
+        <button class="w3-back" type="button" data-w4-action="back" ${canBack ? "" : "disabled"}>Back</button>
+        <span>${afterMission ? "AFTER THE MISSION" : `${stage.name} · ${slideNumber} / ${lectureStepCount}`}</span>
+        <div class="w3-footer-actions">${options.footer || `<button class="w3-next" type="button" data-w4-action="next">${options.nextLabel || "Continue"}</button>`}</div>
+      </footer>
     </div>`;
   }
 
-  function slide(step, state) {
-    if (step === 0) return shell(`
-      <p class="w4-kicker">01 · FEEL THE DIFFERENCE</p><h1 id="week4Title">A question lands.<br /><em>What happens next?</em></h1>
-      <p class="w4-lede">Start where you are. No framework, no perfect answer. Speak for roughly 45 seconds and notice what happens.</p>
-      ${statement(baselineQuestion, "YOUR FIRST QUESTION")}
-      <div class="w4-practice-grid"><div class="w4-prompt"><span>NOTICE AS YOU SPEAK</span><p>Did you finish hearing the question? Where did you need a breath? Did one clear point arrive?</p></div><div class="w4-practice-action">${markDone("I answered aloud", state.baselineDone, "baseline-done")}</div></div>
-      ${recordingControls("baseline")}
-      <label class="w4-note-label">One observation, if you want to remember it<textarea data-w4-input="baselineNote" rows="2" placeholder="I rushed into the first sentence…">${esc(state.baselineNote)}</textarea></label>
-    `, { className: "w4-hero" });
-
-    if (step === 1) return shell(`
-      <p class="w4-kicker">THE TOOL IS SILENCE</p><h1 id="week4Title">A pause has<br /><em>three jobs.</em></h1>
-      <p class="w4-lede">You are not trying to become a slow speaker. You are choosing what the space is for.</p>
-      <div class="w4-feature-grid">${Object.entries(purposes).map(([id, item], i) => feature(`<b>${item.number}</b>${item.icon}`, item.label, item.line, i, `<span class="w4-purpose-rule ${id}"></span>`)).join("")}</div>
-      <div class="w4-callout"><strong>One pause. One purpose.</strong><span>The best position depends on what you and the listener need next.</span></div>
-    `, { className: "w4-three" });
-
-    if (step === 2) return shell(`
-      <p class="w4-kicker">REASON 01 · BREATHE</p><h1 id="week4Title">Give your next sentence<br /><em>room to breathe.</em></h1>
-      <p class="w4-lede">You can feel a racing heart and still take one natural breath. A pause is room to begin the next sentence by choice.</p>
-      <div class="w4-breath-layout"><div class="w4-breath-visual" aria-label="Illustration of a natural breathing pause"><div class="w4-breath-orb"><span>inhale</span><span>exhale</span></div><small>FOLLOW YOUR OWN COMFORTABLE BREATH</small></div><div class="w4-breath-script"><span>TRY BOTH VERSIONS</span><p>“I had two priorities that day. <strong class="w4-breath-gap">[natural breath]</strong> I checked which deadline mattered first.”</p><ol><li>Say both sentences without planning a pause.</li><li>Now let the first thought finish, breathe naturally, and say the second.</li></ol>${markDone("I tried both ways", state.breathDone, "breath-done")}</div></div>
-      <p class="w4-caution">A single pause is not a treatment for palpitations. It is a practical place to breathe and regain control of your words.</p>
-    `, { className: "w4-breathe" });
-
-    if (step === 3) return shell(`
-      <p class="w4-kicker">REASON 02 · THINK</p><h1 id="week4Title">Let the question finish.<br /><em>Let your answer form.</em></h1>
-      <p class="w4-lede">For a question that needs judgment, a brief pause can show that you are considering it. If you need longer, say so plainly.</p>
-      <div class="w4-conversation"><div class="w4-bubble asker"><small>THE QUESTION</small><p>“What would you change about our process—and why?”</p></div><div class="w4-thinking"><span>hear it</span><i></i><span>choose one point</span><i></i><span>answer</span></div><div class="w4-bubble answer"><small>AN HONEST START</small><p>“Let me think about the trade-off for a moment.”</p></div></div>
-      <div class="w4-choice-card"><strong>What should come first?</strong>${choiceButtons([{ id: "whole", label: "Hear the whole question" }, { id: "early", label: "Start after ‘what would you change’" }], state.questionChoice, "data-w4-question-choice")}${state.questionChoice ? `<p class="w4-feedback ${state.questionChoice === "whole" ? "good" : "try"}">${state.questionChoice === "whole" ? "Exactly. The final words ask for a reason, not only a change." : "Listen through ‘and why?’ before choosing the point."}</p>` : ""}</div>
-    `);
-
-    if (step === 4) return shell(`
-      <p class="w4-kicker">REASON 02 · LET IT LAND</p><h1 id="week4Title">Your listener needs<br /><em>space too.</em></h1>
-      <p class="w4-lede">A short pause after a complete thought gives it a boundary. Listen to the same answer two ways, then notice which idea stays with you.</p>
-      <div class="w4-listener-grid"><article class="w4-listener-card" data-w4-demo-card="crowded"><span>VERSION A · NO SPACE</span><p>The clinic had two urgent tasks. I checked which deadline was fixed. I delegated the other. We finished both on time.</p><button type="button" class="w4-secondary" data-w4-demo="crowded">▶ Play A</button></article><article class="w4-listener-card" data-w4-demo-card="spaced"><span>VERSION B · ONE IDEA AT A TIME</span><p>The clinic had two urgent tasks. <b>[pause]</b> I checked which deadline was fixed. <b>[pause]</b> I delegated the other. We finished both on time.</p><button type="button" class="w4-secondary" data-w4-demo="spaced">▶ Play B</button></article></div>
-      <div class="w4-choice-card"><strong>What did the speaker do first?</strong>${choiceButtons([{ id: "deadline", label: "Checked the fixed deadline" }, { id: "delegate", label: "Delegated immediately" }], state.listenerChoice, "data-w4-listener-choice")}${state.listenerChoice ? `<p class="w4-feedback ${state.listenerChoice === "deadline" ? "good" : "try"}">${state.listenerChoice === "deadline" ? "Yes. The pause helps separate the decision from the action." : "Listen again: the first action was checking the fixed deadline."}</p>` : ""}</div>
-    `);
-
-    if (step === 5) return shell(`
-      <p class="w4-kicker">REASON 03 · CHANGE GEARS</p><h1 id="week4Title">Fast setup.<br /><em>Space.</em> Slow point.</h1>
-      <p class="w4-lede">You learned the gears in Week 3. Here the pause is the hinge that makes the shift easy to hear.</p>
-      <div class="w4-gear-stage" data-w4-gear-stage><div class="w4-gear-track"><span class="fast">FAST CONTEXT</span><i class="w4-gear-gap">PAUSE</i><span class="slow">SLOW POINT</span></div><div class="w4-gear-words"><p data-w4-gear-part="setup">“We reviewed three options quickly.”</p><b data-w4-gear-part="pause">a deliberate beat</b><p data-w4-gear-part="point">“My recommendation is to start with the smallest pilot.”</p></div></div>
-      <div class="w4-demo-actions"><button type="button" class="w4-secondary" data-w4-gear="flat">▶ Hear no pause</button><button type="button" class="w4-secondary accent" data-w4-gear="hinge">▶ Hear the pause</button></div>
-      <p class="w4-coachline">The pause is not the point. It prepares the listener to hear the point.</p>
-    `);
-
-    if (step === 6) return shell(`
-      <p class="w4-kicker">MAKE SILENCE FAMILIAR</p><h1 id="week4Title">Inside, a pause can feel<br /><em>longer than it is.</em></h1>
-      <p class="w4-lede">Try a short silence and guess how long it lasted. This is a perception exercise, not a target for every answer.</p>
-      <div class="w4-silence-lab"><div class="w4-silence-disc" data-w4-silence-disc><span>READY</span></div><div><span class="w4-lab-label">A MOMENT OF SILENCE</span><p>Press start. Look at the circle and let the silence happen.</p><button type="button" class="w4-secondary" data-w4-action="silence-start">Start the silence</button></div></div>
-      <div class="w4-choice-card" data-w4-estimate-box ${state.silenceEstimate ? "" : "hidden"}><strong>How long did it feel?</strong>${choiceButtons([{ id: "1", label: "About 1 second" }, { id: "2", label: "About 2 seconds" }, { id: "4", label: "About 4 seconds" }], String(state.silenceEstimate || ""), "data-w4-estimate")}<p class="w4-feedback good" data-w4-estimate-feedback ${state.silenceEstimate ? "" : "hidden"}>The silence lasted about 2 seconds. Your estimate describes your experience, not your ability.</p></div>
-    `);
-
-    if (step === 7) return shell(`
-      <p class="w4-kicker">CHOICE CREATES CONTROL</p><h1 id="week4Title">Which pause<br /><em>belongs here?</em></h1>
-      <p class="w4-lede">Do not pause because a rule told you to. Choose what the moment needs.</p>
-      <div class="w4-scenario-list">${situations.map((item, index) => `<article class="w4-scenario" data-w4-reveal style="--i:${index}"><span>SCENE 0${index + 1}</span><h2>${item.title}</h2>${choiceButtons(Object.entries(purposes).map(([id, p]) => ({ id, label: p.label })), state.reasonAnswers?.[item.id], `data-w4-reason="${item.id}" data-w4-answer`)}${state.reasonAnswers?.[item.id] ? `<p class="w4-feedback ${state.reasonAnswers[item.id] === item.right ? "good" : "try"}">${state.reasonAnswers[item.id] === item.right ? "Yes. " : `${purposes[item.right].label} works best here. `}${item.reason}</p>` : ""}</article>`).join("")}</div>
-    `);
-
-    if (step === 8) return shell(`
-      <p class="w4-kicker">LISTEN BEFORE YOU ANSWER</p><h1 id="week4Title">The last words can<br /><em>change the question.</em></h1>
-      <p class="w4-lede">Do not solve the question before it ends. Reveal the second half, then decide what a good answer needs.</p>
-      <div class="w4-question-reveal"><div class="w4-bubble asker"><small>PART ONE</small><p>“What did you do when two deadlines collided…”</p></div><div class="w4-question-rest" data-w4-question-rest ${state.completeQuestionChoice ? "" : "hidden"}><span>AND THEN</span><p>“…and how did you decide which one came first?”</p></div><button type="button" class="w4-secondary" data-w4-action="reveal-question">${state.completeQuestionChoice ? "Show the full question again" : "Reveal the rest of the question"}</button></div>
-      <div class="w4-choice-card" data-w4-complete-card ${state.completeQuestionChoice ? "" : "hidden"}><strong>What must the answer include?</strong>${choiceButtons([{ id: "both", label: "My action and how I chose" }, { id: "action", label: "Only what I did" }], state.completeQuestionChoice, "data-w4-complete-choice")}${state.completeQuestionChoice ? `<p class="w4-feedback ${state.completeQuestionChoice === "both" ? "good" : "try"}">${state.completeQuestionChoice === "both" ? "Exactly. Hearing the entire question makes the answer more useful." : "The final clause asks for your decision process too."}</p>` : ""}</div>
-    `);
-
-    if (step === 9) return shell(`
-      <p class="w4-kicker">PAUSE WITH JUDGMENT</p><h1 id="week4Title">Some answers start now.<br /><em>Some need a moment.</em></h1>
-      <p class="w4-lede">Use a direct answer when you know it. Signal thinking time when the question asks for a considered judgment.</p>
-      <div class="w4-opening-grid"><article><span>QUESTION A</span><h2>“Are you free at 3 p.m.?”</h2>${choiceButtons([{ id: "direct", label: "Answer directly" }, { id: "signal", label: "Ask for thinking time" }], state.openingChoices?.simple, 'data-w4-opening="simple" data-w4-answer')}</article><article><span>QUESTION B</span><h2>“What trade-off would you make in this plan?”</h2>${choiceButtons([{ id: "direct", label: "Answer immediately" }, { id: "signal", label: "Signal a moment to think" }], state.openingChoices?.complex, 'data-w4-opening="complex" data-w4-answer')}</article></div>
-      ${state.openingChoices?.simple && state.openingChoices?.complex ? `<div class="w4-callout"><strong>${state.openingChoices.simple === "direct" && state.openingChoices.complex === "signal" ? "Good judgment." : "Try matching the pause to the question."}</strong><span>A simple fact usually needs a direct reply. A complex trade-off can justify a brief signalled pause.</span></div>` : ""}
-    `);
-
-    if (step === 10) return shell(`
-      <p class="w4-kicker">USE WHAT YOU ALREADY KNOW</p><h1 id="week4Title">Pause between<br /><em>complete thoughts.</em></h1>
-      <p class="w4-lede">Your PREP structure still works. Place a pause where one idea has finished and the next begins.</p>
-      <div class="w4-prep-map"><span>POINT</span><p>“I would begin with a small pilot.”</p>${pauseButton("after-point", state.pauseMarkers)}<span>REASON</span><p>“It lets us learn before changing the entire process.”</p>${pauseButton("after-reason", state.pauseMarkers)}<span>EXAMPLE</span><p>“We could test it with one team for two weeks.”</p>${pauseButton("after-example", state.pauseMarkers)}<span>FINAL POINT</span><p>“That gives us evidence for the larger decision.”</p></div>
-      <div class="w4-demo-actions"><button type="button" class="w4-secondary" data-w4-action="play-prep">▶ Play my pause map</button><button type="button" class="w4-secondary" data-w4-action="reset-markers">Reset markers</button></div><p class="w4-coachline" data-w4-prep-status>Choose at least one place where the listener needs a beat. Then speak the full answer aloud.</p>
-    `);
-
-    if (step === 11) return shell(`
-      <p class="w4-kicker">RECOVER AND CONTINUE</p><h1 id="week4Title">A blank moment is<br /><em>not the end.</em></h1>
-      <p class="w4-lede">You can stop, take a breath, and restart from one clear point. You do not owe the listener a long apology.</p>
-      <div class="w4-blank-stage"><div class="w4-blank-question">“What did that experience teach you?”</div><div class="w4-blank-gap"><span>THE WORDS DISAPPEAR</span><b>…</b></div><div class="w4-blank-return">Stop <i>→</i> Breathe <i>→</i> One point</div></div>
-      <div class="w4-choice-card"><strong>Which restart helps you continue?</strong>${choiceButtons([{ id: "point", label: "“Let me put the main point more clearly.”" }, { id: "apology", label: "“Sorry, I'm terrible at this…”" }], state.recoveryChoice, "data-w4-recovery")}${state.recoveryChoice ? `<p class="w4-feedback ${state.recoveryChoice === "point" ? "good" : "try"}">${state.recoveryChoice === "point" ? "Yes. Return to the idea, then give one example." : "A brief pause and a clear point serve you better than an apology spiral."}</p>` : ""}</div>
-      ${statement("Let me put the main point more clearly. I learned to check the priorities before acting.", "TRY THIS RESTART")}
-    `);
-
-    if (step === 12) return shell(`
-      <p class="w4-kicker">THE SAME QUESTION · A NEW CHOICE</p><h1 id="week4Title">Now answer it<br /><em>again.</em></h1>
-      <p class="w4-lede">Use the question from Slide 1. Choose a pause only where it has a purpose. Keep the words yours.</p>
-      ${statement(baselineQuestion, "YOUR ORIGINAL QUESTION")}
-      <div class="w4-final-grid"><div class="w4-practice-action">${markDone("I answered again", state.finalDone, "final-done")}</div><div class="w4-review"><span>LISTEN FOR EVIDENCE</span>${[{ id: "heard", label: "I heard the whole question" }, { id: "point", label: "I made one clear point" }, { id: "pause", label: "My pause had a purpose" }, { id: "continued", label: "I finished the thought" }].map(item => `<label><input type="checkbox" data-w4-review="${item.id}" ${state.selfReview?.[item.id] ? "checked" : ""} />${item.label}</label>`).join("")}</div></div>
-      ${recordingControls("final")}
-      <label class="w4-note-label">What changed from your first answer?<textarea data-w4-input="finalNote" rows="2" placeholder="I let the question finish and paused before the example…">${esc(state.finalNote)}</textarea></label>
-    `);
-
-    if (step === 13) return shell(`
-      <p class="w4-kicker">TRANSFER THE SKILL</p><h1 id="week4Title">One real question.<br /><em>Two optional stretches.</em></h1>
-      <p class="w4-lede">Answer the first question aloud. The other two are available if you want more practice—without a countdown or pressure to perform.</p>
-      <div class="w4-surprise-list">${questions.map((item, index) => `<article data-w4-reveal style="--i:${index}" class="${index === 0 ? "required" : ""}"><span>${item.label}</span><h2>${esc(item.question)}</h2><p>${esc(item.hint)}</p>${item.source ? `<small>Question source: <a href="https://careercenter.umich.edu/content/interviewing-resources" target="_blank" rel="noopener noreferrer">${item.source}</a></small>` : ""}${markDone(index === 0 ? "I answered this aloud" : "I tried this stretch", index === 0 ? state.surpriseDone : state.surpriseOptional?.[item.id], `surprise-${item.id}`)}</article>`).join("")}</div>
-      <div class="w4-callout"><strong>When interrupted?</strong><span>Welcome a useful clarification. If your point is unfinished, calmly say: “Let me finish that thought.”</span></div>
-    `);
-
-    const level = getLevel();
-    const chosenReason = state.missionReason || "land";
-    const mission = state.mission || missionText(chosenReason, level);
-    const completed = Boolean(state.completedAt);
-    if (state.lectureCompletedAt) return shell(`
-      <p class="w4-kicker">YOUR LECTURE IS COMPLETE</p><h1 id="week4Title">Your pause has<br /><em>a purpose now.</em></h1>
-      <p class="w4-lede">${completed ? "You brought the skill into a real conversation and collected evidence." : "Your mission is active. The next step happens outside this screen."}</p>
-      <div class="w4-mission-ticket"><span>WEEK 4 · ${completed ? "EVIDENCE COLLECTED" : "MISSION ACTIVE"}</span><strong>${esc(state.mission)}</strong><small>WIN: I paused with purpose and completed one clear thought.</small></div>
-      <div class="w4-leave-plan"><div><b>01</b><span>Leave the lecture</span></div><div><b>02</b><span>Try one real moment</span></div><div><b>03</b><span>Return and report what happened</span></div></div>
-      <details class="w4-sources"><summary>Research behind this lesson</summary><p><a href="https://link.springer.com/article/10.1007/s12671-023-02294-2" target="_blank" rel="noopener noreferrer">Slow-breathing review</a> · <a href="https://www.sciencedirect.com/science/article/pii/S0749597825000676" target="_blank" rel="noopener noreferrer">Pauses in conversation</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/33591774/" target="_blank" rel="noopener noreferrer">Response delays and context</a></p></details>
-    `, { footer: '<button type="button" class="w4-next" data-w4-action="close">Return to my portal <span aria-hidden="true">→</span></button>' });
-
-    return shell(`
-      <p class="w4-kicker">YOUR REAL-WORLD MISSION</p><h1 id="week4Title">Take one pause<br /><em>into life.</em></h1>
-      <p class="w4-lede">Choose the reason and a situation that fits your current level. One honest attempt is the win.</p>
-      <div class="w4-mission-builder"><div><span>01 · WHY WILL YOU PAUSE?</span>${choiceButtons(Object.entries(purposes).map(([id, p]) => ({ id, label: p.label })), state.missionReason, "data-w4-mission-reason")}</div><div><span>02 · WHERE WILL YOU TRY IT?</span><div class="w4-levels">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w4-level="${index + 1}" aria-label="Level ${index + 1}: ${esc(item.name)}" title="${esc(item.behavior)}"><b>${index + 1}</b><small>${esc(item.name)}</small></button>`).join("")}</div><p class="w4-level-description">${esc(exposure.levels[level - 1].behavior)}</p></div><label><span>03 · YOUR ONE SENTENCE MISSION</span><textarea data-w4-input="mission" rows="2">${esc(mission)}</textarea></label></div>
-      <div class="w4-callout"><strong>Win condition</strong><span>Use one purposeful pause and complete one clear thought. The listener's reaction is information, not your grade.</span></div>
-    `, { footer: '<button type="button" class="w4-next" data-w4-action="accept-mission">Accept my mission <span aria-hidden="true">→</span></button>' });
+  function breathMark(label = "") {
+    return `<span class="w4-breath" aria-label="pause"><i></i>${label ? `<small>${esc(label)}</small>` : ""}</span>`;
   }
 
-  function pauseButton(id, markers) {
-    return `<button type="button" class="w4-pause-marker ${markers.includes(id) ? "selected" : ""}" data-w4-marker="${id}" aria-pressed="${markers.includes(id)}"><i></i>${markers.includes(id) ? "PAUSE HERE" : "+ ADD A PAUSE"}<i></i></button>`;
-  }
-
-  function render(focusClose = false) {
-    clearDemo();
-    const active = document.activeElement;
-    const focusAttr = [...(active?.attributes || [])].find(attr => attr.name.startsWith("data-w4-"));
+  function renderStep() {
+    clearTimers();
     const state = getState();
-    const step = Math.min(14, Math.max(0, Number(state.currentStep || 0)));
-    if (step !== state.currentStep) update({ currentStep: step });
-    root.innerHTML = slide(step, state);
+    const savedStep = Number(state.currentStep || 0);
+    const step = stepOrder.includes(savedStep) ? savedStep : 0;
+    if (step !== savedStep) update({ currentStep: step });
+    const level = getLevel();
+    const levelData = exposure.levels[level - 1];
+    let page = "";
+
+    if (step === 0) {
+      page = shell(`
+        <p class="w3-eyebrow">WEEK 4 · THINK WHILE YOU SPEAK</p>
+        <h1 id="week4PageTitle">Your experience is already there.<br /><em>Give the next thought room to arrive.</em></h1>
+        <p class="w4-hero-line" aria-label="So, um, basically, the answer is, uh, simple. Becomes: The answer is simple.">
+          <span class="filler">So,</span> <span class="filler">um,</span> <span class="filler">basically,</span> <span class="keep">the answer is</span><span class="filler">, uh,</span><span class="gap" aria-hidden="true"><i></i></span> <span class="keep">simple.</span>
+        </p>
+        <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
+      `, { className: "opening w4-opening", nextLabel: "Start with the silence" });
+    } else if (step === 1) {
+      const felt = Boolean(state.feltSilence);
+      page = shell(`
+        <p class="w3-eyebrow">WHY WE FILL THE GAP</p>
+        <h1 id="week4PageTitle">Silence feels long<br /><em>only to the speaker.</em></h1>
+        <article class="w4-clock-card ${felt ? "done" : ""}" data-w4-clock>
+          <div class="w4-clocks">
+            <div class="w4-clock inside"><small>INSIDE YOUR HEAD</small><strong data-w4-clock-in>${felt ? "Forever" : "0"}</strong><span>feels like</span></div>
+            <div class="w4-silence-bar" aria-hidden="true"><i data-w4-silence-fill></i></div>
+            <div class="w4-clock outside"><small>TO THE ROOM</small><strong data-w4-clock-out>${felt ? "2.0s" : "0.0s"}</strong><span>actually is</span></div>
+          </div>
+          <p class="w4-clock-caption" data-w4-clock-caption aria-live="polite">${felt ? "Two seconds. A pause can sound like thought." : "Press the button and stay completely silent until the bar fills."}</p>
+          <button type="button" class="w4-primary" data-w4-action="feel-silence">${felt ? "Feel it again" : "Hold two seconds of silence"}</button>
+        </article>
+        <div class="w4-coaches ${felt ? "in" : ""}" data-w4-coaches>
+          <p class="w4-coaches-label">TWO USEFUL REASONS TO PAUSE</p>
+          <div>${coachVoices.map((coach, index) => `<article style="--i:${index}"><strong>${esc(coach.name)}</strong><small>${esc(coach.source)}</small><p>${esc(coach.idea)}</p></article>`).join("")}</div>
+        </div>
+      `, { className: "w4-why" });
+    } else if (step === 2) {
+      page = shell(`
+        <p class="w3-eyebrow">THE TOOLKIT</p>
+        <h1 id="week4PageTitle">Two pauses.<br /><em>One escape line.</em></h1>
+        <div class="w4-pause-types">
+          <article class="thinking" data-w3-animate style="--i:0">
+            <small>BEFORE YOU ANSWER</small>
+            <h2>The thinking pause</h2>
+            <ol class="w4-cycle" aria-label="Receive, breathe, find the point, speak">
+              <li style="--c:0">Receive</li><li style="--c:1">Breathe</li><li style="--c:2">Find the point</li><li style="--c:3">Speak</li>
+            </ol>
+            <p>When the question ends, let it land. Your first sentence should be your point, not your search for it.</p>
+            <b>2 seconds</b>
+          </article>
+          <article class="bridge" data-w3-animate style="--i:1">
+            <small>INSIDE YOUR ANSWER</small>
+            <h2>The bridge pause</h2>
+            <p class="w4-swap" aria-label="changed the format, pause, I think we should">…changed the format. <s>um,</s>${breathMark()} I think we should…</p>
+            <p>Where "um" used to be, close your lips, breathe naturally and continue when the next thought arrives. You can also use this pause to move from context to the point that matters.</p>
+            <b>1 breath</b>
+          </article>
+          <article class="escape" data-w3-animate style="--i:2">
+            <small>WHEN YOU NEED LONGER</small>
+            <h2>Name the pause</h2>
+            <p class="w4-escape-lines"><span>"Let me think about that for a moment."</span><span>"Give me a second to get this right."</span><span>"Let me pull my thoughts together."</span><span>"That's worth a proper answer. One moment."</span><span>"The biggest risk? …" <small>repeat the key words</small></span></p>
+            <p>On a hard question, say you are thinking or repeat its key words. Then pause. Honest, calm and still in control.</p>
+            <b>Any length</b>
+          </article>
+        </div>
+        <blockquote>A filler tells them you are searching.<br /><strong>A pause tells them you are choosing.</strong></blockquote>
+      `, { className: "w4-types" });
+    } else if (step === 3) {
+      const found = new Set(state.spotFound || []);
+      const complete = found.size >= fillerCount;
+      page = shell(`
+        <p class="w3-eyebrow">SPOT THE FILLERS</p>
+        <h1 id="week4PageTitle">Tap every filler.<br /><em>Turn it into silence.</em></h1>
+        <article class="w4-spot-card ${complete ? "complete" : ""}">
+          <header><span>A COLLEAGUE ASKS: "HOW SHOULD WE HANDLE BOTH PRIORITIES?"</span><strong data-w4-spot-count>${found.size} / ${fillerCount}</strong></header>
+          <p class="w4-spot-text">${spotTokens.map(token => token.filler && found.has(token.index)
+            ? breathMark()
+            : `<button type="button" class="w4-word" data-w4-word="${token.index}">${esc(token.text)}</button>`).join(" ")}</p>
+          <div class="w4-spot-clean" ${complete ? "" : "hidden"}>
+            <small>THE SAME ANSWER, WITH PAUSES</small>
+            <p>${cleanScript.map(esc).join(` ${breathMark()} `)}</p>
+            <span>Same message. ${fillerCount} fewer sounds. The silence carries the confidence.</span>
+          </div>
+        </article>
+        <div class="w3-coach-actions"><p class="w3-coach-note" data-w4-spot-note aria-live="polite">${complete ? "Every filler became a pause. Read the clean version aloud once." : "Fillers sound like words, but carry no meaning. Tap each one."}</p><button type="button" class="w3-reset-button" data-w4-action="reset-spot">Reset</button></div>
+      `, { className: "w4-spot" });
+    } else if (step === 4) {
+      const answers = state.sortAnswers || {};
+      page = shell(`
+        <p class="w3-eyebrow">WHAT TO DO IN THE SILENCE</p>
+        <h1 id="week4PageTitle">Fill the gap<br /><em>with nothing.</em></h1>
+        <div class="w3-sorter w4-sorter">${sortOrder.map(id => sortItems.find(item => item.id === id)).map((item, index) => {
+          const chosen = answers[item.id];
+          const correct = chosen && chosen === item.answer;
+          return `<article class="${chosen ? (correct ? "correct" : "wrong") : ""}" data-w3-animate style="--i:${index}">
+            <strong>${esc(item.text)}</strong>
+            <div class="w3-sort-buttons">
+              <button type="button" class="do ${chosen === "do" ? "chosen" : ""}" data-w4-sort="${item.id}" data-w4-choice="do" ${chosen ? "disabled" : ""}>DO</button>
+              <button type="button" class="avoid ${chosen === "avoid" ? "chosen" : ""}" data-w4-sort="${item.id}" data-w4-choice="avoid" ${chosen ? "disabled" : ""}>AVOID</button>
+            </div>
+            <small>${chosen ? `${correct ? "Yes." : `${item.answer === "do" ? "Do it." : "Avoid it."}`} ${esc(item.why)}` : "&nbsp;"}</small>
+          </article>`;
+        }).join("")}</div>
+        <div class="w3-coach-actions"><p class="w3-coach-note">Choose Do or Avoid for each habit. Notice which ones you already use.</p><button type="button" class="w3-reset-button" data-w4-action="reset-sort">Reset</button></div>
+      `);
+    } else if (step === 5) {
+      const reps = Number(state.trainerReps || 0);
+      page = shell(`
+        <p class="w3-eyebrow">PAUSE TRAINER</p>
+        <h1 id="week4PageTitle">Hear the question.<br /><em>Then let it land.</em></h1>
+        <article class="w4-trainer" data-w4-trainer>
+          <p class="w4-question" data-w4-question aria-live="polite">A question will appear here. Hear all of it before you answer.</p>
+          <div class="w4-ring-wrap" data-w4-ring-wrap>
+            <svg class="w4-ring" viewBox="0 0 220 220" aria-hidden="true">
+              <circle class="track" cx="110" cy="110" r="96" />
+              <circle class="fill" data-w4-ring-fill cx="110" cy="110" r="96" style="stroke-dasharray:${ringCircumference};stroke-dashoffset:${ringCircumference}" />
+            </svg>
+            <div class="w4-ring-core"><i class="w4-breath-dot"></i><strong data-w4-ring-label>Ready</strong><small data-w4-ring-time>two seconds of silence</small></div>
+          </div>
+          <ol class="w4-phases" data-w4-phases aria-hidden="true"><li data-phase="0">Receive</li><li data-phase="1">Breathe</li><li data-phase="2">Find the point</li><li data-phase="3">Speak</li></ol>
+          <p class="w4-feedback" data-w4-feedback role="status"></p>
+          <div class="w4-trainer-actions">
+            <button type="button" class="w4-primary" data-w4-action="ask">${reps ? "Next question" : "Ask me a question"}</button>
+            <button type="button" class="w4-speak" data-w4-action="speak" hidden>I'm starting to speak <kbd>Space</kbd></button>
+          </div>
+          <div class="w4-reps" aria-label="${Math.min(reps, trainerTarget)} of ${trainerTarget} composed answers">${Array.from({ length: trainerTarget }, (_, index) => `<i class="${index < reps ? "done" : ""}"></i>`).join("")}<span>${Math.min(reps, trainerTarget)} / ${trainerTarget} composed answers${reps >= 2 ? " · guide hidden" : ""}</span></div>
+        </article>
+        <p class="w3-coach-note">Press "I'm starting to speak" the moment you open your mouth, then answer out loud, point first. From the third question the ring disappears. Trust your own two seconds.</p>
+      `, { className: "w4-train" });
+    } else if (step === 6) {
+      page = shell(`
+        <div class="w4-moon-heading"><i class="w4-moon" aria-hidden="true"></i><p class="w3-eyebrow">ON STAGE · READ ALOUD</p>
+        <h1 id="week4PageTitle">Let the silence<br /><em>do the lifting.</em></h1>
+        <p class="w4-moon-credit">A SHORT LEADERSHIP UPDATE · PRACTICE SCRIPT</p></div>
+        <p class="w4-moon-instruction">Read it out loud. At every <span class="w4-inline-mark">‖</span> close your lips and breathe in. At the long pause, hold until it feels slightly too long. Then hold one more beat.</p>
+        <div class="w4-moon-script" aria-label="Reading passage with pause marks">
+          ${moonScript.map((line, index) => `<p class="${line.finish ? "finish" : ""}" data-w4-line="${index}">${esc(line.text)}</p>${line.pause ? `<span class="w4-moon-pause ${line.long ? "long" : ""}" data-w4-pause="${index}"><i></i>${line.long ? "LONG PAUSE · 2 seconds" : "breathe"}</span>` : ""}`).join("")}
+        </div>
+        <div class="w4-moon-actions"><button type="button" class="w4-primary light" data-w4-action="guide-moon">Guide my pace</button><span data-w4-moon-status aria-live="polite">Or read it at your own pace.</span></div>
+      `, { className: "w4-moon-screen", footer: '<button class="w3-next" type="button" data-w4-action="complete-reading">Reading complete</button>' });
+    } else if (step === 7) {
+      const mission = state.mission || missionTemplates[level - 1];
+      page = shell(`
+        <p class="w3-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
+        <h1 id="week4PageTitle">One real question.<br /><em>Two seconds of calm.</em></h1>
+        <div class="w3-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w4-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
+        <div class="w3-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
+        <label class="w3-mission-edit"><span>YOUR WEEK 4 CHALLENGE</span><textarea data-w4-mission rows="2">${esc(mission)}</textarea></label>
+        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I paused on purpose instead of filling the silence at least once.</strong></div>
+      `, { footer: '<button class="w3-next mission-accept" type="button" data-w4-action="accept-mission">Accept mission</button>' });
+    } else if (step === 8) {
+      page = shell(`
+        <p class="w3-eyebrow">LECTURE 4 COMPLETE</p>
+        <h1 id="week4PageTitle">The silence is yours.<br /><em>Your mission is active.</em></h1>
+        <article class="w3-mission-mini active"><small>YOUR WEEK 4 MISSION</small><p>${esc(state.mission)}</p><strong>Win by pausing on purpose at least once.</strong></article>
+        <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take the thinking pause and the bridge pause into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>The pause may feel longer to you than it does to the listener.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
+        <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time you choose silence over "um".</strong></blockquote>
+      `, { footer: '<button class="w3-next" type="button" data-w4-action="close">Return to my portal</button>' });
+    } else if (step === 9) {
+      page = shell(`
+        <p class="w3-eyebrow">WELCOME BACK</p>
+        <h1 id="week4PageTitle">Did you pause<br /><em>on purpose?</em></h1>
+        <p class="w3-lede">The win is the attempt. Nothing else is required.</p>
+        <article class="w3-mission-mini"><small>YOUR MISSION</small><p>${esc(state.mission)}</p></article>
+        <div class="w3-did-it"><button type="button" data-w4-action="mission-not-yet"><span>NOT YET</span><small>Save and return later</small></button><button type="button" class="yes" data-w4-action="mission-yes"><span>YES</span><small>I attempted it</small></button></div>
+      `, { lockBack: true, footer: '<span class="w3-footer-hint">Your mission stays active until you attempt it.</span>' });
+    } else if (step === 10) {
+      page = shell(`
+        <p class="w3-eyebrow">REALITY CHECK</p>
+        <h1 id="week4PageTitle">What actually happened?</h1>
+        <p class="w3-lede">One short answer. No report and no long reflection.</p>
+        <div class="w3-input-card">
+          <textarea data-w4-result rows="3" placeholder="I let the question finish, paused for a breath and shared one clear point…">${esc(state.actualResult)}</textarea>
+        </div>
+      `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w4-action="collect-evidence">Collect evidence</button>' });
+    } else {
+      const evidence = portal.getState().evidenceBank.find(item => item.id === state.evidenceId);
+      page = shell(`
+        <p class="w3-eyebrow">WEEK 4 COMPLETE</p>
+        <h1 id="week4PageTitle">You chose the pause.<br /><em>Your point still came through.</em></h1>
+        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>The Pause</strong></article><article><small>PAUSE TOOLS</small><strong>Think · Bridge · Name</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
+        <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 4</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.situation || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
+        <div class="w3-week-progress">${[1, 2, 3, 4, 5, 6].map(number => {
+          const finished = number === 4 ? Boolean(state.completedAt) : Boolean(portal.getState()[`week${number}Lecture`]?.completedAt);
+          return `<span class="${finished ? "complete" : ""}">W${number} <i>${finished ? "●" : "○"}</i></span>`;
+        }).join("")}</div>
+        <div class="w3-next-week"><small>NEXT</small><strong>Bring out your personality in real conversations.</strong></div>
+      `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w4-action="close">Return to my portal</button>' });
+    }
+
+    trainer = { phase: "idle", question: trainer.question, startedAt: 0, feedback: null };
+    root.innerHTML = page;
     document.body.classList.add("week4-open");
-    root.querySelector(".w4-main")?.scrollTo(0, 0);
-    requestAnimationFrame(() => root.querySelectorAll("[data-w4-reveal]").forEach(item => item.classList.add("in")));
-    if (focusClose) root.querySelector(".w4-close")?.focus({ preventScroll: true });
-    else if (focusAttr) [...root.querySelectorAll(`[${focusAttr.name}]`)].find(item => item.getAttribute(focusAttr.name) === focusAttr.value)?.focus({ preventScroll: true });
+    requestAnimationFrame(() => {
+      root.querySelectorAll("[data-w3-animate]").forEach(el => el.classList.add("in"));
+      if (step === 0) playHero();
+      root.querySelector("textarea, input, button:not([disabled])")?.focus({ preventScroll: true });
+    });
   }
 
-  function move(direction) {
+  /* ---------- opening: fillers dissolve into silence ---------- */
+  function playHero() {
+    const line = root.querySelector(".w4-hero-line");
+    if (!line) return;
+    const fillers = [...line.querySelectorAll(".filler")];
+    const cycle = () => {
+      line.classList.remove("clean");
+      fillers.forEach(el => el.classList.remove("gone"));
+      fillers.forEach((el, index) => later(() => el.classList.add("gone"), 1400 + index * 450));
+      later(() => line.classList.add("clean"), 1400 + fillers.length * 450 + 200);
+      later(cycle, 1400 + fillers.length * 450 + 4200);
+    };
+    cycle();
+  }
+
+  /* ---------- slide 1: two seconds, inside vs outside ---------- */
+  function feelSilence(button) {
+    clearTimers();
+    const card = root.querySelector("[data-w4-clock]");
+    const inside = root.querySelector("[data-w4-clock-in]");
+    const outside = root.querySelector("[data-w4-clock-out]");
+    const fill = root.querySelector("[data-w4-silence-fill]");
+    const caption = root.querySelector("[data-w4-clock-caption]");
+    button.disabled = true;
+    button.textContent = "Stay silent…";
+    card.classList.remove("done");
+    card.classList.add("running");
+    caption.textContent = "Silence. Notice the urge to fill it.";
+    const start = performance.now();
+    const tick = now => {
+      const t = Math.max(0, Math.min(1, (now - start) / pauseTarget));
+      const felt = Math.round(10 * (1 - Math.pow(1 - t, 2.2)));
+      inside.textContent = `${felt}s`;
+      outside.textContent = `${(t * 2).toFixed(1)}s`;
+      fill.style.width = `${t * 100}%`;
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    // A timer owns completion so the demo always finishes, even if animation frames are throttled.
+    later(() => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = null;
+      fill.style.width = "100%";
+      outside.textContent = "2.0s";
+      inside.textContent = "Forever";
+      card.classList.remove("running");
+      card.classList.add("done");
+      caption.textContent = "Two seconds. A pause can sound like thought.";
+      button.disabled = false;
+      button.textContent = "Feel it again";
+      root.querySelector("[data-w4-coaches]")?.classList.add("in");
+      update({ feltSilence: true });
+    }, pauseTarget);
+  }
+
+  /* ---------- slide 3: spot the fillers ---------- */
+  function tapWord(button) {
+    const token = spotTokens[Number(button.dataset.w4Word)];
+    if (!token) return;
+    if (!token.filler) {
+      button.classList.remove("nope");
+      void button.offsetWidth;
+      button.classList.add("nope");
+      const note = root.querySelector("[data-w4-spot-note]");
+      if (note) note.textContent = `"${token.text.replace(/[.,;]$/, "")}" carries meaning. Keep it.`;
+      return;
+    }
+    const found = [...new Set([...(getState().spotFound || []), token.index])];
+    update({ spotFound: found });
+    button.classList.add("vanish");
+    button.disabled = true;
+    // Update in place so the slide does not replay its entrance animation on every tap.
+    later(() => {
+      button.outerHTML = breathMark();
+      const complete = found.length >= fillerCount;
+      const count = root.querySelector("[data-w4-spot-count]");
+      if (count) count.textContent = `${found.length} / ${fillerCount}`;
+      if (!complete) return;
+      root.querySelector(".w4-spot-card")?.classList.add("complete");
+      const clean = root.querySelector(".w4-spot-clean");
+      if (clean) clean.hidden = false;
+      const note = root.querySelector("[data-w4-spot-note]");
+      if (note) note.textContent = "Every filler became a pause. Read the clean version aloud once.";
+    }, 260);
+  }
+
+  /* ---------- slide 5: pause trainer ---------- */
+  function trainerEls() {
+    return {
+      question: root.querySelector("[data-w4-question]"),
+      wrap: root.querySelector("[data-w4-ring-wrap]"),
+      fill: root.querySelector("[data-w4-ring-fill]"),
+      label: root.querySelector("[data-w4-ring-label]"),
+      time: root.querySelector("[data-w4-ring-time]"),
+      phases: [...root.querySelectorAll("[data-w4-phases] li")],
+      feedback: root.querySelector("[data-w4-feedback]"),
+      ask: root.querySelector('[data-w4-action="ask"]'),
+      speak: root.querySelector('[data-w4-action="speak"]')
+    };
+  }
+
+  function askQuestion() {
+    clearTimers();
+    const els = trainerEls();
+    const guided = Number(getState().trainerReps || 0) < 2;
+    trainer.question = (trainer.question + 1) % trainerQuestions.length;
+    trainer.phase = "reading";
+    const questionWords = trainerQuestions[trainer.question].split(" ");
+    els.question.innerHTML = questionWords.map(word => `<span>${esc(word)}</span>`).join(" ");
+    els.question.classList.remove("in");
+    void els.question.offsetWidth;
+    els.question.classList.add("in", "asking");
+    els.wrap.classList.remove("ready", "rushed", "composed", "live");
+    els.wrap.classList.toggle("unguided", !guided);
+    els.wrap.classList.add("listening");
+    els.fill.style.strokeDashoffset = String(ringCircumference);
+    els.label.textContent = "Listen";
+    els.time.textContent = "the question is being asked";
+    els.phases.forEach(li => li.classList.remove("active", "past"));
+    els.feedback.textContent = "";
+    els.feedback.className = "w4-feedback";
+    els.ask.hidden = true;
+    els.speak.hidden = true;
+
+    // The question is "spoken" word by word, then held briefly so it can be read in full.
+    // The pause only starts once the question has finished.
+    const spans = [...els.question.querySelectorAll("span")];
+    spans.forEach((span, index) => later(() => span.classList.add("said"), index * questionWordMs));
+    later(() => startPause(els, guided), spans.length * questionWordMs + questionHoldMs);
+  }
+
+  function startPause(els, guided) {
+    trainer.phase = "waiting";
+    trainer.startedAt = performance.now();
+    els.question.classList.remove("asking");
+    els.wrap.classList.remove("listening");
+    els.wrap.classList.add("live");
+    els.speak.hidden = false;
+    els.speak.focus({ preventScroll: true });
+    const phaseLabels = ["Receive", "Breathe", "Find the point"];
+    const tick = now => {
+      if (trainer.phase !== "waiting") return;
+      const elapsed = Math.max(0, now - trainer.startedAt);
+      const t = Math.min(1, elapsed / pauseTarget);
+      const phase = elapsed >= pauseTarget ? 3 : Math.min(2, Math.floor(t * 3));
+      els.fill.style.strokeDashoffset = String(ringCircumference * (1 - t));
+      els.phases.forEach((li, index) => { li.classList.toggle("active", index === phase); li.classList.toggle("past", index < phase); });
+      if (guided) {
+        els.label.textContent = phase === 3 ? "Speak" : phaseLabels[phase];
+        els.time.textContent = `${(elapsed / 1000).toFixed(1)}s`;
+      } else {
+        els.label.textContent = "Breathe";
+        els.time.textContent = "trust your two seconds";
+      }
+      els.wrap.classList.toggle("ready", elapsed >= pauseTarget && guided);
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+  }
+
+  function startSpeaking() {
+    if (trainer.phase !== "waiting") return;
+    trainer.phase = "done";
+    if (frame) cancelAnimationFrame(frame);
+    frame = null;
+    const elapsed = performance.now() - trainer.startedAt;
+    const seconds = (elapsed / 1000).toFixed(1);
+    const els = trainerEls();
+    const composed = elapsed >= pauseTarget;
+    let message;
+    if (elapsed < 1000) message = `You started at ${seconds}s. The answer began before the point did. Let the question land first.`;
+    else if (!composed) message = `${seconds}s. So close. Give it one more breath next time.`;
+    else if (elapsed <= 6000) message = `Composed · ${seconds}s. That silence read as thought. Now say your point out loud.`;
+    else message = `${seconds}s. Long, and that is fine. On a hard question you can name it: "Let me think about that for a moment."`;
+    const reps = Number(getState().trainerReps || 0) + (composed ? 1 : 0);
+    update({ trainerReps: reps, trainerAttempts: Number(getState().trainerAttempts || 0) + 1 });
+    els.wrap.classList.remove("live", "ready", "unguided");
+    els.wrap.classList.add(composed ? "composed" : "rushed");
+    els.fill.style.strokeDashoffset = String(ringCircumference * (1 - Math.min(1, elapsed / pauseTarget)));
+    els.label.textContent = composed ? "Composed" : "Too soon";
+    els.time.textContent = `${seconds}s of silence`;
+    els.phases.forEach(li => li.classList.remove("active"));
+    els.feedback.textContent = message;
+    els.feedback.className = `w4-feedback ${composed ? "good" : "soon"}`;
+    els.speak.hidden = true;
+    els.ask.hidden = false;
+    els.ask.textContent = composed ? "Next question" : "Try another";
+    const dots = [...root.querySelectorAll(".w4-reps i")];
+    dots.forEach((dot, index) => dot.classList.toggle("done", index < reps));
+    root.querySelector(".w4-reps")?.setAttribute("aria-label", `${Math.min(reps, trainerTarget)} of ${trainerTarget} composed answers`);
+    const counter = root.querySelector(".w4-reps span");
+    if (counter) counter.textContent = `${Math.min(reps, trainerTarget)} / ${trainerTarget} composed answers${reps >= 2 ? " · guide hidden" : ""}`;
+    if (composed && reps === trainerTarget) portal.showToast("Three composed answers. Your pause is ready for real questions.");
+    else if (composed && reps === 2) portal.showToast("Next question has no guide. Trust your own two seconds.");
+  }
+
+  /* ---------- slide 6: guided reading ---------- */
+  function guideMoon(button) {
+    clearTimers();
+    const lines = [...root.querySelectorAll("[data-w4-line]")];
+    const pauses = [...root.querySelectorAll("[data-w4-pause]")];
+    const status = root.querySelector("[data-w4-moon-status]");
+    lines.forEach(el => el.classList.remove("lit", "past"));
+    pauses.forEach(el => el.classList.remove("lit", "past"));
+    button.disabled = true;
+    button.textContent = "Guiding…";
+    let offset = 300;
+    moonScript.forEach((line, index) => {
+      const lineEl = lines[index];
+      const pauseEl = pauses.find(el => Number(el.dataset.w4Pause) === index);
+      const speakTime = Math.max(1400, line.text.split(/\s+/).length * 380);
+      later(() => {
+        lines.forEach((el, i) => { el.classList.toggle("lit", i === index); el.classList.toggle("past", i < index); });
+        pauses.forEach(el => el.classList.remove("lit"));
+        if (status) status.textContent = "Speak";
+        lineEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }, offset);
+      offset += speakTime;
+      if (pauseEl) {
+        later(() => {
+          lineEl.classList.remove("lit");
+          lineEl.classList.add("past");
+          pauseEl.classList.add("lit");
+          if (status) status.textContent = line.long ? "Hold… one more beat." : "Lips closed. Breathe in.";
+        }, offset);
+        later(() => { pauseEl.classList.remove("lit"); pauseEl.classList.add("past"); }, offset + line.pause);
+        offset += line.pause;
+      }
+    });
+    later(() => {
+      lines.forEach(el => { el.classList.remove("lit"); el.classList.add("past"); });
+      button.disabled = false;
+      button.textContent = "Guide me again";
+      if (status) status.textContent = "Notice how much weight the silence added.";
+    }, offset + 600);
+  }
+
+  function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    if (direction > 0) {
-      const requirements = {
-        0: [state.baselineDone, "Say your starting answer aloud, then mark it complete."],
-        2: [state.breathDone, "Try both versions with a natural breath."],
-        3: [state.questionChoice, "Choose what should come first."],
-        4: [state.listenerChoice, "Choose what the speaker did first."],
-        6: [state.silenceEstimate, "Try the short silence and choose how long it felt."],
-        7: [situations.every(item => state.reasonAnswers?.[item.id]), "Choose a reason for each situation."],
-        8: [state.completeQuestionChoice, "Reveal the full question and choose what to answer."],
-        9: [state.openingChoices?.simple && state.openingChoices?.complex, "Choose an opening for both questions."],
-        10: [state.pauseMarkers?.length, "Place at least one pause at a complete thought."],
-        11: [state.recoveryChoice, "Choose a way to restart your answer."],
-        12: [state.finalDone, "Answer the original question again, then mark it complete."],
-        13: [state.surpriseDone, "Answer the first surprise question aloud."],
-        14: [false, "Choose and accept your mission to finish the lecture."]
-      };
-      const gate = requirements[step];
-      if (gate && !gate[0]) return portal.showToast(gate[1]);
+    const sortedAll = sortItems.every(item => (state.sortAnswers || {})[item.id]);
+    const requirements = {
+      1: [state.feltSilence, "Hold two seconds of silence first."],
+      3: [(state.spotFound || []).length >= fillerCount ? "ok" : "", `Find all ${fillerCount} fillers before continuing.`],
+      4: [sortedAll ? "ok" : "", "Choose Do or Avoid for every habit before continuing."],
+      5: [Number(state.trainerReps || 0) >= trainerTarget ? "ok" : "", `Complete ${trainerTarget} composed answers with a two-second pause.`],
+      7: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
+    };
+    if (requirements[step] && !String(requirements[step][0] || "").trim()) {
+      portal.showToast(requirements[step][1]);
+      return;
     }
-    if (step + direction < 0 || step + direction > 14) return;
-    update({ currentStep: step + direction, lastViewedAt: new Date().toISOString() });
-    render(true);
+    update({ currentStep: stepOrder[Math.min(8, stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
+    renderStep();
+  }
+
+  function back() {
+    const step = Number(getState().currentStep || 0);
+    if (step <= 0) return;
+    update({ currentStep: stepOrder[Math.max(0, stepOrder.indexOf(step) - 1)] });
+    renderStep();
   }
 
   function close() {
-    clearDemo();
-    if (recorder?.state === "recording") recorder.stop();
+    clearTimers();
+    trainer.phase = "idle";
     update({ lastViewedAt: new Date().toISOString() });
     root.innerHTML = "";
     document.body.classList.remove("week4-open");
@@ -279,218 +623,110 @@
     previousFocus?.focus?.();
   }
 
-  function playSegments(segments, cardSelector, statusSelector) {
-    clearDemo();
-    const token = demoToken;
-    let index = 0;
-    const cards = [...root.querySelectorAll(cardSelector)];
-    const status = statusSelector ? root.querySelector(statusSelector) : null;
-    function next() {
-      if (token !== demoToken) return;
-      cards.forEach((card, i) => card.classList.toggle("playing", index < segments.length && (cards.length === 1 || i === index)));
-      if (index >= segments.length) {
-        cards.forEach(card => card.classList.remove("playing"));
-        if (status) status.textContent = "Complete. Speak it once yourself.";
-        return;
-      }
-      const segment = segments[index];
-      if (status) status.textContent = segment.status || "Listen and watch where the thought lands.";
-      const advance = () => {
-        if (token !== demoToken) return;
-        index++;
-        activeTimer = setTimeout(next, segment.pause || 0);
-      };
-      if (window.speechSynthesis && window.SpeechSynthesisUtterance && segment.text) {
-        const utterance = new SpeechSynthesisUtterance(segment.text);
-        utterance.lang = "en-US";
-        utterance.rate = segment.rate || 1;
-        utterance.pitch = 1;
-        utterance.onend = advance;
-        utterance.onerror = advance;
-        window.speechSynthesis.speak(utterance);
-      } else {
-        activeTimer = setTimeout(advance, segment.text ? Math.max(750, segment.text.length * 43 / (segment.rate || 1)) : 300);
-      }
-    }
-    next();
-  }
-
-  async function toggleRecording(kind) {
-    if (recorder?.state === "recording") {
-      recorder.stop();
-      return;
-    }
-    if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-      portal.showToast("Recording is unavailable here. Speak aloud and continue without it.");
-      return;
-    }
-    try {
-      recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const chunks = [];
-      recorder = new MediaRecorder(recordingStream);
-      recordingKind = kind;
-      recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
-      recorder.onstop = () => {
-        recordingStream?.getTracks().forEach(track => track.stop());
-        recordingStream = null;
-        const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
-        if (recordings[kind]) URL.revokeObjectURL(recordings[kind]);
-        recordings[kind] = URL.createObjectURL(blob);
-        recordingKind = null;
-        if (root.querySelector(".w4-page")) render();
-      };
-      recorder.start();
-      root.querySelector(`[data-w4-action="record-${kind}"]`).textContent = "Stop recording";
-      portal.showToast("Recording locally. Press Stop when your answer is complete.");
-    } catch {
-      recordingStream?.getTracks().forEach(track => track.stop());
-      recordingStream = null;
-      recordingKind = null;
-      portal.showToast("Microphone unavailable. You can speak aloud and continue.");
-    }
-  }
-
-  function acceptMission() {
-    const state = getState();
-    if (!state.missionReason) return portal.showToast("Choose why you will pause in your mission.");
-    const level = getLevel();
-    const mission = root.querySelector("[data-w4-input='mission']")?.value.trim() || missionText(state.missionReason, level);
-    update({ mission, missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 14 });
-    portal.showToast("Mission active. One purposeful pause is the win.");
-    render();
-  }
-
   function collectEvidence() {
     const state = getState();
-    if (!state.actualResult.trim()) return portal.showToast("Write one sentence about what actually happened.");
+    if (!String(state.actualResult || "").trim()) {
+      portal.showToast("Add one short sentence about what actually happened.");
+      root.querySelector("[data-w4-result]")?.focus();
+      return;
+    }
     const id = state.evidenceId || `week4-${Date.now()}`;
-    const card = { id, week: 4, skill: "Purposeful Pauses", level: state.missionLevel || getLevel(), mission: state.mission,
-      reality: state.actualResult, purpose: state.missionReason, completedAt: new Date().toISOString() };
+    const card = {
+      id,
+      week: 4,
+      skill: "Purposeful Pauses",
+      prediction: state.mission,
+      reality: state.actualResult,
+      situation: state.mission,
+      result: state.actualResult,
+      beliefBefore: null,
+      beliefAfter: null,
+      level: Number(state.missionLevel || getLevel()),
+      mission: state.mission,
+      completedAt: new Date().toISOString()
+    };
     portal.saveEvidence(card);
-    update({ evidenceId: id, completedAt: card.completedAt, missionStatus: "completed" });
-    portal.showToast("Week 4 evidence collected.");
-    render(true);
-  }
-
-  function renderReflection() {
-    clearDemo();
-    const state = getState();
-    const content = `<p class="w4-kicker">WELCOME BACK · WEEK 4</p><h1 id="week4Title">What happened<br /><em>in the real moment?</em></h1><p class="w4-lede">The win is the attempt. A racing heart, an imperfect sentence, or a surprised listener does not erase it.</p><div class="w4-mission-ticket"><span>YOUR MISSION</span><strong>${esc(state.mission)}</strong></div><label class="w4-note-label">One honest sentence<textarea data-w4-input="actualResult" rows="4" placeholder="I paused after my point, and the listener had time to respond…">${esc(state.actualResult)}</textarea></label>`;
-    root.innerHTML = shell(content, { footer: '<button type="button" class="w4-next" data-w4-action="collect-evidence">Collect evidence <span aria-hidden="true">→</span></button>' });
-    document.body.classList.add("week4-open");
-    root.querySelector("[data-w4-input='actualResult']")?.focus();
+    update({ evidenceId: id, completedAt: card.completedAt, currentStep: 11 });
+    portal.showToast("Pause evidence collected.");
+    renderStep();
   }
 
   root.addEventListener("click", event => {
-    const action = event.target.closest("[data-w4-action]")?.dataset.w4Action;
+    const actionEl = event.target.closest("[data-w4-action]");
+    const action = actionEl?.dataset.w4Action;
     if (action === "close") return close();
-    if (action === "back") return move(-1);
-    if (action === "next") return move(1);
-    if (action === "baseline-done") { update({ baselineDone: !getState().baselineDone }); return render(); }
-    if (action === "breath-done") { update({ breathDone: !getState().breathDone }); return render(); }
-    if (action === "final-done") { update({ finalDone: !getState().finalDone }); return render(); }
-    if (action?.startsWith("surprise-")) {
-      const id = action.slice(9);
-      if (id === "required") update({ surpriseDone: !getState().surpriseDone });
-      else update({ surpriseOptional: { ...getState().surpriseOptional, [id]: !getState().surpriseOptional?.[id] } });
-      return render();
+    if (action === "back") return back();
+    if (action === "next") return validateAndNext();
+    if (action === "feel-silence") return feelSilence(actionEl);
+    if (action === "ask") return askQuestion();
+    if (action === "speak") return startSpeaking();
+    if (action === "guide-moon") return guideMoon(actionEl);
+    if (action === "reset-spot") { update({ spotFound: [] }); return renderStep(); }
+    if (action === "reset-sort") { update({ sortAnswers: {} }); return renderStep(); }
+    if (action === "complete-reading") {
+      update({ readingCompleted: true, currentStep: 7 });
+      portal.showToast("Reading complete. Choose your real-world mission.");
+      return renderStep();
     }
-    if (action === "record-baseline" || action === "record-final") return toggleRecording(action.slice(7));
-    if (action === "silence-start") {
-      clearDemo();
-      const disc = root.querySelector("[data-w4-silence-disc]");
-      const button = event.target.closest("button");
-      button.disabled = true;
-      disc.classList.add("running");
-      disc.querySelector("span").textContent = "SILENCE";
-      activeTimer = setTimeout(() => {
-        disc.classList.remove("running");
-        disc.querySelector("span").textContent = "DONE";
-        root.querySelector("[data-w4-estimate-box]").hidden = false;
-        button.disabled = false;
-        button.textContent = "Try again";
-      }, 2200);
-      return;
+    if (action === "accept-mission") {
+      const state = getState();
+      const level = getLevel();
+      update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 8 });
+      portal.showToast("Mission accepted. One deliberate pause is the win.");
+      return renderStep();
     }
-    if (action === "reveal-question") { root.querySelector("[data-w4-question-rest]").hidden = false; root.querySelector("[data-w4-complete-card]").hidden = false; return; }
-    if (action === "reset-markers") { update({ pauseMarkers: [] }); return render(); }
-    if (action === "play-prep") {
-      const lines = [...root.querySelectorAll(".w4-prep-map p")];
-      const pause = getState().pauseMarkers || [];
-      const labels = ["after-point", "after-reason", "after-example"];
-      return playSegments(lines.map((line, index) => ({ text: line.textContent, rate: 1, pause: pause.includes(labels[index]) ? 800 : 140, status: pause.includes(labels[index]) ? "Pause after this complete thought." : "Keep the thought moving." })), ".w4-prep-map p", "[data-w4-prep-status]");
-    }
-    if (action === "accept-mission") return acceptMission();
+    if (action === "mission-not-yet") return close();
+    if (action === "mission-yes") { update({ missionStatus: "completed", currentStep: 10 }); return renderStep(); }
     if (action === "collect-evidence") return collectEvidence();
 
-    const demo = event.target.closest("[data-w4-demo]")?.dataset.w4Demo;
-    if (demo) {
-      const text = ["The clinic had two urgent tasks.", "I checked which deadline was fixed.", "I delegated the other.", "We finished both on time."];
-      const spaced = demo === "spaced";
-      return playSegments(text.map((part, i) => ({ text: part, rate: spaced ? .95 : 1.25, pause: spaced && i < 2 ? 650 : 50, status: spaced ? "Notice the space after each complete idea." : "Notice how the ideas crowd together." })), `[data-w4-demo-card="${demo}"]`, null);
-    }
-    const gear = event.target.closest("[data-w4-gear]")?.dataset.w4Gear;
-    if (gear) {
-      update({ gearDemo: gear });
-      const hinge = gear === "hinge";
-      return playSegments([
-        { text: "We reviewed three options quickly.", rate: 1.4, pause: hinge ? 850 : 0 },
-        { text: "My recommendation is to start with the smallest pilot.", rate: .88, pause: 0 }
-      ], "[data-w4-gear-part='setup'],[data-w4-gear-part='point']", null);
-    }
+    const word = event.target.closest("[data-w4-word]");
+    if (word) return tapWord(word);
 
-    const field = event.target.closest("[data-w4-question-choice],[data-w4-listener-choice],[data-w4-estimate],[data-w4-complete-choice],[data-w4-recovery],[data-w4-mission-reason],[data-w4-level],[data-w4-marker],[data-w4-reason],[data-w4-opening]");
-    if (!field) return;
-    const state = getState();
-    if (field.dataset.w4QuestionChoice) update({ questionChoice: field.dataset.w4QuestionChoice });
-    else if (field.dataset.w4ListenerChoice) update({ listenerChoice: field.dataset.w4ListenerChoice });
-    else if (field.dataset.w4Estimate) update({ silenceEstimate: Number(field.dataset.w4Estimate) });
-    else if (field.dataset.w4CompleteChoice) update({ completeQuestionChoice: field.dataset.w4CompleteChoice });
-    else if (field.dataset.w4Recovery) update({ recoveryChoice: field.dataset.w4Recovery });
-    else if (field.dataset.w4MissionReason) update({ missionReason: field.dataset.w4MissionReason, mission: missionText(field.dataset.w4MissionReason, getLevel()) });
-    else if (field.dataset.w4Level) update({ currentLevel: exposure.clampLevel(field.dataset.w4Level), mission: missionText(state.missionReason || "land", exposure.clampLevel(field.dataset.w4Level)) });
-    else if (field.dataset.w4Marker) {
-      const markers = new Set(state.pauseMarkers || []);
-      markers.has(field.dataset.w4Marker) ? markers.delete(field.dataset.w4Marker) : markers.add(field.dataset.w4Marker);
-      update({ pauseMarkers: [...markers] });
-    } else if (field.dataset.w4Reason) update({ reasonAnswers: { ...state.reasonAnswers, [field.dataset.w4Reason]: field.dataset.w4Answer } });
-    else if (field.dataset.w4Opening) update({ openingChoices: { ...state.openingChoices, [field.dataset.w4Opening]: field.dataset.w4Answer } });
-    render();
-    if (field.dataset.w4Estimate) {
-      root.querySelector("[data-w4-estimate-box]").hidden = false;
-      root.querySelector("[data-w4-estimate-feedback]").hidden = false;
-      root.querySelector("[data-w4-silence-disc] span").textContent = "DONE";
+    const sort = event.target.closest("[data-w4-sort]");
+    if (sort) {
+      const answers = { ...(getState().sortAnswers || {}) };
+      const item = sortItems.find(entry => entry.id === sort.dataset.w4Sort);
+      const chosen = sort.dataset.w4Choice;
+      const correct = chosen === item.answer;
+      answers[item.id] = chosen;
+      update({ sortAnswers: answers });
+      const card = sort.closest("article");
+      card.classList.add(correct ? "correct" : "wrong");
+      card.querySelectorAll("[data-w4-sort]").forEach(button => { button.disabled = true; button.classList.toggle("chosen", button === sort); });
+      card.querySelector("small").textContent = `${correct ? "Yes." : item.answer === "do" ? "Do it." : "Avoid it."} ${item.why}`;
+      return;
     }
-    if (field.dataset.w4CompleteChoice) root.querySelector("[data-w4-question-rest]").hidden = false;
+    const levelButton = event.target.closest("[data-w4-level]");
+    if (levelButton) {
+      const level = exposure.clampLevel(levelButton.dataset.w4Level);
+      portal.setExposureLevel(level);
+      update({ currentLevel: level, mission: missionTemplates[level - 1], missionLevel: null });
+      return renderStep();
+    }
   });
 
   root.addEventListener("input", event => {
-    const key = event.target.dataset.w4Input;
-    if (key) update({ [key]: event.target.value });
-  });
-  root.addEventListener("change", event => {
-    const key = event.target.dataset.w4Review;
-    if (key) update({ selfReview: { ...getState().selfReview, [key]: event.target.checked } });
+    if (event.target.matches("[data-w4-mission]")) update({ mission: event.target.value });
+    else if (event.target.matches("[data-w4-result]")) update({ actualResult: event.target.value });
   });
 
   document.addEventListener("click", event => {
     if (event.target.closest("[data-open-week4-reflection]")) {
       previousFocus = document.activeElement;
-      renderReflection();
-      return;
+      update({ currentStep: 9 });
+      return renderStep();
     }
     if (!event.target.closest("[data-open-week4-lecture]")) return;
     previousFocus = document.activeElement;
-    render(true);
+    renderStep();
   });
+
   document.addEventListener("keydown", event => {
     if (!document.body.classList.contains("week4-open")) return;
     if (event.key === "Escape") return close();
-    if (event.key !== "Tab") return;
-    const focusables = [...root.querySelectorAll("button:not([disabled]),a[href],textarea,input,audio[controls],summary")].filter(el => el.getClientRects().length);
-    if (!focusables.length) return;
-    const first = focusables[0], last = focusables[focusables.length - 1];
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    if (event.code === "Space" && trainer.phase === "waiting") {
+      event.preventDefault();
+      startSpeaking();
+    }
   });
 })();
