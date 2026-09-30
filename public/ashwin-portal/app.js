@@ -19,8 +19,8 @@
   let toastTimer;
   let tourStep=0;
   const tour = [
-    ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 5–10 minutes. Mark it done when you finish.','Your one thing today','One clear introduction'],
-    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, and pauses. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Try'],
+    ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 5–10 minutes. Mark it done when you finish.','Today’s speaking reps','One clear introduction'],
+    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, and pauses. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Apply'],
     ['Keep the evidence of progress.','Save a small win or a question in your reflections. Bring useful notes to your one-hour coaching calls with Marouane.','Small wins, real evidence','Notice. Learn. Continue.']
   ];
 
