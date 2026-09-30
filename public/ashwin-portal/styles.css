@@ -37,3 +37,5 @@ dialog{width:min(490px,calc(100% - 30px));padding:0;border:1px solid #6a5729;bor
 @media(max-width:600px){.classroom-access{flex-direction:column;align-items:flex-start;padding:23px}}
 @media(max-width:360px){.hero h2{font-size:48px}.hero-actions{gap:10px}.hero-copy{padding:25px 20px}.practice-actions .button{font-size:9px;padding:12px 10px;gap:8px}.day-footer>.helper{font-size:8px!important}.sidebar nav a{padding-inline:8px;font-size:9px;gap:5px}.tour-mini{width:180px}.tour-number{font-size:66px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+
+@media(max-width:600px){.hero h2 em{font-style:normal;line-height:1.08}}
