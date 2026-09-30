@@ -19,9 +19,9 @@
   let toastTimer;
   let tourStep=0;
   const tour = [
-    ['Train every day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 5–10 minutes. Mark it done when you finish.',"Today's training mission",'One clear introduction'],
-    ['Learn. Rehearse. Apply.','Your lectures guide you through structure, voice, pace, and pauses. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Try'],
-    ['Review the rep. Raise the standard.','Save a small win or a question in your reflections. Bring useful notes to your one-hour coaching calls with Marouane.','Real reps. Real evidence.','Notice. Learn. Continue.']
+    ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 5–10 minutes. Mark it done when you finish.','Your one thing today','One clear introduction'],
+    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, and pauses. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Try'],
+    ['Keep the evidence of progress.','Save a small win or a question in your reflections. Bring useful notes to your one-hour coaching calls with Marouane.','Small wins, real evidence','Notice. Learn. Continue.']
   ];
 
   function showToast(message) {
@@ -43,7 +43,7 @@
     $('#daySelect').value=state.selectedDay; $('#previousDay').disabled=state.selectedDay===0;$('#nextDay').disabled=state.selectedDay===41;
     $('#completePractice').innerHTML=done?'Completed <span>✓</span>':'Mark as done <span>✓</span>';
     $('#completePractice').setAttribute('aria-pressed',String(done));$('#dailyPractice').classList.toggle('is-complete',done);
-    $('#practiceDoneLabel').textContent=done?'Practice saved. Well done.':'Get the rep in.';
+    $('#practiceDoneLabel').textContent=done?'Practice saved. Well done.':'Small steps count.';
     const count=Object.values(state.completedDays).filter(Boolean).length;
     $('#progressText').textContent=`${count} of 42 daily practices completed`;
     $('#progressFill').style.width=`${count/42*100}%`;
@@ -76,7 +76,7 @@
   function renderReflections() {
     $('#callNote').value=state.callNote;
     const moments=[...state.reflections,...state.evidence].sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
-    $('#savedReflections').innerHTML=moments.length?moments.map(item=>`<article class="saved-moment card"><small>${esc(new Date(item.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}${item.sourceLecture?` · LECTURE ${Number(item.sourceLecture)}`:''}</small><h3>${esc(item.action||item.mission)}</h3><p>${esc(item.result||item.reality)}</p>${item.next?`<p class="next-note">Next: ${esc(item.next)}</p>`:''}</article>`).join(''):'<div class="empty-state"><span>✧</span>Your first training record belongs here.<br>Start with one moment you want to remember.</div>';
+    $('#savedReflections').innerHTML=moments.length?moments.map(item=>`<article class="saved-moment card"><small>${esc(new Date(item.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}${item.sourceLecture?` · LECTURE ${Number(item.sourceLecture)}`:''}</small><h3>${esc(item.action||item.mission)}</h3><p>${esc(item.result||item.reality)}</p>${item.next?`<p class="next-note">Next: ${esc(item.next)}</p>`:''}</article>`).join(''):'<div class="empty-state"><span>✧</span>Your first small win belongs here.<br>Start with one moment you want to remember.</div>';
   }
   function renderAll() {renderPractice();renderJourney();renderLectures();renderReflections();}
   function route() {
@@ -104,7 +104,7 @@
   function renderTour() {
     $('#tourTitle').textContent=tour[tourStep][0];$('#tourDescription').textContent=tour[tourStep][1];
     $('#tourArt').innerHTML=`<span class="tour-number">0${tourStep+1}</span><div class="tour-mini"><small>${esc(tour[tourStep][2].toUpperCase())}</small><strong>${esc(tour[tourStep][3])}</strong><div></div><div></div></div>`;
-    $('#tourStepLabel').textContent=`TRAINING BRIEFING · STEP ${tourStep+1} OF 3`;
+    $('#tourStepLabel').textContent=`YOUR SPACE · STEP ${tourStep+1} OF 3`;
     $('#tourDots').innerHTML=tour.map((_,index)=>`<span class="${index===tourStep?'active':''}"></span>`).join('');
     $('#tourBack').hidden=tourStep===0;$('#tourNext').innerHTML=tourStep===2?"Let's practice <span>↗</span>":'Next <span>→</span>';
   }
@@ -112,7 +112,7 @@
   $('#levelSelect').innerHTML=DATA.levels.map((item,index)=>`<option value="${index+1}">${index+1}. ${esc(item.name)}</option>`).join('');
   $('#daySelect').addEventListener('change',event=>setDay(event.target.value));
   $('#previousDay').addEventListener('click',()=>setDay(state.selectedDay-1));$('#nextDay').addEventListener('click',()=>setDay(state.selectedDay+1));
-  $('#completePractice').addEventListener('click',()=>{state.completedDays[state.selectedDay]=!state.completedDays[state.selectedDay];saveFeedback(state.completedDays[state.selectedDay]?'Rep completed. Your training record is saved.':'Practice marked as incomplete.');renderPractice();renderJourney();});
+  $('#completePractice').addEventListener('click',()=>{state.completedDays[state.selectedDay]=!state.completedDays[state.selectedDay];saveFeedback(state.completedDays[state.selectedDay]?'One more small step. Your practice is saved.':'Practice marked as incomplete.');renderPractice();renderJourney();});
   $('#levelSelect').addEventListener('change',event=>portal.setExposureLevel(event.target.value));
   $('#weekTabs').addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();state.selectedWeek=event.key==='Home'?0:event.key==='End'?5:(state.selectedWeek+(event.key==='ArrowRight'?1:5))%6;saveState();renderJourney();$(`#week-tab-${state.selectedWeek}`).focus();});
   document.addEventListener('click',event=>{
