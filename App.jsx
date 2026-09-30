@@ -379,8 +379,8 @@ export default function SpeakersGym() {
                 <div className="hero-video-embed">
                   {heroVideoPlaying ? (
                     <iframe
-                      src="https://player.vimeo.com/video/1224390886?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
-                      title="VSL final-1"
+                      src="https://player.vimeo.com/video/1231665533?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                      title="Speaker's Gym program introduction"
                       allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
