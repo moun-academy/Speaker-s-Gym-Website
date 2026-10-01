@@ -1,0 +1,1006 @@
+const CLIENT_PROFILE = window.SPEAKERS_GYM_CLIENT || {
+  id: "client",
+  name: "Speaker",
+  storageKey: "speakers-gym-client-journey-v1"
+};
+const PROGRAM_KEY = CLIENT_PROFILE.storageKey || `speakers-gym-${CLIENT_PROFILE.id}-journey-v1`;
+const EXPOSURE = window.SpeakersGymExposure;
+
+const weeks = [
+  {
+    short: "Structure",
+    title: "Speak With Structure",
+    why: "A simple framework gives you something reliable to return to when anxiety makes your mind feel blank.",
+    outcome: "You can give one concise professional opinion using PREP without scripting every sentence.",
+    learn: ["The PREP framework", "Thinking in keywords instead of scripts", "Starting with one clear point", "Recovering when your mind goes blank"],
+    spotlight: "Give a 90-second professional opinion using Point, Reason, Example, Point.",
+    work: "Share one clear recommendation or observation during a professional conversation.",
+    home: "Explain one everyday opinion in three clear sentences.",
+    days: [
+      weekOneDay("Coaching day", "Think clearly, speak simply", "Today is a coaching session. Build PREP, speak twice and accept one real-world mission.", "Open the Week 1 coaching experience and accept your mission", "Practice another PREP response", "Record an extra Version in the Speaker's Gym app", "Which part of PREP made speaking feel easier?"),
+      weekOneDay("Mission day", "Use the skill once", "One meaningful action is enough. The win is attempting it.", "Attempt your accepted Week 1 Mission", "Practice another PREP response", "Share an optional rep with the community", "What happened when I acted before I felt completely ready?"),
+      weekOneDay("Mission day", "Collect real evidence", "Reality is more useful than the prediction your mind made in advance.", "Attempt your accepted Week 1 Mission", "Record another Version", "Ask AI for one optional focus point", "What did reality show me?"),
+      weekOneDay("Mission day", "Speak from anchors", "Remember the idea, not the sentence.", "Attempt your accepted Week 1 Mission", "Practice from four PREP keywords", "Try one gentle workplace question", "What helped me continue without a script?"),
+      weekOneDay("Mission day", "Make your thinking visible", "A clear contribution is evidence, even when nerves are present.", "Attempt your accepted Week 1 Mission", "Practice a second workplace PREP answer", "Share an optional community update", "What did I make visible by speaking?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Confidence grows when you notice what your action proved.", "Return to Week 1 and record what actually happened", "Record one extra PREP Version", "Share your evidence card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep the evidence", "One completed exposure can become a reference point for the next one.", "Complete your Week 1 Mission reflection", "Practice another PREP response", "Choose one PREP cue to carry into Week 2", "What can I now do more clearly than seven days ago?")
+    ]
+  },
+  {
+    short: "Voice",
+    title: "Develop a Stronger Voice",
+    subtitle: "From physical anxiety to audible presence",
+    why: "Grounded volume keeps your message audible from the first word through the final word without forcing your voice.",
+    outcome: "You can deliver one complete answer at a clear, natural volume and test that voice in one right-sized real situation.",
+    learn: ["Grounded volume", "Audible sentence endings", "Speaking without pushing", "Choosing a right-sized situation", "Collecting voice evidence"],
+    spotlight: "Deliver your familiar PREP answer with grounded volume from beginning to end.",
+    work: "Make one complete professional sentence clearly audible.",
+    home: "Practice one familiar answer at a clear, natural and sustainable volume.",
+    days: [
+      weekOneDay("Coaching day", "Make your message arrive", "Calibrate grounded volume, speak two Versions and accept one real-world mission.", "Open the Week 2 coaching experience and accept your mission", "Practice the volume ladder once more", "Record an extra grounded-volume Version", "What made my voice feel strong without feeling forced?"),
+      weekOneDay("Mission day", "Use your voice once", "One clearly audible sentence is enough. The win is attempting it.", "Attempt your accepted Week 2 Mission", "Practice one familiar sentence at grounded volume", "Share an optional voice rep with the community", "What happened when I allowed myself to be heard?"),
+      weekOneDay("Mission day", "Keep the ending alive", "Your message deserves the final word as much as the first.", "Attempt your accepted Week 2 Mission", "Practice carrying one sentence through its final three words", "Record one optional Version in the app", "Where did my voice usually fade, and what changed?"),
+      weekOneDay("Mission day", "Send the message", "Focus on the listener receiving the sentence, not on whether you feel loud.", "Attempt your accepted Week 2 Mission", "Practice sending one Point to an imagined listener", "Ask AI for one optional voice focus", "Did the sentence arrive clearly?"),
+      weekOneDay("Mission day", "Make yourself audible", "A shaky voice can still carry a complete message.", "Attempt your accepted Week 2 Mission", "Repeat your PREP answer at grounded volume", "Share an optional community update", "What did I communicate even with nerves present?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Reality is more useful than what voice anxiety predicted.", "Return to Week 2 and record what actually happened", "Record one extra grounded-volume Version", "Share your Evidence Card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep your stronger setting", "One completed voice exposure becomes a reference point for the next one.", "Complete your Week 2 Mission reflection", "Practice one sentence from first word to final word", "Choose one grounded-volume cue to keep", "What can my voice now do more reliably than last week?")
+    ]
+  },
+  {
+    short: "Pace",
+    title: "Pace Variety",
+    subtitle: "From one flat speed to a pace that carries meaning",
+    why: "Engagement does not come from speed. It comes from variety. Pace tells the listener what is important before the words do.",
+    outcome: "You can deliver your PREP answer with three deliberate pace tools: fast for familiar ideas, slow for important ideas, and stop before the final point.",
+    learn: ["Why pace decides what is important", "Fast, slow and stop", "Slow the new and speed up the known", "Mapping the pace of your own answer"],
+    spotlight: "Deliver your familiar PREP answer with a deliberate pace map: fast, slow, and a clear pause before the Final Point.",
+    work: "Change pace on purpose at least once in one professional conversation.",
+    home: "Slow one sentence that matters in one relaxed conversation.",
+    days: [
+      weekOneDay("Coaching day", "Put the speed where it belongs", "Feel fast, slow and stop, map the pace of your own answer and accept one real-world mission.", "Open the Week 3 coaching experience and accept your mission", "Play your pace map once more", "Practice the Rocky reading with all three pace tools", "Which pace felt most like me, and which felt like a stranger?"),
+      weekOneDay("Mission day", "Change pace once", "One deliberate change of speed is enough. The win is attempting it.", "Attempt your accepted Week 3 Mission", "Slow one important point", "Share an optional pace rep with the community", "What happened when I slowed down on purpose?"),
+      weekOneDay("Mission day", "Slow what matters", "The sentence that matters deserves the most time.", "Attempt your accepted Week 3 Mission", "Say one important Point slowly, then speed up the familiar Reason", "Record one optional Version in the app", "Did anyone interrupt the slow sentence? What did they actually do?"),
+      weekOneDay("Mission day", "Speed up the known", "Familiar ground can move. Speed there reads as confidence.", "Attempt your accepted Week 3 Mission", "Speed up one piece of familiar background", "Ask AI for one optional pace focus", "Where did speeding up feel natural instead of nervous?"),
+      weekOneDay("Mission day", "Stop before it matters", "One beat of silence makes the next sentence heavier.", "Attempt your accepted Week 3 Mission", "Practice one full pause before your Final Point", "Share an optional community update", "How long did the silence feel to me, and how long was it really?"),
+      weekOneDay("Evidence day", "Compare prediction with reality", "Reality is more useful than what your pace anxiety predicted.", "Return to Week 3 and record what actually happened", "Record one extra dynamic-pace Version", "Share your Evidence Card with the community", "How was reality different from my prediction?"),
+      weekOneDay("Integration day", "Keep your three pace tools", "One dynamic answer becomes the reference point for the next one.", "Complete your Week 3 Mission reflection", "Play your pace map and speak it once more", "Choose one pace cue to carry into Week 4", "What can my pace now do on purpose that it could not last week?")
+    ]
+  },
+  {
+    short: "Pauses",
+    title: "Create Space and Control",
+    why: "A purposeful pause makes room for your next thought, replaces fillers and helps a listener take in your point.",
+    outcome: "You can let a question finish, pause without apologizing and complete one clear thought.",
+    learn: ["A two-second thinking pause", "Replacing fillers with a silent breath", "Pausing between complete thoughts", "Answering an unexpected question with composure"],
+    spotlight: "Answer surprise questions with a two-second pause, then use one purposeful pause in a real conversation.",
+    work: "Let one workplace question finish, pause, then give one clear point.",
+    home: "Ask one open question, leave space for the answer and follow up with curiosity.",
+    days: [
+      day("Coaching day", "Give your answer room", "Try the pause tools with your coach, then choose one right-sized mission.", "Open Lecture 4 and accept your pause mission", "Practise the two-second answer again", "Record one answer in the Speaker's Gym app", "What changed when I let the question finish?"),
+      day("Pause day", "Let silence support you", "A pause is a sign of control, not a communication failure.", "Pause after each PREP step", "Breathe without filling the silence", "Repeat once in the app", "What changed when I allowed the pause?"),
+      day("Pace day", "Change speed with purpose", "Important ideas deserve more time.", "Slow the key sentence", "Use a natural pace elsewhere", "Post one attempt for feedback", "Which pace made the message easiest to follow?"),
+      day("Real-world day", "Pause in the real moment", "The skill becomes reliable when it leaves practice.", "Choose one likely question", "Use one deliberate pause", "Complete your exposure mission", "How did the pause affect my answer?"),
+      day("Recovery day", "Pause, organize, continue", "You can recover without apologizing or retreating.", "Practise losing your place", "Pause and restart the point", "Use: Let me put that more clearly", "What does a calm recovery feel like?"),
+      day("Spotlight day", "Sound composed", "Control is heard in the space around your words.", "Record a paced PREP response", "Post your Spotlight Speech", "Ask for feedback on pauses and pace", "Where do I sound most composed?"),
+      day("Integration day", "Keep the space", "One real pause becomes evidence you can use next time.", "Report your Week 4 mission", "Compare your first and final answers", "Choose one pause cue to keep", "What have I learned about silence?")
+    ]
+  },
+  {
+    short: "Melody",
+    title: "Find the Music in Your Voice",
+    why: "People believe the voice more than the words. When your voice moves, they hear how you feel and stay with you.",
+    outcome: "You step up on the word that matters and end your sentences low and sure, so you sound like you mean it.",
+    learn: ["Pitch and melody", "Stepping up on the key word", "Landing the final sentence", "Mixing pitch, pace and volume", "Matching the listener's energy"],
+    spotlight: "Tell a short story to a familiar person, stepping up on your key word and landing your final sentence.",
+    work: "In one real conversation, step up on your key word and land your final sentence.",
+    home: "Read a short story aloud with melody, once flat and once with your pitch moves.",
+    days: [
+      day("Curiosity day", "Open the door", "Better questions invite the answers that small talk cannot reach.", "Turn five closed questions into open questions", "Practise asking them naturally in the app", "Use one with someone you care about", "Which question created the most openness?"),
+      day("Listening day", "Stay with the answer", "Connection grows when people feel heard, not managed.", "Practise two follow-up questions", "Reflect back one feeling or meaning", "Avoid immediately giving advice", "What did I hear when I stopped preparing my reply?"),
+      day("Feedback day", "Share some of yourself", "Depth requires mutual openness, not an interview.", "Record a response that asks, reflects and shares", "Complete today's app rep", "Post the role-play on Skool", "How comfortable am I letting others know me?"),
+      day("Home courage day", "Create ten minutes of closeness", "Small, undistracted moments can change a relationship.", "Choose a calm moment with one child", "Ask one open question and two follow-ups", "Share a related thought or feeling of your own", "What did I discover about my child today?"),
+      day("Work connection day", "Go one layer deeper", "Professional confidence also grows through human connection.", "Begin with a natural work conversation", "Ask about an opinion or experience", "Listen and share one genuine response", "What became possible beyond the small talk?"),
+      day("Spotlight day", "Practise connection deliberately", "The goal is not perfect technique; it is helping someone feel met.", "Record your deeper-conversation role-play", "Post your Spotlight Speech on Skool", "Ask whether you sounded curious and present", "Which connection skill now feels natural?"),
+      day("Integration day", "Measure closeness, not performance", "A meaningful conversation is evidence that your voice can build relationships.", "Write what you learned from two conversations", "Name the moment of greatest connection", "Choose one ritual to continue at home", "How has speaking more openly changed our connection?")
+    ]
+  },
+  {
+    short: "Integration",
+    title: "Communicate Under Pressure",
+    why: "Your skills become transformation when they remain available in the moments that matter.",
+    outcome: "You combine structure, voice and courage in meetings, interviews and family conversations.",
+    learn: ["Thinking on the spot", "Recovering when words disappear", "Your permanent communication routine"],
+    spotlight: "Deliver a realistic interview answer or workplace proposal, then compare it with your Week 1 baseline.",
+    work: "Complete one meaningful high-pressure speaking situation.",
+    home: "Initiate one honest conversation you would previously have avoided.",
+    days: [
+      day("Integration day", "Assemble your tools", "You already have what you need; now you practise choosing it under pressure.", "List your three strongest communication tools", "Use all three in one app response", "Choose your real-life challenge for this week", "Which skill gives me the greatest sense of control?"),
+      day("Pressure day", "Recover, do not retreat", "Confidence includes knowing you can continue after a difficult moment.", "Practise pausing when you lose your words", "Say: Let me put that more clearly", "Restart one answer without apologizing", "What changes when recovery is part of the plan?"),
+      day("Interview day", "Make your experience visible", "Twenty years of experience deserves to be communicated with clarity and conviction.", "Prepare one structured career story", "Record it in the app with vocal intention", "Post it on Skool for feedback", "Does my answer reflect the value of my experience?"),
+      day("Real-world day", "Choose the meaningful moment", "Your new communication pattern is built through action in the environment that once silenced you.", "Complete your chosen meeting or interview challenge", "Use the five-second rule at least once", "Record what happened immediately afterward", "How did I act differently from the old pattern?"),
+      day("Final refinement", "Make one change, then trust", "Preparation should support your voice, not become another place to hide.", "Review feedback and select one adjustment", "Repeat your final speech only twice", "Stop editing and choose the honest best attempt", "What happens when I trust the work I have done?"),
+      day("Final spotlight", "Let the transformation be seen", "Your final speech is proof, not a performance of perfection.", "Record your interview answer or workplace proposal", "Post your final Spotlight Speech on Skool", "Compare it directly with your Week 1 baseline", "What visible changes can I name in myself?"),
+      day("Graduation day", "Claim the speaker you built", "The six weeks end; the evidence and identity continue.", "Write your five strongest pieces of evidence", "Choose three weekly habits to continue", "Record a message to your future self", "Who have I become when it is time to speak?")
+    ]
+  }
+];
+
+function day(type, title, intention, task1, task2, task3, prompt) {
+  return {
+    type, title, intention, prompt,
+    tasks: [
+      { title: task1, description: `Complete this first focused step for ${title.toLowerCase()}.`, tag: "5 min" },
+      { title: task2, description: "Practice deliberately, then notice one observable change.", tag: "5 min" },
+      { title: task3, description: "Take the skill into a visible action and save the evidence.", tag: "5 min" }
+    ]
+  };
+}
+
+function weekOneDay(type, title, intention, required, optionalOne, optionalTwo, prompt) {
+  const item = day(type, title, intention, required, optionalOne, optionalTwo, prompt);
+  item.tasks[0] = { ...item.tasks[0], kind: "required", tag: "Required" };
+  item.tasks[1] = { ...item.tasks[1], kind: "optional", tag: "Optional" };
+  item.tasks[2] = { ...item.tasks[2], kind: "optional", tag: "Optional" };
+  return item;
+}
+
+const defaultState = {
+  startDate: toDateInputValue(new Date()),
+  selectedDay: 0,
+  selectedWeek: 0,
+  completedTasks: {},
+  completedDays: {},
+  reflections: {},
+  confidence: {},
+  evidenceBank: [],
+  week1Lecture: {
+    flowVersion: 3,
+    missionModelVersion: 2,
+    currentStep: 0,
+    selectedTopic: "",
+    prep: { point: "", reason: "", example: "", finalPoint: "" },
+    keywords: { point: "", reason: "", example: "", finalPoint: "" },
+    versionsCompleted: 0,
+    coachImprovement: "",
+    workplaceQuestion: "",
+    workplacePrep: { point: "", reason: "", example: "", finalPoint: "" },
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
+    lastViewedAt: null
+  },
+  week2Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
+    currentLevel: null,
+    voicePattern: "",
+    voiceZone: "",
+    versionsCompleted: 0,
+    coachImprovement: "",
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
+    lastViewedAt: null
+  },
+  week3Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
+    currentLevel: null,
+    demoMode: "",
+    feltRates: {},
+    sortAnswers: {},
+    paceMap: {},
+    paceMapConfigured: false,
+    versionsCompleted: 0,
+    coachImprovement: "",
+    prediction: "",
+    beliefBefore: 50,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    beliefAfter: 50,
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
+    lastViewedAt: null
+  },
+  week5Lecture: {
+      "flowVersion": 1,
+      "currentStep": 0,
+      "currentLevel": null,
+      "demoMode": "",
+      "demoTried": [],
+      "rapportChoice": "",
+      "rangeLow": null,
+      "rangeHigh": null,
+      "rangeSelfCheck": false,
+      "stressTried": [],
+      "landed": 0,
+      "landSelfCheck": false,
+      "sortAnswers": {},
+      "mix": {},
+      "performSpan": null,
+      "performBest": 0,
+      "performSelfCheck": false,
+      "story": {},
+      "storyMoves": {},
+      "prediction": "",
+      "missionLevel": null,
+      "mission": "",
+      "missionStatus": "not-started",
+      "acceptedAt": null,
+      "actualResult": "",
+      "evidenceId": null,
+      "lectureCompletedAt": null,
+      "completedAt": null,
+      "lastViewedAt": null
+},
+  week4Lecture: {
+    flowVersion: 2,
+    currentStep: 0,
+    currentLevel: null,
+    feltSilence: false,
+    spotFound: [],
+    sortAnswers: {},
+    trainerReps: 0,
+    trainerAttempts: 0,
+    readingCompleted: false,
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    lectureCompletedAt: null,
+    actualResult: "",
+    evidenceId: null,
+    completedAt: null,
+    lastViewedAt: null
+  }
+};
+
+let state = loadState();
+let toastTimer;
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+function loadState(fromAccount) {
+  try {
+    const stored = fromAccount !== undefined ? fromAccount : JSON.parse(localStorage.getItem(PROGRAM_KEY));
+    const storedWeek1 = stored?.week1Lecture || {};
+    const storedWeek2 = stored?.week2Lecture || {};
+    const keepStoredMission = Number(storedWeek1.missionModelVersion || 0) === 2
+      || (storedWeek1.missionStatus === "completed" && Boolean(storedWeek1.evidenceId));
+    const legacyStep = Number(storedWeek1.currentStep || 0);
+    const migratedStep = legacyStep === 0 ? 0
+      : legacyStep <= 12 ? legacyStep + 1
+      : legacyStep <= 18 ? 14
+      : legacyStep === 19 ? 15
+      : legacyStep === 20 ? 16
+      : legacyStep === 21 ? 17
+      : legacyStep === 22 ? 18
+      : legacyStep === 23 ? (storedWeek1.missionStatus === "completed" ? 21 : 20)
+      : 22;
+    const versionTwoStep = storedWeek1.flowVersion === 2 ? Number(storedWeek1.currentStep || 0) : migratedStep;
+    const flowStep = storedWeek1.flowVersion === 3
+      ? Number(storedWeek1.currentStep || 0)
+      : versionTwoStep <= 2 ? versionTwoStep : versionTwoStep - 1;
+    return {
+      ...defaultState,
+      ...stored,
+      week5Lecture: { ...defaultState.week5Lecture, ...(stored?.week5Lecture || {}), currentStep: Math.max(0, Math.min(15, Number(stored?.week5Lecture?.currentStep) || 0)) },
+      evidenceBank: Array.isArray(stored?.evidenceBank) ? stored.evidenceBank : [],
+      week1Lecture: {
+        ...defaultState.week1Lecture,
+        ...storedWeek1,
+        flowVersion: 3,
+        missionModelVersion: 2,
+        currentStep: keepStoredMission ? flowStep : Math.min(flowStep, 16),
+        missionLevel: keepStoredMission ? (storedWeek1.missionLevel || null) : null,
+        mission: keepStoredMission ? (storedWeek1.mission || "") : "",
+        missionStatus: keepStoredMission ? (storedWeek1.missionStatus || "not-started") : "not-started",
+        acceptedAt: keepStoredMission ? (storedWeek1.acceptedAt || null) : null,
+        actualResult: keepStoredMission ? (storedWeek1.actualResult || "") : "",
+        evidenceId: keepStoredMission ? (storedWeek1.evidenceId || null) : null,
+        lectureCompletedAt: keepStoredMission
+          ? (Number(storedWeek1.flowVersion || 0) >= 2
+            ? (storedWeek1.lectureCompletedAt || null)
+            : (storedWeek1.missionStatus && storedWeek1.missionStatus !== "not-started" ? storedWeek1.acceptedAt || null : null))
+          : null,
+        completedAt: keepStoredMission ? (storedWeek1.completedAt || null) : null,
+        prep: { ...defaultState.week1Lecture.prep, ...(storedWeek1.prep || {}) },
+        keywords: { ...defaultState.week1Lecture.keywords, ...(storedWeek1.keywords || {}) },
+        workplacePrep: { ...defaultState.week1Lecture.workplacePrep, ...(storedWeek1.workplacePrep || {}) }
+      },
+      week2Lecture: {
+        ...defaultState.week2Lecture,
+        ...(storedWeek2.flowVersion === 1 ? storedWeek2 : {}),
+        flowVersion: 1,
+        currentLevel: storedWeek2.currentLevel || null
+      },
+      week3Lecture: {
+        ...defaultState.week3Lecture,
+        ...(stored?.week3Lecture || {}),
+        flowVersion: 1,
+        feltRates: { ...(stored?.week3Lecture?.feltRates || {}) },
+        sortAnswers: { ...(stored?.week3Lecture?.sortAnswers || {}) },
+        paceMap: { ...(stored?.week3Lecture?.paceMap || {}) }
+      },
+      week4Lecture: {
+        ...defaultState.week4Lecture,
+        ...(stored?.week4Lecture || {}),
+        flowVersion: 2,
+        currentStep: stored?.week4Lecture?.flowVersion === 2
+          ? Math.max(0, Math.min(11, Number(stored.week4Lecture.currentStep) || 0))
+          : stored?.week4Lecture?.completedAt ? 11
+            : stored?.week4Lecture?.lectureCompletedAt ? 8 : 0,
+        spotFound: Array.isArray(stored?.week4Lecture?.spotFound) ? stored.week4Lecture.spotFound : [],
+        sortAnswers: { ...(stored?.week4Lecture?.sortAnswers || {}) }
+      }
+    };
+  } catch {
+    return { ...defaultState };
+  }
+}
+
+function saveState() {
+  // The coach view is read-only: never overwrite the student's progress from it.
+  if (window.PortalSync?.isCoach()) return;
+  localStorage.setItem(PROGRAM_KEY, JSON.stringify(state));
+  window.PortalSync?.saved();
+}
+
+function toDateInputValue(date) {
+  const offset = date.getTimezoneOffset();
+  return new Date(date.getTime() - offset * 60 * 1000).toISOString().split("T")[0];
+}
+
+function getProgramDate(dayIndex) {
+  const date = new Date(`${state.startDate}T12:00:00`);
+  date.setDate(date.getDate() + dayIndex);
+  return date;
+}
+
+function dayKey(dayIndex) { return `day-${dayIndex}`; }
+function taskKey(dayIndex, taskIndex) { return `${dayKey(dayIndex)}-task-${taskIndex}`; }
+
+function getWeekAndDay(dayIndex = state.selectedDay) {
+  return { weekIndex: Math.floor(dayIndex / 7), dayOfWeek: dayIndex % 7 };
+}
+
+// Pillar 1 is the lecture, Pillar 2 is the one real-world mission of the week.
+function weekPillars(index) {
+  const week = weeks[index];
+  if (index === 5) {
+    const coachMission = window.PortalSync?.coach()?.missions?.[6] || "";
+    const record = state.week6Mission || {};
+    return { lecture: null, lectureState: null, mission: coachMission || week.work, suggested: !coachMission, missionState: record.status === "completed" ? "done" : "set", result: record.result || "", level: null };
+  }
+  const lecture = state[`week${index + 1}Lecture`] || {};
+  const lectureState = lecture.lectureCompletedAt ? "done" : Number(lecture.currentStep) > 0 ? "started" : "none";
+  const missionState = lecture.missionStatus === "completed" ? "done" : lecture.missionStatus === "accepted" ? "set" : "none";
+  return { lecture, lectureState, mission: lecture.mission || week.work, suggested: !lecture.mission, missionState, result: lecture.actualResult || "", level: missionState !== "none" ? Number(lecture.missionLevel) || null : null };
+}
+
+function renderJourneySummary() {
+  const target = $("#journeySummary");
+  if (!target) return;
+  const rows = weeks.map((_, index) => weekPillars(index));
+  const current = rows.findIndex(row => row.missionState !== "done");
+  const lecturesDone = rows.filter(row => row.lectureState === "done").length;
+  const missionsDone = rows.filter(row => row.missionState === "done").length;
+  const level = EXPOSURE ? EXPOSURE.clampLevel(state.week2Lecture.currentLevel || 1) : 1;
+  const levelName = EXPOSURE?.levels[level - 1]?.name || "";
+  const updatedAt = window.PortalSync?.isCoach() ? window.PortalSync.updatedAt() : null;
+  target.innerHTML = `<div class="journey-now">
+      <span class="eyebrow">${current < 0 ? "Journey complete" : "Where we are"}</span>
+      <h3>${current < 0 ? "All six weeks complete" : `Week ${current + 1} of 6 · ${escapeHTML(weeks[current].short)}`}</h3>
+      ${updatedAt ? `<p>Last saved ${escapeHTML(new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt)))}</p>` : ""}
+    </div>
+    <div class="journey-pillars">
+      <div><small>Pillar 1 · Lectures</small><strong>${lecturesDone}<span> of 5 finished</span></strong><i><b style="width:${lecturesDone / 5 * 100}%"></b></i></div>
+      <div><small>Pillar 2 · Exposure</small><strong>${missionsDone}<span> of 6 missions done</span></strong><i><b style="width:${missionsDone / 6 * 100}%"></b></i></div>
+      <div><small>Speaking level</small><strong>${level}<span> of 10 · ${escapeHTML(levelName)}</span></strong><i><b style="width:${level * 10}%"></b></i><a href="#exposure">Open my levels →</a></div>
+    </div>`;
+}
+
+function renderWeekMission() {
+  const target = $("#weekMission");
+  if (!target) return;
+  const index = state.selectedWeek;
+  const row = weekPillars(index);
+  const coach = Boolean(window.PortalSync?.isCoach());
+  const pill = row.missionState === "done" ? '<span class="mission-pill done">✓ Done</span>'
+    : index === 5 ? '<span class="mission-pill">Set with your coach</span>'
+    : row.missionState === "set" ? '<span class="mission-pill waiting">Waiting for report</span>'
+    : '<span class="mission-pill">Chosen at the end of the lecture</span>';
+  let body = `<p class="week-mission-text">${row.suggested ? "<em>Suggested:</em> " : ""}${escapeHTML(row.mission)}</p>`;
+  if (index === 5) {
+    if (coach) body = `<label class="week-mission-edit">Week 6 mission<textarea id="coachMission6" rows="2" maxlength="600">${escapeHTML(window.PortalSync.coach()?.missions?.[6] || "")}</textarea></label><button class="lecture-reset" type="button" id="saveCoachMission">Save mission</button>`;
+    else if (row.missionState !== "done") body += `<label class="week-mission-edit">What happened?<textarea id="week6Result" rows="2" maxlength="2000" placeholder="One or two sentences.">${escapeHTML(row.result)}</textarea></label><button class="lecture-reset" type="button" id="completeWeek6">Mark as done ✓</button>`;
+  }
+  const level = row.level && EXPOSURE ? `<span class="week-mission-level">Level ${row.level} · ${escapeHTML(EXPOSURE.levels[row.level - 1]?.name || "")}</span>` : "";
+  const result = row.missionState === "done" && row.result ? `<p class="week-mission-result"><small>WHAT HAPPENED</small>${escapeHTML(row.result)}</p>` : "";
+  target.innerHTML = `<span class="detail-label">PILLAR 2 · THIS WEEK'S MISSION ${pill}</span>${body}${level}${result}`;
+}
+
+function renderAll() {
+  renderHeader();
+  renderProgress();
+  renderToday();
+  renderJourneySummary();
+  renderRoadmap();
+  renderWeekDetail();
+  renderWeekMission();
+  renderReflection();
+  renderExposureDashboard();
+  renderActiveVersion();
+}
+
+function renderHeader() {
+  const clientName = CLIENT_PROFILE.name || "Speaker";
+  document.title = `${clientName}'s Speaking Journey | Speaker's Gym`;
+  const welcome = $("#clientWelcome");
+  if (welcome) welcome.textContent = `Welcome back, ${clientName}.`;
+  const footer = $("#clientFooter");
+  if (footer) footer.textContent = window.PortalSync?.isCloud() ? `Private six-week coaching journey for ${clientName} · Progress is saved to your account and shared with your coach.` : `Private six-week coaching journey for ${clientName} · Progress is saved on this device.`;
+  $("#todayDate").textContent = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric" }).format(new Date());
+  const start = getProgramDate(0);
+  $("#startDateLabel").textContent = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(start);
+  $("#startDateInput").value = state.startDate;
+}
+
+function renderProgress() {
+  const completed = Object.values(state.completedDays).filter(Boolean).length;
+  const progress = Math.round((completed / 42) * 100);
+  const current = getWeekAndDay(state.selectedDay);
+  const courageReps = Object.entries(state.completedTasks).filter(([key, value]) => value && key.endsWith("task-2")).length;
+  let streak = 0;
+  for (let i = state.selectedDay; i >= 0 && state.completedDays[dayKey(i)]; i--) streak++;
+
+  $("#progressRing").style.setProperty("--progress", progress);
+  $("#progressPercent").textContent = `${progress}%`;
+  $("#progressSummary").textContent = `Week ${current.weekIndex + 1} · Day ${state.selectedDay + 1} of 42`;
+  $("#streakValue").textContent = streak;
+  $("#courageValue").textContent = courageReps;
+}
+
+function renderToday() {
+  const { weekIndex, dayOfWeek } = getWeekAndDay();
+  const week = weeks[weekIndex];
+  const currentDay = week.days[dayOfWeek];
+  const tasksDone = currentDay.tasks.filter((_, i) => state.completedTasks[taskKey(state.selectedDay, i)]).length;
+
+  $("#todayWeekLabel").textContent = `Week ${weekIndex + 1}: ${week.title}`;
+  $("#daySwitcherLabel").textContent = `Day ${state.selectedDay + 1}`;
+  $("#previousDay").disabled = state.selectedDay === 0;
+  $("#nextDay").disabled = state.selectedDay === 41;
+  $("#dayNumber").textContent = String(state.selectedDay + 1).padStart(2, "0");
+  $("#dayType").textContent = currentDay.type;
+  $("#dayTitle").textContent = currentDay.title;
+  $("#dayIntention").textContent = currentDay.intention;
+  $("#practiceDuration").innerHTML = currentDay.type === "Coaching day"
+    ? '<span aria-hidden="true">◷</span> Your 60-minute coaching session'
+    : '<span aria-hidden="true">◷</span> Your 15-minute practice ritual';
+  $("#focusTitle").textContent = week.title;
+  $("#focusWhy").textContent = week.why;
+  $("#focusOutcome").textContent = week.outcome;
+  $("#taskCount").textContent = currentDay.tasks[0].kind === "required" ? "One mission · optional extra reps" : `${tasksDone} of 3 complete`;
+  $("#taskProgress").style.width = `${(tasksDone / 3) * 100}%`;
+
+  const complete = Boolean(state.completedDays[dayKey(state.selectedDay)]);
+  $("#completeDayButton").textContent = complete ? "Day completed ✓" : "Complete today";
+  $("#completeDayButton").classList.toggle("completed", complete);
+
+  $("#taskList").innerHTML = currentDay.tasks.map((task, i) => {
+    const done = Boolean(state.completedTasks[taskKey(state.selectedDay, i)]);
+    return `<label class="task-item ${task.kind || "standard"} ${done ? "done" : ""}">
+      <input type="checkbox" data-task-index="${i}" ${done ? "checked" : ""} />
+      <span class="task-check" aria-hidden="true">✓</span>
+      <span class="task-copy"><strong>${task.title}</strong><small>${task.description}</small></span>
+      <span class="task-tag">${task.tag}</span>
+    </label>`;
+  }).join("");
+
+  $$("#taskList input").forEach(input => {
+    input.addEventListener("change", (event) => {
+      const taskIndex = Number(event.target.dataset.taskIndex);
+      state.completedTasks[taskKey(state.selectedDay, taskIndex)] = event.target.checked;
+      if (!event.target.checked) state.completedDays[dayKey(state.selectedDay)] = false;
+      saveState();
+      renderProgress(); renderToday(); renderRoadmap();
+    });
+  });
+}
+
+function renderActiveVersion() {
+  const panel = $("#activeVersionMission");
+  if (!panel) return;
+  const week3 = state.week3Lecture;
+  if (state.selectedWeek === 2 && week3?.missionStatus && week3.missionStatus !== "not-started" && week3.mission) {
+    panel.hidden = false;
+    $("#activeVersionLevel").textContent = `Week 3 · Level ${week3.missionLevel || week3.currentLevel || 1}`;
+    $("#activeVersionTitle").textContent = week3.missionStatus === "completed" ? "Pace evidence collected" : "Your pace-variety mission";
+    $("#activeVersionMissions").innerHTML = `<li>${escapeHTML(week3.mission)}</li>`;
+    return;
+  }
+  const week2 = state.week2Lecture;
+  if (state.selectedWeek === 1 && week2?.missionStatus && week2.missionStatus !== "not-started" && week2.mission) {
+    panel.hidden = false;
+    $("#activeVersionLevel").textContent = `Week 2 · Level ${week2.missionLevel || week2.currentLevel || 1}`;
+    $("#activeVersionTitle").textContent = week2.missionStatus === "completed" ? "Voice evidence collected" : "Your grounded-volume mission";
+    $("#activeVersionMissions").innerHTML = `<li>${escapeHTML(week2.mission)}</li>`;
+    return;
+  }
+  const week1 = state.week1Lecture;
+  if (week1?.missionStatus && week1.missionStatus !== "not-started" && week1.mission) {
+    panel.hidden = false;
+    $("#activeVersionLevel").textContent = `Week 1 · Level ${week1.missionLevel || state.week2Lecture.currentLevel || 1}`;
+    $("#activeVersionTitle").textContent = week1.missionStatus === "completed" ? "Evidence collected" : "Your accepted mission";
+    $("#activeVersionMissions").innerHTML = `<li>${escapeHTML(week1.mission)}</li>`;
+    return;
+  }
+  const lecture = state.week2Lecture;
+  if (!lecture?.currentLevel) {
+    panel.hidden = true;
+    return;
+  }
+  panel.hidden = false;
+  const currentLevel = Number(lecture.currentLevel || 1);
+  const nextLevel = Math.min(10, currentLevel + 1);
+  $("#activeVersionLevel").textContent = `Level ${currentLevel} → Level ${nextLevel}`;
+  $("#activeVersionTitle").textContent = "Your current voice-exposure level";
+  $("#activeVersionMissions").innerHTML = "<li>Complete Lecture 2 to activate one grounded-volume mission.</li>";
+}
+
+function renderExposureDashboard() {
+  const staircase = $("#mainExposureStaircase");
+  const detail = $("#mainExposureDetail");
+  const plan = $("#mainExposurePlan");
+  if (!EXPOSURE || !staircase || !detail || !plan) return;
+
+  const selected = EXPOSURE.clampLevel(state.week2Lecture.currentLevel || 1);
+  const next = Math.min(10, selected + 1);
+  const currentLevel = EXPOSURE.levels[selected - 1];
+  const nextLevel = EXPOSURE.levels[next - 1];
+  const isTop = selected === 10;
+  const missions = state.week2Lecture.missionStatus !== "not-started" && state.week2Lecture.mission
+    ? [state.week2Lecture.mission]
+    : [];
+  staircase.style.setProperty("--current-level", selected);
+
+  staircase.innerHTML = EXPOSURE.levels.map((level, index) => {
+    const number = index + 1;
+    const levelState = number < selected ? "done" : number === selected ? "current" : number === next ? "next" : "ahead";
+    return `<button class="exposure-node ${levelState}" type="button" data-main-level="${number}" aria-label="Level ${number}: ${level.name}" aria-pressed="${number === selected}" title="Level ${number}: ${level.name}">
+      <span>${number}</span><small>${level.name}</small>
+    </button>`;
+  }).join("");
+
+  detail.innerHTML = `<article class="level-focus-card current">
+      <small>CURRENT RELIABLE LEVEL</small>
+      <span>LEVEL ${selected}</span>
+      <h3>${currentLevel.name}</h3>
+      <p>${currentLevel.behavior}</p>
+    </article>
+    <span class="level-focus-arrow" aria-hidden="true">→</span>
+    <article class="level-focus-card next">
+      <small>${isTop ? "KEEP EXPRESSING" : "PRACTICE NEXT"}</small>
+      <span>LEVEL ${next}</span>
+      <h3>${nextLevel.name}</h3>
+      <p>${nextLevel.behavior}</p>
+      <strong>Begin with: “${nextLevel.starter}”</strong>
+    </article>
+    ${missions.length ? `<article class="level-focus-card commitments"><small>THIS WEEK</small><ul>${missions.map(mission => `<li>${escapeHTML(mission)}</li>`).join("")}</ul></article>` : ""}`;
+
+  plan.innerHTML = `<div><small>PRACTICE IN THE APP</small><p>${nextLevel.practice}</p></div>
+    <div><small>POST ON SKOOL</small><p>${nextLevel.community}</p></div>
+    <div><small>COLLECT THE EVIDENCE</small><p>${nextLevel.evidence}</p></div>`;
+  $("#mainCurrentLevel").textContent = `Level ${selected} · ${EXPOSURE.levels[selected - 1].name}`;
+  $("#mainNextLevel").textContent = selected === 10
+    ? "Level 10 · Keep expressing"
+    : `Level ${next} · ${EXPOSURE.levels[next - 1].name}`;
+
+  staircase.querySelectorAll("[data-main-level]").forEach(button => {
+    button.addEventListener("click", () => {
+      const level = EXPOSURE.clampLevel(button.dataset.mainLevel);
+      state.week2Lecture.currentLevel = level;
+      saveState();
+      renderExposureDashboard();
+      renderActiveVersion();
+      renderWeekDetail();
+      showToast(`Level ${level} saved as your current training position.`);
+    });
+  });
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>'"]/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+  })[character]);
+}
+
+function formatLectureDate(value) {
+  if (!value) return "Date to be chosen";
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${value}T12:00:00`));
+}
+
+function renderRoadmap() {
+  $("#weekRoadmap").innerHTML = weeks.map((week, index) => {
+    const pillars = weekPillars(index);
+    const complete = pillars.missionState === "done";
+    const lectureText = pillars.lecture ? { done: "✓ Lecture finished", started: "◐ Lecture started", none: "○ Lecture not started" }[pillars.lectureState] : "No lecture";
+    const missionText = { done: "✓ Mission done", set: index === 5 ? "○ Mission to do" : "◐ Mission waiting", none: "○ Mission not chosen" }[pillars.missionState];
+    return `<button class="week-card ${state.selectedWeek === index ? "selected" : ""} ${complete ? "complete" : ""}" data-week="${index}" type="button">
+      <span class="week-card-number">${complete ? "✓" : index + 1}</span>
+      <small>Week ${index + 1}</small>
+      <strong>${week.title}</strong>
+      <p>${lectureText}<br>${missionText}</p>
+    </button>`;
+  }).join("");
+
+  $$(".week-card").forEach(button => button.addEventListener("click", () => {
+    state.selectedWeek = Number(button.dataset.week);
+    saveState(); renderRoadmap(); renderWeekDetail(); renderWeekMission();
+    $("#weekDetail").scrollIntoView({ behavior: "smooth", block: "center" });
+  }));
+}
+
+function renderWeekDetail() {
+  const week = weeks[state.selectedWeek];
+  const currentWeek = getWeekAndDay(state.selectedDay).weekIndex;
+  $("#detailWeek").textContent = `Week ${state.selectedWeek + 1} lecture`;
+  $("#detailTitle").textContent = week.title;
+  $("#weekStatus").textContent = state.selectedWeek === currentWeek ? "Current focus" : state.selectedWeek < currentWeek ? "Previous week" : "Coming up";
+  $("#weekOutcomeSummary").textContent = week.outcome;
+  $("#weekCoreSkill").textContent = week.learn[0];
+  $("#learnList").innerHTML = week.learn.map(item => `<li>${item}</li>`).join("");
+  $("#spotlightCopy").textContent = week.spotlight;
+  const week1Entry = $("#week1LectureEntry");
+  if (week1Entry) {
+    const showWeek1 = state.selectedWeek === 0;
+    week1Entry.hidden = !showWeek1;
+    if (showWeek1) {
+      const week1 = state.week1Lecture;
+      const evidenceComplete = Boolean(week1.completedAt);
+      const lectureComplete = Boolean(week1.lectureCompletedAt);
+      $("#week1LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 1" : Number(week1.currentStep) > 0 ? "Continue Lecture 1" : "Start Lecture 1";
+      const reportButton = $("#week1MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week1LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 1 complete</strong><span>PREP unlocked · ${week1.versionsCompleted || 0} Versions · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Mission active</strong><span>${escapeHTML(week1.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Build → Speak → Prove</strong><span>A live PREP coaching experience with one real-world mission.</span>`;
+    }
+  }
+  const lectureEntry = $("#week2LectureEntry");
+  if (lectureEntry) {
+    const show = state.selectedWeek === 1;
+    lectureEntry.hidden = !show;
+    if (show) {
+      const lecture = state.week2Lecture;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week2LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 2" : Number(lecture.currentStep) > 0 ? "Continue Lecture 2" : "Start Lecture 2";
+      const reportButton = $("#week2MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week2LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 2 complete</strong><span>Grounded Volume unlocked · ${lecture.versionsCompleted || 0} Versions · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Voice mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Calibrate → Speak → Prove</strong><span>A live grounded-volume coaching experience with one real-world mission.</span>`;
+    }
+  }
+  const week3Entry = $("#week3LectureEntry");
+  if (week3Entry) {
+    const show = state.selectedWeek === 2;
+    week3Entry.hidden = !show;
+    if (show) {
+      const lecture = state.week3Lecture;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week3LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 3" : Number(lecture.currentStep) > 0 ? "Continue Lecture 3" : "Start Lecture 3";
+      const reportButton = $("#week3MissionButton");
+      if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
+      $("#week3LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 3 complete</strong><span>Pace Variety unlocked · ${lecture.versionsCompleted || 0} Versions · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Pace mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Tune → Speak → Prove</strong><span>A live pace-variety coaching experience with one real-world mission.</span>`;
+    }
+  }
+  const week4Entry = $("#week4LectureEntry");
+  if (week4Entry) {
+    const show = state.selectedWeek === 3;
+    week4Entry.hidden = !show;
+    if (show) {
+      const lecture = state.week4Lecture;
+      const evidenceComplete = Boolean(lecture.completedAt);
+      const lectureComplete = Boolean(lecture.lectureCompletedAt);
+      $("#week4LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 4" : Number(lecture.currentStep) > 0 ? "Continue Lecture 4" : "Start Lecture 4";
+      $("#week4MissionButton").hidden = !(lectureComplete && !evidenceComplete);
+      $("#week4LectureStatus").innerHTML = evidenceComplete
+        ? `<strong>Week 4 complete</strong><span>Purposeful Pauses unlocked · Evidence collected</span>`
+        : lectureComplete
+          ? `<strong>Pause mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          : `<strong>Discover → Still → Speak → Prove</strong><span>Use silence to give your ideas and experience room to be heard.</span>`;
+    }
+  }
+  const week5Entry = $("#week5LectureEntry");
+  if (week5Entry) {
+    week5Entry.hidden = state.selectedWeek !== 4;
+    if (!week5Entry.hidden) {
+      const lecture = state.week5Lecture;
+      const finished = Boolean(lecture.completedAt || lecture.evidenceId);
+      const taught = Boolean(lecture.lectureCompletedAt);
+      $("#week5LectureButton").textContent = finished || taught ? "Review Lecture 5" : Number(lecture.currentStep) > 0 ? "Continue Lecture 5" : "Start Lecture 5";
+      $("#week5MissionButton").hidden = !(taught && !finished);
+      $("#week5LectureStatus").innerHTML = finished
+        ? '<strong>Week 5 complete</strong><span>Vocal Variety unlocked · Evidence collected</span>'
+        : taught ? '<strong>Vocal variety mission active</strong><span>' + escapeHTML(lecture.mission) + ' Return after the conversation to record what happened.</span>'
+        : '<strong>Discover → Range → Shape → Mix → Prove</strong><span>Step up, lift, drop and land, so people hear how you feel.</span>';
+    }
+  }
+}
+
+function renderReflection() {
+  const { weekIndex, dayOfWeek } = getWeekAndDay();
+  const currentDay = weeks[weekIndex].days[dayOfWeek];
+  $("#reflectionPrompt").textContent = currentDay.prompt;
+  $("#reflectionDay").textContent = `Day ${state.selectedDay + 1} reflection`;
+  $("#reflectionTopic").textContent = currentDay.title;
+  $("#reflectionText").value = state.reflections[dayKey(state.selectedDay)] || "";
+  $$('input[name="confidence"]').forEach(input => {
+    input.checked = Number(input.value) === Number(state.confidence[dayKey(state.selectedDay)]);
+  });
+
+  const reflections = Object.entries(state.reflections)
+    .filter(([, text]) => String(text || "").trim())
+    .map(([key, text]) => {
+      const dayIndex = Number(key.replace("day-", ""));
+      const position = getWeekAndDay(dayIndex);
+      return {
+        dayIndex,
+        text: String(text).trim(),
+        confidence: Number(state.confidence[key] || 0),
+        title: weeks[position.weekIndex].days[position.dayOfWeek].title,
+        date: getProgramDate(dayIndex)
+      };
+    })
+    .sort((a, b) => b.dayIndex - a.dayIndex);
+
+  const evidenceCards = [...state.evidenceBank].sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+  $("#reflectionCount").textContent = reflections.length + evidenceCards.length;
+  $("#reflectionHistory").innerHTML = evidenceCards.length || reflections.length
+    ? `${evidenceCards.map(item => `<article class="evidence-bank-entry">
+        <header><small>WEEK ${item.week} · ${escapeHTML(item.skill)}</small><span>EVIDENCE</span></header>
+        <div><strong>${Number(item.week) === 4 ? "Mission" : "Prediction"}</strong><p>${escapeHTML(item.prediction)}</p></div>
+        <div><strong>Reality</strong><p>${escapeHTML(item.reality)}</p></div>
+        ${Number.isFinite(Number(item.beliefBefore)) && Number.isFinite(Number(item.beliefAfter)) && item.beliefBefore !== null && item.beliefAfter !== null ? `<footer><span>Belief</span><strong>${item.beliefBefore}% → ${item.beliefAfter}%</strong></footer>` : ""}
+      </article>`).join("")}${reflections.map(item => `<button class="reflection-entry" type="button" data-reflection-day="${item.dayIndex}">
+        <span><small>DAY ${item.dayIndex + 1}</small><time>${new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(item.date)}</time></span>
+        <strong>${escapeHTML(item.title)}</strong>
+        <p>${escapeHTML(item.text)}</p>
+        ${item.confidence ? `<em>Confidence ${item.confidence}/5</em>` : ""}
+      </button>`).join("")}`
+    : `<div class="reflection-empty"><span>✦</span><strong>Your evidence will collect here.</strong><p>Save your first reflection and return to it whenever you need proof of your progress.</p></div>`;
+
+  $$("[data-reflection-day]").forEach(button => button.addEventListener("click", () => {
+    selectDay(Number(button.dataset.reflectionDay));
+    $("#reflection").scrollIntoView({ behavior: "smooth", block: "start" });
+  }));
+}
+
+function selectDay(dayIndex, scroll = false) {
+  state.selectedDay = Math.max(0, Math.min(41, dayIndex));
+  const { weekIndex } = getWeekAndDay();
+  state.selectedWeek = weekIndex;
+  saveState(); renderAll();
+  if (scroll) $("#today").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function showToast(message) {
+  clearTimeout(toastTimer);
+  $("#toast").textContent = message;
+  $("#toast").classList.add("show");
+  toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 2400);
+}
+
+window.SpeakersGymPortal = {
+  client: CLIENT_PROFILE,
+  weeks,
+  getState: () => state,
+  updateWeek1(patch) {
+    state.week1Lecture = { ...state.week1Lecture, ...patch };
+    saveState();
+  },
+  setExposureLevel(level) {
+    state.week2Lecture.currentLevel = EXPOSURE?.clampLevel(level) || 1;
+    saveState();
+    renderAll();
+  },
+  saveEvidence(card) {
+    const existing = state.evidenceBank.findIndex(item => item.id === card.id);
+    if (existing >= 0) state.evidenceBank[existing] = card;
+    else state.evidenceBank.push(card);
+    saveState();
+  },
+  resetWeek1() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 1);
+    state.week1Lecture = JSON.parse(JSON.stringify(defaultState.week1Lecture));
+    state.week2Lecture.currentLevel = null;
+    saveState();
+    renderAll();
+  },
+  resetWeek2() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 2);
+    state.week2Lecture = JSON.parse(JSON.stringify(defaultState.week2Lecture));
+    saveState();
+    renderAll();
+  },
+  resetWeek3() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 3);
+    state.week3Lecture = JSON.parse(JSON.stringify(defaultState.week3Lecture));
+    saveState();
+    renderAll();
+  },
+  resetWeek4() {
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 4);
+    state.week4Lecture = JSON.parse(JSON.stringify(defaultState.week4Lecture));
+    saveState();
+    renderAll();
+  },
+  updateWeek5(patch) { state.week5Lecture = { ...state.week5Lecture, ...patch }; saveState(); },
+  resetLecture(week) {
+    if (week !== 5 || !window.confirm("Reset Lecture 5? Only its answers, mission and evidence will be cleared.")) return false;
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 5);
+    state.week5Lecture = structuredClone(defaultState.week5Lecture);
+    saveState(); renderAll(); showToast("Lecture 5 is ready for a fresh start."); return true;
+  },
+  updateWeek4(patch) {
+    state.week4Lecture = { ...state.week4Lecture, ...patch };
+    saveState();
+  },
+  updateWeek3(patch) {
+    state.week3Lecture = { ...state.week3Lecture, ...patch };
+    saveState();
+  },
+  updateLecture(patch) {
+    state.week2Lecture = { ...state.week2Lecture, ...patch };
+    saveState();
+  },
+  saveState,
+  renderAll,
+  showToast,
+  toDateInputValue
+};
+
+$("#previousDay").addEventListener("click", () => selectDay(state.selectedDay - 1));
+$("#nextDay").addEventListener("click", () => selectDay(state.selectedDay + 1));
+$("#week1ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 1? This will clear the PREP answers, Versions, prediction, mission, Week 1 evidence and selected test level. The rest of Nadira's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek1();
+  showToast("Lecture 1 is ready for a fresh start.");
+});
+$("#week2ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 2? This will clear the voice pattern, Versions, prediction, mission, Week 2 evidence and selected situation level. The rest of Nadira's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek2();
+  showToast("Lecture 2 is ready for a fresh start.");
+});
+$("#week3ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 3? This will clear pace choices, the pace map, mission and Week 3 evidence. The rest of Nadira's portal will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek3();
+  showToast("Lecture 3 is ready for a fresh start.");
+});
+$("#week4ResetButton")?.addEventListener("click", () => {
+  const confirmed = window.confirm("Reset Lecture 4? This will clear its pause practice, mission and Week 4 evidence. Nadira's other weeks will stay unchanged.");
+  if (!confirmed) return;
+  window.SpeakersGymPortal.resetWeek4();
+  showToast("Lecture 4 is ready for a fresh start.");
+});
+$("#completeDayButton").addEventListener("click", () => {
+  const key = dayKey(state.selectedDay);
+  const completing = !state.completedDays[key];
+  state.completedDays[key] = completing;
+  for (let i = 0; i < 3; i++) state.completedTasks[taskKey(state.selectedDay, i)] = completing;
+  saveState(); renderProgress(); renderToday(); renderRoadmap();
+  showToast(completing ? "Day completed. That is evidence." : "Day reopened for practice.");
+});
+
+$("#reflectionForm").addEventListener("submit", event => {
+  event.preventDefault();
+  state.reflections[dayKey(state.selectedDay)] = $("#reflectionText").value.trim();
+  const confidence = $('input[name="confidence"]:checked');
+  if (confidence) state.confidence[dayKey(state.selectedDay)] = Number(confidence.value);
+  saveState();
+  renderReflection();
+  $("#savedBadge").classList.add("show");
+  setTimeout(() => $("#savedBadge").classList.remove("show"), 1800);
+  showToast(window.PortalSync?.isCloud() ? "Reflection saved to your account." : "Reflection saved privately on this device.");
+});
+
+$("#startDateButton").addEventListener("click", () => {
+  const input = $("#startDateInput");
+  if (typeof input.showPicker === "function") input.showPicker(); else input.click();
+});
+$("#startDateInput").addEventListener("change", event => {
+  if (!event.target.value) return;
+  state.startDate = event.target.value;
+  saveState(); renderHeader(); renderReflection(); showToast("Program dates updated.");
+});
+
+$(".mobile-menu").addEventListener("click", event => {
+  document.body.classList.toggle("menu-open");
+  event.currentTarget.setAttribute("aria-expanded", document.body.classList.contains("menu-open"));
+});
+function closeMobileMenu() {
+  document.body.classList.remove("menu-open");
+  $(".mobile-menu").setAttribute("aria-expanded", "false");
+}
+$(".menu-close").addEventListener("click", closeMobileMenu);
+$(".menu-backdrop").addEventListener("click", closeMobileMenu);
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && document.body.classList.contains("menu-open")) closeMobileMenu();
+});
+$$('.side-nav a').forEach(link => link.addEventListener("click", closeMobileMenu));
+
+const sectionObserver = new IntersectionObserver(entries => {
+  const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  if (!visible) return;
+  $$(".side-nav a").forEach(link => link.classList.toggle("active", link.dataset.nav === visible.target.id));
+}, { threshold: [0.2, 0.45], rootMargin: "-15% 0px -55%" });
+$$('#today, #exposure, #journey, #reflection').forEach(section => sectionObserver.observe(section));
+
+renderAll();
+
+
+$("#week5ResetButton")?.addEventListener("click", () => window.SpeakersGymPortal.resetLecture(5));
+
+document.addEventListener("click", async event => {
+  if (event.target.closest("#saveCoachMission")) {
+    try { await window.PortalSync.saveCoachMission(6, $("#coachMission6").value); showToast(`Week 6 mission saved. ${CLIENT_PROFILE.name || "The student"} will see it.`); renderAll(); }
+    catch { showToast("The mission could not be saved. Please try again."); }
+  }
+  if (event.target.closest("#completeWeek6")) {
+    const result = $("#week6Result").value.trim();
+    if (!result) { showToast("Add one sentence about what happened."); $("#week6Result").focus(); return; }
+    state.week6Mission = { status: "completed", result, completedAt: new Date().toISOString() };
+    saveState(); renderAll(); showToast("Week 6 mission saved. Well done.");
+  }
+});
+
+window.PortalSync?.init({
+  client: CLIENT_PROFILE.id,
+  storageKey: PROGRAM_KEY,
+  getState: () => state,
+  replaceState: saved => { state = loadState(saved); renderAll(); },
+  onChange: () => renderAll(),
+  logo: "Logo.png",
+  logoutTarget: ".side-nav",
+  logoutClass: "side-logout"
+});

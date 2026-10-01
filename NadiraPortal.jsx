@@ -28,7 +28,7 @@ export default function NadiraPortal() {
     <main className="khadija-portal-shell">
       <iframe
         className="khadija-portal-frame"
-        src="https://nadira-speaking-journey.vercel.app/?v=lecture5-sync-1"
+        src="/nadira-portal/index.html"
         allow="microphone"
         title="Nadira's private Speaker's Gym coaching portal"
       />
