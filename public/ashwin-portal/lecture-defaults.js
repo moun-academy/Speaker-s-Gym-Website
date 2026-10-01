@@ -108,6 +108,37 @@
       lectureCompletedAt: null,
       completedAt: null,
       lastViewedAt: null
+    },
+    week5Lecture: {
+      flowVersion: 1,
+      currentStep: 0,
+      currentLevel: null,
+      demoMode: "",
+      demoTried: [],
+      rapportChoice: "",
+      rangeLow: null,
+      rangeHigh: null,
+      rangeSelfCheck: false,
+      stressTried: [],
+      landed: 0,
+      landSelfCheck: false,
+      sortAnswers: {},
+      mix: {},
+      performSpan: null,
+      performBest: 0,
+      performSelfCheck: false,
+      story: {},
+      storyMoves: {},
+      prediction: "",
+      missionLevel: null,
+      mission: "",
+      missionStatus: "not-started",
+      acceptedAt: null,
+      actualResult: "",
+      evidenceId: null,
+      lectureCompletedAt: null,
+      completedAt: null,
+      lastViewedAt: null
     }
   };
 

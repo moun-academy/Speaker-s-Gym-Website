@@ -20,7 +20,7 @@
   let tourStep=0;
   const tour = [
     ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 5–10 minutes. Mark it done when you finish.','Today’s speaking reps','One clear introduction'],
-    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, and pauses. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Apply'],
+    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, pauses, and pitch. You can explore any lecture. Your place is saved when you leave.','Your speaking foundations','Learn → Practice → Apply'],
     ['Keep the evidence of progress.','Save a small win or a question in your reflections. Bring useful notes to your one-hour coaching calls with Marouane.','Small wins, real evidence','Notice. Learn. Continue.']
   ];
 
@@ -63,7 +63,8 @@
       structure:'<rect x="26" y="58" width="40" height="42" rx="5"/><rect x="86" y="45" width="40" height="55" rx="5"/><rect x="146" y="28" width="40" height="72" rx="5"/><rect x="206" y="10" width="40" height="90" rx="5"/><path d="M66 79H86M126 68H146M186 58H206"/>',
       voice:'<path d="M30 60V64M45 47V77M60 37V87M75 49V75M90 22V102M105 37V87M120 8V116M135 32V92M150 40V84M165 20V104M180 34V90M195 46V78M210 40V84M225 51V73M240 57V67" stroke-width="5" stroke-linecap="round"/>',
       pace:'<path d="M15 89C45 89 45 39 75 39S105 89 135 89S165 19 195 19S225 79 255 79" stroke-width="2"/><circle cx="75" cy="39" r="6"/><circle cx="135" cy="89" r="6"/><circle cx="195" cy="19" r="6"/><path d="M15 108H255" stroke-dasharray="2 5"/>',
-      pauses:'<circle cx="135" cy="62" r="51" stroke-opacity=".3"/><circle cx="135" cy="62" r="39" stroke-opacity=".5"/><rect x="120" y="43" width="8" height="38" rx="4"/><rect x="142" y="43" width="8" height="38" rx="4"/><path d="M40 62H62M208 62H230"/>'
+      pauses:'<circle cx="135" cy="62" r="51" stroke-opacity=".3"/><circle cx="135" cy="62" r="39" stroke-opacity=".5"/><rect x="120" y="43" width="8" height="38" rx="4"/><rect x="142" y="43" width="8" height="38" rx="4"/><path d="M40 62H62M208 62H230"/>',
+      melody:'<path d="M15 72H70" stroke-opacity=".35" stroke-dasharray="3 5"/><path d="M70 72C90 72 92 40 112 40S136 22 150 22 172 60 190 60 220 92 255 96" stroke-width="2.5" stroke-linecap="round"/><circle cx="112" cy="40" r="5"/><circle cx="150" cy="22" r="5"/><circle cx="190" cy="60" r="5"/><circle cx="255" cy="96" r="5"/>'
     };
     return `<svg viewBox="0 0 270 125" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${content[type]}</svg>`;
   }
@@ -89,7 +90,7 @@
   function updateLecture(week,patch) {state[`week${week}Lecture`]={...state[`week${week}Lecture`],...patch};saveState();}
   const portal = {
     client:{id:'ashwin',name:'Ashwin',storageKey:DATA.storageKey},getState:()=>state,
-    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),
+    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Ashwin's other progress stays saved.`)) return false;

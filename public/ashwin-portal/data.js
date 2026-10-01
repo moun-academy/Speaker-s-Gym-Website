@@ -38,7 +38,7 @@ window.ASHWIN_DATA = {
       ['A clear point to a senior listener','Rehearse a short update for a senior executive. Begin with what matters to that listener.','Here is the main issue, my recommendation, and the next step.'],
       ['Notice what silence made possible','Save a reflection about a pause you used, in practice or a conversation.','What changed when I gave myself a moment to think?']
     ]},
-    { short:'Storytelling', title:'Storytelling That Brings Out Your Personality', focus:'Use real project stories, tone, pitch, and expression to bring out your personality and show what you contributed.', outcome:'I can tell a concise project story with a situation, my action, and an honest result.', lecture:null, days:[
+    { short:'Storytelling', title:'Storytelling That Brings Out Your Personality', focus:'Use pitch, pace, and volume together so your project stories carry real expression and more of your personality comes through.', outcome:'I can tell a concise project story with a situation, my action, and an honest result, stepping up on key words and landing my final sentence.', lecture:5, days:[
       ['Choose a story you know well','Pick a real milestone from your experience. Write four keywords, then speak from them.','What project am I proud to have contributed to?'],
       ['Your action within the team','Explain what you personally did, while giving the team credit for shared results.','What was my responsibility, and what action did I take?'],
       ['Make the result concrete','Name an observable result. Use only details and numbers you can stand behind.','What became clearer, safer, faster, or easier because of the work?'],
@@ -73,6 +73,7 @@ window.ASHWIN_DATA = {
     {week:1,title:'Think clearly. Speak simply.',skill:'STRUCTURE & PREP',description:'Give your answers a clear shape. Point, reason, example, point.',art:'structure',trigger:'data-open-week1'},
     {week:2,title:'A voice that carries.',skill:'VOLUME & PRESENCE',description:'Build a supported voice and let your final words be heard.',art:'voice',trigger:'data-open-week2-lecture'},
     {week:3,title:'Find your speaking rhythm.',skill:'PACE & VARIETY',description:'Fast, slow, stop. Give your important ideas the space they need.',art:'pace',trigger:'data-open-week3-lecture'},
-    {week:4,title:'The power of a pause.',skill:'SILENCE & COMPOSURE',description:'Take a moment to think. Replace fillers with intentional silence.',art:'pauses',trigger:'data-open-week4-lecture'}
+    {week:4,title:'The power of a pause.',skill:'SILENCE & COMPOSURE',description:'Take a moment to think. Replace fillers with intentional silence.',art:'pauses',trigger:'data-open-week4-lecture'},
+    {week:5,title:'Find the music in your voice.',skill:'PITCH & VOCAL VARIETY',description:'Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.',art:'melody',trigger:'data-open-week5-lecture'}
   ]
 };
