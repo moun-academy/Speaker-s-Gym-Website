@@ -38,7 +38,7 @@ window.ASHWIN_DATA = {
       ['A clear point to a senior listener','Rehearse a short update for a senior executive. Begin with what matters to that listener.','Here is the main issue, my recommendation, and the next step.'],
       ['Notice what silence made possible','Save a reflection about a pause you used, in practice or a conversation.','What changed when I gave myself a moment to think?']
     ]},
-    { short:'Storytelling', title:'Storytelling That Brings Out Your Personality', focus:'Use pitch, pace, and volume together so your project stories carry real expression and more of your personality comes through.', outcome:'I can tell a concise project story with a situation, my action, and an honest result, stepping up on key words and landing my final sentence.', lecture:5, days:[
+    { short:'Melody', title:'Find the Music in Your Voice', focus:'Move your voice up and down so people hear how you feel, not just what you say. Pitch, pace, and volume together make you easy and enjoyable to listen to.', outcome:'I can step up on the word that matters and end my sentences low and sure, so I sound like I mean it.', lecture:5, days:[
       ['Choose a story you know well','Pick a real milestone from your experience. Write four keywords, then speak from them.','What project am I proud to have contributed to?'],
       ['Your action within the team','Explain what you personally did, while giving the team credit for shared results.','What was my responsibility, and what action did I take?'],
       ['Make the result concrete','Name an observable result. Use only details and numbers you can stand behind.','What became clearer, safer, faster, or easier because of the work?'],
@@ -47,7 +47,7 @@ window.ASHWIN_DATA = {
       ['A concise executive update','Use a headline, one supporting example, and a next step. Keep technical detail relevant.','What does this senior listener need to know first?'],
       ['Keep a useful story','Save the keywords from one story you want to bring to coaching.','Which example best shows a contribution I can explain clearly?']
     ]},
-    { short:'Integration', title:'Full Integration + Your Real Target', focus:'Bring structure, voice, pace, pauses, and storytelling together for your interview goal. Review your progress and choose your next practice commitments.', outcome:'I can explain my experience, tell a project story, and answer a follow-up with clear structure.', lecture:null, days:[
+    { short:'Integration', title:'Full Integration + Your Real Target', focus:'Bring structure, voice, pace, pauses, and melody together for your interview goal. Review your progress and choose your next practice commitments.', outcome:'I can explain my experience, tell a project story, and answer a follow-up with clear structure.', lecture:null, days:[
       ['Your introduction, revisited','Record your introduction again. Lead with your relevant experience and one useful example.','Tell me about yourself.'],
       ['A question about your strengths','Choose one strength and support it with a project story. Keep your claims specific.','What would you bring to our team?'],
       ['A difficult question, calmly answered','Pause and describe a real challenge, your action, and what you learned.','Tell me about a project that did not go as expected.'],
