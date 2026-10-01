@@ -90,3 +90,21 @@ test('the Redis store speaks the Upstash REST format', async () => {
   assert.equal(sent[1][0], 'EVAL');
   assert.equal(redisStore({}), null);
 });
+
+test('open mode (no session secret): no login, known clients only, progress saved per client', async () => {
+  const open = { };
+  const store = memoryStore();
+  const call = args => handlePortal({ env: open, store, secure: false, ip: '1.1.1.1', method: 'GET', action: 'state', client: 'ashwin', ...args });
+  const first = await call({});
+  assert.deepEqual([first.status, first.json.open, first.json.role, first.json.version, first.json.state], [200, true, 'client', 0, null]);
+  assert.equal((await call({ method: 'PUT', body: { version: 0, state: { reflections: ['hi'] } } })).json.version, 1);
+  assert.equal((await call({})).json.state.reflections[0], 'hi');
+  // A different client has its own record, and unknown clients are refused.
+  assert.equal((await call({ client: 'pankaj' })).json.state, null);
+  assert.equal((await call({ client: 'stranger' })).status, 401);
+  // Week 6 mission can be set without a coach login in open mode.
+  assert.equal((await call({ method: 'PUT', action: 'coach', body: { coach: { missions: { 6: 'Tell a story.' } } } })).status, 200);
+  assert.equal((await call({})).json.coach.missions[6], 'Tell a story.');
+  // Still refuses to run with no store at all.
+  assert.equal((await handlePortal({ env: open, store: null, method: 'GET', action: 'state', client: 'ashwin' })).status, 503);
+});

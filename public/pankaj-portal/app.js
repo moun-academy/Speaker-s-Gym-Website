@@ -429,7 +429,7 @@
     const lecturesDone = rows.filter(row => row.lectureState === "done").length;
     const missionsDone = rows.filter(row => row.missionState === "done").length;
     const level = clampLevel(state.currentLevel);
-    const coach = Boolean(window.PortalSync?.isCoach());
+    const coach = Boolean(window.PortalSync?.canSetMissions());
     const updatedAt = window.PortalSync?.updatedAt();
     $("#journeySummary").innerHTML = `<div class="journey-now">
         <span class="eyebrow">${currentIndex < 0 ? "Journey complete" : "Where we are"}</span>

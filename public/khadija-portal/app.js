@@ -450,7 +450,7 @@ function renderWeekMission() {
   if (!target) return;
   const index = state.selectedWeek;
   const row = weekPillars(index);
-  const coach = Boolean(window.PortalSync?.isCoach());
+  const coach = Boolean(window.PortalSync?.canSetMissions());
   const pill = row.missionState === "done" ? '<span class="mission-pill done">✓ Done</span>'
     : index === 5 ? '<span class="mission-pill">Set with your coach</span>'
     : row.missionState === "set" ? '<span class="mission-pill waiting">Waiting for report</span>'

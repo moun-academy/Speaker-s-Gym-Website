@@ -22,6 +22,7 @@
   catch { state = normalizeState(null); }
   // Online sync. mode: 'starting' until the server answers, 'cloud' when logged in, 'local' when the server is not set up.
   const CLIENT_ID = 'ashwin';
+  try{const flag=new URLSearchParams(location.search).get('coach');if(flag==='1')localStorage.setItem('sgCoach','1');if(flag==='0')localStorage.removeItem('sgCoach');}catch{}
   const sync = {mode:'starting', role:null, version:0, updatedAt:null, coach:{missions:{}}, timer:null, saving:false, pending:false};
   let toastTimer;
   let tourStep=0;
@@ -85,8 +86,8 @@
     showLogin('We could not reach your account. Check your connection and try again.');
   }
   function startCloud(data) {
-    sync.mode='cloud'; sync.role=data.role; sync.version=data.version||0; sync.updatedAt=data.updatedAt; sync.coach=data.coach||{missions:{}};
-    document.body.classList.toggle('coach-view',sync.role==='coach');document.body.classList.add('cloud-mode');
+    sync.open=Boolean(data.open);sync.editor=data.role==='coach'||(sync.open&&localStorage.getItem('sgCoach')==='1');sync.mode='cloud'; sync.role=data.role; sync.version=data.version||0; sync.updatedAt=data.updatedAt; sync.coach=data.coach||{missions:{}};
+    document.body.classList.toggle('coach-view',sync.role==='coach');if(!sync.open)document.body.classList.add('cloud-mode');
     document.body.classList.remove('portal-locked'); $('#loginDialog')?.remove();
     if (data.state) applyRemote(data.state,sync.version);
     else if (sync.role==='client') { renderAll(); pushState(); showToast('Your progress is now saved to your account.'); }
@@ -172,7 +173,7 @@
     const lecturesDone=rows.filter(row=>row.lectureState==='done').length;
     const lectureLabel={done:'✓ Finished',started:'◐ Started',none:'○ Not started'};
     const missionPill={done:'<span class="track-pill done">✓ Done</span>',set:'<span class="track-pill waiting">Waiting for report</span>',none:'<span class="track-pill">Not set yet</span>'};
-    const coach=sync.role==='coach';
+    const coach=sync.role==='coach';const editor=coach||sync.editor;
     const level=clampLevel(state.currentLevel);
     $('#progressSummary').innerHTML=`<div><span class="eyebrow">${current?'WHERE WE ARE':'JOURNEY COMPLETE'}</span><h2>${current?`Week ${current.week} of 6 · ${esc(DATA.weeks[current.week-1].short)}`:'All six weeks complete'}</h2>${coach&&sync.updatedAt?`<p>Last saved ${esc(new Date(sync.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))}</p>`:''}<ol class="track-dots" aria-hidden="true">${rows.map(row=>`<li class="${row.missionState==='done'?'done':current&&row.week===current.week?'current':''}">${row.week}</li>`).join('')}</ol></div><div class="pillars"><div><small>PILLAR 1 · LECTURES</small><strong>${lecturesDone} <span>of 5 finished</span></strong><i><b style="width:${lecturesDone/5*100}%"></b></i></div><div><small>PILLAR 2 · EXPOSURE</small><strong>${missionsDone} <span>of 6 missions done</span></strong><i><b style="width:${missionsDone/6*100}%"></b></i></div><div><small>SPEAKING LADDER</small><strong>Step ${level} <span>of 10</span></strong><i><b style="width:${level*10}%"></b></i></div></div>`;
     $('#ladder').innerHTML=`<header><div><span class="eyebrow">PILLAR 2 · EXPOSURE</span><h2 id="ladderTitle">Your speaking ladder</h2></div><p>Every mission is a real speaking moment. Start where it feels manageable and climb one step at a time${coach?'':'. Tap a step to update where you are'}.</p></header><ol class="ladder-steps">${DATA.levels.map((item,index)=>`<li class="${index+1<level?'past':index+1===level?'current':''}"><button type="button" data-ladder-step="${index+1}" ${coach?'disabled':''} aria-label="Step ${index+1}: ${esc(item.name)}"><b>${index+1}</b><span>${esc(item.name)}</span></button></li>`).join('')}</ol><p class="ladder-focus"><strong>Step ${level} · ${esc(DATA.levels[level-1].name)}.</strong> ${esc(DATA.levels[level-1].behavior)}</p>`;
@@ -183,7 +184,7 @@
       const lectureCell=row.lecture?`<div class="track-cell"><small>PILLAR 1 · LECTURE</small><strong>${lectureLabel[row.lectureState]}</strong><button class="text-button" ${row.lecture.trigger}>${row.lectureState==='none'?'Open lecture':'Open lecture again'} <span>→</span></button></div>`:`<div class="track-cell"><small>PILLAR 1 · LECTURE</small><strong>No lecture</strong><p>Bring every skill together with your coach.</p></div>`;
       let missionBody;
       if (row.week===6) {
-        missionBody=coach?`<label class="track-edit">Week 6 mission<textarea id="coachMission6" rows="2" maxlength="600" placeholder="Write the mission for this week">${esc(row.mission)}</textarea></label><button class="text-button" id="saveCoachMission">Save mission <span>→</span></button>`
+        missionBody=editor?`<label class="track-edit">Week 6 mission<textarea id="coachMission6" rows="2" maxlength="600" placeholder="Write the mission for this week">${esc(row.mission)}</textarea></label><button class="text-button" id="saveCoachMission">Save mission <span>→</span></button>`
           :row.mission?`<p class="track-mission">${esc(row.mission)}</p>${row.missionState==='done'?'':`<label class="track-edit">What happened?<textarea id="week6Result" rows="2" maxlength="2000" placeholder="One or two sentences.">${esc(row.result)}</textarea></label><button class="text-button" id="completeWeek6">Mark as done <span>✓</span></button>`}`
           :'<p class="track-muted">Marouane will set this mission with you.</p>';
       } else {

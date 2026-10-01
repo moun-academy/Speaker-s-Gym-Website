@@ -136,10 +136,19 @@ const loginKey = ip => `portal:login:${sha256(ip).toString("hex").slice(0, 24)}`
 
 /* ---------- request handling (framework-free so it can be tested) ---------- */
 
+const knownClients = env => String(env.PORTAL_CLIENTS || "ashwin,pankaj,khadija,nadira").split(",").map(item => item.trim()).filter(Boolean);
+
 export async function handlePortal({ method, action, client, body, cookie, ip, env, store, secure }) {
   const secret = env.PORTAL_SESSION_SECRET;
-  if (!store || !secret || secret.length < 32) return { status: 503, json: { ok: false, error: "portal_not_configured" } };
-  const session = readSession(readCookie(cookie, SESSION_COOKIE), secret);
+  // Without a session secret the portals run in open mode: no login, and each known client's
+  // progress is reachable through that client's own (unlisted) portal link.
+  const open = !secret;
+  if (!store || (!open && secret.length < 32)) return { status: 503, json: { ok: false, error: "portal_not_configured" } };
+  const session = open
+    ? (isClientId(client) && knownClients(env).includes(client) ? { role: "client", client } : null)
+    : readSession(readCookie(cookie, SESSION_COOKIE), secret);
+
+  if (action === "login" && method === "POST" && open) return { status: 200, json: { ok: true, role: "client", open: true } };
 
   if (action === "login" && method === "POST") {
     if ((await store.hit(loginKey(ip || "unknown"), LOGIN_WINDOW_SECONDS)) > LOGIN_LIMIT) return { status: 429, json: { ok: false, error: "too_many_attempts" } };
@@ -154,7 +163,7 @@ export async function handlePortal({ method, action, client, body, cookie, ip, e
 
   if (action === "state" && method === "GET") {
     const [saved, coach] = await Promise.all([store.get(stateKey(client)), store.get(coachKey(client))]);
-    return { status: 200, json: { ok: true, role: session.role, version: saved?.version || 0, updatedAt: saved?.updatedAt || null, state: saved?.state || null, coach: coach || { missions: {} } } };
+    return { status: 200, json: { ok: true, open, role: session.role, version: saved?.version || 0, updatedAt: saved?.updatedAt || null, state: saved?.state || null, coach: coach || { missions: {} } } };
   }
 
   if (action === "state" && method === "PUT") {
@@ -170,7 +179,7 @@ export async function handlePortal({ method, action, client, body, cookie, ip, e
   }
 
   if (action === "coach" && method === "PUT") {
-    if (session.role !== "coach") return { status: 403, json: { ok: false, error: "coach_only" } };
+    if (session.role !== "coach" && !open) return { status: 403, json: { ok: false, error: "coach_only" } };
     if (!validCoachData(body?.coach)) return { status: 400, json: { ok: false, error: "invalid_coach_data" } };
     await store.set(coachKey(client), body.coach);
     return { status: 200, json: { ok: true } };

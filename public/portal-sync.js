@@ -66,9 +66,12 @@
   }
 
   function startCloud(data) {
+    sync.open = Boolean(data.open);
+    sync.editor = sync.role === "coach" || (sync.open && localStorage.getItem("sgCoach") === "1");
     sync.mode = "cloud"; sync.role = data.role; sync.version = data.version || 0; sync.updatedAt = data.updatedAt; sync.coach = data.coach || { missions: {} };
     document.body.classList.remove("ps-locked");
     document.body.classList.add("ps-cloud");
+    document.body.classList.toggle("ps-open", sync.open);
     document.body.classList.toggle("ps-coach", sync.role === "coach");
     document.getElementById("psLogin")?.remove();
     if (data.state) applyRemote(data.state, sync.version);
@@ -132,6 +135,11 @@
   window.PortalSync = {
     init(config) {
       options = config;
+      try {
+        const flag = new URLSearchParams(location.search).get("coach");
+        if (flag === "1") localStorage.setItem("sgCoach", "1");
+        if (flag === "0") localStorage.removeItem("sgCoach");
+      } catch {}
       document.body.classList.add("ps-locked");
       document.body.insertAdjacentHTML("afterbegin", `<div class="ps-coach-banner" role="status"><strong>Coach view.</strong> You are seeing this portal as the student sees it. Changes here are not saved.</div>`);
       document.body.insertAdjacentHTML("beforeend", `<div class="ps-status" aria-live="polite"></div>`);
@@ -144,6 +152,8 @@
       clearTimeout(sync.timer); sync.timer = setTimeout(push, 700); status("saving");
     },
     isCoach: () => sync.role === "coach",
+    // True for the coach who may write the Week 6 mission. In open mode, visit the portal once with ?coach=1.
+    canSetMissions: () => sync.role === "coach" || (sync.open && localStorage.getItem("sgCoach") === "1"),
     isCloud: () => sync.mode === "cloud",
     coach: () => sync.coach,
     updatedAt: () => sync.updatedAt,
