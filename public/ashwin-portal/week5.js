@@ -11,7 +11,7 @@
     { title: "Find Your Range", start: 3, end: 4 },
     { title: "Pitch Shapes Meaning", start: 5, end: 7 },
     { title: "Mix Pace, Volume and Pitch", start: 8, end: 9 },
-    { title: "Tell Your Story With Melody", start: 10, end: 12 }
+    { title: "Take It Into Real Life", start: 11, end: 12 }
   ];
 
   const stages = [
@@ -71,18 +71,11 @@
   };
   const mixLabel = (dial, value) => (mixOptions[dial].find(option => option[0] === value) || [, "?"])[1];
 
-  const storyFields = [
-    { id: "situation", label: "SITUATION", hint: "Where and when?", move: "mid" },
-    { id: "tension", label: "TENSION", hint: "What went wrong or was at stake?", move: "low" },
-    { id: "action", label: "YOUR ACTION", hint: "What did you do?", move: "high" },
-    { id: "result", label: "RESULT", hint: "What changed because of it?", move: "land" }
-  ];
-  const storyMoves = [["high", "Lift ↗"], ["step", "Step up ⇡"], ["mid", "Middle →"], ["low", "Drop ↘"], ["land", "Land ⤵"]];
-
   const landSentence = "I think we should start next Monday.";
 
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  const lectureStepCount = 13;
+  // Step 10 (build your own story) was retired; it is now an assignment given after the lecture.
+  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15];
+  const lectureStepCount = 12;
   let previousFocus = null;
   let timers = [];
 
@@ -265,7 +258,7 @@
     micStop();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.includes(savedStep) ? savedStep : 0;
+    const step = stepOrder.find(item => item >= savedStep) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -442,20 +435,6 @@
           </aside>
         </div>
       `, { className: "w5-perform-screen" });
-    } else if (step === 10) {
-      const story = state.story || {};
-      const storyMove = state.storyMoves || {};
-      page = shell(`
-        <p class="w3-eyebrow">YOUR STORY · YOUR MELODY</p>
-        <h1 id="week5PageTitle">Now score<br /><em>a story of your own.</em></h1>
-        <p class="w3-lede">Choose a real moment from your life or work that you are proud of. Write a few words for each part, not a full script.</p>
-        <div class="w5-builder">${storyFields.map((field, index) => `<label class="w5-build-row" data-w3-animate style="--i:${index}">
-          <span><small>${String(index + 1).padStart(2, "0")} · ${field.label}</small>${esc(field.hint)}</span>
-          <input type="text" maxlength="90" data-w5-story="${field.id}" value="${esc(story[field.id] || "")}" placeholder="A few words" />
-          <div class="w5-move-picker" role="group" aria-label="Pitch move for ${field.label}">${storyMoves.map(([value, label]) => `<button type="button" class="${(storyMove[field.id] || field.move) === value ? "on" : ""}" data-w5-story-move="${field.id}" data-w5-value="${value}">${esc(label)}</button>`).join("")}</div>
-        </label>`).join("")}</div>
-        <p class="w3-coach-note">Tell it twice in the practice app: once flat on purpose, once with your moves. Listen with audio only, as Vinh Giang suggests. The difference is your evidence.</p>
-      `, { className: "w5-builder-screen" });
     } else if (step === 11) {
       const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
@@ -736,7 +715,6 @@
     const state = getState();
     const step = Number(state.currentStep || 0);
     const mix = state.mix || {};
-    const story = state.story || {};
     const requirements = {
       1: [(state.demoTried || []).length >= 2, "Try both versions out loud first."],
       2: [state.rapportChoice, "Pick the reply that feels like you care."],
@@ -746,14 +724,13 @@
       7: [sortItems.every(item => (state.sortAnswers || {})[item.id]), "Choose a move for every moment."],
       8: [storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial])), "Choose pitch, pace and volume for all four parts."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
-      10: [storyFields.every(field => String(story[field.id] || "").trim()), "Add a few words to every part of your story."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
     if (requirements[step] && !requirements[step][0]) {
       portal.showToast(requirements[step][1]);
       return;
     }
-    update({ currentStep: stepOrder[Math.min(12, stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
+    update({ currentStep: stepOrder[Math.min(stepOrder.indexOf(12), stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
     renderStep();
   }
 
@@ -890,13 +867,6 @@
       return;
     }
 
-    const storyMove = event.target.closest("[data-w5-story-move]");
-    if (storyMove) {
-      update({ storyMoves: { ...(getState().storyMoves || {}), [storyMove.dataset.w5StoryMove]: storyMove.dataset.w5Value } });
-      storyMove.parentElement.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === storyMove));
-      return;
-    }
-
     const levelButton = event.target.closest("[data-w5-level]");
     if (levelButton) {
       const level = exposure.clampLevel(levelButton.dataset.w5Level);
@@ -909,7 +879,6 @@
   root.addEventListener("input", event => {
     if (event.target.matches("[data-w5-mission]")) update({ mission: event.target.value });
     else if (event.target.matches("[data-w5-result]")) update({ actualResult: event.target.value });
-    else if (event.target.matches("[data-w5-story]")) update({ story: { ...(getState().story || {}), [event.target.dataset.w5Story]: event.target.value } });
   });
 
   document.addEventListener("click", event => {

@@ -179,17 +179,6 @@ body.week5-open { overflow: hidden; }
 .w5-span { font: 400 32px var(--display); color: white; }
 .w5-meter-panel .w5-feedback { margin-top: 0; font-size: 15px; }
 
-/* ---------- slide 10: story builder ---------- */
-.w5-builder { width: min(920px,100%); display: grid; gap: 10px; margin: 24px auto 0; }
-.w5-build-row { display: grid; grid-template-columns: 170px 1fr auto; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.8); }
-.w5-build-row > span { display: grid; gap: 3px; color: var(--muted); font-size: 11px; }
-.w5-build-row > span small { color: var(--coral-dark); font: 800 8px var(--detail); letter-spacing: .12em; }
-.w5-build-row input { width: 100%; border: 0; border-bottom: 2px solid #c8cac2; outline: none; background: transparent; font: 400 18px var(--display); padding: 6px 0; }
-.w5-build-row input:focus-visible { border-bottom-color: var(--coral); }
-.w5-move-picker { display: flex; flex-wrap: wrap; gap: 4px; }
-.w5-move-picker button { padding: 6px 9px; border: 1px solid var(--line); border-radius: 99px; font: 700 9px var(--detail); white-space: nowrap; }
-.w5-move-picker button.on { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
-
 /* ---------- short laptop screens ---------- */
 @media (max-height: 820px) and (min-width: 821px) {
   .week5-page .w3-screen { padding: 20px 0; }
@@ -208,7 +197,6 @@ body.week5-open { overflow: hidden; }
   .w5-desk, .w5-moves { grid-template-columns: 1fr 1fr; }
   .w5-desk-pause { display: none; }
   .w5-perform { grid-template-columns: 1fr; }
-  .w5-build-row { grid-template-columns: 1fr; gap: 8px; }
 }
 @media (max-width: 620px) {
   .w5-desk, .w5-moves, .w5-replies, .w5-science, .w5-land-shapes { grid-template-columns: 1fr; }

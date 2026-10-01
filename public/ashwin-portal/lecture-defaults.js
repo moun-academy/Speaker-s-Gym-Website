@@ -127,8 +127,6 @@
       performSpan: null,
       performBest: 0,
       performSelfCheck: false,
-      story: {},
-      storyMoves: {},
       prediction: "",
       missionLevel: null,
       mission: "",
