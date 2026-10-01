@@ -3,7 +3,7 @@ window.PANKAJ_JOURNEY_DATA = {
   ...window.PANKAJ_PORTAL_DATA,
   weeks: window.PANKAJ_PORTAL_DATA.weeks.map(week => ({
     ...week,
-    days: week.days.map(day => [day.title, day.intention, day.required, [day.required, ...(day.extras || [])]])
+    days: week.days.map(day => [day.title, day.intention, day.required, [...(day.actions?.length ? day.actions.map(action=>action.text) : [day.required]), ...(day.extras || [])]])
   })),
   lectures: [
   {

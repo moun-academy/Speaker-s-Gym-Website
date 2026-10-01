@@ -122,7 +122,7 @@
   function saveFeedback(message) { if(saveState()) showToast(message); }
   function setDay(index) {state.selectedDay=Math.max(0,Math.min(41,Number(index)||0));saveState();renderPractice();}
   function renderPractice() {
-    const day=flatDays[state.selectedDay]; const original=window.PANKAJ_PORTAL_DATA.weeks[day.weekIndex].days[day.dayIndex]; $('#practiceTime').textContent=original.time; $('#practiceReflection').textContent=original.prompt; const done=!!state.completedDays[state.selectedDay];
+    const day=flatDays[state.selectedDay]; const original=window.PANKAJ_PORTAL_DATA.weeks[day.weekIndex].days[day.dayIndex]; $('#practiceTime').textContent=original.time; $('#practiceApp').hidden=!original.app&&!original.actions?.some(action=>action.destination==='app'); $('#practiceCommunity').hidden=!original.actions?.some(action=>action.destination==='community'); $('#practiceReflection').textContent=original.prompt; const done=!!state.completedDays[state.selectedDay];
     $('#dayLabel').textContent=`WEEK ${String(day.weekIndex+1).padStart(2,'0')} · DAY ${String(day.dayIndex+1).padStart(2,'0')}`;
     $('#practiceTitle').textContent=day.title; $('#practiceDescription').textContent=day.description; $('#practicePrompt').textContent=`“${day.prompt}”`;
     const steps=day.steps || ['Follow the practice focus above.','Notice one strength and one adjustment.'];
