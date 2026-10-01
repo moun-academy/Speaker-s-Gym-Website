@@ -223,6 +223,37 @@ const defaultState = {
     completedAt: null,
     lastViewedAt: null
   },
+  week5Lecture: {
+      "flowVersion": 1,
+      "currentStep": 0,
+      "currentLevel": null,
+      "demoMode": "",
+      "demoTried": [],
+      "rapportChoice": "",
+      "rangeLow": null,
+      "rangeHigh": null,
+      "rangeSelfCheck": false,
+      "stressTried": [],
+      "landed": 0,
+      "landSelfCheck": false,
+      "sortAnswers": {},
+      "mix": {},
+      "performSpan": null,
+      "performBest": 0,
+      "performSelfCheck": false,
+      "story": {},
+      "storyMoves": {},
+      "prediction": "",
+      "missionLevel": null,
+      "mission": "",
+      "missionStatus": "not-started",
+      "acceptedAt": null,
+      "actualResult": "",
+      "evidenceId": null,
+      "lectureCompletedAt": null,
+      "completedAt": null,
+      "lastViewedAt": null
+},
   week4Lecture: {
     flowVersion: 2,
     currentStep: 0,
@@ -293,6 +324,7 @@ function loadState() {
     return {
       ...defaultState,
       ...stored,
+      week5Lecture: { ...defaultState.week5Lecture, ...(stored?.week5Lecture || {}), currentStep: Math.max(0, Math.min(15, Number(stored?.week5Lecture?.currentStep) || 0)) },
       evidenceBank: Array.isArray(stored?.evidenceBank) ? stored.evidenceBank : [],
       week1Lecture: {
         ...defaultState.week1Lecture,
@@ -671,6 +703,21 @@ function renderWeekDetail() {
           : `<strong>Discover → Still → Speak → Prove</strong><span>Replace fillers with silence and let one clear point land.</span>`;
     }
   }
+  const week5Entry = $("#week5LectureEntry");
+  if (week5Entry) {
+    week5Entry.hidden = state.selectedWeek !== 4;
+    if (!week5Entry.hidden) {
+      const lecture = state.week5Lecture;
+      const finished = Boolean(lecture.completedAt || lecture.evidenceId);
+      const taught = Boolean(lecture.lectureCompletedAt);
+      $("#week5LectureButton").textContent = finished || taught ? "Review Lecture 5" : lecture.lastViewedAt ? "Continue Lecture 5" : "Start Lecture 5";
+      $("#week5MissionButton").hidden = !(taught && !finished);
+      $("#week5LectureStatus").innerHTML = finished
+        ? '<strong>Week 5 complete</strong><span>Vocal Variety unlocked · Evidence collected</span>'
+        : taught ? '<strong>Vocal variety mission active</strong><span>' + escapeHTML(lecture.mission) + ' Return after the conversation to record what happened.</span>'
+        : '<strong>Discover → Range → Shape → Mix → Prove</strong><span>Use pitch and vocal variety to bring personality to your story.</span>';
+    }
+  }
 }
 
 function renderReflection() {
@@ -780,6 +827,13 @@ window.SpeakersGymPortal = {
     saveState();
     renderAll();
   },
+  updateWeek5(patch) { state.week5Lecture = { ...state.week5Lecture, ...patch }; saveState(); },
+  resetLecture(week) {
+    if (week !== 5 || !window.confirm("Reset Lecture 5? Only its answers, mission and evidence will be cleared.")) return false;
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 5);
+    state.week5Lecture = structuredClone(defaultState.week5Lecture);
+    saveState(); renderAll(); return true;
+  },
   updateWeek4(patch) {
     state.week4Lecture = { ...state.week4Lecture, ...patch };
     saveState();
@@ -878,3 +932,5 @@ const sectionObserver = new IntersectionObserver(entries => {
 $$('#today, #exposure, #journey, #reflection').forEach(section => sectionObserver.observe(section));
 
 renderAll();
+
+$("#week5ResetButton")?.addEventListener("click", () => window.SpeakersGymPortal.resetLecture(5));

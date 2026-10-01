@@ -104,6 +104,37 @@
       completedAt: null,
       lastViewedAt: null
     },
+    week5Lecture: {
+      "flowVersion": 1,
+      "currentStep": 0,
+      "currentLevel": null,
+      "demoMode": "",
+      "demoTried": [],
+      "rapportChoice": "",
+      "rangeLow": null,
+      "rangeHigh": null,
+      "rangeSelfCheck": false,
+      "stressTried": [],
+      "landed": 0,
+      "landSelfCheck": false,
+      "sortAnswers": {},
+      "mix": {},
+      "performSpan": null,
+      "performBest": 0,
+      "performSelfCheck": false,
+      "story": {},
+      "storyMoves": {},
+      "prediction": "",
+      "missionLevel": null,
+      "mission": "",
+      "missionStatus": "not-started",
+      "acceptedAt": null,
+      "actualResult": "",
+      "evidenceId": null,
+      "lectureCompletedAt": null,
+      "completedAt": null,
+      "lastViewedAt": null
+},
     week4Lecture: {
       flowVersion: 1,
       currentStep: 0,
@@ -136,6 +167,7 @@
       return {
         ...structuredClone(defaults),
         ...saved,
+      week5Lecture: { ...defaults.week5Lecture, ...(saved?.week5Lecture || {}), currentStep: Math.max(0, Math.min(15, Number(saved?.week5Lecture?.currentStep) || 0)) },
         version: 3,
         selectedReviewWeek: Math.max(1, Math.min(6, Number(saved.selectedReviewWeek) || Math.floor((Number(saved.selectedDay) || 0) / 7) + 1)),
         viewLevel: Number(saved.version) >= 3 ? clampLevel(saved.viewLevel) : clampLevel(saved.nextLevel || 2),
@@ -406,12 +438,13 @@
   }
 
   function renderLectureEntry(weekIndex) {
-    if (weekIndex > 3) return "";
+    if (weekIndex > 4) return "";
     const settings = [
       { key: "week1Lecture", label: "Lecture 1", path: "Discover · Build · Speak · Prove", summary: "Build and deliver a complete PREP answer, then choose one real-world mission.", open: "data-open-week1", report: "data-open-week1-reflection" },
       { key: "week2Lecture", label: "Lecture 2", path: "Discover · Calibrate · Speak · Prove", summary: "Find grounded volume, carry the final words and test one audible moment.", open: "data-open-week2-lecture", report: "data-open-week2-reflection" },
       { key: "week3Lecture", label: "Lecture 3", path: "Discover · Tune · Speak · Prove", summary: "Use fast, slow and stop to shape the meaning of a professional answer.", open: "data-open-week3-lecture", report: "data-open-week3-reflection" },
-      { key: "week4Lecture", label: "Lecture 4", path: "Discover · Still · Speak · Prove", summary: "Replace fillers with silence and take a calm two-second pause before you answer.", open: "data-open-week4-lecture", report: "data-open-week4-reflection" }
+      { key: "week4Lecture", label: "Lecture 4", path: "Discover · Still · Speak · Prove", summary: "Replace fillers with silence and take a calm two-second pause before you answer.", open: "data-open-week4-lecture", report: "data-open-week4-reflection" },
+      { key: "week5Lecture", label: "Lecture 5", path: "Discover · Range · Shape · Mix · Prove", summary: "Use pitch, tone and melody to bring personality to your story, then choose one real-world mission.", open: "data-open-week5-lecture", report: "data-open-week5-reflection" }
     ][weekIndex];
     const lecture = state[settings.key];
     const evidenceComplete = Boolean(lecture.completedAt || lecture.evidenceId);
@@ -633,7 +666,7 @@
   $$("#today, #levels, #journey, #reflections").forEach(section => observer.observe(section));
 
   function resetLecture(week) {
-    const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety", 4: "pause" };
+    const labels = { 1: "PREP", 2: "stronger voice", 3: "pace variety", 4: "pause", 5: "vocal variety" };
     const confirmed = window.confirm(`Reset Lecture ${week}? This clears its ${labels[week]} answers, mission and lecture evidence. The rest of Pankaj's progress stays unchanged.`);
     if (!confirmed) return false;
     state.evidence = state.evidence.filter(item => Number(item.sourceLecture) !== week);
@@ -641,6 +674,7 @@
     if (week === 2) state.week2Lecture = structuredClone(defaults.week2Lecture);
     if (week === 3) state.week3Lecture = structuredClone(defaults.week3Lecture);
     if (week === 4) state.week4Lecture = structuredClone(defaults.week4Lecture);
+    if (week === 5) state.week5Lecture = structuredClone(defaults.week5Lecture);
     saveState();
     renderAll();
     showToast(`Lecture ${week} is ready for a fresh start.`);
@@ -658,7 +692,8 @@
       1: "I led with the point.",
       2: "I used my voice intentionally.",
       3: "I used my voice intentionally.",
-      4: "I remained composed under pressure."
+      4: "I remained composed under pressure.",
+      5: "I used my voice intentionally."
     };
     const createdAt = Date.parse(card.completedAt || "") || Date.now();
     const normalized = {
@@ -669,7 +704,7 @@
       action: `Completed the ${card.skill} mission at exposure level ${card.level}.`,
       result: card.reality || "Mission completed.",
       lesson: card.prediction ? `My prediction was: ${card.prediction}` : `This repetition created evidence for ${card.skill}.`,
-      next: `Confidence evidence: ${card.beliefBefore}% before, ${card.beliefAfter}% after.`,
+      next: Number(card.week) === 5 ? "Repeat one deliberate pitch move in another real conversation." : `Confidence evidence: ${card.beliefBefore}% before, ${card.beliefAfter}% after.`,
       createdAt,
       sourceLecture: Number(card.week)
     };
@@ -687,6 +722,7 @@
     updateWeek1(patch) { state.week1Lecture = { ...state.week1Lecture, ...patch }; saveState(); },
     updateLecture(patch) { state.week2Lecture = { ...state.week2Lecture, ...patch }; saveState(); },
     updateWeek3(patch) { state.week3Lecture = { ...state.week3Lecture, ...patch }; saveState(); },
+    updateWeek5(patch) { state.week5Lecture = { ...state.week5Lecture, ...patch }; saveState(); },
     updateWeek4(patch) { state.week4Lecture = { ...state.week4Lecture, ...patch }; saveState(); },
     setExposureLevel(level) {
       const next = clampLevel(level);

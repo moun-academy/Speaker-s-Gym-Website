@@ -1,0 +1,48 @@
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {fileURLToPath} from 'node:url';
+const website=fileURLToPath(new URL('..',import.meta.url)).replace(/\\/g,'/').replace(/\/$/,'');
+for(const client of ['pankaj','khadija']) test(client + ' Lecture 5 preserves progress, validates exercises and saves mission evidence',()=>{
+ const dir=`${website}/public/${client}-portal`, original=`${website}/public/${client}-portal`;
+ const events={},elements=new Map(),store=new Map();
+ const make=()=>({innerHTML:'',value:'',dataset:{},style:{setProperty(){}},classList:{add(){},remove(){},toggle(){},contains(){return false;}},focus(){},setAttribute(){},getAttribute(){},addEventListener(){},querySelector(){return make();},querySelectorAll(){return[];},getContext(){return {clearRect(){},beginPath(){},moveTo(){},lineTo(){},stroke(){},fillText(){},setTransform(){}};},getBoundingClientRect(){return {width:600,height:200};}});
+ const root=make();root.addEventListener=(type,fn)=>events[type]=fn;
+ const doc={querySelector(selector){if(selector==='#week5Root')return root;if(!elements.has(selector))elements.set(selector,make());return elements.get(selector);},querySelectorAll(){return[];},body:make(),activeElement:make(),addEventListener(type,fn){(events[`doc-${type}`]??=[]).push(fn);}};
+ const initial={week1Lecture:{flowVersion:3,missionModelVersion:2,completedAt:'old-proof',prep:{point:'Keep this'}},week2Lecture:{currentLevel:4},evidenceBank:[{id:'prior',week:1,completedAt:'2026-09-30T10:00:00Z',createdAt:Date.now()}],evidence:[{id:'prior',sourceLecture:1,week:1,createdAt:Date.now()}],reflections:{[client==='pankaj'?'0':'day-0']:'Keep this reflection'},selectedWeek:4};
+ if(client==='pankaj')delete initial.evidenceBank;else delete initial.evidence;
+ const key=client==='pankaj'?'speakers-gym-pankaj':`${client}-speaking-journey-v1`;store.set(key,JSON.stringify(initial));
+ const env={window:{confirm:()=>true,addEventListener(){},matchMedia:()=>({matches:false,addEventListener(){}})},document:doc,localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},navigator:{},structuredClone,setTimeout(){return 1;},clearTimeout(){},setInterval(){return 1;},clearInterval(){},requestAnimationFrame:fn=>fn(),IntersectionObserver:class{observe(){}},console,URL,Date};env.window.document=doc;
+ const context=vm.createContext(env);
+ const run=(file,path=original)=>vm.runInContext(readFileSync(`${path}/${file}`,'utf8'),context,{filename:`${client}/${file}`});
+ if(client==='pankaj')run('data.js');else{run('client-config.js');run('exposure-levels.js');}
+ run('app.js',dir);
+ const portal=env.window.SpeakersGymPortal;
+ assert(portal,'portal API');assert.equal(portal.getState().week1Lecture.completedAt,'old-proof');assert.equal(portal.getState().reflections[client==='pankaj'?'0':'day-0'],'Keep this reflection');
+ const ownLevels=env.window.SpeakersGymExposure.levels;
+ const legacyEvidence=JSON.stringify(portal.getState().evidence||portal.getState().evidenceBank);
+ run('week5.js',dir);
+ const click=(selector,dataset)=>events.click({target:{closest:s=>s===selector?{dataset,...make()}:null}});
+ const action=value=>events.click({target:{closest:s=>s==='[data-w5-action]'?{...make(),dataset:{w5Action:value}}:null}});
+ const open=()=>events['doc-click'].forEach(fn=>fn({target:{closest:s=>s==='[data-open-week5-lecture]'?{}:null}}));
+ open();assert.match(root.innerHTML,/Why|melody|Melody/);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1,'unperformed exercise blocks progression');
+ portal.updateWeek5({currentStep:3});open();action('siren-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,4);
+ portal.updateWeek5({currentStep:6});open();action('land-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,7);
+ portal.updateWeek5({currentStep:9});open();action('perform-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,10);
+ action('next');assert.equal(portal.getState().week5Lecture.currentStep,10,'empty personal story blocks progression');
+ portal.updateWeek5({story:{situation:'A project',tension:'A deadline',action:'I helped',result:'It worked'}});action('next');assert.equal(portal.getState().week5Lecture.currentStep,11);
+ action('accept-mission');assert(portal.getState().week5Lecture.lectureCompletedAt);const chosen=portal.getState().week5Lecture.missionLevel;assert(portal.getState().week5Lecture.mission.startsWith(ownLevels[chosen-1].behavior));if(client!=='pankaj')assert.equal(chosen,4,'uses current personal ladder level');
+ action('close');open();assert.equal(portal.getState().week5Lecture.currentStep,12,'resumes saved position');
+ events['doc-click'].forEach(fn=>fn({target:{closest:s=>s==='[data-open-week5-reflection]'?{}:null}}));assert.equal(portal.getState().week5Lecture.currentStep,13);
+ action('mission-yes');action('collect-evidence');assert.equal(portal.getState().week5Lecture.currentStep,14,'empty report cannot complete');
+ portal.updateWeek5({actualResult:'The listener understood my recommendation.'});action('collect-evidence');assert.equal(portal.getState().week5Lecture.currentStep,15);assert.match(root.innerHTML,/The listener understood/);assert.doesNotMatch(root.innerHTML,/undefined|NaN/);
+ const evidence=portal.getState().evidence||portal.getState().evidenceBank;assert.equal(evidence.length,2);assert.equal(portal.getState().week1Lecture.completedAt,'old-proof');
+ const reloadContext=vm.createContext({...env});
+ vm.runInContext(readFileSync(`${dir}/app.js`,'utf8'),reloadContext);
+ assert.equal(env.window.SpeakersGymPortal.getState().week5Lecture.currentStep,15,'saved lesson survives page reload');
+ assert.equal(env.window.SpeakersGymPortal.getState().week5Lecture.actualResult,'The listener understood my recommendation.');
+ portal.resetLecture(5);assert.equal(portal.getState().week5Lecture.currentStep,0);assert.equal(JSON.stringify(portal.getState().evidence||portal.getState().evidenceBank),legacyEvidence,'reset keeps other lecture evidence');assert.equal(portal.getState().week1Lecture.completedAt,'old-proof');
+ console.log(`${client}: saved-state migration, validation, self-check exercises, personal mission, resume, evidence and isolated reset passed.`);
+});
+
