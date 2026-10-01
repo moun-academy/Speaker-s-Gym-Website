@@ -212,6 +212,4 @@ body.week5-open { overflow: hidden; }
   .w5-contour path { animation: none; stroke-dashoffset: 0; }
   .w5-move.replay .w5-melody span, .w5-primary.recording, .w5-stress-meaning.in { animation: none; }
 }
-
-.week5-page { --detail: Manrope, Inter, ui-sans-serif, sans-serif; --gold: var(--yellow, #f3c969); --gold-light: var(--yellow, #f3c969); }
-.week5-page .w3-header-actions { display: flex; gap: 8px; align-items: center; justify-content: flex-end; }
+.lecture-art.melody{background:#ebe4d2;color:#8c7638}

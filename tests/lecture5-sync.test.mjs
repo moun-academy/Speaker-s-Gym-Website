@@ -16,10 +16,10 @@ for(const client of ['pankaj','khadija']) test(client + ' Lecture 5 preserves pr
  const env={window:{confirm:()=>true,addEventListener(){},matchMedia:()=>({matches:false,addEventListener(){}})},document:doc,localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},navigator:{},structuredClone,setTimeout(){return 1;},clearTimeout(){},setInterval(){return 1;},clearInterval(){},requestAnimationFrame:fn=>fn(),IntersectionObserver:class{observe(){}},console,URL,Date};env.window.document=doc;
  const context=vm.createContext(env);
  const run=(file,path=original)=>vm.runInContext(readFileSync(`${path}/${file}`,'utf8'),context,{filename:`${client}/${file}`});
- if(client==='pankaj')run('data.js');else{run('client-config.js');run('exposure-levels.js');}
+ if(client==='pankaj'){env.location={hash:'',search:''};env.URLSearchParams=URLSearchParams;env.fetch=async()=>({status:503,json:async()=>({})});env.window.scrollTo=()=>{};run('data.js');run('journey-data.js');run('lecture-defaults.js');}else{run('client-config.js');run('exposure-levels.js');}
  run('app.js',dir);
  const portal=env.window.SpeakersGymPortal;
- assert(portal,'portal API');assert.equal(portal.getState().week1Lecture.completedAt,'old-proof');assert.equal(portal.getState().reflections[client==='pankaj'?'0':'day-0'],'Keep this reflection');
+ assert(portal,'portal API');assert.equal(portal.getState().week1Lecture.completedAt,'old-proof');assert.equal((client==='pankaj'?portal.getState().legacyDailyReflections:portal.getState().reflections)[client==='pankaj'?'0':'day-0'],'Keep this reflection');
  const ownLevels=env.window.SpeakersGymExposure.levels;
  const legacyEvidence=JSON.stringify(portal.getState().evidence||portal.getState().evidenceBank);
  run('week5.js',dir);

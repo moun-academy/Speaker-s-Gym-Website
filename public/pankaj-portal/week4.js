@@ -132,7 +132,7 @@
           <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
           <div class="w3-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
-        <button class="w3-close" type="button" data-w4-action="close" aria-label="Save and close">&times;</button>
+        <div class="w3-header-actions"><button class="w3-reset" type="button" data-w4-action="reset">Reset</button><button class="w3-close" type="button" data-w4-action="close" aria-label="Save and close">&times;</button></div>
         <div class="w3-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
       </header>
       <main class="w3-main"><section class="w3-screen ${options.className || ""}">${content}</section></main>
@@ -333,7 +333,7 @@
         <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>The Pause</strong></article><article><small>PAUSE TOOLS</small><strong>Think · Bridge · Name</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 4</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.situation || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
         <div class="w3-week-progress">${[1, 2, 3, 4].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}${[5, 6].map(number => `<span>W${number} <i>○</i></span>`).join("")}</div>
-        <div class="w3-next-week"><small>NEXT</small><strong>Storytelling that brings out your personality.</strong></div>
+        <div class="w3-next-week"><small>NEXT</small><strong>Find the music in your voice.</strong></div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w4-action="close">Return to my portal</button>' });
     }
 
@@ -649,6 +649,7 @@
     const actionEl = event.target.closest("[data-w4-action]");
     const action = actionEl?.dataset.w4Action;
     if (action === "close") return close();
+    if (action === "reset") { clearTimers(); if (portal.resetLecture(4)) renderStep(); return; }
     if (action === "back") return back();
     if (action === "next") return validateAndNext();
     if (action === "feel-silence") return feelSilence(actionEl);
