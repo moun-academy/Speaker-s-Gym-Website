@@ -210,7 +210,7 @@
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Ashwin's other progress stays saved.`)) return false;
-      state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();return true;
+      state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();showToast(`Lecture ${week} is ready for a fresh start.`);return true;
     },
     saveEvidence(card){
       const entry={id:card.id,sourceLecture:Number(card.week),action:card.mission,result:card.reality,next:card.prediction?`Notice how the result compared with my prediction: ${card.prediction}`:'Repeat the skill in another conversation.',createdAt:card.completedAt||new Date().toISOString()};

@@ -832,7 +832,7 @@ window.SpeakersGymPortal = {
     if (week !== 5 || !window.confirm("Reset Lecture 5? Only its answers, mission and evidence will be cleared.")) return false;
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 5);
     state.week5Lecture = structuredClone(defaultState.week5Lecture);
-    saveState(); renderAll(); return true;
+    saveState(); renderAll(); showToast("Lecture 5 is ready for a fresh start."); return true;
   },
   updateWeek4(patch) {
     state.week4Lecture = { ...state.week4Lecture, ...patch };
