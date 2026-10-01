@@ -109,6 +109,7 @@
       completedAt: null,
       lastViewedAt: null
     },
+    week6Mission: { status: "not-started", result: "", completedAt: null },
     week5Lecture: {
       flowVersion: 1,
       currentStep: 0,
