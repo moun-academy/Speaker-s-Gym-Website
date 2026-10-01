@@ -26,6 +26,7 @@ body.week5-open { overflow: hidden; }
 .w5-melody.mini span { color: var(--ink); }
 .w5-melody.mini span i { top: -9px; width: 5px; height: 5px; margin-left: -2.5px; }
 .w5-hero { margin: 30px auto 0; text-align: center; }
+.w5-hero-note { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
 .w5-hero-tag { display: inline-block; padding: 5px 12px; border-radius: 99px; background: #eee9dd; color: var(--coral-dark); font: 800 8px var(--detail); letter-spacing: .16em; }
 
 /* contour sketches */
