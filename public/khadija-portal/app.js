@@ -640,7 +640,7 @@ function renderWeekDetail() {
       const week1 = state.week1Lecture;
       const evidenceComplete = Boolean(week1.completedAt);
       const lectureComplete = Boolean(week1.lectureCompletedAt);
-      $("#week1LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 1" : week1.lastViewedAt ? "Continue Lecture 1" : "Start Lecture 1";
+      $("#week1LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 1" : Number(week1.currentStep) > 0 ? "Continue Lecture 1" : "Start Lecture 1";
       const reportButton = $("#week1MissionButton");
       if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
       $("#week1LectureStatus").innerHTML = evidenceComplete
@@ -658,7 +658,7 @@ function renderWeekDetail() {
       const lecture = state.week2Lecture;
       const evidenceComplete = Boolean(lecture.completedAt);
       const lectureComplete = Boolean(lecture.lectureCompletedAt);
-      $("#week2LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 2" : lecture.lastViewedAt ? "Continue Lecture 2" : "Start Lecture 2";
+      $("#week2LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 2" : Number(lecture.currentStep) > 0 ? "Continue Lecture 2" : "Start Lecture 2";
       const reportButton = $("#week2MissionButton");
       if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
       $("#week2LectureStatus").innerHTML = evidenceComplete
@@ -676,7 +676,7 @@ function renderWeekDetail() {
       const lecture = state.week3Lecture;
       const evidenceComplete = Boolean(lecture.completedAt);
       const lectureComplete = Boolean(lecture.lectureCompletedAt);
-      $("#week3LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 3" : lecture.lastViewedAt ? "Continue Lecture 3" : "Start Lecture 3";
+      $("#week3LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 3" : Number(lecture.currentStep) > 0 ? "Continue Lecture 3" : "Start Lecture 3";
       const reportButton = $("#week3MissionButton");
       if (reportButton) reportButton.hidden = !(lectureComplete && !evidenceComplete);
       $("#week3LectureStatus").innerHTML = evidenceComplete
@@ -694,7 +694,7 @@ function renderWeekDetail() {
       const lecture = state.week4Lecture;
       const evidenceComplete = Boolean(lecture.completedAt);
       const lectureComplete = Boolean(lecture.lectureCompletedAt);
-      $("#week4LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 4" : lecture.lastViewedAt ? "Continue Lecture 4" : "Start Lecture 4";
+      $("#week4LectureButton").textContent = evidenceComplete || lectureComplete ? "Review Lecture 4" : Number(lecture.currentStep) > 0 ? "Continue Lecture 4" : "Start Lecture 4";
       $("#week4MissionButton").hidden = !(lectureComplete && !evidenceComplete);
       $("#week4LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 4 complete</strong><span>Purposeful Pauses unlocked · Evidence collected</span>`
@@ -710,7 +710,7 @@ function renderWeekDetail() {
       const lecture = state.week5Lecture;
       const finished = Boolean(lecture.completedAt || lecture.evidenceId);
       const taught = Boolean(lecture.lectureCompletedAt);
-      $("#week5LectureButton").textContent = finished || taught ? "Review Lecture 5" : lecture.lastViewedAt ? "Continue Lecture 5" : "Start Lecture 5";
+      $("#week5LectureButton").textContent = finished || taught ? "Review Lecture 5" : Number(lecture.currentStep) > 0 ? "Continue Lecture 5" : "Start Lecture 5";
       $("#week5MissionButton").hidden = !(taught && !finished);
       $("#week5LectureStatus").innerHTML = finished
         ? '<strong>Week 5 complete</strong><span>Vocal Variety unlocked · Evidence collected</span>'

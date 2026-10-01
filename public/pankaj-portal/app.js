@@ -449,7 +449,7 @@
     const lecture = state[settings.key];
     const evidenceComplete = Boolean(lecture.completedAt || lecture.evidenceId);
     const lectureComplete = Boolean(lecture.lectureCompletedAt);
-    const viewed = Boolean(lecture.lastViewedAt || Number(lecture.currentStep) > 0);
+    const viewed = Number(lecture.currentStep) > 0;
     const actionLabel = evidenceComplete ? `Review ${settings.label}` : viewed ? `Continue ${settings.label}` : `Start ${settings.label}`;
     return `<div class="lecture-entry">
       <div class="lecture-entry-copy"><span class="lecture-icon">${weekIndex + 1}</span><div><small>INTERACTIVE COACHING EXPERIENCE</small><strong>${settings.path}</strong><p>${settings.summary}</p></div></div>

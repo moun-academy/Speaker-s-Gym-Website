@@ -145,7 +145,7 @@
   }
   function renderLectures() {
     $('#lectureCards').innerHTML=DATA.lectures.map(item=>{
-      const lecture=state[`week${item.week}Lecture`];const started=!!lecture.lastViewedAt;const finished=!!lecture.lectureCompletedAt;
+      const lecture=state[`week${item.week}Lecture`];const started=Number(lecture.currentStep)>0;const finished=!!lecture.lectureCompletedAt;
       return `<article class="lecture-card card"><div class="lecture-art ${item.art}" aria-hidden="true"><span>LECTURE ${String(item.week).padStart(2,'0')}</span>${lectureArt(item.art)}<small>LEARN · PRACTICE · PROVE</small></div><div class="lecture-copy"><span class="micro">${esc(item.skill)}<span class="lecture-status">${finished?'Explored ✓':started?'In progress':'Ready to explore'}</span></span><h2>${esc(item.title)}</h2><p>${esc(item.description)}</p><button class="button ${item.week===1?'dark':'outline'}" ${item.trigger}>${started?'Continue lecture':'Explore lecture'}<span>→</span></button></div></article>`;
     }).join('');
   }
@@ -161,7 +161,7 @@
       return {week,lecture:null,mission,missionState:record.status==='completed'?'done':mission?'set':'none',result:record.result||'',level:null};
     }
     const lecture=state[`week${week}Lecture`]||{};
-    const lectureState=lecture.lectureCompletedAt?'done':lecture.lastViewedAt?'started':'none';
+    const lectureState=lecture.lectureCompletedAt?'done':Number(lecture.currentStep)>0?'started':'none';
     const missionState=lecture.missionStatus==='completed'?'done':lecture.missionStatus==='accepted'?'set':'none';
     return {week,lecture:DATA.lectures.find(item=>item.week===week),lectureState,mission:lecture.mission||'',missionState,result:lecture.actualResult||'',level:lecture.missionStatus&&lecture.missionStatus!=='not-started'?Number(lecture.missionLevel)||null:null};
   }
