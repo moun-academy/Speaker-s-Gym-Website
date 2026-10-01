@@ -6,7 +6,7 @@
   const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const clampLevel = value => Math.max(1, Math.min(10, Number(value) || 1));
   const flatDays = DATA.weeks.flatMap((week, weekIndex) => week.days.map((day, dayIndex) => ({title:day[0],description:day[1],prompt:day[2],steps:day[3],weekIndex,dayIndex})));
-  const defaults = {...window.PANKAJ_DEFAULTS,version:3,startDate:new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),selectedDay:0,selectedWeek:0,currentLevel:1,nextLevel:1,reflections:[],callNote:'',weeklyReviews:{},coachNotes:{appNotes:'',upcomingMoment:'',pressureSkill:'',nextTarget:''},selectedReviewWeek:1};
+  const defaults = {...window.PANKAJ_DEFAULTS,version:3,startDate:new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),selectedDay:0,selectedWeek:0,currentLevel:1,nextLevel:1,reflections:[],callNote:'',weeklyReviews:{},coachNotes:{appNotes:'',upcomingMoment:'',pressureSkill:'',nextTarget:''},selectedReviewWeek:1,weeklyCoaching:{day:'',time:'',timeZone:''}};
   const merge = (base, patch) => Object.fromEntries([...Object.entries(patch && typeof patch==='object' ? patch : {}),...Object.entries(base).map(([key,value])=>[key,value && typeof value==='object' && !Array.isArray(value) ? merge(value,patch?.[key]) : patch?.[key] ?? value])]);
   let state;
   let canSave = true;
@@ -199,7 +199,7 @@
       return `<article class="track-row card ${current&&row.week===current.week?'is-current':''} ${row.missionState==='done'?'is-done':''}"><header><span class="track-week">WEEK ${String(row.week).padStart(2,'0')}</span><h3>${esc(week.title)}</h3><details class="week-goal"><summary>Weekly goal</summary><p>${esc(week.outcome)}</p></details></header>${lectureCell}<div class="track-cell mission"><small>PILLAR 2 · MISSION ${missionPill[row.missionState]}</small>${missionBody}${levelChip}${result}</div></article>`;
     }).join('');
   }
-  function renderAll() {renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
+  function renderAll() {renderCoachingSchedule();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
   function route() {
     const requested=location.hash.slice(1);const view=requested==='progress'?'journey':['home','journey','lectures','reflections'].includes(requested)?requested:'home';
     $$('.view').forEach(el=>el.hidden=el.id!==`${view}View`);
@@ -275,6 +275,25 @@
   $('#weeklyReviewForm').addEventListener('submit',event=>{event.preventDefault();state.weeklyReviews[state.selectedReviewWeek]={improved:$('#weeklyImproved').value.trim(),breakdown:$('#weeklyBreakdown').value.trim(),nextFocus:$('#weeklyNextFocus').value.trim(),updatedAt:Date.now()};saveFeedback('Weekly review saved.');});
   $('#coachingNotesForm').addEventListener('submit',event=>{event.preventDefault();['appNotes','upcomingMoment','pressureSkill','nextTarget'].forEach(key=>state.coachNotes[key]=$('#'+key).value.trim());saveFeedback('Coaching notes saved.');});
   $('#progressWeekLabels').innerHTML=DATA.weeks.map((week,index)=>'<span>'+String(index+1).padStart(2,'0')+' · '+esc(week.short)+'</span>').join('');
+  function renderCoachingSchedule() {
+    const schedule=state.weeklyCoaching;
+    const set=Boolean(schedule.day&&schedule.time&&schedule.timeZone);
+    $('#coachingScheduleLabel').textContent=set?schedule.day+' · '+schedule.time:'Weekend timing confirmed together';
+    $('#coachingScheduleZone').textContent=set?'Weekly · '+schedule.timeZone:'';
+    $('#coachingScheduleToggle').textContent=set?'Change time':'Set weekly time';
+    $('#coachingDay').value=schedule.day;$('#coachingTime').value=schedule.time;$('#coachingTimeZone').value=schedule.timeZone;
+    $('#coachingScheduleEditor').hidden=sync.role==='coach';
+  }
+  $('#coachingScheduleForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    const day=$('#coachingDay').value,time=$('#coachingTime').value,timeZone=$('#coachingTimeZone').value.trim();
+    if(!['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].includes(day)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {showToast('Choose a day and a valid time.');return;}
+    try {new Intl.DateTimeFormat('en',{timeZone}).format(new Date());}catch{showToast('Choose a valid timezone, such as Asia/Dubai.');$('#coachingTimeZone').focus();return;}
+    if(!timeZone){showToast('Choose a timezone.');return;}
+    state.weeklyCoaching={day,time,timeZone};
+    if(saveState()){showToast('Weekly coaching time saved.');$('#coachingScheduleEditor').open=false;renderCoachingSchedule();}
+  });
+  $('#cancelCoachingSchedule').addEventListener('click',()=>{$('#coachingScheduleEditor').open=false;renderCoachingSchedule();});
   renderAll();route();
   document.body.classList.add('portal-locked');boot();
 })();

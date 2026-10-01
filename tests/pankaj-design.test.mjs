@@ -44,3 +44,19 @@ test('static preview preserves browser progress when the API endpoint returns HT
   assert.equal(app.portal.getState().selectedDay,8);assert.equal(app.portal.getState().week1Lecture.prep.point,'Keep my point');
   assert.equal(app.elements.get('#storageStatus').textContent,'Your progress stays in this browser.');
 });
+
+test('weekly coaching time validates, saves and survives reload without changing other progress',async()=>{
+  const app=fixture(legacy);for(let i=0;i<8;i++)await Promise.resolve();
+  app.elements.get('#coachingDay').value='Tuesday';app.elements.get('#coachingTime').value='15:30';app.elements.get('#coachingTimeZone').value='Asia/Kolkata';
+  app.elements.get('#coachingScheduleForm').submit({preventDefault(){}});
+  const saved=JSON.parse(app.store.get('speakers-gym-pankaj'));
+  assert.deepEqual(saved.weeklyCoaching,{day:'Tuesday',time:'15:30',timeZone:'Asia/Kolkata'});
+  assert.deepEqual(saved.completedDays,legacy.completedDays);assert.equal(saved.week1Lecture.prep.point,'Keep my point');
+  const reload=fixture(saved);assert.equal(reload.elements.get('#coachingScheduleLabel').textContent,'Tuesday · 15:30');
+  app.elements.get('#coachingDay').value='Tuesday';app.elements.get('#coachingTime').value='25:30';app.elements.get('#coachingTimeZone').value='Asia/Kolkata';
+  app.elements.get('#coachingScheduleForm').submit({preventDefault(){}});
+  assert.equal(app.portal.getState().weeklyCoaching.time,'15:30');
+  app.elements.get('#coachingTime').value='16:30';app.elements.get('#coachingTimeZone').value='not-a-timezone';
+  app.elements.get('#coachingScheduleForm').submit({preventDefault(){}});
+  assert.equal(app.portal.getState().weeklyCoaching.time,'15:30');
+});
