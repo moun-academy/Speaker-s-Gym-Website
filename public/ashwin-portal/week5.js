@@ -247,7 +247,7 @@
           <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
           <div class="w3-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
-        <button class="w3-close" type="button" data-w5-action="close" aria-label="Save and close">&times;</button>
+        <div class="w3-header-actions"><button class="w3-reset" type="button" data-w5-action="reset">Reset</button><button class="w3-close" type="button" data-w5-action="close" aria-label="Save and close">&times;</button></div>
         <div class="w3-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
       </header>
       <main class="w3-main"><section class="w3-screen ${options.className || ""}">${content}</section></main>
@@ -800,6 +800,7 @@
     const actionEl = event.target.closest("[data-w5-action]");
     const action = actionEl?.dataset.w5Action;
     if (action === "close") return close();
+    if (action === "reset") { clearTimers(); if (portal.resetLecture(5)) renderStep(); return; }
     if (action === "back") return back();
     if (action === "next") return validateAndNext();
     if (action === "siren") return runSiren(actionEl);

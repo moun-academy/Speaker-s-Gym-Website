@@ -90,6 +90,9 @@ body.week3-open { overflow: hidden; }
 .w3-chapter-dots i { height: 4px; border-radius: 99px; background: #d7d6ce; }
 .w3-chapter-dots i.done { background: #c5a95f; }
 .w3-chapter-dots i.active { background: var(--coral); }
+.w3-header-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.w3-reset { padding: 9px 12px; border: 1px solid #c8c5bb; border-radius: 999px; background: rgba(255,255,255,.72); color: var(--ink); font-size: 9px; font-weight: 800; letter-spacing: .06em; cursor: pointer; }
+.w3-reset:hover { border-color: var(--coral); color: var(--coral-dark); }
 .w3-close { justify-self: end; width: 38px; height: 38px; border: 1px solid #d2d1c8; border-radius: 50%; background: transparent; color: var(--ink); font-size: 24px; line-height: 1; cursor: pointer; }
 .w3-progress { position: absolute; inset: auto 0 -1px; height: 2px; }
 .w3-progress i { display: block; height: 100%; background: linear-gradient(90deg,var(--yellow),var(--coral)); transition: width .35s ease; }
