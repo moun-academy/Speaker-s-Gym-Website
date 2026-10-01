@@ -181,12 +181,12 @@ export default function SpeakersGym() {
         .hero-video-poster img { width:100%; height:100%; object-fit:cover; display:block; }
         .hero-video-poster::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(0,0,0,.3)); transition:background .2s ease; }
         .hero-video-poster:hover::after { background:rgba(0,0,0,.12); }
-        .hero-video-play { position:absolute; z-index:1; left:50%; bottom:24px; width:60px; height:60px; transform:translateX(-50%); border:1px solid rgba(217,192,111,.75); border-radius:50%; background:rgba(17,17,17,.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); box-shadow:0 4px 18px rgba(0,0,0,.25); display:grid; place-items:center; transition:transform .2s ease, background .2s ease, box-shadow .2s ease; }
+        .hero-video-play { position:absolute; z-index:1; left:50%; top:58%; width:56px; height:56px; transform:translate(-50%,-50%); border:1px solid rgba(255,255,255,.9); border-radius:50%; background:transparent; display:grid; place-items:center; filter:drop-shadow(0 1px 3px rgba(0,0,0,.65)); transition:transform .2s ease, border-color .2s ease; }
         .hero-video-play::before { content:''; width:0; height:0; margin-left:4px; border-top:9px solid transparent; border-bottom:9px solid transparent; border-left:14px solid #fff; }
-        .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translateX(-50%) scale(1.06); background:rgba(17,17,17,.72); box-shadow:0 6px 22px rgba(0,0,0,.35); }
+        .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translate(-50%,-50%) scale(1.06); border-color:var(--accent); }
         .hero-video-poster:focus-visible { outline:3px solid var(--accent); outline-offset:-3px; }
-        @media(max-width:600px) { .hero-video-play { width:46px; height:46px; bottom:14px; } .hero-video-play::before { border-top-width:7px; border-bottom-width:7px; border-left-width:11px; } }
-        @media(prefers-reduced-motion:reduce) { .hero-video-play { transition:none; } .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translateX(-50%); } }
+        @media(max-width:600px) { .hero-video-play { width:44px; height:44px; } .hero-video-play::before { border-top-width:7px; border-bottom-width:7px; border-left-width:11px; } }
+        @media(prefers-reduced-motion:reduce) { .hero-video-play { transition:none; } .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translate(-50%,-50%); } }
 
         /* ── PROOF STAT BAND ── */
         .proof-band { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px; padding:36px 32px; background:var(--surface); border:1px solid var(--border); border-radius:16px; }
@@ -380,7 +380,7 @@ export default function SpeakersGym() {
                 <div className="hero-video-embed">
                   {heroVideoPlaying ? (
                     <iframe
-                      src="https://player.vimeo.com/video/1231970456?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                      src="https://player.vimeo.com/video/1231981062?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
                       title="Speaker's Gym program introduction"
                       allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                       referrerPolicy="strict-origin-when-cross-origin"
