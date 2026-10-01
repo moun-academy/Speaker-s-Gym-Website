@@ -1,0 +1,24 @@
+/* Online account pieces shared by client portals. Colours come from each portal's own variables. */
+body.ps-locked > *:not(.ps-login):not(.ps-toast) { visibility: hidden; }
+.ps-login { position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 16px; background: var(--cream, #f3efe5); }
+.ps-login-card { width: min(400px, 100%); display: grid; gap: 12px; padding: 34px 32px; border: 1px solid var(--line, #e2ded2); border-radius: 14px; background: var(--paper, #fbf9f3); box-shadow: 0 18px 50px rgba(25,21,13,.08); text-align: center; color: var(--ink, #111); }
+.ps-login-card img { width: 56px; height: 56px; margin: 0 auto; border-radius: 50%; object-fit: cover; }
+.ps-login-card small { font: 700 9px/1.2 var(--detail, sans-serif); letter-spacing: .2em; color: var(--gold-dark, #806727); }
+.ps-login-card h1 { margin: 0; font: 500 32px/1.15 var(--serif, var(--display, Georgia, serif)); letter-spacing: -.02em; }
+.ps-login-card > p { margin: 0; font-size: 13px; color: var(--muted, #6b6b66); }
+.ps-login-card label { display: grid; gap: 6px; text-align: left; font-size: 12px; color: var(--muted, #6b6b66); }
+.ps-login-card input { padding: 12px; border: 1px solid var(--line, #d9d5c8); border-radius: 8px; background: #fff; font-size: 15px; color: var(--ink, #111); }
+.ps-login-card button { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; border: 0; border-radius: 8px; background: var(--black, #111); color: #fff; font: 600 13px var(--detail, sans-serif); cursor: pointer; }
+.ps-login-card button:disabled { opacity: .6; }
+.ps-error { min-height: 16px; margin: 0; color: #9b4a3a; font-size: 12px; }
+.ps-coach-banner { display: none; position: sticky; top: 0; z-index: 4000; padding: 10px 20px; background: var(--black, #111); color: #f3efe1; font: 400 12px var(--detail, sans-serif); text-align: center; }
+.ps-coach-banner strong { color: var(--gold, #c5a76c); }
+body.ps-coach .ps-coach-banner { display: block; }
+.ps-status { display: none; position: fixed; left: 16px; bottom: 16px; z-index: 3000; padding: 6px 12px; border: 1px solid var(--line, #e2ded2); border-radius: 99px; background: var(--paper, #fbf9f3); color: var(--muted, #6b6b66); font: 500 11px var(--detail, sans-serif); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+body.ps-cloud .ps-status:not(:empty) { display: block; }
+.ps-status[data-kind="retry"] { color: #9b4a3a; }
+.ps-logout { display: none; }
+body.ps-cloud .ps-logout { display: inline-flex; }
+.ps-toast { position: fixed; left: 50%; bottom: 24px; z-index: 6000; transform: translate(-50%, 12px); padding: 12px 18px; border-radius: 8px; background: var(--black, #111); color: #fff; font: 500 13px var(--detail, sans-serif); opacity: 0; visibility: hidden; transition: .25s; }
+.ps-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (max-width: 600px) { .ps-status { left: 10px; bottom: 10px; } }

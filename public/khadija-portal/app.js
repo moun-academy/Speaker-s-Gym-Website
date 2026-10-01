@@ -86,14 +86,14 @@ const weeks = [
     ]
   },
   {
-    short: "Personality",
-    title: "Bring Out Your Personality",
-    why: "Confidence grows when you stop performing communication and let curiosity, warmth and your real perspective come through.",
-    outcome: "You initiate and sustain a natural conversation with someone less familiar while staying visibly present.",
-    learn: ["Starting conversations", "Open questions and follow-ups", "Sharing your perspective", "Natural eye contact", "Professional presence"],
-    spotlight: "Lead a five-minute conversation that moves from a simple opener to a meaningful exchange.",
-    work: "Initiate one conversation with a colleague you do not normally speak with.",
-    home: "Practice curiosity, listening and personal sharing in one relaxed conversation.",
+    short: "Melody",
+    title: "Find the Music in Your Voice",
+    why: "People believe the voice more than the words. When your voice moves, they hear how you feel and stay with you.",
+    outcome: "You step up on the word that matters and end your sentences low and sure, so you sound like you mean it.",
+    learn: ["Pitch and melody", "Stepping up on the key word", "Landing the final sentence", "Mixing pitch, pace and volume", "Matching the listener's energy"],
+    spotlight: "Tell a short story to a familiar person, stepping up on your key word and landing your final sentence.",
+    work: "In one real conversation, step up on your key word and land your final sentence.",
+    home: "Read a short story aloud with melody, once flat and once with your pitch moves.",
     days: [
       day("Opener day", "Start naturally", "A conversation only needs one simple opening.", "Prepare three situational openers", "Say each opener with a warm tone and brief eye contact", "Use one with someone less familiar", "What happened after I opened the door?"),
       day("Curiosity day", "Ask what invites more", "Open questions reduce the pressure to perform.", "Turn five closed questions into open questions", "Practice asking them naturally", "Use one and listen to the full answer", "Which question created the most openness?"),
@@ -300,9 +300,9 @@ let toastTimer;
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-function loadState() {
+function loadState(fromAccount) {
   try {
-    const stored = JSON.parse(localStorage.getItem(PROGRAM_KEY));
+    const stored = fromAccount !== undefined ? fromAccount : JSON.parse(localStorage.getItem(PROGRAM_KEY));
     const storedWeek1 = stored?.week1Lecture || {};
     const storedWeek2 = stored?.week2Lecture || {};
     const keepStoredMission = Number(storedWeek1.missionModelVersion || 0) === 2
@@ -385,7 +385,10 @@ function loadState() {
 }
 
 function saveState() {
+  // The coach view is read-only: never overwrite the student's progress from it.
+  if (window.PortalSync?.isCoach()) return;
   localStorage.setItem(PROGRAM_KEY, JSON.stringify(state));
+  window.PortalSync?.saved();
 }
 
 function toDateInputValue(date) {
@@ -406,12 +409,70 @@ function getWeekAndDay(dayIndex = state.selectedDay) {
   return { weekIndex: Math.floor(dayIndex / 7), dayOfWeek: dayIndex % 7 };
 }
 
+// Pillar 1 is the lecture, Pillar 2 is the one real-world mission of the week.
+function weekPillars(index) {
+  const week = weeks[index];
+  if (index === 5) {
+    const coachMission = window.PortalSync?.coach()?.missions?.[6] || "";
+    const record = state.week6Mission || {};
+    return { lecture: null, lectureState: null, mission: coachMission || week.work, suggested: !coachMission, missionState: record.status === "completed" ? "done" : "set", result: record.result || "", level: null };
+  }
+  const lecture = state[`week${index + 1}Lecture`] || {};
+  const lectureState = lecture.lectureCompletedAt ? "done" : Number(lecture.currentStep) > 0 ? "started" : "none";
+  const missionState = lecture.missionStatus === "completed" ? "done" : lecture.missionStatus === "accepted" ? "set" : "none";
+  return { lecture, lectureState, mission: lecture.mission || week.work, suggested: !lecture.mission, missionState, result: lecture.actualResult || "", level: missionState !== "none" ? Number(lecture.missionLevel) || null : null };
+}
+
+function renderJourneySummary() {
+  const target = $("#journeySummary");
+  if (!target) return;
+  const rows = weeks.map((_, index) => weekPillars(index));
+  const current = rows.findIndex(row => row.missionState !== "done");
+  const lecturesDone = rows.filter(row => row.lectureState === "done").length;
+  const missionsDone = rows.filter(row => row.missionState === "done").length;
+  const level = EXPOSURE ? EXPOSURE.clampLevel(state.week2Lecture.currentLevel || 1) : 1;
+  const levelName = EXPOSURE?.levels[level - 1]?.name || "";
+  const updatedAt = window.PortalSync?.isCoach() ? window.PortalSync.updatedAt() : null;
+  target.innerHTML = `<div class="journey-now">
+      <span class="eyebrow">${current < 0 ? "Journey complete" : "Where we are"}</span>
+      <h3>${current < 0 ? "All six weeks complete" : `Week ${current + 1} of 6 · ${escapeHTML(weeks[current].short)}`}</h3>
+      ${updatedAt ? `<p>Last saved ${escapeHTML(new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt)))}</p>` : ""}
+    </div>
+    <div class="journey-pillars">
+      <div><small>Pillar 1 · Lectures</small><strong>${lecturesDone}<span> of 5 finished</span></strong><i><b style="width:${lecturesDone / 5 * 100}%"></b></i></div>
+      <div><small>Pillar 2 · Exposure</small><strong>${missionsDone}<span> of 6 missions done</span></strong><i><b style="width:${missionsDone / 6 * 100}%"></b></i></div>
+      <div><small>Speaking level</small><strong>${level}<span> of 10 · ${escapeHTML(levelName)}</span></strong><i><b style="width:${level * 10}%"></b></i><a href="#exposure">Open my levels →</a></div>
+    </div>`;
+}
+
+function renderWeekMission() {
+  const target = $("#weekMission");
+  if (!target) return;
+  const index = state.selectedWeek;
+  const row = weekPillars(index);
+  const coach = Boolean(window.PortalSync?.isCoach());
+  const pill = row.missionState === "done" ? '<span class="mission-pill done">✓ Done</span>'
+    : index === 5 ? '<span class="mission-pill">Set with your coach</span>'
+    : row.missionState === "set" ? '<span class="mission-pill waiting">Waiting for report</span>'
+    : '<span class="mission-pill">Chosen at the end of the lecture</span>';
+  let body = `<p class="week-mission-text">${row.suggested ? "<em>Suggested:</em> " : ""}${escapeHTML(row.mission)}</p>`;
+  if (index === 5) {
+    if (coach) body = `<label class="week-mission-edit">Week 6 mission<textarea id="coachMission6" rows="2" maxlength="600">${escapeHTML(window.PortalSync.coach()?.missions?.[6] || "")}</textarea></label><button class="lecture-reset" type="button" id="saveCoachMission">Save mission</button>`;
+    else if (row.missionState !== "done") body += `<label class="week-mission-edit">What happened?<textarea id="week6Result" rows="2" maxlength="2000" placeholder="One or two sentences.">${escapeHTML(row.result)}</textarea></label><button class="lecture-reset" type="button" id="completeWeek6">Mark as done ✓</button>`;
+  }
+  const level = row.level && EXPOSURE ? `<span class="week-mission-level">Level ${row.level} · ${escapeHTML(EXPOSURE.levels[row.level - 1]?.name || "")}</span>` : "";
+  const result = row.missionState === "done" && row.result ? `<p class="week-mission-result"><small>WHAT HAPPENED</small>${escapeHTML(row.result)}</p>` : "";
+  target.innerHTML = `<span class="detail-label">PILLAR 2 · THIS WEEK'S MISSION ${pill}</span>${body}${level}${result}`;
+}
+
 function renderAll() {
   renderHeader();
   renderProgress();
   renderToday();
+  renderJourneySummary();
   renderRoadmap();
   renderWeekDetail();
+  renderWeekMission();
   renderReflection();
   renderExposureDashboard();
   renderActiveVersion();
@@ -423,7 +484,7 @@ function renderHeader() {
   const welcome = $("#clientWelcome");
   if (welcome) welcome.textContent = `Welcome back, ${clientName}.`;
   const footer = $("#clientFooter");
-  if (footer) footer.textContent = `Private six-week coaching journey for ${clientName} · Progress is saved on this device.`;
+  if (footer) footer.textContent = window.PortalSync?.isCloud() ? `Private six-week coaching journey for ${clientName} · Progress is saved to your account and shared with your coach.` : `Private six-week coaching journey for ${clientName} · Progress is saved on this device.`;
   $("#todayDate").textContent = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric" }).format(new Date());
   const start = getProgramDate(0);
   $("#startDateLabel").textContent = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(start);
@@ -603,19 +664,21 @@ function formatLectureDate(value) {
 
 function renderRoadmap() {
   $("#weekRoadmap").innerHTML = weeks.map((week, index) => {
-    const completedCount = week.days.filter((_, dayIndex) => state.completedDays[dayKey(index * 7 + dayIndex)]).length;
-    const complete = completedCount === 7;
+    const pillars = weekPillars(index);
+    const complete = pillars.missionState === "done";
+    const lectureText = pillars.lecture ? { done: "✓ Lecture finished", started: "◐ Lecture started", none: "○ Lecture not started" }[pillars.lectureState] : "No lecture";
+    const missionText = { done: "✓ Mission done", set: index === 5 ? "○ Mission to do" : "◐ Mission waiting", none: "○ Mission not chosen" }[pillars.missionState];
     return `<button class="week-card ${state.selectedWeek === index ? "selected" : ""} ${complete ? "complete" : ""}" data-week="${index}" type="button">
       <span class="week-card-number">${complete ? "✓" : index + 1}</span>
       <small>Week ${index + 1}</small>
       <strong>${week.title}</strong>
-      <p>${completedCount}/7 days complete</p>
+      <p>${lectureText}<br>${missionText}</p>
     </button>`;
   }).join("");
 
   $$(".week-card").forEach(button => button.addEventListener("click", () => {
     state.selectedWeek = Number(button.dataset.week);
-    saveState(); renderRoadmap(); renderWeekDetail();
+    saveState(); renderRoadmap(); renderWeekDetail(); renderWeekMission();
     $("#weekDetail").scrollIntoView({ behavior: "smooth", block: "center" });
   }));
 }
@@ -630,8 +693,6 @@ function renderWeekDetail() {
   $("#weekCoreSkill").textContent = week.learn[0];
   $("#learnList").innerHTML = week.learn.map(item => `<li>${item}</li>`).join("");
   $("#spotlightCopy").textContent = week.spotlight;
-  $("#workMission").textContent = week.work;
-  $("#homeMission").textContent = week.home;
   const week1Entry = $("#week1LectureEntry");
   if (week1Entry) {
     const showWeek1 = state.selectedWeek === 0;
@@ -715,7 +776,7 @@ function renderWeekDetail() {
       $("#week5LectureStatus").innerHTML = finished
         ? '<strong>Week 5 complete</strong><span>Vocal Variety unlocked · Evidence collected</span>'
         : taught ? '<strong>Vocal variety mission active</strong><span>' + escapeHTML(lecture.mission) + ' Return after the conversation to record what happened.</span>'
-        : '<strong>Discover → Range → Shape → Mix → Prove</strong><span>Use pitch and vocal variety to bring personality to your story.</span>';
+        : '<strong>Discover → Range → Shape → Mix → Prove</strong><span>Step up, lift, drop and land, so people hear how you feel.</span>';
     }
   }
 }
@@ -896,7 +957,7 @@ $("#reflectionForm").addEventListener("submit", event => {
   renderReflection();
   $("#savedBadge").classList.add("show");
   setTimeout(() => $("#savedBadge").classList.remove("show"), 1800);
-  showToast("Reflection saved privately on this device.");
+  showToast(window.PortalSync?.isCloud() ? "Reflection saved to your account." : "Reflection saved privately on this device.");
 });
 
 $("#startDateButton").addEventListener("click", () => {
@@ -934,3 +995,27 @@ $$('#today, #exposure, #journey, #reflection').forEach(section => sectionObserve
 renderAll();
 
 $("#week5ResetButton")?.addEventListener("click", () => window.SpeakersGymPortal.resetLecture(5));
+
+document.addEventListener("click", async event => {
+  if (event.target.closest("#saveCoachMission")) {
+    try { await window.PortalSync.saveCoachMission(6, $("#coachMission6").value); showToast(`Week 6 mission saved. ${CLIENT_PROFILE.name || "The student"} will see it.`); renderAll(); }
+    catch { showToast("The mission could not be saved. Please try again."); }
+  }
+  if (event.target.closest("#completeWeek6")) {
+    const result = $("#week6Result").value.trim();
+    if (!result) { showToast("Add one sentence about what happened."); $("#week6Result").focus(); return; }
+    state.week6Mission = { status: "completed", result, completedAt: new Date().toISOString() };
+    saveState(); renderAll(); showToast("Week 6 mission saved. Well done.");
+  }
+});
+
+window.PortalSync?.init({
+  client: CLIENT_PROFILE.id,
+  storageKey: PROGRAM_KEY,
+  getState: () => state,
+  replaceState: saved => { state = loadState(saved); renderAll(); },
+  onChange: () => renderAll(),
+  logo: "Logo.png",
+  logoutTarget: ".side-nav",
+  logoutClass: "side-logout"
+});

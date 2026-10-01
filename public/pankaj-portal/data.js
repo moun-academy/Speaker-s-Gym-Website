@@ -187,15 +187,15 @@ window.PANKAJ_PORTAL_DATA = {
       ]
     },
     {
-      title: "Storytelling That Brings Out Your Personality",
-      short: "Storytelling That Brings Out Your Personality",
-      transformation: "Turn ideas and experiences into engaging stories using tone, pitch, and expression.",
-      skills: ["Conversational energy", "Facial expression", "Eye contact", "Personal examples", "Concise storytelling"],
+      title: "Find the Music in Your Voice",
+      short: "Melody",
+      transformation: "Move your voice up and down so people hear how you feel, not just what you say.",
+      skills: ["Pitch and melody", "Stepping up on the key word", "Landing the final sentence", "Mixing pitch, pace and volume", "Matching the listener's energy"],
       why: "Leadership communication is not only accurate. It helps people feel the meaning and remember the point.",
-      outcome: "I can tell one concise professional story that shows my experience, keeps a clear point and sounds like me.",
-      activities: ["Situation, challenge, action, result, lesson", "Warmth and eye contact", "Speak to one person", "Notice distraction and continue"],
-      mission: "Use one relevant story or example in a small professional group.",
-      reflection: "Which part of my personality became more visible?",
+      outcome: "I can step up on the word that matters and end my sentences low and sure, so I sound like I mean it.",
+      activities: ["Find your range with the siren", "Step up on one key word", "Land the final sentence", "Mix pitch, pace and volume in a short story"],
+      mission: "In one real conversation, step up on your key word and land your final sentence.",
+      reflection: "When did my voice sound most like I meant it?",
       days: [
         { type: "Coaching session", title: "Build one story that earns its place", time: "60-minute session", intention: "Turn experience into a concise example with a clear leadership point.", required: "Build and deliver a 60-second professional story using situation, challenge, action, result and lesson.", extras: ["Remove every detail that does not support the lesson.", "Choose a group where the story could be useful."], app: true, real: false, prompt: "What made today's story concise rather than long?" },
         { type: "Safe app practice", title: "Tell the story from five anchors", time: "10 minutes", intention: "Keep the structure without sounding memorized.", required: "Record the story using only five anchor words, then check whether the final point is unmistakable.", extras: ["Record a warmer second take.", "Replace one abstract phrase with a concrete action."], app: true, real: false, prompt: "Where did my real personality appear?" },

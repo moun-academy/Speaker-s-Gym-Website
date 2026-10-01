@@ -29,9 +29,9 @@ for(const client of ['pankaj','khadija']) test(client + ' Lecture 5 preserves pr
  open();assert.match(root.innerHTML,/Why|melody|Melody/);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1,'unperformed exercise blocks progression');
  portal.updateWeek5({currentStep:3});open();action('siren-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,4);
  portal.updateWeek5({currentStep:6});open();action('land-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,7);
- portal.updateWeek5({currentStep:9});open();action('perform-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,10);
- action('next');assert.equal(portal.getState().week5Lecture.currentStep,10,'empty personal story blocks progression');
- portal.updateWeek5({story:{situation:'A project',tension:'A deadline',action:'I helped',result:'It worked'}});action('next');assert.equal(portal.getState().week5Lecture.currentStep,11);
+ portal.updateWeek5({currentStep:9});open();action('next');assert.equal(portal.getState().week5Lecture.currentStep,9,'unread story blocks progression');
+ action('perform-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,11,'the own-story slide was retired; reading the story leads to the mission');
+ portal.updateWeek5({currentStep:10});open();assert.equal(portal.getState().week5Lecture.currentStep,11,'a student saved on the retired slide resumes at the mission');
  action('accept-mission');assert(portal.getState().week5Lecture.lectureCompletedAt);const chosen=portal.getState().week5Lecture.missionLevel;assert(portal.getState().week5Lecture.mission.startsWith(ownLevels[chosen-1].behavior));if(client!=='pankaj')assert.equal(chosen,4,'uses current personal ladder level');
  action('close');open();assert.equal(portal.getState().week5Lecture.currentStep,12,'resumes saved position');
  events['doc-click'].forEach(fn=>fn({target:{closest:s=>s==='[data-open-week5-reflection]'?{}:null}}));assert.equal(portal.getState().week5Lecture.currentStep,13);

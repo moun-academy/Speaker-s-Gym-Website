@@ -12,12 +12,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=khadija-v3" />
+    <link rel="stylesheet" href="styles.css?v=khadija-v4" />
+    <link rel="stylesheet" href="/portal-sync.css?v=1" />
     <link rel="stylesheet" href="lecture.css?v=khadija-v10" />
     <link rel="stylesheet" href="week1.css?v=khadija-v5" />
     <link rel="stylesheet" href="week3.css?v=khadija-v1" />
     <link rel="stylesheet" href="week4.css?v=khadija-pause-v2" />
-  <link rel="stylesheet" href="week5.css?v=lecture5-sync-1" />
+  <link rel="stylesheet" href="week5.css?v=lecture5-plain-1" />
 </head>
   <body>
     <div class="app-shell">
@@ -203,11 +204,12 @@
           <section class="journey-section" id="journey" aria-labelledby="journey-title">
             <div class="section-heading journey-heading">
               <div>
-                <span class="eyebrow">Full visibility, one focus at a time</span>
+                <span class="eyebrow">Two pillars · one mission each week</span>
                 <h2 id="journey-title">Your six-week journey</h2>
               </div>
-              <p>Every week builds evidence that the confident version of you is already emerging.</p>
+              <p>Each week, the lecture teaches one skill and the mission puts it to work in real life. We review this together on every call.</p>
             </div>
+            <div class="journey-summary" id="journeySummary" aria-live="polite"></div>
             <div class="week-roadmap" id="weekRoadmap"></div>
 
             <article class="week-detail" id="weekDetail">
@@ -267,7 +269,8 @@
                   <button class="button button-accent" id="week4LectureButton" data-open-week4-lecture type="button">Start Lecture 4</button>
                 </div>
               </div>
-              <div class="lecture-entry" id="week5LectureEntry" hidden><div id="week5LectureStatus"><strong>Discover → Range → Shape → Mix → Prove</strong><span>Use pitch and vocal variety to bring personality to your story.</span></div><div class="lecture-entry-actions"><button class="lecture-reset" id="week5ResetButton" type="button">Reset Week 5</button><button class="button button-dark" id="week5MissionButton" data-open-week5-reflection type="button" hidden>Report mission</button><button class="button button-accent" id="week5LectureButton" data-open-week5-lecture type="button">Start Lecture 5</button></div></div>
+              <div class="lecture-entry" id="week5LectureEntry" hidden><div id="week5LectureStatus"><strong>Discover → Range → Shape → Mix → Prove</strong><span>Step up, lift, drop and land, so people hear how you feel.</span></div><div class="lecture-entry-actions"><button class="lecture-reset" id="week5ResetButton" type="button">Reset Week 5</button><button class="button button-dark" id="week5MissionButton" data-open-week5-reflection type="button" hidden>Report mission</button><button class="button button-accent" id="week5LectureButton" data-open-week5-lecture type="button">Start Lecture 5</button></div></div>
+              <div class="week-mission" id="weekMission" aria-live="polite"></div>
               <details class="week-plan-disclosure">
                 <summary>Explore this week's complete coaching plan <span aria-hidden="true">+</span></summary>
                 <div class="week-detail-grid">
@@ -278,11 +281,6 @@
                   <div>
                     <span class="detail-label">COACHING SPOTLIGHT SPEECH</span>
                     <p class="spotlight-copy" id="spotlightCopy"></p>
-                  </div>
-                  <div>
-                    <span class="detail-label">REAL-LIFE MISSIONS</span>
-                    <div class="mission-card work"><small>AT WORK</small><p id="workMission"></p></div>
-                    <div class="mission-card home"><small>AT HOME</small><p id="homeMission"></p></div>
                   </div>
                 </div>
               </details>
@@ -357,13 +355,14 @@
     <div id="week3Root"></div>
     <div id="week4Root"></div>
     <div id="week5Root"></div>
+    <script src="/portal-sync.js?v=1"></script>
     <script src="client-config.js?v=khadija-v2"></script>
     <script src="exposure-levels.js?v=khadija-v3"></script>
-    <script src="app.js?v=reset-toast-1"></script>
+    <script src="app.js?v=journey-1"></script>
     <script src="week1.js?v=khadija-v5"></script>
     <script src="lecture.js?v=khadija-v10"></script>
     <script src="week3.js?v=khadija-v2"></script>
     <script src="week4.js?v=khadija-pause-v2"></script>
-  <script src="week5.js?v=lecture5-sync-1"></script>
+  <script src="week5.js?v=lecture5-plain-1"></script>
 </body>
 </html>

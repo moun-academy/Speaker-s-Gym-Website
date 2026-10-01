@@ -622,3 +622,35 @@ footer p { color: var(--muted); font-size: 9px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
+
+/* ---------- Journey: two pillars, one mission each week ---------- */
+.journey-summary { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 28px; align-items: center; margin-bottom: 14px; padding: 26px 30px; border-radius: 19px; background: var(--forest); color: white; }
+.journey-summary .eyebrow { color: var(--yellow); }
+.journey-now h3 { margin: 8px 0 0; font: 400 clamp(24px, 2.6vw, 32px)/1.15 var(--display); }
+.journey-now p { margin: 6px 0 0; color: #b8c4be; font-size: 11px; }
+.journey-pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.journey-pillars small { display: block; color: var(--yellow); font-size: 8px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.journey-pillars strong { display: block; margin: 6px 0 8px; font: 400 26px var(--display); }
+.journey-pillars strong span { color: #b8c4be; font: 400 11px/1.3 inherit; font-family: inherit; }
+.journey-pillars i { display: block; height: 4px; border-radius: 99px; overflow: hidden; background: rgba(255,255,255,.14); }
+.journey-pillars b { display: block; height: 100%; border-radius: 99px; background: var(--coral); }
+.journey-pillars a { display: inline-block; margin-top: 9px; color: var(--yellow); font-size: 11px; }
+.week-card p { line-height: 1.6; }
+.week-mission { display: grid; gap: 9px; margin-top: 14px; padding: 18px 20px; border-radius: 13px; background: rgba(255,255,255,.58); border: 1px solid rgba(23,35,31,.12); }
+.week-mission .detail-label { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.week-mission-text { margin: 0; font: 400 18px/1.45 var(--display); }
+.week-mission-text em { color: var(--muted); font-size: 13px; }
+.mission-pill { padding: 3px 9px; border-radius: 99px; background: #e6e0d5; color: var(--muted); letter-spacing: .06em; }
+.mission-pill.done { background: #dce4d8; color: #3d6031; }
+.mission-pill.waiting { background: #f8e7bd; color: #7a5a14; }
+.week-mission-level { justify-self: start; padding: 3px 10px; border-radius: 99px; background: #e6e0d5; color: var(--muted); font-size: 10px; }
+.week-mission-result { margin: 0; padding: 10px 12px; border-radius: 9px; background: #dce4d8; font-size: 13px; line-height: 1.5; }
+.week-mission-result small { display: block; margin-bottom: 3px; color: var(--muted); font-size: 7px; font-weight: 800; letter-spacing: .12em; }
+.week-mission-edit { display: grid; gap: 6px; color: var(--muted); font-size: 11px; }
+.week-mission-edit textarea { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: white; font: inherit; font-size: 13px; }
+.week-mission .lecture-reset { justify-self: start; }
+.week-detail-grid { grid-template-columns: 1fr 1.25fr; }
+.side-logout { margin-top: 8px; padding: 10px 12px; border: 0; background: none; color: inherit; font: inherit; font-size: 12px; opacity: .65; cursor: pointer; text-align: left; }
+.side-logout:hover { opacity: 1; }
+@media (max-width: 980px) { .journey-summary { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .journey-pillars, .week-detail-grid { grid-template-columns: 1fr; } .journey-summary { padding: 22px 18px; } }
