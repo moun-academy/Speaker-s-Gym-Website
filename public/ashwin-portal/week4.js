@@ -7,25 +7,76 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Why Silence Feels So Long", start: 1, end: 1 },
-    { title: "Two Kinds of Pause", start: 2, end: 3 },
-    { title: "The Two-Second Answer", start: 5, end: 5 },
-    { title: "Read With the Pauses", start: 6, end: 6 },
-    { title: "Leave With One Pause to Prove", start: 7, end: 8 }
+    { title: "Why Silence Feels So Long", steps: [1] },
+    { title: "Why Pausing Works", steps: [12, 13] },
+    { title: "Your Pause Toolkit", steps: [2, 3, 14] },
+    { title: "The Two-Second Answer", steps: [5] },
+    { title: "Read With the Pauses", steps: [6] },
+    { title: "Leave With One Pause to Prove", steps: [7, 8] }
   ];
 
   const stages = [
-    { name: "DISCOVER", end: 1 },
-    { name: "STILL", end: 4 },
-    { name: "SPEAK", end: 6 },
-    { name: "PROVE", end: 8 }
+    { name: "DISCOVER", steps: [0, 1, 12, 13] },
+    { name: "STILL", steps: [2, 3, 14] },
+    { name: "SPEAK", steps: [5, 6] },
+    { name: "PROVE", steps: [7, 8, 9, 10, 11] }
   ];
 
-  const missionTemplates = window.ASHWIN_DATA.levels.map(level => level.behavior + " Take a two-second pause before you start, and replace fillers with silence.");
+  const defaultMission = level => {
+    const trigger = triggers.find(item => item.id === getState().pauseTrigger);
+    const behavior = exposure.levels[level - 1].behavior;
+    return trigger
+      ? `${behavior} Use your pause trigger (${trigger.label.toLowerCase()}) before you start, and replace fillers with silence.`
+      : `${behavior} Take a two-second pause before you start, and replace fillers with silence.`;
+  };
 
   const coachVoices = [
     { name: "Matt Abrahams", source: "Stanford · Think Faster, Talk Smarter", idea: "A beat of silence reads as thoughtfulness. Paraphrasing the question buys you time honestly." },
     { name: "Toastmasters", source: "The Power of Pauses", idea: "Listeners need time to process. Nobody remembers your silence. They do remember the ums." }
+  ];
+
+  // Each reason has a short demo. Text tokens are spoken at ms per word; { p } is a pause in ms.
+  const reasons = [
+    {
+      id: "process",
+      title: "They need time to take it in.",
+      text: "You already know your point. They are hearing it for the first time, at your speed. A pause gives their mind a moment to catch up.",
+      without: [{ t: "The meeting is at three o'clock on Thursday. Please bring your passport.", ms: 230 }],
+      with: [{ t: "The meeting is at three o'clock on Thursday.", ms: 260 }, { p: 1400 }, { t: "Please bring your passport.", ms: 260 }]
+    },
+    {
+      id: "filler",
+      title: "A pause sounds like thinking. An “um” sounds like searching.",
+      text: "Both buy you a moment. The pause makes you sound calm and in control. The filler makes people wonder if you know what to say.",
+      without: [{ t: "The best choice is, um, like, the second one.", ms: 300 }],
+      with: [{ t: "The best choice is", ms: 300 }, { p: 1200 }, { t: "the second one.", ms: 300 }]
+    },
+    {
+      id: "gear",
+      title: "It lets you switch from fast to slow.",
+      text: "Move quickly through what they already know. Stop. Then slow down for what matters. The pause is the moment you change speed.",
+      without: [{ t: "We met on Monday, talked on Tuesday, and agreed on Wednesday. Here is what we decided.", ms: 260 }],
+      with: [{ t: "We met on Monday, talked on Tuesday, and agreed on Wednesday.", ms: 130 }, { p: 1200 }, { t: "Here is what we decided.", ms: 480 }]
+    },
+    {
+      id: "weight",
+      title: "Silence makes the next line count.",
+      text: "A pause before your key sentence tells people: listen, this one matters. A pause after it lets it sink in.",
+      without: [{ t: "I have one thing to tell you. I got the job.", ms: 260 }],
+      with: [{ t: "I have one thing to tell you.", ms: 260 }, { p: 1800 }, { t: "I got the job.", ms: 420 }]
+    }
+  ];
+
+  const beliefs = [
+    { mind: "If I pause, they will think I do not know the answer.", truth: "They think you are choosing your words. A calm pause looks like confidence. An “um” looks more like searching.", tip: "Keep your face relaxed and your eyes on them while you wait." },
+    { mind: "The silence feels like forever.", truth: "It only feels long to you. Two seconds sounds like a thoughtful moment to the listener.", tip: "Count “one… two” in your head. Then speak." },
+    { mind: "If I stop, someone will jump in.", truth: "While you are quiet, people can see you are about to speak. You still have the floor.", tip: "Keep your lips gently closed and your eyes up. That says: I am not finished." }
+  ];
+
+  const triggers = [
+    { id: "count", label: "Count in your head", how: "Silently count “one… two”. Then speak. Nobody can hear it, and it gives you exactly two seconds.", steps: ["one…", "two…", "Now speak."] },
+    { id: "sip", label: "Take a sip of water", how: "Pick up your glass, take a small sip, then speak. It looks natural and works well in meetings and calls.", steps: ["Sip…", "Swallow…", "Now speak."] },
+    { id: "phrase", label: "Say “Good question.” and wait", how: "Say it slowly, give a small smile, then stay quiet for two seconds. It is honest and it buys you time.", steps: ["“Good question.”", "…two seconds of silence…", "Now speak."] }
   ];
 
   // Fillers are wrapped in [brackets]. Everything else carries meaning.
@@ -63,9 +114,10 @@
     { text: "and one we intend to win.", pause: 0, finish: true }
   ];
 
-  // Step 4 (Do / Avoid) was retired; saved positions on it move on to the next slide.
-  const stepOrder = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11];
-  const lectureStepCount = 8;
+  // Step 4 (Do / Avoid) was retired; saved positions on it move on to the trainer.
+  // Steps 12 to 14 are newer slides placed earlier in the lecture, so the list order is the real order.
+  const stepOrder = [0, 1, 12, 13, 2, 3, 14, 5, 6, 7, 8, 9, 10, 11];
+  const lectureStepCount = 11;
   let previousFocus = null;
   let timers = [];
   let frame = null;
@@ -78,8 +130,8 @@
   const getState = () => portal.getState().week4Lecture;
   const update = patch => portal.updateWeek4(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
-  const stageFor = step => stages.find(stage => step <= stage.end) || stages[3];
+  const chapterFor = step => chapters.find(chapter => chapter.steps.includes(step));
+  const stageFor = step => stages.find(stage => stage.steps.includes(step)) || stages[3];
 
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() {
@@ -95,10 +147,10 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step >= 9;
+    const afterMission = [9, 10, 11].includes(step);
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
-    const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 4";
+    const chapterLabel = step === 0 ? "THE PLAN" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 4";
     const chapterTitle = chapter?.title || (step === 0 ? "The Pause" : "Turn experience into evidence");
     const stage = stageFor(step);
 
@@ -125,11 +177,24 @@
     return `<span class="w4-breath" aria-label="pause"><i></i>${label ? `<small>${esc(label)}</small>` : ""}</span>`;
   }
 
+  function demoWords(tokens) {
+    return tokens.map(token => token.p
+      ? `<em class="w4-gap" style="--gap:${Math.round(token.p / 40)}px" aria-label="pause">‖</em>`
+      : token.t.split(" ").map(word => `<b class="w4-dw">${esc(word)}</b>`).join(" ")).join(" ");
+  }
+
+  const reasonsNote = count => count >= reasons.length
+    ? "All four opened. Notice how every reason is about helping the listener, not about you."
+    : `Open each reason and press “Hear the difference”. ${count} of ${reasons.length} opened.`;
+  const beliefsNote = count => count >= beliefs.length
+    ? "A pause takes two seconds. Fear makes it feel like ten."
+    : `Tap each card to see what the listener really hears. ${count} of ${beliefs.length} turned.`;
+
   function renderStep() {
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    const step = savedStep === 4 ? 5 : stepOrder.includes(savedStep) ? savedStep : 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -213,6 +278,49 @@
         </article>
         <div class="w3-coach-actions"><p class="w3-coach-note" data-w4-spot-note aria-live="polite">${complete ? "Every filler became a pause. Read the clean version aloud once." : "Fillers sound like words, but carry no meaning. Tap each one."}</p><button type="button" class="w3-reset-button" data-w4-action="reset-spot">Reset</button></div>
       `, { className: "w4-spot" });
+    } else if (step === 12) {
+      const seen = new Set(state.reasonsSeen || []);
+      page = shell(`
+        <p class="w3-eyebrow">WHY PAUSING WORKS</p>
+        <h1 id="week4PageTitle">Four reasons<br /><em>to stop talking.</em></h1>
+        <div class="w4-reasons">${reasons.map((reason, index) => `<article class="w4-reason ${seen.has(reason.id) ? "seen" : ""}" data-w3-animate style="--i:${index}">
+          <button type="button" class="w4-reason-head" data-w4-reason="${reason.id}" aria-expanded="false"><span>0${index + 1}</span><strong>${esc(reason.title)}</strong><i aria-hidden="true">+</i></button>
+          <div class="w4-reason-body">
+            <p>${esc(reason.text)}</p>
+            <div class="w4-demo" data-w4-demo="${reason.id}">
+              <p class="w4-demo-line" data-w4-line-kind="without"><small>WITHOUT A PAUSE</small><span>${demoWords(reason.without)}</span></p>
+              <p class="w4-demo-line good" data-w4-line-kind="with"><small>WITH A PAUSE</small><span>${demoWords(reason.with)}</span></p>
+            </div>
+            <button type="button" class="w4-play" data-w4-action="play-demo" data-w4-demo-id="${reason.id}">▶ Hear the difference</button>
+          </div>
+        </article>`).join("")}</div>
+        <p class="w3-coach-note" data-w4-reasons-note aria-live="polite">${reasonsNote(seen.size)}</p>
+      `, { className: "w4-reasons-screen" });
+    } else if (step === 13) {
+      const turned = new Set((state.beliefsTurned || []).map(Number));
+      page = shell(`
+        <p class="w3-eyebrow">WHAT YOUR MIND SAYS</p>
+        <h1 id="week4PageTitle">“But they will think<br /><em>I do not know.”</em></h1>
+        <div class="w4-beliefs">${beliefs.map((belief, index) => `<button type="button" class="w4-belief ${turned.has(index) ? "flipped" : ""}" data-w4-belief="${index}" data-w3-animate style="--i:${index}" aria-pressed="${turned.has(index)}">
+          <span class="w4-belief-face front"><small>YOUR MIND SAYS</small><strong>“${esc(belief.mind)}”</strong><em>Tap to see the truth</em></span>
+          <span class="w4-belief-face back"><small>WHAT THEY REALLY HEAR</small><p>${esc(belief.truth)}</p><small>TRY THIS</small><p class="tip">${esc(belief.tip)}</p></span>
+        </button>`).join("")}</div>
+        <p class="w3-coach-note" data-w4-beliefs-note aria-live="polite">${beliefsNote(turned.size)}</p>
+      `, { className: "w4-beliefs-screen" });
+    } else if (step === 14) {
+      const chosen = triggers.find(item => item.id === state.pauseTrigger);
+      page = shell(`
+        <p class="w3-eyebrow">MAKE IT EASY</p>
+        <h1 id="week4PageTitle">Pick one trigger.<br /><em>Use it every time.</em></h1>
+        <p class="w3-lede">You do not need to remember rules. Choose one small action that gives you your two seconds.</p>
+        <div class="w4-triggers">${triggers.map((item, index) => `<button type="button" class="w4-trigger ${chosen?.id === item.id ? "selected" : ""}" data-w4-trigger="${item.id}" data-w3-animate style="--i:${index}"><span>0${index + 1}</span><strong>${esc(item.label)}</strong></button>`).join("")}</div>
+        <div class="w4-try" data-w4-try ${chosen ? "" : "hidden"}>
+          <p data-w4-try-how>${esc(chosen?.how || "")}</p>
+          <div class="w4-try-stage" data-w4-try-stage aria-live="polite">Press try it, then follow the steps.</div>
+          <button type="button" class="w4-primary" data-w4-action="try-trigger">Try it now</button>
+        </div>
+        <div class="w4-practice"><small>PRACTISE WHERE NOTHING IS AT STAKE</small><ul><li>Ordering a coffee</li><li>Answering “How are you?”</li><li>Reading a message out loud</li></ul></div>
+      `, { className: "w4-trigger-screen" });
     } else if (step === 5) {
       const reps = Number(state.trainerReps || 0);
       page = shell(`
@@ -235,7 +343,7 @@
           </div>
           <div class="w4-reps" aria-label="${Math.min(reps, trainerTarget)} of ${trainerTarget} composed answers">${Array.from({ length: trainerTarget }, (_, index) => `<i class="${index < reps ? "done" : ""}"></i>`).join("")}<span>${Math.min(reps, trainerTarget)} / ${trainerTarget} composed answers${reps >= 2 ? " · guide hidden" : ""}</span></div>
         </article>
-        <p class="w3-coach-note">Press "I'm starting to speak" the moment you open your mouth, then answer out loud, point first. From the third question the ring disappears. Trust your own two seconds.</p>
+        <p class="w3-coach-note">${triggers.find(item => item.id === state.pauseTrigger) ? `Your trigger: ${esc(triggers.find(item => item.id === state.pauseTrigger).label.toLowerCase())}. ` : ""}Press "I'm starting to speak" the moment you open your mouth, then answer out loud, point first. From the third question the ring disappears. Trust your own two seconds.</p>
       `, { className: "w4-train" });
     } else if (step === 6) {
       page = shell(`
@@ -249,7 +357,7 @@
         <div class="w4-moon-actions"><button type="button" class="w4-primary light" data-w4-action="guide-moon">Guide my pace</button><span data-w4-moon-status aria-live="polite">Or read it at your own pace.</span></div>
       `, { className: "w4-moon-screen", footer: '<button class="w3-next" type="button" data-w4-action="complete-reading">Reading complete</button>' });
     } else if (step === 7) {
-      const mission = state.mission || missionTemplates[level - 1];
+      const mission = state.mission || defaultMission(level);
       page = shell(`
         <p class="w3-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
         <h1 id="week4PageTitle">One real question.<br /><em>Two seconds of calm.</em></h1>
@@ -541,6 +649,86 @@
     }, offset + 600);
   }
 
+  /* ---------- why pausing works ---------- */
+  function toggleReason(head) {
+    const card = head.closest(".w4-reason");
+    const open = !card.classList.contains("open");
+    // One reason open at a time keeps the slide short.
+    root.querySelectorAll(".w4-reason.open").forEach(other => { other.classList.remove("open"); other.querySelector("[data-w4-reason]").setAttribute("aria-expanded", "false"); });
+    card.classList.toggle("open", open);
+    head.setAttribute("aria-expanded", String(open));
+    if (!open) return;
+    card.classList.add("seen");
+    const seen = [...new Set([...(getState().reasonsSeen || []), head.dataset.w4Reason])];
+    update({ reasonsSeen: seen });
+    const note = root.querySelector("[data-w4-reasons-note]");
+    if (note) note.textContent = reasonsNote(seen.length);
+  }
+
+  function playDemo(id) {
+    clearTimers();
+    const reason = reasons.find(item => item.id === id);
+    const box = root.querySelector(`[data-w4-demo="${id}"]`);
+    if (!reason || !box) return;
+    box.querySelectorAll(".lit").forEach(el => el.classList.remove("lit"));
+    let offset = 200;
+    [["without", reason.without], ["with", reason.with]].forEach(([kind, tokens]) => {
+      const pieces = [...box.querySelectorAll(`[data-w4-line-kind="${kind}"] .w4-dw, [data-w4-line-kind="${kind}"] .w4-gap`)];
+      let index = 0;
+      tokens.forEach(token => {
+        if (token.p) {
+          const gap = pieces[index++];
+          later(() => gap.classList.add("lit"), offset);
+          offset += token.p;
+        } else {
+          token.t.split(" ").forEach(() => {
+            const word = pieces[index++];
+            later(() => word.classList.add("lit"), offset);
+            offset += token.ms;
+          });
+        }
+      });
+      offset += 900;
+    });
+  }
+
+  function turnBelief(card) {
+    const index = Number(card.dataset.w4Belief);
+    card.classList.toggle("flipped");
+    card.setAttribute("aria-pressed", String(card.classList.contains("flipped")));
+    const turned = [...new Set([...(getState().beliefsTurned || []).map(Number), index])];
+    update({ beliefsTurned: turned });
+    const note = root.querySelector("[data-w4-beliefs-note]");
+    if (note) note.textContent = beliefsNote(turned.length);
+  }
+
+  function chooseTrigger(button) {
+    const trigger = triggers.find(item => item.id === button.dataset.w4Trigger);
+    if (!trigger) return;
+    update({ pauseTrigger: trigger.id, mission: "" });
+    root.querySelectorAll("[data-w4-trigger]").forEach(el => el.classList.toggle("selected", el === button));
+    const panel = root.querySelector("[data-w4-try]");
+    panel.hidden = false;
+    panel.querySelector("[data-w4-try-how]").textContent = trigger.how;
+    const stage = panel.querySelector("[data-w4-try-stage]");
+    stage.textContent = "Press try it, then follow the steps.";
+    stage.classList.remove("done");
+  }
+
+  function tryTrigger() {
+    clearTimers();
+    const trigger = triggers.find(item => item.id === getState().pauseTrigger);
+    if (!trigger) return;
+    const stage = root.querySelector("[data-w4-try-stage]");
+    const button = root.querySelector('[data-w4-action="try-trigger"]');
+    button.disabled = true;
+    trigger.steps.forEach((text, index) => later(() => {
+      stage.textContent = text;
+      stage.classList.toggle("done", index === trigger.steps.length - 1);
+    }, index * 1000));
+    later(() => { button.disabled = false; button.textContent = "Try it again"; }, trigger.steps.length * 1000);
+  }
+
   function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
@@ -548,7 +736,10 @@
       1: [state.feltSilence, "Hold two seconds of silence first."],
       3: [(state.spotFound || []).length >= fillerCount ? "ok" : "", `Find all ${fillerCount} fillers before continuing.`],
       5: [Number(state.trainerReps || 0) >= trainerTarget ? "ok" : "", `Complete ${trainerTarget} composed answers with a two-second pause.`],
-      7: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
+      12: [(state.reasonsSeen || []).length >= reasons.length ? "ok" : "", "Open all four reasons before continuing."],
+      13: [(state.beliefsTurned || []).length >= beliefs.length ? "ok" : "", "Turn all three cards before continuing."],
+      14: [state.pauseTrigger, "Pick your pause trigger first."],
+      7: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
     };
     if (requirements[step] && !String(requirements[step][0] || "").trim()) {
       portal.showToast(requirements[step][1]);
@@ -612,6 +803,8 @@
     if (action === "ask") return askQuestion();
     if (action === "speak") return startSpeaking();
     if (action === "guide-moon") return guideMoon(actionEl);
+    if (action === "play-demo") return playDemo(actionEl.dataset.w4DemoId);
+    if (action === "try-trigger") return tryTrigger();
     if (action === "reset-spot") { update({ spotFound: [] }); return renderStep(); }
     if (action === "complete-reading") {
       update({ readingCompleted: true, currentStep: 7 });
@@ -621,13 +814,20 @@
     if (action === "accept-mission") {
       const state = getState();
       const level = getLevel();
-      update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 8 });
+      update({ mission: state.mission || defaultMission(level), missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 8 });
       portal.showToast("Mission accepted. One deliberate pause is the win.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
     if (action === "mission-yes") { update({ missionStatus: "completed", currentStep: 10 }); return renderStep(); }
     if (action === "collect-evidence") return collectEvidence();
+
+    const reasonHead = event.target.closest("[data-w4-reason]");
+    if (reasonHead) return toggleReason(reasonHead);
+    const belief = event.target.closest("[data-w4-belief]");
+    if (belief) return turnBelief(belief);
+    const trigger = event.target.closest("[data-w4-trigger]");
+    if (trigger) return chooseTrigger(trigger);
 
     const word = event.target.closest("[data-w4-word]");
     if (word) return tapWord(word);
@@ -636,7 +836,7 @@
     if (levelButton) {
       const level = exposure.clampLevel(levelButton.dataset.w4Level);
       portal.setExposureLevel(level);
-      update({ currentLevel: level, mission: missionTemplates[level - 1], missionLevel: null });
+      update({ currentLevel: level, mission: defaultMission(level), missionLevel: null });
       return renderStep();
     }
   });
