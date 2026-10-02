@@ -8,7 +8,7 @@
 
   const chapters = [
     { title: "Why Silence Feels So Long", start: 1, end: 1 },
-    { title: "Two Kinds of Pause", start: 2, end: 4 },
+    { title: "Two Kinds of Pause", start: 2, end: 3 },
     { title: "The Two-Second Answer", start: 5, end: 5 },
     { title: "Read With the Pauses", start: 6, end: 6 },
     { title: "Leave With One Pause to Prove", start: 7, end: 8 }
@@ -41,16 +41,6 @@
   const fillerCount = spotTokens.filter(token => token.filler).length;
   const cleanScript = ["The biggest risk right now is the data migration.", "We're two weeks behind because the vendor changed the format.", "I think we should bring in one more engineer."];
 
-  const sortItems = [
-    { id: "lips", text: "Close your lips and breathe in through your nose", answer: "do", why: "A closed mouth cannot say um. The breath resets you." },
-    { id: "um", text: "Say \"um\" so they know you're still going", answer: "avoid", why: "Your face already tells them. The sound adds nothing." },
-    { id: "paraphrase", text: "Repeat the key words back: \"The biggest risk?\"", answer: "do", why: "An honest bridge. It buys time and checks understanding." },
-    { id: "basically", text: "Start with \"So, basically…\" to buy a second", answer: "avoid", why: "A filler in a suit. Silence buys the same second." },
-    { id: "sorry", text: "Apologise for needing a moment", answer: "avoid", why: "Thinking is not a mistake. Do not label it as one." },
-    { id: "look", text: "Glance away briefly while you find the point", answer: "do", why: "It reads as thinking. Return your eyes when you speak." }
-  ];
-  const sortOrder = ["lips", "um", "paraphrase", "basically", "look", "sorry"];
-
   const trainerQuestions = [
     "What did you do last weekend?",
     "What do you enjoy most about your work?",
@@ -67,17 +57,15 @@
 
   const moonScript = [
     { text: "We choose to go to the Moon.", pause: 1600 },
-    { text: "We choose to go to the Moon in this decade and do the other things,", pause: 900 },
-    { text: "not because they are easy,", pause: 900 },
+    { text: "We choose to go to the Moon in this decade and do the other things, not because they are easy,", pause: 900 },
     { text: "but because they are hard;", pause: 2000, long: true },
-    { text: "because that goal will serve to organize and measure the best of our energies and skills,", pause: 900 },
-    { text: "because that challenge is one that we are willing to accept,", pause: 900 },
-    { text: "one we are unwilling to postpone,", pause: 900 },
+    { text: "because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone,", pause: 900 },
     { text: "and one we intend to win.", pause: 0, finish: true }
   ];
 
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-  const lectureStepCount = 9;
+  // Step 4 (Do / Avoid) was retired; saved positions on it move on to the next slide.
+  const stepOrder = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11];
+  const lectureStepCount = 8;
   let previousFocus = null;
   let timers = [];
   let frame = null;
@@ -141,7 +129,7 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.includes(savedStep) ? savedStep : 0;
+    const step = stepOrder.find(item => item >= savedStep) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -225,25 +213,6 @@
         </article>
         <div class="w3-coach-actions"><p class="w3-coach-note" data-w4-spot-note aria-live="polite">${complete ? "Every filler became a pause. Read the clean version aloud once." : "Fillers sound like words, but carry no meaning. Tap each one."}</p><button type="button" class="w3-reset-button" data-w4-action="reset-spot">Reset</button></div>
       `, { className: "w4-spot" });
-    } else if (step === 4) {
-      const answers = state.sortAnswers || {};
-      page = shell(`
-        <p class="w3-eyebrow">WHAT TO DO IN THE SILENCE</p>
-        <h1 id="week4PageTitle">Fill the gap<br /><em>with nothing.</em></h1>
-        <div class="w3-sorter w4-sorter">${sortOrder.map(id => sortItems.find(item => item.id === id)).map((item, index) => {
-          const chosen = answers[item.id];
-          const correct = chosen && chosen === item.answer;
-          return `<article class="${chosen ? (correct ? "correct" : "wrong") : ""}" data-w3-animate style="--i:${index}">
-            <strong>${esc(item.text)}</strong>
-            <div class="w3-sort-buttons">
-              <button type="button" class="do ${chosen === "do" ? "chosen" : ""}" data-w4-sort="${item.id}" data-w4-choice="do" ${chosen ? "disabled" : ""}>DO</button>
-              <button type="button" class="avoid ${chosen === "avoid" ? "chosen" : ""}" data-w4-sort="${item.id}" data-w4-choice="avoid" ${chosen ? "disabled" : ""}>AVOID</button>
-            </div>
-            <small>${chosen ? `${correct ? "Yes." : `${item.answer === "do" ? "Do it." : "Avoid it."}`} ${esc(item.why)}` : "&nbsp;"}</small>
-          </article>`;
-        }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Choose Do or Avoid for each habit. Notice which ones you already use.</p><button type="button" class="w3-reset-button" data-w4-action="reset-sort">Reset</button></div>
-      `);
     } else if (step === 5) {
       const reps = Number(state.trainerReps || 0);
       page = shell(`
@@ -273,9 +242,9 @@
         <div class="w4-moon-heading"><i class="w4-moon" aria-hidden="true"></i><p class="w3-eyebrow">ON STAGE · READ ALOUD</p>
         <h1 id="week4PageTitle">Let the silence<br /><em>do the lifting.</em></h1>
         <p class="w4-moon-credit">John F. Kennedy · Rice University, 1962</p></div>
-        <p class="w4-moon-instruction">Read it out loud. At every <span class="w4-inline-mark">‖</span> close your lips and breathe in. At the long pause, hold until it feels slightly too long. Then hold one more beat.</p>
+        <p class="w4-moon-instruction">Read it out loud. Stop at every <span class="w4-inline-mark">‖</span> and let one beat of silence pass. At the long pause, hold it until it feels slightly too long. Then hold one more beat.</p>
         <div class="w4-moon-script" aria-label="Reading passage with pause marks">
-          ${moonScript.map((line, index) => `<p class="${line.finish ? "finish" : ""}" data-w4-line="${index}">${esc(line.text)}</p>${line.pause ? `<span class="w4-moon-pause ${line.long ? "long" : ""}" data-w4-pause="${index}"><i></i>${line.long ? "LONG PAUSE · 2 seconds" : "breathe"}</span>` : ""}`).join("")}
+          ${moonScript.map((line, index) => `<p class="${line.finish ? "finish" : ""}" data-w4-line="${index}">${esc(line.text)}</p>${line.pause ? `<span class="w4-moon-pause ${line.long ? "long" : ""}" data-w4-pause="${index}"><i></i>${line.long ? "LONG PAUSE · 2 seconds" : "PAUSE · one beat"}</span>` : ""}`).join("")}
         </div>
         <div class="w4-moon-actions"><button type="button" class="w4-primary light" data-w4-action="guide-moon">Guide my pace</button><span data-w4-moon-status aria-live="polite">Or read it at your own pace.</span></div>
       `, { className: "w4-moon-screen", footer: '<button class="w3-next" type="button" data-w4-action="complete-reading">Reading complete</button>' });
@@ -558,7 +527,7 @@
           lineEl.classList.remove("lit");
           lineEl.classList.add("past");
           pauseEl.classList.add("lit");
-          if (status) status.textContent = line.long ? "Hold… one more beat." : "Lips closed. Breathe in.";
+          if (status) status.textContent = line.long ? "Hold… one more beat." : "Pause. Let it land.";
         }, offset);
         later(() => { pauseEl.classList.remove("lit"); pauseEl.classList.add("past"); }, offset + line.pause);
         offset += line.pause;
@@ -575,11 +544,9 @@
   function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    const sortedAll = sortItems.every(item => (state.sortAnswers || {})[item.id]);
     const requirements = {
       1: [state.feltSilence, "Hold two seconds of silence first."],
       3: [(state.spotFound || []).length >= fillerCount ? "ok" : "", `Find all ${fillerCount} fillers before continuing.`],
-      4: [sortedAll ? "ok" : "", "Choose Do or Avoid for every habit before continuing."],
       5: [Number(state.trainerReps || 0) >= trainerTarget ? "ok" : "", `Complete ${trainerTarget} composed answers with a two-second pause.`],
       7: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
@@ -587,7 +554,7 @@
       portal.showToast(requirements[step][1]);
       return;
     }
-    update({ currentStep: stepOrder[Math.min(8, stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
+    update({ currentStep: stepOrder[Math.min(stepOrder.indexOf(8), stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
     renderStep();
   }
 
@@ -646,7 +613,6 @@
     if (action === "speak") return startSpeaking();
     if (action === "guide-moon") return guideMoon(actionEl);
     if (action === "reset-spot") { update({ spotFound: [] }); return renderStep(); }
-    if (action === "reset-sort") { update({ sortAnswers: {} }); return renderStep(); }
     if (action === "complete-reading") {
       update({ readingCompleted: true, currentStep: 7 });
       portal.showToast("Reading complete. Choose your real-world mission.");
@@ -666,20 +632,6 @@
     const word = event.target.closest("[data-w4-word]");
     if (word) return tapWord(word);
 
-    const sort = event.target.closest("[data-w4-sort]");
-    if (sort) {
-      const answers = { ...(getState().sortAnswers || {}) };
-      const item = sortItems.find(entry => entry.id === sort.dataset.w4Sort);
-      const chosen = sort.dataset.w4Choice;
-      const correct = chosen === item.answer;
-      answers[item.id] = chosen;
-      update({ sortAnswers: answers });
-      const card = sort.closest("article");
-      card.classList.add(correct ? "correct" : "wrong");
-      card.querySelectorAll("[data-w4-sort]").forEach(button => { button.disabled = true; button.classList.toggle("chosen", button === sort); });
-      card.querySelector("small").textContent = `${correct ? "Yes." : item.answer === "do" ? "Do it." : "Avoid it."} ${item.why}`;
-      return;
-    }
     const levelButton = event.target.closest("[data-w4-level]");
     if (levelButton) {
       const level = exposure.clampLevel(levelButton.dataset.w4Level);
