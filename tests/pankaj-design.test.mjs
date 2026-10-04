@@ -75,3 +75,19 @@ test('weekly coaching time validates, saves and survives reload without changing
   app.elements.get('#coachingScheduleForm').submit({preventDefault(){}});
   assert.equal(app.portal.getState().weeklyCoaching.time,'15:30');
 });
+
+test('coach-confirmed Lectures 1 to 3 show completed without completing missions, and explicit resets persist',()=>{
+  const app=fixture(legacy,null,true);
+  for(const week of [1,2,3]) assert.equal(app.portal.getState()[`week${week}Lecture`].lectureCompletedAt,'2026-10-04');
+  for(const week of [4,5]) assert.ok(!app.portal.getState()[`week${week}Lecture`].lectureCompletedAt);
+  assert.equal(app.portal.getState().week1Lecture.prep.point,'Keep my point');
+  for(const week of [1,2,3]) assert.notEqual(app.portal.getState()[`week${week}Lecture`].missionStatus,'completed');
+  app.portal.resetLecture(2);
+  const saved=JSON.parse(app.store.get('speakers-gym-pankaj'));
+  const reload=fixture(saved,null,true);
+  assert.ok(!reload.portal.getState().week2Lecture.lectureCompletedAt);
+  assert.equal(reload.portal.getState().week1Lecture.lectureCompletedAt,'2026-10-04');
+  assert.equal(reload.portal.getState().week3Lecture.lectureCompletedAt,'2026-10-04');
+  const existing=fixture({...legacy,week1Lecture:{...legacy.week1Lecture,lectureCompletedAt:'2026-09-20'}},null,true);
+  assert.equal(existing.portal.getState().week1Lecture.lectureCompletedAt,'2026-09-20');
+});

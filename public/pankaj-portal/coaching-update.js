@@ -2,6 +2,8 @@
 window.PANKAJ_COACHING_UPDATE = {
   "id": "coaching-3-2026-10-04",
   "callNumber": 3,
+  "completedLectures": [1, 2, 3],
+  "lectureCompletionConfirmedOn": "2026-10-04",
   "date": "2026-10-04",
   "weeklyCoaching": {
     "day": "Sunday",

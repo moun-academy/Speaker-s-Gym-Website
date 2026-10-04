@@ -22,6 +22,10 @@
     if (!Array.isArray(next.evidence)) next.evidence=[];
     // A new coach-published appointment replaces stale browser timing once.
     if(COACHING && next.coachingScheduleUpdateId!==COACHING.id) {next.weeklyCoaching={...COACHING.weeklyCoaching};next.coachingScheduleUpdateId=COACHING.id;}
+    for(const week of COACHING?.completedLectures||[]) {
+      const lecture=next[`week${week}Lecture`];
+      if(lecture && next.coachingLectureResets?.[week]!==COACHING.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionConfirmedOn||COACHING.date;
+    }
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }
@@ -153,7 +157,7 @@
   function renderLectures() {
     $('#lectureCards').innerHTML=DATA.lectures.map(item=>{
       const lecture=state[`week${item.week}Lecture`];const started=Number(lecture.currentStep)>0;const finished=!!lecture.lectureCompletedAt;
-      return `<article class="lecture-card card"><div class="lecture-art ${item.art}" aria-hidden="true"><span>LECTURE ${String(item.week).padStart(2,'0')}</span>${lectureArt(item.art)}<small>LEARN · PRACTICE · PROVE</small></div><div class="lecture-copy"><span class="micro">${esc(item.skill)}<span class="lecture-status">${finished?'Explored ✓':started?'In progress':'Ready to explore'}</span></span><h2>${esc(item.title)}</h2><p>${esc(item.description)}</p><button class="button ${item.week===1?'dark':'outline'}" ${item.trigger}>${started?'Continue lecture':'Explore lecture'}<span>→</span></button></div></article>`;
+      return `<article class="lecture-card card"><div class="lecture-art ${item.art}" aria-hidden="true"><span>LECTURE ${String(item.week).padStart(2,'0')}</span>${lectureArt(item.art)}<small>LEARN · PRACTICE · PROVE</small></div><div class="lecture-copy"><span class="micro">${esc(item.skill)}<span class="lecture-status">${finished?'Completed ✓':started?'In progress':'Ready to explore'}</span></span><h2>${esc(item.title)}</h2><p>${esc(item.description)}</p><button class="button ${item.week===1?'dark':'outline'}" ${item.trigger}>${finished?'Review lecture':started?'Continue lecture':'Explore lecture'}<span>→</span></button></div></article>`;
     }).join('');
   }
   function renderReflections() {
@@ -217,6 +221,7 @@
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Pankaj's other progress stays saved.`)) return false;
+      state.coachingLectureResets={...(state.coachingLectureResets||{}),[week]:COACHING?.id};
       state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();showToast(`Lecture ${week} is ready for a fresh start.`);return true;
     },
     saveEvidence(card){
