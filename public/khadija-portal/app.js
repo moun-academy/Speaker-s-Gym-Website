@@ -300,7 +300,7 @@ let toastTimer;
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-function loadState(fromAccount) {
+function loadStoredState(fromAccount) {
   try {
     const stored = fromAccount !== undefined ? fromAccount : JSON.parse(localStorage.getItem(PROGRAM_KEY));
     const storedWeek1 = stored?.week1Lecture || {};
@@ -465,7 +465,26 @@ function renderWeekMission() {
   target.innerHTML = `<span class="detail-label">PILLAR 2 · THIS WEEK'S MISSION ${pill}</span>${body}${level}${result}`;
 }
 
+
+function loadState(fromAccount) {
+  const loaded=loadStoredState(fromAccount);
+  const update=window.SPEAKERS_GYM_COACHING_UPDATE;
+  for(const week of update?.completedLectures||[]) {
+    const lecture=loaded['week'+week+'Lecture'];
+    if(lecture && loaded.coachingLectureResets?.[week]!==update.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||update.date;
+  }
+  return loaded;
+}
+function renderCoachingUpdate() {
+  const update=window.SPEAKERS_GYM_COACHING_UPDATE, card=$('#coachingUpdate');
+  if(!update||!card)return;
+  const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const done=state.coachingFollowUps?.[update.id]||{};
+  card.innerHTML='<span class="eyebrow">COACHING NOTES · '+escape(new Date(update.date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}))+'</span><h2>Your focus this week</h2><p>'+escape(update.summary)+'</p><div class="coaching-missions">'+update.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+escape(m.id)+'" '+(done[m.id]?'checked':'')+(window.PortalSync?.isCoach()?' disabled':'')+'><span><strong>'+escape(m.title)+'</strong><small>'+escape(m.text)+'</small></span></label>').join('')+'</div><details><summary>What to work on</summary><ul>'+update.challenges.map(c=>'<li>'+escape(c)+'</li>').join('')+'</ul></details>';
+}
+
 function renderAll() {
+  renderCoachingUpdate();
   renderHeader();
   renderProgress();
   renderToday();
@@ -707,7 +726,7 @@ function renderWeekDetail() {
       $("#week1LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 1 complete</strong><span>PREP unlocked · ${week1.versionsCompleted || 0} Versions · Evidence collected</span>`
         : lectureComplete
-          ? `<strong>Mission active</strong><span>${escapeHTML(week1.mission)} Return after the real conversation to record what happened.</span>`
+          ? `<strong>Lecture completed</strong><span>${escapeHTML(week1.mission)} Return after the real conversation to record what happened.</span>`
           : `<strong>Discover → Build → Speak → Prove</strong><span>A live PREP coaching experience with one real-world mission.</span>`;
     }
   }
@@ -725,7 +744,7 @@ function renderWeekDetail() {
       $("#week2LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 2 complete</strong><span>Grounded Volume unlocked · ${lecture.versionsCompleted || 0} Versions · Evidence collected</span>`
         : lectureComplete
-          ? `<strong>Voice mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          ? `<strong>Lecture completed</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
           : `<strong>Discover → Calibrate → Speak → Prove</strong><span>A live grounded-volume coaching experience with one real-world mission.</span>`;
     }
   }
@@ -743,7 +762,7 @@ function renderWeekDetail() {
       $("#week3LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 3 complete</strong><span>Pace Variety unlocked · ${lecture.baselineWpm ? `${lecture.baselineWpm} wpm default` : `${lecture.versionsCompleted || 0} Versions`} · Evidence collected</span>`
         : lectureComplete
-          ? `<strong>Pace mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          ? `<strong>Lecture completed</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
           : `<strong>Discover → Tune → Speak → Prove</strong><span>A live pace coaching experience with one real-world mission.</span>`;
     }
   }
@@ -760,7 +779,7 @@ function renderWeekDetail() {
       $("#week4LectureStatus").innerHTML = evidenceComplete
         ? `<strong>Week 4 complete</strong><span>Purposeful Pauses unlocked · Evidence collected</span>`
         : lectureComplete
-          ? `<strong>Pause mission active</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
+          ? `<strong>Lecture completed</strong><span>${escapeHTML(lecture.mission)} Return after the real conversation to record what happened.</span>`
           : `<strong>Discover → Still → Speak → Prove</strong><span>Replace fillers with silence and let one clear point land.</span>`;
     }
   }
@@ -864,6 +883,7 @@ window.SpeakersGymPortal = {
     saveState();
   },
   resetWeek1() {
+    state.coachingLectureResets={...(state.coachingLectureResets||{}),[1]:window.SPEAKERS_GYM_COACHING_UPDATE?.id};
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 1);
     state.week1Lecture = JSON.parse(JSON.stringify(defaultState.week1Lecture));
     state.week2Lecture.currentLevel = null;
@@ -871,18 +891,21 @@ window.SpeakersGymPortal = {
     renderAll();
   },
   resetWeek2() {
+    state.coachingLectureResets={...(state.coachingLectureResets||{}),[2]:window.SPEAKERS_GYM_COACHING_UPDATE?.id};
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 2);
     state.week2Lecture = JSON.parse(JSON.stringify(defaultState.week2Lecture));
     saveState();
     renderAll();
   },
   resetWeek3() {
+    state.coachingLectureResets={...(state.coachingLectureResets||{}),[3]:window.SPEAKERS_GYM_COACHING_UPDATE?.id};
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 3);
     state.week3Lecture = JSON.parse(JSON.stringify(defaultState.week3Lecture));
     saveState();
     renderAll();
   },
   resetWeek4() {
+    state.coachingLectureResets={...(state.coachingLectureResets||{}),[4]:window.SPEAKERS_GYM_COACHING_UPDATE?.id};
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 4);
     state.week4Lecture = JSON.parse(JSON.stringify(defaultState.week4Lecture));
     saveState();
@@ -1019,3 +1042,5 @@ window.PortalSync?.init({
   logoutTarget: ".side-nav",
   logoutClass: "side-logout"
 });
+
+document.addEventListener('change',event=>{const input=event.target.closest('[data-coaching-mission]');if(!input||window.PortalSync?.isCoach())return;const id=window.SPEAKERS_GYM_COACHING_UPDATE.id;state.coachingFollowUps={...(state.coachingFollowUps||{}),[id]:{...(state.coachingFollowUps?.[id]||{}),[input.dataset.coachingMission]:input.checked}};saveState();});
