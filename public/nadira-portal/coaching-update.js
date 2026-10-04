@@ -29,5 +29,11 @@ window.SPEAKERS_GYM_COACHING_UPDATE = {
       "title": "Add practice to morning coffee",
       "text": "Record one five-minute app practice after coffee. Share a recording in the community for feedback."
     }
-  ]
+  ],
+  "nextCall": {
+    "eventId": "acuj5fjb1dlrr5ill7orjgqn5k",
+    "start": "2026-10-09T11:30:00+04:00",
+    "timeZone": "Asia/Dubai",
+    "meetingLink": "https://meet.google.com/pyf-yyqx-tpg"
+  }
 };
