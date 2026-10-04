@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   const DATA = window.PANKAJ_JOURNEY_DATA;
+  const COACHING = window.PANKAJ_COACHING_UPDATE;
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -19,6 +20,8 @@
       next.reflections = Object.entries(next.legacyDailyReflections).filter(([,text])=>typeof text==='string'&&text.trim()).map(([day,text])=>({id:'daily-'+day,action:'Day '+(Number(day)+1)+' · '+(flatDays[Number(day)]?.title || 'Daily practice'),result:text,dayIndex:Number(day)}));
     }
     if (!Array.isArray(next.evidence)) next.evidence=[];
+    // A new coach-published appointment replaces stale browser timing once.
+    if(COACHING && next.coachingScheduleUpdateId!==COACHING.id) {next.weeklyCoaching={...COACHING.weeklyCoaching};next.coachingScheduleUpdateId=COACHING.id;}
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }
@@ -199,7 +202,7 @@
       return `<article class="track-row card ${current&&row.week===current.week?'is-current':''} ${row.missionState==='done'?'is-done':''}"><header><span class="track-week">WEEK ${String(row.week).padStart(2,'0')}</span><h3>${esc(week.title)}</h3><details class="week-goal"><summary>Weekly goal</summary><p>${esc(week.outcome)}</p></details></header>${lectureCell}<div class="track-cell mission"><small>PILLAR 2 · MISSION ${missionPill[row.missionState]}</small>${missionBody}${levelChip}${result}</div></article>`;
     }).join('');
   }
-  function renderAll() {renderCoachingSchedule();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
+  function renderAll() {renderCoachingUpdate();renderCoachingSchedule();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
   function route() {
     const requested=location.hash.slice(1);const view=requested==='progress'?'journey':['home','journey','lectures','reflections'].includes(requested)?requested:'home';
     $$('.view').forEach(el=>el.hidden=el.id!==`${view}View`);
@@ -279,9 +282,9 @@
     const schedule=state.weeklyCoaching;
     const set=Boolean(schedule.day&&schedule.time&&schedule.timeZone);
     $('#coachingScheduleLabel').textContent=set?schedule.day+' · '+schedule.time:'Weekend timing confirmed together';
-    $('#coachingScheduleZone').textContent=set?'Weekly · '+schedule.timeZone:'';
+    $('#coachingScheduleZone').textContent=set?(schedule.nextDate?'Next call · '+new Date(schedule.nextDate+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})+' · ':'Weekly · ')+schedule.timeZone:'';
     $('#coachingScheduleToggle').textContent=set?'Change time':'Set weekly time';
-    $('#coachingDay').value=schedule.day;$('#coachingTime').value=schedule.time;$('#coachingTimeZone').value=schedule.timeZone;
+    $('#coachingNextDate').value=schedule.nextDate||'';$('#coachingDay').value=schedule.day;$('#coachingTime').value=schedule.time;$('#coachingTimeZone').value=schedule.timeZone;
     $('#coachingScheduleEditor').hidden=sync.role==='coach';
   }
   $('#coachingScheduleForm').addEventListener('submit',event=>{
@@ -290,10 +293,24 @@
     if(!['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].includes(day)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {showToast('Choose a day and a valid time.');return;}
     try {new Intl.DateTimeFormat('en',{timeZone}).format(new Date());}catch{showToast('Choose a valid timezone, such as Asia/Dubai.');$('#coachingTimeZone').focus();return;}
     if(!timeZone){showToast('Choose a timezone.');return;}
-    state.weeklyCoaching={day,time,timeZone};
+    const nextDate=$('#coachingNextDate').value;
+    if(nextDate && (!/^\d{4}-\d{2}-\d{2}$/.test(nextDate)||!Number.isFinite(Date.parse(nextDate+'T12:00:00Z'))||['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(nextDate+'T12:00:00Z').getUTCDay()]!==day)){showToast('Choose a date that matches the weekday.');return;}
+    state.weeklyCoaching={day,time,timeZone,...(nextDate?{nextDate}:{})};
     if(saveState()){showToast('Weekly coaching time saved.');$('#coachingScheduleEditor').open=false;renderCoachingSchedule();}
   });
   $('#cancelCoachingSchedule').addEventListener('click',()=>{$('#coachingScheduleEditor').open=false;renderCoachingSchedule();});
+  function renderCoachingUpdate() {
+    if(!COACHING)return;
+    const completed=state.coachingFollowUps?.[COACHING.id]||{};
+    const count=COACHING.missions.filter(mission=>completed[mission.id]).length;
+    $('#coachingUpdate').hidden=false;
+    $('#coachingUpdate').innerHTML='<header><div><span class="eyebrow">CALL '+COACHING.callNumber+' · 4 OCTOBER 2026</span><h2 id="coachingUpdateTitle">Your focus this week</h2></div><span class="micro">'+count+' / '+COACHING.missions.length+' done</span></header><p class="coaching-recap">'+esc(COACHING.summary)+'</p><details class="coaching-challenges"><summary>What to work on</summary><ul>'+COACHING.challenges.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></details><ul class="coaching-missions">'+COACHING.missions.map(mission=>'<li class="'+(completed[mission.id]?'completed':'')+'"><label><input type="checkbox" data-coaching-mission="'+esc(mission.id)+'" '+(completed[mission.id]?'checked ':'')+(sync.role==='coach'?'disabled':'')+'><strong>'+esc(mission.title)+'</strong></label><p>'+esc(mission.text)+'</p>'+(mission.link?'<a class="text-button" href="'+esc(mission.link)+'" target="_blank" rel="noopener noreferrer">'+esc(mission.linkLabel)+' ↗</a>':'')+'</li>').join('')+'</ul>';
+  }
+  document.addEventListener('change',event=>{
+    const checkbox=event.target.closest('[data-coaching-mission]');if(!checkbox||!COACHING||sync.role==='coach')return;
+    if(!COACHING.missions.some(mission=>mission.id===checkbox.dataset.coachingMission))return;
+    state.coachingFollowUps=state.coachingFollowUps||{};state.coachingFollowUps[COACHING.id]={...(state.coachingFollowUps[COACHING.id]||{}),[checkbox.dataset.coachingMission]:checkbox.checked};saveState();renderCoachingUpdate();
+  });
   renderAll();route();
   document.body.classList.add('portal-locked');boot();
 })();
