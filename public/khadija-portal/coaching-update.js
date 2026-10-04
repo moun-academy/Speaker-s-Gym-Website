@@ -28,5 +28,11 @@ window.SPEAKERS_GYM_COACHING_UPDATE = {
       "title": "Share an audio practice",
       "text": "Post one audio recording in the community for feedback. Audio-only is welcome."
     }
-  ]
+  ],
+  "nextCall": {
+    "eventId": "eu44m17r9kivl41tnv0jhpcj0k",
+    "start": "2026-10-10T12:00:00+04:00",
+    "timeZone": "Asia/Dubai",
+    "meetingLink": "https://meet.google.com/hps-agcs-pgi"
+  }
 };
