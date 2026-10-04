@@ -288,6 +288,10 @@
     const set=Boolean(schedule.day&&schedule.time&&schedule.timeZone);
     $('#coachingScheduleLabel').textContent=set?schedule.day+' · '+schedule.time:'Weekend timing confirmed together';
     $('#coachingScheduleZone').textContent=set?(schedule.nextDate?'Next call · '+new Date(schedule.nextDate+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})+' · ':'Weekly · ')+schedule.timeZone:'';
+    const matchesAppointment=COACHING?.weeklyCoaching && ['day','time','timeZone','nextDate'].every(key=>schedule[key]===COACHING.weeklyCoaching[key]);
+    const join=$('#coachingJoinLink');
+    join.hidden=!matchesAppointment||!COACHING?.meetingLink;
+    if(!join.hidden)join.setAttribute('href',COACHING.meetingLink);else join.removeAttribute('href');
     $('#coachingScheduleToggle').textContent=set?'Change time':'Set weekly time';
     $('#coachingNextDate').value=schedule.nextDate||'';$('#coachingDay').value=schedule.day;$('#coachingTime').value=schedule.time;$('#coachingTimeZone').value=schedule.timeZone;
     $('#coachingScheduleEditor').hidden=sync.role==='coach';

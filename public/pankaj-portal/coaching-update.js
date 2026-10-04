@@ -5,6 +5,8 @@ window.PANKAJ_COACHING_UPDATE = {
   "completedLectures": [1, 2, 3],
   "lectureCompletionConfirmedOn": "2026-10-04",
   "date": "2026-10-04",
+  "meetingLink": "https://meet.google.com/utc-zgku-wmy",
+  "calendarEventId": "7sgnn2p2k37erac4e5q2quoonn",
   "weeklyCoaching": {
     "day": "Sunday",
     "time": "12:00",
