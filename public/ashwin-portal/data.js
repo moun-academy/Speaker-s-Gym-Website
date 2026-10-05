@@ -69,6 +69,13 @@ window.ASHWIN_DATA = {
     ['A senior listener','Give a manager or senior contact one concise, relevant update or thoughtful question when an opportunity arises.'],
     ['A real interview','Describe your experience, give a concrete example, and answer a follow-up without scripting every word.']
   ].map(([name,behavior])=>({name,behavior,card:behavior})),
+  wins: {
+    1: { title: 'Post your PREP speech in the community', hint: 'Record your 60-second PREP answer and share it. Done beats perfect.', field: 'link', fieldLabel: 'Link to your post (optional)', placeholder: 'https://…' },
+    2: { title: 'Say one clear sentence in a real moment', hint: 'Let your last words be as strong as your first.', field: 'note', fieldLabel: 'What happened? (optional)', placeholder: 'One short line' },
+    3: { title: 'Slow down your key sentence', hint: 'Say your main point a little slower, then keep moving.', field: 'note', fieldLabel: 'What happened? (optional)', placeholder: 'One short line' },
+    4: { title: 'Pause for two seconds before one real answer', hint: 'Use your pause trigger. Let the question land.', field: 'note', fieldLabel: 'What happened? (optional)', placeholder: 'One short line' },
+    5: { title: 'Step up on one key word and land the ending', hint: 'One word higher. One sentence that falls and finishes.', field: 'note', fieldLabel: 'What happened? (optional)', placeholder: 'One short line' }
+  },
   lectures: [
     {week:1,title:'Think clearly. Speak simply.',skill:'STRUCTURE & PREP',description:'Give your answers a clear shape. Point, reason, example, point.',art:'structure',trigger:'data-open-week1'},
     {week:2,title:'A voice that carries.',skill:'VOLUME & PRESENCE',description:'Build a supported voice and let your final words be heard.',art:'voice',trigger:'data-open-week2-lecture'},

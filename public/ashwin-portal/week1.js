@@ -247,10 +247,10 @@
         <p class="w1-eyebrow">VERSION 1</p>
         <span class="w1-topic-chip"><small>YOUR TOPIC</small>${esc(state.selectedTopic)}</span>
         <h1>Say it naturally.</h1>
-        <p class="w1-lede">Use only your four anchors. Give yourself 30 to 60 seconds.</p>
+        <p class="w1-lede">Use only your four anchors. Give yourself up to 90 seconds.</p>
         ${prepKeywordGuide(state.keywords)}
         <div class="w1-speaking-card timer-only">
-          <div class="w1-timer"><strong data-w1-timer-display>60</strong><span>seconds</span><button type="button" data-w1-action="timer">Start timer</button></div>
+          <div class="w1-timer"><strong data-w1-timer-display>90</strong><span>seconds</span><button type="button" data-w1-action="timer" data-w1-timer-seconds="90">Start timer</button></div>
         </div>
         <blockquote>There are no failed speeches.<br /><strong>There are only Versions.</strong></blockquote>
         <div class="w1-version-loop"><span>V1</span><i>→</i><span>LEARN</span><i>→</i><span>V2</span><i>→</i><span>LEARN</span><i>→</i><span>V3</span></div>
@@ -260,6 +260,7 @@
         <p class="w1-eyebrow">ONE IMPROVEMENT</p>
         <span class="w1-topic-chip"><small>YOUR TOPIC</small>${esc(state.selectedTopic)}</span>
         <h1>Change one thing.<br />Then speak again.</h1>
+        <p class="w1-lede">Same answer, one change. Give yourself up to 90 seconds.</p>
         <div class="w1-version-stack">
           <article class="done"><span>VERSION 1</span><strong>Initial attempt complete</strong></article>
           <i>↓</i>
@@ -268,6 +269,9 @@
           <article><span>VERSION 2</span><strong>Try the same answer again</strong></article>
         </div>
         ${prepKeywordGuide(state.keywords)}
+        <div class="w1-speaking-card timer-only">
+          <div class="w1-timer"><strong data-w1-timer-display>90</strong><span>seconds</span><button type="button" data-w1-action="timer" data-w1-timer-seconds="90">Start timer</button></div>
+        </div>
       `, { footer: `<button class="w1-next" type="button" data-w1-action="complete-v2">Version 2 complete</button>` });
     } else if (step === 13) {
       page = shell(`
@@ -468,7 +472,8 @@
 
   function startTimer(button) {
     clearInterval(timer);
-    let remaining = 60;
+    const total = Number(button.dataset.w1TimerSeconds) || 90;
+    let remaining = total;
     const display = root.querySelector("[data-w1-timer-display]");
     button.disabled = true;
     button.textContent = "Speaking…";

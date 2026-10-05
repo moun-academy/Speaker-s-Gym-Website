@@ -9,6 +9,7 @@
     nextLevel: 2,
     completedDays: {},
     completedTasks: {},
+    wins: {},
     reflections: {},
     weeklyReviews: {},
     confidence: {},

@@ -130,10 +130,6 @@
     $('#completePractice').innerHTML=done?'Completed <span>✓</span>':'Mark as done <span>✓</span>';
     $('#completePractice').setAttribute('aria-pressed',String(done));$('#dailyPractice').classList.toggle('is-complete',done);
     $('#practiceDoneLabel').textContent=done?'Practice saved. Well done.':'Small steps count.';
-    const count=Object.values(state.completedDays).filter(Boolean).length;
-    $('#progressText').textContent=`${count} of 42 daily practices completed`;
-    $('#progressFill').style.width=`${count/42*100}%`;
-    $('.progress-track').setAttribute('aria-valuenow',count);
   }
   function renderJourney() { renderProgress(); }
   function lectureArt(type) {
@@ -165,8 +161,8 @@
     }
     const lecture=state[`week${week}Lecture`]||{};
     const lectureState=lecture.lectureCompletedAt?'done':Number(lecture.currentStep)>0?'started':'none';
-    const missionState=lecture.missionStatus==='completed'?'done':lecture.missionStatus==='accepted'?'set':'none';
-    return {week,lecture:DATA.lectures.find(item=>item.week===week),lectureState,mission:lecture.mission||'',missionState,result:lecture.actualResult||'',level:lecture.missionStatus&&lecture.missionStatus!=='not-started'?Number(lecture.missionLevel)||null:null};
+    const win=state.wins?.[week]||{};const missionState=winDone(week)?'done':lecture.missionStatus==='accepted'?'set':'none';
+    return {week,lecture:DATA.lectures.find(item=>item.week===week),lectureState,mission:lecture.mission||DATA.wins?.[week]?.title||'',missionState,result:lecture.actualResult||(win.lockedAt?(week===1?'Posted in the community.':win.detail||'Win locked.'):''),level:lecture.missionStatus&&lecture.missionStatus!=='not-started'?Number(lecture.missionLevel)||null:null};
   }
   function renderProgress() {
     const rows=DATA.weeks.map((_,index)=>weekStatus(index));
@@ -198,7 +194,53 @@
       return `<article class="track-row card ${current&&row.week===current.week?'is-current':''} ${row.missionState==='done'?'is-done':''}"><header><span class="track-week">WEEK ${String(row.week).padStart(2,'0')}</span><h3>${esc(week.short)}</h3><p>${esc(week.outcome)}</p></header>${lectureCell}<div class="track-cell mission"><small>PILLAR 2 · MISSION ${missionPill[row.missionState]}</small>${missionBody}${levelChip}${result}</div></article>`;
     }).join('');
   }
-  function renderAll() {renderCoachingUpdate();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
+  /* ---------- Lock Your Win ---------- */
+  let celebrating=null;
+  function winDone(week){const lecture=state[`week${week}Lecture`]||{};return !!state.wins?.[week]?.lockedAt||lecture.missionStatus==='completed';}
+  function currentWinWeek(){for(let week=1;week<=5;week++)if(!winDone(week))return week;return null;}
+  function safeLink(value){try{const url=new URL(String(value||'').trim());return /^https?:$/.test(url.protocol)?url.href:'';}catch{return '';}}
+  const lockIcon='<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function padlock(locked,burst){
+    const sparks=burst?Array.from({length:12},(_,index)=>`<i style="--a:${index*30}deg;--d:${52+(index%3)*14}px"></i>`).join(''):'';
+    return `<div class="win-lock ${locked?'locked':''} ${burst?'burst':''}" aria-hidden="true"><div class="win-sparks">${sparks}</div><svg viewBox="0 0 120 140"><path class="shackle" d="M40 64V44a20 20 0 0 1 40 0v20"/><rect class="body" x="22" y="62" width="76" height="62" rx="13"/><circle class="keyhole" cx="60" cy="88" r="7.5"/><rect class="keyhole" x="57" y="92" width="6" height="17" rx="3"/></svg></div>`;
+  }
+  function renderWin(){
+    const target=$('#lockWin');if(!target||!DATA.wins)return;
+    const coach=sync.role==='coach';
+    const current=currentWinWeek();
+    const names=DATA.weeks.slice(0,5).map(week=>week.short);
+    const rail=`<ol class="win-rail" style="--fill:${current===null?1:(current-1)/4}" aria-label="Your wins, one for each lecture">${[1,2,3,4,5].map((week,index)=>{const status=winDone(week)?'done':week===current?'current':'next';return `<li class="${status} ${celebrating?.week===week?'pop':''}" aria-label="Lecture ${week}, ${names[index]}: ${status==='done'?'win locked':status==='current'?'current win':'coming up'}"><span class="win-node">${status==='done'?'✓':status==='current'?week:lockIcon}</span><small>${esc(names[index])}</small></li>`;}).join('')}</ol>`;
+    const trophies=[1,2,3,4,5].filter(week=>state.wins?.[week]?.lockedAt).map(week=>{const win=state.wins[week];const link=safeLink(win.detail);return `<li><b>${String(week).padStart(2,'0')}</b><span>${esc(names[week-1])}</span>${link?`<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">View post ↗</a>`:win.detail?`<em>${esc(win.detail)}</em>`:''}${coach?'':`<button type="button" data-unlock-win="${week}" aria-label="Undo the win for lecture ${week}">Undo</button>`}</li>`;}).join('');
+    let main;
+    if(celebrating&&Date.now()<celebrating.until){
+      const def=DATA.wins[celebrating.week];const link=safeLink(state.wins?.[celebrating.week]?.detail);
+      main=`<div class="win-main celebrate" role="status"><div class="win-copy"><span class="eyebrow">WIN LOCKED</span><h2 id="lockWinTitle">${esc(def.title)}</h2><p>Lecture ${celebrating.week} is yours. That one is in the bank.</p>${link?`<a class="win-link" href="${esc(link)}" target="_blank" rel="noopener noreferrer">View your post ↗</a>`:''}<button class="win-button" type="button" data-win-next>${current===null?'See my five wins':'Next win →'}</button></div>${padlock(true,true)}</div>`;
+    }else if(current===null){
+      main=`<div class="win-main"><div class="win-copy"><span class="eyebrow">ALL FIVE WINS LOCKED</span><h2 id="lockWinTitle">Five lectures. Five wins.</h2><p>Every skill, put to work in real life.</p></div>${padlock(true,false)}</div>`;
+    }else{
+      const def=DATA.wins[current];const win=state.wins?.[current]||{};const lecture=state[`week${current}Lecture`]||{};
+      const mission=current!==1&&lecture.mission?`<p class="win-mission">Your mission: ${esc(lecture.mission)}</p>`:'';
+      main=`<div class="win-main"><div class="win-copy"><span class="eyebrow">LOCK YOUR WIN · LECTURE ${current}</span><h2 id="lockWinTitle">${esc(def.title)}</h2><p>${esc(def.hint)}</p>${mission}<form id="winForm" class="win-form" data-win-week="${current}" novalidate><label><span>${esc(def.fieldLabel)}</span><input name="detail" type="${def.field==='link'?'url':'text'}" maxlength="300" autocomplete="off" placeholder="${esc(def.placeholder)}" value="${esc(win.detail||'')}" ${coach?'disabled':''}></label><button class="win-button" type="submit" ${coach?'disabled':''}>Lock my win</button></form><p class="win-error" role="alert"></p></div>${padlock(false,false)}</div>`;
+    }
+    target.innerHTML=`${main}${rail}${trophies?`<ul class="win-trophies" aria-label="Locked wins">${trophies}</ul>`:''}`;
+  }
+  document.addEventListener('submit',event=>{
+    if(event.target.id!=='winForm')return;
+    event.preventDefault();
+    if(sync.role==='coach')return;
+    const week=Number(event.target.dataset.winWeek);const def=DATA.wins?.[week];if(!def)return;
+    const raw=String(new FormData(event.target).get('detail')||'').trim();
+    let detail=raw;
+    if(def.field==='link'&&raw){detail=safeLink(raw);if(!detail){$('#lockWin .win-error').textContent='Paste the full link, starting with https://, or leave it empty.';return;}}
+    state.wins={...(state.wins||{}),[week]:{lockedAt:new Date().toISOString(),detail}};
+    if(week===1&&COACHING?.missions?.some(m=>m.id==='prep-video'))state.coachingFollowUps={...(state.coachingFollowUps||{}),[COACHING.id]:{...(state.coachingFollowUps?.[COACHING.id]||{}),'prep-video':true}};
+    celebrating={week,until:Date.now()+3600};
+    saveFeedback('Win locked. Well done.');
+    renderAll();
+    setTimeout(()=>{if(celebrating?.week===week){celebrating=null;renderAll();}},3700);
+  });
+
+  function renderAll() {renderWin();renderCoachingUpdate();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
   function route() {
     const requested=location.hash.slice(1);const view=requested==='progress'?'journey':['home','journey','lectures','reflections'].includes(requested)?requested:'home';
     $$('.view').forEach(el=>el.hidden=el.id!==`${view}View`);
@@ -237,6 +279,9 @@
     const reset=event.target.closest('[data-reset-lecture]');if(reset)portal.resetLecture(Number(reset.dataset.resetLecture));
     if(event.target.closest('[data-tour]')){tourStep=0;renderTour();$('#tourDialog').showModal();}
     const ladderStep=event.target.closest('[data-ladder-step]');if(ladderStep&&sync.role!=='coach'){portal.setExposureLevel(ladderStep.dataset.ladderStep);showToast('Your speaking ladder step is saved.');}
+    if(event.target.closest('[data-win-next]')){celebrating=null;renderAll();}
+    const unlock=event.target.closest('[data-unlock-win]');
+    if(unlock&&sync.role!=='coach'){const week=Number(unlock.dataset.unlockWin);const kept=state.wins?.[week]||{};state.wins={...(state.wins||{}),[week]:{detail:kept.detail||''}};if(week===1&&COACHING)state.coachingFollowUps={...(state.coachingFollowUps||{}),[COACHING.id]:{...(state.coachingFollowUps?.[COACHING.id]||{}),'prep-video':false}};saveFeedback('Win unlocked. Lock it again when it is done.');renderAll();}
     if(event.target.closest('[data-logout]'))logout();
     if(event.target.closest('#saveCoachMission'))saveCoachMission();
     if(event.target.closest('#completeWeek6')){const result=$('#week6Result').value.trim();if(!result){showToast('Add one sentence about what happened.');$('#week6Result').focus();return;}state.week6Mission={status:'completed',result,completedAt:new Date().toISOString()};saveFeedback('Week 6 mission saved. Well done.');renderProgress();}
