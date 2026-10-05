@@ -58,9 +58,9 @@ window.ASHWIN_DATA = {
     ]}
   ],
   levels: [
-    ['A private video answer','Record a 60-second interview answer privately in the app. Notice one strength.'],
+    ['A private video answer','Open the Speaker’s Gym app and answer a random question, privately. Notice one strength.'],
     ['An answer to someone you trust','Explain one contribution to a familiar person and ask what was clear.'],
-    ['A short community audio','If comfortable, share a 60-second audio in the community Speech channel and request feedback on one skill.'],
+    ['A short community audio','If comfortable, share a short audio in the community Speech channel and request feedback on one skill.'],
     ['A short community video','Share one short video when ready. Request feedback on clarity or facial expression.'],
     ['A familiar colleague','Make one clear point in a conversation with a current or former colleague.'],
     ['A networking introduction','Introduce your work in 30 seconds, then ask the other person a question.'],
