@@ -15,7 +15,7 @@ window.ASHWIN_COACHING_UPDATE = {
   "missions": [
     {
       "id": "prep-video",
-      "title": "Share a 60-second PREP answer",
+      "title": "Share a PREP answer (up to 2 minutes)",
       "text": "Record your point, reason, example and closing point. Post it in the community by Tuesday, October 6."
     },
     {
