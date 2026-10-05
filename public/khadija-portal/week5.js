@@ -711,25 +711,10 @@
     feedback.textContent = `${spanFeedback(span)}${range ? ` You used about ${Math.min(100, Math.round((span / range) * 100))}% of the range you found with the siren.` : ""}${timedOut ? " (Stopped automatically.)" : ""}`;
   }
 
-  function validateAndNext() {
+  function continueLecture() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    const mix = state.mix || {};
-    const requirements = {
-      1: [(state.demoTried || []).length >= 2, "Try both versions out loud first."],
-      2: [state.rapportChoice, "Pick the reply that feels like you care."],
-      3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
-      5: [(state.stressTried || []).length >= stressTarget, `Step up on at least ${stressTarget} different words.`],
-      6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
-      7: [sortItems.every(item => (state.sortAnswers || {})[item.id]), "Choose a move for every moment."],
-      8: [storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial])), "Choose pitch, pace and volume for all four parts."],
-      9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
-      11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
-    };
-    if (requirements[step] && !requirements[step][0]) {
-      portal.showToast(requirements[step][1]);
-      return;
-    }
+    // Navigation stays available even when an exercise has not been attempted.
     update({ currentStep: stepOrder[Math.min(stepOrder.indexOf(12), stepOrder.indexOf(step) + 1)], lastViewedAt: new Date().toISOString() });
     renderStep();
   }
@@ -781,7 +766,7 @@
     if (action === "close") return close();
     if (action === "reset") { clearTimers(); micStop(); if (portal.resetLecture(5)) renderStep(); return; }
     if (action === "back") return back();
-    if (action === "next") return validateAndNext();
+    if (action === "next") return continueLecture();
     if (action === "siren") return runSiren(actionEl);
     if (action === "siren-self") { update({ rangeSelfCheck: true }); return renderStep(); }
     if (action === "land-record") return recordLanding(actionEl);
@@ -897,3 +882,4 @@
     if (event.key === "Escape") close();
   });
 })();
+
