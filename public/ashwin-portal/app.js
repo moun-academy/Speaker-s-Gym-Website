@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   const DATA = window.ASHWIN_DATA;
+  const COACHING = window.ASHWIN_COACHING_UPDATE;
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -16,6 +17,7 @@
     next.selectedWeek = Math.max(0,Math.min(5,Number(next.selectedWeek)||0));
     if (!Array.isArray(next.reflections)) next.reflections=[];
     if (!Array.isArray(next.evidence)) next.evidence=[];
+    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.date;}
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }
@@ -147,7 +149,7 @@
   function renderLectures() {
     $('#lectureCards').innerHTML=DATA.lectures.map(item=>{
       const lecture=state[`week${item.week}Lecture`];const started=Number(lecture.currentStep)>0;const finished=!!lecture.lectureCompletedAt;
-      return `<article class="lecture-card card"><div class="lecture-art ${item.art}" aria-hidden="true"><span>LECTURE ${String(item.week).padStart(2,'0')}</span>${lectureArt(item.art)}<small>LEARN · PRACTICE · PROVE</small></div><div class="lecture-copy"><span class="micro">${esc(item.skill)}<span class="lecture-status">${finished?'Explored ✓':started?'In progress':'Ready to explore'}</span></span><h2>${esc(item.title)}</h2><p>${esc(item.description)}</p><button class="button ${item.week===1?'dark':'outline'}" ${item.trigger}>${started?'Continue lecture':'Explore lecture'}<span>→</span></button></div></article>`;
+      return `<article class="lecture-card card"><div class="lecture-art ${item.art}" aria-hidden="true"><span>LECTURE ${String(item.week).padStart(2,'0')}</span>${lectureArt(item.art)}<small>LEARN · PRACTICE · PROVE</small></div><div class="lecture-copy"><span class="micro">${esc(item.skill)}<span class="lecture-status">${finished?'Completed ✓':started?'In progress':'Ready to explore'}</span></span><h2>${esc(item.title)}</h2><p>${esc(item.description)}</p><button class="button ${item.week===1?'dark':'outline'}" ${item.trigger}>${finished?'Review lecture':started?'Continue lecture':'Explore lecture'}<span>→</span></button></div></article>`;
     }).join('');
   }
   function renderReflections() {
@@ -196,7 +198,7 @@
       return `<article class="track-row card ${current&&row.week===current.week?'is-current':''} ${row.missionState==='done'?'is-done':''}"><header><span class="track-week">WEEK ${String(row.week).padStart(2,'0')}</span><h3>${esc(week.short)}</h3><p>${esc(week.outcome)}</p></header>${lectureCell}<div class="track-cell mission"><small>PILLAR 2 · MISSION ${missionPill[row.missionState]}</small>${missionBody}${levelChip}${result}</div></article>`;
     }).join('');
   }
-  function renderAll() {renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
+  function renderAll() {renderCoachingUpdate();renderPractice();renderJourney();renderLectures();renderReflections();renderProgress();}
   function route() {
     const requested=location.hash.slice(1);const view=requested==='progress'?'journey':['home','journey','lectures','reflections'].includes(requested)?requested:'home';
     $$('.view').forEach(el=>el.hidden=el.id!==`${view}View`);
@@ -211,7 +213,7 @@
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Ashwin's other progress stays saved.`)) return false;
-      state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();showToast(`Lecture ${week} is ready for a fresh start.`);return true;
+      state.coachingLectureResets={...(state.coachingLectureResets||{}),[week]:COACHING?.id};state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();showToast(`Lecture ${week} is ready for a fresh start.`);return true;
     },
     saveEvidence(card){
       const entry={id:card.id,sourceLecture:Number(card.week),action:card.mission,result:card.reality,next:card.prediction?`Notice how the result compared with my prediction: ${card.prediction}`:'Repeat the skill in another conversation.',createdAt:card.completedAt||new Date().toISOString()};
@@ -261,6 +263,18 @@
   $('#tourNext').addEventListener('click',()=>{if(tourStep<2){tourStep++;renderTour();$('#tourNext').focus();}else{$('#tourDialog').close();location.hash='dailyPractice';route();$('#dailyPractice').scrollIntoView({behavior:'smooth',block:'start'});$('#completePractice').focus({preventScroll:true});}});
   $('#tourBack').addEventListener('click',()=>{tourStep=Math.max(0,tourStep-1);renderTour();});
   window.addEventListener('hashchange',route);
+
+  function renderCoachingUpdate(){
+    if(!COACHING)return;
+    const done=state.coachingFollowUps?.[COACHING.id]||{};
+    $('#coachingUpdate').innerHTML='<span class="eyebrow">CALL 1 · 5 OCTOBER 2026</span><h2>Your focus this week</h2><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>What to work on</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
+    const call=COACHING.nextCall;
+    const formatted=new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:call.timeZone}).format(new Date(call.start));
+    $('#coachingSession').innerHTML='<span class="eyebrow">YOUR LIVE COACHING</span><h2>Your next coaching call</h2><p><strong>'+esc(call.timePending?'Monday, 12 October 2026':formatted)+'</strong></p><p>'+(call.timePending?'Time being confirmed':'Dubai time')+' · 60 minutes</p><a class="button dark" href="'+esc(call.meetingLink)+'" target="_blank" rel="noopener">Join coaching call ↗</a><div class="session-prep"><strong>Bring one PREP answer.</strong><p>We’ll review your practice and what happened in a real conversation.</p></div><button class="text-button" id="prepareCall">Save a note for our call →</button>';
+    $('#prepareCall').addEventListener('click',()=>{location.hash='reflections';$('#callNote').focus();});
+  }
+  document.addEventListener('change',event=>{const input=event.target.closest('[data-coaching-mission]');if(!input||sync.role==='coach'||!COACHING.missions.some(m=>m.id===input.dataset.coachingMission))return;state.coachingFollowUps={...(state.coachingFollowUps||{}),[COACHING.id]:{...(state.coachingFollowUps?.[COACHING.id]||{}),[input.dataset.coachingMission]:input.checked}};saveState();});
+
   renderAll();route();
   document.body.classList.add('portal-locked');boot();
 })();
