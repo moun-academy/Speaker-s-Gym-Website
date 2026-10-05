@@ -282,7 +282,7 @@
         </div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w3-action="collect-evidence">Collect evidence</button>' });
     } else {
-      const evidence = portal.getState().evidenceBank.find(item => item.id === state.evidenceId);
+      const evidence = (portal.getState().evidence || []).find(item => item.id === state.evidenceId);
       page = shell(`
         <p class="w3-eyebrow">WEEK 3 COMPLETE</p>
         <h1>You shaped your pace.<br /><em>You proved it holds.</em></h1>

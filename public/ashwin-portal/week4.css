@@ -254,3 +254,37 @@ body.week4-open { overflow: hidden; }
   .w4-gap.lit, .w4-belief-face, .w4-breath i, .w4-cycle li, .w4-swap s, .w4-breath-dot, .w4-moon, .w4-moon-pause.lit i, .w4-question.in { animation: none !important; }
   .w4-hero-line span, .w4-coaches, .w4-word { transition: none; }
 }
+
+/* ---------- readable text sizes (generated) ---------- */
+/* Small text is raised; anything already larger is left alone. */
+.w4-belief-face small,
+.w4-breath small,
+.w4-clock small,
+.w4-coaches small,
+.w4-coaches-label,
+.w4-cycle li,
+.w4-demo-line small,
+.w4-escape-lines small,
+.w4-moon-credit,
+.w4-moon-pause,
+.w4-pause-types b,
+.w4-pause-types small,
+.w4-phases li,
+.w4-play,
+.w4-practice small,
+.w4-primary,
+.w4-reps span,
+.w4-speak,
+.w4-speak kbd,
+.w4-spot-card header span,
+.w4-spot-clean small { font-size: 12px; }
+.w4-belief-face.front em,
+.w4-clock span,
+.w4-coaches p,
+.w4-pause-types p,
+.w4-ring-core small,
+.w4-spot-clean span { font-size: 14px; }
+.w4-feedback,
+.w4-practice li,
+.w4-reason-body > p,
+.w4-try p { font-size: 15px; }

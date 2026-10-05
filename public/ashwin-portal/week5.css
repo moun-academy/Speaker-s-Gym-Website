@@ -213,3 +213,31 @@ body.week5-open { overflow: hidden; }
   .w5-move.replay .w5-melody span, .w5-primary.recording, .w5-stress-meaning.in { animation: none; }
 }
 .lecture-art.melody{background:#ebe4d2;color:#8c7638}
+
+/* ---------- readable text sizes (generated) ---------- */
+/* Small text is raised; anything already larger is left alone. */
+.w5-beat header small,
+.w5-chips i,
+.w5-demo > small,
+.w5-desk-pause,
+.w5-dial button,
+.w5-dial span,
+.w5-hero-tag,
+.w5-land-shapes small,
+.w5-meter span,
+.w5-meter-panel > small,
+.w5-move b,
+.w5-move small,
+.w5-primary,
+.w5-rapport small,
+.w5-replies small,
+.w5-science small,
+.w5-script-pause,
+.w5-toggle button { font-size: 12px; }
+.w5-coach-mix,
+.w5-mic-note,
+.w5-move p,
+.w5-quiet,
+.w5-stress-count { font-size: 14px; }
+.w5-range-copy small,
+.w5-science p { font-size: 15px; }

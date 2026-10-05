@@ -392,7 +392,7 @@
         </div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w4-action="collect-evidence">Collect evidence</button>' });
     } else {
-      const evidence = portal.getState().evidence.find(item => item.id === state.evidenceId);
+      const evidence = (portal.getState().evidence || []).find(item => item.id === state.evidenceId);
       page = shell(`
         <p class="w3-eyebrow">WEEK 4 COMPLETE</p>
         <h1 id="week4PageTitle">You held the silence.<br /><em>You proved it works.</em></h1>
