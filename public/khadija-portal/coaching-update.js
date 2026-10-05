@@ -5,7 +5,9 @@ window.SPEAKERS_GYM_COACHING_UPDATE = {
   "completedLectures": [
     1,
     2,
-    3
+    3,
+    4,
+    5
   ],
   "summary": "Use pitch to bring meaning to your words: lift for excitement, lower for serious moments, and land your final sentence. Pause before you begin.",
   "challenges": [

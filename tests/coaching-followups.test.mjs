@@ -15,10 +15,10 @@ function fixture(client,initial){
 for(const client of ['khadija','nadira'])test(client+' confirmed lectures and follow-up checkmarks preserve student work and explicit resets',()=>{
  const initial={week1Lecture:{flowVersion:3,missionModelVersion:2,prep:{point:'My own point'},lectureCompletedAt:'2026-09-01'},week2Lecture:{flowVersion:1,currentLevel:4},reflections:{'day-0':'My own reflection'},completedDays:{0:true},evidenceBank:[{id:'keep',week:5,result:'My own evidence'}]};
  const app=fixture(client,initial),state=app.portal.getState();
- const completed=client==='khadija'?[1,2,3]:[1,2,4];
+ const completed=client==='khadija'?[1,2,3,4,5]:[1,2,4];
  for(const week of completed){assert.ok(state[`week${week}Lecture`].lectureCompletedAt);assert.notEqual(state[`week${week}Lecture`].missionStatus,'completed');}
  assert.equal(state.week1Lecture.lectureCompletedAt,'2026-09-01');assert.equal(state.week1Lecture.prep.point,'My own point');assert.equal(state.reflections['day-0'],'My own reflection');assert.equal(state.week2Lecture.currentLevel,4);assert.deepEqual(JSON.parse(JSON.stringify(state.evidenceBank)),initial.evidenceBank);
- assert.ok(!state.week5Lecture.lectureCompletedAt);
+ if(client==='nadira')assert.ok(!state.week5Lecture.lectureCompletedAt);
  assert.match(app.elements.get('#coachingUpdate').innerHTML,/Your focus this week/);
  const id=client==='khadija'?'pause-at-work':'meeting-pause';
  for(const fn of app.events.change)fn({target:{closest:s=>s==='[data-coaching-mission]'?{dataset:{coachingMission:id},checked:true}:null}});
