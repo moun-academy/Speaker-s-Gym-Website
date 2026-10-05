@@ -32,7 +32,43 @@
     { id: "push", name: "I push from my throat", bars: [9, 10, 6, 10, 5, 10, 6, 9, 5], sign: "You get louder, but tighter, and your voice tires.", why: "Pushing from the throat tenses the neck. The sound gets strained, not stronger.", fix: "Breathe low and speak on a steady out-breath. Power comes from the belly, not the neck." }
   ];
 
-  const heardChips = ["Unsure", "Shy", "Tired", "Not that excited"];
+  const heardChips = {
+    low: ["Unsure", "Shy", "Tired", "Not that excited"],
+    loud: ["Confident", "Authoritative", "Alive", "Believable"]
+  };
+
+  // ---------- microphone level meter (nothing is recorded or stored; only two level numbers are saved) ----------
+  const mic = { stream: null, ctx: null, analyser: null, buffer: null, interval: null };
+  const micSupported = () => Boolean(navigator.mediaDevices?.getUserMedia && (window.AudioContext || window.webkitAudioContext));
+
+  async function micStart(onFrame) {
+    micStop();
+    mic.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+    mic.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = mic.ctx.createMediaStreamSource(mic.stream);
+    mic.analyser = mic.ctx.createAnalyser();
+    mic.analyser.fftSize = 1024;
+    source.connect(mic.analyser);
+    mic.buffer = new Float32Array(mic.analyser.fftSize);
+    mic.interval = setInterval(() => {
+      mic.analyser.getFloatTimeDomainData(mic.buffer);
+      let sum = 0;
+      for (let i = 0; i < mic.buffer.length; i++) sum += mic.buffer[i] * mic.buffer[i];
+      onFrame(Math.sqrt(sum / mic.buffer.length));
+    }, 50);
+  }
+
+  function micStop() {
+    if (mic.interval) clearInterval(mic.interval);
+    mic.stream?.getTracks().forEach(track => track.stop());
+    mic.ctx?.close().catch(() => {});
+    mic.stream = mic.ctx = mic.analyser = mic.buffer = mic.interval = null;
+  }
+
+  // Loudness on a 0 to 100 scale for the live bar (about -50 dB to -10 dB).
+  const levelPercent = rms => Math.max(0, Math.min(100, ((20 * Math.log10(Math.max(rms, 0.00001)) + 50) / 40) * 100));
+  const median = values => { const sorted = [...values].sort((a, b) => a - b); return sorted[Math.floor(sorted.length / 2)]; };
+
 
   const dialStory = [
     { t: "We worked on it for months.", lvl: 6, label: "Steady" },
@@ -154,6 +190,7 @@
     clearInterval(timer);
     timer = null;
     clearLater();
+    micStop();
     const state = getState();
     const step = Number(state.currentStep || 0);
     // Resume retired sentence drills at the single combined exercise.
@@ -236,21 +273,34 @@
         <p class="w2-coach-note">A stronger volume makes people hear you this way. Tap the one you want people to feel most.</p>
       `, { className: "w2-lifeblood", nextLabel: "Feel it first" });
     } else if (step === 22) {
-      const heard = new Set(state.lowHeard || []);
       page = shell(`
-        <p class="w2-eyebrow">FEEL IT FIRST</p>
-        <h1>Say one sentence<br /><em>at a very low volume.</em></h1>
+        <p class="w2-eyebrow">FEEL THE DIFFERENCE</p>
+        <h1>Say it small.<br /><em>Then say it strong.</em></h1>
         <article class="w2-lowtry">
-          <small>READ ALOUD · VOLUME 3 OUT OF 10</small>
+          <small>READ THIS SENTENCE ALOUD, TWICE</small>
           <p class="w2-low-sentence">“I am really excited about this project.”</p>
-          <div class="w2-low-meter" aria-hidden="true">${Array.from({ length: 10 }, (_, index) => `<i class="${index < 3 ? "on" : ""}"></i>`).join("")}</div>
-          <div class="w2-low-status" data-w2-low-status aria-live="polite">${state.lowDone ? "Done. Now notice how that felt." : "Press start. Say it small, as if you do not want to be heard."}</div>
-          <button type="button" class="w2-low-start" data-w2-action="low-start">${state.lowDone ? "Try again" : "Start"}</button>
         </article>
-        <div class="w2-low-heard" data-w2-low-heard ${state.lowDone ? "" : "hidden"}>
-          <p>What would a listener think of this speaker?</p>
-          <div class="w2-chips">${heardChips.map(chip => `<button type="button" class="${heard.has(chip) ? "selected" : ""}" data-w2-heard="${esc(chip)}" aria-pressed="${heard.has(chip)}">${esc(chip)}</button>`).join("")}</div>
-          <blockquote data-w2-low-reveal ${heard.size ? "" : "hidden"}>Same words. Different message.<br /><strong>The idea did not change. Only the volume did.</strong></blockquote>
+        <div class="w2-duo">
+          <section class="w2-try low ${state.lowDone ? "done" : ""}" data-w2-try="low">
+            <small>ATTEMPT 1 · VERY LOW · 3 OUT OF 10</small>
+            <p>Say it quietly, as if you do not want to be heard.</p>
+            <div class="w2-try-status" data-w2-try-status="low" aria-live="polite">${state.lowDone ? "Done ✓" : "Press record, then say it."}</div>
+            <button type="button" class="w2-try-button" data-w2-action="record-low">${state.lowDone ? "Try again" : "Record"}</button>
+          </section>
+          <section class="w2-try loud ${state.loudDone ? "done" : ""}" data-w2-try="loud">
+            <small>ATTEMPT 2 · STRONG · 7 OUT OF 10</small>
+            <p>Stand up. Breathe low. Aim your voice at the far wall.</p>
+            <div class="w2-try-status" data-w2-try-status="loud" aria-live="polite">${state.loudDone ? "Done ✓" : state.lowDone ? "Press record, then say it." : "Do attempt 1 first."}</div>
+            <button type="button" class="w2-try-button" data-w2-action="record-loud" ${state.lowDone ? "" : "disabled"}>${state.loudDone ? "Try again" : "Record"}</button>
+          </section>
+        </div>
+        <div class="w2-live" data-w2-live hidden aria-hidden="true"><span>YOUR VOICE, LIVE</span><div><i data-w2-live-bar></i></div></div>
+        <p class="w2-coach-note">${micSupported() ? "Your microphone is used only on this slide. Nothing is recorded. Only the two loudness numbers are saved." : "No microphone is available here. Say it out loud, then press the button."}</p>
+        <section class="w2-tracker" data-w2-tracker aria-live="polite" hidden></section>
+        <div class="w2-low-heard" data-w2-low-heard ${state.lowDone && state.loudDone ? "" : "hidden"}>
+          <p>How did each one sound to a listener?</p>
+          ${["low", "loud"].map(kind => `<div class="w2-heard-row"><b>${kind === "low" ? "Quiet" : "Strong"}</b><div class="w2-chips">${heardChips[kind].map(chip => `<button type="button" class="${(kind === "low" ? state.lowHeard : state.loudHeard || []).includes(chip) ? "selected" : ""}" data-w2-heard="${esc(chip)}" data-w2-heard-row="${kind}" aria-pressed="${(kind === "low" ? state.lowHeard : state.loudHeard || []).includes(chip)}">${esc(chip)}</button>`).join("")}</div></div>`).join("")}
+          <blockquote>Same words. Different message.<br /><strong>The idea did not change. Only the volume did.</strong></blockquote>
         </div>
       `, { className: "w2-lowvolume" });
     } else if (step === 24) {
@@ -404,6 +454,7 @@
     }
 
     root.innerHTML = page;
+    renderTracker();
     root.querySelector("h1")?.setAttribute("id", "lecturePageTitle");
     document.body.classList.add("lecture-open");
     requestAnimationFrame(() => root.querySelector("textarea, input, button")?.focus({ preventScroll: true }));
@@ -414,7 +465,7 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
-      22: [state.lowDone && (state.lowHeard || []).length ? "ok" : "", "Say the sentence quietly, then tap what a listener would think."],
+      22: [state.lowDone && state.loudDone ? "ok" : "", "Say the sentence quietly, then say it strongly."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
@@ -451,6 +502,7 @@
   }
 
   function close() {
+    micStop();
     clearLater();
     clearInterval(timer);
     update({ lastViewedAt: new Date().toISOString() });
@@ -525,34 +577,112 @@
     });
   }
 
-  function startLowTry(button) {
+  function renderTracker() {
+    const box = root.querySelector("[data-w2-tracker]");
+    if (!box) return;
+    const s = getState();
+    box.hidden = !(s.lowDone || s.loudDone);
+    if (box.hidden) return;
+    const low = Number(s.lowLevel) || 0;
+    const loud = Number(s.loudLevel) || 0;
+    const measured = low > 0 && loud > 0;
+    let lowPct = 30;
+    let loudPct = 70;
+    let note = "No microphone reading, so these bars show the targets: 3 out of 10 and 7 out of 10.";
+    if (measured) {
+      const top = Math.max(low, loud);
+      lowPct = Math.max(8, Math.round((low / top) * 100));
+      loudPct = Math.max(8, Math.round((loud / top) * 100));
+      const gap = 20 * Math.log10(loud / low);
+      const times = (loud / low).toFixed(1);
+      note = gap >= 6 ? `Big difference. Your strong voice was about ${times} times stronger than your quiet one.`
+        : gap >= 3 ? "Clear difference. Your strong voice was louder and fuller."
+        : gap > 0 ? "A small difference. Stand up, breathe low and push the strong one a little more."
+        : "Your strong voice was not louder than the quiet one. Stand up and try the strong one again.";
+    } else if (!s.loudDone) {
+      note = "Now do attempt 2, and watch the second bar.";
+      loudPct = 0;
+    }
+    const lowText = low > 0 ? "Measured" : "Target";
+    const loudText = loud > 0 ? "Measured" : "Target";
+    box.innerHTML = `<small>YOUR VOLUME TRACKER</small>
+      <div class="w2-track-row"><b>Quiet</b><div><i class="low" style="width:${s.lowDone ? lowPct : 0}%"></i></div><span>${s.lowDone ? lowText + " · 3/10" : "—"}</span></div>
+      <div class="w2-track-row"><b>Strong</b><div><i class="loud" style="width:${s.loudDone ? loudPct : 0}%"></i></div><span>${s.loudDone ? loudText + " · 7/10" : "—"}</span></div>
+      <p>${esc(note)}</p>`;
+  }
+
+  async function recordAttempt(button, kind) {
     clearLater();
-    const status = root.querySelector("[data-w2-low-status]");
+    micStop();
+    const status = root.querySelector(`[data-w2-try-status="${kind}"]`);
+    const live = root.querySelector("[data-w2-live]");
+    const bar = root.querySelector("[data-w2-live-bar]");
+    const other = root.querySelector(`[data-w2-action="${kind === "low" ? "record-loud" : "record-low"}"]`);
     button.disabled = true;
-    [["3…", 0], ["2…", 1000], ["1…", 2000], ["Say it now, very quietly.", 3000]].forEach(([text, ms]) => later(() => {
-      status.textContent = text;
-      status.classList.toggle("go", ms === 3000);
-    }, ms));
+    if (other) other.disabled = true;
+    const frames = [];
+    const noise = [];
+    let phase = "wait";
+    let measuring = micSupported();
+    if (measuring) {
+      try {
+        await micStart(rms => {
+          if (bar) bar.style.width = `${levelPercent(rms)}%`;
+          if (phase === "wait") noise.push(rms);
+          else if (phase === "say") frames.push(rms);
+        });
+        if (live) live.hidden = false;
+      } catch {
+        measuring = false;
+        status.textContent = "No microphone access. Say it out loud anyway.";
+      }
+    }
+    const say = kind === "low" ? "Say it now, very quietly." : "Say it now, strongly.";
+    [["3…", 0], ["2…", 1000], ["1…", 2000]].forEach(([text, ms]) => later(() => { status.textContent = text; }, ms));
+    later(() => { phase = "say"; status.textContent = say; status.classList.add("go"); }, 3000);
     later(() => {
-      status.textContent = "Done. Now notice how that felt.";
+      phase = "done";
       status.classList.remove("go");
-      button.disabled = false;
+      micStop();
+      if (live) live.hidden = true;
+      let level = null;
+      if (measuring) {
+        const floor = Math.max(0.01, (noise.length ? median(noise) : 0) * 2.5);
+        const voiced = frames.filter(value => value > floor);
+        if (voiced.length < 8) {
+          status.textContent = "I could not hear you. Move closer and try again.";
+          button.disabled = false;
+          if (other && (kind === "loud" || getState().lowDone)) other.disabled = false;
+          return;
+        }
+        level = Number(median(voiced).toFixed(5));
+      }
+      update(kind === "low" ? { lowDone: true, lowLevel: level } : { loudDone: true, loudLevel: level });
+      status.textContent = "Done ✓";
       button.textContent = "Try again";
+      button.disabled = false;
+      button.closest("[data-w2-try]")?.classList.add("done");
+      const loudButton = root.querySelector('[data-w2-action="record-loud"]');
+      if (loudButton) loudButton.disabled = false;
+      const lowButton = root.querySelector('[data-w2-action="record-low"]');
+      if (lowButton) lowButton.disabled = false;
+      const loudStatus = root.querySelector('[data-w2-try-status="loud"]');
+      if (kind === "low" && loudStatus && !getState().loudDone) loudStatus.textContent = "Press record, then say it.";
+      renderTracker();
       const heard = root.querySelector("[data-w2-low-heard]");
-      if (heard) heard.hidden = false;
-      update({ lowDone: true });
-    }, 7000);
+      if (heard && getState().lowDone && getState().loudDone) heard.hidden = false;
+    }, 8200);
   }
 
   function tapHeard(chip) {
+    const row = chip.dataset.w2HeardRow === "loud" ? "loud" : "low";
+    const key = row === "loud" ? "loudHeard" : "lowHeard";
     const label = chip.dataset.w2Heard;
-    const current = new Set(getState().lowHeard || []);
+    const current = new Set(getState()[key] || []);
     if (current.has(label)) current.delete(label); else current.add(label);
-    update({ lowHeard: [...current] });
+    update({ [key]: [...current] });
     chip.classList.toggle("selected", current.has(label));
     chip.setAttribute("aria-pressed", String(current.has(label)));
-    const reveal = root.querySelector("[data-w2-low-reveal]");
-    if (reveal) reveal.hidden = current.size === 0;
   }
 
   function playStory(button) {
@@ -602,7 +732,8 @@
     }
     if (action === "collect-evidence") return collectEvidence();
 
-    if (action === "low-start") return startLowTry(event.target.closest("[data-w2-action]"));
+    if (action === "record-low") return recordAttempt(event.target.closest("[data-w2-action]"), "low");
+    if (action === "record-loud") return recordAttempt(event.target.closest("[data-w2-action]"), "loud");
     if (action === "play-story") return playStory(event.target.closest("[data-w2-action]"));
     const leak = event.target.closest("[data-w2-leak]");
     if (leak) return flipLeak(leak);
