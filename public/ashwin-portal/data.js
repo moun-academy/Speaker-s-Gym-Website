@@ -71,7 +71,7 @@ window.ASHWIN_DATA = {
   ].map(([name,behavior])=>({name,behavior,card:behavior})),
   wins: {
     1: { title: 'Post your PREP speech in the community', hint: 'Record your PREP answer (up to 2 minutes) and share it. Done beats perfect.' },
-    2: { title: 'Say one clear sentence in a real moment', hint: 'Let your last words be as strong as your first.' },
+    2: { title: 'Answer questions in the app, standing up, in a louder voice', hint: 'Stand tall and let your whole body join in. Louder voice, more energy.' },
     3: { title: 'Slow down your key sentence', hint: 'Say your main point a little slower, then keep moving.' },
     4: { title: 'Pause for two seconds before one real answer', hint: 'Use your pause trigger. Let the question land.' },
     5: { title: 'Step up on one key word and land the ending', hint: 'One word higher. One sentence that falls and finishes.' }

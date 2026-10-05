@@ -7,14 +7,39 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Understand what your voice signals", steps: [6, 7, 2, 3] },
-    { title: "Build a strong, supported voice", steps: [4, 5] },
+    { title: "Understand what your voice signals", steps: [21, 22, 6] },
+    { title: "Build a strong, steady voice", steps: [7, 3, 4, 5] },
     { title: "One answer. One adjustment.", steps: [9, 10, 11] },
-    { title: "Name the prediction. Test it.", steps: [12, 13, 14] },
+    { title: "Use it, then test it", steps: [12, 24, 13, 14] },
     { title: "Choose one audible moment", steps: [15, 16, 17] }
   ];
 
-  const missionTemplates = window.ASHWIN_DATA.levels.map(level => level.behavior + " Use a supported, audible voice through your final sentence.");
+  // Level 1 is a private practice in the app. Every level asks for a louder, standing voice.
+  const defaultMission = level => level === 1
+    ? "Answer questions in the Speaker's Gym app in a louder voice while standing up. Stand tall and let your energy rise."
+    : exposure.levels[level - 1].behavior + " Stand up if you can, and use a louder, steady voice through your final sentence.";
+
+  const qualities = [
+    { id: "confidence", name: "Confidence", text: "You sound sure of yourself." },
+    { id: "authority", name: "Authority", text: "People take what you say seriously." },
+    { id: "vitality", name: "Vitality", text: "You sound alive and full of energy." },
+    { id: "believability", name: "Believability", text: "You sound like you believe what you say." }
+  ];
+
+  const leaks = [
+    { id: "quiet", name: "I become too quiet", bars: [3, 3, 2, 3, 3, 2, 3, 3, 2], sign: "The listener has to work to hear you.", why: "Under pressure the body tightens and the voice shrinks to stay safe.", fix: "Start one notch stronger than feels natural. Aim your voice at the person farthest away." },
+    { id: "ending", name: "My endings disappear", bars: [7, 8, 8, 7, 7, 6, 4, 2, 1], sign: "You begin clearly, then the last words fade.", why: "We run out of breath and courage exactly where the point lives.", fix: "Take a fresh breath before your last sentence. Make the last three words as strong as the first three." },
+    { id: "push", name: "I push from my throat", bars: [9, 10, 6, 10, 5, 10, 6, 9, 5], sign: "You get louder, but tighter, and your voice tires.", why: "Pushing from the throat tenses the neck. The sound gets strained, not stronger.", fix: "Breathe low and speak on a steady out-breath. Power comes from the belly, not the neck." }
+  ];
+
+  const heardChips = ["Unsure", "Shy", "Tired", "Not that excited"];
+
+  const dialStory = [
+    { t: "We worked on it for months.", lvl: 6, label: "Steady" },
+    { t: "Then the day came.", lvl: 7, label: "Steady" },
+    { t: "WE DID IT!", lvl: 9, label: "Up" },
+    { t: "And I will never forget how that felt.", lvl: 4, label: "Down" }
+  ];
 
   const voicePatterns = [
     { id: "quiet", label: "I become too quiet", note: "The listener has to work to hear me." },
@@ -23,14 +48,19 @@
   ];
 
   // Keep stored step IDs stable while placing two new teaching screens after Slide 2.
-  const lectureFlow = [0, 1, 6, 7, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-  const mergedPracticeStep = 5;
-  const retiredSteps = [8];
+  // Steps 21, 22 and 24 are newer slides placed earlier in the lecture, so the list order is the real order.
+  const lectureFlow = [0, 1, 21, 22, 6, 7, 3, 4, 5, 9, 10, 11, 12, 24, 13, 14, 15, 16, 17];
+  // Retired slides resume at the slide that replaced them (8: merged practice, 2: pressure slide).
+  const retiredSteps = { 8: 5, 2: 3 };
+  const followUpSteps = [18, 19, 20];
   const missionFollowUpStep = 18;
   const lectureStepCount = lectureFlow.length;
   const lastStep = 20;
   let previousFocus = null;
   let timer = null;
+  let timeouts = [];
+  const later = (fn, ms) => { const id = setTimeout(fn, ms); timeouts.push(id); return id; };
+  const clearLater = () => { timeouts.forEach(id => clearTimeout(id)); timeouts = []; };
 
   const esc = (value = "") => String(value).replace(/[&<>'"]/g, character => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -89,7 +119,7 @@
     const step = Number(state.currentStep || 0);
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
-    const afterMission = step >= missionFollowUpStep;
+    const afterMission = followUpSteps.includes(step);
     const flowIndex = lectureFlow.indexOf(step);
     const slideNumber = flowIndex >= 0 ? flowIndex + 1 : lectureStepCount;
     const canBack = step > 0;
@@ -116,14 +146,19 @@
     </div>`;
   }
 
+  const leaksNote = count => count >= leaks.length
+    ? "You now know where volume slips away. Next you train each one."
+    : `${count} of ${leaks.length} flipped.`;
+
   function renderStep() {
     clearInterval(timer);
     timer = null;
+    clearLater();
     const state = getState();
     const step = Number(state.currentStep || 0);
     // Resume retired sentence drills at the single combined exercise.
-    if (retiredSteps.includes(step)) {
-      update({ currentStep: mergedPracticeStep });
+    if (retiredSteps[step] !== undefined) {
+      update({ currentStep: retiredSteps[step] });
       return renderStep();
     }
     const material = practiceMaterial();
@@ -146,19 +181,20 @@
       `, { className: "agenda", nextLabel: "Why projection matters" });
     } else if (step === 6) {
       page = shell(`
-        <p class="w2-eyebrow">WHY PROJECTION MATTERS</p>
+        <p class="w2-eyebrow">WHY A STRONGER VOICE MATTERS</p>
         <h1>Your voice carries more<br />than your words.</h1>
         <div class="w2-voice-signal">
           <article class="quiet"><header><span>3/10</span><small>WHEN THE VOICE SHRINKS</small></header><div class="w2-mini-wave"><i></i><i></i><i></i><i></i><i></i></div><p>The listener may read hesitation, shyness or self-doubt, even when your idea is strong.</p></article>
           <div class="w2-signal-shift" aria-hidden="true"><span>PROJECT</span><i>→</i></div>
           <article class="present"><header><span>7/10</span><small>WHEN THE VOICE ARRIVES</small></header><div class="w2-mini-wave"><i></i><i></i><i></i><i></i><i></i></div><p>Your idea is easier to follow, carries more weight and can strengthen impressions of confidence, presence and respect.</p></article>
         </div>
+        <div class="w2-body-link"><article><small>YOUR VOICE → YOUR BODY</small><p>A fuller voice wakes up your face, your hands and the way you move.</p></article><i aria-hidden="true">⇄</i><article><small>YOUR BODY → YOUR VOICE</small><p>A lively body gives your voice more life.</p></article></div>
         <blockquote>Your voice is part of your personality.<br /><strong>Make your expertise audible.</strong></blockquote>
       `, { className: "w2-why-volume", nextLabel: "Build a stronger voice" });
     } else if (step === 7) {
       page = shell(`
         <p class="w2-eyebrow">BUILD THE VOICE, DO NOT FORCE IT</p>
-        <h1>Three habits make<br />projection sustainable.</h1>
+        <h1>Three habits keep<br />a strong voice steady.</h1>
         <div class="w2-strong-voice">
           <article><span>01</span><div class="w2-tip-icon breath" aria-hidden="true"><i></i><i></i><i></i></div><small>BREATH</small><h2>Support the sound.</h2><p>Inhale low and quietly. Speak on a steady exhale so the throat does not have to push.</p></article>
           <article><span>02</span><div class="w2-tip-icon posture" aria-hidden="true"><i></i></div><small>POSTURE</small><h2>Give the voice space.</h2><p>Ground your feet. Lengthen your spine. Release your shoulders, jaw and face.</p></article>
@@ -167,20 +203,18 @@
         <div class="w2-projection-formula"><strong>SUPPORTED BREATH</strong><i>+</i><strong>OPEN POSTURE</strong><i>+</i><strong>DAILY REPETITION</strong><span>= STRONGER VOICE</span></div>
         <p class="w2-coach-note">Add melody as volume rises. A louder flat voice can sound aggressive. A supported, varied voice sounds present.</p>
       `, { className: "w2-voice-tips", nextLabel: "Notice my pressure pattern" });
-    } else if (step === 2) {
-      page = shell(`
-        <p class="w2-eyebrow">WHEN PRESSURE RISES</p>
-        <h1>Your voice can shrink<br />before your ideas do.</h1>
-        <div class="w2-pressure-path"><article><small>01</small><strong>Pressure rises</strong></article><i>→</i><article><small>02</small><strong>The body tightens</strong></article><i>→</i><article><small>03</small><strong>The voice gets smaller</strong></article></div>
-        <p class="w2-lede">Your ideas are there. Give them a voice the listener can hear.</p>
-      `);
     } else if (step === 3) {
+      const seen = new Set(state.leaksSeen || []);
       page = shell(`
-        <p class="w2-eyebrow">NOTICE YOUR PATTERN</p>
-        <h1>Where does your voice<br />usually disappear?</h1>
-        <div class="w2-patterns">${voicePatterns.map(item => `<button type="button" class="${state.voicePattern === item.id ? "selected" : ""}" data-w2-pattern="${item.id}"><strong>${esc(item.label)}</strong><span>${esc(item.note)}</span></button>`).join("")}</div>
-        <p class="w2-coach-note">Choose one pattern to train today.</p>
-      `);
+        <p class="w2-eyebrow">WHERE WE LOSE OUR VOLUME</p>
+        <h1>Three places your<br /><em>volume slips away.</em></h1>
+        <p class="w2-lede">All three happen to everyone, and all three matter. Flip each card to see why it happens and how to fix it.</p>
+        <div class="w2-leaks">${leaks.map((leak, index) => `<button type="button" class="w2-leak ${seen.has(leak.id) ? "flipped" : ""}" data-w2-leak="${leak.id}" aria-pressed="${seen.has(leak.id)}" style="--i:${index}">
+          <span class="w2-leak-face front"><small>0${index + 1}</small><strong>${esc(leak.name)}</strong><span class="w2-leak-bars" aria-hidden="true">${leak.bars.map((h, i) => `<i style="--h:${h};--d:${i}"></i>`).join("")}</span><p>${esc(leak.sign)}</p><em>Tap to flip</em></span>
+          <span class="w2-leak-face back"><small>WHY IT HAPPENS</small><p>${esc(leak.why)}</p><small>THE FIX</small><p class="fix">${esc(leak.fix)}</p></span>
+        </button>`).join("")}</div>
+        <p class="w2-coach-note" data-w2-leaks-note aria-live="polite">${leaksNote(seen.size)}</p>
+      `, { className: "w2-leaks-screen" });
     } else if (step === 4) {
       page = shell(`
         <p class="w2-eyebrow">THREE VOICE SETTINGS</p>
@@ -192,6 +226,46 @@
         </div>
         <blockquote>Your ideal is 7/10:<br /><strong>clear enough to arrive, relaxed enough to remain yours.</strong></blockquote>
       `);
+    } else if (step === 21) {
+      page = shell(`
+        <p class="w2-eyebrow">WHY VOLUME COMES FIRST</p>
+        <h1>Volume is the lifeblood<br /><em>of your voice.</em></h1>
+        <p class="w2-lede">It gives life to everything else: your pace, your pitch and your pauses. With a weak volume, they all go flat.</p>
+        <div class="w2-lifeline" aria-hidden="true"><svg viewBox="0 0 600 60"><path d="M0 30 H190 L212 30 L232 6 L256 54 L280 16 L300 30 H600" /></svg></div>
+        <div class="w2-qualities" role="group" aria-label="What a stronger volume gives you">${qualities.map((item, index) => `<button type="button" class="w2-quality ${state.wantQuality === item.id ? "selected" : ""}" data-w2-quality="${item.id}" aria-pressed="${state.wantQuality === item.id}" style="--i:${index}"><span>0${index + 1}</span><strong>${esc(item.name)}</strong><p>${esc(item.text)}</p></button>`).join("")}</div>
+        <p class="w2-coach-note">A stronger volume makes people hear you this way. Tap the one you want people to feel most.</p>
+      `, { className: "w2-lifeblood", nextLabel: "Feel it first" });
+    } else if (step === 22) {
+      const heard = new Set(state.lowHeard || []);
+      page = shell(`
+        <p class="w2-eyebrow">FEEL IT FIRST</p>
+        <h1>Say one sentence<br /><em>at a very low volume.</em></h1>
+        <article class="w2-lowtry">
+          <small>READ ALOUD · VOLUME 3 OUT OF 10</small>
+          <p class="w2-low-sentence">“I am really excited about this project.”</p>
+          <div class="w2-low-meter" aria-hidden="true">${Array.from({ length: 10 }, (_, index) => `<i class="${index < 3 ? "on" : ""}"></i>`).join("")}</div>
+          <div class="w2-low-status" data-w2-low-status aria-live="polite">${state.lowDone ? "Done. Now notice how that felt." : "Press start. Say it small, as if you do not want to be heard."}</div>
+          <button type="button" class="w2-low-start" data-w2-action="low-start">${state.lowDone ? "Try again" : "Start"}</button>
+        </article>
+        <div class="w2-low-heard" data-w2-low-heard ${state.lowDone ? "" : "hidden"}>
+          <p>What would a listener think of this speaker?</p>
+          <div class="w2-chips">${heardChips.map(chip => `<button type="button" class="${heard.has(chip) ? "selected" : ""}" data-w2-heard="${esc(chip)}" aria-pressed="${heard.has(chip)}">${esc(chip)}</button>`).join("")}</div>
+          <blockquote data-w2-low-reveal ${heard.size ? "" : "hidden"}>Same words. Different message.<br /><strong>The idea did not change. Only the volume did.</strong></blockquote>
+        </div>
+      `, { className: "w2-lowvolume" });
+    } else if (step === 24) {
+      page = shell(`
+        <p class="w2-eyebrow">VOLUME VARIETY</p>
+        <h1>Volume is a dial,<br /><em>not a switch.</em></h1>
+        <div class="w2-dial-cards">
+          <article class="up"><small>TURN IT UP</small><ul><li>To show energy and excitement</li><li>To mark the point that matters</li><li>To reach the whole room</li></ul></article>
+          <article class="down"><small>TURN IT DOWN</small><ul><li>To create closeness</li><li>To invite reflection</li><li>To make people lean in</li></ul></article>
+        </div>
+        <div class="w2-dial-story" aria-label="A short story with steady, louder and softer moments">${dialStory.map((seg, index) => `<div class="w2-seg ${seg.label.toLowerCase()}" data-w2-seg="${index}" style="--lvl:${seg.lvl}"><i></i><p>${esc(seg.t)}</p><b>${seg.lvl}/10 · ${seg.label}</b></div>`).join("")}</div>
+        <button type="button" class="w2-play" data-w2-action="play-story">▶ Read it aloud with the pattern</button>
+        <blockquote>Soft is a choice. Hidden is a habit.<br /><strong>Even your quiet voice must reach the listener.</strong></blockquote>
+        <p class="w2-coach-note">This week, just notice it. Your mission is one stronger voice. Variety comes after a strong base.</p>
+      `, { className: "w2-dial", nextLabel: "Name the prediction" });
     } else if (step === 5) {
       page = shell(`
         <p class="w2-eyebrow">VOICE PRACTICE · TWO ATTEMPTS</p>
@@ -209,16 +283,16 @@
       `, { className: "w2-calibration", nextLabel: "Speak with PREP" });
     } else if (step === 9) {
       page = shell(`
-        <p class="w2-eyebrow">VERSION 1 · PROJECTION DRILL</p>
+        <p class="w2-eyebrow">VERSION 1 · STRONG VOICE DRILL</p>
         ${topicChip(material)}
-        <h1>PREP gives you the words.<br /><em>Projection delivers them.</em></h1>
+        <h1>PREP gives you the words.<br /><em>A strong voice delivers them.</em></h1>
         <div class="w2-projection-brief">
-          <article><span>01</span><p>Use the four PREP keywords to build a 45 to 60-second answer. Do not read a script.</p></article>
+          <article><span>01</span><p>Use the four PREP keywords to build an answer of up to 90 seconds. Do not read a script.</p></article>
           <article><span>02</span><p>Deliver every PREP section at your ideal 7/10 volume, as if speaking to someone across the room.</p></article>
           <article><span>03</span><p>Keep the final three words of each section fully audible. Do not rush, fade or shout.</p></article>
         </div>
         ${prepGuide(material)}
-        <div class="w2-timer"><strong data-w2-timer-display>60</strong><span>seconds</span><button type="button" data-w2-action="timer">Start timer</button></div>
+        <div class="w2-timer"><strong data-w2-timer-display>90</strong><span>seconds</span><button type="button" data-w2-action="timer" data-w2-timer-seconds="90">Start timer</button></div>
         <p class="w2-coach-note">Listener test: could someone across the room hear every word without strain? PREP is the content. Supported volume is the skill.</p>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="complete-v1">Version 1 complete</button>' });
     } else if (step === 10) {
@@ -239,13 +313,13 @@
         <h1>Same message.<br /><em>More of your voice.</em></h1>
         <article class="w2-improvement-banner"><small>YOUR ONE IMPROVEMENT</small><strong>${esc(state.coachImprovement || "Keep the final words audible")}</strong></article>
         ${prepGuide(material)}
-        <div class="w2-timer"><strong data-w2-timer-display>60</strong><span>seconds</span><button type="button" data-w2-action="timer">Start timer</button></div>
+        <div class="w2-timer"><strong data-w2-timer-display>90</strong><span>seconds</span><button type="button" data-w2-action="timer" data-w2-timer-seconds="90">Start timer</button></div>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="complete-v2">Version 2 complete</button>' });
     } else if (step === 12) {
       page = shell(`
         <p class="w2-eyebrow">FROM PRACTICE TO REAL LIFE</p>
         <h1>What changed<br />the second time?</h1>
-        <div class="w2-version-result"><article><small>VERSION 1</small><strong>Your natural baseline</strong></article><i>→</i><article><small>ONE CHANGE</small><strong>${esc(state.coachImprovement || "Grounded through the ending")}</strong></article><i>→</i><article class="strong"><small>VERSION 2</small><strong>What sounded clearer?</strong></article></div>
+        <div class="w2-version-result"><article><small>VERSION 1</small><strong>Your natural baseline</strong></article><i>→</i><article><small>ONE CHANGE</small><strong>${esc(state.coachImprovement || "Strong through the ending")}</strong></article><i>→</i><article class="strong"><small>VERSION 2</small><strong>What sounded clearer?</strong></article></div>
         <p class="w2-lede">Name one difference with your coach. Take one useful cue into your week.</p>
         <blockquote>Before choosing the mission,<br /><strong>let's name what speaking audibly predicts.</strong></blockquote>
       `, { nextLabel: "Name the prediction" });
@@ -265,36 +339,36 @@
       page = shell(`
         <p class="w2-eyebrow">LET'S RUN AN EXPERIMENT</p>
         <h1>We know the prediction.<br />Now we test it.</h1>
-        <div class="w2-experiment"><article><small>PREDICTION</small><p>${esc(state.prediction || "What do you predict will happen?")}</p></article><i>↓</i><article><small>MISSION</small><p>Use grounded volume once in a situation that matches your current level.</p></article><i>↓</i><article><small>REALITY</small><p>What actually happened?</p></article></div>
+        <div class="w2-experiment"><article><small>PREDICTION</small><p>${esc(state.prediction || "What do you predict will happen?")}</p></article><i>↓</i><article><small>MISSION</small><p>Answer questions in the Speaker's Gym app in a louder voice, standing up for more energy.</p></article><i>↓</i><article><small>REALITY</small><p>What actually happened?</p></article></div>
         <div class="w2-equation"><strong>PREDICTION</strong><i>→</i><strong>VOICE EXPOSURE</strong><i>→</i><strong>EVIDENCE</strong></div>
       `);
     } else if (step === 15) {
-      const mission = state.mission || missionTemplates[level - 1];
+      const mission = state.mission || defaultMission(level);
       page = shell(`
         <p class="w2-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
         <h1>One voice skill.<br />The right situation.</h1>
-        <p class="w2-lede">Grounded volume is the only new challenge. Your level simply chooses how safe or demanding the situation will be.</p>
+        <p class="w2-lede">A stronger voice is the only new challenge. Your level simply chooses how safe or demanding the situation will be.</p>
         <div class="w2-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w2-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
         <div class="w2-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
         <label class="w2-mission-edit"><span>YOUR WEEK 2 CHALLENGE</span><textarea data-w2-mission rows="2">${esc(mission)}</textarea></label>
       `, { nextLabel: "Build mission card" });
     } else if (step === 16) {
-      const mission = state.mission || missionTemplates[level - 1];
+      const mission = state.mission || defaultMission(level);
       page = shell(`
         <p class="w2-eyebrow">WEEK 2 MISSION</p>
         <h1>One skill.<br />One audible moment.</h1>
         <article class="w2-mission-card ${state.missionStatus === "accepted" ? "activated" : ""}">
-          <div><small>SKILL</small><strong>Grounded Volume</strong></div><div><small>SITUATION</small><strong>Level ${state.missionLevel || level} · ${esc(levelData.name)}</strong></div>
-          <section><small>CHALLENGE</small><p>${esc(mission)}</p></section><section><small>YOUR PREDICTION</small><p>“${esc(state.prediction)}”</p></section>
-          <section class="win"><small>WIN CONDITION</small><strong>I made one sentence clearly audible.</strong><p>You do not need to feel calm, maintain eye contact or sound perfect.</p></section>
+          <div><small>SKILL</small><strong>A Stronger Voice</strong></div><div><small>SITUATION</small><strong>Level ${state.missionLevel || level} · ${esc(levelData.name)}</strong></div>
+          <section><small>CHALLENGE</small><p>${esc(mission)}</p></section><section><small>YOUR PREDICTION</small><p>“${esc(state.prediction)}”</p></section>${qualities.find(item => item.id === state.wantQuality) ? `<section><small>WHAT YOU WANT PEOPLE TO FEEL</small><p>${esc(qualities.find(item => item.id === state.wantQuality).name)}</p></section>` : ""}
+          <section class="win"><small>WIN CONDITION</small><strong>I answered out loud, standing up, in a stronger voice.</strong><p>You do not need to feel calm or sound perfect. Standing up and speaking louder is the win.</p></section>
         </article>
       `, { footer: '<button class="w2-next mission-accept" type="button" data-w2-action="accept-mission">Accept mission</button>' });
     } else if (step === 17) {
       page = shell(`
         <p class="w2-eyebrow">LECTURE 2 COMPLETE</p>
         <h1>Your voice is ready.<br /><em>Your mission is active.</em></h1>
-        <article class="w2-mission-mini active"><small>YOUR WEEK 2 MISSION</small><p>${esc(state.mission)}</p><strong>Win by making one sentence clearly audible.</strong></article>
-        <div class="w2-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take grounded volume into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>Nervous and imperfect are allowed.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use “Report mission” in your portal.</p></article></div>
+        <article class="w2-mission-mini active"><small>YOUR WEEK 2 MISSION</small><p>${esc(state.mission)}</p><strong>Win by answering out loud, standing up, in a stronger voice.</strong></article>
+        <div class="w2-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take a stronger voice into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>Nervous and imperfect are allowed.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use “Report mission” in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins when your voice enters the room.</strong></blockquote>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="close">Return to my portal</button>' });
     } else if (step === 18) {
@@ -322,7 +396,7 @@
       page = shell(`
         <p class="w2-eyebrow">WEEK 2 COMPLETE</p>
         <h1>You strengthened your voice.<br />You proved it can arrive.</h1>
-        <div class="w2-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Grounded Volume</strong></article><article><small>VERSIONS COMPLETED</small><strong>${state.versionsCompleted || 2}</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
+        <div class="w2-completion-stats"><article><small>SKILL UNLOCKED</small><strong>A Stronger Voice</strong></article><article><small>VERSIONS COMPLETED</small><strong>${state.versionsCompleted || 2}</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
         <article class="w2-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 2</span></header><div><small>PREDICTION</small><p>${esc(evidence?.prediction || state.prediction)}</p></div><div><small>REALITY</small><p>${esc(evidence?.reality || state.actualResult)}</p></div><div class="belief"><small>BELIEF</small><strong>${state.beliefBefore}% → ${state.beliefAfter}%</strong></div></article>
         <div class="w2-week-progress"><span class="complete">W1 <i>●</i></span><span class="complete">W2 <i>●</i></span>${[3,4,5,6].map(number => `<span>W${number} <i>○</i></span>`).join("")}</div>
         <div class="w2-next-week"><small>NEXT</small><strong>Make your voice more expressive and engaging.</strong></div>
@@ -339,10 +413,11 @@
     const state = getState();
     const step = Number(state.currentStep || 0);
     const requirements = {
-      3: [state.voicePattern, "Choose the voice pattern that feels closest."],
+      3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
+      22: [state.lowDone && (state.lowHeard || []).length ? "ok" : "", "Say the sentence quietly, then tap what a listener would think."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
-      15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
+      15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
     };
     if (requirements[step] && !String(requirements[step][0] || "").trim()) {
       portal.showToast(requirements[step][1]);
@@ -352,14 +427,14 @@
     const flowIndex = lectureFlow.indexOf(step);
     const nextStep = flowIndex >= 0 && flowIndex < lectureFlow.length - 1 ? lectureFlow[flowIndex + 1] : Math.min(lastStep, step + 1);
     const patch = { currentStep: nextStep, lastViewedAt: new Date().toISOString() };
-    if (step === 15 && !state.mission) patch.mission = missionTemplates[getLevel() - 1];
+    if (step === 15 && !state.mission) patch.mission = defaultMission(getLevel());
     update(patch);
     renderStep();
   }
 
   function back() {
     const step = Number(getState().currentStep || 0);
-    if (step >= missionFollowUpStep) {
+    if (followUpSteps.includes(step)) {
       update({ currentStep: step - 1 });
       return renderStep();
     }
@@ -376,6 +451,7 @@
   }
 
   function close() {
+    clearLater();
     clearInterval(timer);
     update({ lastViewedAt: new Date().toISOString() });
     root.innerHTML = "";
@@ -386,7 +462,7 @@
 
   function startTimer(button) {
     clearInterval(timer);
-    let remaining = 60;
+    let remaining = Number(button.dataset.w2TimerSeconds) || 90;
     const display = root.querySelector("[data-w2-timer-display]");
     button.disabled = true;
     button.textContent = "Speaking…";
@@ -414,7 +490,7 @@
     const card = {
       id,
       week: 2,
-      skill: "Grounded Volume",
+      skill: "A Stronger Voice",
       prediction: state.prediction,
       reality: state.actualResult,
       beliefBefore: Number(state.beliefBefore),
@@ -427,6 +503,72 @@
     update({ evidenceId: id, completedAt: card.completedAt, currentStep: 20 });
     portal.showToast("Voice evidence collected.");
     renderStep();
+  }
+
+  function flipLeak(card) {
+    card.classList.toggle("flipped");
+    card.setAttribute("aria-pressed", String(card.classList.contains("flipped")));
+    const seen = [...new Set([...(getState().leaksSeen || []), card.dataset.w2Leak])];
+    update({ leaksSeen: seen });
+    const note = root.querySelector("[data-w2-leaks-note]");
+    if (note) note.textContent = leaksNote(seen.length);
+  }
+
+  function chooseQuality(button) {
+    const id = button.dataset.w2Quality;
+    const next = getState().wantQuality === id ? "" : id;
+    update({ wantQuality: next });
+    root.querySelectorAll("[data-w2-quality]").forEach(el => {
+      const on = el.dataset.w2Quality === next;
+      el.classList.toggle("selected", on);
+      el.setAttribute("aria-pressed", String(on));
+    });
+  }
+
+  function startLowTry(button) {
+    clearLater();
+    const status = root.querySelector("[data-w2-low-status]");
+    button.disabled = true;
+    [["3…", 0], ["2…", 1000], ["1…", 2000], ["Say it now, very quietly.", 3000]].forEach(([text, ms]) => later(() => {
+      status.textContent = text;
+      status.classList.toggle("go", ms === 3000);
+    }, ms));
+    later(() => {
+      status.textContent = "Done. Now notice how that felt.";
+      status.classList.remove("go");
+      button.disabled = false;
+      button.textContent = "Try again";
+      const heard = root.querySelector("[data-w2-low-heard]");
+      if (heard) heard.hidden = false;
+      update({ lowDone: true });
+    }, 7000);
+  }
+
+  function tapHeard(chip) {
+    const label = chip.dataset.w2Heard;
+    const current = new Set(getState().lowHeard || []);
+    if (current.has(label)) current.delete(label); else current.add(label);
+    update({ lowHeard: [...current] });
+    chip.classList.toggle("selected", current.has(label));
+    chip.setAttribute("aria-pressed", String(current.has(label)));
+    const reveal = root.querySelector("[data-w2-low-reveal]");
+    if (reveal) reveal.hidden = current.size === 0;
+  }
+
+  function playStory(button) {
+    clearLater();
+    const segs = [...root.querySelectorAll("[data-w2-seg]")];
+    segs.forEach(el => el.classList.remove("lit"));
+    button.disabled = true;
+    segs.forEach((el, index) => later(() => {
+      segs.forEach(other => other.classList.remove("lit"));
+      el.classList.add("lit");
+    }, 300 + index * 2200));
+    later(() => {
+      segs.forEach(other => other.classList.remove("lit"));
+      button.disabled = false;
+      button.textContent = "▶ Read it again";
+    }, 300 + segs.length * 2200);
   }
 
   root.addEventListener("click", event => {
@@ -449,8 +591,8 @@
     if (action === "accept-mission") {
       const state = getState();
       const level = getLevel();
-      update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 17 });
-      portal.showToast("Mission accepted. One audible sentence is the win.");
+      update({ mission: state.mission || defaultMission(level), missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 17 });
+      portal.showToast("Mission accepted. Standing up and speaking louder is the win.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
@@ -460,6 +602,14 @@
     }
     if (action === "collect-evidence") return collectEvidence();
 
+    if (action === "low-start") return startLowTry(event.target.closest("[data-w2-action]"));
+    if (action === "play-story") return playStory(event.target.closest("[data-w2-action]"));
+    const leak = event.target.closest("[data-w2-leak]");
+    if (leak) return flipLeak(leak);
+    const quality = event.target.closest("[data-w2-quality]");
+    if (quality) return chooseQuality(quality);
+    const heardChip = event.target.closest("[data-w2-heard]");
+    if (heardChip) return tapHeard(heardChip);
     const pattern = event.target.closest("[data-w2-pattern]");
     if (pattern) {
       update({ voicePattern: pattern.dataset.w2Pattern });
@@ -479,7 +629,7 @@
     if (levelButton) {
       const level = exposure.clampLevel(levelButton.dataset.w2Level);
       portal.setExposureLevel(level);
-      update({ mission: missionTemplates[level - 1], missionLevel: null });
+      update({ mission: defaultMission(level), missionLevel: null });
       return renderStep();
     }
   });
