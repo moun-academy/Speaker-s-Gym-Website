@@ -257,7 +257,7 @@
 
   <header class="topbar">
     <a class="brand" href="/"><img src="/pitch/dumbbell.png" alt=""><span>THE SPEAKER'S GYM</span></a>
-    <a class="btn btn-gold" href="#investment">Join the program</a>
+    <a class="btn btn-gold js-join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04" target="_blank" rel="noopener">Join the program</a>
   </header>
 
   <nav class="dots" aria-label="Sections">
@@ -266,7 +266,6 @@
     <a href="#system" aria-label="How it works"></a>
     <a href="#program" aria-label="The program"></a>
     <a href="#portal" aria-label="Your private portal"></a>
-    <a href="#testimonials" aria-label="Testimonials"></a>
     <a href="#investment" aria-label="Your investment"></a>
   </nav>
 
@@ -400,7 +399,8 @@
       </div>
     </section>
 
-    <!-- 6 · TESTIMONIALS -->
+    <!--
+    6 · TESTIMONIALS (hidden until the videos and tags are ready)
     <section id="testimonials">
       <div class="glow" aria-hidden="true"></div>
       <div class="wrap">
@@ -422,6 +422,7 @@
         </div>
       </div>
     </section>
+    -->
 
     <!-- 7 · INVESTMENT -->
     <section id="investment">
@@ -448,7 +449,7 @@
           </div>
         </div>
         <div class="cta-row reveal">
-          <a class="btn btn-gold" id="join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04">JOIN TODAY <span aria-hidden="true">→</span></a>
+          <a class="btn btn-gold js-join" id="join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04" target="_blank" rel="noopener">JOIN TODAY <span aria-hidden="true">→</span></a>
         </div>
         <p class="fine reveal">Six weeks. One skill at a time. Starting this week.</p>
       </div>
@@ -582,10 +583,10 @@
     applyNotes();
     window.addEventListener('storage', (e) => { if (e.key === 'sgPitchNotes' || e.key === null) applyNotes(); });
 
-    document.getElementById('join').addEventListener('click', () => {
+    document.querySelectorAll('.js-join').forEach((a) => a.addEventListener('click', () => {
       try { fbq('track', 'InitiateCheckout', { value: 169, currency: 'USD' }); } catch (e) {}
       try { gtag('event', 'begin_checkout', { value: 169, currency: 'USD' }); } catch (e) {}
-    });
+    }));
   </script>
 </body>
 </html>
