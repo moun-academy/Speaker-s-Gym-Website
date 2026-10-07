@@ -174,7 +174,7 @@
     #investment .glow { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1100px; height: 1100px; }
     #investment .wrap { text-align: center; }
     #investment .eyebrow::after { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); vertical-align: middle; margin-left: 14px; }
-    .offer { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.25fr; text-align: left; border-radius: 24px; overflow: hidden; border: 1px solid var(--gold-muted); background: var(--bg2); box-shadow: 0 30px 120px rgba(240,201,103,.08); }
+    .offer { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.25fr; text-align: left; border-radius: 24px; overflow: hidden; border: 1px solid var(--gold-muted); background: var(--bg2); box-shadow: 0 30px 120px rgba(240,201,103,.08); }
     .price { padding: 44px 36px; background: linear-gradient(160deg, #262011, #141414 75%); border-right: 1px solid #2c2c2c; display: flex; flex-direction: column; justify-content: center; min-height: 300px; }
     .price small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold-muted); }
     /* Price change is driven by scroll: JS sets --s (slash), --w (old price shrinks), --n (new price), --t (caption), each 0 → 1 */
@@ -191,9 +191,12 @@
     @media (prefers-reduced-motion: reduce) { .price.done .badge { animation: none; } }
     .includes { padding: 40px 36px; }
     .includes small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold); }
-    .includes ul { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 14px; }
-    .includes li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; color: var(--text); font-size: 16px; line-height: 1.45; }
-    .includes li::before { content: '✓'; width: 22px; height: 22px; border-radius: 50%; background: rgba(240,201,103,.14); color: var(--gold); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .includes ul { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 18px; }
+    .includes li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
+    .includes .ico { width: 40px; height: 40px; border-radius: 12px; background: rgba(240,201,103,.1); border: 1px solid rgba(240,201,103,.25); display: flex; align-items: center; justify-content: center; }
+    .includes .ico svg { width: 21px; height: 21px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .includes strong { display: block; font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--cream); line-height: 1.25; }
+    .includes li p { color: var(--dim); font-size: 14.5px; line-height: 1.45; margin-top: 3px; }
     .cta-row { margin-top: 44px; display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
     .cta-row .btn { padding: 18px 38px; font-size: 15px; }
     .fine { margin-top: 18px; color: var(--faint); font-size: 13px; }
@@ -445,11 +448,11 @@
           <div class="includes">
             <small>WHAT YOU GET</small>
             <ul>
-              <li>MOUN Academy (3-hr course)</li>
-              <li>Speaker's Gym App + AI Feedback</li>
-              <li>Private 1-on-1 coaching sessions (6 hours of live coaching)</li>
-              <li>Personalized feedback &amp; roadmap</li>
-              <li>Focus on one skill at a time using the Performance Tracker</li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M10.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span><div><strong>6 weeks of 1-on-1 coaching</strong><p>Live sessions with me, built around your goals and your real situations.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 9v5M12 7.5v8M14 9v5"/></svg></span><div><strong>Speaker's Gym app</strong><p>Daily speaking reps with instant AI feedback. Practise privately, anytime.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3.5V15H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v2.5L16 18h-3"/></svg></span><div><strong>Community</strong><p>Post your practice, get my feedback, and grow alongside people like you.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 6.5 4.5 3 5v13.5c3.5-.5 7 0 9 1.5 2-1.5 5.5-2 9-1.5V5c-3.5-.5-7 0-9 1.5zM12 6.5V20"/></svg></span><div><strong>MOUN Academy full course</strong><p>Engaging lectures and assignments you can go through at your own pace.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="15" rx="2.5"/><path d="M2.5 8.5h19M8 8.5V19"/></svg></span><div><strong>Your private portal</strong><p>Your plan, your progress and your next steps, all in one place.</p></div></li>
             </ul>
           </div>
         </div>
@@ -561,7 +564,7 @@
       price.style.setProperty('--s', seg(p, 0.05, 0.35).toFixed(3));
       price.style.setProperty('--w', seg(p, 0.3, 0.55).toFixed(3));
       price.style.setProperty('--n', seg(p, 0.5, 0.82).toFixed(3));
-      price.style.setProperty('--t', seg(p, 0.78, 1).toFixed(3));
+      price.style.setProperty('--t', seg(p, 0.65, 0.85).toFixed(3));
       price.classList.toggle('done', p >= 1);
     }
     const queuePrice = () => { if (!priceTick) { priceTick = true; requestAnimationFrame(updatePrice); } };
