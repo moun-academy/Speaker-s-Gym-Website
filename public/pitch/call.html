@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="theme-color" content="#0d0d0d">
+  <title>Call Guide | The Speaker's Gym</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --surface: #1a1a1a; --line: #2a2a2a;
+      --gold: #f0c967; --gold-deep: #c9a84c; --gold-muted: #8a7a45;
+      --cream: #f5f0e6; --text: #dddddd; --dim: #a0a0a0; --faint: #6e6e6e;
+      --serif: 'Playfair Display', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    button, input, textarea { font: inherit; color: inherit; }
+    [hidden] { display: none !important; }
+
+    .app { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+
+    /* sidebar */
+    aside { position: sticky; top: 0; height: 100vh; padding: 22px 16px; border-right: 1px solid var(--line); background: var(--bg2); display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 14px; font-weight: 700; font-size: 12px; letter-spacing: .18em; color: var(--cream); }
+    .brand img { width: 24px; height: 24px; }
+    .private { margin: 0 8px 12px; padding: 8px 10px; border-radius: 8px; background: rgba(240,201,103,.08); border: 1px dashed rgba(240,201,103,.35); font-size: 11px; line-height: 1.4; color: var(--gold); }
+    .who { padding: 0 8px 12px; }
+    .who small { font-size: 10px; letter-spacing: .22em; color: var(--faint); font-weight: 700; }
+    .who strong { display: block; font-family: var(--serif); font-size: 20px; color: var(--cream); font-weight: 600; min-height: 28px; }
+    .tab { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; padding: 11px 12px; border: 1px solid transparent; border-radius: 10px; background: none; cursor: pointer; color: var(--dim); font-size: 14.5px; transition: background .2s, color .2s; }
+    .tab:hover { background: #1c1c1c; color: var(--cream); }
+    .tab.on { background: #211d10; border-color: var(--gold-muted); color: var(--cream); }
+    .tab .n { flex: 0 0 24px; height: 24px; border-radius: 50%; border: 1px solid #3a3a3a; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--faint); }
+    .tab.done .n { background: var(--gold); border-color: var(--gold); color: #141414; }
+    .tab.on .n { border-color: var(--gold); color: var(--gold); }
+    .tab.done.on .n { color: #141414; }
+    .side-actions { margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 999px; font-weight: 700; font-size: 13px; letter-spacing: .05em; text-decoration: none; cursor: pointer; border: 1px solid rgba(240,201,103,.4); background: none; color: var(--gold); transition: background .2s; }
+    .btn:hover { background: rgba(240,201,103,.1); }
+    .btn.solid { background: var(--gold); color: #141414; border-color: var(--gold); }
+    .btn.solid:hover { background: var(--cream); }
+    .btn.quiet { border-color: #333; color: var(--dim); }
+    .live { font-size: 11.5px; color: var(--faint); padding: 0 8px; line-height: 1.5; }
+    .live b { color: var(--gold); font-weight: 600; }
+
+    /* main */
+    main { padding: 34px clamp(20px, 4vw, 56px) 80px; max-width: 980px; width: 100%; }
+    .step { display: none; }
+    .step.on { display: block; animation: in .35s ease; }
+    @keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .26em; color: var(--gold); }
+    h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.4vw, 40px); color: var(--cream); line-height: 1.15; margin: 6px 0 22px; }
+    h1 em { color: var(--gold); }
+    h3 { font-size: 11px; letter-spacing: .24em; font-weight: 700; color: var(--gold-muted); margin: 26px 0 10px; }
+
+    .say { border-left: 3px solid var(--gold); background: var(--bg2); border-radius: 0 12px 12px 0; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .say p { font-family: var(--serif); font-size: 19px; color: var(--cream); line-height: 1.45; }
+    .say p small { font-family: var(--sans); font-size: 11px; letter-spacing: .2em; font-weight: 700; color: var(--gold); margin-right: 8px; }
+    .say .live-v { color: var(--gold); border-bottom: 1px dashed var(--gold-muted); }
+    .ask { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .ask li { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 13px 18px; font-size: 16.5px; color: var(--cream); display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+    .ask li::before { content: '?'; color: var(--gold); font-weight: 700; }
+    .tip { margin-top: 12px; font-size: 13.5px; color: var(--dim); }
+    .tip b { color: var(--gold); font-weight: 600; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 14px; border-radius: 999px; border: 1px solid #333; background: #111; color: var(--dim); font-size: 13.5px; cursor: pointer; transition: all .15s; }
+    .chip:hover { border-color: var(--gold-muted); color: var(--cream); }
+    .chip.on { background: var(--gold); border-color: var(--gold); color: #141414; font-weight: 600; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .f { display: flex; flex-direction: column; gap: 6px; }
+    .f.wide { grid-column: 1 / -1; }
+    .f > span { font-size: 11px; letter-spacing: .2em; font-weight: 700; color: var(--faint); text-transform: uppercase; }
+    .f input, .f textarea { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; font-size: 15.5px; color: var(--cream); resize: vertical; outline: none; transition: border-color .2s; }
+    .f textarea { min-height: 70px; line-height: 1.45; }
+    .f input:focus, .f textarea:focus { border-color: var(--gold-muted); }
+    .f input[type=date] { color-scheme: dark; }
+
+    .score { display: flex; gap: 6px; flex-wrap: wrap; }
+    .score button { width: 46px; height: 46px; border-radius: 12px; border: 1px solid #333; background: #111; color: var(--dim); font-weight: 700; font-size: 16px; cursor: pointer; transition: all .15s; }
+    .score button:hover { border-color: var(--gold-muted); color: var(--cream); }
+    .score button.on { background: var(--gold); border-color: var(--gold); color: #141414; }
+    .yn-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #1f1f1f; font-size: 16px; color: var(--cream); }
+    .yn { display: flex; gap: 6px; }
+    .yn button { padding: 8px 20px; border-radius: 999px; border: 1px solid #333; background: #111; color: var(--dim); font-weight: 700; cursor: pointer; }
+    .yn button.on[data-v="Yes"] { background: var(--gold); border-color: var(--gold); color: #141414; }
+    .yn button.on[data-v="No"] { background: #3a1d1d; border-color: #7a3a3a; color: #ffb4b4; }
+
+    .summary p { font-family: var(--serif); font-size: 21px; line-height: 1.6; color: var(--cream); margin-bottom: 16px; }
+    .summary .v { color: var(--gold); }
+    .summary .m { color: var(--faint); border-bottom: 1px dashed #444; font-style: italic; }
+    .summary .q { color: var(--gold); font-style: italic; }
+
+    .comp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .comp button { text-align: left; padding: 13px 16px; border-radius: 12px; border: 1px solid #2c2c2c; background: var(--bg2); cursor: pointer; transition: all .15s; }
+    .comp button small { display: block; font-size: 11px; letter-spacing: .14em; color: var(--faint); font-weight: 700; text-transform: uppercase; }
+    .comp button strong { display: block; font-size: 16px; color: var(--dim); font-weight: 600; margin-top: 2px; }
+    .comp button.on { border-color: var(--gold); background: #211d10; }
+    .comp button.on small { color: var(--gold-muted); }
+    .comp button.on strong { color: var(--cream); }
+    .comp button.sug:not(.on)::after { content: ''; }
+
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; border-right: none; border-bottom: 1px solid var(--line); }
+      #tabs { display: flex; gap: 4px; }
+      .brand, .private, .who, .live { display: none; }
+      .tab { width: auto; padding: 8px 12px; } .tab span:not(.n) { display: none; }
+      .side-actions { margin: 0 0 0 auto; flex-direction: row; padding: 0; }
+      .grid, .comp { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand"><img src="/pitch/dumbbell.png" alt=""><span>CALL GUIDE</span></div>
+      <div class="private">PRIVATE. Keep this window out of the screen share. Share only the pitch tab.</div>
+      <div class="who"><small>PROSPECT</small><strong id="who">New prospect</strong></div>
+      <div id="tabs"></div>
+      <div class="side-actions">
+        <p class="live" id="liveStatus"></p>
+        <a class="btn solid" href="/pitch" target="pitch">Open pitch page ↗</a>
+        <button class="btn quiet" id="reset" type="button">New prospect</button>
+      </div>
+    </aside>
+
+    <main>
+      <!-- 1 -->
+      <section class="step" data-title="Intro">
+        <p class="eyebrow">STEP 1</p>
+        <h1>Open the call</h1>
+        <div class="say">
+          <p><small>SAY</small>Hey <span class="live-v" data-live="name" data-fallback="[Name]"></span>, glad we could connect.</p>
+          <p><small>SAY</small>I'm Marouane. I've been coaching communication for 6 years, in Dubai, Montréal and now the Czech Republic, in person and online.</p>
+          <p><small>SAY</small>Today is about understanding where you feel stuck, where you want to get to, and what's been getting in the way. If I genuinely believe Speaker's Gym can help, I'll walk you through how it works. If it's not the right fit, I'll tell you honestly. Sound good?</p>
+        </div>
+        <h3>NOTES</h3>
+        <div class="grid">
+          <label class="f"><span>Name</span><input data-k="name" autocomplete="off"></label>
+          <label class="f"><span>Job / role</span><input data-k="role" autocomplete="off"></label>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="step" data-title="Why they booked">
+        <p class="eyebrow">STEP 2</p>
+        <h1>Why did they <em>book</em>?</h1>
+        <ul class="ask"><li>What made you decide to book this call?</li></ul>
+        <h3>DIAGNOSE: TICK WHAT YOU HEAR</h3>
+        <div class="chips" data-chips="diag" data-opts="Freezing|Overthinking|Rambling|Speaking too quietly|Monotone delivery|Avoiding conversations|Struggling in meetings|Networking anxiety|Presentation anxiety|English-language confidence|Lack of structure|Fear of judgment"></div>
+        <p class="tip">We target: <b>shy → confident</b>, <b>rambling → articulate</b>, <b>monotone → expressive</b>.</p>
+        <h3>NOTES</h3>
+        <div class="grid">
+          <label class="f wide"><span>Why now</span><textarea data-k="whyNow"></textarea></label>
+          <label class="f wide"><span>Main problem <i style="color:var(--gold-muted);text-transform:none;letter-spacing:0">(shows on their pitch page)</i></span><textarea data-k="problem"></textarea></label>
+          <label class="f"><span>Where it happens</span><textarea data-k="where"></textarea></label>
+          <label class="f"><span>Specific example</span><textarea data-k="example"></textarea></label>
+          <label class="f"><span>What happens in that moment</span><textarea data-k="moment"></textarea></label>
+          <label class="f"><span>How it makes them feel</span><textarea data-k="feel"></textarea></label>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="step" data-title="Impact">
+        <p class="eyebrow">STEP 3</p>
+        <h1>The <em>cost</em> of staying stuck</h1>
+        <ul class="ask">
+          <li>How is this affecting you professionally?</li>
+          <li>If nothing changes in the next six months, what are you worried will happen?</li>
+        </ul>
+        <h3>LISTEN FOR</h3>
+        <div class="chips" data-chips="costs" data-opts="Missed promotions|Ideas overlooked|Avoiding networking|Struggling to build relationships|Lost sales|Low visibility at work|Embarrassed afterwards|Not showing real personality|Feeling less capable than they are"></div>
+        <h3>NOTES</h3>
+        <div class="grid">
+          <label class="f wide"><span>Impact on work or personal life</span><textarea data-k="impact"></textarea></label>
+          <label class="f"><span>What they're avoiding</span><textarea data-k="avoiding"></textarea></label>
+          <label class="f"><span>Opportunities they may be losing</span><textarea data-k="losing"></textarea></label>
+          <label class="f wide"><span>What happens if nothing changes</span><textarea data-k="nothing"></textarea></label>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="step" data-title="Desired outcome">
+        <p class="eyebrow">STEP 4</p>
+        <h1>Where do they <em>want to get</em>?</h1>
+        <ul class="ask">
+          <li>Suppose we worked together and, six weeks from now, this had significantly improved. What would be different?</li>
+          <li>What would you be doing that you're not doing now?</li>
+          <li>How would you want to feel in meetings or conversations?</li>
+          <li>Is there a specific situation coming up where you want to perform better?</li>
+          <li>What would becoming a confident communicator make possible for you?</li>
+        </ul>
+        <h3>GET SOMETHING MEASURABLE</h3>
+        <div class="chips" data-chips="measure" data-opts="Speak once in every meeting|Present without freezing|Start 5 conversations at an event|Tell stories without rambling|Stronger volume and vocal variety|Comfortable introducing themselves|More natural English"></div>
+        <h3>NOTES</h3>
+        <div class="grid">
+          <label class="f"><span>What they want to improve</span><textarea data-k="improve"></textarea></label>
+          <label class="f"><span>Success in 6 weeks <i style="color:var(--gold-muted);text-transform:none;letter-spacing:0">(shows on their pitch page)</i></span><textarea data-k="success"></textarea></label>
+          <label class="f"><span>Why it matters to them</span><textarea data-k="why"></textarea></label>
+          <label class="f"><span>Upcoming event or deadline</span><textarea data-k="deadline"></textarea></label>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section class="step" data-title="Attempts &amp; commitment">
+        <p class="eyebrow">STEP 5</p>
+        <h1>Do they want <em>change</em>?</h1>
+        <div class="grid">
+          <label class="f"><span>What they've tried</span><textarea data-k="tried"></textarea></label>
+          <label class="f"><span>What worked</span><textarea data-k="worked"></textarea></label>
+          <label class="f"><span>Why it didn't stick</span><textarea data-k="stick"></textarea></label>
+          <label class="f"><span>What they believe is missing</span><textarea data-k="missing"></textarea></label>
+        </div>
+        <h3>COMMITMENT</h3>
+        <ul class="ask"><li>On a scale from 1 to 10, how important is it for you to solve this now?</li></ul>
+        <div class="score" data-score="score" style="margin-top:12px"></div>
+        <p class="tip" id="whyScore"></p>
+        <div style="margin-top:12px">
+          <div class="yn-row"><span>Willing to practise a few minutes every day, if you know exactly what to work on?</span><div class="yn" data-yn="daily"></div></div>
+          <div class="yn-row"><span>Comfortable recording yourself and getting direct feedback?</span><div class="yn" data-yn="record"></div></div>
+          <div class="yn-row"><span>Ready to take action now?</span><div class="yn" data-yn="ready"></div></div>
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section class="step" data-title="Summary">
+        <p class="eyebrow">STEP 6</p>
+        <h1>Prove you <em>listened</em></h1>
+        <div class="say summary" id="summary"></div>
+        <p class="tip">Faded text means you haven't captured it yet. When they say <b>yes</b>, you've earned the right to present.</p>
+      </section>
+
+      <!-- 7 -->
+      <section class="step" data-title="Present &amp; close">
+        <p class="eyebrow">STEP 7</p>
+        <h1>Present <em>only</em> what solves their problem</h1>
+        <div class="say" id="present"></div>
+        <h3>CONNECT THE RELEVANT PARTS · SUGGESTED FROM WHAT YOU TICKED, CLICK TO CHANGE</h3>
+        <div class="comp" id="comp"></div>
+        <p class="tip">The program includes a personal diagnostic, daily practice, app-based challenges, weekly scoring and live feedback.</p>
+        <h3>FIT &amp; CLOSE</h3>
+        <div class="grid">
+          <label class="f"><span>Best Speaker's Gym fit</span><textarea data-k="fit"></textarea></label>
+          <label class="f"><span>Main concern / objection</span><textarea data-k="objection"></textarea></label>
+          <label class="f"><span>Decision</span><input data-k="decision" autocomplete="off"></label>
+          <label class="f"><span>Next step</span><input data-k="next" autocomplete="off"></label>
+          <label class="f"><span>Follow-up date</span><input type="date" data-k="followup"></label>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const KEY = 'sgPitchNotes';
+    let S = {};
+    try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+    const val = (k) => (typeof S[k] === 'string' ? S[k].trim() : '');
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+    const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+
+    /* ---------- steps / tabs ---------- */
+    const steps = $$('.step');
+    const tabsBox = $('#tabs');
+    let cur = Math.min(parseInt(sessionStorage.getItem('sgStep') || '0', 10) || 0, steps.length - 1);
+    steps.forEach((s, i) => {
+      const b = el('button', 'tab'); b.type = 'button';
+      const n = el('span', 'n', String(i + 1));
+      const t = el('span'); t.innerHTML = s.dataset.title;
+      b.append(n, t); b.addEventListener('click', () => go(i));
+      tabsBox.appendChild(b);
+    });
+    function go(i) {
+      cur = i; sessionStorage.setItem('sgStep', String(i));
+      steps.forEach((s, j) => s.classList.toggle('on', j === i));
+      $$('.tab').forEach((t, j) => t.classList.toggle('on', j === i));
+      renderDerived(); window.scrollTo({ top: 0 });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('input, textarea') || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === 'ArrowRight') go(Math.min(cur + 1, steps.length - 1));
+      if (e.key === 'ArrowLeft') go(Math.max(cur - 1, 0));
+    });
+    function markDone() {
+      steps.forEach((s, i) => {
+        const done = $$('[data-k]', s).some((x) => (S[x.dataset.k] || '').toString().trim()) ||
+          $$('[data-chips]', s).some((c) => (S[c.dataset.chips] || []).length) ||
+          $$('[data-score],[data-yn]', s).some((c) => S[c.dataset.score || c.dataset.yn]);
+        $$('.tab')[i].classList.toggle('done', !!done);
+      });
+    }
+
+    /* ---------- text fields ---------- */
+    $$('[data-k]').forEach((x) => {
+      x.value = S[x.dataset.k] || '';
+      x.addEventListener('input', () => { S[x.dataset.k] = x.value; save(); renderDerived(); });
+    });
+
+    /* ---------- chips ---------- */
+    $$('[data-chips]').forEach((box) => {
+      const k = box.dataset.chips;
+      box.dataset.opts.split('|').forEach((o) => {
+        const c = el('button', 'chip', o); c.type = 'button'; c.dataset.v = o;
+        c.addEventListener('click', () => {
+          const a = new Set(S[k] || []); a.has(o) ? a.delete(o) : a.add(o);
+          S[k] = [...a]; save(); paintChips(); renderDerived();
+        });
+        box.appendChild(c);
+      });
+    });
+    function paintChips() { $$('[data-chips]').forEach((box) => { const a = S[box.dataset.chips] || []; $$('.chip', box).forEach((c) => c.classList.toggle('on', a.includes(c.dataset.v))); }); }
+
+    /* ---------- score + yes/no ---------- */
+    const scoreBox = $('[data-score]');
+    for (let i = 1; i <= 10; i++) {
+      const b = el('button', '', String(i)); b.type = 'button'; b.dataset.v = i;
+      b.addEventListener('click', () => { S.score = S.score === i ? 0 : i; save(); paintScore(); renderDerived(); });
+      scoreBox.appendChild(b);
+    }
+    function paintScore() {
+      $$('button', scoreBox).forEach((b) => b.classList.toggle('on', Number(b.dataset.v) === S.score));
+      $('#whyScore').innerHTML = '';
+      if (S.score) {
+        const t = $('#whyScore');
+        t.append('Ask: ');
+        const b = el('b', '', S.score > 3 ? `"Why a ${S.score} and not a 3?"` : `"What would have to be true for this to become a higher priority?"`);
+        t.appendChild(b);
+        t.append(' This makes them explain their own motivation.');
+      }
+    }
+    $$('[data-yn]').forEach((box) => {
+      ['Yes', 'No'].forEach((v) => {
+        const b = el('button', '', v); b.type = 'button'; b.dataset.v = v;
+        b.addEventListener('click', () => { S[box.dataset.yn] = S[box.dataset.yn] === v ? '' : v; save(); paintYN(); renderDerived(); });
+        box.appendChild(b);
+      });
+    });
+    function paintYN() { $$('[data-yn]').forEach((box) => $$('button', box).forEach((b) => b.classList.toggle('on', S[box.dataset.yn] === b.dataset.v))); }
+
+    /* ---------- derived text ---------- */
+    const pick = (...ks) => { for (const k of ks) if (val(k)) return val(k); return ''; };
+    function phrase(parent, text, label) {
+      parent.appendChild(text ? el('span', 'v', text) : el('span', 'm', `[${label}]`));
+    }
+    function renderSummary() {
+      const box = $('#summary'); box.innerHTML = '';
+      const p0 = el('p', 'q', 'Let me make sure I understand you correctly.');
+      const p1 = el('p'); p1.append('Right now, you struggle most with '); phrase(p1, pick('where', 'problem'), 'specific situation'); p1.append('. When that happens, you '); phrase(p1, val('moment'), 'what they do in that moment'); p1.append(', and it has affected '); phrase(p1, pick('impact', 'nothing'), 'the consequence'); p1.append('.');
+      const p2 = el('p'); p2.append('You want to become someone who can '); phrase(p2, pick('success', 'improve'), 'desired outcome'); p2.append(', especially because '); phrase(p2, val('why'), 'personal reason'); p2.append('.');
+      const p3 = el('p'); p3.append("You've already tried "); phrase(p3, val('tried'), 'previous attempts'); p3.append(', but the main thing missing has been '); phrase(p3, val('missing'), 'feedback, structure, repetition or accountability'); p3.append('.');
+      box.append(p0, p1, p2, p3, el('p', 'q', 'Is that accurate?'));
+    }
+    const COMPS = [
+      ['c1', 'They lack consistency', 'Daily reps and accountability', []],
+      ['c2', "They don't know what to improve", 'The personal diagnostic', []],
+      ['c3', 'They fear judgment', 'Private AI practice', ['Fear of judgment', 'Freezing']],
+      ['c4', 'They ramble', 'Structure and storytelling training', ['Rambling', 'Lack of structure']],
+      ['c5', 'They sound flat', 'Voice control and vocal variety', ['Monotone delivery', 'Speaking too quietly']],
+      ['c6', 'They need confidence in real situations', 'Live practice and weekly coaching', ['Struggling in meetings', 'Networking anxiety', 'Presentation anxiety', 'Avoiding conversations', 'English-language confidence']],
+    ];
+    function compOn(c) {
+      const manual = (S.comp || {})[c[0]];
+      if (manual !== undefined) return manual;
+      return c[3].some((x) => (S.diag || []).includes(x));
+    }
+    function renderPresent() {
+      const box = $('#present'); box.innerHTML = '';
+      const a = el('p'); a.append(el('small', '', 'SAY'));
+      a.append('Based on what you\'ve told me, I believe Speaker\'s Gym could be a strong fit. You don\'t need more communication tips. You need a system that helps you practise the right skills consistently, get feedback, and track your improvement.');
+      const b = el('p'); b.append(el('small', '', 'SAY'));
+      b.append('Over six weeks we identify your baseline and your biggest weakness. Then you do short daily speaking exercises, get feedback through the Speaker\'s Gym system, and join weekly coaching sessions where we review progress and adjust your focus.');
+      const c = el('p'); c.append(el('small', '', 'SAY'));
+      c.append('The goal is to move you from '); const s1 = el('span'); phrase(s1, val('problem'), 'their current problem'); c.appendChild(s1); c.append(' to '); const s2 = el('span'); phrase(s2, pick('success', 'improve'), 'their desired outcome'); c.appendChild(s2); c.append('.');
+      box.append(a, b, c);
+      const grid = $('#comp'); grid.innerHTML = '';
+      COMPS.forEach((c) => {
+        const btn = el('button', compOn(c) ? 'on' : ''); btn.type = 'button';
+        btn.append(el('small', '', c[1]), el('strong', '', '→ ' + c[2]));
+        btn.addEventListener('click', () => { S.comp = S.comp || {}; S.comp[c[0]] = !compOn(c); save(); renderPresent(); });
+        grid.appendChild(btn);
+      });
+    }
+    function renderLive() {
+      $$('[data-live]').forEach((n) => { const v = val(n.dataset.live); n.textContent = v || n.dataset.fallback; });
+      $('#who').textContent = val('name') || 'New prospect';
+      const st = $('#liveStatus'); st.innerHTML = '';
+      st.append('Live on pitch page: ');
+      const items = [['name', 'name'], ['problem', 'problem'], ['success', 'goal']];
+      items.forEach(([k, l], i) => { const b = el('b', '', (val(k) ? '✓ ' : '· ') + l); b.style.opacity = val(k) ? 1 : .45; st.append(b); if (i < items.length - 1) st.append('  '); });
+    }
+    function renderDerived() { renderLive(); markDone(); if (cur === 5) renderSummary(); if (cur === 6) renderPresent(); }
+
+    /* ---------- new prospect ---------- */
+    $('#reset').addEventListener('click', () => {
+      if (!confirm('Clear all notes and start a new prospect? The pitch page will go back to the generic version.')) return;
+      S = {}; try { localStorage.removeItem(KEY); } catch (e) {}
+      $$('[data-k]').forEach((x) => { x.value = ''; });
+      paintChips(); paintScore(); paintYN(); go(0);
+    });
+
+    paintChips(); paintScore(); paintYN(); go(cur);
+  </script>
+</body>
+</html>

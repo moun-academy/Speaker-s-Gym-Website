@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/pitch", "destination": "/pitch/index.html" },
+    { "source": "/pitch/call", "destination": "/pitch/call.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

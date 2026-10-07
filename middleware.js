@@ -1,6 +1,6 @@
 import { next } from "@vercel/functions";
 
-const PRIVATE_ROUTE = "/private/speakers-gym-program";
+const PRIVATE_ROUTES = ["/private/speakers-gym-program", "/pitch/call", "/pitch/call.html"];
 const USERNAME = "speaker";
 
 function unauthorizedResponse() {
@@ -17,7 +17,7 @@ function unauthorizedResponse() {
 
 export default function middleware(request) {
   const url = new URL(request.url);
-  if (url.pathname !== PRIVATE_ROUTE) return next();
+  if (!PRIVATE_ROUTES.includes(url.pathname)) return next();
 
   const configuredPassword = process.env.SPEAKERS_GYM_SALES_PASSWORD;
   if (!configuredPassword) {
@@ -53,6 +53,6 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: "/private/speakers-gym-program",
+  matcher: ["/private/speakers-gym-program", "/pitch/call", "/pitch/call.html"],
   runtime: "edge",
 };
