@@ -30,8 +30,8 @@ const programWeeks = [
   ["2", "Make Your Voice Heard", "Develop stronger volume and speak clearly without forcing or straining your voice."],
   ["3", "Take Control of Your Pace", "Slow down, stay composed and respond spontaneously without rushing."],
   ["4", "Pause, Think, and Own the Silence", "Give yourself time to think and use intentional silence instead of filler words."],
-  ["5", "Storytelling That Brings Out Your Personality", "Turn ideas and experiences into engaging stories using tone, pitch and expression."],
-  ["6", "Full Integration + Your Real Target", "Apply every skill in the situation that matters most, review your progress and create your long-term plan."],
+  ["5", "Find the Music in Your Voice", "Step, lift, drop and land. Mix pitch with pace and volume so people hear how you feel."],
+  ["6", "Tell Stories That Move People", "Combine every vocal variety skill you have learned and tell a captivating story that drives your point home, in a presentation, a conversation or anywhere you speak."],
 ];
 
 function useOnScreen(ref, threshold = 0.12) {
