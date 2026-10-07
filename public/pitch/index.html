@@ -152,8 +152,9 @@
     /* ── 5. portal ── */
     #portal .glow { top: -300px; left: 30%; }
     .portal { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
-    .browser { border-radius: 14px; overflow: hidden; border: 1px solid #3a3a3a; background: #1c1c1c; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(240,201,103,.08); transition: transform .4s; }
-    .browser:hover { transform: translateY(-4px); }
+    .browser { display: block; text-decoration: none; cursor: pointer; border-radius: 14px; overflow: hidden; border: 1px solid #3a3a3a; background: #1c1c1c; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(240,201,103,.08); transition: transform .4s; }
+    .browser:hover { transform: translateY(-4px); box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px var(--gold); }
+    .open-hint { margin-left: 10px; font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--gold); }
     .browser-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; background: #232323; }
     .browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
     .browser-bar .url { margin-left: 12px; flex: 1; background: #141414; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: var(--dim); }
@@ -169,11 +170,21 @@
     #investment .wrap { text-align: center; }
     #investment .eyebrow::after { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); vertical-align: middle; margin-left: 14px; }
     .offer { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.25fr; text-align: left; border-radius: 24px; overflow: hidden; border: 1px solid var(--gold-muted); background: var(--bg2); box-shadow: 0 30px 120px rgba(240,201,103,.08); }
-    .price { padding: 44px 36px; background: linear-gradient(160deg, #262011, #141414 75%); border-right: 1px solid #2c2c2c; display: flex; flex-direction: column; justify-content: center; }
+    .price { padding: 44px 36px; background: linear-gradient(160deg, #262011, #141414 75%); border-right: 1px solid #2c2c2c; display: flex; flex-direction: column; justify-content: center; min-height: 300px; }
     .price small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold-muted); }
-    .price s { display: block; margin-top: 18px; color: var(--dim); font-size: 28px; font-family: var(--sans); font-weight: 500; text-decoration-color: rgba(240,201,103,.8); text-decoration-thickness: 2px; }
-    .price strong { display: block; font-family: var(--serif); font-variant-numeric: lining-nums; font-size: clamp(64px, 8vw, 88px); line-height: 1; color: var(--gold); font-weight: 700; }
-    .price .today { margin-top: 10px; font-size: 14px; color: var(--cream); letter-spacing: .04em; }
+    .was { position: relative; align-self: flex-start; margin-top: 18px; font-family: var(--serif); font-variant-numeric: lining-nums; font-weight: 700; font-size: clamp(60px, 7.5vw, 84px); line-height: 1; color: var(--cream); transition: font-size .6s ease .75s, color .6s ease .75s; }
+    .slash { position: absolute; left: -8%; top: 52%; width: 116%; height: 4px; border-radius: 2px; background: var(--gold); box-shadow: 0 0 14px rgba(240,201,103,.6); transform: rotate(-12deg) scaleX(0); transform-origin: left center; transition: transform .55s cubic-bezier(.7,0,.25,1) .1s; }
+    .now { max-height: 0; opacity: 0; transform: translateY(18px); overflow: hidden; transition: max-height .7s ease 1.2s, opacity .7s ease 1.2s, transform .7s ease 1.2s; }
+    .badge { display: inline-block; margin: 14px 0 8px; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: #141414; font-size: 11px; font-weight: 700; letter-spacing: .22em; }
+    .now strong { display: block; font-family: var(--serif); font-variant-numeric: lining-nums; font-size: clamp(64px, 8vw, 88px); line-height: 1; color: var(--gold); font-weight: 700; text-shadow: 0 0 40px rgba(240,201,103,.25); }
+    .price .today { margin-top: 10px; font-size: 14px; color: var(--cream); letter-spacing: .04em; opacity: 0; transition: opacity .6s ease 1.8s; }
+    .price.go .slash { transform: rotate(-12deg) scaleX(1); }
+    .price.go .was { font-size: 30px; color: var(--faint); }
+    .price.go .now { max-height: 180px; opacity: 1; transform: none; }
+    .price.go .today { opacity: 1; }
+    .price.go .badge { animation: pulse 2.4s ease-in-out 2.2s infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,201,103,.55); } 60% { box-shadow: 0 0 0 10px rgba(240,201,103,0); } }
+    @media (prefers-reduced-motion: reduce) { .was, .slash, .now, .price .today { transition: none !important; } .price.go .badge { animation: none; } }
     .includes { padding: 40px 36px; }
     .includes small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold); }
     .includes ul { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 14px; }
@@ -205,7 +216,8 @@
       .chips { grid-template-columns: 1fr 1fr; }
       .chip { font-size: 11px; padding: 12px; letter-spacing: .12em; }
       .offer { grid-template-columns: 1fr; }
-      .price { border-right: none; border-bottom: 1px solid #2c2c2c; text-align: center; padding: 36px 24px; }
+      .price { border-right: none; border-bottom: 1px solid #2c2c2c; text-align: center; padding: 36px 24px; min-height: 0; }
+      .was { align-self: center; }
       .includes { padding: 32px 24px; }
       .exposure-band { flex-direction: column; align-items: flex-start; }
       .step { padding: 16px 12px; gap: 12px; }
@@ -341,15 +353,15 @@
         <p class="eyebrow reveal">YOUR PRIVATE PORTAL</p>
         <h2 class="reveal">Your program. <em>Your journey.</em></h2>
         <div class="portal">
-          <div class="browser reveal">
-            <div class="browser-bar"><i></i><i></i><i></i><span class="url">speakers-gym.com/<b>ashwin</b></span></div>
-            <img src="/pitch/portal.png" alt="A client's private Speaker's Gym portal showing today's practice and the next coaching call" loading="lazy" width="2695" height="1542">
-          </div>
+          <a class="browser reveal" href="https://www.speakers-gym.com/ashwin" target="_blank" rel="noopener" aria-label="Open Ashwin's portal in a new tab">
+            <div class="browser-bar"><i></i><i></i><i></i><span class="url">speakers-gym.com/<b>ashwin</b></span><span class="open-hint">OPEN ↗</span></div>
+            <img src="/pitch/portal.webp" alt="Ashwin's private Speaker's Gym portal showing today's practice and his next coaching call" loading="lazy" width="2000" height="1072">
+          </a>
           <div class="features">
             <div class="feature reveal"><small>BUILT FOR YOU</small><p>Your own portal, your own six-week vision.</p></div>
             <div class="feature reveal"><small>DAILY PRACTICE</small><p>Know exactly what to do each day.</p></div>
             <div class="feature reveal"><small>ACCOUNTABILITY</small><p>Track streaks, reps and progress in one place.</p></div>
-            <a class="btn btn-ghost reveal" href="/ashwin" target="_blank" rel="noopener">OPEN THE PORTAL <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-ghost reveal" href="https://www.speakers-gym.com/ashwin" target="_blank" rel="noopener">OPEN THE PORTAL <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
@@ -364,9 +376,9 @@
         <div class="offer reveal">
           <div class="price">
             <small>1-ON-1 COACHING</small>
-            <s>$229</s>
-            <strong>$169</strong>
-            <p class="today">When you join today</p>
+            <div class="was"><span>$229</span><span class="slash" aria-hidden="true"></span></div>
+            <div class="now"><span class="badge">TODAY ONLY</span><strong>$169</strong></div>
+            <p class="today">Promo price when you join today</p>
           </div>
           <div class="includes">
             <small>WHAT YOU GET</small>
@@ -380,7 +392,7 @@
           </div>
         </div>
         <div class="cta-row reveal">
-          <a class="btn btn-gold" id="join" href="https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03">JOIN TODAY <span aria-hidden="true">→</span></a>
+          <a class="btn btn-gold" id="join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04">JOIN TODAY <span aria-hidden="true">→</span></a>
         </div>
         <p class="fine reveal">Six weeks. One skill at a time. Starting this week.</p>
       </div>
@@ -466,6 +478,13 @@
       const next = Math.max(0, Math.min(sections.length - 1, idx + (keysNext.includes(e.key) ? 1 : -1)));
       sections[next].scrollIntoView({ behavior: 'smooth' });
     });
+
+    // Price: slash $229, then reveal today's promo price
+    const price = document.querySelector('.price');
+    const priceObs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setTimeout(() => price.classList.add('go'), 400); priceObs.disconnect(); }
+    }, { threshold: 0.6 });
+    priceObs.observe(price);
 
     document.getElementById('join').addEventListener('click', () => {
       try { fbq('track', 'InitiateCheckout', { value: 169, currency: 'USD' }); } catch (e) {}
