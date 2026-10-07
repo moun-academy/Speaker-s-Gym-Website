@@ -1,6 +1,6 @@
 import { next } from "@vercel/functions";
 
-const PRIVATE_ROUTES = ["/private/speakers-gym-program", "/pitch/call", "/pitch/call.html"];
+const PRIVATE_ROUTES = ["/private/speakers-gym-program"];
 const USERNAME = "speaker";
 
 function unauthorizedResponse() {
@@ -53,6 +53,6 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/private/speakers-gym-program", "/pitch/call", "/pitch/call.html"],
+  matcher: ["/private/speakers-gym-program"],
   runtime: "edge",
 };
