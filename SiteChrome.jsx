@@ -4,8 +4,8 @@ import brandLogo from "./Logo.png";
 
 const homeLinks = [
   ["Who It's For", "#who"],
+  ["The Method", "#method"],
   ["How It Works", "#how"],
-  ["The Method", "/method"],
   ["About", "#about"],
   ["Roadmap", "#roadmap"],
   ["Testimonials", "#testimonials"],

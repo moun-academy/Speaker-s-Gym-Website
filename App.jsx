@@ -51,6 +51,178 @@ function FAQ({ q, a }) {
   );
 }
 
+/* ─── Who it's for: illustrated cards (same art-panel style as /pitch and the portals) ─── */
+const FIT_CARDS = [
+  {
+    theme: "Nerves",
+    title: "Professionals who get nervous",
+    desc: "You know your stuff, but when it's time to speak in meetings or in front of others, your nerves take over.",
+    art: <path d="M4 40h44l9-22 10 44 10-52 10 46 8-16h71" />,
+  },
+  {
+    theme: "Overthinking",
+    title: "People who overthink",
+    desc: "You have ideas in your head, but you struggle to say them clearly and confidently in the moment.",
+    art: (
+      <>
+        <path d="M6 52c24 0 22-38 44-26s16 38 32 14 22-30 30-6 14 4 26 4h22" />
+        <path d="M154 31l9 7-9 7" />
+      </>
+    ),
+  },
+  {
+    theme: "Practice",
+    title: "People who want real practice",
+    desc: "You don't want more theory. You want reps, feedback, and a system that helps you improve fast.",
+    art: (
+      <>
+        <path d="M46 38h78" />
+        <rect x="34" y="20" width="12" height="36" rx="3" />
+        <rect x="21" y="27" width="11" height="22" rx="3" />
+        <rect x="124" y="20" width="12" height="36" rx="3" />
+        <rect x="138" y="27" width="11" height="22" rx="3" />
+      </>
+    ),
+  },
+];
+
+/* ─── The Method: two tracks, one outcome ─── */
+const TECHNIQUE_SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
+
+const EXPOSURE_LEVELS = [
+  ["Become Visible", "Stop disappearing during everyday interactions."],
+  ["Initiate", "Become comfortable beginning interactions."],
+  ["Participate", "Contribute when invited."],
+  ["Volunteer", "Speak without waiting to be invited."],
+  ["Hold the Floor", "Remain visible for longer."],
+  ["Disagree Respectfully", "Express a different opinion without shrinking."],
+  ["Lead a Moment", "Guide part of an interaction."],
+  ["Speak Under Pressure", "Remain clear when pressure increases."],
+  ["Influence", "Move people through communication."],
+  ["Full Expression", "Gain full access to your personality."],
+];
+
+function ExposureLadder() {
+  const ref = useRef(null);
+  const visible = useOnScreen(ref, 0.4);
+  const [level, setLevel] = useState(1);
+  const touched = useRef(false);
+
+  // Climb the ladder once when it first scrolls into view, unless the visitor already picked a level.
+  useEffect(() => {
+    if (!visible || touched.current) return undefined;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) { setLevel(10); return undefined; }
+    let n = 1;
+    const id = setInterval(() => {
+      n += 1;
+      if (touched.current || n > 10) { clearInterval(id); return; }
+      setLevel(n);
+    }, 140);
+    return () => clearInterval(id);
+  }, [visible]);
+
+  const pick = (n) => { touched.current = true; setLevel(n); };
+  const [name, objective] = EXPOSURE_LEVELS[level - 1];
+
+  return (
+    <div ref={ref}>
+      <div className="ladder" role="group" aria-label="Ten-level Exposure Ladder">
+        {EXPOSURE_LEVELS.map(([levelName], i) => (
+          <button
+            type="button"
+            key={levelName}
+            className={cx("ladder-bar", i < level && "ladder-bar--reached", i + 1 === level && "ladder-bar--current")}
+            style={{ height: `${(i + 1) * 10}%` }}
+            aria-label={`Level ${i + 1}: ${levelName}`}
+            aria-pressed={i + 1 === level}
+            onMouseEnter={() => pick(i + 1)}
+            onFocus={() => pick(i + 1)}
+            onClick={() => pick(i + 1)}
+          />
+        ))}
+      </div>
+      <div className="ladder-caption"><span>LEVEL 1</span><span aria-hidden="true">→</span><span>LEVEL 10</span></div>
+      <div className="ladder-readout" aria-live="polite">
+        <small>LEVEL {level}</small>
+        <strong>{name}</strong>
+        <span>{objective}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── How it works: the five-step system cycle ─── */
+const SYSTEM_STEPS = [
+  { tag: "1-on-1 coaching", title: "Learn a new skill", desc: "I teach you a new skill in our live session." },
+  { tag: "Daily practice", title: "Internalize it", desc: "Practice daily in the Speaker's Gym app, with AI feedback for support." },
+  { tag: "Community", title: "Get my feedback", desc: "Post your practice in the community and get feedback from me." },
+  { tag: "MOUN Academy", title: "Study at your own pace", desc: "Go deeper with the course whenever it suits you." },
+  { tag: "Your portal", title: "See everything in one place", desc: "Your portal is updated after every meeting we have." },
+];
+
+const CYCLE_R = 176, CYCLE_C = 200, CYCLE_GAP = 15;
+const cyclePoint = (deg) => [CYCLE_C + CYCLE_R * Math.cos((deg * Math.PI) / 180), CYCLE_C + CYCLE_R * Math.sin((deg * Math.PI) / 180)];
+const CYCLE_NODES = SYSTEM_STEPS.map((_, i) => {
+  const angle = -90 + (i * 360) / SYSTEM_STEPS.length;
+  const [x, y] = cyclePoint(angle);
+  const [x1, y1] = cyclePoint(angle + CYCLE_GAP);
+  const [x2, y2] = cyclePoint(angle + 360 / SYSTEM_STEPS.length - CYCLE_GAP);
+  return { left: `${x / 4}%`, top: `${y / 4}%`, arc: `M${x1} ${y1} A${CYCLE_R} ${CYCLE_R} 0 0 1 ${x2} ${y2}` };
+});
+
+function SystemCycle() {
+  const [active, setActive] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
+
+  // Auto-advance around the ring; any manual pick restarts the timer.
+  useEffect(() => {
+    const id = setInterval(() => setActive((a) => (a + 1) % SYSTEM_STEPS.length), 3200);
+    return () => clearInterval(id);
+  }, [resetKey]);
+
+  const select = (i) => { setActive(i); setResetKey((k) => k + 1); };
+
+  return (
+    <div className="system">
+      <Reveal>
+        <div className="cycle">
+          <svg viewBox="0 0 400 400" aria-hidden="true">
+            <defs>
+              <marker id="cycleArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="#d9c06f" />
+              </marker>
+            </defs>
+            <g fill="none" stroke="#d9c06f" strokeWidth="1.6" opacity=".75">
+              {CYCLE_NODES.map((n) => <path key={n.arc} d={n.arc} markerEnd="url(#cycleArrow)" />)}
+            </g>
+          </svg>
+          <div className="cycle-core"><strong>SPEAKER'S GYM</strong><em>One skill at a time</em></div>
+          {CYCLE_NODES.map((n, i) => (
+            <button
+              type="button"
+              key={n.arc}
+              className={cx("cycle-node", i === active && "cycle-node--active")}
+              style={{ left: n.left, top: n.top }}
+              aria-label={`Step ${i + 1}: ${SYSTEM_STEPS[i].title}`}
+              onClick={() => select(i)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      </Reveal>
+      <ol className="system-steps">
+        {SYSTEM_STEPS.map((s, i) => (
+          <li key={s.title} className={cx("system-step", i === active && "system-step--active")} onMouseEnter={() => select(i)}>
+            <span className="system-num">{i + 1}</span>
+            <div><small>{s.tag}</small><h3>{s.title}</h3><p>{s.desc}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
   const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
@@ -206,17 +378,25 @@ export default function SpeakersGym() {
 
         /* ── SECTION SHARED ── */
         .section { padding: 100px 24px; max-width:1200px; margin:0 auto; }
-        .section-label { font-size:.75rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
-        .section-title { font-family:var(--font-display); font-size:clamp(2rem,5vw,3rem); font-style:italic; font-weight:600; letter-spacing:.01em; margin-bottom:20px; color: #f2ecdf; }
+        .section-label { font-size:.78rem; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+        .section-label::before { content:''; display:inline-block; width:32px; height:1px; background:var(--accent); vertical-align:middle; margin-right:14px; }
+        .section-title { font-family:var(--font-display); font-size:clamp(2.1rem,5vw,3.4rem); font-weight:400; line-height:1.1; letter-spacing:0; margin-bottom:20px; color:#f5f0e6; }
+        .section-title em { color:var(--accent); font-style:italic; }
         .section-subtitle { color:var(--text-dim); max-width:580px; line-height:1.6; font-size:1rem; }
 
         /* ── WHO IT'S FOR ── */
-        .who-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; margin-top:48px; }
-        .who-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:36px 32px; transition: border-color .3s, transform .3s; }
-        .who-card:hover { border-color:var(--accent); transform:translateY(-4px); }
-        .who-card-icon { font-size:2rem; margin-bottom:16px; display:block; }
-        .who-card h3 { font-family:var(--font-display); font-size:1.35rem; font-style: italic; margin-bottom:10px; }
-        .who-card p { color:var(--text-dim); line-height:1.6; font-size:.95rem; }
+        .fit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:52px; }
+        .fit-card { height:100%; background:var(--bg2); border:1px solid #2a2a2a; border-radius:18px; overflow:hidden; transition:border-color .3s, transform .3s; }
+        .fit-card:hover { border-color:rgba(217,192,111,.45); transform:translateY(-4px); }
+        .fit-art { position:relative; height:150px; display:flex; align-items:center; justify-content:center; background:#19170f; border-bottom:1px solid #262216; }
+        .fit-grid > div:nth-child(2) .fit-art { background:#1b1912; }
+        .fit-art svg { width:170px; height:76px; overflow:visible; fill:none; stroke:var(--accent); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; opacity:.9; }
+        .fit-num { position:absolute; top:14px; left:18px; font-size:11px; letter-spacing:.24em; font-weight:700; color:#8a7a45; }
+        .fit-body { padding:24px 26px 30px; }
+        .fit-theme { font-size:11px; letter-spacing:.22em; font-weight:700; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+        .fit-body h3 { font-family:var(--font-display); font-size:1.55rem; font-weight:600; line-height:1.2; color:#f5f0e6; margin-bottom:10px; }
+        .fit-body p:last-child { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
+        @media(max-width:900px){ .fit-grid { grid-template-columns:1fr; max-width:520px; } }
 
         /* ── ABOUT ME ── */
         .about-grid { display:grid; grid-template-columns: 0.85fr 1.15fr; gap:56px; align-items:center; margin-top:8px; }
@@ -232,29 +412,52 @@ export default function SpeakersGym() {
           .about-photo { max-width:340px; margin:0 auto; }
         }
 
-        /* ── HOW IT WORKS ── */
-        .how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; margin-top:48px; }
-        .how-card { position:relative; padding:40px 32px 36px; background:var(--bg2); border:1px solid var(--border); border-radius:14px; }
-        .how-num { font-family:var(--font-display); font-size:4rem; color:var(--accent); opacity:.2; position:absolute; top:12px; right:24px; line-height:1; font-style: italic; }
-        .how-card h3 { font-family:var(--font-display); font-size:1.25rem; font-style: italic; margin-bottom:10px; }
-        .how-card p { color:var(--text-dim); font-size:.95rem; line-height:1.6; }
+        /* ── THE METHOD ── */
+        .tracks { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:52px; }
+        .tracks > div { height:100%; }
+        .track { height:100%; background:var(--bg2); border:1px solid #2a2a2a; border-radius:20px; padding:40px; }
+        .track-label { font-size:12px; letter-spacing:.26em; font-weight:700; color:#8a7a45; }
+        .track h3 { font-family:'Arial Black', var(--font-body); font-weight:900; font-size:clamp(30px,3.4vw,42px); letter-spacing:.02em; color:#f5f0e6; margin:6px 0 2px; }
+        .track-sub { font-family:var(--font-display); font-style:italic; font-size:20px; color:var(--accent); margin-bottom:30px; }
+        .chips { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .chip { border:1px solid #333; border-radius:12px; padding:14px 16px; background:#111; color:var(--text); font-size:13px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+        .chip::before { content:'◆'; color:var(--accent); font-size:9px; margin-right:10px; vertical-align:2px; }
+        .track-note { margin-top:18px; color:var(--text-dim); font-size:15px; }
+        .ladder { display:flex; align-items:flex-end; gap:6px; height:112px; margin-bottom:14px; }
+        .ladder-bar { flex:1; padding:0; border:none; border-radius:4px 4px 0 0; background:linear-gradient(to top, #8a7a45, var(--accent)); opacity:.22; cursor:pointer; transition:opacity .25s, box-shadow .25s; }
+        .ladder-bar--reached { opacity:.9; }
+        .ladder-bar--current { opacity:1; box-shadow:0 0 18px rgba(217,192,111,.45); }
+        .ladder-bar:focus-visible { outline:2px solid #f5f0e6; outline-offset:2px; }
+        .ladder-caption { display:flex; justify-content:space-between; font-size:12px; letter-spacing:.16em; font-weight:700; color:var(--text-dim); }
+        .ladder-readout { margin-top:18px; padding:14px 18px; border-left:2px solid var(--accent); background:rgba(217,192,111,.05); border-radius:0 10px 10px 0; min-height:92px; }
+        .ladder-readout small { display:block; font-size:11px; letter-spacing:.24em; font-weight:700; color:#8a7a45; }
+        .ladder-readout strong { display:block; font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:#f5f0e6; margin:2px 0; }
+        .ladder-readout span { color:var(--text-dim); font-size:.92rem; }
+        .merge { display:flex; flex-direction:column; align-items:center; margin-top:8px; }
+        .merge svg { width:min(560px,80%); height:70px; }
+        .outcome { padding:18px 40px; border-radius:999px; background:var(--accent); color:#111; font-family:'Arial Black', var(--font-body); font-weight:900; font-size:clamp(15px,2.2vw,24px); letter-spacing:.1em; text-align:center; box-shadow:0 0 60px rgba(217,192,111,.25); }
+        .method-quote { margin-top:34px; text-align:center; font-family:var(--font-display); font-style:italic; font-size:clamp(19px,2vw,24px); color:#f5f0e6; }
+        @media(max-width:900px){ .tracks { grid-template-columns:1fr; } }
+        @media(max-width:640px){ .track { padding:28px 22px; } .chip { font-size:11px; padding:12px; letter-spacing:.12em; } .outcome { padding:16px 24px; } }
 
-        /* ── METHOD PREVIEW ── */
-        .method-preview { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:54px; align-items:center; overflow:hidden; padding:54px; border:1px solid rgba(217,192,111,.28); border-radius:24px; background:#14201c; box-shadow:0 28px 70px rgba(0,0,0,.22); }
-        .method-preview::before { content:''; position:absolute; width:360px; height:360px; right:-180px; top:-210px; border-radius:50%; background:radial-gradient(circle,rgba(217,192,111,.16),transparent 68%); pointer-events:none; }
-        .method-preview-copy { position:relative; z-index:1; }
-        .method-preview-copy h2 { margin:0 0 16px; color:#f2ecdf; font-family:var(--font-display); font-size:clamp(2rem,4vw,3.15rem); font-style:italic; font-weight:600; line-height:1.08; }
-        .method-preview-copy p { max-width:560px; margin:0 0 26px; color:#a2aaa5; line-height:1.7; }
-        .method-preview-link { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border:1px solid rgba(217,192,111,.36); border-radius:8px; color:var(--accent); font-size:.82rem; font-weight:700; text-decoration:none; transition:transform .2s ease,background .2s ease; }
-        .method-preview-link:hover { transform:translateY(-2px); background:rgba(217,192,111,.06); }
-        .method-equation { position:relative; z-index:1; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; }
-        .method-equation-card { min-height:150px; padding:22px 16px; display:flex; flex-direction:column; justify-content:center; border:1px solid rgba(217,192,111,.18); border-radius:16px; background:rgba(8,13,11,.42); text-align:center; }
-        .method-equation-card span { display:block; margin-bottom:10px; color:var(--accent); font-family:var(--font-display); font-size:2rem; font-style:italic; }
-        .method-equation-card strong { color:#f2ecdf; font-size:.76rem; line-height:1.4; }
-        .method-equation-symbol { color:#8fa99d; font-family:var(--font-display); font-size:1.8rem; font-style:italic; }
-        .method-equation-result { grid-column:1/-1; padding:13px; border:1px solid rgba(143,169,157,.3); border-radius:10px; color:#cddbd4; background:rgba(143,169,157,.07); font-size:.74rem; font-weight:700; letter-spacing:.06em; text-align:center; text-transform:uppercase; }
-        @media(max-width:820px){ .method-preview{grid-template-columns:1fr;padding:38px 28px;gap:36px;} }
-        @media(max-width:460px){ .method-equation{grid-template-columns:1fr;} .method-equation-symbol{transform:rotate(90deg);text-align:center;} .method-equation-result{grid-column:auto;} }
+        /* ── HOW IT WORKS ── */
+        .system { display:grid; grid-template-columns:minmax(280px,440px) 1fr; gap:clamp(32px,6vw,80px); align-items:center; margin-top:52px; }
+        .cycle { position:relative; aspect-ratio:1; width:100%; }
+        .cycle svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+        .cycle-core { position:absolute; inset:27%; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:radial-gradient(circle, #1d1a12, #111 70%); border:1px solid #3a3a3a; }
+        .cycle-core strong { font-family:'Arial Black', var(--font-body); font-size:clamp(14px,1.6vw,19px); letter-spacing:.08em; color:#f5f0e6; }
+        .cycle-core em { font-family:var(--font-display); font-size:clamp(14px,1.4vw,17px); color:var(--accent); margin-top:4px; }
+        .cycle-node { position:absolute; width:46px; height:46px; margin:-23px 0 0 -23px; border:none; border-radius:50%; background:var(--accent); color:#141414; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:20px; cursor:pointer; transition:transform .25s, box-shadow .25s; }
+        .cycle-node--active, .cycle-node:hover { transform:scale(1.18); box-shadow:0 0 0 8px rgba(217,192,111,.18); }
+        .system-steps { list-style:none; display:flex; flex-direction:column; gap:10px; }
+        .system-step { display:grid; grid-template-columns:44px 1fr; gap:18px; padding:18px 22px; border:1px solid transparent; border-radius:16px; transition:background .25s, border-color .25s; }
+        .system-step--active { background:var(--bg2); border-color:#2a2a2a; }
+        .system-num { font-family:var(--font-display); font-size:30px; line-height:1; color:var(--accent); padding-top:4px; }
+        .system-step small { display:block; font-size:11px; letter-spacing:.24em; font-weight:700; text-transform:uppercase; color:#8a7a45; }
+        .system-step h3 { font-family:var(--font-display); font-size:22px; font-weight:600; color:#f5f0e6; margin:2px 0; }
+        .system-step p { color:var(--text-dim); font-size:15px; }
+        @media(max-width:900px){ .system { grid-template-columns:1fr; } .cycle { max-width:360px; margin:0 auto; } }
+        @media(max-width:640px){ .system-step { padding:16px 12px; gap:12px; } }
 
         /* ── ROADMAP ── */
         .roadmap-section { position:relative; overflow:hidden; }
@@ -412,66 +615,73 @@ export default function SpeakersGym() {
       <section className="section" id="who">
         <Reveal>
           <div className="section-label">Find Your Fit</div>
-          <div className="section-title">Who The Speaker's Gym Is For</div>
+          <h2 className="section-title">Built for people who <em>know their stuff</em></h2>
         </Reveal>
-        <div className="who-grid">
-          {[
-            { icon: "⚡", title: "Professionals Who Get Nervous", desc: "You know your stuff, but when it's time to speak in meetings or in front of others, your nerves take over." },
-            { icon: "💭", title: "People Who Overthink", desc: "You have ideas in your head, but you struggle to say them clearly and confidently in the moment." },
-            { icon: "🎯", title: "People Who Want Real Practice", desc: "You don't want more theory. You want reps, feedback, and a system that helps you improve fast." },
-          ].map((c, i) => (
-            <Reveal key={i} delay={i * 120}>
-              <div className="who-card">
-                <span className="who-card-icon">{c.icon}</span>
-                <h3>{c.title}</h3>
-                <p>{c.desc}</p>
-              </div>
+        <div className="fit-grid">
+          {FIT_CARDS.map((c, i) => (
+            <Reveal key={c.theme} delay={i * 120}>
+              <article className="fit-card">
+                <div className="fit-art">
+                  <span className="fit-num">0{i + 1}</span>
+                  <svg viewBox="0 0 170 76" aria-hidden="true">{c.art}</svg>
+                </div>
+                <div className="fit-body">
+                  <p className="fit-theme">{c.theme}</p>
+                  <h3>{c.title}</h3>
+                  <p>{c.desc}</p>
+                </div>
+              </article>
             </Reveal>
           ))}
         </div>
+      </section>
+
+      {/* ── THE METHOD ── */}
+      <section className="section" id="method">
+        <Reveal>
+          <div className="section-label">The Method</div>
+          <h2 className="section-title">Two tracks, <em>one outcome</em></h2>
+          <p className="section-subtitle">Most training stops at technique. Here you learn the skill, then use it in real life, one level at a time.</p>
+        </Reveal>
+        <div className="tracks">
+          <Reveal>
+            <article className="track">
+              <p className="track-label">TRACK ONE</p>
+              <h3>TECHNIQUE</h3>
+              <p className="track-sub">Build the skill</p>
+              <div className="chips">
+                {TECHNIQUE_SKILLS.map((skill) => <span className="chip" key={skill}>{skill}</span>)}
+              </div>
+              <p className="track-note">One new skill every week, taught live and practiced daily.</p>
+            </article>
+          </Reveal>
+          <Reveal delay={120}>
+            <article className="track">
+              <p className="track-label">TRACK TWO</p>
+              <h3>EXPOSURE</h3>
+              <p className="track-sub">Build the confidence to use it</p>
+              <ExposureLadder />
+            </article>
+          </Reveal>
+        </div>
+        <Reveal>
+          <div className="merge" aria-hidden="true">
+            <svg viewBox="0 0 560 70" preserveAspectRatio="none">
+              <path d="M140 0 C140 40, 280 30, 280 68 M420 0 C420 40, 280 30, 280 68" fill="none" stroke="#d9c06f" strokeWidth="1.5" strokeDasharray="4 5" vectorEffect="non-scaling-stroke" />
+            </svg>
+          </div>
+          <div className="merge"><div className="outcome">CONFIDENT COMMUNICATION</div></div>
+          <p className="method-quote">Technique builds the skill. Exposure gives you access to it under pressure.</p>
+        </Reveal>
       </section>
 
       {/* ── HOW IT WORKS ── */}
       <section className="section" id="how">
         <Reveal>
-          <div className="section-label">The Process</div>
-          <div className="section-title">How It Works</div>
+          <div className="section-label">How It Works</div>
+          <h2 className="section-title">The <em>system</em></h2>
         </Reveal>
-        <div className="how-grid">
-          {[
-            { n: "01", title: "Live Coaching", desc: "Practice speaking live and receive direct feedback on your structure, delivery, and presence." },
-            { n: "02", title: "Daily Speaking Reps", desc: "Build confidence with daily speaking reps inside the Premium Speaker's Gym app with AI feedback." },
-            { n: "03", title: "The Full Roadmap", desc: "Master vocal variety and speech structure with the complete MOUN Academy roadmap." },
-          ].map((c, i) => (
-            <Reveal key={i} delay={i * 120}>
-              <div className="how-card">
-                <span className="how-num">{c.n}</span>
-                <h3>{c.title}</h3>
-                <p>{c.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── METHOD PREVIEW ── */}
-      <section className="section" id="method-preview">
-        <Reveal>
-          <div className="method-preview">
-            <div className="method-preview-copy">
-              <div className="section-label">The Speaker's Gym Method</div>
-              <h2>Technique is only half the transformation.</h2>
-              <p>Learn the communication skills. Apply them through gradual exposure. Build confidence through real evidence.</p>
-              <a className="method-preview-link" href="/method">Explore the Method <span aria-hidden="true">→</span></a>
-            </div>
-            <div className="method-equation" aria-label="Technical Training plus Exposure Training equals Confident Communication">
-              <div className="method-equation-card"><span>01</span><strong>Technical Training</strong></div>
-              <div className="method-equation-symbol" aria-hidden="true">+</div>
-              <div className="method-equation-card"><span>02</span><strong>Exposure Training</strong></div>
-              <div className="method-equation-result">Confident Communication</div>
-            </div>
-          </div>
-        </Reveal>
+        <SystemCycle />
       </section>
 
       {/* ── ABOUT ME ── */}
