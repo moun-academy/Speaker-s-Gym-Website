@@ -478,7 +478,7 @@
         <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Vocal Variety</strong></article><article><small>PITCH MOVES</small><strong>Step · Lift · Drop · Land</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 5</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.action || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
         <div class="w3-week-progress">${[1, 2, 3, 4, 5].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}<span>W6 <i>○</i></span></div>
-        <div class="w3-next-week"><small>NEXT</small><strong>Full integration and your real target.</strong></div>
+        <div class="w3-next-week"><small>NEXT</small><strong>Lecture 6: tell stories that move people.</strong></div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w5-action="close">Return to my portal</button>' });
     }
 

@@ -47,7 +47,7 @@ window.ASHWIN_DATA = {
       ['A concise executive update','Use a headline, one supporting example, and a next step. Keep technical detail relevant.','What does this senior listener need to know first?'],
       ['Keep a useful story','Save the keywords from one story you want to bring to coaching.','Which example best shows a contribution I can explain clearly?']
     ]},
-    { short:'Integration', title:'Full Integration + Your Real Target', focus:'Bring structure, voice, pace, pauses, and melody together for your interview goal. Review your progress and choose your next practice commitments.', outcome:'I can explain my experience, tell a project story, and answer a follow-up with clear structure.', lecture:null, days:[
+    { short:'Story', title:'Tell Stories That Move People', focus:'Bring everything together in a story. Structure (incident, point, link) plus vocal variety (volume, pace, pauses, melody) makes people remember you, trust you, and act.', outcome:'I can tell a short true story with a clear point, and use my voice to bring it to life.', lecture:6, days:[
       ['Your introduction, revisited','Record your introduction again. Lead with your relevant experience and one useful example.','Tell me about yourself.'],
       ['A question about your strengths','Choose one strength and support it with a project story. Keep your claims specific.','What would you bring to our team?'],
       ['A difficult question, calmly answered','Pause and describe a real challenge, your action, and what you learned.','Tell me about a project that did not go as expected.'],
@@ -74,13 +74,15 @@ window.ASHWIN_DATA = {
     2: { title: 'Answer questions in the app, standing up, in a louder voice', hint: 'Stand tall and let your whole body join in. Louder voice, more energy.' },
     3: { title: 'Slow down your key sentence', hint: 'Say your main point a little slower, then keep moving.' },
     4: { title: 'Pause for two seconds before one real answer', hint: 'Use your pause trigger. Let the question land.' },
-    5: { title: 'Step up on one key word and land the ending', hint: 'One word higher. One sentence that falls and finishes.' }
+    5: { title: 'Step up on one key word and land the ending', hint: 'One word higher. One sentence that falls and finishes.' },
+    6: { title: 'Tell one true story with a clear point', hint: 'Set the scene, tell the incident, then say: “The reason I’m telling you this is because…”' }
   },
   lectures: [
     {week:1,title:'Think clearly. Speak simply.',skill:'STRUCTURE & PREP',description:'Give your answers a clear shape. Point, reason, example, point.',art:'structure',trigger:'data-open-week1'},
     {week:2,title:'A voice that carries.',skill:'VOLUME & PRESENCE',description:'Build a supported voice and let your final words be heard.',art:'voice',trigger:'data-open-week2-lecture'},
     {week:3,title:'Find your speaking rhythm.',skill:'PACE & VARIETY',description:'Fast, slow, stop. Give your important ideas the space they need.',art:'pace',trigger:'data-open-week3-lecture'},
     {week:4,title:'The power of a pause.',skill:'SILENCE & COMPOSURE',description:'Take a moment to think. Replace fillers with intentional silence.',art:'pauses',trigger:'data-open-week4-lecture'},
-    {week:5,title:'Find the music in your voice.',skill:'PITCH & VOCAL VARIETY',description:'Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.',art:'melody',trigger:'data-open-week5-lecture'}
+    {week:5,title:'Find the music in your voice.',skill:'PITCH & VOCAL VARIETY',description:'Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.',art:'melody',trigger:'data-open-week5-lecture'},
+    {week:6,title:'Tell stories that move people.',skill:'STORYTELLING · THE FINALE',description:'Incident, point, link. Structure plus vocal variety: every skill you learned, in one story.',art:'story',trigger:'data-open-week6-lecture'}
   ]
 };

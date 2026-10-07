@@ -138,7 +138,8 @@
       voice:'<path d="M30 60V64M45 47V77M60 37V87M75 49V75M90 22V102M105 37V87M120 8V116M135 32V92M150 40V84M165 20V104M180 34V90M195 46V78M210 40V84M225 51V73M240 57V67" stroke-width="5" stroke-linecap="round"/>',
       pace:'<path d="M15 89C45 89 45 39 75 39S105 89 135 89S165 19 195 19S225 79 255 79" stroke-width="2"/><circle cx="75" cy="39" r="6"/><circle cx="135" cy="89" r="6"/><circle cx="195" cy="19" r="6"/><path d="M15 108H255" stroke-dasharray="2 5"/>',
       pauses:'<circle cx="135" cy="62" r="51" stroke-opacity=".3"/><circle cx="135" cy="62" r="39" stroke-opacity=".5"/><rect x="120" y="43" width="8" height="38" rx="4"/><rect x="142" y="43" width="8" height="38" rx="4"/><path d="M40 62H62M208 62H230"/>',
-      melody:'<path d="M15 72H70" stroke-opacity=".35" stroke-dasharray="3 5"/><path d="M70 72C90 72 92 40 112 40S136 22 150 22 172 60 190 60 220 92 255 96" stroke-width="2.5" stroke-linecap="round"/><circle cx="112" cy="40" r="5"/><circle cx="150" cy="22" r="5"/><circle cx="190" cy="60" r="5"/><circle cx="255" cy="96" r="5"/>'
+      melody:'<path d="M15 72H70" stroke-opacity=".35" stroke-dasharray="3 5"/><path d="M70 72C90 72 92 40 112 40S136 22 150 22 172 60 190 60 220 92 255 96" stroke-width="2.5" stroke-linecap="round"/><circle cx="112" cy="40" r="5"/><circle cx="150" cy="22" r="5"/><circle cx="190" cy="60" r="5"/><circle cx="255" cy="96" r="5"/>',
+      story:'<path d="M135 30C110 16 70 14 40 22V104C70 96 110 98 135 112C160 98 200 96 230 104V22C200 14 160 16 135 30Z"/><path d="M135 30V112"/><path d="M58 44C78 40 100 42 118 50M58 62C78 58 100 60 118 68M58 80C78 76 100 78 118 86" stroke-opacity=".5"/><path d="M152 50C170 42 192 40 212 44M152 68C170 60 192 58 212 62" stroke-opacity=".5"/><circle cx="190" cy="84" r="5"/><path d="M135 8V0M110 10L104 3M160 10L166 3" stroke-linecap="round"/>'
     };
     return `<svg viewBox="0 0 270 125" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${content[type]}</svg>`;
   }
@@ -155,10 +156,6 @@
   }
   function weekStatus(index) {
     const week=index+1;
-    if (week===6) {
-      const mission=sync.coach.missions?.[6]||'';const record=state.week6Mission||{};
-      return {week,lecture:null,mission,missionState:record.status==='completed'?'done':mission?'set':'none',result:record.result||'',level:null};
-    }
     const lecture=state[`week${week}Lecture`]||{};
     const lectureState=lecture.lectureCompletedAt?'done':Number(lecture.currentStep)>0?'started':'none';
     const win=state.wins?.[week]||{};const missionState=winDone(week)?'done':lecture.missionStatus==='accepted'?'set':'none';
@@ -173,22 +170,15 @@
     const missionPill={done:'<span class="track-pill done">✓ Done</span>',set:'<span class="track-pill waiting">Waiting for report</span>',none:'<span class="track-pill">Not set yet</span>'};
     const coach=sync.role==='coach';const editor=coach||sync.editor;
     const level=clampLevel(state.currentLevel);
-    $('#progressSummary').innerHTML=`<div><span class="eyebrow">${current?'WHERE WE ARE':'JOURNEY COMPLETE'}</span><h2>${current?`Week ${current.week} of 6 · ${esc(DATA.weeks[current.week-1].short)}`:'All six weeks complete'}</h2>${coach&&sync.updatedAt?`<p>Last saved ${esc(new Date(sync.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))}</p>`:''}<ol class="track-dots" aria-hidden="true">${rows.map(row=>`<li class="${row.missionState==='done'?'done':current&&row.week===current.week?'current':''}">${row.week}</li>`).join('')}</ol></div><div class="pillars"><div><small>PILLAR 1 · LECTURES</small><strong>${lecturesDone} <span>of 5 finished</span></strong><i><b style="width:${lecturesDone/5*100}%"></b></i></div><div><small>PILLAR 2 · EXPOSURE</small><strong>${missionsDone} <span>of 6 missions done</span></strong><i><b style="width:${missionsDone/6*100}%"></b></i></div><div><small>SPEAKING LADDER</small><strong>Step ${level} <span>of 10</span></strong><i><b style="width:${level*10}%"></b></i></div></div>`;
+    $('#progressSummary').innerHTML=`<div><span class="eyebrow">${current?'WHERE WE ARE':'JOURNEY COMPLETE'}</span><h2>${current?`Week ${current.week} of 6 · ${esc(DATA.weeks[current.week-1].short)}`:'All six weeks complete'}</h2>${coach&&sync.updatedAt?`<p>Last saved ${esc(new Date(sync.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))}</p>`:''}<ol class="track-dots" aria-hidden="true">${rows.map(row=>`<li class="${row.missionState==='done'?'done':current&&row.week===current.week?'current':''}">${row.week}</li>`).join('')}</ol></div><div class="pillars"><div><small>PILLAR 1 · LECTURES</small><strong>${lecturesDone} <span>of 6 finished</span></strong><i><b style="width:${lecturesDone/6*100}%"></b></i></div><div><small>PILLAR 2 · EXPOSURE</small><strong>${missionsDone} <span>of 6 missions done</span></strong><i><b style="width:${missionsDone/6*100}%"></b></i></div><div><small>SPEAKING LADDER</small><strong>Step ${level} <span>of 10</span></strong><i><b style="width:${level*10}%"></b></i></div></div>`;
     $('#ladder').innerHTML=`<header><div><span class="eyebrow">PILLAR 2 · EXPOSURE</span><h2 id="ladderTitle">Your speaking ladder</h2></div><p>Every mission is a real speaking moment. Start where it feels manageable and climb one step at a time${coach?'':'. Tap a step to update where you are'}.</p></header><ol class="ladder-steps">${DATA.levels.map((item,index)=>`<li class="${index+1<level?'past':index+1===level?'current':''}"><button type="button" data-ladder-step="${index+1}" ${coach?'disabled':''} aria-label="Step ${index+1}: ${esc(item.name)}"><b>${index+1}</b><span>${esc(item.name)}</span></button></li>`).join('')}</ol><p class="ladder-focus"><strong>Step ${level} · ${esc(DATA.levels[level-1].name)}.</strong> ${esc(DATA.levels[level-1].behavior)}</p>`;
     $('#progressCallNote').innerHTML=state.callNote?`<span class="eyebrow">NOTE FOR THE NEXT CALL</span><p>${esc(state.callNote)}</p>`:'';
     $('#progressCallNote').hidden=!state.callNote;
     $('#progressTracker').innerHTML=rows.map(row=>{
       const week=DATA.weeks[row.week-1];
       const lectureCell=row.lecture?`<div class="track-cell"><small>PILLAR 1 · LECTURE</small><strong>${lectureLabel[row.lectureState]}</strong><button class="text-button" ${row.lecture.trigger}>${row.lectureState==='none'?'Open lecture':'Open lecture again'} <span>→</span></button></div>`:`<div class="track-cell"><small>PILLAR 1 · LECTURE</small><strong>No lecture</strong><p>Bring every skill together with your coach.</p></div>`;
-      let missionBody;
-      if (row.week===6) {
-        missionBody=editor?`<label class="track-edit">Week 6 mission<textarea id="coachMission6" rows="2" maxlength="600" placeholder="Write the mission for this week">${esc(row.mission)}</textarea></label><button class="text-button" id="saveCoachMission">Save mission <span>→</span></button>`
-          :row.mission?`<p class="track-mission">${esc(row.mission)}</p>${row.missionState==='done'?'':`<label class="track-edit">What happened?<textarea id="week6Result" rows="2" maxlength="2000" placeholder="One or two sentences.">${esc(row.result)}</textarea></label><button class="text-button" id="completeWeek6">Mark as done <span>✓</span></button>`}`
-          :'<p class="track-muted">Marouane will set this mission with you.</p>';
-      } else {
-        missionBody=row.mission?`<p class="track-mission">${esc(row.mission)}</p>`:'<p class="track-muted">You choose it at the end of the lecture.</p>';
-        if (row.missionState==='set'&&!coach) missionBody+=`<button class="text-button" data-open-week${row.week}-reflection>Report mission <span>→</span></button>`;
-      }
+      let missionBody=row.mission?`<p class="track-mission">${esc(row.mission)}</p>`:'<p class="track-muted">You choose it at the end of the lecture.</p>';
+      if (row.missionState==='set'&&!coach) missionBody+=`<button class="text-button" data-open-week${row.week}-reflection>Report mission <span>→</span></button>`;
       const levelChip=row.level?`<span class="track-level">Ladder step ${row.level} · ${esc(DATA.levels[row.level-1].name)}</span>`:'';
       const result=row.missionState==='done'&&row.result?`<p class="track-result"><small>WHAT HAPPENED</small>${esc(row.result)}</p>`:'';
       return `<article class="track-row card ${current&&row.week===current.week?'is-current':''} ${row.missionState==='done'?'is-done':''}"><header><span class="track-week">WEEK ${String(row.week).padStart(2,'0')}</span><h3>${esc(week.short)}</h3><p>${esc(week.outcome)}</p></header>${lectureCell}<div class="track-cell mission"><small>PILLAR 2 · MISSION ${missionPill[row.missionState]}</small>${missionBody}${levelChip}${result}</div></article>`;
@@ -197,7 +187,7 @@
   /* ---------- Lock Your Win ---------- */
   let celebrating=null;
   function winDone(week){const lecture=state[`week${week}Lecture`]||{};return !!state.wins?.[week]?.lockedAt||lecture.missionStatus==='completed';}
-  function currentWinWeek(){for(let week=1;week<=5;week++)if(!winDone(week))return week;return null;}
+  function currentWinWeek(){for(let week=1;week<=6;week++)if(!winDone(week))return week;return null;}
   const lockIcon='<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function padlock(locked,burst){
     const sparks=burst?Array.from({length:12},(_,index)=>`<i style="--a:${index*30}deg;--d:${52+(index%3)*14}px"></i>`).join(''):'';
@@ -207,15 +197,15 @@
     const target=$('#lockWin');if(!target||!DATA.wins)return;
     const coach=sync.role==='coach';
     const current=currentWinWeek();
-    const names=DATA.weeks.slice(0,5).map(week=>week.short);
-    const rail=`<ol class="win-rail" style="--fill:${current===null?1:(current-1)/4}" aria-label="Your wins, one for each lecture">${[1,2,3,4,5].map((week,index)=>{const status=winDone(week)?'done':week===current?'current':'next';return `<li class="${status} ${celebrating?.week===week?'pop':''}" aria-label="Lecture ${week}, ${names[index]}: ${status==='done'?'win locked':status==='current'?'current win':'coming up'}"><span class="win-node">${status==='done'?'✓':status==='current'?week:lockIcon}</span><small>${esc(names[index])}</small></li>`;}).join('')}</ol>`;
-    const trophies=[1,2,3,4,5].filter(week=>state.wins?.[week]?.lockedAt).map(week=>{return `<li><b>${String(week).padStart(2,'0')}</b><span>${esc(names[week-1])}</span>${coach?'':`<button type="button" data-unlock-win="${week}" aria-label="Undo the win for lecture ${week}">Undo</button>`}</li>`;}).join('');
+    const names=DATA.weeks.slice(0,6).map(week=>week.short);
+    const rail=`<ol class="win-rail" style="--fill:${current===null?1:(current-1)/5}" aria-label="Your wins, one for each lecture">${[1,2,3,4,5,6].map((week,index)=>{const status=winDone(week)?'done':week===current?'current':'next';return `<li class="${status} ${celebrating?.week===week?'pop':''}" aria-label="Lecture ${week}, ${names[index]}: ${status==='done'?'win locked':status==='current'?'current win':'coming up'}"><span class="win-node">${status==='done'?'✓':status==='current'?week:lockIcon}</span><small>${esc(names[index])}</small></li>`;}).join('')}</ol>`;
+    const trophies=[1,2,3,4,5,6].filter(week=>state.wins?.[week]?.lockedAt).map(week=>{return `<li><b>${String(week).padStart(2,'0')}</b><span>${esc(names[week-1])}</span>${coach?'':`<button type="button" data-unlock-win="${week}" aria-label="Undo the win for lecture ${week}">Undo</button>`}</li>`;}).join('');
     let main;
     if(celebrating&&Date.now()<celebrating.until){
       const def=DATA.wins[celebrating.week];
-      main=`<div class="win-main celebrate" role="status"><div class="win-copy"><span class="eyebrow">WIN LOCKED</span><h2 id="lockWinTitle">${esc(def.title)}</h2><p>Lecture ${celebrating.week} is yours. That one is in the bank.</p><button class="win-button" type="button" data-win-next>${current===null?'See my five wins':'Next win →'}</button></div>${padlock(true,true)}</div>`;
+      main=`<div class="win-main celebrate" role="status"><div class="win-copy"><span class="eyebrow">WIN LOCKED</span><h2 id="lockWinTitle">${esc(def.title)}</h2><p>Lecture ${celebrating.week} is yours. That one is in the bank.</p><button class="win-button" type="button" data-win-next>${current===null?'See my six wins':'Next win →'}</button></div>${padlock(true,true)}</div>`;
     }else if(current===null){
-      main=`<div class="win-main"><div class="win-copy"><span class="eyebrow">ALL FIVE WINS LOCKED</span><h2 id="lockWinTitle">Five lectures. Five wins.</h2><p>Every skill, put to work in real life.</p></div>${padlock(true,false)}</div>`;
+      main=`<div class="win-main"><div class="win-copy"><span class="eyebrow">ALL SIX WINS LOCKED</span><h2 id="lockWinTitle">Six lectures. Six wins.</h2><p>Every skill, put to work in real life.</p></div>${padlock(true,false)}</div>`;
     }else{
       const def=DATA.wins[current];const lecture=state[`week${current}Lecture`]||{};
       const mission=current!==1&&lecture.mission?`<p class="win-mission">Your mission: ${esc(lecture.mission)}</p>`:'';
@@ -247,7 +237,7 @@
   function updateLecture(week,patch) {state[`week${week}Lecture`]={...state[`week${week}Lecture`],...patch};saveState();}
   const portal = {
     client:{id:'ashwin',name:'Ashwin',storageKey:DATA.storageKey},getState:()=>state,
-    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),
+    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),updateWeek6:patch=>updateLecture(6,patch),
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Ashwin's other progress stays saved.`)) return false;

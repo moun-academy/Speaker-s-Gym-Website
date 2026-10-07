@@ -128,10 +128,10 @@ body.coach-view .coach-banner{display:block}
 @keyframes win-clunk{0%{transform:translateY(-15px) rotate(-16deg)}100%{transform:none}}
 @keyframes win-bounce{40%{transform:scale(1.1)}100%{transform:scale(1)}}
 @keyframes win-spark{0%{opacity:1;transform:rotate(var(--a)) translateY(0)}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(var(--d) * -1.5))}}
-.win-rail{position:relative;display:grid;grid-template-columns:repeat(5,1fr);margin:28px 0 0;padding:0;list-style:none}
-.win-rail::before,.win-rail::after{content:'';position:absolute;top:19px;left:10%;height:3px;border-radius:3px}
-.win-rail::before{width:80%;background:#45463e}
-.win-rail::after{width:calc(80% * var(--fill,0));background:linear-gradient(90deg,var(--gold),var(--yellow));transition:width .9s cubic-bezier(.22,1,.36,1)}
+.win-rail{position:relative;display:grid;grid-template-columns:repeat(6,1fr);margin:28px 0 0;padding:0;list-style:none}
+.win-rail::before,.win-rail::after{content:'';position:absolute;top:19px;left:8.333%;height:3px;border-radius:3px}
+.win-rail::before{width:83.333%;background:#45463e}
+.win-rail::after{width:calc(83.333% * var(--fill,0));background:linear-gradient(90deg,var(--gold),var(--yellow));transition:width .9s cubic-bezier(.22,1,.36,1)}
 .win-rail li{position:relative;z-index:1;display:grid;justify-items:center;gap:9px;color:#8d8a7c}
 .win-node{display:grid;place-items:center;width:40px;height:40px;border:2px solid #55564c;border-radius:50%;background:#292a27;font:500 16px var(--serif);transition:background .3s,border-color .3s,transform .3s}
 .win-rail small{font:600 8px var(--detail);letter-spacing:.12em;text-transform:uppercase}
