@@ -139,13 +139,18 @@
 
     /* ── 4. program ── */
     .weeks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .week { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 30px 28px 32px; position: relative; overflow: hidden; transition: border-color .3s, transform .3s; }
+    .week { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; position: relative; overflow: hidden; transition: border-color .3s, transform .3s; }
     .week:hover { border-color: var(--gold-muted); transform: translateY(-4px); }
-    .week .wk { display: flex; align-items: baseline; justify-content: space-between; font-size: 12px; letter-spacing: .26em; font-weight: 700; color: var(--gold); margin-bottom: 18px; }
-    .week .wk span { font-family: var(--serif); font-size: 64px; letter-spacing: 0; color: #232323; line-height: .7; font-weight: 700; }
-    .week h4 { font-family: var(--serif); font-size: 23px; font-weight: 600; color: var(--cream); line-height: 1.25; margin-bottom: 10px; }
+    .week .art { position: relative; height: 128px; display: flex; align-items: center; justify-content: center; background: #19170f; border-bottom: 1px solid #262216; }
+    .week:nth-child(even) .art { background: #1b1912; }
+    .week .art svg { width: 170px; height: 76px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+    .week .art .wk { position: absolute; top: 14px; left: 18px; font-size: 11px; letter-spacing: .24em; font-weight: 700; color: var(--gold-muted); }
+    .week .body { padding: 22px 26px 28px; }
+    .week .theme { font-size: 11px; letter-spacing: .22em; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+    .week h4 { font-family: var(--serif); font-size: 25px; font-weight: 600; color: var(--cream); line-height: 1.2; margin-bottom: 10px; }
     .week p { color: var(--dim); font-size: 15px; }
-    .week:last-child { background: linear-gradient(140deg, #231e10, var(--bg2) 60%); border-color: var(--gold-muted); }
+    .week:last-child { border-color: var(--gold-muted); }
+    .week:last-child .art { background: linear-gradient(140deg, #2a2312, #19170f 70%); }
     .exposure-band { margin-top: 26px; border-radius: 14px; padding: 18px 24px; display: flex; align-items: center; gap: 18px; background: rgba(240,201,103,.06); border: 1px dashed rgba(240,201,103,.35); color: var(--cream); font-size: 16px; }
     .exposure-band .bar { flex: 0 0 120px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, rgba(240,201,103,.15), var(--gold)); }
 
@@ -367,12 +372,12 @@
           <div><small>WHERE YOU'LL BE IN 6 WEEKS</small><p id="jGoal"></p></div>
         </div>
         <div class="weeks">
-          <article class="week reveal"><div class="wk">WEEK 1<span>01</span></div><h4>Speak With Structure</h4><p>Learn simple frameworks to organize your thoughts and answer clearly.</p></article>
-          <article class="week reveal"><div class="wk">WEEK 2<span>02</span></div><h4>Develop a Stronger Voice</h4><p>Use volume and pauses to sound more confident and intentional.</p></article>
-          <article class="week reveal"><div class="wk">WEEK 3<span>03</span></div><h4>Speak With Vocal Variety</h4><p>Control your pace and delivery so you sound natural, engaging, and expressive.</p></article>
-          <article class="week reveal"><div class="wk">WEEK 4<span>04</span></div><h4>Think While You Speak</h4><p>Use silence comfortably, take time to think, and stop rushing your answers.</p></article>
-          <article class="week reveal"><div class="wk">WEEK 5<span>05</span></div><h4>Bring Out Your Personality</h4><p>Combine structure, voice, tone, and exposure so more of you comes through.</p></article>
-          <article class="week reveal"><div class="wk">WEEK 6<span>06</span></div><h4>Perform Where It Matters</h4><p>Apply everything to your real challenge: meetings, presentations, interviews, networking, or social situations.</p><p class="goal" id="week6Goal" hidden><b>YOUR GOAL</b><span></span></p></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 01</span><svg viewBox="0 0 170 76" aria-hidden="true"><rect x="10" y="44" width="26" height="24" rx="3"/><rect x="50" y="32" width="26" height="36" rx="3"/><rect x="90" y="18" width="26" height="50" rx="3"/><rect x="130" y="6" width="26" height="62" rx="3"/><path d="M36 56h14M76 50h14M116 43h14"/></svg></div><div class="body"><p class="theme">STRUCTURE &amp; PREP</p><h4>Think clearly. Speak simply.</h4><p>Give your answers a clear shape. Point, reason, example, point.</p></div></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 02</span><svg viewBox="0 0 170 76" aria-hidden="true"><path d="M10 35 V41"/><path d="M20 30 V46"/><path d="M30 25 V51"/><path d="M40 18 V58"/><path d="M50 11 V65"/><path d="M60 5 V71"/><path d="M70 8 V68"/><path d="M80 4 V72"/><path d="M90 11 V65"/><path d="M100 18 V58"/><path d="M110 24 V52"/><path d="M120 30 V46"/><path d="M130 34 V42"/><path d="M140 36 V40"/><path d="M150 37 V39"/></svg></div><div class="body"><p class="theme">VOLUME &amp; PRESENCE</p><h4>A voice that carries.</h4><p>Build a supported voice and let your final words be heard.</p></div></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 03</span><svg viewBox="0 0 170 76" aria-hidden="true"><path d="M10 52 C30 52 32 22 52 22 S74 58 92 58 S116 10 136 10 S156 44 162 50"/><circle cx="52" cy="22" r="4"/><circle cx="92" cy="58" r="4"/><circle cx="136" cy="10" r="4"/><path d="M10 70h152" stroke-dasharray="2 5"/></svg></div><div class="body"><p class="theme">PACE &amp; VARIETY</p><h4>Find your speaking rhythm.</h4><p>Fast, slow, stop. Give your important ideas the space they need.</p></div></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 04</span><svg viewBox="0 0 170 76" aria-hidden="true"><circle cx="85" cy="38" r="34"/><circle cx="85" cy="38" r="26"/><rect x="74" y="24" width="7" height="28" rx="3.5"/><rect x="89" y="24" width="7" height="28" rx="3.5"/><path d="M12 38h28M130 38h28"/></svg></div><div class="body"><p class="theme">SILENCE &amp; COMPOSURE</p><h4>The power of a pause.</h4><p>Take a moment to think. Replace fillers with intentional silence.</p></div></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 05</span><svg viewBox="0 0 170 76" aria-hidden="true"><path d="M8 52h28" stroke-dasharray="3 4"/><path d="M36 52 C48 52 52 30 66 28 S78 10 86 10 S104 38 116 42 S140 62 158 62"/><circle cx="66" cy="28" r="4"/><circle cx="86" cy="10" r="4"/><circle cx="116" cy="42" r="4"/><circle cx="158" cy="62" r="4"/></svg></div><div class="body"><p class="theme">PITCH &amp; VOCAL VARIETY</p><h4>Find the music in your voice.</h4><p>Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.</p></div></article>
+          <article class="week reveal"><div class="art"><span class="wk">WEEK 06</span><svg viewBox="0 0 170 76" aria-hidden="true"><path d="M85 22 C70 14 44 14 34 18 V70 C44 66 70 66 85 74 Z"/><path d="M85 22 C100 14 126 14 136 18 V70 C126 66 100 66 85 74"/><path d="M44 32c10-3 22-2 32 2M44 44c10-3 22-2 32 2M44 56c10-3 22-2 32 2M94 34c10-4 22-5 32-2M94 46c8-3 16-3 24-1"/><circle cx="118" cy="58" r="3"/><path d="M68 6l5 6M85 2v8M102 6l-5 6"/></svg></div><div class="body"><p class="theme">STORYTELLING · THE FINALE</p><h4>Tell stories that move people.</h4><p>Incident, point, link. Structure plus vocal variety: every skill you learned, in one story.</p><p class="goal" id="week6Goal" hidden><b>YOUR GOAL</b><span></span></p></div></article>
         </div>
         <div class="exposure-band reveal"><span class="bar" aria-hidden="true"></span>Progressive real-world exposure runs through every week, moving at your pace.</div>
       </div>
