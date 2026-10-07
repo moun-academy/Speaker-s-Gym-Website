@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="description" content="The Speaker's Gym Transformation Program: six weeks of 1-on-1 coaching and real-world exposure, from nervous professional to confident communicator.">
+  <meta name="theme-color" content="#0d0d0d">
+  <title>The Transformation Program | The Speaker's Gym</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3NBE9BPL0D"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3NBE9BPL0D');
+    gtag('config', 'AW-18409322043');
+  </script>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '952702819397221');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --bg2: #141414;
+      --surface: #1a1a1a;
+      --line: #2a2a2a;
+      --gold: #f0c967;
+      --gold-deep: #c9a84c;
+      --gold-muted: #8a7a45;
+      --cream: #f5f0e6;
+      --text: #dddddd;
+      --dim: #a0a0a0;
+      --faint: #6e6e6e;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    /* ── chrome ── */
+    .gold-rail { position: fixed; inset: 0 auto 0 0; width: 6px; background: var(--gold-deep); z-index: 40; }
+    .topbar { position: fixed; top: 0; left: 6px; right: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(16px, 4vw, 48px); background: linear-gradient(to bottom, rgba(13,13,13,.92), rgba(13,13,13,0)); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 13px; letter-spacing: .18em; color: var(--cream); }
+    .brand img { width: 26px; height: 26px; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px; font-family: var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-decoration: none; transition: transform .2s, background .2s, color .2s, border-color .2s; }
+    .btn-gold { background: var(--gold); color: #141414; }
+    .btn-gold:hover { background: var(--cream); transform: translateY(-2px); }
+    .btn-ghost { border: 1px solid rgba(240,201,103,.4); color: var(--gold); }
+    .btn-ghost:hover { border-color: var(--gold); background: rgba(240,201,103,.08); }
+    .topbar .btn { padding: 10px 20px; font-size: 12px; }
+
+    .dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 30; display: flex; flex-direction: column; gap: 14px; }
+    .dots a { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--gold-muted); transition: all .25s; }
+    .dots a.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+
+    /* ── sections ── */
+    section { position: relative; min-height: 100vh; padding: 120px clamp(20px, 7vw, 120px) 96px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    section + section { border-top: 1px solid #1c1c1c; }
+    .wrap { width: 100%; max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+    .glow { position: absolute; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, rgba(240,201,103,.12), rgba(240,201,103,0) 66%); pointer-events: none; }
+    .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .28em; color: var(--gold); margin-bottom: 18px; }
+    .eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); vertical-align: middle; margin-right: 14px; }
+    h2 { font-family: var(--serif); font-weight: 400; color: var(--cream); font-size: clamp(34px, 5vw, 60px); line-height: 1.1; margin-bottom: 56px; }
+    h2 em { color: var(--gold); }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+    /* ── 1. hero ── */
+    #hero .glow { top: -360px; right: -300px; }
+    #hero .presents { font-size: 13px; letter-spacing: .4em; color: var(--dim); font-weight: 600; margin-bottom: 26px; }
+    #hero h1 { font-family: 'Arial Black', 'DM Sans', sans-serif; font-weight: 900; font-size: clamp(54px, 11vw, 150px); line-height: .92; letter-spacing: -.01em; color: #fff; }
+    #hero h1 span { color: var(--gold); }
+    #hero .program { font-family: var(--serif); font-style: italic; font-size: clamp(26px, 3.6vw, 44px); color: var(--gold); margin: 26px 0 14px; }
+    #hero .lede { font-size: clamp(18px, 1.8vw, 22px); color: var(--dim); max-width: 560px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+    .pill { padding: 10px 20px; border: 1px solid #333; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .2em; color: var(--cream); background: rgba(255,255,255,.02); }
+    .pill b { color: var(--gold); }
+    .scroll-hint { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: .3em; color: var(--faint); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .scroll-hint::after { content: ''; width: 1px; height: 38px; background: linear-gradient(var(--gold), transparent); animation: drip 2s infinite; }
+    @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+    /* ── 2. method ── */
+    #method .glow { bottom: -500px; left: -400px; }
+    .tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .track { background: var(--bg2); border: 1px solid var(--line); border-radius: 20px; padding: 40px; position: relative; }
+    .track-label { font-size: 12px; letter-spacing: .26em; color: var(--gold-muted); font-weight: 700; }
+    .track h3 { font-family: 'Arial Black', var(--sans); font-weight: 900; font-size: clamp(30px, 3.4vw, 42px); color: var(--cream); letter-spacing: .02em; margin: 6px 0 2px; }
+    .track .sub { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: 20px; margin-bottom: 30px; }
+    .chips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .chip { border: 1px solid #333; border-radius: 12px; padding: 14px 16px; font-size: 13px; font-weight: 700; letter-spacing: .18em; color: var(--text); background: #111; }
+    .chip::before { content: '◆'; color: var(--gold); font-size: 9px; margin-right: 10px; vertical-align: 2px; }
+    .ladder { display: flex; align-items: flex-end; gap: 6px; height: 112px; margin-bottom: 14px; }
+    .ladder i { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(to top, var(--gold-muted), var(--gold)); opacity: .25; }
+    .ladder-caption { display: flex; justify-content: space-between; font-size: 12px; letter-spacing: .16em; color: var(--dim); font-weight: 700; }
+    .track-note { margin-top: 16px; color: var(--dim); font-size: 15px; }
+    .merge { display: flex; flex-direction: column; align-items: center; margin-top: 8px; }
+    .merge svg { width: min(560px, 80%); height: 70px; }
+    .outcome { border: 1px solid var(--gold); border-radius: 999px; padding: 18px 40px; font-family: 'Arial Black', var(--sans); font-weight: 900; font-size: clamp(16px, 2.2vw, 24px); letter-spacing: .1em; color: var(--bg); background: var(--gold); box-shadow: 0 0 60px rgba(240,201,103,.25); text-align: center; }
+    .quote { margin-top: 34px; text-align: center; font-family: var(--serif); font-style: italic; font-size: clamp(19px, 2vw, 24px); color: var(--cream); }
+
+    /* ── 3. system ── */
+    #system .glow { top: -200px; right: -500px; }
+    .system { display: grid; grid-template-columns: minmax(280px, 440px) 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+    .cycle { position: relative; aspect-ratio: 1; width: 100%; }
+    .cycle svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .cycle .core { position: absolute; inset: 27%; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle, #1d1a12, #111 70%); border: 1px solid #3a3a3a; }
+    .core strong { font-family: 'Arial Black', var(--sans); font-size: clamp(14px, 1.6vw, 19px); letter-spacing: .08em; color: var(--cream); }
+    .core em { font-family: var(--serif); color: var(--gold); font-size: clamp(14px, 1.4vw, 17px); margin-top: 4px; }
+    .node { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: var(--gold); color: #141414; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 20px; cursor: pointer; transition: transform .25s, box-shadow .25s; border: none; }
+    .node.active, .node:hover { transform: scale(1.18); box-shadow: 0 0 0 8px rgba(240,201,103,.18); }
+    .steps { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 18px; padding: 18px 22px; border-radius: 16px; border: 1px solid transparent; transition: background .25s, border-color .25s; }
+    .step.active { background: var(--bg2); border-color: var(--line); }
+    .step .num { font-family: var(--serif); font-size: 30px; color: var(--gold); line-height: 1; padding-top: 4px; }
+    .step small { display: block; font-size: 11px; letter-spacing: .24em; color: var(--gold-muted); font-weight: 700; }
+    .step h4 { font-family: var(--serif); font-weight: 600; font-size: 22px; color: var(--cream); margin: 2px 0; }
+    .step p { color: var(--dim); font-size: 15px; }
+
+    /* ── 4. program ── */
+    .weeks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .week { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 30px 28px 32px; position: relative; overflow: hidden; transition: border-color .3s, transform .3s; }
+    .week:hover { border-color: var(--gold-muted); transform: translateY(-4px); }
+    .week .wk { display: flex; align-items: baseline; justify-content: space-between; font-size: 12px; letter-spacing: .26em; font-weight: 700; color: var(--gold); margin-bottom: 18px; }
+    .week .wk span { font-family: var(--serif); font-size: 64px; letter-spacing: 0; color: #232323; line-height: .7; font-weight: 700; }
+    .week h4 { font-family: var(--serif); font-size: 23px; font-weight: 600; color: var(--cream); line-height: 1.25; margin-bottom: 10px; }
+    .week p { color: var(--dim); font-size: 15px; }
+    .week:last-child { background: linear-gradient(140deg, #231e10, var(--bg2) 60%); border-color: var(--gold-muted); }
+    .exposure-band { margin-top: 26px; border-radius: 14px; padding: 18px 24px; display: flex; align-items: center; gap: 18px; background: rgba(240,201,103,.06); border: 1px dashed rgba(240,201,103,.35); color: var(--cream); font-size: 16px; }
+    .exposure-band .bar { flex: 0 0 120px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, rgba(240,201,103,.15), var(--gold)); }
+
+    /* ── 5. portal ── */
+    #portal .glow { top: -300px; left: 30%; }
+    .portal { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+    .browser { border-radius: 14px; overflow: hidden; border: 1px solid #3a3a3a; background: #1c1c1c; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(240,201,103,.08); transition: transform .4s; }
+    .browser:hover { transform: translateY(-4px); }
+    .browser-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; background: #232323; }
+    .browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+    .browser-bar .url { margin-left: 12px; flex: 1; background: #141414; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: var(--dim); }
+    .browser-bar .url b { color: var(--gold); font-weight: 600; }
+    .features { display: flex; flex-direction: column; gap: 26px; }
+    .feature small { font-size: 12px; letter-spacing: .26em; font-weight: 700; color: var(--gold); }
+    .feature p { font-family: var(--serif); font-size: 22px; color: var(--cream); line-height: 1.35; margin-top: 4px; }
+    .feature { padding-left: 20px; border-left: 2px solid #2e2e2e; }
+    .features .btn { align-self: flex-start; margin-top: 8px; }
+
+    /* ── 6. investment ── */
+    #investment .glow { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1100px; height: 1100px; }
+    #investment .wrap { text-align: center; }
+    #investment .eyebrow::after { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); vertical-align: middle; margin-left: 14px; }
+    .offer { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.25fr; text-align: left; border-radius: 24px; overflow: hidden; border: 1px solid var(--gold-muted); background: var(--bg2); box-shadow: 0 30px 120px rgba(240,201,103,.08); }
+    .price { padding: 44px 36px; background: linear-gradient(160deg, #262011, #141414 75%); border-right: 1px solid #2c2c2c; display: flex; flex-direction: column; justify-content: center; }
+    .price small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold-muted); }
+    .price s { display: block; margin-top: 18px; color: var(--dim); font-size: 28px; font-family: var(--sans); font-weight: 500; text-decoration-color: rgba(240,201,103,.8); text-decoration-thickness: 2px; }
+    .price strong { display: block; font-family: var(--serif); font-variant-numeric: lining-nums; font-size: clamp(64px, 8vw, 88px); line-height: 1; color: var(--gold); font-weight: 700; }
+    .price .today { margin-top: 10px; font-size: 14px; color: var(--cream); letter-spacing: .04em; }
+    .includes { padding: 40px 36px; }
+    .includes small { font-size: 12px; letter-spacing: .24em; font-weight: 700; color: var(--gold); }
+    .includes ul { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 14px; }
+    .includes li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; color: var(--text); font-size: 16px; line-height: 1.45; }
+    .includes li::before { content: '✓'; width: 22px; height: 22px; border-radius: 50%; background: rgba(240,201,103,.14); color: var(--gold); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .cta-row { margin-top: 44px; display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+    .cta-row .btn { padding: 18px 38px; font-size: 15px; }
+    .fine { margin-top: 18px; color: var(--faint); font-size: 13px; }
+
+    footer { padding: 34px clamp(20px, 7vw, 120px); border-top: 1px solid #1c1c1c; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--faint); font-size: 13px; }
+    footer a { text-decoration: none; } footer a:hover { color: var(--gold); }
+
+    /* ── responsive ── */
+    @media (max-width: 900px) {
+      .tracks, .system, .portal { grid-template-columns: 1fr; }
+      .weeks { grid-template-columns: 1fr 1fr; }
+      .cycle { max-width: 360px; margin: 0 auto; }
+      .browser { transform: none; }
+      .dots { display: none; }
+    }
+    @media (max-width: 640px) {
+      section { min-height: auto; padding: 104px 16px 72px; }
+      #hero { min-height: 100svh; }
+      .gold-rail { width: 4px; }
+      .topbar { left: 4px; padding: 14px 16px; }
+      .brand span { display: none; }
+      .weeks { grid-template-columns: 1fr; }
+      .track { padding: 28px 22px; }
+      .chips { grid-template-columns: 1fr 1fr; }
+      .chip { font-size: 11px; padding: 12px; letter-spacing: .12em; }
+      .offer { grid-template-columns: 1fr; }
+      .price { border-right: none; border-bottom: 1px solid #2c2c2c; text-align: center; padding: 36px 24px; }
+      .includes { padding: 32px 24px; }
+      .exposure-band { flex-direction: column; align-items: flex-start; }
+      .step { padding: 16px 12px; gap: 12px; }
+      h2 { margin-bottom: 40px; }
+      .scroll-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gold-rail" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/"><img src="dumbbell.png" alt=""><span>THE SPEAKER'S GYM</span></a>
+    <a class="btn btn-gold" href="#investment">Join the program</a>
+  </header>
+
+  <nav class="dots" aria-label="Sections">
+    <a href="#hero" aria-label="Intro"></a>
+    <a href="#method" aria-label="The method"></a>
+    <a href="#system" aria-label="How it works"></a>
+    <a href="#program" aria-label="The program"></a>
+    <a href="#portal" aria-label="Your private portal"></a>
+    <a href="#investment" aria-label="Your investment"></a>
+  </nav>
+
+  <main>
+    <!-- 1 · HERO -->
+    <section id="hero">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="presents reveal">MOUN ACADEMY PRESENTS</p>
+        <h1 class="reveal">SPEAKER'S<br><span>GYM</span></h1>
+        <p class="program reveal">The Transformation Program</p>
+        <p class="lede reveal">From nervous professional to confident communicator.</p>
+        <div class="pills reveal">
+          <span class="pill"><b>6</b> WEEKS</span>
+          <span class="pill">1-ON-1 COACHING</span>
+          <span class="pill">REAL-WORLD EXPOSURE</span>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+    </section>
+
+    <!-- 2 · METHOD -->
+    <section id="method">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">THE METHOD</p>
+        <h2 class="reveal">Two tracks, <em>one outcome</em></h2>
+        <div class="tracks">
+          <article class="track reveal">
+            <p class="track-label">TRACK ONE</p>
+            <h3>TECHNIQUE</h3>
+            <p class="sub">Build the skill</p>
+            <div class="chips">
+              <span class="chip">STRUCTURE</span>
+              <span class="chip">VOICE</span>
+              <span class="chip">PAUSES</span>
+              <span class="chip">EXPRESSION</span>
+            </div>
+          </article>
+          <article class="track reveal">
+            <p class="track-label">TRACK TWO</p>
+            <h3>EXPOSURE</h3>
+            <p class="sub">Build the confidence to use it</p>
+            <div class="ladder" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="ladder-caption"><span>LEVEL 1</span><span>→</span><span>LEVEL 10</span></div>
+            <p class="track-note">Progressive real-world exposure, one level at a time.</p>
+          </article>
+        </div>
+        <div class="merge reveal" aria-hidden="true">
+          <svg viewBox="0 0 560 70" preserveAspectRatio="none">
+            <path d="M140 0 C140 40, 280 30, 280 68 M420 0 C420 40, 280 30, 280 68" fill="none" stroke="#f0c967" stroke-width="1.5" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <div class="merge reveal"><div class="outcome">CONFIDENT COMMUNICATION</div></div>
+        <p class="quote reveal">Technique builds the skill. Exposure gives you access to it under pressure.</p>
+      </div>
+    </section>
+
+    <!-- 3 · SYSTEM -->
+    <section id="system">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">HOW IT WORKS</p>
+        <h2 class="reveal">The <em>system</em></h2>
+        <div class="system">
+          <div class="cycle reveal" id="cycle">
+            <svg viewBox="0 0 400 400" aria-hidden="true">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#f0c967"/>
+                </marker>
+              </defs>
+              <g id="arcs" fill="none" stroke="#f0c967" stroke-width="1.6" opacity=".75"></g>
+            </svg>
+            <div class="core"><strong>SPEAKER'S GYM</strong><em>One skill at a time</em></div>
+          </div>
+          <ol class="steps">
+            <li class="step reveal" data-step="0"><span class="num">1</span><div><small>1-ON-1 COACHING</small><h4>Learn a new skill</h4><p>I teach you a new skill in our live session.</p></div></li>
+            <li class="step reveal" data-step="1"><span class="num">2</span><div><small>DAILY PRACTICE</small><h4>Internalize it</h4><p>Practice daily in the Speaker's Gym app, with AI feedback for support.</p></div></li>
+            <li class="step reveal" data-step="2"><span class="num">3</span><div><small>COMMUNITY</small><h4>Get my feedback</h4><p>Post your practice in the community and get feedback from me.</p></div></li>
+            <li class="step reveal" data-step="3"><span class="num">4</span><div><small>MOUN ACADEMY</small><h4>Study at your own pace</h4><p>Go deeper with the course whenever it suits you.</p></div></li>
+            <li class="step reveal" data-step="4"><span class="num">5</span><div><small>YOUR PORTAL</small><h4>See everything in one place</h4><p>Your portal is updated after every meeting we have.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · PROGRAM -->
+    <section id="program">
+      <div class="wrap">
+        <p class="eyebrow reveal">THE PROGRAM</p>
+        <h2 class="reveal">Your 6-Week Path to <em>Confident Communication</em></h2>
+        <div class="weeks">
+          <article class="week reveal"><div class="wk">WEEK 1<span>01</span></div><h4>Speak With Structure</h4><p>Learn simple frameworks to organize your thoughts and answer clearly.</p></article>
+          <article class="week reveal"><div class="wk">WEEK 2<span>02</span></div><h4>Develop a Stronger Voice</h4><p>Use volume and pauses to sound more confident and intentional.</p></article>
+          <article class="week reveal"><div class="wk">WEEK 3<span>03</span></div><h4>Speak With Vocal Variety</h4><p>Control your pace and delivery so you sound natural, engaging, and expressive.</p></article>
+          <article class="week reveal"><div class="wk">WEEK 4<span>04</span></div><h4>Think While You Speak</h4><p>Use silence comfortably, take time to think, and stop rushing your answers.</p></article>
+          <article class="week reveal"><div class="wk">WEEK 5<span>05</span></div><h4>Bring Out Your Personality</h4><p>Combine structure, voice, tone, and exposure so more of you comes through.</p></article>
+          <article class="week reveal"><div class="wk">WEEK 6<span>06</span></div><h4>Perform Where It Matters</h4><p>Apply everything to your real challenge: meetings, presentations, interviews, networking, or social situations.</p></article>
+        </div>
+        <div class="exposure-band reveal"><span class="bar" aria-hidden="true"></span>Progressive real-world exposure runs through every week, moving at your pace.</div>
+      </div>
+    </section>
+
+    <!-- 5 · PORTAL -->
+    <section id="portal">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">YOUR PRIVATE PORTAL</p>
+        <h2 class="reveal">Your program. <em>Your journey.</em></h2>
+        <div class="portal">
+          <div class="browser reveal">
+            <div class="browser-bar"><i></i><i></i><i></i><span class="url">speakers-gym.com/<b>ashwin</b></span></div>
+            <img src="portal.png" alt="A client's private Speaker's Gym portal showing today's practice and the next coaching call" loading="lazy" width="2695" height="1542">
+          </div>
+          <div class="features">
+            <div class="feature reveal"><small>BUILT FOR YOU</small><p>Your own portal, your own six-week vision.</p></div>
+            <div class="feature reveal"><small>DAILY PRACTICE</small><p>Know exactly what to do each day.</p></div>
+            <div class="feature reveal"><small>ACCOUNTABILITY</small><p>Track streaks, reps and progress in one place.</p></div>
+            <a class="btn btn-ghost reveal" href="/ashwin" target="_blank" rel="noopener">OPEN THE PORTAL <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · INVESTMENT -->
+    <section id="investment">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">YOUR INVESTMENT</p>
+        <h2 class="reveal">One program. <em>Everything included.</em></h2>
+        <div class="offer reveal">
+          <div class="price">
+            <small>1-ON-1 COACHING</small>
+            <s>$229</s>
+            <strong>$169</strong>
+            <p class="today">When you join today</p>
+          </div>
+          <div class="includes">
+            <small>WHAT YOU GET</small>
+            <ul>
+              <li>MOUN Academy (3-hr course)</li>
+              <li>Speaker's Gym App + AI Feedback</li>
+              <li>Private 1-on-1 coaching sessions (6 hours of live coaching)</li>
+              <li>Personalized feedback &amp; roadmap</li>
+              <li>Focus on one skill at a time using the Performance Tracker</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cta-row reveal">
+          <a class="btn btn-gold" id="join" href="https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03">JOIN TODAY <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="fine reveal">Six weeks. One skill at a time. Starting this week.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© The Speaker's Gym · MOUN Academy</span>
+    <span><a href="/">speakers-gym.com</a> · <a href="/privacy">Privacy</a></span>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 6) * 70 + 'ms';
+      io.observe(el);
+    });
+
+    // Exposure ladder grows Level 1 → 10
+    document.querySelectorAll('.ladder i').forEach((bar, i) => {
+      bar.style.height = (18 + i * 9) + '%';
+      bar.style.opacity = 0.25 + i * 0.075;
+    });
+
+    // Cycle diagram: 5 nodes around the ring, arrow arcs between them
+    const cycle = document.getElementById('cycle');
+    const arcs = document.getElementById('arcs');
+    const steps = [...document.querySelectorAll('.step')];
+    const R = 176, C = 200, N = 5, gap = 15;
+    const pt = (deg) => [C + R * Math.cos(deg * Math.PI / 180), C + R * Math.sin(deg * Math.PI / 180)];
+    const nodes = [];
+    for (let i = 0; i < N; i++) {
+      const a = -90 + i * 360 / N;
+      const [x, y] = pt(a);
+      const n = document.createElement('button');
+      n.className = 'node';
+      n.textContent = i + 1;
+      n.setAttribute('aria-label', 'Step ' + (i + 1));
+      n.style.left = (x / 4) + '%';
+      n.style.top = (y / 4) + '%';
+      n.addEventListener('click', () => setStep(i, true));
+      cycle.appendChild(n);
+      nodes.push(n);
+      const [x1, y1] = pt(a + gap), [x2, y2] = pt(a + 360 / N - gap);
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', `M${x1} ${y1} A${R} ${R} 0 0 1 ${x2} ${y2}`);
+      p.setAttribute('marker-end', 'url(#arrow)');
+      arcs.appendChild(p);
+    }
+    let current = 0, timer;
+    function setStep(i, manual) {
+      current = i;
+      nodes.forEach((n, j) => n.classList.toggle('active', j === i));
+      steps.forEach((s, j) => s.classList.toggle('active', j === i));
+      if (manual) { clearInterval(timer); timer = setInterval(() => setStep((current + 1) % N), 3200); }
+    }
+    steps.forEach((s, i) => s.addEventListener('mouseenter', () => setStep(i, true)));
+    setStep(0, true);
+
+    // Section dots + keyboard navigation (handy when presenting on a call)
+    const sections = [...document.querySelectorAll('main section')];
+    const dots = [...document.querySelectorAll('.dots a')];
+    const secObs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const idx = sections.indexOf(e.target);
+          dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach((s) => secObs.observe(s));
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('input, textarea')) return;
+      const keysNext = ['ArrowRight', 'PageDown'], keysPrev = ['ArrowLeft', 'PageUp'];
+      if (!keysNext.includes(e.key) && !keysPrev.includes(e.key)) return;
+      e.preventDefault();
+      const mid = window.scrollY + window.innerHeight / 3;
+      let idx = sections.findIndex((s) => s.offsetTop + s.offsetHeight > mid);
+      if (idx < 0) idx = sections.length - 1;
+      const next = Math.max(0, Math.min(sections.length - 1, idx + (keysNext.includes(e.key) ? 1 : -1)));
+      sections[next].scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('join').addEventListener('click', () => {
+      try { fbq('track', 'InitiateCheckout', { value: 169, currency: 'USD' }); } catch (e) {}
+      try { gtag('event', 'begin_checkout', { value: 169, currency: 'USD' }); } catch (e) {}
+    });
+  </script>
+</body>
+</html>
