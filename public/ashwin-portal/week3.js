@@ -83,7 +83,7 @@
         { id: "point", letter: "P", name: "POINT", keyword: "RESET", sentence: "A short walk is a good way to clear your mind." },
         { id: "reason", letter: "R", name: "REASON", keyword: "DISTANCE", sentence: "It creates distance from whatever was crowding my thinking." },
         { id: "example", letter: "E", name: "EXAMPLE", keyword: "MOMENT", sentence: "After a stressful meeting last week, ten minutes outside changed my whole afternoon." },
-        { id: "finalPoint", letter: "P", name: "FINAL POINT", keyword: "WALK", sentence: "That is why I walk before I decide anything important." }
+        { id: "finalPoint", letter: "P", name: "FINAL POINT", keyword: "WALK", sentence: "That’s why I believe a short walk is a good way to clear your mind." }
       ]
     };
   }
