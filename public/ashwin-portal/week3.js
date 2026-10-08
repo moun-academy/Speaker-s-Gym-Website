@@ -489,14 +489,6 @@
   }
 
   root.addEventListener("click", event => {
-    // The Moun Academy link opens in its own browser window, so the lecture stays open here.
-    const skool = event.target.closest(".w3-skool-link");
-    if (skool) {
-      const width = Math.min(1280, screen.availWidth - 80), height = Math.min(900, screen.availHeight - 80);
-      const opened = window.open(skool.href, "mounAcademy", `popup=yes,width=${width},height=${height},left=40,top=40`);
-      if (opened) { event.preventDefault(); opened.opener = null; opened.focus(); }
-      return;
-    }
     const actionEl = event.target.closest("[data-w3-action]");
     const action = actionEl?.dataset.w3Action;
     if (action === "close") return close();
