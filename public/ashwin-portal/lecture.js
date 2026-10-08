@@ -86,8 +86,8 @@
     { t: "Then I stood up, and gave the best speech of my life!", lvl: 9 }
   ];
   const dynamicModes = {
-    loud: { name: "All loud", tag: "Overwhelmed", meter: 30, read: "It sounds like shouting. When everything is loud, nothing stands out, and people get tired." },
     soft: { name: "All soft", tag: "Drifting away", meter: 18, read: "It sounds unsure. People have to work to hear you, and soon they stop trying." },
+    loud: { name: "All loud", tag: "Overwhelmed", meter: 30, read: "It sounds like shouting. When everything is loud, nothing stands out, and people get tired." },
     dynamic: { name: "Dynamic", tag: "Leaning in", meter: 96, read: "Strong when you are sure. Soft on the secret. Loud on the win. They lean in, then sit up." }
   };
   const dynamicLevel = (mode, line) => mode === "loud" ? 9 : mode === "soft" ? 3 : line.lvl;
@@ -497,7 +497,7 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
-      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Read all three versions out loud: all loud, all soft and dynamic."],
+      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Read all three versions out loud: all soft, all loud and dynamic."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
