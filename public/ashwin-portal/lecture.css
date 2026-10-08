@@ -613,7 +613,8 @@ body.lecture-open { overflow: hidden; }
 .w2-contrast-modes button.tried::after { content: " ✓"; }
 .w2-contrast-modes button.selected { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
 .w2-contrast-lines { display: grid; gap: 10px; }
-.w2-cline { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 16px; transition: opacity .3s ease; }
+.w2-cline { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 16px; padding: 6px 10px; border-radius: 10px; transition: opacity .3s ease, background .3s ease, transform .3s ease; }
+.w2-cline.lit { background: #fbf3d9; }
 .w2-cbar { position: relative; height: 16px; border-radius: 99px; background: #eee9dd; }
 .w2-cbar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--lvl) * 10%); border-radius: 99px; background: #cfc8b4; transition: width .7s cubic-bezier(.34,1.56,.64,1), background .3s ease; }
 .w2-cbar b { position: absolute; right: -2px; top: -20px; color: var(--muted); font: 700 12px var(--detail, sans-serif); }
@@ -665,4 +666,4 @@ body.lecture-open { overflow: hidden; }
 .w2-vol-cue.soft { background: #dbe7df; color: #2f5a44; font-style: italic; }
 .w2-vol-cue.up { background: var(--gold); color: #1d1d1a; }
 .w2-prep-guide article:nth-child(3) { border-color: #9bb8a9; background: #f1f6f2; }
-.w2-dial .w2-shift { margin-bottom: 22px; }
+.w2-dynamic .w2-shift { margin-bottom: 22px; }

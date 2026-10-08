@@ -8,7 +8,7 @@
 
   const chapters = [
     { title: "Understand what your voice signals", steps: [21, 22, 6] },
-    { title: "Build a strong voice, then make it move", steps: [7, 3, 4, 24, 5] },
+    { title: "Build a strong voice, then make it move", steps: [7, 3, 4, 5, 24] },
     { title: "One answer. One adjustment.", steps: [9, 10, 11] },
     { title: "Use it, then test it", steps: [12, 13, 14] },
     { title: "Choose one audible moment", steps: [15, 16, 17] }
@@ -100,7 +100,7 @@
 
   // Keep stored step IDs stable while placing two new teaching screens after Slide 2.
   // Steps 21, 22 and 24 are newer slides placed earlier in the lecture, so the list order is the real order.
-  const lectureFlow = [0, 1, 21, 22, 6, 7, 3, 4, 24, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+  const lectureFlow = [0, 1, 21, 22, 6, 7, 3, 4, 5, 24, 9, 10, 11, 12, 13, 14, 15, 16, 17];
   // Retired slides resume at the slide that replaced them (8: merged practice, 2: pressure slide).
   const retiredSteps = { 8: 5, 2: 3 };
   const followUpSteps = [18, 19, 20];
@@ -320,12 +320,7 @@
       `, { className: "w2-lowvolume" });
     } else if (step === 24) {
       page = shell(`
-        <p class="w2-eyebrow">THE NEXT LEVEL · VOLUME VARIETY</p>
-        <div class="w2-shift" aria-label="So far, louder was better. Now, your volume learns to move.">
-          <article class="before"><small>SO FAR</small><p>Louder is better. You built a strong 7/10 base.</p><span class="w2-shift-bar flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
-          <i class="w2-shift-arrow" aria-hidden="true">→</i>
-          <article class="after"><small>NOW</small><p>A strong base gives you room to move: up and down, on purpose.</p><span class="w2-shift-bar moving" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
-        </div>
+        <p class="w2-eyebrow">VOLUME IS A DIAL</p>
         <h1>Volume is a dial,<br /><em>not a switch.</em></h1>
         <div class="w2-dial-cards">
           <article class="up"><small>TURN IT UP</small><ul><li>To show energy and excitement</li><li>To mark the point that matters</li><li>To reach the whole room</li></ul></article>
@@ -334,16 +329,21 @@
         <div class="w2-dial-story" aria-label="A short story with steady, louder and softer moments">${dialStory.map((seg, index) => `<div class="w2-seg ${seg.label.toLowerCase()}" data-w2-seg="${index}" style="--lvl:${seg.lvl}"><i></i><p>${esc(seg.t)}</p><b>${seg.lvl}/10 · ${seg.label}</b></div>`).join("")}</div>
         <button type="button" class="w2-play" data-w2-action="play-story">▶ Read it aloud with the pattern</button>
         <blockquote>Soft is a choice. Hidden is a habit.<br /><strong>Even your quiet voice must reach the listener.</strong></blockquote>
-        <p class="w2-coach-note">Turning it up shows confidence. Next: why turning it down, on purpose, builds connection.</p>
-      `, { className: "w2-dial", nextLabel: "Why go soft on purpose" });
+        <p class="w2-coach-note">Next, you use the dial in a real answer: a strong base, one soft moment, then back up.</p>
+      `, { className: "w2-dial", nextLabel: "Use it in PREP" });
     } else if (step === 5) {
       const mode = state.volMode || "";
       const tried = new Set(state.volModesTried || []);
       const modeData = dynamicModes[mode];
       page = shell(`
-        <p class="w2-eyebrow">SOFT ON PURPOSE · CONNECTION</p>
+        <p class="w2-eyebrow">THE NEXT LEVEL · VOLUME VARIETY</p>
+        <div class="w2-shift" aria-label="So far, louder was better. Now, your volume learns to move.">
+          <article class="before"><small>SO FAR</small><p>Volume is important. You built a strong 7/10 base.</p><span class="w2-shift-bar flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+          <i class="w2-shift-arrow" aria-hidden="true">→</i>
+          <article class="after"><small>THE NEXT LEVEL</small><p>Volume variety: up and down, on purpose. That is what keeps people listening.</p><span class="w2-shift-bar moving" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+        </div>
         <h1>Contrast is king.<br /><em>Go soft on purpose.</em></h1>
-        <p class="w2-lede">A strong voice shows confidence. Lowering it, on purpose, creates intimacy and connection: people lean in. You need both.</p>
+        <p class="w2-lede">A strong volume is important: it shows confidence. But volume variety takes you to the next level. Lowering your voice, on purpose, creates intimacy and connection: people lean in.</p>
         <article class="w2-contrast ${mode}" data-w2-contrast>
           <small>SAME STORY · THREE WAYS · TAP EACH ONE</small>
           <div class="w2-contrast-modes" role="group" aria-label="Choose how to tell the story">${Object.keys(dynamicModes).map(key => `<button type="button" class="${key} ${mode === key ? "selected" : ""} ${tried.has(key) ? "tried" : ""}" data-w2-volmode="${key}" aria-pressed="${mode === key}">${esc(dynamicModes[key].name)}</button>`).join("")}</div>
@@ -357,7 +357,7 @@
           <article><span>03</span><strong>Soft, not mumbled</strong><p>Slow down a little and say every word clearly. The back of the room must still hear you.</p></article>
         </div>
         <blockquote>A strong voice earns their respect.<br /><strong>A soft moment, on purpose, earns their closeness.</strong></blockquote>
-      `, { className: "w2-dynamic", nextLabel: "Use it in PREP" });
+      `, { className: "w2-dynamic", nextLabel: "Turn the dial" });
     } else if (step === 9) {
       page = shell(`
         <p class="w2-eyebrow">VERSION 1 · STRONG BASE + ONE SOFT MOMENT</p>
@@ -713,6 +713,9 @@
     chip.setAttribute("aria-pressed", String(current.has(label)));
   }
 
+  // Time to read a line out loud, with a breath before the next one.
+  const readTime = text => Math.max(2600, text.split(/\s+/).length * 480 + 1200);
+
   function setVolumeMode(mode) {
     clearLater();
     const data = dynamicModes[mode];
@@ -740,10 +743,15 @@
     meter.style.width = "0%";
     root.querySelector("[data-w2-ctag]").textContent = "Listening…";
     root.querySelector("[data-w2-cread]").textContent = "Read along out loud, at the volume shown.";
-    lines.forEach((el, index) => later(() => {
-      lines.forEach(other => other.classList.remove("lit"));
-      el.classList.add("lit", "said");
-    }, 250 + index * 1500));
+    let offset = 300;
+    lines.forEach((el, index) => {
+      later(() => {
+        lines.forEach(other => other.classList.remove("lit"));
+        el.classList.add("lit", "said");
+        el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }, offset);
+      offset += readTime(dynamicStory[index].t);
+    });
     later(() => {
       lines.forEach(other => other.classList.remove("lit"));
       meter.style.width = `${data.meter}%`;
@@ -751,7 +759,7 @@
       root.querySelector("[data-w2-cread]").textContent = data.read;
       if (tried.length === 3 && mode === "dynamic") portal.showToast("Contrast is king. That is dynamic volume.");
       else if (tried.length === 3) portal.showToast("All three heard. Notice which one kept you listening.");
-    }, 250 + lines.length * 1500);
+    }, offset);
   }
 
   function playStory(button) {
@@ -759,15 +767,19 @@
     const segs = [...root.querySelectorAll("[data-w2-seg]")];
     segs.forEach(el => el.classList.remove("lit"));
     button.disabled = true;
-    segs.forEach((el, index) => later(() => {
-      segs.forEach(other => other.classList.remove("lit"));
-      el.classList.add("lit");
-    }, 300 + index * 2200));
+    let offset = 300;
+    segs.forEach((el, index) => {
+      later(() => {
+        segs.forEach(other => other.classList.remove("lit"));
+        el.classList.add("lit");
+      }, offset);
+      offset += readTime(dialStory[index].t);
+    });
     later(() => {
       segs.forEach(other => other.classList.remove("lit"));
       button.disabled = false;
       button.textContent = "▶ Read it again";
-    }, 300 + segs.length * 2200);
+    }, offset);
   }
 
   root.addEventListener("click", event => {
