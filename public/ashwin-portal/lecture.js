@@ -497,7 +497,6 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
-      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Read all three versions out loud: all soft, all loud and dynamic."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
