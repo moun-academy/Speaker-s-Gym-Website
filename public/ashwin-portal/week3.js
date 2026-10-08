@@ -429,11 +429,9 @@
   function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    const sortedAll = sortItems.every(item => (state.sortAnswers || {})[item.id]);
     const mapComplete = ["point", "reason", "example", "finalPoint"].every(id => currentPaceMap()[id]);
     const requirements = {
       1: [state.demoMode, "Press at least one pace to hear the sentence change."],
-      7: [sortedAll ? "ok" : "", "Choose a gear for every line before continuing."],
       9: [mapComplete ? "ok" : "", "Choose Fast or Slow for every box before practicing your map."],
       13: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
