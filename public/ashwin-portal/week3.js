@@ -293,6 +293,7 @@
         <p class="w3-eyebrow">LECTURE 3 COMPLETE</p>
         <h1>Your map is ready.<br /><em>Your mission is active.</em></h1>
         <article class="w3-mission-mini active"><small>YOUR WEEK 3 MISSION</small><p>${esc(state.mission)}</p><strong>Win by changing pace on purpose at least once.</strong></article>
+        <a class="w3-skool-link" href="https://www.skool.com/moun-academy-2097/classroom/bca062c9?md=b5fac6e852074f38978375cae4883392" target="_blank" rel="noopener noreferrer"><span class="w3-skool-icon" aria-hidden="true">▶</span><span><small>MOUN ACADEMY · CLASSROOM</small><strong>Watch the Lecture 3 video</strong><em>Go over pace again any time, in your Moun Academy classroom.</em></span><b aria-hidden="true">↗</b></a>
         <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take three gears into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>Nervous and imperfect are allowed.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time you slow down on purpose.</strong></blockquote>
       `, { footer: '<button class="w3-next" type="button" data-w3-action="close">Return to my portal</button>' });

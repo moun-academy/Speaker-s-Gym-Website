@@ -569,3 +569,12 @@ button.w3-map-segment:hover { transform: translateY(-2px); box-shadow: 0 12px 28
 .week3-page .rocky .w3-rocky-legend span.fast { border-color: #5fd47a; background: #5fd47a; color: #10261a; }
 .week3-page .rocky .w3-rocky-legend span.slow { border-color: #ffd23f; background: #ffd23f; color: #2d2406; }
 .week3-page .rocky .w3-rocky-legend span.pause { border-color: #ff7a6b; background: #ff7a6b; color: #2e0c08; }
+/* link to the Moun Academy classroom on the final slide */
+.w3-skool-link { width: min(680px,100%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin: 14px auto 0; padding: 16px 20px; border: 1px solid rgba(190,161,78,.6); border-radius: 14px; background: #fbf5e1; color: var(--ink); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.w3-skool-link:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.w3-skool-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; background: var(--forest); color: var(--yellow); font-size: 16px; padding-left: 3px; }
+.w3-skool-link > span:nth-child(2) { display: grid; gap: 3px; }
+.w3-skool-link small { color: #806727; font: 800 12px var(--detail, Inter, sans-serif); letter-spacing: .12em; }
+.w3-skool-link strong { font: 500 20px var(--display); }
+.w3-skool-link em { color: var(--muted); font-size: 15px; font-style: normal; }
+.w3-skool-link b { color: #806727; font-size: 22px; }
