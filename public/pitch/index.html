@@ -505,7 +505,7 @@
             <s>$149</s>
             <strong>$129</strong>
             <span class="alt-tag">THIS CALL&#39;S PRICE · ABOUT $21.50 A WEEK</span>
-            <a class="btn btn-ghost" id="joinGroup" href="#groupOffer">JOIN THE GROUP <span aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" id="joinGroup" href="https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05" target="_blank" rel="noopener">JOIN THE GROUP <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -660,6 +660,10 @@
       try { fbq('track', 'InitiateCheckout', { value: 169, currency: 'USD' }); } catch (e) {}
       try { gtag('event', 'begin_checkout', { value: 169, currency: 'USD' }); } catch (e) {}
     }));
+    document.getElementById('joinGroup').addEventListener('click', () => {
+      try { fbq('track', 'InitiateCheckout', { value: 129, currency: 'USD', content_name: 'Group coaching' }); } catch (e) {}
+      try { gtag('event', 'begin_checkout', { value: 129, currency: 'USD', items: [{ item_name: 'Group coaching' }] }); } catch (e) {}
+    });
   </script>
 </body>
 </html>
