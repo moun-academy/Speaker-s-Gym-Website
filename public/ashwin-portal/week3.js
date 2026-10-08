@@ -7,7 +7,7 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Hear the Difference", start: 1, end: 1 },
+    { title: "Hear the Difference", start: 1, end: 2 },
     { title: "Fast, Slow, Stop", start: 6, end: 7 },
     { title: "Practice With a Pace Map", start: 9, end: 10 },
     { title: "Keep Moving Forward", start: 11, end: 11 },
@@ -56,8 +56,9 @@
   };
 
   // Keep saved step IDs stable while removing retired screens from navigation.
-  const stepOrder = [0, 1, 6, 7, 9, 10, 11, 13, 14, 15, 16, 17];
-  const lectureStepCount = 9;
+  // Step 2 (how pace works) is a newer slide shown before Step 1, so the list order is the real order.
+  const stepOrder = [0, 2, 1, 6, 7, 9, 10, 11, 13, 14, 15, 16, 17];
+  const lectureStepCount = 10;
   let previousFocus = null;
   let timers = [];
 
@@ -75,6 +76,12 @@
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function every(fn, ms) { const id = setInterval(fn, ms); timers.push(id); return id; }
   function clearTimers() { timers.forEach(id => { clearTimeout(id); clearInterval(id); }); timers = []; }
+
+  // Little speech strips: close ticks are fast words, wide gaps are slow words.
+  function paceTicks(kind) {
+    const gaps = kind === "fast" ? Array(22).fill(4) : kind === "slow" ? Array(8).fill(26) : [4, 4, 4, 4, 4, 4, 22, 22, 22, 4, 4, 4, 4, 4, 22, 22];
+    return gaps.map(gap => `<i style="margin-right:${gap}px"></i>`).join("");
+  }
 
   function practiceMaterial() {
     return {
@@ -145,7 +152,7 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    const step = stepOrder.includes(savedStep) ? savedStep : stepOrder.find(item => item >= savedStep) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const material = practiceMaterial();
     const level = getLevel();
@@ -159,7 +166,33 @@
         <h1 id="week3PageTitle">You already have the words.<br /><em>Pace decides which ones land.</em></h1>
         <div class="w3-hero-line" aria-hidden="true">${wordSpans("Fast for the setup. Slow for the point. Pause.", "data-w3-hero")}</div>
         <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
-      `, { className: "opening", nextLabel: "Start with why" });
+      `, { className: "opening", nextLabel: "See how pace works" });
+    } else if (step === 2) {
+      page = shell(`
+        <p class="w3-eyebrow">HOW PACE WORKS</p>
+        <h1>Fast lifts the energy.<br /><em>Slow lets it sink in.</em></h1>
+        <div class="w3-how">
+          <article class="fast" data-w3-animate style="--i:0">
+            <header><small>SPEAK FAST</small><i class="w3-ribbon run" aria-hidden="true"><em></em><em></em><em></em><em></em><em></em><em></em><em></em><em></em></i></header>
+            <h2>To add energy</h2>
+            <ul><li>Enthusiasm and excitement</li><li>The parts that matter less: background, details they already know</li></ul>
+          </article>
+          <article class="slow" data-w3-animate style="--i:1">
+            <header><small>SPEAK SLOW</small><i class="w3-ribbon hold" aria-hidden="true"><em></em><em></em><em></em><em></em><em></em><em></em><em></em><em></em></i></header>
+            <h2>To give it weight</h2>
+            <ul><li>What is important</li><li>Anything people need time to take in: an idea, a number, a decision</li></ul>
+          </article>
+        </div>
+        <div class="w3-pace-compare">${[
+          ["fast", "Fast all the time", "Tiring and hard to follow. Less engaging."],
+          ["slow", "Slow all the time", "It soon becomes boring. Attention drifts."],
+          ["mix", "Fast + slow", "Engaging. The change keeps them listening."]
+        ].map(([id, name, read], index) => `<article class="${id}" data-w3-animate style="--i:${index + 2}">
+            <span class="w3-ticks ${id}" aria-hidden="true">${paceTicks(id)}</span>
+            <strong>${name}</strong><p>${read}</p>
+          </article>`).join("")}</div>
+        <p class="w3-coach-note">It is not your speed that keeps people listening. <b>It is the change in speed.</b></p>
+      `, { className: "w3-how-screen", nextLabel: "Hear the difference" });
     } else if (step === 1) {
       const mode = demoModes[state.demoMode] || null;
       page = shell(`
