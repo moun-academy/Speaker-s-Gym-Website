@@ -450,6 +450,7 @@
         <p class="w2-eyebrow">LECTURE 2 COMPLETE</p>
         <h1>Your voice is ready.<br /><em>Your mission is active.</em></h1>
         <article class="w2-mission-mini active"><small>YOUR WEEK 2 MISSION</small><p>${esc(state.mission)}</p><strong>Win by answering out loud, standing up, in a stronger voice.</strong></article>
+        <a class="w3-skool-link" href="https://www.skool.com/moun-academy-2097/classroom/bca062c9?md=96077327f0754f88aa93e0971283e2ae" target="_blank" rel="noopener noreferrer"><span class="w3-skool-icon" aria-hidden="true">▶</span><span><small>MOUN ACADEMY · CLASSROOM</small><strong>Watch the Lecture 2 video</strong><em>Go over volume again any time, in your Moun Academy classroom.</em></span><b aria-hidden="true">↗</b></a>
         <div class="w2-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Take a stronger voice into your week.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>Nervous and imperfect are allowed.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use “Report mission” in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins when your voice enters the room.</strong></blockquote>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="close">Return to my portal</button>' });
