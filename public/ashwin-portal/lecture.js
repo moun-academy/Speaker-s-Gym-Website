@@ -347,9 +347,14 @@
         <article class="w2-contrast ${mode}" data-w2-contrast>
           <small>SAME STORY · THREE WAYS · TAP EACH ONE</small>
           <div class="w2-contrast-modes" role="group" aria-label="Choose how to tell the story">${Object.keys(dynamicModes).map(key => `<button type="button" class="${key} ${mode === key ? "selected" : ""} ${tried.has(key) ? "tried" : ""}" data-w2-volmode="${key}" aria-pressed="${mode === key}">${esc(dynamicModes[key].name)}</button>`).join("")}</div>
-          <div class="w2-contrast-lines">${dynamicStory.map((line, index) => { const lvl = mode ? dynamicLevel(mode, line) : 6; return `<div class="w2-cline ${lvl >= 8 ? "loud" : lvl <= 4 ? "soft" : ""}" data-w2-cline="${index}" style="--lvl:${lvl}"><span class="w2-cbar"><i></i><b>${mode ? `${lvl}/10` : "–"}</b></span><p>${esc(line.t)}</p></div>`; }).join("")}</div>
-          <div class="w2-contrast-meter"><span>LISTENER</span><div><i data-w2-cmeter style="width:${modeData ? modeData.meter : 0}%"></i></div><strong data-w2-ctag>${modeData ? esc(modeData.tag) : "Waiting"}</strong></div>
-          <p class="w2-contrast-read" data-w2-cread aria-live="polite">${modeData ? esc(modeData.read) : "Tap a version. Then read the story out loud the same way."}</p>
+          <div class="w2-contrast-lines">${dynamicStory.map((line, index) => { const lvl = mode ? dynamicLevel(mode, line) : 6; return `<div class="w2-cline ${lvl >= 8 ? "loud" : lvl <= 4 ? "soft" : ""}" data-w2-cline="${index}" style="--lvl:${lvl}"><span class="w2-cbar"><i></i><em class="w2-clive"></em><b>${mode ? `${lvl}/10` : "–"}</b></span><p>${esc(line.t)}</p></div>`; }).join("")}</div>
+          <div class="w2-contrast-meter"><span>LISTENER</span><div><i data-w2-cmeter style="width:0%"></i></div><strong data-w2-ctag>Waiting</strong></div>
+          <p class="w2-contrast-read" data-w2-cread aria-live="polite">${mode ? "Now read it out loud. The highlight moves with you." : "Tap a version. Then read the story out loud the same way."}</p>
+          <div class="w2-contrast-go" data-w2-go>
+            ${micSupported() ? `<button type="button" class="w2-follow" data-w2-action="follow-mic" ${mode ? "" : "disabled"}>🎙 Read it, I’ll follow you</button>` : ""}
+            <button type="button" class="w2-follow-quiet" data-w2-action="follow-pace" ${mode ? "" : "disabled"}>${micSupported() ? "No mic? Play it at reading pace" : "▶ Play it at reading pace"}</button>
+          </div>
+          <p class="w2-mic-privacy">${micSupported() ? "The microphone only listens for when you speak and pause. Nothing is recorded or saved." : ""}</p>
         </article>
         <div class="w2-dyn-tips">
           <article><span>01</span><strong>Strong first</strong><p>Soft only works after a strong base. Without the contrast, it just sounds unsure.</p></article>
@@ -493,7 +498,7 @@
     const requirements = {
       3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
       22: [state.lowDone && state.loudDone ? "ok" : "", "Say the sentence quietly, then say it strongly."],
-      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Try all three versions out loud: all loud, all soft and dynamic."],
+      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Read all three versions out loud: all loud, all soft and dynamic."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
@@ -718,9 +723,8 @@
 
   function setVolumeMode(mode) {
     clearLater();
-    const data = dynamicModes[mode];
-    const tried = [...new Set([...(getState().volModesTried || []), mode])];
-    update({ volMode: mode, volModesTried: tried });
+    micStop();
+    update({ volMode: mode });
     const box = root.querySelector("[data-w2-contrast]");
     box.classList.remove("loud", "soft", "dynamic");
     box.classList.add(mode);
@@ -728,38 +732,132 @@
       const on = button.dataset.w2Volmode === mode;
       button.classList.toggle("selected", on);
       button.setAttribute("aria-pressed", String(on));
-      if (tried.includes(button.dataset.w2Volmode)) button.classList.add("tried");
     });
-    const lines = [...root.querySelectorAll("[data-w2-cline]")];
-    lines.forEach((el, index) => {
+    contrastLines().forEach((el, index) => {
       const lvl = dynamicLevel(mode, dynamicStory[index]);
       el.style.setProperty("--lvl", lvl);
       el.classList.toggle("loud", lvl >= 8);
       el.classList.toggle("soft", lvl <= 4);
       el.classList.remove("lit", "said");
       el.querySelector("b").textContent = `${lvl}/10`;
+      el.querySelector(".w2-clive").style.width = "0%";
     });
-    const meter = root.querySelector("[data-w2-cmeter]");
-    meter.style.width = "0%";
-    root.querySelector("[data-w2-ctag]").textContent = "Listening…";
+    root.querySelector("[data-w2-cmeter]").style.width = "0%";
+    root.querySelector("[data-w2-ctag]").textContent = "Waiting";
+    root.querySelector("[data-w2-cread]").textContent = "Now read it out loud. The highlight moves with you.";
+    resetFollowButtons(false);
+  }
+
+  const contrastLines = () => [...root.querySelectorAll("[data-w2-cline]")];
+
+  function resetFollowButtons(running) {
+    const micButton = root.querySelector('[data-w2-action="follow-mic"]');
+    const paceButton = root.querySelector('[data-w2-action="follow-pace"]');
+    const nextButton = root.querySelector('[data-w2-action="follow-next"]');
+    if (micButton) { micButton.disabled = running; micButton.textContent = running ? "Listening…" : "🎙 Read it, I’ll follow you"; }
+    if (paceButton) paceButton.disabled = running;
+    if (running && !nextButton) root.querySelector("[data-w2-go]").insertAdjacentHTML("beforeend", '<button type="button" class="w2-follow-quiet" data-w2-action="follow-next">Next line ›</button>');
+    if (!running) nextButton?.remove();
+  }
+
+  function lightLine(index) {
+    contrastLines().forEach((el, i) => {
+      el.classList.toggle("lit", i === index);
+      if (i === index) { el.classList.add("said"); el.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+    });
+  }
+
+  function finishVolumeRun(lineLevels) {
+    const mode = getState().volMode;
+    const data = dynamicModes[mode];
+    const tried = [...new Set([...(getState().volModesTried || []), mode])];
+    update({ volModesTried: tried });
+    root.querySelector(`[data-w2-volmode="${mode}"]`)?.classList.add("tried");
+    contrastLines().forEach(el => { el.classList.remove("lit"); el.querySelector(".w2-clive").style.width = "0%"; });
+    root.querySelector("[data-w2-cmeter]").style.width = `${data.meter}%`;
+    root.querySelector("[data-w2-ctag]").textContent = data.tag;
+    let extra = "";
+    if (mode === "dynamic" && lineLevels) {
+      const soft = [], strong = [];
+      dynamicStory.forEach((line, index) => { if (lineLevels[index] == null) return; (line.lvl <= 4 ? soft : strong).push(lineLevels[index]); });
+      if (soft.length && strong.length) {
+        extra = median(soft) < median(strong) - 4
+          ? " ✓ Your soft lines really were softer than the rest. That is contrast."
+          : " Your soft lines came out about as loud as the rest. Next time, bring them down further, on purpose.";
+      }
+    }
+    root.querySelector("[data-w2-cread]").textContent = data.read + extra;
+    resetFollowButtons(false);
+    if (tried.length === 3) portal.showToast(mode === "dynamic" ? "Contrast is king. That is dynamic volume." : "All three done. Notice which one kept you listening.");
+  }
+
+  function followAtPace() {
+    clearLater();
+    micStop();
+    resetFollowButtons(true);
+    root.querySelector('[data-w2-action="follow-next"]')?.remove();
     root.querySelector("[data-w2-cread]").textContent = "Read along out loud, at the volume shown.";
     let offset = 300;
-    lines.forEach((el, index) => {
-      later(() => {
-        lines.forEach(other => other.classList.remove("lit"));
-        el.classList.add("lit", "said");
-        el.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      }, offset);
-      offset += readTime(dynamicStory[index].t);
+    dynamicStory.forEach((line, index) => {
+      later(() => lightLine(index), offset);
+      offset += readTime(line.t);
     });
-    later(() => {
-      lines.forEach(other => other.classList.remove("lit"));
-      meter.style.width = `${data.meter}%`;
-      root.querySelector("[data-w2-ctag]").textContent = data.tag;
-      root.querySelector("[data-w2-cread]").textContent = data.read;
-      if (tried.length === 3 && mode === "dynamic") portal.showToast("Contrast is king. That is dynamic volume.");
-      else if (tried.length === 3) portal.showToast("All three heard. Notice which one kept you listening.");
-    }, offset);
+    later(() => finishVolumeRun(null), offset);
+  }
+
+  // Follows the reader: a line is done once enough speech was heard for its length, followed by a short pause.
+  const follow = { index: -1, voiced: 0, silent: 0, floor: null, noise: [], levels: [], lineLevels: [] };
+
+  function nextFollowLine() {
+    if (follow.index < 0) return;
+    follow.lineLevels[follow.index] = follow.levels.length ? median(follow.levels) : null;
+    contrastLines()[follow.index]?.querySelector(".w2-clive").style.setProperty("width", "0%");
+    Object.assign(follow, { index: follow.index + 1, voiced: 0, silent: 0, levels: [] });
+    if (follow.index >= dynamicStory.length) {
+      micStop();
+      clearLater();
+      follow.index = -1;
+      return finishVolumeRun(follow.lineLevels);
+    }
+    lightLine(follow.index);
+  }
+
+  async function followWithMic() {
+    clearLater();
+    micStop();
+    Object.assign(follow, { index: -1, voiced: 0, silent: 0, floor: null, noise: [], levels: [], lineLevels: [] });
+    const read = root.querySelector("[data-w2-cread]");
+    resetFollowButtons(true);
+    read.textContent = "One second of quiet, please…";
+    try {
+      await micStart(rms => {
+        const pct = levelPercent(rms);
+        if (follow.floor === null) {
+          follow.noise.push(pct);
+          if (follow.noise.length >= 10) {
+            follow.floor = median(follow.noise);
+            follow.index = 0;
+            lightLine(0);
+            read.textContent = "Start reading. I will follow you.";
+          }
+          return;
+        }
+        if (follow.index < 0) return;
+        const line = contrastLines()[follow.index];
+        line?.querySelector(".w2-clive").style.setProperty("width", `${Math.round(pct)}%`);
+        if (pct > follow.floor + 12) { follow.voiced += 1; follow.silent = 0; follow.levels.push(pct); }
+        else follow.silent += 1;
+        const words = dynamicStory[follow.index].t.split(/\s+/).length;
+        // About half a second of silence ends a line; a well-finished line needs a little less.
+        const pauseFrames = follow.voiced >= words * 6 ? 6 : 9;
+        if (follow.voiced >= Math.max(8, words * 4) && follow.silent >= pauseFrames) nextFollowLine();
+      });
+    } catch {
+      resetFollowButtons(false);
+      read.textContent = "The microphone is not available. Allow access, or use “Play it at reading pace”.";
+      return;
+    }
+    later(() => { if (mic.stream) { micStop(); follow.index = -1; finishVolumeRun(follow.lineLevels); } }, 120000);
   }
 
   function playStory(button) {
@@ -818,6 +916,9 @@
     if (action === "play-story") return playStory(event.target.closest("[data-w2-action]"));
     const volMode = event.target.closest("[data-w2-volmode]");
     if (volMode) return setVolumeMode(volMode.dataset.w2Volmode);
+    if (action === "follow-mic") return followWithMic();
+    if (action === "follow-pace") return followAtPace();
+    if (action === "follow-next") return nextFollowLine();
     const leak = event.target.closest("[data-w2-leak]");
     if (leak) return flipLeak(leak);
     const quality = event.target.closest("[data-w2-quality]");

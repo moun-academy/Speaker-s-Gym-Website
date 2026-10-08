@@ -667,3 +667,15 @@ body.lecture-open { overflow: hidden; }
 .w2-vol-cue.up { background: var(--gold); color: #1d1d1a; }
 .w2-prep-guide article:nth-child(3) { border-color: #9bb8a9; background: #f1f6f2; }
 .w2-dynamic .w2-shift { margin-bottom: 22px; }
+
+/* slide 9: read-along that follows the reader */
+.w2-clive { position: absolute; left: 0; bottom: -7px; height: 4px; width: 0; border-radius: 99px; background: #c8705d; transition: width .08s linear; }
+.w2-contrast-go { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 14px; }
+.w2-follow { padding: 13px 22px; border: 0; border-radius: 999px; background: var(--forest); color: var(--yellow); font: 800 14px var(--detail, sans-serif); cursor: pointer; transition: transform .2s ease, opacity .2s ease; }
+.w2-follow:hover:not(:disabled) { transform: translateY(-2px); }
+.w2-follow:disabled { opacity: .55; cursor: default; }
+.w2-follow-quiet { padding: 10px 6px; border: 0; background: transparent; color: var(--muted); font: 600 14px var(--detail, sans-serif); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.w2-follow-quiet:disabled { opacity: .4; cursor: default; }
+.w2-follow-quiet[data-w2-action="follow-next"] { padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); text-decoration: none; }
+.w2-mic-privacy { margin: 8px 0 0; color: var(--muted); font-size: 13px; text-align: center; }
+.w2-mic-privacy:empty { display: none; }
