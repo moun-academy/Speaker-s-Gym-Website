@@ -54,6 +54,8 @@
       lowLevel: null,
       loudLevel: null,
       leaksSeen: [],
+      volMode: "",
+      volModesTried: [],
       versionsCompleted: 0,
       coachImprovement: "",
       prediction: "",

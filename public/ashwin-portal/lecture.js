@@ -77,6 +77,21 @@
     { t: "And I will never forget how that felt.", lvl: 4, label: "Down" }
   ];
 
+  // Slide 9: the same short story told all loud, all soft, and with dynamic volume.
+  const dynamicStory = [
+    { t: "Last year, my sister asked me to give the speech at her wedding.", lvl: 7 },
+    { t: "Two hundred people. One microphone. And me.", lvl: 7 },
+    { t: "Just before I stood up, I leaned over and whispered to her…", lvl: 4 },
+    { t: "“I’m terrified.”", lvl: 3 },
+    { t: "Then I stood up, and gave the best speech of my life!", lvl: 9 }
+  ];
+  const dynamicModes = {
+    loud: { name: "All loud", tag: "Overwhelmed", meter: 30, read: "It sounds like shouting. When everything is loud, nothing stands out, and people get tired." },
+    soft: { name: "All soft", tag: "Drifting away", meter: 18, read: "It sounds unsure. People have to work to hear you, and soon they stop trying." },
+    dynamic: { name: "Dynamic", tag: "Leaning in", meter: 96, read: "Strong when you are sure. Soft on the secret. Loud on the win. They lean in, then sit up." }
+  };
+  const dynamicLevel = (mode, line) => mode === "loud" ? 9 : mode === "soft" ? 3 : line.lvl;
+
   const voicePatterns = [
     { id: "quiet", label: "I become too quiet", note: "The listener has to work to hear me." },
     { id: "fade", label: "My endings disappear", note: "I begin clearly, then lose the final words." },
@@ -317,20 +332,41 @@
         <p class="w2-coach-note">This week, just notice it. Your mission is one stronger voice. Variety comes after a strong base.</p>
       `, { className: "w2-dial", nextLabel: "Name the prediction" });
     } else if (step === 5) {
+      const mode = state.volMode || "";
+      const tried = new Set(state.volModesTried || []);
+      const modeData = dynamicModes[mode];
       page = shell(`
-        <p class="w2-eyebrow">VOICE PRACTICE · TWO ATTEMPTS</p>
-        <h1>Make every word arrive.</h1>
-        <article class="w2-calibration-sentence">
-          <small>READ ALOUD</small>
-          <p>A short walk is a habit that improves <strong>my day.</strong></p>
-          <div class="w2-arrival"><article><span>YOU</span><i class="source"></i></article><div><i></i><i></i><i></i><strong>ACROSS THE CALL</strong></div><article><i class="listener"></i><span>LISTENER</span></article></div>
+        <p class="w2-eyebrow">THE NEXT LEVEL · DYNAMIC VOLUME</p>
+        <div class="w2-shift" aria-label="So far, louder was better. Now, your volume learns to move.">
+          <article class="before"><small>SO FAR</small><p>Louder is better. You built a strong 7/10 base.</p><span class="w2-shift-bar flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+          <i class="w2-shift-arrow" aria-hidden="true">→</i>
+          <article class="after"><small>NOW</small><p>A strong base gives you room to move: up and down, on purpose.</p><span class="w2-shift-bar moving" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+        </div>
+        <h1>Contrast is king.<br /><em>Let your volume move.</em></h1>
+        <p class="w2-lede">Loud volume shows confidence. Soft volume, used on purpose, creates closeness and makes people lean in. The magic is in the change.</p>
+        <article class="w2-contrast ${mode}" data-w2-contrast>
+          <small>SAME STORY · THREE WAYS · TAP EACH ONE</small>
+          <div class="w2-contrast-modes" role="group" aria-label="Choose how to tell the story">${Object.keys(dynamicModes).map(key => `<button type="button" class="${key} ${mode === key ? "selected" : ""} ${tried.has(key) ? "tried" : ""}" data-w2-volmode="${key}" aria-pressed="${mode === key}">${esc(dynamicModes[key].name)}</button>`).join("")}</div>
+          <div class="w2-contrast-lines">${dynamicStory.map((line, index) => { const lvl = mode ? dynamicLevel(mode, line) : 6; return `<div class="w2-cline ${lvl >= 8 ? "loud" : lvl <= 4 ? "soft" : ""}" data-w2-cline="${index}" style="--lvl:${lvl}"><span class="w2-cbar"><i></i><b>${mode ? `${lvl}/10` : "–"}</b></span><p>${esc(line.t)}</p></div>`; }).join("")}</div>
+          <div class="w2-contrast-meter"><span>LISTENER</span><div><i data-w2-cmeter style="width:${modeData ? modeData.meter : 0}%"></i></div><strong data-w2-ctag>${modeData ? esc(modeData.tag) : "Waiting"}</strong></div>
+          <p class="w2-contrast-read" data-w2-cread aria-live="polite">${modeData ? esc(modeData.read) : "Tap a version. Then read the story out loud the same way."}</p>
         </article>
-        <ol class="w2-attempts" aria-label="Exercise instructions">
-          <li><span aria-hidden="true">01</span><div><h2>Say it naturally.</h2><p>Read the sentence at your usual speaking volume.</p></div></li>
-          <li><span aria-hidden="true">02</span><div><h2>Say it again.</h2><p>Send it to your listener. Keep “clear your mind” audible.</p></div></li>
-        </ol>
-        <p class="w2-calibration-note">Keep your microphone position steady. Speak comfortably.</p>
-      `, { className: "w2-calibration", nextLabel: "Speak with PREP" });
+        <div class="w2-loud-soft">
+          <article class="loud"><small>LOUD · CONFIDENCE</small><h2>Turn it up for</h2><ul><li>Your main point</li><li>Good news and big moments</li><li>A call to action</li><li>Your first words, to reach the whole room</li></ul></article>
+          <article class="soft"><small>SOFT ON PURPOSE · CLOSENESS</small><h2>Bring it down for</h2><ul><li>A personal moment or a secret</li><li>The line just before your big point</li><li>A serious or emotional moment</li><li>Pulling a drifting room back in</li></ul></article>
+        </div>
+        <div class="w2-habit-choice">
+          <article class="habit"><small>SOFT BY HABIT</small><ul><li>Happens because you feel nervous</li><li>The whole answer shrinks</li><li>Words fade and get lost</li></ul><strong>Sounds like low confidence.</strong></article>
+          <i aria-hidden="true">vs</i>
+          <article class="choice"><small>SOFT BY CHOICE</small><ul><li>Happens because you planned it</li><li>Only one or two sentences</li><li>Every word stays clear, then you come back up</li></ul><strong>Sounds like a secret worth hearing.</strong></article>
+        </div>
+        <div class="w2-dyn-tips">
+          <article><span>01</span><strong>Rise, pause, then go soft</strong><p>Build up on a key point, pause, then say the next line softer. The contrast makes them listen.</p></article>
+          <article><span>02</span><strong>Soft, not mumbled</strong><p>Slow down a little and say every word clearly. The back of the room must still hear you.</p></article>
+          <article><span>03</span><strong>Plan it</strong><p>Before you speak, mark one loud moment and one soft moment in your notes.</p></article>
+        </div>
+        <blockquote>Your strong voice is the base.<br /><strong>Variety, chosen on purpose, is what keeps them listening.</strong></blockquote>
+      `, { className: "w2-dynamic", nextLabel: "Speak with PREP" });
     } else if (step === 9) {
       page = shell(`
         <p class="w2-eyebrow">VERSION 1 · STRONG VOICE DRILL</p>
@@ -465,6 +501,8 @@
     const step = Number(state.currentStep || 0);
     const requirements = {
       3: [(state.leaksSeen || []).length >= leaks.length ? "ok" : "", "Flip all three cards before continuing."],
+      22: [state.lowDone && state.loudDone ? "ok" : "", "Say the sentence quietly, then say it strongly."],
+      5: [(state.volModesTried || []).length >= 3 ? "ok" : "", "Try all three versions out loud: all loud, all soft and dynamic."],
       10: [state.coachImprovement, "Choose one voice adjustment for Version 2."],
       13: [state.prediction, "Name what you fear might happen if you make yourself heard."],
       15: [state.mission || defaultMission(getLevel()), "Choose one small mission."]
@@ -684,6 +722,47 @@
     chip.setAttribute("aria-pressed", String(current.has(label)));
   }
 
+  function setVolumeMode(mode) {
+    clearLater();
+    const data = dynamicModes[mode];
+    const tried = [...new Set([...(getState().volModesTried || []), mode])];
+    update({ volMode: mode, volModesTried: tried });
+    const box = root.querySelector("[data-w2-contrast]");
+    box.classList.remove("loud", "soft", "dynamic");
+    box.classList.add(mode);
+    root.querySelectorAll("[data-w2-volmode]").forEach(button => {
+      const on = button.dataset.w2Volmode === mode;
+      button.classList.toggle("selected", on);
+      button.setAttribute("aria-pressed", String(on));
+      if (tried.includes(button.dataset.w2Volmode)) button.classList.add("tried");
+    });
+    const lines = [...root.querySelectorAll("[data-w2-cline]")];
+    lines.forEach((el, index) => {
+      const lvl = dynamicLevel(mode, dynamicStory[index]);
+      el.style.setProperty("--lvl", lvl);
+      el.classList.toggle("loud", lvl >= 8);
+      el.classList.toggle("soft", lvl <= 4);
+      el.classList.remove("lit", "said");
+      el.querySelector("b").textContent = `${lvl}/10`;
+    });
+    const meter = root.querySelector("[data-w2-cmeter]");
+    meter.style.width = "0%";
+    root.querySelector("[data-w2-ctag]").textContent = "Listening…";
+    root.querySelector("[data-w2-cread]").textContent = "Read along out loud, at the volume shown.";
+    lines.forEach((el, index) => later(() => {
+      lines.forEach(other => other.classList.remove("lit"));
+      el.classList.add("lit", "said");
+    }, 250 + index * 1500));
+    later(() => {
+      lines.forEach(other => other.classList.remove("lit"));
+      meter.style.width = `${data.meter}%`;
+      root.querySelector("[data-w2-ctag]").textContent = data.tag;
+      root.querySelector("[data-w2-cread]").textContent = data.read;
+      if (tried.length === 3 && mode === "dynamic") portal.showToast("Contrast is king. That is dynamic volume.");
+      else if (tried.length === 3) portal.showToast("All three heard. Notice which one kept you listening.");
+    }, 250 + lines.length * 1500);
+  }
+
   function playStory(button) {
     clearLater();
     const segs = [...root.querySelectorAll("[data-w2-seg]")];
@@ -734,6 +813,8 @@
     if (action === "record-low") return recordAttempt(event.target.closest("[data-w2-action]"), "low");
     if (action === "record-loud") return recordAttempt(event.target.closest("[data-w2-action]"), "loud");
     if (action === "play-story") return playStory(event.target.closest("[data-w2-action]"));
+    const volMode = event.target.closest("[data-w2-volmode]");
+    if (volMode) return setVolumeMode(volMode.dataset.w2Volmode);
     const leak = event.target.closest("[data-w2-leak]");
     if (leak) return flipLeak(leak);
     const quality = event.target.closest("[data-w2-quality]");
