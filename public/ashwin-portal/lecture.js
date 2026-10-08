@@ -8,9 +8,9 @@
 
   const chapters = [
     { title: "Understand what your voice signals", steps: [21, 22, 6] },
-    { title: "Build a strong, steady voice", steps: [7, 3, 4, 5] },
+    { title: "Build a strong voice, then make it move", steps: [7, 3, 4, 24, 5] },
     { title: "One answer. One adjustment.", steps: [9, 10, 11] },
-    { title: "Use it, then test it", steps: [12, 24, 13, 14] },
+    { title: "Use it, then test it", steps: [12, 13, 14] },
     { title: "Choose one audible moment", steps: [15, 16, 17] }
   ];
 
@@ -100,7 +100,7 @@
 
   // Keep stored step IDs stable while placing two new teaching screens after Slide 2.
   // Steps 21, 22 and 24 are newer slides placed earlier in the lecture, so the list order is the real order.
-  const lectureFlow = [0, 1, 21, 22, 6, 7, 3, 4, 5, 9, 10, 11, 12, 24, 13, 14, 15, 16, 17];
+  const lectureFlow = [0, 1, 21, 22, 6, 7, 3, 4, 24, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17];
   // Retired slides resume at the slide that replaced them (8: merged practice, 2: pressure slide).
   const retiredSteps = { 8: 5, 2: 3 };
   const followUpSteps = [18, 19, 20];
@@ -147,15 +147,15 @@
 
   function prepGuide(material) {
     const items = [
-      ["P", "POINT", material.keywords.point],
-      ["R", "REASON", material.keywords.reason],
-      ["E", "EXAMPLE", material.keywords.example],
-      ["P", "FINAL POINT", material.keywords.finalPoint]
+      ["P", "POINT", material.keywords.point, "strong", "Strong · 7/10"],
+      ["R", "REASON", material.keywords.reason, "strong", "Strong · 7/10"],
+      ["E", "EXAMPLE", material.keywords.example, "soft", "Soft on purpose · 4/10"],
+      ["P", "FINAL POINT", material.keywords.finalPoint, "up", "Back up · 8/10"]
     ];
-    return `<div class="w2-prep-guide" aria-label="PREP speaking guide">${items.map((item, index) => `<article style="--cue-order:${index}"><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong></div><em>${index === 3 ? "Land the ending" : "Pause · breathe if needed"}</em></article>`).join("")}</div>
+    return `<div class="w2-prep-guide" aria-label="PREP speaking guide">${items.map((item, index) => `<article style="--cue-order:${index}"><span>${item[0]}</span><div><small>${item[1]}</small><strong>${esc(item[2])}</strong><b class="w2-vol-cue ${item[3]}">${item[4]}</b></div><em>${index === 3 ? "Land the ending" : "Pause · breathe if needed"}</em></article>`).join("")}</div>
       <details class="w2-prep-example"><summary>See the complete PREP example</summary>
         <p class="w2-example-note">Practice example: a habit that improves your day · Read once. Close it. Speak from keywords.</p>
-        <div>${items.map((item, index) => `<article><small>${item[1]}</small>${endingSentence(material.sentences[index])}<span class="w2-pause-cue">${index === 3 ? "● Finish. Let it land." : "Ⅱ Pause. Breathe if needed."}</span></article>`).join("")}</div>
+        <div>${items.map((item, index) => `<article><small>${item[1]} · <b class="w2-vol-cue ${item[3]}">${item[4]}</b></small>${endingSentence(material.sentences[index])}<span class="w2-pause-cue">${index === 3 ? "● Finish. Let it land." : "Ⅱ Pause. Breathe if needed."}</span></article>`).join("")}</div>
       </details>`;
   }
 
@@ -320,7 +320,12 @@
       `, { className: "w2-lowvolume" });
     } else if (step === 24) {
       page = shell(`
-        <p class="w2-eyebrow">VOLUME VARIETY</p>
+        <p class="w2-eyebrow">THE NEXT LEVEL · VOLUME VARIETY</p>
+        <div class="w2-shift" aria-label="So far, louder was better. Now, your volume learns to move.">
+          <article class="before"><small>SO FAR</small><p>Louder is better. You built a strong 7/10 base.</p><span class="w2-shift-bar flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+          <i class="w2-shift-arrow" aria-hidden="true">→</i>
+          <article class="after"><small>NOW</small><p>A strong base gives you room to move: up and down, on purpose.</p><span class="w2-shift-bar moving" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
+        </div>
         <h1>Volume is a dial,<br /><em>not a switch.</em></h1>
         <div class="w2-dial-cards">
           <article class="up"><small>TURN IT UP</small><ul><li>To show energy and excitement</li><li>To mark the point that matters</li><li>To reach the whole room</li></ul></article>
@@ -329,21 +334,16 @@
         <div class="w2-dial-story" aria-label="A short story with steady, louder and softer moments">${dialStory.map((seg, index) => `<div class="w2-seg ${seg.label.toLowerCase()}" data-w2-seg="${index}" style="--lvl:${seg.lvl}"><i></i><p>${esc(seg.t)}</p><b>${seg.lvl}/10 · ${seg.label}</b></div>`).join("")}</div>
         <button type="button" class="w2-play" data-w2-action="play-story">▶ Read it aloud with the pattern</button>
         <blockquote>Soft is a choice. Hidden is a habit.<br /><strong>Even your quiet voice must reach the listener.</strong></blockquote>
-        <p class="w2-coach-note">This week, just notice it. Your mission is one stronger voice. Variety comes after a strong base.</p>
-      `, { className: "w2-dial", nextLabel: "Name the prediction" });
+        <p class="w2-coach-note">Turning it up shows confidence. Next: why turning it down, on purpose, builds connection.</p>
+      `, { className: "w2-dial", nextLabel: "Why go soft on purpose" });
     } else if (step === 5) {
       const mode = state.volMode || "";
       const tried = new Set(state.volModesTried || []);
       const modeData = dynamicModes[mode];
       page = shell(`
-        <p class="w2-eyebrow">THE NEXT LEVEL · DYNAMIC VOLUME</p>
-        <div class="w2-shift" aria-label="So far, louder was better. Now, your volume learns to move.">
-          <article class="before"><small>SO FAR</small><p>Louder is better. You built a strong 7/10 base.</p><span class="w2-shift-bar flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
-          <i class="w2-shift-arrow" aria-hidden="true">→</i>
-          <article class="after"><small>NOW</small><p>A strong base gives you room to move: up and down, on purpose.</p><span class="w2-shift-bar moving" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></article>
-        </div>
-        <h1>Contrast is king.<br /><em>Let your volume move.</em></h1>
-        <p class="w2-lede">Loud volume shows confidence. Soft volume, used on purpose, creates closeness and makes people lean in. The magic is in the change.</p>
+        <p class="w2-eyebrow">SOFT ON PURPOSE · CONNECTION</p>
+        <h1>Contrast is king.<br /><em>Go soft on purpose.</em></h1>
+        <p class="w2-lede">A strong voice shows confidence. Lowering it, on purpose, creates intimacy and connection: people lean in. You need both.</p>
         <article class="w2-contrast ${mode}" data-w2-contrast>
           <small>SAME STORY · THREE WAYS · TAP EACH ONE</small>
           <div class="w2-contrast-modes" role="group" aria-label="Choose how to tell the story">${Object.keys(dynamicModes).map(key => `<button type="button" class="${key} ${mode === key ? "selected" : ""} ${tried.has(key) ? "tried" : ""}" data-w2-volmode="${key}" aria-pressed="${mode === key}">${esc(dynamicModes[key].name)}</button>`).join("")}</div>
@@ -351,35 +351,26 @@
           <div class="w2-contrast-meter"><span>LISTENER</span><div><i data-w2-cmeter style="width:${modeData ? modeData.meter : 0}%"></i></div><strong data-w2-ctag>${modeData ? esc(modeData.tag) : "Waiting"}</strong></div>
           <p class="w2-contrast-read" data-w2-cread aria-live="polite">${modeData ? esc(modeData.read) : "Tap a version. Then read the story out loud the same way."}</p>
         </article>
-        <div class="w2-loud-soft">
-          <article class="loud"><small>LOUD · CONFIDENCE</small><h2>Turn it up for</h2><ul><li>Your main point</li><li>Good news and big moments</li><li>A call to action</li><li>Your first words, to reach the whole room</li></ul></article>
-          <article class="soft"><small>SOFT ON PURPOSE · CLOSENESS</small><h2>Bring it down for</h2><ul><li>A personal moment or a secret</li><li>The line just before your big point</li><li>A serious or emotional moment</li><li>Pulling a drifting room back in</li></ul></article>
-        </div>
-        <div class="w2-habit-choice">
-          <article class="habit"><small>SOFT BY HABIT</small><ul><li>Happens because you feel nervous</li><li>The whole answer shrinks</li><li>Words fade and get lost</li></ul><strong>Sounds like low confidence.</strong></article>
-          <i aria-hidden="true">vs</i>
-          <article class="choice"><small>SOFT BY CHOICE</small><ul><li>Happens because you planned it</li><li>Only one or two sentences</li><li>Every word stays clear, then you come back up</li></ul><strong>Sounds like a secret worth hearing.</strong></article>
-        </div>
         <div class="w2-dyn-tips">
-          <article><span>01</span><strong>Rise, pause, then go soft</strong><p>Build up on a key point, pause, then say the next line softer. The contrast makes them listen.</p></article>
-          <article><span>02</span><strong>Soft, not mumbled</strong><p>Slow down a little and say every word clearly. The back of the room must still hear you.</p></article>
-          <article><span>03</span><strong>Plan it</strong><p>Before you speak, mark one loud moment and one soft moment in your notes.</p></article>
+          <article><span>01</span><strong>Strong first</strong><p>Soft only works after a strong base. Without the contrast, it just sounds unsure.</p></article>
+          <article><span>02</span><strong>One or two sentences</strong><p>Lower it for a personal moment, or the line just before your point. Then come back up.</p></article>
+          <article><span>03</span><strong>Soft, not mumbled</strong><p>Slow down a little and say every word clearly. The back of the room must still hear you.</p></article>
         </div>
-        <blockquote>Your strong voice is the base.<br /><strong>Variety, chosen on purpose, is what keeps them listening.</strong></blockquote>
-      `, { className: "w2-dynamic", nextLabel: "Speak with PREP" });
+        <blockquote>A strong voice earns their respect.<br /><strong>A soft moment, on purpose, earns their closeness.</strong></blockquote>
+      `, { className: "w2-dynamic", nextLabel: "Use it in PREP" });
     } else if (step === 9) {
       page = shell(`
-        <p class="w2-eyebrow">VERSION 1 · STRONG VOICE DRILL</p>
+        <p class="w2-eyebrow">VERSION 1 · STRONG BASE + ONE SOFT MOMENT</p>
         ${topicChip(material)}
-        <h1>PREP gives you the words.<br /><em>A strong voice delivers them.</em></h1>
+        <h1>PREP gives you the words.<br /><em>Your volume gives them life.</em></h1>
         <div class="w2-projection-brief">
           <article><span>01</span><p>Use the four PREP keywords to build an answer of up to 90 seconds. Do not read a script.</p></article>
-          <article><span>02</span><p>Deliver every PREP section at your ideal 7/10 volume, as if speaking to someone across the room.</p></article>
-          <article><span>03</span><p>Keep the final three words of each section fully audible. Do not rush, fade or shout.</p></article>
+          <article><span>02</span><p>Point and reason: strong and steady at 7/10, as if speaking to someone across the room.</p></article>
+          <article><span>03</span><p>Example: go soft on purpose for one sentence. Then come back up strong for your final point.</p></article>
         </div>
         ${prepGuide(material)}
         <div class="w2-timer"><strong data-w2-timer-display>90</strong><span>seconds</span><button type="button" data-w2-action="timer" data-w2-timer-seconds="90">Start timer</button></div>
-        <p class="w2-coach-note">Listener test: could someone across the room hear every word without strain? PREP is the content. Supported volume is the skill.</p>
+        <p class="w2-coach-note">Listener test: could they hear every word, and did your soft moment make them lean in? PREP is the content. Volume variety is the skill.</p>
       `, { footer: '<button class="w2-next" type="button" data-w2-action="complete-v1">Version 1 complete</button>' });
     } else if (step === 10) {
       page = shell(`
@@ -390,7 +381,7 @@
           <label><span>ONE VOICE ADJUSTMENT</span><input data-w2-improvement value="${esc(state.coachImprovement)}" placeholder="For example: keep the final words audible" /></label><i>↓</i>
           <article><span>VERSION 2</span><strong>Same answer, stronger delivery</strong></article>
         </div>
-        <div class="w2-improvement-options"><button type="button" data-w2-improvement-option="Begin one level stronger">Begin one level stronger</button><button type="button" data-w2-improvement-option="Send the sentence to the listener">Send it to the listener</button><button type="button" data-w2-improvement-option="Keep the final words audible">Keep the ending audible</button></div>
+        <div class="w2-improvement-options"><button type="button" data-w2-improvement-option="Begin one level stronger">Begin one level stronger</button><button type="button" data-w2-improvement-option="Send the sentence to the listener">Send it to the listener</button><button type="button" data-w2-improvement-option="Keep the final words audible">Keep the ending audible</button><button type="button" data-w2-improvement-option="Make my soft moment clearer and more deliberate">Make my soft moment deliberate</button></div>
       `, { nextLabel: "Speak Version 2" });
     } else if (step === 11) {
       page = shell(`
