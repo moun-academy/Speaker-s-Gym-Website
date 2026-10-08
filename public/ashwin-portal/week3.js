@@ -263,20 +263,19 @@
         <h1>Keep moving<br /><em>forward.</em></h1>
         <p class="w3-rocky-credit">Rocky Balboa · Pace practice</p></div>
         <div class="w3-rocky-legend" aria-label="Reading cues"><span class="fast">GREEN · FAST</span><span class="slow">YELLOW · SLOW</span><span class="pause">RED · PAUSE</span></div>
-        <p class="w3-rocky-instruction">Build momentum in green. Give each word space in yellow. Stop for two seconds at every red PAUSE.</p>
+        <p class="w3-rocky-instruction">The speed changes inside the sentence. Move quickly through the green words. Slow down and give each yellow word space. Stop for two seconds at every red PAUSE.</p>
         <div class="w3-rocky-script" aria-label="Rocky Balboa reading passage">
-          <p class="fast"><small>FAST</small>Let me tell you something you already know.</p>
-          <p class="slow"><small>SLOW</small>The world ain't all sunshine and rainbows.</p>
+          <p><span class="fast">Let me tell you something you already know.</span> <span class="slow">The world ain't all sunshine and rainbows.</span></p>
           <div class="pause">PAUSE <small>2 seconds</small></div>
-          <p class="fast"><small>FAST</small>It's a very mean and nasty place and I don't care how tough you are it will beat you to your knees and keep you there permanently if you let it.</p>
-          <p class="slow"><small>SLOW</small>You, me, or nobody is gonna hit as hard as life.</p>
+          <p><span class="fast">It's a very mean and nasty place, and I don't care how tough you are,</span> <span class="slow">it will beat you to your knees</span> <span class="fast">and keep you there permanently if you let it.</span></p>
+          <p><span class="fast">You, me, or nobody</span> <span class="slow">is gonna hit as hard as life.</span></p>
           <div class="pause">PAUSE <small>2 seconds</small></div>
-          <p class="slow"><small>SLOW</small>But it ain't about how hard you hit.</p>
+          <p><span class="slow">But it ain't about how hard you hit.</span></p>
           <div class="pause">PAUSE <small>2 seconds</small></div>
-          <p class="fast"><small>FAST</small>It's about how hard you can get hit <span class="slow"><small>SLOW</small>and keep moving forward.</span></p>
-          <p class="fast"><small>FAST</small>How much you can take <span class="slow"><small>SLOW</small>and keep moving forward.</span></p>
+          <p><span class="fast">It's about how hard you can get hit</span> <span class="slow">and keep moving forward.</span></p>
+          <p><span class="fast">How much you can take</span> <span class="slow">and keep moving forward.</span></p>
           <div class="pause">PAUSE <small>2 seconds</small></div>
-          <p class="slow finish"><small>SLOW</small>That's how winning is done!</p>
+          <p class="finish"><span class="slow">That's how winning is done!</span></p>
         </div>
       `, { className: "rocky", footer: '<button class="w3-next" type="button" data-w3-action="complete-v2">Reading complete</button>' });
     } else if (step === 13) {
