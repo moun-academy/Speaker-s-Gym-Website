@@ -714,7 +714,6 @@
       3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
       5: [(state.stressTried || []).length >= stressTarget, `Step up on at least ${stressTarget} different words.`],
       6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
-      7: [sortItems.every(item => (state.sortAnswers || {})[item.id]), "Choose a move for every moment."],
       8: [storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial])), "Choose pitch, pace and volume for all four parts."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
