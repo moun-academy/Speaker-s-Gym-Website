@@ -203,7 +203,7 @@
     if (step === 0) {
       page = shell(`
         <p class="w3-eyebrow">WEEK 4 · THE PAUSE</p>
-        <h1 id="week4PageTitle">Your answer is already coming.<br /><em>Give it two seconds to arrive.</em></h1>
+        <h1 id="week4PageTitle">The pause is where<br /><em>your best answer is born.</em></h1>
         <p class="w4-hero-line" aria-label="So, um, basically, the answer is, uh, simple. Becomes: The answer is simple.">
           <span class="filler">So,</span> <span class="filler">um,</span> <span class="filler">basically,</span> <span class="keep">the answer is</span><span class="filler">, uh,</span><span class="gap" aria-hidden="true"><i></i></span> <span class="keep">simple.</span>
         </p>
