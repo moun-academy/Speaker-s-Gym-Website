@@ -106,7 +106,7 @@
   const trainerTarget = 3;
   const questionWordMs = 320;
   const questionHoldMs = 1200;
-  const pauseTarget = 2000;
+  const pauseTarget = 3000;
   const ringCircumference = 2 * Math.PI * 96;
 
   const moonScript = [
@@ -340,9 +340,9 @@
               <circle class="track" cx="110" cy="110" r="96" />
               <circle class="fill" data-w4-ring-fill cx="110" cy="110" r="96" style="stroke-dasharray:${ringCircumference};stroke-dashoffset:${ringCircumference}" />
             </svg>
-            <div class="w4-ring-core"><i class="w4-breath-dot"></i><strong data-w4-ring-label>Ready</strong><small data-w4-ring-time>two seconds of silence</small></div>
+            <div class="w4-ring-core"><i class="w4-breath-dot"></i><strong data-w4-ring-label>Ready</strong><small data-w4-ring-time>three seconds of silence</small></div>
           </div>
-          <ol class="w4-phases" data-w4-phases aria-label="The two seconds, in four steps"><li data-phase="0"><b>1</b><strong>Receive</strong><span>Listen to the whole question.</span></li><li data-phase="1"><b>2</b><strong>Breathe</strong><span>Take one slow breath.</span></li><li data-phase="2"><b>3</b><strong>Find the point</strong><span>Choose your first sentence.</span></li><li data-phase="3"><b>✓</b><strong>Speak</strong><span>Say your point first.</span></li></ol>
+          <ol class="w4-phases" data-w4-phases aria-label="The three seconds, in four steps"><li data-phase="0"><b>1</b><strong>Receive</strong><span>Listen to the whole question.</span></li><li data-phase="1"><b>2</b><strong>Breathe</strong><span>Take one slow breath.</span></li><li data-phase="2"><b>3</b><strong>Find the point</strong><span>Choose your first sentence.</span></li><li data-phase="3"><b>✓</b><strong>Speak</strong><span>Say your point first.</span></li></ol>
           <p class="w4-feedback" data-w4-feedback role="status"></p>
           <div class="w4-trainer-actions">
             <button type="button" class="w4-primary" data-w4-action="ask">${reps ? "Next question" : "Ask me a question"}</button>
@@ -350,7 +350,7 @@
           </div>
           <div class="w4-reps" aria-label="${Math.min(reps, trainerTarget)} of ${trainerTarget} composed answers">${Array.from({ length: trainerTarget }, (_, index) => `<i class="${index < reps ? "done" : ""}"></i>`).join("")}<span>${Math.min(reps, trainerTarget)} / ${trainerTarget} composed answers${reps >= 2 ? " · guide hidden" : ""}</span></div>
         </article>
-        <p class="w3-coach-note">${triggers.find(item => item.id === state.pauseTrigger) ? `Your trigger: ${esc(triggers.find(item => item.id === state.pauseTrigger).label.toLowerCase())}. ` : ""}Press "I'm starting to speak" the moment you open your mouth, then answer out loud, point first. From the third question the ring disappears. Trust your own two seconds.</p>
+        <p class="w3-coach-note">${triggers.find(item => item.id === state.pauseTrigger) ? `Your trigger: ${esc(triggers.find(item => item.id === state.pauseTrigger).label.toLowerCase())}. ` : ""}Press "I'm starting to speak" the moment you open your mouth, then answer out loud, point first. From the third question the ring disappears. Trust your own three seconds.</p>
       `, { className: "w4-train" });
     } else if (step === 6) {
       page = shell(`
@@ -574,7 +574,7 @@
         els.time.classList.add("num");
       } else {
         els.label.textContent = "Breathe";
-        els.time.textContent = "trust your two seconds";
+        els.time.textContent = "trust your three seconds";
         els.time.classList.remove("num");
       }
       els.wrap.classList.toggle("ready", elapsed >= pauseTarget && guided);
@@ -616,7 +616,7 @@
     const counter = root.querySelector(".w4-reps span");
     if (counter) counter.textContent = `${Math.min(reps, trainerTarget)} / ${trainerTarget} composed answers${reps >= 2 ? " · guide hidden" : ""}`;
     if (composed && reps === trainerTarget) portal.showToast("Three composed answers. Your pause is ready for real questions.");
-    else if (composed && reps === 2) portal.showToast("Next question has no guide. Trust your own two seconds.");
+    else if (composed && reps === 2) portal.showToast("Next question has no guide. Trust your own three seconds.");
   }
 
   /* ---------- slide 6: guided reading ---------- */
@@ -751,7 +751,7 @@
     const requirements = {
       1: [state.feltSilence, "Hold two seconds of silence first."],
       3: [(state.spotFound || []).length >= fillerCount ? "ok" : "", `Find all ${fillerCount} fillers before continuing.`],
-      5: [Number(state.trainerReps || 0) >= trainerTarget ? "ok" : "", `Complete ${trainerTarget} composed answers with a two-second pause.`],
+      5: [Number(state.trainerReps || 0) >= trainerTarget ? "ok" : "", `Complete ${trainerTarget} composed answers with a three-second pause.`],
       12: [(state.reasonsSeen || []).length >= reasons.length ? "ok" : "", "Open all four reasons before continuing."],
       13: [(state.beliefsTurned || []).length >= beliefs.length ? "ok" : "", "Turn all three cards before continuing."],
       14: [state.pauseTrigger, "Pick your pause trigger first."],
