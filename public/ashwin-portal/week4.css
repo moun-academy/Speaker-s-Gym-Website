@@ -314,3 +314,28 @@ body.week4-open { overflow: hidden; }
 .w4-app-link strong { font: 500 19px var(--display); }
 .w4-app-link em { color: var(--muted); font-size: 15px; font-style: normal; line-height: 1.4; }
 .w4-app-link b { color: #806727; font-size: 20px; }
+/* slide 8: a clearer timer. A big countdown in the ring, and four steps that say what to do. */
+.w4-ring-wrap { width: 190px; height: 190px; }
+@media (min-height: 820px) { .w4-ring-wrap { width: 240px; height: 240px; } }
+.w4-ring circle { stroke-width: 10; }
+.w4-ring-core strong { font-size: 26px; }
+.w4-ring-core small { font-size: 15px; }
+.w4-ring-core small.num { font: 500 54px/1 var(--display); color: var(--ink); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.w4-ring-wrap.ready .w4-ring-core small.num { color: var(--green); }
+.w4-phases { width: min(700px,100%); display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.w4-phases li { display: grid; justify-items: center; align-content: start; gap: 4px; padding: 12px 8px; border-radius: 14px; text-align: center; font: inherit; letter-spacing: 0; background: rgba(255,255,255,.7); transition: transform .25s ease, background .25s ease, border-color .25s ease, color .25s ease; }
+.w4-phases li b { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #ece6d7; color: var(--ink); font: 700 15px var(--detail); }
+.w4-phases li strong { font: 500 18px var(--display); color: inherit; }
+.w4-phases li span { font: 400 14px/1.35 var(--detail); color: inherit; opacity: .85; }
+.w4-phases li.past { opacity: .6; }
+.w4-phases li.past b { background: var(--gold-light); color: var(--gold-dark); }
+.w4-phases li.active { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 24px rgba(41,42,39,.18); }
+.w4-phases li.active b { background: var(--gold-light); color: var(--forest); }
+.w4-phases li:last-child.active b { background: white; color: var(--green); }
+@media (max-width: 700px) {
+  .w4-ring-wrap { width: 200px; height: 200px; }
+  .w4-ring-core small.num { font-size: 44px; }
+  .w4-phases { grid-template-columns: 1fr 1fr; }
+}
+/* the question words sit side by side in lines, not one word per row */
+.w4-question { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 .32em; text-align: center; }

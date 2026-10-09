@@ -342,7 +342,7 @@
             </svg>
             <div class="w4-ring-core"><i class="w4-breath-dot"></i><strong data-w4-ring-label>Ready</strong><small data-w4-ring-time>two seconds of silence</small></div>
           </div>
-          <ol class="w4-phases" data-w4-phases aria-hidden="true"><li data-phase="0">Receive</li><li data-phase="1">Breathe</li><li data-phase="2">Find the point</li><li data-phase="3">Speak</li></ol>
+          <ol class="w4-phases" data-w4-phases aria-label="The two seconds, in four steps"><li data-phase="0"><b>1</b><strong>Receive</strong><span>Listen to the whole question.</span></li><li data-phase="1"><b>2</b><strong>Breathe</strong><span>Take one slow breath.</span></li><li data-phase="2"><b>3</b><strong>Find the point</strong><span>Choose your first sentence.</span></li><li data-phase="3"><b>✓</b><strong>Speak</strong><span>Say your point first.</span></li></ol>
           <p class="w4-feedback" data-w4-feedback role="status"></p>
           <div class="w4-trainer-actions">
             <button type="button" class="w4-primary" data-w4-action="ask">${reps ? "Next question" : "Ask me a question"}</button>
@@ -537,6 +537,7 @@
     els.wrap.classList.add("listening");
     els.fill.style.strokeDashoffset = String(ringCircumference);
     els.label.textContent = "Listen";
+    els.time.classList.remove("num");
     els.time.textContent = "the question is being asked";
     els.phases.forEach(li => li.classList.remove("active", "past"));
     els.feedback.textContent = "";
@@ -568,11 +569,13 @@
       els.fill.style.strokeDashoffset = String(ringCircumference * (1 - t));
       els.phases.forEach((li, index) => { li.classList.toggle("active", index === phase); li.classList.toggle("past", index < phase); });
       if (guided) {
-        els.label.textContent = phase === 3 ? "Speak" : phaseLabels[phase];
-        els.time.textContent = `${(elapsed / 1000).toFixed(1)}s`;
+        els.label.textContent = phase === 3 ? "Speak now" : phaseLabels[phase];
+        els.time.textContent = phase === 3 ? "Go" : (Math.max(0, pauseTarget - elapsed) / 1000).toFixed(1);
+        els.time.classList.add("num");
       } else {
         els.label.textContent = "Breathe";
         els.time.textContent = "trust your two seconds";
+        els.time.classList.remove("num");
       }
       els.wrap.classList.toggle("ready", elapsed >= pauseTarget && guided);
       frame = requestAnimationFrame(tick);
@@ -600,6 +603,7 @@
     els.wrap.classList.add(composed ? "composed" : "rushed");
     els.fill.style.strokeDashoffset = String(ringCircumference * (1 - Math.min(1, elapsed / pauseTarget)));
     els.label.textContent = composed ? "Composed" : "Too soon";
+    els.time.classList.remove("num");
     els.time.textContent = `${seconds}s of silence`;
     els.phases.forEach(li => li.classList.remove("active"));
     els.feedback.textContent = message;
