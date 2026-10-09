@@ -288,3 +288,15 @@ body.week4-open { overflow: hidden; }
 .w4-practice li,
 .w4-reason-body > p,
 .w4-try p { font-size: 15px; }
+/* the with / without examples play on their own, so they need to read clearly even before they light up */
+.w4-demo { gap: 10px; }
+.w4-demo-line { padding: 14px 18px; border: 1px solid #e0dccd; }
+.w4-demo-line.good { border-color: #b9ceb3; }
+.w4-demo-line small { font-size: 12px; color: #6f6e66; }
+.w4-demo-line.good small { color: #2f5a44; }
+.w4-demo-line span { font-size: 20px; line-height: 1.7; }
+.w4-dw { color: #85816f; }
+.w4-dw.lit { color: var(--ink); font-weight: 700; }
+.w4-demo-line.good .w4-dw.lit { color: #1f4a35; }
+.w4-gap { width: var(--gap, 34px); height: 12px; background: #cfc9b4; }
+.w4-gap.lit { background: #d0a93a; box-shadow: 0 0 0 5px rgba(208,169,58,.25); }

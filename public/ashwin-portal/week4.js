@@ -656,12 +656,15 @@
     root.querySelectorAll(".w4-reason.open").forEach(other => { other.classList.remove("open"); other.querySelector("[data-w4-reason]").setAttribute("aria-expanded", "false"); });
     card.classList.toggle("open", open);
     head.setAttribute("aria-expanded", String(open));
+    clearTimers();
+    root.querySelectorAll(".w4-demo .lit").forEach(el => el.classList.remove("lit"));
     if (!open) return;
     card.classList.add("seen");
     const seen = [...new Set([...(getState().reasonsSeen || []), head.dataset.w4Reason])];
     update({ reasonsSeen: seen });
     const note = root.querySelector("[data-w4-reasons-note]");
     if (note) note.textContent = reasonsNote(seen.length);
+    later(() => playDemo(head.dataset.w4Reason), 450);
   }
 
   function playDemo(id) {
@@ -689,6 +692,8 @@
       });
       offset += 900;
     });
+    // Keep it alive: play the pair again for as long as the reason stays open.
+    later(() => { if (box.closest(".w4-reason.open")) playDemo(id); }, offset + 1200);
   }
 
   function turnBelief(card) {
