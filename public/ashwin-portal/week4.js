@@ -41,6 +41,7 @@
       id: "process",
       title: "They need time to take it in.",
       text: "You already know your point. They are hearing it for the first time, at your speed. A pause gives their mind a moment to catch up.",
+      credit: { who: "Steve Jobs", where: "The iPhone launch, 2007" },
       without: [{ t: "A music player, a phone, an internet tool. Are you getting it? They are one device.", ms: 240 }],
       with: [{ t: "A music player.", ms: 300 }, { p: 1000 }, { t: "A phone.", ms: 300 }, { p: 1000 }, { t: "An internet tool.", ms: 300 }, { p: 1000 }, { t: "Are you getting it?", ms: 300 }, { p: 1400 }, { t: "They are one device.", ms: 300 }]
     },
@@ -55,6 +56,7 @@
       id: "gear",
       title: "It lets you switch from fast to slow.",
       text: "Move quickly through what they already know. Stop. Then slow down for what matters. The pause is the moment you change speed.",
+      credit: { who: "John F. Kennedy", where: "Inaugural address, 1961" },
       without: [{ t: "So many of us wait for someone else to fix things. Don't ask what your country can do for you. Ask what you can do for your country.", ms: 260 }],
       with: [{ t: "So many of us wait for someone else to fix things.", ms: 130 }, { p: 1200 }, { t: "Don't ask what your country can do for you.", ms: 480 }, { p: 1200 }, { t: "Ask what you can do for your country.", ms: 480 }]
     },
@@ -62,8 +64,9 @@
       id: "weight",
       title: "A pause adds weight.",
       text: "A pause before your key sentence tells people: listen, this one matters. A pause after it lets it sink in. The silence is what gives your words weight.",
-      without: [{ t: "I have one thing to tell you. I got the job.", ms: 260 }],
-      with: [{ t: "I have one thing to tell you.", ms: 260 }, { p: 1800 }, { t: "I got the job.", ms: 420 }]
+      credit: { who: "Winston Churchill", where: "“Their Finest Hour”, 1940" },
+      without: [{ t: "If this country lasts a thousand years, people will still say this was their finest hour.", ms: 260 }],
+      with: [{ t: "If this country lasts a thousand years, people will still say,", ms: 260 }, { p: 1800 }, { t: "this was their finest hour.", ms: 420 }]
     }
   ];
 
@@ -290,6 +293,7 @@
             <div class="w4-demo" data-w4-demo="${reason.id}">
               <p class="w4-demo-line" data-w4-line-kind="without"><small>WITHOUT A PAUSE</small><span>${demoWords(reason.without)}</span></p>
               <p class="w4-demo-line good" data-w4-line-kind="with"><small>WITH A PAUSE</small><span>${demoWords(reason.with)}</span></p>
+              ${reason.credit ? `<p class="w4-credit"><span>${esc(reason.credit.who)}</span><i aria-hidden="true"></i>${esc(reason.credit.where)}</p>` : ""}
             </div>
           </div>
         </article>`).join("")}</div>

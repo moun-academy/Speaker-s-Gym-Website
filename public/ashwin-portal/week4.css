@@ -300,3 +300,7 @@ body.week4-open { overflow: hidden; }
 .w4-demo-line.good .w4-dw.lit { color: #1f4a35; }
 .w4-gap { width: var(--gap, 34px); height: 12px; background: #cfc9b4; }
 .w4-gap.lit { background: #d0a93a; box-shadow: 0 0 0 5px rgba(208,169,58,.25); }
+/* who said it: a small reference line under historical examples */
+.w4-demo .w4-credit { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin: 2px 4px 0; color: #806727; font: italic 400 15px/1.4 var(--display); letter-spacing: .01em; }
+.w4-demo .w4-credit > span { font: 600 15px var(--display); font-style: normal; color: var(--ink); }
+.w4-demo .w4-credit i { display: inline-block; width: 26px; height: 1px; background: #c9a34a; }
