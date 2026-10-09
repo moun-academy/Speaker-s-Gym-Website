@@ -22,7 +22,11 @@
     { name: "PROVE", end: 12 }
   ];
 
-  const missionTemplates = window.ASHWIN_DATA.levels.map(level => level.behavior + " Step up on one key word, and land your final sentence with a falling tone.");
+  // One clear action: say one important word a little higher, then let the last sentence come down.
+  const melodyAction = "Say one important word a little higher. Then let your last sentence come down at the end.";
+  const missionTemplates = window.ASHWIN_DATA.levels.map((level, index) => index === 0
+    ? `Answer a question in the Speaker’s Gym app. ${melodyAction}`
+    : `${level.behavior} ${melodyAction}`);
 
   const moves = [
     { id: "step", name: "Step up", when: "on the one word that matters", example: ["It", "took", "three", "weeks."], ys: [0, 0, -22, 4], points: [26, 26, 26, 6, 26, 28] },
@@ -446,13 +450,14 @@
         <div class="w3-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w5-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
         <div class="w3-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
         <label class="w3-mission-edit"><span>YOUR WEEK 5 CHALLENGE</span><textarea data-w5-mission rows="2">${esc(mission)}</textarea></label>
-        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I used at least one deliberate pitch move: a step up, a lift, or a landed ending.</strong></div>
+        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I said one important word a little higher, or let my last sentence come down.</strong></div>
       `, { footer: '<button class="w3-next mission-accept" type="button" data-w5-action="accept-mission">Accept mission</button>' });
     } else if (step === 12) {
       page = shell(`
         <p class="w3-eyebrow">LECTURE 5 COMPLETE</p>
         <h1 id="week5PageTitle">Your voice has a melody.<br /><em>Your mission is active.</em></h1>
-        <article class="w3-mission-mini active"><small>YOUR WEEK 5 MISSION</small><p>${esc(state.mission)}</p><strong>Win with one deliberate pitch move.</strong></article>
+        <article class="w3-mission-mini active"><small>YOUR WEEK 5 MISSION</small><p>${esc(state.mission)}</p><strong>Win by trying it once. One word higher, or one sentence that comes down.</strong></article>
+        <a class="w3-skool-link" href="https://www.skool.com/moun-academy-2097/classroom/bca062c9?md=6a66c32a60914bd99908e94251a9c246" target="_blank" rel="noopener noreferrer"><span class="w3-skool-icon" aria-hidden="true">▶</span><span><small>MOUN ACADEMY · CLASSROOM</small><strong>Watch the Lecture 5 video</strong><em>Go deeper into melody any time, in your Moun Academy classroom.</em></span><b aria-hidden="true">↗</b></a>
         <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Step, lift, drop and land. Bring one of them into a real conversation.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>If it feels theatrical to you, it probably sounds natural to them.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time someone hears how you feel.</strong></blockquote>
       `, { footer: '<button class="w3-next" type="button" data-w5-action="close">Return to my portal</button>' });
@@ -794,7 +799,7 @@
       const state = getState();
       const level = getLevel();
       update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 12 });
-      portal.showToast("Mission accepted. One deliberate pitch move is the win.");
+      portal.showToast("Mission accepted. Trying it once is the win.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();

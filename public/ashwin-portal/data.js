@@ -74,7 +74,7 @@ window.ASHWIN_DATA = {
     2: { title: 'Answer questions in the app, standing up, in a louder voice', hint: 'Stand tall and let your whole body join in. Louder voice, more energy.' },
     3: { title: 'Slow down your key sentence', hint: 'Say your main point a little slower, then keep moving.' },
     4: { title: 'Pause for two seconds before one real answer', hint: 'Use your pause trigger. Let the question land.' },
-    5: { title: 'Step up on one key word and land the ending', hint: 'One word higher. One sentence that falls and finishes.' },
+    5: { title: 'Say one important word higher, and let your last sentence come down', hint: 'Try it once in a real answer. One word a little higher. Then let the end come down.' },
     6: { title: 'Tell one true story with a clear point', hint: 'Set the scene, tell the incident, then say: “The reason I’m telling you this is because…”' }
   },
   lectures: [
