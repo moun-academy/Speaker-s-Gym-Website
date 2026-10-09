@@ -185,7 +185,7 @@
 
   const reasonsNote = count => count >= reasons.length
     ? "All four opened. Notice how every reason is about helping the listener, not about you."
-    : `Open each reason and press “Hear the difference”. ${count} of ${reasons.length} opened.`;
+    : `Open each of the four reasons. ${count} of ${reasons.length} opened.`;
   const beliefsNote = count => count >= beliefs.length
     ? "A pause takes two seconds. Fear makes it feel like ten."
     : `Tap each card to see what the listener really hears. ${count} of ${beliefs.length} turned.`;
@@ -291,7 +291,6 @@
               <p class="w4-demo-line" data-w4-line-kind="without"><small>WITHOUT A PAUSE</small><span>${demoWords(reason.without)}</span></p>
               <p class="w4-demo-line good" data-w4-line-kind="with"><small>WITH A PAUSE</small><span>${demoWords(reason.with)}</span></p>
             </div>
-            <button type="button" class="w4-play" data-w4-action="play-demo" data-w4-demo-id="${reason.id}">▶ Hear the difference</button>
           </div>
         </article>`).join("")}</div>
         <p class="w3-coach-note" data-w4-reasons-note aria-live="polite">${reasonsNote(seen.size)}</p>
