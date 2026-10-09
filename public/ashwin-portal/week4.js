@@ -41,7 +41,7 @@
       id: "process",
       title: "They need time to take it in.",
       text: "You already know your point. They are hearing it for the first time, at your speed. A pause gives their mind a moment to catch up.",
-      without: [{ t: "A music player a phone an internet tool are you getting it they are one device.", ms: 240 }],
+      without: [{ t: "A music player, a phone, an internet tool. Are you getting it? They are one device.", ms: 240 }],
       with: [{ t: "A music player.", ms: 300 }, { p: 1000 }, { t: "A phone.", ms: 300 }, { p: 1000 }, { t: "An internet tool.", ms: 300 }, { p: 1000 }, { t: "Are you getting it?", ms: 300 }, { p: 1400 }, { t: "They are one device.", ms: 300 }]
     },
     {
