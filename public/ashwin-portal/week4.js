@@ -113,7 +113,9 @@
     { text: "We choose to go to the Moon.", pause: 1600 },
     { text: "We choose to go to the Moon in this decade and do the other things, not because they are easy,", pause: 900 },
     { text: "but because they are hard;", pause: 2000, long: true },
-    { text: "because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone,", pause: 900 },
+    { text: "because that goal will serve to organize and measure the best of our energies and skills,", pause: 1000 },
+    { text: "because that challenge is one that we are willing to accept,", pause: 1000 },
+    { text: "one we are unwilling to postpone,", pause: 1200 },
     { text: "and one we intend to win.", pause: 0, finish: true }
   ];
 
