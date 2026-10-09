@@ -24,11 +24,6 @@
 
   const missionTemplates = window.ASHWIN_DATA.levels.map(level => level.behavior + " Step up on one key word, and land your final sentence with a falling tone.");
 
-  const research = [
-    { tag: "A 2016 VOICE STUDY", title: "Steve Jobs vs. Mark Zuckerberg", idea: "Researchers compared the two on stage. Jobs used much more variety in his voice: more emphasis, more rhythm, more pauses. That is a big part of why he sounded so inspiring." },
-    { tag: "STAGE ACADEMY · VINH GIANG", title: "Five tools in your voice", idea: "Speed, volume, pitch, tone and pause. You have practised three already. Pitch, how high or low your voice goes, is the one that makes people feel what you say." }
-  ];
-
   const moves = [
     { id: "step", name: "Step up", when: "on the one word that matters", example: ["It", "took", "three", "weeks."], ys: [0, 0, -22, 4], points: [26, 26, 26, 6, 26, 28] },
     { id: "lift", name: "Lift", when: "new ideas, questions, good news", example: ["And", "then", "we", "found", "it."], ys: [6, 2, -4, -12, -20], points: [34, 30, 24, 16, 8, 4] },
@@ -288,7 +283,6 @@
           <p class="w5-demo-read" data-w5-demo-read aria-live="polite">${mode === "flat" ? "Sounds: unsure, rehearsed, not that excited." : mode === "sung" ? "Sounds: genuinely excited. The words finally match." : "Choose a version, then say it aloud the same way."}</p>
           <div class="w5-toggle"><button type="button" class="${mode === "flat" ? "selected" : ""}" data-w5-demo-mode="flat">One note</button><button type="button" class="${mode === "sung" ? "selected" : ""}" data-w5-demo-mode="sung">With melody</button></div>
         </article>
-        <div class="w3-research w5-research ${tried.size >= 2 ? "in" : ""}" data-w5-research>${research.map(item => `<article><small>${esc(item.tag)}</small><strong>${esc(item.title)}</strong><p>${esc(item.idea)}</p></article>`).join("")}</div>
       `, { className: "w5-why" });
     } else if (step === 2) {
       const choice = state.rapportChoice || "";
@@ -526,7 +520,6 @@
     if (!save) return;
     const tried = [...new Set([...(getState().demoTried || []), mode])];
     update({ demoMode: mode, demoTried: tried });
-    if (tried.length >= 2) root.querySelector("[data-w5-research]")?.classList.add("in");
   }
 
   /* ---------- slide 3: siren range finder ---------- */
