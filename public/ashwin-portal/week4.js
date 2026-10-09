@@ -55,8 +55,8 @@
       id: "gear",
       title: "It lets you switch from fast to slow.",
       text: "Move quickly through what they already know. Stop. Then slow down for what matters. The pause is the moment you change speed.",
-      without: [{ t: "We met on Monday, talked on Tuesday, and agreed on Wednesday. Here is what we decided.", ms: 260 }],
-      with: [{ t: "We met on Monday, talked on Tuesday, and agreed on Wednesday.", ms: 130 }, { p: 1200 }, { t: "Here is what we decided.", ms: 480 }]
+      without: [{ t: "So many of us wait for someone else to fix things. Don't ask what your country can do for you. Ask what you can do for your country.", ms: 260 }],
+      with: [{ t: "So many of us wait for someone else to fix things.", ms: 130 }, { p: 1200 }, { t: "Don't ask what your country can do for you.", ms: 480 }, { p: 1200 }, { t: "Ask what you can do for your country.", ms: 480 }]
     },
     {
       id: "weight",
