@@ -241,3 +241,13 @@ body.week5-open { overflow: hidden; }
 .w5-stress-count { font-size: 14px; }
 .w5-range-copy small,
 .w5-science p { font-size: 15px; }
+/* slide 9: one simple choice per part */
+.w5-style { display: grid; gap: 6px; }
+.w5-style button { display: grid; justify-items: start; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: white; color: var(--ink); text-align: left; cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+.w5-style button:hover { border-color: var(--gold); transform: translateY(-1px); }
+.w5-style button strong { font: 500 17px var(--display); }
+.w5-style button small { color: var(--muted); font-size: 13px; }
+.w5-style button.on { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
+.w5-style button.on small { color: #d9d6c9; }
+.w5-coach-mix { font-size: 14px; }
+.w5-desk { margin-top: 20px; }

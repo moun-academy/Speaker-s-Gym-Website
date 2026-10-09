@@ -64,6 +64,13 @@
     pace: [["fast", "Fast"], ["slow", "Slow"]],
     volume: [["strong", "Strong"], ["soft", "Soft"]]
   };
+  // One simple choice per part instead of three dials: lift the energy, or go slow and low.
+  const mixStyles = {
+    up: { label: "Energy up", hint: "higher, faster, stronger", settings: { pitch: "high", pace: "fast", volume: "strong" } },
+    down: { label: "Slow and low", hint: "lower, slower, softer", settings: { pitch: "low", pace: "slow", volume: "soft" } }
+  };
+  const coachStyle = { setup: "up", tension: "down", action: "up", result: "down" };
+  const mixDone = mix => storyBeats.every(beat => mix?.[beat.id]?.style);
   const mixLabel = (dial, value) => (mixOptions[dial].find(option => option[0] === value) || [, "?"])[1];
 
   const landSentence = "I think we should start next Monday.";
@@ -390,20 +397,22 @@
       `);
     } else if (step === 8) {
       const mix = state.mix || {};
-      const complete = storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial]));
+      const complete = mixDone(mix);
       page = shell(`
-        <p class="w3-eyebrow">THE MIXING DESK · WEEKS 2 + 3 + 5</p>
-        <h1 id="week5PageTitle">Volume. Pace. Pitch.<br /><em>Now mix all three.</em></h1>
+        <p class="w3-eyebrow">PUT IT TOGETHER · WEEKS 2, 3 AND 5</p>
+        <h1 id="week5PageTitle">How should each part<br /><em>sound?</em></h1>
+        <p class="w3-lede">Pick one for each part: lift the energy, or go slow and low.</p>
         <div class="w5-desk">${storyBeats.map((beat, index) => {
+          const chosen = mix[beat.id]?.style || "";
           const settings = mix[beat.id] || {};
           return `<article class="w5-beat" data-w5-beat="${beat.id}" data-w3-animate style="--i:${index}">
             <header><small>${String(index + 1).padStart(2, "0")} · ${esc(beat.label)}</small></header>
             <p class="w5-beat-text pitch-${settings.pitch || "mid"} pace-${settings.pace || "none"} vol-${settings.volume || "none"}">${esc(beat.text)}</p>
-            ${Object.keys(mixOptions).map(dial => `<div class="w5-dial" role="group" aria-label="${dial} for ${esc(beat.label)}"><span>${dial.toUpperCase()}</span>${mixOptions[dial].map(([value, label]) => `<button type="button" class="${settings[dial] === value ? "on" : ""}" data-w5-mix="${beat.id}" data-w5-dial="${dial}" data-w5-value="${value}">${esc(label)}</button>`).join("")}</div>`).join("")}
-            <p class="w5-coach-mix" ${complete ? "" : "hidden"}><b>Coach's mix:</b> ${esc(mixLabel("pitch", beat.coach.pitch))} · ${esc(mixLabel("pace", beat.coach.pace))} · ${esc(mixLabel("volume", beat.coach.volume))}. ${esc(beat.why)}</p>
+            <div class="w5-style" role="group" aria-label="How should ${esc(beat.label.toLowerCase())} sound?">${Object.keys(mixStyles).map(key => `<button type="button" class="${chosen === key ? "on" : ""}" data-w5-style="${beat.id}" data-w5-value="${key}"><strong>${esc(mixStyles[key].label)}</strong><small>${esc(mixStyles[key].hint)}</small></button>`).join("")}</div>
+            <p class="w5-coach-mix" ${complete ? "" : "hidden"}><b>Coach's pick: ${esc(mixStyles[coachStyle[beat.id]].label)}.</b> ${esc(beat.why)}</p>
           </article>${beat.pauseAfter ? '<div class="w5-desk-pause" aria-label="pause">‖ PAUSE</div>' : ""}`;
         }).join("")}</div>
-        <div class="w5-actions"><button type="button" class="w5-primary" data-w5-action="play-mix" ${complete ? "" : "disabled"}>▶ Preview my mix</button><span class="w5-mix-status" data-w5-mix-status aria-live="polite">${complete ? "Compare with the coach's mix. Yours is allowed to differ." : "Choose pitch, pace and volume for all four parts."}</span></div>
+        <div class="w5-actions"><button type="button" class="w5-primary" data-w5-action="play-mix" ${complete ? "" : "disabled"}>▶ Preview my choices</button><span class="w5-mix-status" data-w5-mix-status aria-live="polite">${complete ? "Compare with the coach's picks. Yours is allowed to differ." : "Choose one for each of the four parts."}</span></div>
       `, { className: "w5-desk-screen" });
     } else if (step === 9) {
       const mix = state.mix || {};
@@ -637,7 +646,7 @@
         card.classList.add("playing");
         card.scrollIntoView({ block: "nearest", behavior: "smooth" });
         text.innerHTML = words.map(word => `<span>${esc(word)}</span>`).join(" ");
-        status.textContent = `${beat.label.toLowerCase()} · ${mixLabel("pitch", mix[beat.id].pitch)}, ${mixLabel("pace", mix[beat.id].pace).toLowerCase()}, ${mixLabel("volume", mix[beat.id].volume).toLowerCase()}`;
+        status.textContent = `${beat.label.toLowerCase()} · ${mixStyles[mix[beat.id].style]?.label.toLowerCase() || ""}`;
       }, offset);
       words.forEach((_, index) => later(() => text.children[index]?.classList.add("said"), offset + 120 + index * perWord));
       offset += 120 + words.length * perWord + 500;
@@ -714,7 +723,6 @@
       3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
       5: [(state.stressTried || []).length >= stressTarget, `Step up on at least ${stressTarget} different words.`],
       6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
-      8: [storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial])), "Choose pitch, pace and volume for all four parts."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
@@ -839,22 +847,22 @@
       return;
     }
 
-    const dial = event.target.closest("[data-w5-mix]");
-    if (dial) {
+    const style = event.target.closest("[data-w5-style]");
+    if (style) {
       const mix = JSON.parse(JSON.stringify(getState().mix || {}));
-      const beat = dial.dataset.w5Mix;
-      mix[beat] = { ...(mix[beat] || {}), [dial.dataset.w5Dial]: dial.dataset.w5Value };
+      const beat = style.dataset.w5Style;
+      const key = style.dataset.w5Value;
+      mix[beat] = { ...mixStyles[key].settings, style: key };
       update({ mix });
-      const card = dial.closest(".w5-beat");
-      dial.parentElement.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === dial));
+      const card = style.closest(".w5-beat");
+      style.parentElement.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === style));
       const settings = mix[beat];
-      card.querySelector(".w5-beat-text").className = `w5-beat-text pitch-${settings.pitch || "mid"} pace-${settings.pace || "none"} vol-${settings.volume || "none"}`;
-      const complete = storyBeats.every(item => ["pitch", "pace", "volume"].every(key => mix[item.id]?.[key]));
-      if (complete) {
+      card.querySelector(".w5-beat-text").className = `w5-beat-text pitch-${settings.pitch} pace-${settings.pace} vol-${settings.volume}`;
+      if (mixDone(mix)) {
         root.querySelectorAll(".w5-coach-mix").forEach(el => { el.hidden = false; });
         const play = root.querySelector('[data-w5-action="play-mix"]');
         if (play.disabled && !timers.length) play.disabled = false;
-        root.querySelector("[data-w5-mix-status]").textContent = "Compare with the coach's mix. Yours is allowed to differ.";
+        root.querySelector("[data-w5-mix-status]").textContent = "Compare with the coach's picks. Yours is allowed to differ.";
       }
       return;
     }
