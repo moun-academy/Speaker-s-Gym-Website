@@ -72,12 +72,12 @@
 
   const beliefs = [
     { mind: "If I pause, they will think I do not know the answer.", truth: "They think you are choosing your words. A calm pause looks like confidence. An “um” looks more like searching.", tip: "Keep your face relaxed and your eyes on them while you wait." },
-    { mind: "The silence feels like forever.", truth: "It only feels long to you. Two seconds sounds like a thoughtful moment to the listener.", tip: "Count “one… two” in your head. Then speak." },
+    { mind: "The silence feels like forever.", truth: "It only feels long to you. Two seconds sounds like a thoughtful moment to the listener.", tip: "Take one slow breath and think about your first sentence. Then speak." },
     { mind: "If I stop, someone will jump in.", truth: "While you are quiet, people can see you are about to speak. You still have the floor.", tip: "Keep your lips gently closed and your eyes up. That says: I am not finished." }
   ];
 
   const triggers = [
-    { id: "count", label: "Count in your head", how: "Silently count “one… two”. Then speak. Nobody can hear it, and it gives you exactly two seconds.", steps: ["one…", "two…", "Now speak."] },
+    { id: "breath", label: "Take one slow breath", how: "Breathe in quietly through your nose and think about your first sentence. Your mind stays on your answer, and the pause looks calm.", steps: ["Breathe in…", "Think about your point…", "Now speak."] },
     { id: "sip", label: "Take a sip of water", how: "Pick up your glass, take a small sip, then speak. It looks natural and works well in meetings and calls.", steps: ["Sip…", "Swallow…", "Now speak."] },
     { id: "phrase", label: "Say “Good question.” and wait", how: "Say it slowly, give a small smile, then stay quiet for two seconds. It is honest and it buys you time.", steps: ["“Good question.”", "…two seconds of silence…", "Now speak."] }
   ];
@@ -195,6 +195,8 @@
 
   function renderStep() {
     clearTimers();
+    // "Count in your head" was replaced by a breath, so an older saved choice is cleared.
+    if (getState().pauseTrigger === "count") update({ pauseTrigger: "" });
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
     const step = savedStep === 4 ? 5 : stepOrder.includes(savedStep) ? savedStep : 0;
@@ -322,7 +324,9 @@
           <div class="w4-try-stage" data-w4-try-stage aria-live="polite">Press try it, then follow the steps.</div>
           <button type="button" class="w4-primary" data-w4-action="try-trigger">Try it now</button>
         </div>
-        <div class="w4-practice"><small>PRACTISE WHERE NOTHING IS AT STAKE</small><ul><li>Ordering a coffee</li><li>Answering “How are you?”</li><li>Reading a message out loud</li></ul></div>
+        <div class="w4-practice"><small>WHEN TO USE IT · WHEN THE QUESTION MAKES YOU THINK</small><ul><li>A hard question</li><li>Something a little complicated to explain</li><li>A decision you need to explain</li></ul>
+          <p class="w4-practice-note">Easy questions, like “How are you?”, get a quick answer. Save your pause for the moments that need thinking.</p>
+          <a class="w4-app-link" href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎙</span><span><strong>Practise in the Speaker’s Gym app</strong><em>Answer random questions until your pause feels natural. Repeat it until it becomes a habit.</em></span><b aria-hidden="true">↗</b></a></div>
       `, { className: "w4-trigger-screen" });
     } else if (step === 5) {
       const reps = Number(state.trainerReps || 0);
