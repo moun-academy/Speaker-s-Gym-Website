@@ -60,8 +60,8 @@
     },
     {
       id: "weight",
-      title: "Silence makes the next line count.",
-      text: "A pause before your key sentence tells people: listen, this one matters. A pause after it lets it sink in.",
+      title: "A pause adds weight.",
+      text: "A pause before your key sentence tells people: listen, this one matters. A pause after it lets it sink in. The silence is what gives your words weight.",
       without: [{ t: "I have one thing to tell you. I got the job.", ms: 260 }],
       with: [{ t: "I have one thing to tell you.", ms: 260 }, { p: 1800 }, { t: "I got the job.", ms: 420 }]
     }
