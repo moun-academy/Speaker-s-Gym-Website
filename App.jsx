@@ -226,6 +226,31 @@ function SystemCycle() {
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
   const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
+  const heroCtaRef = useRef(null);
+  const finalCtaRef = useRef(null);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+
+  // On phones the floating "Book a call" pill only shows between the hero button and the
+  // final FAQ button, so there's never a second gold book button on screen next to it.
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const hero = heroCtaRef.current?.getBoundingClientRect();
+      const final = finalCtaRef.current?.getBoundingClientRect();
+      if (!hero || !final) return;
+      setShowStickyCta(hero.bottom < 0 && final.top > window.innerHeight);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <>
@@ -527,9 +552,23 @@ export default function SpeakersGym() {
         /* ── STICKY MOBILE CTA ── */
         .sticky-cta { display:none; }
         @media(max-width:768px){
-          .sticky-cta { display:block; position:fixed; left:0; right:0; bottom:0; z-index:90; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); background:rgba(17,17,17,.92); backdrop-filter:blur(14px); border-top:1px solid var(--border); }
-          .sticky-cta a { display:block; width:100%; text-align:center; background:var(--accent); color:#0a0a0a; font-weight:700; font-size:.9rem; padding:15px 20px; border-radius:8px; text-decoration:none; letter-spacing:.04em; text-transform:uppercase; }
-          .footer { padding-bottom:96px; }
+          .sticky-cta { display:flex; justify-content:center; position:fixed; left:0; right:0; bottom:calc(14px + env(safe-area-inset-bottom)); z-index:90; pointer-events:none; opacity:0; transform:translateY(24px); transition:opacity .3s ease, transform .3s ease; }
+          .sticky-cta--visible { opacity:1; transform:none; }
+          .sticky-cta--visible a { pointer-events:auto; }
+          .sticky-cta a { display:inline-flex; align-items:center; gap:10px; padding:13px 26px; border-radius:999px; background:var(--accent); color:#111; font-weight:700; font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; text-decoration:none; box-shadow:0 10px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06); }
+        }
+        @media(max-width:768px) and (prefers-reduced-motion:reduce){ .sticky-cta { transition:none; } }
+
+        /* ── PHONE SPACING ── */
+        @media(max-width:768px){
+          .section { padding:64px 20px; }
+          .hero { min-height:auto; padding:112px 20px 56px; }
+          .hero h1 { font-size:clamp(2rem,9vw,2.6rem); line-height:1.15; }
+          .hero-btns { flex-direction:column; align-items:center; gap:12px; }
+          .hero-btns .btn-primary { width:100%; max-width:340px; text-align:center; }
+          .hero-btns .btn-secondary { border:none; padding:6px 12px; color:var(--text-dim); text-decoration:underline; text-underline-offset:4px; text-decoration-color:rgba(217,192,111,.4); }
+          .hero-video { margin-top:36px; }
+          .fit-grid, .tracks, .system { margin-top:36px; }
         }
 
         /* ── UTILITY ── */
@@ -573,7 +612,7 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal delay={320}>
               <div className="hero-btns">
-                <a href={BOOK_URL} className="btn-primary">Book a Strategy Call</a>
+                <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef}>Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer">Join Free Community</a>
               </div>
@@ -847,7 +886,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a href={BOOK_URL} className="btn-primary">Book a Free Strategy Call</a>
+            <a href={BOOK_URL} className="btn-primary" ref={finalCtaRef}>Book a Free Strategy Call</a>
           </div>
         </Reveal>
       </section>
@@ -855,8 +894,8 @@ export default function SpeakersGym() {
       <SiteFooter />
 
       {/* ── STICKY MOBILE CTA ── */}
-      <div className="sticky-cta">
-        <a href={BOOK_URL}>Book a Free Call</a>
+      <div className={cx("sticky-cta", showStickyCta && "sticky-cta--visible")} aria-hidden={!showStickyCta}>
+        <a href={BOOK_URL} tabIndex={showStickyCta ? 0 : -1}>Book a free call <span aria-hidden="true">→</span></a>
       </div>
     </>
   );
