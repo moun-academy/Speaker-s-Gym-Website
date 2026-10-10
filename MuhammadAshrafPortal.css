@@ -1,0 +1,3 @@
+html:has(.muhammad-portal-shell), body:has(.muhammad-portal-shell), #root:has(.muhammad-portal-shell) { width:100%; min-height:100%; margin:0; overflow:hidden; background:#f6f5ef; }
+.muhammad-portal-shell { width:100%; height:100vh; height:100dvh; margin:0; overflow:hidden; background:#f6f5ef; }
+.muhammad-portal-frame { display:block; width:100%; height:100%; border:0; background:#f6f5ef; }

@@ -136,7 +136,7 @@ const loginKey = ip => `portal:login:${sha256(ip).toString("hex").slice(0, 24)}`
 
 /* ---------- request handling (framework-free so it can be tested) ---------- */
 
-const knownClients = env => String(env.PORTAL_CLIENTS || "ashwin,pankaj,khadija,nadira").split(",").map(item => item.trim()).filter(Boolean);
+const knownClients = env => String(env.PORTAL_CLIENTS || "ashwin,pankaj,khadija,nadira,muhammadashraf").split(",").map(item => item.trim()).filter(Boolean);
 
 export async function handlePortal({ method, action, client, body, cookie, ip, env, store, secure }) {
   const secret = env.PORTAL_SESSION_SECRET;
