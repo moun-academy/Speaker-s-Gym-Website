@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/pitch", "destination": "/pitch/index.html" },
     { "source": "/pitch/call", "destination": "/pitch/call.html" },
+    { "source": "/links", "destination": "/links/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
