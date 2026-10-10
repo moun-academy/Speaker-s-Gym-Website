@@ -32,8 +32,8 @@ window.MUHAMMAD_COACHING_UPDATE = {
     "start": "2026-10-17T11:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "",
-    "inviteToFollow": true,
+    "meetingLink": "https://meet.google.com/aek-owce-pgq",
+    "inviteToFollow": false,
     "prepTitle": "Bring your baseline video.",
     "prepText": "We’ll watch it together, learn your first framework, and set your mission for the week."
   }

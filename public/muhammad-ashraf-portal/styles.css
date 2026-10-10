@@ -175,3 +175,7 @@ body.coach-view .coach-banner{display:block}
 .coaching-mission.is-done strong{text-decoration:line-through;text-decoration-color:var(--gold);color:var(--muted)}
 .coaching-update details{margin-top:4px}
 .coaching-update summary{color:var(--gold-dark);font-weight:600}
+
+/* Larger hero logo to balance the copy */
+.hero-logo{width:300px;height:300px}
+@media(max-width:1100px){.hero-logo{width:240px;height:240px}}
