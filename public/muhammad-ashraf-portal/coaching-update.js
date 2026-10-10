@@ -5,7 +5,7 @@ window.MUHAMMAD_COACHING_UPDATE = {
   "label": "BEFORE CALL 1 · YOUR FIRST WEEK",
   "title": "Before we meet",
   "completedLectures": [],
-  "summary": "No pressure, no preparation needed. We just want to hear how you sound today, so we can build from there together.",
+  "summary": "No preparation needed. We need one recording to see where you stand today, so the six weeks start from your real baseline.",
   "challenges": [
     "Speak naturally. Your baseline does not need to be good, it just needs to be real",
     "Hide the structure guide for now. We learn the framework together on our first call",

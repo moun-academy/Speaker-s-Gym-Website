@@ -31,7 +31,7 @@
   const tour = [
     ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practise for 10–15 minutes. Mark it done when you finish.','Today’s speaking reps','Your starting point'],
     ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, pauses, melody and storytelling. Each one ends with a real-life mission.','Your speaking foundations','Learn → Practise → Apply'],
-    ['Keep the evidence of progress.','Save small wins and questions in your reflections. Bring them to your weekly one-hour call with Marouane, and message him on WhatsApp anytime.','Small wins, real evidence','Notice. Learn. Continue.']
+    ['Keep the evidence of progress.','Save small wins and questions in your reflections. Bring them to your weekly one-hour call with Marouane, and message him on WhatsApp anytime.','Wins and evidence','Learn. Practise. Apply.']
   ];
 
   function showToast(message) {
@@ -129,7 +129,7 @@
     $('#daySelect').value=state.selectedDay; $('#previousDay').disabled=state.selectedDay===0;$('#nextDay').disabled=state.selectedDay===41;
     $('#completePractice').innerHTML=done?'Completed <span>✓</span>':'Mark as done <span>✓</span>';
     $('#completePractice').setAttribute('aria-pressed',String(done));$('#dailyPractice').classList.toggle('is-complete',done);
-    $('#practiceDoneLabel').textContent=done?'Practice saved. Well done.':'Small steps count.';
+    $('#practiceDoneLabel').textContent=done?'Practice saved. Well done.':'Show up and do the rep.';
   }
   function renderJourney() { renderProgress(); }
   function lectureArt(type) {
@@ -152,7 +152,7 @@
   function renderReflections() {
     $('#callNote').value=state.callNote;
     const moments=[...state.reflections,...state.evidence].sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
-    $('#savedReflections').innerHTML=moments.length?moments.map(item=>`<article class="saved-moment card"><small>${esc(new Date(item.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}${item.sourceLecture?` · LECTURE ${Number(item.sourceLecture)}`:''}</small><h3>${esc(item.action||item.mission)}</h3><p>${esc(item.result||item.reality)}</p>${item.next?`<p class="next-note">Next: ${esc(item.next)}</p>`:''}</article>`).join(''):'<div class="empty-state"><span>✧</span>Your first small win belongs here.<br>Start with one moment you want to remember.</div>';
+    $('#savedReflections').innerHTML=moments.length?moments.map(item=>`<article class="saved-moment card"><small>${esc(new Date(item.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}${item.sourceLecture?` · LECTURE ${Number(item.sourceLecture)}`:''}</small><h3>${esc(item.action||item.mission)}</h3><p>${esc(item.result||item.reality)}</p>${item.next?`<p class="next-note">Next: ${esc(item.next)}</p>`:''}</article>`).join(''):'<div class="empty-state"><span>✧</span>Your first win goes here.<br>Start with one moment you want to remember.</div>';
   }
   function weekStatus(index) {
     const week=index+1;
@@ -259,7 +259,7 @@
   $('#daySelect').innerHTML=flatDays.map((_,index)=>`<option value="${index}">${index+1}</option>`).join('');
   $('#daySelect').addEventListener('change',event=>setDay(event.target.value));
   $('#previousDay').addEventListener('click',()=>setDay(state.selectedDay-1));$('#nextDay').addEventListener('click',()=>setDay(state.selectedDay+1));
-  $('#completePractice').addEventListener('click',()=>{state.completedDays[state.selectedDay]=!state.completedDays[state.selectedDay];saveFeedback(state.completedDays[state.selectedDay]?'One more small step. Your practice is saved.':'Practice marked as incomplete.');renderPractice();renderJourney();});
+  $('#completePractice').addEventListener('click',()=>{state.completedDays[state.selectedDay]=!state.completedDays[state.selectedDay];saveFeedback(state.completedDays[state.selectedDay]?'Rep done. Your practice is saved.':'Practice marked as incomplete.');renderPractice();renderJourney();});
   document.addEventListener('click',event=>{
     const day=event.target.closest('[data-day]');if(day){setDay(day.dataset.day);location.hash='dailyPractice';route();$('#dailyPractice').scrollIntoView({behavior:'smooth',block:'start'});}
     const reset=event.target.closest('[data-reset-lecture]');if(reset)portal.resetLecture(Number(reset.dataset.resetLecture));
@@ -299,7 +299,7 @@
     if(!COACHING)return;
     const done=state.coachingFollowUps?.[COACHING.id]||{};
     const count=COACHING.missions.filter(m=>done[m.id]).length;
-    $('#coachingUpdate').innerHTML='<div class="coaching-head"><div><span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>'+esc(COACHING.title||'Your focus this week')+'</h2></div><span class="coaching-count" aria-label="'+count+' of '+COACHING.missions.length+' done">'+count+'/'+COACHING.missions.length+'</span></div><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map((m,i)=>'<label class="coaching-mission'+(done[m.id]?' is-done':'')+'"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span class="mission-number">'+(i+1)+'</span><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>A few gentle tips</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
+    $('#coachingUpdate').innerHTML='<div class="coaching-head"><div><span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>'+esc(COACHING.title||'Your focus this week')+'</h2></div><span class="coaching-count" aria-label="'+count+' of '+COACHING.missions.length+' done">'+count+'/'+COACHING.missions.length+'</span></div><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map((m,i)=>'<label class="coaching-mission'+(done[m.id]?' is-done':'')+'"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span class="mission-number">'+(i+1)+'</span><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>Tips for your baseline</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
     const call=COACHING.nextCall;const when=new Date(call.start);
     const part=(opts,tz)=>new Intl.DateTimeFormat('en-GB',{...opts,timeZone:tz}).format(when);
     const time=tz=>part({hour:'numeric',minute:'2-digit',hour12:true},tz).replace('am','a.m.').replace('pm','p.m.');

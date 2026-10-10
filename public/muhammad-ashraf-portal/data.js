@@ -44,7 +44,7 @@ window.MUHAMMAD_DATA = {
       ['Land your statements','End your sentences low and sure. Save the rising tone for real questions.','What do you believe every parent should teach their children?'],
       ['Mix pitch, pace and volume','Say the same sentence three ways. Choose the one that sounds most alive.','I did not expect it, but it changed everything.'],
       ['Read like a storyteller','Read a short paragraph to your children or a family member. Let your voice move with the meaning.','Read one paragraph from a book you love.'],
-      ['A seminar opening','Practise the first 60 seconds of a talk you would like to give one day.','Good evening, everyone. Tonight I want to talk to you about…'],
+      ['A seminar opening','Practise the first 60 seconds of a seminar you would give to your community.','Good evening, everyone. Tonight I want to talk to you about…'],
       ['Keep your music','Save a reflection about the moment your voice sounded most like you.','When did my voice carry real feeling this week?']
     ]},
     { short:'Story', title:'Tell Stories That Move People', focus:'Bring everything together in a story. Incident, point and link, plus volume, pace, pauses and melody: this is how your seminars will be remembered.', outcome:'I can tell a short true story with a clear point, and use my voice to bring it to life.', lecture:6, days:[
