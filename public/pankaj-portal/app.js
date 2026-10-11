@@ -24,7 +24,7 @@
     if(COACHING && next.coachingScheduleUpdateId!==COACHING.id) {next.weeklyCoaching={...COACHING.weeklyCoaching};next.coachingScheduleUpdateId=COACHING.id;}
     for(const week of COACHING?.completedLectures||[]) {
       const lecture=next[`week${week}Lecture`];
-      if(lecture && next.coachingLectureResets?.[week]!==COACHING.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionConfirmedOn||COACHING.date;
+      if(lecture && next.coachingLectureResets?.[week]!==COACHING.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionDates?.[week]||COACHING.lectureCompletionConfirmedOn||COACHING.date;
     }
     return next;
   }
@@ -313,7 +313,7 @@
     const completed=state.coachingFollowUps?.[COACHING.id]||{};
     const count=COACHING.missions.filter(mission=>completed[mission.id]).length;
     $('#coachingUpdate').hidden=false;
-    $('#coachingUpdate').innerHTML='<header><div><span class="eyebrow">CALL '+COACHING.callNumber+' · 4 OCTOBER 2026</span><h2 id="coachingUpdateTitle">Your focus this week</h2></div><span class="micro">'+count+' / '+COACHING.missions.length+' done</span></header><p class="coaching-recap">'+esc(COACHING.summary)+'</p><details class="coaching-challenges"><summary>What to work on</summary><ul>'+COACHING.challenges.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></details><ul class="coaching-missions">'+COACHING.missions.map(mission=>'<li class="'+(completed[mission.id]?'completed':'')+'"><label><input type="checkbox" data-coaching-mission="'+esc(mission.id)+'" '+(completed[mission.id]?'checked ':'')+(sync.role==='coach'?'disabled':'')+'><strong>'+esc(mission.title)+'</strong></label><p>'+esc(mission.text)+'</p>'+(mission.link?'<a class="text-button" href="'+esc(mission.link)+'" target="_blank" rel="noopener noreferrer">'+esc(mission.linkLabel)+' ↗</a>':'')+'</li>').join('')+'</ul>';
+    $('#coachingUpdate').innerHTML='<header><div><span class="eyebrow">CALL '+COACHING.callNumber+' · '+esc(new Date(COACHING.date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).toUpperCase())+'</span><h2 id="coachingUpdateTitle">Your focus this week</h2></div><span class="micro">'+count+' / '+COACHING.missions.length+' done</span></header><p class="coaching-recap">'+esc(COACHING.summary)+'</p><details class="coaching-challenges"><summary>What to work on</summary><ul>'+COACHING.challenges.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></details><ul class="coaching-missions">'+COACHING.missions.map(mission=>'<li class="'+(completed[mission.id]?'completed':'')+'"><label><input type="checkbox" data-coaching-mission="'+esc(mission.id)+'" '+(completed[mission.id]?'checked ':'')+(sync.role==='coach'?'disabled':'')+'><strong>'+esc(mission.title)+'</strong></label><p>'+esc(mission.text)+'</p>'+(mission.link?'<a class="text-button" href="'+esc(mission.link)+'" target="_blank" rel="noopener noreferrer">'+esc(mission.linkLabel)+' ↗</a>':'')+'</li>').join('')+'</ul>';
   }
   document.addEventListener('change',event=>{
     const checkbox=event.target.closest('[data-coaching-mission]');if(!checkbox||!COACHING||sync.role==='coach')return;
