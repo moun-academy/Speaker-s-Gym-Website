@@ -12,6 +12,7 @@ import NadiraPortal from './NadiraPortal.jsx'
 import PankajPortal from './PankajPortal.jsx'
 import AshwinPortal from './AshwinPortal.jsx'
 import MuhammadAshrafPortal from './MuhammadAshrafPortal.jsx'
+import KiyanPortal from './KiyanPortal.jsx'
 import { installCalendlyBookingTracking } from './metaTracking.js'
 
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/pankaj" element={<PankajPortal />} />
         <Route path="/ashwin" element={<AshwinPortal />} />
         <Route path="/muhammad-ashraf" element={<MuhammadAshrafPortal />} />
+        <Route path="/kiyan" element={<KiyanPortal />} />
         <Route path="/success" element={<ThankYouCall />} />
         {/* Old booking success URL, redirected so existing links keep working */}
         <Route path="/thank-you-call" element={<Navigate to="/success" replace />} />
