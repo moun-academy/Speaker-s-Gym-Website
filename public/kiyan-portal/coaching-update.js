@@ -1,41 +1,37 @@
 window.KIYAN_COACHING_UPDATE = {
-  "id": "onboarding-2026-10-11",
-  "date": "2026-10-11",
-  "callNumber": 0,
-  "label": "BEFORE CALL 1 · YOUR FIRST DAY",
-  "title": "Before we meet",
-  "completedLectures": [],
-  "summary": "No preparation needed. We need one recording to see where you stand on camera today, so the six weeks start from your real baseline.",
+  "id": "coaching-1-2026-10-12",
+  "date": "2026-10-12",
+  "callNumber": 1,
+  "label": "CALL 1 · 12 OCTOBER 2026",
+  "title": "One point. Your own words.",
+  "completedLectures": [1],
+  "summary": "You built your first PREP answers and made your opening cleaner. This week, keep one clear point from start to finish and use keywords instead of a script.",
   "challenges": [
-    "Speak the way you speak to a client in person. Your baseline does not need to be good, it just needs to be real",
-    "Keep your first take. No restarts, even if it feels imperfect. We want to see where you really are",
-    "Look at the lens, not at yourself on the screen",
-    "Hide the structure guide for now. We learn the framework together on our first call"
+    "Stay with one point and one reason when distractions pull you toward other ideas.",
+    "Start cleanly without “so”, use one personal example, and return to your original point.",
+    "Reduce repeated words and add a little more energy to your pace.",
+    "Tie practice to an existing habit, such as your morning coffee. Extra courses and reflections are optional."
   ],
   "missions": [
     {
-      "id": "install-app",
-      "title": "Add the Speaker’s Gym app to your phone and laptop",
-      "text": "Open the practice app and log in with your email. On your iPhone, open it in Safari, tap Share, then Add to Home Screen. On Android or a laptop, use the browser menu and choose Install."
+      "id": "prep-video",
+      "title": "Record, improve, and post your PREP video",
+      "text": "Answer one app question on video in 1–2 minutes. Use four keywords: point, reason, example, point. Read the feedback, record the same answer again, then download and post the improved video in the community. Repeat daily; one practice cycle is enough."
     },
     {
-      "id": "baseline-video",
-      "title": "Record your baseline video",
-      "text": "Tap Next question, pick any random question, hide the structure guide and answer to the camera as if you were explaining it to a client. One or two minutes, one take. If you do not manage before our call, we will record one together."
-    },
-    {
-      "id": "community-intro",
-      "title": "Say hello in the community",
-      "text": "If you feel comfortable, post your video with the title “Introduction: my first speaking practice”. If not, simply bring it to our first call."
+      "id": "prep-at-work",
+      "title": "Try PREP in a real conversation",
+      "text": "When a colleague or prospect asks a question, give one clear point, reason, personal example, and closing point. Save what happened in your reflections."
     }
   ],
   "nextCall": {
-    "start": "2026-10-12T12:30:00+04:00",
+    "start": "2026-10-19T12:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/whe-hxdp-wmp",
+    "meetingLink": "https://meet.google.com/qpv-kxsq-cgo",
+    "calendarEventId": "bbti6c2blki2768fnafeqhumf0",
     "inviteToFollow": false,
-    "prepTitle": "Bring your baseline video.",
-    "prepText": "We’ll watch it together, learn your first framework, and set your mission for the week."
+    "prepTitle": "Bring your practice and questions.",
+    "prepText": "We’ll review your community videos and build on your PREP practice."
   }
 };
