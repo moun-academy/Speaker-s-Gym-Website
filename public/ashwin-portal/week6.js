@@ -52,11 +52,13 @@
     { id: "who", label: "WHO?", answer: "Me, and the person beside me.", missing: "Who is this about? The listener has no one to follow." },
     { id: "where", label: "WHERE?", answer: "Behind the curtain of a packed hall.", missing: "Where are we? They can’t picture the scene." },
     { id: "when", label: "WHEN?", answer: "Last spring, just before I spoke.", missing: "When did this happen? Last week, or long ago?" },
-    { id: "what", label: "WHAT HAPPENED?", answer: "My heart pounded, and someone said, “I still feel this every single time.”", missing: "Then nothing happens. There is no story." }
+    { id: "what", label: "WHAT HAPPENED?", answer: "My heart pounded, and someone told me, “That’s not fear. That’s excitement.”", missing: "Then nothing happens. There is no story." },
+    { id: "why", label: "WHY? (THE POINT)", answer: "Nervous and excited feel the same in your body.", missing: "Then it’s only a memory. There is nothing to take away." }
   ];
   const fourQStory = [
     ["when", "Last spring,"], ["", " "], ["who", "I"], ["", " stood "], ["where", "behind the curtain of a packed hall,"], ["", " waiting to speak. "],
-    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "whispered, “I still feel this every single time.”"]
+    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "grinned and said, “That’s not fear. That’s excitement.”"],
+    ["", " "], ["why", "Nervous and excited feel the same in your body."]
   ];
 
   const senses = [
@@ -67,18 +69,18 @@
   ];
 
   const characterVersions = {
-    told: { label: "TOLD ABOUT", text: "The person beside me said they still felt nervous every time.", note: "We understand it. We don’t see it." },
-    alive: { label: "BROUGHT TO LIFE", text: "They turned to me, smiled, and said quietly: “I still feel this every single time.”", note: "Now we are backstage with you." }
+    told: { label: "TOLD ABOUT", text: "The person beside me told me the nerves were really excitement.", note: "We understand it. We don’t see it." },
+    alive: { label: "BROUGHT TO LIFE", text: "They leaned over, grinned, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", note: "Now we are backstage with you." }
   };
 
   const audiences = [
-    { id: "interview", name: "In a job interview", point: "being nervous does not mean you are not ready. It means you care about this job." },
-    { id: "team", name: "With your team", point: "everyone feels nervous before they speak. You are not the only one in the room who does." },
-    { id: "friend", name: "With a friend", point: "feeling nervous is normal. Even people with twenty years on stage still feel it." }
+    { id: "interview", name: "In a job interview", point: "nervous and excited feel the same in your body. Tell yourself you are excited, and walk in ready." },
+    { id: "team", name: "With your team", point: "nervous and excited feel the same in your body. Before you speak up, say “I’m excited.”" },
+    { id: "friend", name: "With a friend", point: "when your heart pounds, you can call it fear, or you can call it excitement. You get to choose." }
   ];
 
   const linkStories = [
-    { id: "curtain", name: "Standing behind the curtain, nervous" },
+    { id: "curtain", name: "Standing behind the curtain, heart pounding" },
     { id: "phone", name: "Teaching my dad to use a smartphone" },
     { id: "cook", name: "Cooking for ten people for the first time" }
   ];
@@ -88,9 +90,9 @@
     { id: "learn", name: "Learning a new skill" }
   ];
   const links = {
-    "curtain-job": "A new job is like standing behind that curtain. Everyone feels nervous. It means you care.",
-    "curtain-talk": "A presentation is like standing behind that curtain. Being nervous does not mean you are not ready. It means you care.",
-    "curtain-learn": "Learning something new is like standing behind that curtain. The nerves show you care, and almost everyone feels them.",
+    "curtain-job": "A new job is like standing behind that curtain. The pounding heart is excitement, not fear.",
+    "curtain-talk": "A presentation is like standing behind that curtain. Say “I’m excited” and your body is ready.",
+    "curtain-learn": "Learning something new is like standing behind that curtain. Nerves and excitement feel the same, so choose excitement.",
     "phone-job": "A new job is like teaching my dad to use his phone. Nobody expects you to know every button on day one. Ask twice if you need to.",
     "phone-talk": "A presentation is like teaching my dad his phone. If they look lost, slow down and show one button at a time.",
     "phone-learn": "Learning a new skill is like my dad with his phone. The first week is all mistakes. Then one day, you are sending everyone photos.",
@@ -102,10 +104,10 @@
   const storyBeats = [
     { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
     { part: "THE SENSES", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
-    { part: "THE CHARACTER", text: "The person beside me turned, smiled, and said quietly: “I still feel this every single time.”", cues: [["pause", "Pause before their line"], ["pitch", "Change your voice for them"]], ms: 300, pauseBefore: true },
-    { part: "THE INCIDENT", text: "And I realized I wasn’t the only one.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
-    { part: "THE POINT", text: "The reason I’m telling you this is because most people feel nervous before they speak in front of others.", cues: [["voice", "Stronger"], ["pitch", "Step up on “most”"], ["pitch", "Land the ending"]], ms: 280 },
-    { part: "THE LINK", text: "Life is like standing behind that curtain. Whenever you’re about to speak up, almost everyone feels what you feel.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
+    { part: "THE CHARACTER", text: "The person beside me leaned over, grinned, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"], ["pitch", "Bright and lifted, like them"]], ms: 300, pauseBefore: true },
+    { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pace", "Slow"], ["voice", "Stronger"], ["pause", "Hold 3 seconds"]], ms: 420, pauseAfter: true },
+    { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Stronger"], ["pitch", "Step up on “excited”"], ["pitch", "Land the ending"]], ms: 280 },
+    { part: "THE LINK", text: "Life is like standing behind that curtain. When your heart pounds, your body is getting ready.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
 
@@ -258,15 +260,15 @@
         <h1 id="week6PageTitle">Facts inform.<br /><em>Stories stay.</em></h1>
         <p class="w3-lede">Read both. Which one will you still remember tomorrow?</p>
         <div class="w6-pair">
-          <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Most people feel nervous before they speak in front of others.”</p></button>
-          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, looked at me and said, “I still feel this every single time.” I stared at them. They were smiling.</p><p class="w6-card-point"><b>The point:</b> Most people feel nervous before they speak in front of others.</p></button>
+          <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Nervous and excited feel the same in your body.”</p></button>
+          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, leaned over and grinned. “That’s not fear. That’s excitement. Say it with me: I’m excited!” So I did. And I walked out smiling.</p><p class="w6-card-point"><b>The point:</b> Nervous and excited feel the same in your body.</p></button>
         </div>
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
-          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the nerves."}</p>
+          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the pounding heart."}</p>
           <div class="w6-three">
             <article style="--i:0"><span>01</span><strong>Remembered</strong><p>You will remember the curtain long after you forget the fact.</p></article>
             <article style="--i:1"><span>02</span><strong>Connected</strong><p>You felt the dry mouth and the shaking hands. That feeling connects you to the speaker.</p></article>
-            <article style="--i:2"><span>03</span><strong>Moves you to act</strong><p>Hearing that even experienced speakers feel nervous makes it easier to step on stage yourself.</p></article>
+            <article style="--i:2"><span>03</span><strong>Moves you to act</strong><p>Hearing that nerves are really excitement makes it easier to step on stage yourself.</p></article>
           </div>
         </div>
       `, { className: "w6-why" });
@@ -306,12 +308,13 @@
         <p class="w3-eyebrow">WHAT MAKES A GOOD STORY</p>
         <h1 id="week6PageTitle">Four questions<br /><em>every story answers.</em></h1>
         <article class="w6-fourq" data-w6-fourq>
-          <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
+          <p class="w6-fq-intro">Every story answers these questions. Tap one to find its answer.</p>
           <div class="w6-fq-chips" role="group" aria-label="Pick a question">${fourQs.map(item => `<button type="button" class="${item.id}" data-w6-fq="${item.id}">${esc(item.label)}</button>`).join("")}</div>
-          <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question to find its answer in the story.</p>
+          <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
+          <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question above.</p>
           <button type="button" class="w6-fq-miss" data-w6-fq-miss disabled>Take that answer away</button>
         </article>
-        <blockquote>The incident answers these four.<br /><strong>The point answers one more: why am I telling you this?</strong></blockquote>
+        <blockquote>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
       `, { className: "w6-fourq-screen" });
     } else if (step === 5) {
       page = shell(`
@@ -320,9 +323,9 @@
         <div class="w6-formula">
           <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><strong class="w6-q">What happened?</strong><p>Who, what, where, when. Bring it to life with your senses and real people.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><strong class="w6-q">Why does it matter?</strong><p>Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because most people feel nervous before they speak in front of others.”</i></article>
+          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><strong class="w6-q">Why does it matter?</strong><p>Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because nervous and excited feel the same in your body.”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><strong class="w6-q">How does it apply to you?</strong><p>Show how the story applies to the listener’s own life, so it feels useful to them.</p><i>“Life is like standing behind that curtain. Whenever you’re about to speak up, almost everyone feels what you feel.”</i></article>
+          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><strong class="w6-q">How does it apply to you?</strong><p>Show how the story applies to the listener’s own life, so it feels useful to them.</p><i>“Life is like standing behind that curtain. When your heart pounds, your body is getting ready.”</i></article>
         </div>
         <div class="w6-timebar" aria-label="Most of the time goes to the incident. The point and the link take one or two sentences each."><span class="incident"><small>INCIDENT · most of your time</small></span><span class="point"><small>POINT</small></span><span class="link"><small>LINK</small></span></div>
         <blockquote>PREP puts the point first.<br /><strong>A story saves the point for after the incident. That is what keeps them curious.</strong></blockquote>
@@ -529,7 +532,7 @@
     });
     box.querySelectorAll("[data-w6-fq]").forEach(button => button.classList.toggle("selected", button.dataset.w6Fq === active));
     const out = box.querySelector("[data-w6-fq-answer]");
-    out.textContent = !item ? "Tap a question to find its answer in the story." : missing ? item.missing : item.answer;
+    out.textContent = !item ? "Tap a question above." : missing ? item.missing : item.answer;
     out.classList.toggle("bad", missing);
     const button = box.querySelector("[data-w6-fq-miss]");
     button.disabled = !item;
@@ -696,7 +699,7 @@
       const right = guess.dataset.w6GuessChoice === "oxytocin";
       root.querySelectorAll("[data-w6-guess-choice]").forEach(button => button.classList.toggle("chosen", button === guess));
       out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
-      out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about being nervous, so you felt close to them.`;
+      out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about the shaking hands, so you felt close to them.`;
       return;
     }
 

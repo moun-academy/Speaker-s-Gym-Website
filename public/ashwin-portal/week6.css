@@ -400,3 +400,9 @@ body.week6-open { overflow: hidden; }
 .w6-fq-answer.bad { color: #9b4a3a; }
 .w6-fq-miss { margin-top: 6px; padding: 8px 14px; border: 0; background: transparent; color: var(--muted); font: 600 14px var(--detail); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .w6-fq-miss:disabled { opacity: .4; cursor: default; }
+/* four questions: the question row comes first, the point is the fifth */
+.w6-fq-intro { margin: 0; color: var(--muted); font: 400 16px/1.4 var(--display); }
+.w6-fq-chips { margin: 12px 0 18px; }
+.w6-fq-chips button.why { border-left-color: #7b5fb0; }
+.w6-fq-story span[data-q="why"] { background: #e3dcf0; font-weight: 600; }
+.w6-fq-story { margin-top: 4px; }
