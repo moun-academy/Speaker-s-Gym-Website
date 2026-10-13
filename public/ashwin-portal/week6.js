@@ -149,7 +149,8 @@
   // Step 3 (the chemical quiz) was retired; saved positions on it move on to the next slide.
   // Step 20 (the four questions) is a newer slide placed before the formula, so the list order is the real order.
   // Step 6 (paint the scene) was retired; saved positions on it move on to the next slide.
-  const stepOrder = [0, 1, 2, 4, 20, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  // Step 14 (three eyes) comes before step 13 (collect stories): learn where stories hide, then start collecting.
+  const stepOrder = [0, 1, 2, 4, 20, 5, 8, 9, 10, 11, 12, 14, 13, 15, 16, 17, 18, 19];
   const lectureStepCount = 15;
   const completeStep = 16;
   let previousFocus = null;
