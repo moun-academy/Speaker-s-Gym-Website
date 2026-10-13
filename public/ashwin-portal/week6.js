@@ -57,7 +57,7 @@
   ];
   const fourQStory = [
     ["when", "Last spring,"], ["", " "], ["who", "I"], ["", " stood "], ["where", "behind the curtain of a packed hall,"], ["", " waiting to speak. "],
-    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "grinned and said, “That’s not fear. That’s excitement.”"],
+    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "smiled and said, “That’s not fear. That’s excitement.”"],
     ["", " "], ["why", "Nervous and excited feel the same in your body."]
   ];
 
@@ -70,7 +70,7 @@
 
   const characterVersions = {
     told: { label: "TOLD ABOUT", text: "The person beside me told me the nerves were really excitement.", note: "We understand it. We don’t see it." },
-    alive: { label: "BROUGHT TO LIFE", text: "They leaned over, grinned, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", note: "Now we are backstage with you." }
+    alive: { label: "BROUGHT TO LIFE", text: "They leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", note: "Now we are backstage with you." }
   };
 
   const audiences = [
@@ -104,7 +104,7 @@
   const storyBeats = [
     { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
     { part: "THE SENSES", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
-    { part: "THE CHARACTER", text: "The person beside me leaned over, grinned, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"], ["pitch", "Bright and lifted, like them"]], ms: 300, pauseBefore: true },
+    { part: "THE CHARACTER", text: "The person beside me leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"], ["pitch", "Bright and lifted, like them"]], ms: 300, pauseBefore: true },
     { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pace", "Slow"], ["voice", "Stronger"], ["pause", "Hold 3 seconds"]], ms: 420, pauseAfter: true },
     { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Stronger"], ["pitch", "Step up on “excited”"], ["pitch", "Land the ending"]], ms: 280 },
     { part: "THE LINK", text: "Life is like standing behind that curtain. When your heart pounds, your body is getting ready.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
@@ -116,7 +116,7 @@
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
     { key: "senses", label: "VAKS · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
-    { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "She walked over, smiled, and said: “Welcome to the team.”" },
+    { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "Someone walked over, smiled, and said: “Welcome to the team.”" },
     { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" },
     { key: "link", label: "THE LINK", hint: "… is like …", placeholder: "Starting anything new is like that first week…" }
   ];
@@ -261,7 +261,7 @@
         <p class="w3-lede">Read both. Which one will you still remember tomorrow?</p>
         <div class="w6-pair">
           <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Nervous and excited feel the same in your body.”</p></button>
-          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, leaned over and grinned. “That’s not fear. That’s excitement. Say it with me: I’m excited!” So I did. And I walked out smiling.</p><p class="w6-card-point"><b>The point:</b> Nervous and excited feel the same in your body.</p></button>
+          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, leaned over and smiled. “That’s not fear. That’s excitement. Say it with me: I’m excited!” So I did. And I walked out smiling.</p><p class="w6-card-point"><b>The point:</b> Nervous and excited feel the same in your body.</p></button>
         </div>
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
           <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the pounding heart."}</p>
