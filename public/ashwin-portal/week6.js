@@ -50,33 +50,33 @@
   const chemLabels = { dopamine: "DOPAMINE", oxytocin: "OXYTOCIN", endorphins: "ENDORPHINS" };
 
   const wParts = [
-    { key: "when", text: "Two years ago," },
+    { key: "when", text: "Last spring," },
     { key: "who", text: "I" },
-    { key: "", text: "walked into a job interview" },
-    { key: "where", text: "in a small glass meeting room." },
-    { key: "", text: "The manager asked me one simple question, and" },
-    { key: "what", text: "my mind went completely blank." }
+    { key: "", text: "stood behind the curtain" },
+    { key: "where", text: "of a packed hall," },
+    { key: "", text: "waiting to speak, and" },
+    { key: "what", text: "my heart began to pound." }
   ];
   const senses = [
-    { id: "V", name: "See", full: "Visual", line: "Three faces were looking at me. One of them stopped writing." },
-    { id: "A", name: "Hear", full: "Auditory", line: "The only sound was the air conditioning, humming." },
-    { id: "K", name: "Feel", full: "Kinesthetic", line: "My face went hot, and my hands were sweating on the table." },
-    { id: "S", name: "Smell", full: "Smell", line: "The room smelled of fresh coffee that nobody was drinking." }
+    { id: "V", name: "See", full: "Visual", line: "Through a gap in the curtain, I watched three hundred people find their seats." },
+    { id: "A", name: "Hear", full: "Auditory", line: "I could hear them, a low wave of voices that wouldn’t stop." },
+    { id: "K", name: "Feel", full: "Kinesthetic", line: "My mouth was dry, and my hands wouldn’t stop shaking." },
+    { id: "S", name: "Smell", full: "Smell", line: "The air smelled of coffee and warm carpet." }
   ];
 
   const characterVersions = {
-    told: { label: "TOLD ABOUT", text: "The manager asked me why they should hire me, and I didn’t know what to say.", note: "We understand it. We don’t see it." },
-    alive: { label: "BROUGHT TO LIFE", text: "She put her pen down. Leaned back in her chair. And said, slowly: “So… why should we hire you?”", note: "Now we are in the room with you." }
+    told: { label: "TOLD ABOUT", text: "The person beside me said they still felt nervous every time.", note: "We understand it. We don’t see it." },
+    alive: { label: "BROUGHT TO LIFE", text: "They turned to me, smiled, and said quietly: “I still feel this every single time.”", note: "Now we are backstage with you." }
   };
 
   const audiences = [
-    { id: "interview", name: "In a job interview", point: "I learned to stay calm under pressure. When I don’t know an answer, I pause, think, and start with my point. That is what I would bring to this role." },
-    { id: "team", name: "With your team", point: "many of us freeze when we speak up. It is normal. Take two seconds. Nobody minds the silence as much as you do." },
-    { id: "friend", name: "With a friend", point: "you are not the only one who goes blank. It happens to everyone, even in the moments that matter most." }
+    { id: "interview", name: "In a job interview", point: "being nervous does not mean you are not ready. It means you care about this job." },
+    { id: "team", name: "With your team", point: "everyone feels nervous before they speak. You are not the only one in the room who does." },
+    { id: "friend", name: "With a friend", point: "feeling nervous is normal. Even people with twenty years on stage still feel it." }
   ];
 
   const linkStories = [
-    { id: "blank", name: "My mind went blank in an interview" },
+    { id: "curtain", name: "Standing behind the curtain, nervous" },
     { id: "phone", name: "Teaching my dad to use a smartphone" },
     { id: "cook", name: "Cooking for ten people for the first time" }
   ];
@@ -86,9 +86,9 @@
     { id: "learn", name: "Learning a new skill" }
   ];
   const links = {
-    "blank-job": "A new job is like that interview room. The silence feels long to you, but to everyone else, it looks like you are thinking.",
-    "blank-talk": "A presentation is like that interview room. If you go blank, a pause looks calm, not lost. Breathe, and start with your point.",
-    "blank-learn": "Learning anything new is like that interview. You will go blank sometimes. That is not failure. It is the moment before you get better.",
+    "curtain-job": "A new job is like standing behind that curtain. Everyone feels nervous. It means you care.",
+    "curtain-talk": "A presentation is like standing behind that curtain. Being nervous does not mean you are not ready. It means you care.",
+    "curtain-learn": "Learning something new is like standing behind that curtain. The nerves show you care, and almost everyone feels them.",
     "phone-job": "A new job is like teaching my dad to use his phone. Nobody expects you to know every button on day one. Ask twice if you need to.",
     "phone-talk": "A presentation is like teaching my dad his phone. If they look lost, slow down and show one button at a time.",
     "phone-learn": "Learning a new skill is like my dad with his phone. The first week is all mistakes. Then one day, you are sending everyone photos.",
@@ -98,17 +98,17 @@
   };
 
   const storyBeats = [
-    { part: "SET THE SCENE", text: "Two years ago, I walked into a job interview, in a small glass meeting room.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
-    { part: "THE SENSES", text: "Three faces were looking at me. The only sound was the air conditioning. My hands were sweating on the table.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
-    { part: "THE CHARACTER", text: "The manager put her pen down, leaned back, and said: “So… why should we hire you?”", cues: [["pause", "Pause before her line"], ["pitch", "Change your voice for her"]], ms: 300, pauseBefore: true },
-    { part: "THE INCIDENT", text: "And my mind went completely blank.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
-    { part: "THE POINT", text: "The reason I’m telling you this is because that silence taught me something: a pause is not a failure.", cues: [["voice", "Stronger"], ["pitch", "Step up on “not”"], ["pitch", "Land the ending"]], ms: 280 },
-    { part: "THE LINK", text: "Life is like that interview room. The silence feels long to you, but to everyone else, it looks like you are thinking.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
+    { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
+    { part: "THE SENSES", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
+    { part: "THE CHARACTER", text: "The person beside me turned, smiled, and said quietly: “I still feel this every single time.”", cues: [["pause", "Pause before their line"], ["pitch", "Change your voice for them"]], ms: 300, pauseBefore: true },
+    { part: "THE INCIDENT", text: "And I realized I wasn’t the only one.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
+    { part: "THE POINT", text: "The reason I’m telling you this is because feeling nervous does not mean you are not ready. It means you care.", cues: [["voice", "Stronger"], ["pitch", "Step up on “care”"], ["pitch", "Land the ending"]], ms: 280 },
+    { part: "THE LINK", text: "Life is like that curtain. Almost everyone standing behind it feels the same thing.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
 
   const storyFields = [
-    { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and my first manager" },
+    { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and a speaker with twenty years of experience" },
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
     { key: "senses", label: "VAKS · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
@@ -253,10 +253,10 @@
         <p class="w3-lede">Read both. Which one will you still remember tomorrow?</p>
         <div class="w6-pair">
           <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Most people feel nervous before they speak in front of others.”</p></button>
-          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>“The stage lights were so bright I couldn’t see a single face, only a wall of silence, with three hundred people breathing in it. My hands were damp around the microphone. I opened my mouth… and every word I had practiced was gone.”</p></button>
+          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, looked at me and said, “I still feel this every single time.” I stared at them. They were smiling.</p><p class="w6-card-point"><b>The point:</b> being nervous does not mean you are not ready. It means you care.</p></button>
         </div>
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
-          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the room. You feel the blank."}</p>
+          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the nerves."}</p>
           <div class="w6-three">
             <article style="--i:0"><span>01</span><strong>Remembered</strong><p>Told well, a story sticks long after the facts are gone.</p></article>
             <article style="--i:1"><span>02</span><strong>Connected</strong><p>The more stories you tell, the deeper the connection with people.</p></article>
@@ -321,7 +321,7 @@
         <p class="w3-eyebrow">THE STORYTELLING FORMULA</p>
         <h1 id="week6PageTitle">Incident. Point. Link.<br /><em>Three parts, every time.</em></h1>
         <div class="w6-formula">
-          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><p>What happened. Who, what, where, when. Bring it to life with the senses and with real characters.</p><i>“Two years ago, in a job interview…”</i></article>
+          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><p>What happened. Who, what, where, when. Bring it to life with the senses and with real characters.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
           <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><p>Why you told it. Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
@@ -353,7 +353,7 @@
         </article>
         <div class="w6-char-tips ${mode === "alive" ? "in" : ""}" data-w6-char-tips>
           <article style="--i:0"><span>DIALOGUE</span><strong>Use their real words</strong><p>Quote the line. It makes the moment happen now, in front of them.</p></article>
-          <article style="--i:1"><span>BODY LANGUAGE</span><strong>Show what they did</strong><p>Put the pen down. Lean back. Do it as you say it.</p></article>
+          <article style="--i:1"><span>BODY LANGUAGE</span><strong>Show what they did</strong><p>Turn to them. Smile. Do it as you say it.</p></article>
           <article style="--i:2"><span>VOICE</span><strong>Give them a voice</strong><p>Pause before their line (L4). Then change your pitch and pace for them (L3, L5).</p></article>
         </div>
       `, { className: "w6-char-screen" });
@@ -386,7 +386,7 @@
         <article class="w6-point">
           <p class="w6-magic"><span data-w6-type>The reason I’m telling you this is because…</span></p>
           <div class="w6-audience" role="group" aria-label="Who are you telling?">${audiences.map(item => `<button type="button" class="${active?.id === item.id ? "on" : ""} ${tried.includes(item.id) ? "tried" : ""}" data-w6-audience="${item.id}">${esc(item.name)}</button>`).join("")}</div>
-          <p class="w6-point-out ${active ? "in" : ""}" data-w6-point-out aria-live="polite">${active ? `…${esc(active.point)}` : "Same interview story. Choose who is listening, and see how the point changes."}</p>
+          <p class="w6-point-out ${active ? "in" : ""}" data-w6-point-out aria-live="polite">${active ? `…${esc(active.point)}` : "Same story. Choose who is listening, and see how the point changes."}</p>
         </article>
         <p class="w3-coach-note">Without a point, a story is just a nice memory. With a point, it becomes a lesson people keep. Try at least two listeners.</p>
       `, { className: "w6-point-screen" });
@@ -431,7 +431,7 @@
         <h1 id="week6PageTitle">Great storytellers don’t invent stories.<br /><em>They collect them.</em></h1>
         <div class="w6-prompts" role="group" aria-label="Story idea starters">${Object.keys(prompts).map(name => `<button type="button" class="${category === name ? "on" : ""}" data-w6-prompt="${esc(name)}">${esc(name)}</button>`).join("")}</div>
         <p class="w6-prompt-out ${category ? "in" : ""}" data-w6-prompt-out aria-live="polite">${category ? esc(state.promptText || prompts[category][0]) : "Tap a starter. Let a memory come back."}</p>
-        <form class="w6-add" data-w6-add><input type="text" maxlength="60" placeholder="Give the story a short title, like “The blank interview”" data-w6-book-title aria-label="Story title" /><button type="submit" class="w5-primary">Add to my shelf</button></form>
+        <form class="w6-add" data-w6-add><input type="text" maxlength="60" placeholder="Give the story a short title, like “Behind the curtain”" data-w6-book-title aria-label="Story title" /><button type="submit" class="w5-primary">Add to my shelf</button></form>
         <div class="w6-shelf" data-w6-shelf>${shelf(library)}</div>
         <p class="w3-coach-note">Add at least three story ideas. <span data-w6-book-count>${library.length}</span> on your shelf.</p>
       `, { className: "w6-library-screen" });

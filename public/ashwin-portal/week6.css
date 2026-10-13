@@ -354,3 +354,6 @@ body.week6-open { overflow: hidden; }
   .w6-flask i, .w6-chem.open .w6-flask em, .w6-hold.playing, .w6-clock.running strong { animation: none; }
   .w6-eye { transition: none; }
 }
+/* the point that closes the slide 2 story */
+.w6-card p.w6-card-point { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(190,161,78,.55); font-size: clamp(16px,1.7vw,19px); color: #6b5520; }
+.w6-card p.w6-card-point b { color: var(--ink); }
