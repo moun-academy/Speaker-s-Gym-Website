@@ -254,6 +254,47 @@ const defaultState = {
       "completedAt": null,
       "lastViewedAt": null
 },
+  week6Lecture: {
+    flowVersion: 1,
+    currentStep: 0,
+    currentLevel: null,
+    memoryChoice: "",
+    chemicalsSeen: [],
+    chemSort: {},
+    removedNow: null,
+    removedTried: [],
+    senses: [],
+    charMode: "",
+    charTried: [],
+    setupMinutes: null,
+    setupHit: false,
+    pointTried: [],
+    linkStory: "",
+    linkSituation: "",
+    linkTried: [],
+    guidePlayed: false,
+    huntSolved: [],
+    huntSkipped: false,
+    showMode: "plain",
+    toldAloud: false,
+    story: {},
+    storySeconds: 0,
+    storyTold: false,
+    promptCategory: "",
+    promptText: "",
+    library: [],
+    eyesSeen: [],
+    prediction: "",
+    missionLevel: null,
+    mission: "",
+    missionStatus: "not-started",
+    acceptedAt: null,
+    actualResult: "",
+    evidenceId: null,
+    lectureCompletedAt: null,
+    completedAt: null,
+    lastViewedAt: null
+  },
   week4Lecture: {
     flowVersion: 2,
     currentStep: 0,
@@ -325,6 +366,7 @@ function loadStoredState(fromAccount) {
       ...defaultState,
       ...stored,
       week5Lecture: { ...defaultState.week5Lecture, ...(stored?.week5Lecture || {}), currentStep: Math.max(0, Math.min(15, Number(stored?.week5Lecture?.currentStep) || 0)) },
+      week6Lecture: { ...defaultState.week6Lecture, ...(stored?.week6Lecture || {}), currentStep: Math.max(0, Math.min(21, Number(stored?.week6Lecture?.currentStep) || 0)) },
       evidenceBank: Array.isArray(stored?.evidenceBank) ? stored.evidenceBank : [],
       week1Lecture: {
         ...defaultState.week1Lecture,
@@ -800,6 +842,21 @@ function renderWeekDetail() {
         : '<strong>Discover → Range → Shape → Mix → Prove</strong><span>Step up, lift, drop and land, so people hear how you feel.</span>';
     }
   }
+  const week6Entry = $("#week6LectureEntry");
+  if (week6Entry) {
+    week6Entry.hidden = state.selectedWeek !== 5;
+    if (!week6Entry.hidden) {
+      const lecture = state.week6Lecture;
+      const finished = Boolean(lecture.completedAt || lecture.evidenceId);
+      const taught = Boolean(lecture.lectureCompletedAt);
+      $("#week6LectureButton").textContent = finished || taught ? "Review Lecture 6" : Number(lecture.currentStep) > 0 ? "Continue Lecture 6" : "Start Lecture 6";
+      $("#week6MissionButton").hidden = !(taught && !finished);
+      $("#week6LectureStatus").innerHTML = finished
+        ? '<strong>Week 6 complete</strong><span>Storytelling unlocked · Evidence collected</span>'
+        : taught ? '<strong>Final assignment active</strong><span>' + escapeHTML(lecture.mission) + ' Return after you record it to share what happened.</span>'
+        : '<strong>Discover → Formula → Tell → Prove</strong><span>Tell one true story that people remember.</span>';
+    }
+  }
 }
 
 function renderReflection() {
@@ -914,11 +971,12 @@ window.SpeakersGymPortal = {
     renderAll();
   },
   updateWeek5(patch) { state.week5Lecture = { ...state.week5Lecture, ...patch }; saveState(); },
+  updateWeek6(patch) { state.week6Lecture = { ...state.week6Lecture, ...patch }; saveState(); },
   resetLecture(week) {
-    if (week !== 5 || !window.confirm("Reset Lecture 5? Only its answers, mission and evidence will be cleared.")) return false;
-    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== 5);
-    state.week5Lecture = structuredClone(defaultState.week5Lecture);
-    saveState(); renderAll(); showToast("Lecture 5 is ready for a fresh start."); return true;
+    if (![5, 6].includes(week) || !window.confirm(`Reset Lecture ${week}? Only its answers, mission and evidence will be cleared.`)) return false;
+    state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== week);
+    state[`week${week}Lecture`] = structuredClone(defaultState[`week${week}Lecture`]);
+    saveState(); renderAll(); showToast(`Lecture ${week} is ready for a fresh start.`); return true;
   },
   updateWeek4(patch) {
     state.week4Lecture = { ...state.week4Lecture, ...patch };
@@ -1020,6 +1078,7 @@ $$('#today, #exposure, #journey, #reflection').forEach(section => sectionObserve
 renderAll();
 
 $("#week5ResetButton")?.addEventListener("click", () => window.SpeakersGymPortal.resetLecture(5));
+$("#week6ResetButton")?.addEventListener("click", () => window.SpeakersGymPortal.resetLecture(6));
 
 document.addEventListener("click", async event => {
   if (event.target.closest("#saveCoachMission")) {
