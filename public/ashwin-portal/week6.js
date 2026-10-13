@@ -61,6 +61,26 @@
     ["", " "], ["why", "Nervous and excited feel the same in your body."]
   ];
 
+  // The game on slide 5: find the words that answer each question in a new short story.
+  const huntOrder = ["who", "where", "when", "what", "why"];
+  const huntPrompts = {
+    who: ["WHO?", "Who is in the story?", "Look for the people."],
+    where: ["WHERE?", "Where does it happen?", "Look for a place."],
+    when: ["WHEN?", "When does it happen?", "Look for a day or a time."],
+    what: ["WHAT HAPPENED?", "What happened?", "Look for the moment something changed."],
+    why: ["WHY? (THE POINT)", "Why is the story being told? Find the point.", "Look for the lesson at the end."]
+  };
+  const huntStory = [
+    { t: "On Saturday morning,", q: "when" },
+    { t: "my brother and I", q: "who" },
+    { t: "were waiting", q: "" },
+    { t: "at the train station.", q: "where" },
+    { t: "The board said our train was cancelled.", q: "what" },
+    { t: "So we ran across town", q: "what" },
+    { t: "and caught the last bus.", q: "what" },
+    { t: "Sometimes the best days begin when the plan falls apart.", q: "why" }
+  ];
+
   const senses = [
     { id: "V", name: "See", full: "Visual", line: "Through a gap in the curtain, I watched three hundred people find their seats." },
     { id: "A", name: "Hear", full: "Auditory", line: "I could hear them, a low wave of voices that wouldn’t stop." },
@@ -304,17 +324,31 @@
         <p class="w3-coach-note">Tap any piece to take it away, and see what happens to the story. Try at least two.</p>
       `, { className: "w6-equation-screen" });
     } else if (step === 20) {
+      const solved = new Set(state.huntSolved || []);
+      const finished = huntOrder.every(id => solved.has(id));
+      const showExample = finished || state.huntSkipped;
+      const current = huntOrder.find(id => !solved.has(id));
       page = shell(`
-        <p class="w3-eyebrow">WHAT MAKES A GOOD STORY</p>
+        <p class="w3-eyebrow">YOUR TURN · FIND THE ANSWERS</p>
         <h1 id="week6PageTitle">Four questions<br /><em>every story answers.</em></h1>
-        <article class="w6-fourq" data-w6-fourq>
-          <p class="w6-fq-intro">Every story answers these questions. Tap one to find its answer.</p>
-          <div class="w6-fq-chips" role="group" aria-label="Pick a question">${fourQs.map(item => `<button type="button" class="${item.id}" data-w6-fq="${item.id}">${esc(item.label)}</button>`).join("")}</div>
-          <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
-          <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question above.</p>
-          <button type="button" class="w6-fq-miss" data-w6-fq-miss disabled>Take that answer away</button>
+        <article class="w6-hunt" data-w6-hunt>
+          <ol class="w6-hunt-stars" aria-label="Your stars">${huntOrder.map(id => `<li class="${id} ${solved.has(id) ? "on" : ""} ${id === current ? "now" : ""}" data-hq="${id}"><b>★</b>${esc(huntPrompts[id][0])}</li>`).join("")}</ol>
+          <p class="w6-hunt-prompt" data-w6-hunt-prompt aria-live="polite">${finished ? "★★★★★ You found all five answers." : `Tap the words that answer: <b>${esc(huntPrompts[current][0])}</b> ${esc(huntPrompts[current][1])}`}</p>
+          <p class="w6-hunt-story">${huntStory.map((chunk, index) => `<button type="button" class="w6-chunk ${chunk.q && solved.has(chunk.q) ? `solved ${chunk.q}` : ""}" data-chunk="${index}" ${chunk.q && solved.has(chunk.q) ? "disabled" : ""}>${esc(chunk.t)}</button>`).join(" ")}</p>
+          <p class="w6-hunt-hint" data-w6-hunt-hint aria-live="polite"></p>
+          ${showExample ? "" : '<button type="button" class="w6-fq-miss" data-w6-hunt-skip>Skip, show me an example</button>'}
         </article>
-        <blockquote>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
+        <section class="w6-example" data-w6-example ${showExample ? "" : "hidden"}>
+          <p class="w6-example-label">NOW SEE IT IN THE CURTAIN STORY</p>
+          <article class="w6-fourq" data-w6-fourq>
+            <p class="w6-fq-intro">Tap a question to find its answer.</p>
+            <div class="w6-fq-chips" role="group" aria-label="Pick a question">${fourQs.map(item => `<button type="button" class="${item.id}" data-w6-fq="${item.id}">${esc(item.label)}</button>`).join("")}</div>
+            <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
+            <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question above.</p>
+            <button type="button" class="w6-fq-miss" data-w6-fq-miss disabled>Take that answer away</button>
+          </article>
+          <blockquote>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
+        </section>
       `, { className: "w6-fourq-screen" });
     } else if (step === 5) {
       page = shell(`
@@ -518,6 +552,39 @@
   }
 
   /* ---------- slide 11: play the guide ---------- */
+  function tapChunk(button) {
+    const state = getState();
+    const solved = new Set(state.huntSolved || []);
+    const current = huntOrder.find(id => !solved.has(id));
+    if (!current) return;
+    const chunk = huntStory[Number(button.dataset.chunk)];
+    const hint = root.querySelector("[data-w6-hunt-hint]");
+    if (chunk.q !== current) {
+      button.classList.remove("shake");
+      void button.offsetWidth;
+      button.classList.add("shake");
+      hint.textContent = `Not that one. ${huntPrompts[current][2]}`;
+      return;
+    }
+    solved.add(current);
+    update({ huntSolved: [...solved] });
+    const finished = huntOrder.every(id => solved.has(id));
+    if (finished) {
+      portal.showToast("Five stars. You can find the answers in any story.");
+      return renderStep();
+    }
+    root.querySelectorAll(".w6-chunk").forEach((el, index) => {
+      if (huntStory[index].q === current) { el.classList.add("solved", current); el.disabled = true; }
+    });
+    const next = huntOrder.find(id => !solved.has(id));
+    root.querySelectorAll("[data-hq]").forEach(li => {
+      li.classList.toggle("on", solved.has(li.dataset.hq));
+      li.classList.toggle("now", li.dataset.hq === next);
+    });
+    root.querySelector("[data-w6-hunt-prompt]").innerHTML = `Yes! Next, tap the words that answer: <b>${esc(huntPrompts[next][0])}</b> ${esc(huntPrompts[next][1])}`;
+    hint.textContent = "";
+  }
+
   function showFourQ() {
     const box = root.querySelector("[data-w6-fourq]");
     const active = box.dataset.active || "";
@@ -701,6 +768,13 @@
       out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
       out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about the shaking hands, so you felt close to them.`;
       return;
+    }
+
+    const chunk = event.target.closest("[data-chunk]");
+    if (chunk) return tapChunk(chunk);
+    if (event.target.closest("[data-w6-hunt-skip]")) {
+      update({ huntSkipped: true });
+      return renderStep();
     }
 
     const fq = event.target.closest("[data-w6-fq]");

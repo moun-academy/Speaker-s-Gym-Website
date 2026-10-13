@@ -143,6 +143,8 @@
       linkSituation: "",
       linkTried: [],
       guidePlayed: false,
+      huntSolved: [],
+      huntSkipped: false,
       toldAloud: false,
       story: {},
       storySeconds: 0,
