@@ -258,13 +258,9 @@
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
           <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the nerves."}</p>
           <div class="w6-three">
-            <article style="--i:0"><span>01</span><strong>Remembered</strong><p>Told well, a story sticks long after the facts are gone.</p></article>
-            <article style="--i:1"><span>02</span><strong>Connected</strong><p>The more stories you tell, the deeper the connection with people.</p></article>
-            <article style="--i:2"><span>03</span><strong>Moved to act</strong><p>Facts make people think. Stories make people do something.</p></article>
-          </div>
-          <div class="w3-research w6-research">
-            <article><small>STANFORD · CHIP HEATH</small><strong>2 in 3 remembered the story</strong><p>Students gave one-minute talks. Afterwards, only about 1 in 20 people remembered a number. About 2 in 3 remembered a story.</p></article>
-            <article><small>BRAIN SCIENCE · PAUL ZAK</small><strong>Stories make people give</strong><p>People watched a short true story about a father and his sick son. Their brains made more of the trust chemical, and they gave more money to charity.</p></article>
+            <article style="--i:0"><span>01</span><strong>Remembered</strong><p>You will remember the curtain long after you forget the fact.</p></article>
+            <article style="--i:1"><span>02</span><strong>Connected</strong><p>You felt the dry mouth and the shaking hands. That feeling connects you to the speaker.</p></article>
+            <article style="--i:2"><span>03</span><strong>Moves you to act</strong><p>Hearing that even experienced speakers feel nervous makes it easier to step on stage yourself.</p></article>
           </div>
         </div>
       `, { className: "w6-why" });
