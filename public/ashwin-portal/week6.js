@@ -75,7 +75,7 @@
 
   // Slide 7: the same moment told plainly, and told with the body.
   const showVersions = {
-    plain: { parts: [{ tag: "", html: "I stood behind the curtain, waiting to speak. It was bright, loud and crowded." }], read: "We understand it. We don’t see it." },
+    plain: { parts: [{ tag: "", html: "I stood behind the curtain, waiting to speak. There were a lot of people out there." }], read: "We understand it. We don’t see it." },
     senses: {
       parts: [
         { tag: "TOUCH", html: "I gripped the <mark>rough</mark>, <mark>heavy</mark> velvet curtain." },
