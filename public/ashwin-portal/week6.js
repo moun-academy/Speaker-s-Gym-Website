@@ -152,8 +152,9 @@
   // Step 20 (the four questions) is a newer slide placed before the formula, so the list order is the real order.
   // Step 6 (paint the scene) was retired; saved positions on it move on to the next slide.
   // Step 14 (three eyes) comes before step 13 (collect stories): learn where stories hide, then start collecting.
-  const stepOrder = [0, 1, 2, 4, 20, 5, 8, 9, 10, 11, 12, 14, 13, 15, 16, 17, 18, 19];
-  const lectureStepCount = 15;
+  // Step 21 (why storytelling matters) is a newer slide placed before the fact-versus-story slide.
+  const stepOrder = [0, 21, 1, 2, 4, 20, 5, 8, 9, 10, 11, 12, 14, 13, 15, 16, 17, 18, 19];
+  const lectureStepCount = 16;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
@@ -167,7 +168,7 @@
   const update = patch => portal.updateWeek6(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || 1);
   // Step 20 sits in the same chapter and stage as step 4.
-  const slot = step => step === 20 ? 4 : step;
+  const slot = step => step === 20 ? 4 : step === 21 ? 1 : step;
   const chapterFor = step => chapters.find(chapter => slot(step) >= chapter.start && slot(step) <= chapter.end);
   const stageFor = step => stages.find(stage => slot(step) <= stage.end) || stages[stages.length - 1];
 
@@ -191,7 +192,7 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step > completeStep && step !== 20;
+    const afterMission = step > completeStep && step < 20;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 6 · FINAL LECTURE";
@@ -273,6 +274,18 @@
         </div>
         <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index + 6}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
       `, { className: "opening w6-opening", nextLabel: "Begin the story" });
+    } else if (step === 21) {
+      page = shell(`
+        <p class="w3-eyebrow">WHY STORYTELLING MATTERS</p>
+        <h1 id="week6PageTitle">Stories are how people<br /><em>understand each other.</em></h1>
+        <div class="w6-whys">
+          <article data-w3-animate style="--i:0"><span aria-hidden="true">🧠</span><h2>Their mind follows yours</h2><p>When a story is easy to follow, the listener’s brain activity starts to match the speaker’s. The better the match, the better they understand.</p></article>
+          <article data-w3-animate style="--i:1"><span aria-hidden="true">❤️</span><h2>They feel close to you</h2><p>A story with a real person in it makes listeners care. Research suggests it makes them more willing to help.</p></article>
+          <article data-w3-animate style="--i:2"><span aria-hidden="true">📌</span><h2>They remember it</h2><p>A fact is easy to forget. A moment you can picture stays with you.</p></article>
+        </div>
+        <blockquote>Structure makes your story clear.<br /><strong>Your voice makes people feel it.</strong></blockquote>
+        <p class="w6-whys-source">Based on research from Princeton (Hasson, 2010) and Paul Zak’s lab.</p>
+      `, { className: "w6-whys-screen" });
     } else if (step === 1) {
       const choice = state.memoryChoice || "";
       page = shell(`

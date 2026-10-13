@@ -492,3 +492,12 @@ body.week6-open { overflow: hidden; }
 .w6-final .who { background: #f5ddd5; color: #7d3b2f; } .w6-final .when { background: #f6ecc9; color: #5f4c17; } .w6-final .what { background: #e6e1d4; color: #3c3a33; } .w6-final .why { background: #e3dcf0; color: #4a3a78; }
 .w6-final .vol { background: #f5ddd5; color: #7d3b2f; } .w6-final .pace { background: #dbeee0; color: #234a33; } .w6-final .pause { background: #2f302b; color: #f1cb3d; } .w6-final .melody { background: #f6ecc9; color: #5f4c17; }
 .w6-final-note { width: min(760px,100%); margin: 18px auto 0; padding: 16px 22px; border-radius: 14px; background: var(--forest); color: var(--yellow); font: 500 clamp(19px,2.2vw,24px)/1.4 var(--display); text-align: center; }
+/* a short why: three simple reasons */
+.w6-whys { width: min(960px,100%); display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 28px auto 0; }
+.w6-whys article { display: grid; align-content: start; gap: 8px; padding: 22px 20px; border: 1px solid var(--line); border-top: 5px solid var(--gold); border-radius: 18px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); text-align: left; }
+.w6-whys article:nth-child(2) { border-top-color: #c8705d; } .w6-whys article:nth-child(3) { border-top-color: #5d9a74; }
+.w6-whys article > span { font-size: 34px; line-height: 1; }
+.w6-whys h2 { margin: 0; font: 500 clamp(21px,2.3vw,26px)/1.25 var(--display); }
+.w6-whys p { margin: 0; color: var(--muted); font: 400 17px/1.55 var(--display); }
+.w6-whys-source { margin: 14px 0 0; color: var(--muted); font: 400 13px var(--detail); text-align: center; }
+@media (max-width: 760px) { .w6-whys { grid-template-columns: 1fr; } }
