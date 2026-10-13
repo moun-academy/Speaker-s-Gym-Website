@@ -584,21 +584,8 @@
   function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    const story = state.story || {};
+    // Nothing blocks Continue: every exercise is optional.
     const requirements = {
-      1: [state.memoryChoice, "Choose the one you will remember tomorrow."],
-      2: [(state.chemicalsSeen || []).length >= 3, "Open all three chemicals first."],
-      3: [chemSort.every(item => (state.chemSort || {})[item.id]), "Choose a chemical for every moment."],
-      4: [(state.removedTried || []).length >= 2, "Take away at least two pieces to see what happens."],
-      6: [(state.senses || []).length >= 4, "Add all four senses: see, hear, feel and smell."],
-      7: [(state.charTried || []).length >= 2, "Try both versions out loud."],
-      8: [state.setupHit, "Find the sweet spot on the slider: two to three minutes."],
-      9: [(state.pointTried || []).length >= 2, "Try at least two different listeners."],
-      10: [(state.linkTried || []).length >= 2, "Try at least two story and moment pairs."],
-      11: [state.toldAloud, "Tell the story out loud, then tap “I told it out loud”."],
-      12: [String(story.what || "").trim() && String(story.point || "").trim(), "Write at least the incident and the point."],
-      13: [(state.library || []).length >= 3, "Add at least three story ideas to your shelf."],
-      14: [(state.eyesSeen || []).length >= 3, "Turn all three cards first."],
       15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
     if (requirements[step] && !requirements[step][0]) {
