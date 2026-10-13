@@ -380,3 +380,23 @@ body.week6-open { overflow: hidden; }
 .w6-formula article.incident .w6-q { color: #806727; }
 .w6-formula article.point .w6-q { color: #9b4a3a; }
 .w6-formula article.link .w6-q { color: #2f5a44; }
+/* the four questions slide */
+.w6-fourq { width: min(900px,100%); margin: 26px auto 0; padding: 26px 30px 22px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.88); box-shadow: var(--shadow); text-align: center; }
+.w6-fq-story { margin: 0; font: 400 clamp(20px,2.4vw,27px)/1.9 var(--display); text-align: center; }
+.w6-fq-story span { padding: 2px 6px; border-radius: 7px; transition: opacity .3s ease, background .3s ease, color .3s ease; }
+.w6-fq-story span[data-q="who"] { background: #f5ddd5; }
+.w6-fq-story span[data-q="where"] { background: #dbeee0; }
+.w6-fq-story span[data-q="when"] { background: #f6ecc9; }
+.w6-fq-story span[data-q="what"] { background: #e6e1d4; }
+.w6-fourq.focus .w6-fq-story span[data-q] { opacity: .3; }
+.w6-fourq.focus .w6-fq-story span[data-q].on { opacity: 1; box-shadow: 0 0 0 3px rgba(190,161,78,.45); }
+.w6-fourq.gone .w6-fq-story span.on { background: #fff1ec; color: #9b4a3a; font-weight: 700; box-shadow: 0 0 0 3px rgba(200,112,93,.45); }
+.w6-fq-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+.w6-fq-chips button { padding: 11px 18px; border: 1px solid var(--line); border-left-width: 6px; border-radius: 12px; background: white; color: var(--ink); font: 800 14px var(--detail); letter-spacing: .06em; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+.w6-fq-chips button:hover { transform: translateY(-2px); }
+.w6-fq-chips button.who { border-left-color: #c8705d; } .w6-fq-chips button.where { border-left-color: #5d9a74; } .w6-fq-chips button.when { border-left-color: #c9a34a; } .w6-fq-chips button.what { border-left-color: #8d8a80; }
+.w6-fq-chips button.selected { background: var(--forest); color: var(--yellow); border-color: var(--forest); }
+.w6-fq-answer { min-height: 30px; margin: 14px 0 0; color: var(--forest); font: 500 clamp(18px,2vw,22px)/1.4 var(--display); }
+.w6-fq-answer.bad { color: #9b4a3a; }
+.w6-fq-miss { margin-top: 6px; padding: 8px 14px; border: 0; background: transparent; color: var(--muted); font: 600 14px var(--detail); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.w6-fq-miss:disabled { opacity: .4; cursor: default; }

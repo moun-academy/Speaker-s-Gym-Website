@@ -47,6 +47,18 @@
     { key: "", text: "waiting to speak, and" },
     { key: "what", text: "my heart began to pound." }
   ];
+  // The four questions every story answers, with the curtain story split by question.
+  const fourQs = [
+    { id: "who", label: "WHO?", answer: "Me, and the person beside me.", missing: "Who is this about? The listener has no one to follow." },
+    { id: "where", label: "WHERE?", answer: "Behind the curtain of a packed hall.", missing: "Where are we? They can’t picture the scene." },
+    { id: "when", label: "WHEN?", answer: "Last spring, just before I spoke.", missing: "When did this happen? Last week, or long ago?" },
+    { id: "what", label: "WHAT HAPPENED?", answer: "My heart pounded, and someone said, “I still feel this every single time.”", missing: "Then nothing happens. There is no story." }
+  ];
+  const fourQStory = [
+    ["when", "Last spring,"], ["", " "], ["who", "I"], ["", " stood "], ["where", "behind the curtain of a packed hall,"], ["", " waiting to speak. "],
+    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "whispered, “I still feel this every single time.”"]
+  ];
+
   const senses = [
     { id: "V", name: "See", full: "Visual", line: "Through a gap in the curtain, I watched three hundred people find their seats." },
     { id: "A", name: "Hear", full: "Auditory", line: "I could hear them, a low wave of voices that wouldn’t stop." },
@@ -124,8 +136,9 @@
   ];
 
   // Step 3 (the chemical quiz) was retired; saved positions on it move on to the next slide.
-  const stepOrder = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  const lectureStepCount = 16;
+  // Step 20 (the four questions) is a newer slide placed before the formula, so the list order is the real order.
+  const stepOrder = [0, 1, 2, 4, 20, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  const lectureStepCount = 17;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
@@ -138,8 +151,10 @@
   const getState = () => portal.getState().week6Lecture;
   const update = patch => portal.updateWeek6(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
-  const stageFor = step => stages.find(stage => step <= stage.end) || stages[stages.length - 1];
+  // Step 20 sits in the same chapter and stage as step 4.
+  const slot = step => step === 20 ? 4 : step;
+  const chapterFor = step => chapters.find(chapter => slot(step) >= chapter.start && slot(step) <= chapter.end);
+  const stageFor = step => stages.find(stage => slot(step) <= stage.end) || stages[stages.length - 1];
 
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() {
@@ -161,7 +176,7 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step > completeStep;
+    const afterMission = step > completeStep && step !== 20;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 6 · FINAL LECTURE";
@@ -219,7 +234,7 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    const step = stepOrder.includes(savedStep) ? savedStep : stepOrder.find(item => item >= savedStep) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -286,6 +301,18 @@
         <div class="w6-equals ${piece ? "broken" : ""}" data-w6-equals aria-live="polite"><span>${piece ? "≠" : "="}</span><p>${piece ? `<b>Without ${esc(piece.name.toLowerCase())}:</b> ${esc(piece.lost)}` : "A story people remember, and feel."}</p></div>
         <p class="w3-coach-note">Tap any piece to take it away, and see what happens to the story. Try at least two.</p>
       `, { className: "w6-equation-screen" });
+    } else if (step === 20) {
+      page = shell(`
+        <p class="w3-eyebrow">WHAT MAKES A GOOD STORY</p>
+        <h1 id="week6PageTitle">Four questions<br /><em>every story answers.</em></h1>
+        <article class="w6-fourq" data-w6-fourq>
+          <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
+          <div class="w6-fq-chips" role="group" aria-label="Pick a question">${fourQs.map(item => `<button type="button" class="${item.id}" data-w6-fq="${item.id}">${esc(item.label)}</button>`).join("")}</div>
+          <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question to find its answer in the story.</p>
+          <button type="button" class="w6-fq-miss" data-w6-fq-miss disabled>Take that answer away</button>
+        </article>
+        <blockquote>The incident answers these four.<br /><strong>The point answers one more: why am I telling you this?</strong></blockquote>
+      `, { className: "w6-fourq-screen" });
     } else if (step === 5) {
       page = shell(`
         <p class="w3-eyebrow">THE STORYTELLING FORMULA</p>
@@ -488,6 +515,27 @@
   }
 
   /* ---------- slide 11: play the guide ---------- */
+  function showFourQ() {
+    const box = root.querySelector("[data-w6-fourq]");
+    const active = box.dataset.active || "";
+    const missing = Boolean(box.dataset.missing);
+    const item = fourQs.find(entry => entry.id === active);
+    box.classList.toggle("focus", Boolean(active));
+    box.classList.toggle("gone", missing);
+    box.querySelectorAll("[data-q]").forEach(span => {
+      const on = span.dataset.q === active;
+      span.classList.toggle("on", on);
+      span.textContent = on && missing ? "???" : span.dataset.text;
+    });
+    box.querySelectorAll("[data-w6-fq]").forEach(button => button.classList.toggle("selected", button.dataset.w6Fq === active));
+    const out = box.querySelector("[data-w6-fq-answer]");
+    out.textContent = !item ? "Tap a question to find its answer in the story." : missing ? item.missing : item.answer;
+    out.classList.toggle("bad", missing);
+    const button = box.querySelector("[data-w6-fq-miss]");
+    button.disabled = !item;
+    button.textContent = missing ? "Put it back" : "Take that answer away";
+  }
+
   function playGuide(button) {
     clearTimers();
     const beatsEls = [...root.querySelectorAll("[data-w6-beat]")];
@@ -649,6 +697,22 @@
       root.querySelectorAll("[data-w6-guess-choice]").forEach(button => button.classList.toggle("chosen", button === guess));
       out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
       out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about being nervous, so you felt close to them.`;
+      return;
+    }
+
+    const fq = event.target.closest("[data-w6-fq]");
+    if (fq) {
+      const box = root.querySelector("[data-w6-fourq]");
+      box.dataset.active = fq.dataset.w6Fq;
+      box.dataset.missing = "";
+      showFourQ();
+      return;
+    }
+    const fqMiss = event.target.closest("[data-w6-fq-miss]");
+    if (fqMiss) {
+      const box = root.querySelector("[data-w6-fourq]");
+      box.dataset.missing = box.dataset.missing ? "" : "1";
+      showFourQ();
       return;
     }
 
