@@ -100,9 +100,7 @@
   ];
 
   const linkStories = [
-    { id: "curtain", name: "Standing behind the curtain, heart pounding" },
-    { id: "phone", name: "Teaching my dad to use a smartphone" },
-    { id: "cook", name: "Cooking for ten people for the first time" }
+    { id: "curtain", name: "Standing behind the curtain, heart pounding" }
   ];
   const linkSituations = [
     { id: "job", name: "Starting a new job" },
@@ -112,13 +110,7 @@
   const links = {
     "curtain-job": "A new job is like standing behind that curtain. The pounding heart is excitement, not fear.",
     "curtain-talk": "A presentation is like standing behind that curtain. Say “I’m excited” and your body is ready.",
-    "curtain-learn": "Learning something new is like standing behind that curtain. Nerves and excitement feel the same, so choose excitement.",
-    "phone-job": "A new job is like teaching my dad to use his phone. Nobody expects you to know every button on day one. Ask twice if you need to.",
-    "phone-talk": "A presentation is like teaching my dad his phone. If they look lost, slow down and show one button at a time.",
-    "phone-learn": "Learning a new skill is like my dad with his phone. The first week is all mistakes. Then one day, you are sending everyone photos.",
-    "cook-job": "A new job is like cooking for ten people for the first time. You will burn something, and nobody will remember it by dessert.",
-    "cook-talk": "A presentation is like cooking for ten people. Get the main dish right, and nobody notices the small mistakes.",
-    "cook-learn": "Learning a new skill is like cooking for ten. The second time is always easier than the first."
+    "curtain-learn": "Learning something new is like standing behind that curtain. Nerves and excitement feel the same, so choose excitement."
   };
 
   const storyBeats = [
@@ -439,19 +431,20 @@
         <p class="w3-coach-note">Without a point, a story is just a nice memory. With a point, it becomes a lesson people keep. Try at least two listeners.</p>
       `, { className: "w6-point-screen" });
     } else if (step === 10) {
-      const storyId = state.linkStory || "";
       const situationId = state.linkSituation || "";
-      const text = storyId && situationId ? links[`${storyId}-${situationId}`] : "";
+      const text = situationId ? links[`curtain-${situationId}`] : "";
       page = shell(`
-        <p class="w3-eyebrow">THE LINK · MAKE IT MATTER NOW</p>
-        <h1 id="week6PageTitle">Any story can fit<br /><em>any moment.</em></h1>
+        <p class="w3-eyebrow">THE LINK · CONNECT IT TO THEIR LIFE</p>
+        <h1 id="week6PageTitle">The link connects<br /><em>your story to their life.</em></h1>
+        <p class="w3-lede">Your story is finished. Now show your listener where they will meet the same thing.</p>
         <div class="w6-linker">
-          <div class="w6-reel"><small>YOUR STORY</small>${linkStories.map(item => `<button type="button" class="${storyId === item.id ? "on" : ""}" data-w6-link-story="${item.id}">${esc(item.name)}</button>`).join("")}</div>
-          <div class="w6-chain" aria-hidden="true"><i></i><b>is like</b><i></i></div>
-          <div class="w6-reel"><small>THE MOMENT</small>${linkSituations.map(item => `<button type="button" class="${situationId === item.id ? "on" : ""}" data-w6-link-situation="${item.id}">${esc(item.name)}</button>`).join("")}</div>
+          <div class="w6-reel"><small>1 · YOUR STORY</small><p class="w6-link-story">${esc(linkStories[0].name)}</p></div>
+          <div class="w6-chain ${text ? "joined" : ""}" aria-hidden="true"><i></i><b>is like</b><i></i></div>
+          <div class="w6-reel"><small>2 · WHERE THEY MEET IT</small>${linkSituations.map(item => `<button type="button" class="${situationId === item.id ? "on" : ""}" data-w6-link-situation="${item.id}">${esc(item.name)}</button>`).join("")}</div>
         </div>
-        <p class="w6-link-out ${text ? "in" : ""}" data-w6-link-out aria-live="polite">${text ? `“${esc(text)}”` : "Pick one story and one moment."}</p>
-        <p class="w3-coach-note">The pattern: <b>[the moment] is like [your story], because [the lesson].</b> Try at least two pairs. <span data-w6-link-count>${(state.linkTried || []).length}</span> tried.</p>
+        <p class="w6-link-label">3 · THE LINK YOU SAY OUT LOUD</p>
+        <p class="w6-link-out ${text ? "in" : ""}" data-w6-link-out aria-live="polite">${text ? `“${esc(text)}”` : "Pick where they will meet it."}</p>
+        <p class="w3-coach-note">The link says: <b>[their moment] is like [your story]. Here is what that means for you.</b></p>
       `, { className: "w6-link-screen" });
     } else if (step === 11) {
       page = shell(`
@@ -848,22 +841,21 @@
       return;
     }
 
-    const linkStory = event.target.closest("[data-w6-link-story]");
     const linkSituation = event.target.closest("[data-w6-link-situation]");
-    if (linkStory || linkSituation) {
-      const patch = linkStory ? { linkStory: linkStory.dataset.w6LinkStory } : { linkSituation: linkSituation.dataset.w6LinkSituation };
+    if (linkSituation) {
+      const patch = { linkStory: "curtain", linkSituation: linkSituation.dataset.w6LinkSituation };
       const next = { ...getState(), ...patch };
       if (next.linkStory && next.linkSituation) patch.linkTried = addUnique(getState().linkTried, `${next.linkStory}-${next.linkSituation}`);
       update(patch);
-      const group = (linkStory || linkSituation).parentElement;
-      group.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === (linkStory || linkSituation)));
+      const group = linkSituation.parentElement;
+      group.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === linkSituation));
       const out = root.querySelector("[data-w6-link-out]");
       if (next.linkStory && next.linkSituation) {
         out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
         out.textContent = `“${links[`${next.linkStory}-${next.linkSituation}`]}”`;
         root.querySelector(".w6-chain")?.classList.add("joined");
       }
-      root.querySelector("[data-w6-link-count]").textContent = (getState().linkTried || []).length;
+      const tried = root.querySelector("[data-w6-link-count]"); if (tried) tried.textContent = (getState().linkTried || []).length;
       return;
     }
 
