@@ -102,7 +102,7 @@
     { part: "THE SENSES", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
     { part: "THE CHARACTER", text: "The person beside me turned, smiled, and said quietly: “I still feel this every single time.”", cues: [["pause", "Pause before their line"], ["pitch", "Change your voice for them"]], ms: 300, pauseBefore: true },
     { part: "THE INCIDENT", text: "And I realized I wasn’t the only one.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
-    { part: "THE POINT", text: "The reason I’m telling you this is because feeling nervous does not mean you are not ready. It means you care.", cues: [["voice", "Stronger"], ["pitch", "Step up on “care”"], ["pitch", "Land the ending"]], ms: 280 },
+    { part: "THE POINT", text: "The reason I’m telling you this is because most people feel nervous before they speak in front of others.", cues: [["voice", "Stronger"], ["pitch", "Step up on “most”"], ["pitch", "Land the ending"]], ms: 280 },
     { part: "THE LINK", text: "Life is like that curtain. Almost everyone standing behind it feels the same thing.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
@@ -253,7 +253,7 @@
         <p class="w3-lede">Read both. Which one will you still remember tomorrow?</p>
         <div class="w6-pair">
           <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Most people feel nervous before they speak in front of others.”</p></button>
-          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, looked at me and said, “I still feel this every single time.” I stared at them. They were smiling.</p><p class="w6-card-point"><b>The point:</b> being nervous does not mean you are not ready. It means you care.</p></button>
+          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, looked at me and said, “I still feel this every single time.” I stared at them. They were smiling.</p><p class="w6-card-point"><b>The point:</b> Most people feel nervous before they speak in front of others.</p></button>
         </div>
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
           <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the nerves."}</p>
