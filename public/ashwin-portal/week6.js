@@ -23,7 +23,9 @@
     { name: "PROVE", end: 16 }
   ];
 
-  const missionTemplates = window.ASHWIN_DATA.levels.map(level => level.behavior + " Use one short true story: set the scene, tell the incident, then say “The reason I’m telling you this is because…”");
+  // The last week has one final assignment, so there are no exposure levels to choose from.
+  const finalAssignment = "Record one final video, 2 minutes long. Tell a story with the who, the when, what happened and the point. Use the vocal variety you learned: volume, pace, pauses and melody.";
+  const missionTemplates = window.ASHWIN_DATA.levels.map(() => finalAssignment);
 
   const skills = [
     { n: 1, name: "Structure", side: "structure", lost: "They get lost. Lots of detail, but no point to hold on to." },
@@ -492,15 +494,16 @@
         </article>
       `, { className: "w6-eyes-screen" });
     } else if (step === 15) {
-      const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
-        <p class="w3-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
-        <h1 id="week6PageTitle">One real moment.<br /><em>One true story.</em></h1>
-        <div class="w3-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w6-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
-        <div class="w3-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
-        <label class="w3-mission-edit"><span>YOUR WEEK 6 CHALLENGE</span><textarea data-w6-mission rows="3">${esc(mission)}</textarea></label>
-        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I told one true story with an incident and a clear point.</strong></div>
-      `, { footer: '<button class="w3-next mission-accept" type="button" data-w6-action="accept-mission">Accept mission</button>' });
+        <p class="w3-eyebrow">THE LAST WEEK · ONE FINAL VIDEO</p>
+        <h1 id="week6PageTitle">Your final assignment.<br /><em>One video.</em></h1>
+        <ol class="w6-final">
+          <li data-w3-animate style="--i:0"><b>1</b><div><strong>Record one video that is 2 minutes long.</strong></div></li>
+          <li data-w3-animate style="--i:1"><b>2</b><div><strong>Tell a story that includes:</strong><span class="chips"><i class="who">Who</i><i class="when">When</i><i class="what">What happened</i><i class="why">The point</i></span></div></li>
+          <li data-w3-animate style="--i:2"><b>3</b><div><strong>Use the vocal variety you learned:</strong><span class="chips"><i class="vol">Volume</i><i class="pace">Pace</i><i class="pause">Pauses</i><i class="melody">Melody</i></span></div></li>
+        </ol>
+        <p class="w6-final-note">This is your final assignment. It will be used to compare your performance.</p>
+      `, { footer: '<button class="w3-next mission-accept" type="button" data-w6-action="accept-mission">Accept my final assignment</button>' });
     } else if (step === 16) {
       const badges = [...skills.map(skill => skill.name), "Story"];
       page = shell(`
@@ -535,7 +538,7 @@
         <div class="w6-confetti" aria-hidden="true">${Array.from({ length: 26 }, (_, index) => `<i style="--x:${(index * 41) % 100}%;--d:${(index % 6) * 0.2}s;--r:${(index * 53) % 360}deg;--c:${index % 4}"></i>`).join("")}</div>
         <p class="w3-eyebrow">THE SPEAKER’S GYM · COMPLETE</p>
         <h1 id="week6PageTitle">Six weeks ago, you started.<br /><em>Now you have stories to tell.</em></h1>
-        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Storytelling</strong></article><article><small>THE FORMULA</small><strong>Incident · Point · Link</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>STORIES ON YOUR SHELF</small><strong>${(state.library || []).length}</strong></article></div>
+        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Storytelling</strong></article><article><small>THE FORMULA</small><strong>Incident · Point · Link</strong></article><article><small>STORIES ON YOUR SHELF</small><strong>${(state.library || []).length}</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 6</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.action || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
         <div class="w3-week-progress">${[1, 2, 3, 4, 5, 6].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}</div>
         <div class="w3-next-week"><small>KEEP GOING</small><strong>Add one story to your library every week, and tell it to someone.</strong></div>
@@ -689,7 +692,6 @@
     const step = Number(state.currentStep || 0);
     // Nothing blocks Continue: every exercise is optional.
     const requirements = {
-      15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
     if (requirements[step] && !requirements[step][0]) {
       portal.showToast(requirements[step][1]);
@@ -760,8 +762,8 @@
     if (action === "accept-mission") {
       const state = getState();
       const level = getLevel();
-      update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: completeStep });
-      portal.showToast("Mission accepted. One true story is the win.");
+      update({ mission: finalAssignment, missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: completeStep });
+      portal.showToast("Final assignment accepted. Record your video.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
