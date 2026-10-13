@@ -75,10 +75,18 @@
 
   // Slide 7: the same moment told plainly, and told with the body.
   const showVersions = {
-    plain: { parts: ["I was nervous."], read: "We understand it. We don’t feel it." },
-    senses: { parts: ["My heart was pounding,", "my mouth was dry,", "and my hands wouldn’t stop shaking."], read: "Now we feel it in our own bodies." }
+    plain: { parts: [{ tag: "", html: "I stood behind the curtain, waiting to speak. It was bright, loud and crowded." }], read: "We understand it. We don’t see it." },
+    senses: {
+      parts: [
+        { tag: "TOUCH", html: "I gripped the <mark>rough</mark>, <mark>heavy</mark> velvet curtain." },
+        { tag: "SEE", html: "A <mark>blinding</mark> white spotlight burned on the <mark>empty</mark> stage." },
+        { tag: "HEAR", html: "Three hundred voices <mark>rumbled</mark> like thunder." },
+        { tag: "SMELL", html: "The air smelled <mark>sharp</mark>, of <mark>burnt</mark> coffee and <mark>hot</mark> dust." }
+      ],
+      read: "Now we are standing there with you."
+    }
   };
-  const showLine = mode => showVersions[mode].parts.map((part, index) => `<span style="--d:${index}">${esc(part)}</span>`).join(" ");
+  const showLine = mode => showVersions[mode].parts.map((part, index) => `<span style="--d:${index}">${part.tag ? `<i class="w6-sense-tag ${part.tag.toLowerCase()}">${part.tag}</i>` : ""}${part.html}</span>`).join(" ");
 
   const characterVersions = {
     told: { label: "TOLD ABOUT", text: "The person beside me told me the nerves were really excitement.", note: "We understand it. We don’t see it." },
@@ -115,7 +123,7 @@
 
   const storyBeats = [
     { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
-    { part: "THE SENSES", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
+    { part: "THE SENSES", text: "A blinding spotlight burned on the empty stage. Three hundred voices rumbled like thunder, and the air smelled of burnt coffee.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
     { part: "THE CHARACTER", text: "The person beside me leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"], ["pitch", "Bright and lifted, like them"]], ms: 300, pauseBefore: true },
     { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pace", "Slow"], ["voice", "Stronger"], ["pause", "Hold 3 seconds"]], ms: 420, pauseAfter: true },
     { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Stronger"], ["pitch", "Step up on “excited”"], ["pitch", "Land the ending"]], ms: 280 },
@@ -127,7 +135,7 @@
     { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and a speaker with twenty years of experience" },
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
-    { key: "senses", label: "THE SENSES · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
+    { key: "senses", label: "THE SENSES · SEE, HEAR, SMELL, TOUCH", hint: "Use sharp adjectives. One or two details.", placeholder: "A harsh buzzing filled the room. The air smelled of burnt toast." },
     { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "Someone walked over, smiled, and said: “Welcome to the team.”" },
     { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" },
     { key: "link", label: "THE LINK", hint: "… is like …", placeholder: "Starting anything new is like that first week…" }
@@ -363,7 +371,7 @@
     } else if (step === 6) {
       const mode = state.showMode === "senses" ? "senses" : "plain";
       page = shell(`
-        <p class="w3-eyebrow">SHOW, DON’T TELL</p>
+        <p class="w3-eyebrow">PAINT THE SCENE</p>
         <h1 id="week6PageTitle">Don’t just say what happened.<br /><em>Put them in the room.</em></h1>
         <article class="w6-show" data-w6-show data-mode="${mode}">
           <div class="w6-show-toggle" role="group" aria-label="Choose a version">
@@ -373,7 +381,7 @@
           <p class="w6-show-line" data-w6-show-line aria-live="polite">${showLine(mode)}</p>
           <p class="w6-show-read" data-w6-show-read>${esc(showVersions[mode].read)}</p>
         </article>
-        <p class="w6-show-tip"><b>Don’t say how you felt. Show what your body did.</b><br />This one uses what you feel. You can also use what you see, hear or smell.</p>
+        <p class="w6-show-tip"><b>Don’t just say it. Use sharp words to put us there.</b><br />Pick adjectives for what you see, hear, smell and touch.</p>
       `, { className: "w6-incident-screen" });
     } else if (step === 7) {
       const mode = state.charMode || "";
@@ -479,7 +487,7 @@
         <div class="w6-eyes">${eyes.map((eye, index) => `<button type="button" class="w6-eye ${seen.has(eye.id) ? "flipped" : ""}" data-w6-eye="${eye.id}" data-w3-animate style="--i:${index}" aria-pressed="${seen.has(eye.id)}"><span class="front">${icon(eye.icon)}<strong>${esc(eye.name)}</strong><small>${esc(eye.short)}</small><b>Tap to turn</b></span><span class="back"><strong>${esc(eye.name)}</strong><p>${esc(eye.back)}</p></span></button>`).join("")}</div>
         <article class="w6-template" data-w3-animate style="--i:3">
           <header><small>THE STORY TEMPLATE · USE IT FOR EVERY STORY</small></header>
-          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>The senses: see, hear, feel, smell</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
+          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>Sharp adjectives: see, hear, smell, touch</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
         </article>
       `, { className: "w6-eyes-screen" });
     } else if (step === 15) {

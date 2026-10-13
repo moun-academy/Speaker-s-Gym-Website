@@ -445,3 +445,14 @@ body.week6-open { overflow: hidden; }
 .w6-show-tip { max-width: 640px; margin: 22px auto 0; color: var(--muted); font: 400 18px/1.55 var(--display); text-align: center; }
 .w6-show-tip b { color: var(--ink); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .w6-show-line span, .w6-show-read.in { animation: none; } }
+/* slide 7: sharp adjectives, tagged by sense */
+.w6-show-line { flex-direction: column; align-items: center; gap: 10px; font-size: clamp(21px,2.5vw,29px); line-height: 1.4; }
+.w6-show-line span { display: block; text-align: center; }
+.w6-sense-tag { margin-right: 8px; padding: 3px 9px; border-radius: 99px; font: 800 12px var(--detail); font-style: normal; letter-spacing: .12em; transform: translateY(-3px); }
+.w6-sense-tag.touch { background: #f5ddd5; color: #9b4a3a; }
+.w6-sense-tag.see { background: #f6ecc9; color: #806727; }
+.w6-sense-tag.hear { background: #dbeee0; color: #2f5a44; }
+.w6-sense-tag.smell { background: #e3dcf0; color: #5a4390; }
+.w6-show-line mark { padding: 0 4px; border-radius: 5px; background: linear-gradient(transparent 55%, rgba(241,203,61,.55) 55%); color: inherit; font-weight: 600; }
+.w6-show[data-mode="plain"] .w6-show-line { min-height: 90px; font-size: clamp(24px,3vw,34px); }
+.w6-show-line { min-height: 230px; }
