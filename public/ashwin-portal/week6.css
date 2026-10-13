@@ -388,7 +388,7 @@ body.week6-open { overflow: hidden; }
 .w6-fq-story span[data-q="where"] { background: #dbeee0; }
 .w6-fq-story span[data-q="when"] { background: #f6ecc9; }
 .w6-fq-story span[data-q="what"] { background: #e6e1d4; }
-.w6-fourq.focus .w6-fq-story span[data-q] { opacity: .3; }
+.w6-fourq.focus .w6-fq-story span[data-q] { opacity: .55; }
 .w6-fourq.focus .w6-fq-story span[data-q].on { opacity: 1; box-shadow: 0 0 0 3px rgba(190,161,78,.45); }
 .w6-fourq.gone .w6-fq-story span.on { background: #fff1ec; color: #9b4a3a; font-weight: 700; box-shadow: 0 0 0 3px rgba(200,112,93,.45); }
 .w6-fq-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
