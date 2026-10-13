@@ -448,8 +448,8 @@
       `, { className: "w6-link-screen" });
     } else if (step === 11) {
       page = shell(`
-        <p class="w3-eyebrow">PUT IT TOGETHER</p>
-        <h1 id="week6PageTitle">Hear it in a real speech.<br /><em>Then tell yours.</em></h1>
+        <p class="w3-eyebrow">A REAL EXAMPLE</p>
+        <h1 id="week6PageTitle">Hear it in a real speech.<br /><em>Incident. Point. Link.</em></h1>
         <article class="w6-real">
           <header><small>A REAL SPEECH</small><strong>Steve Jobs · Stanford, 2005</strong></header>
           <div class="w6-real-rows">
@@ -459,10 +459,6 @@
           </div>
           <em>The full incident is a longer story. Here is just the key line.</em>
         </article>
-        <p class="w6-tellyours">NOW TELL YOURS</p>
-        <div class="w6-script" data-w6-script>${storyBeats.map((beat, index) => `${beat.pauseBefore ? '<div class="w6-hold" data-w6-hold>‖ pause</div>' : ""}<article class="w6-beat" data-w6-beat="${index}"><header><small>${esc(beat.part)}</small><span>${beat.cues.map(cueChip).join("")}</span></header><p>${esc(beat.text)}</p></article>${beat.pauseAfter ? '<div class="w6-hold long" data-w6-hold>‖ hold the silence · 3 seconds</div>' : ""}`).join("")}</div>
-        <div class="w5-actions"><button type="button" class="w5-primary" data-w6-action="play-guide">▶ Play the guide</button><button type="button" class="w5-quiet ${state.toldAloud ? "done" : ""}" data-w6-action="told-aloud">${state.toldAloud ? "✓ I told it out loud" : "I told it out loud"}</button></div>
-        <p class="w3-coach-note">Watch the guide once. Then stand up and tell the story out loud.</p>
       `, { className: "w6-script-screen" });
     } else if (step === 12) {
       const story = state.story || {};
