@@ -404,7 +404,7 @@ body.week6-open { overflow: hidden; }
 .w6-fq-intro { margin: 0; color: var(--muted); font: 400 16px/1.4 var(--display); }
 .w6-fq-chips { margin: 12px 0 18px; }
 .w6-fq-chips button.why { border-left-color: #273b34; }
-.w6-fq-story span[data-q="why"] { background: #273b34; font-weight: 600; }
+.w6-fq-story span[data-q="why"] { background: #273b34; color: #f1cb3d; font-weight: 600; }
 .w6-fq-story { margin-top: 4px; }
 /* slide 5: the answer hunt */
 .w6-hunt { width: min(900px,100%); margin: 26px auto 0; padding: 24px 28px 18px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.9); box-shadow: var(--shadow); text-align: center; }
@@ -420,7 +420,7 @@ body.week6-open { overflow: hidden; }
 .w6-chunk { padding: 3px 8px; border: 1px dashed #cdbf95; border-radius: 8px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; transition: background .2s ease, transform .2s ease, border-color .2s ease; }
 .w6-chunk:hover:not(:disabled) { background: #fbf3d9; transform: translateY(-2px); }
 .w6-chunk.solved { border-style: solid; border-color: transparent; cursor: default; animation: w6-pop .45s cubic-bezier(.34,1.56,.64,1); }
-.w6-chunk.solved.who { background: #dfe5e8; } .w6-chunk.solved.where { background: #dbeee0; } .w6-chunk.solved.when { background: #f6ecc9; } .w6-chunk.solved.what { background: #e6e1d4; } .w6-chunk.solved.why { background: #273b34; font-weight: 600; }
+.w6-chunk.solved.who { background: #dfe5e8; } .w6-chunk.solved.where { background: #dbeee0; } .w6-chunk.solved.when { background: #f6ecc9; } .w6-chunk.solved.what { background: #e6e1d4; } .w6-chunk.solved.why { background: #273b34; color: #f1cb3d; font-weight: 600; }
 .w6-chunk.shake { animation: w6-shake-chunk .4s ease; border-color: #273b34; }
 @keyframes w6-pop { from { transform: scale(.9); } }
 @keyframes w6-shake-chunk { 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
@@ -511,3 +511,7 @@ body.week6-open { overflow: hidden; }
 .w6-whys article h2 { font: 500 clamp(30px,3.4vw,40px)/1.1 var(--display); }
 .w6-stat { display: block; margin-top: 2px; color: var(--ink); font: 500 clamp(52px,6vw,72px)/1 var(--display); letter-spacing: -.02em; }
 .w6-whys article > em { margin-top: 6px; padding-top: 10px; border-top: 1px dashed var(--line); color: var(--muted); font: 400 13px var(--detail); font-style: normal; }
+
+/* solved answers stay fully readable even though the button is disabled */
+.w6-chunk.solved:disabled { opacity: 1; color: var(--ink); }
+.w6-chunk.solved.why:disabled { color: #f1cb3d; }

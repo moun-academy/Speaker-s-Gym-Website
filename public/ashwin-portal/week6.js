@@ -348,19 +348,9 @@
           <p class="w6-hunt-prompt" data-w6-hunt-prompt aria-live="polite">${finished ? "★★★★★ You found all five answers." : `Tap the words that answer: <b>${esc(huntPrompts[current][0])}</b> ${esc(huntPrompts[current][1])}`}</p>
           <p class="w6-hunt-story">${huntStory.map((chunk, index) => `<button type="button" class="w6-chunk ${chunk.q && solved.has(chunk.q) ? `solved ${chunk.q}` : ""}" data-chunk="${index}" ${chunk.q && solved.has(chunk.q) ? "disabled" : ""}>${esc(chunk.t)}</button>`).join(" ")}</p>
           <p class="w6-hunt-hint" data-w6-hunt-hint aria-live="polite"></p>
-          ${showExample ? "" : '<button type="button" class="w6-fq-miss" data-w6-hunt-skip>Skip, show me an example</button>'}
+          ${showExample ? "" : '<button type="button" class="w6-fq-miss" data-w6-hunt-skip>Skip, show me the answers</button>'}
         </article>
-        <section class="w6-example" data-w6-example ${showExample ? "" : "hidden"}>
-          <p class="w6-example-label">NOW SEE IT IN THE CURTAIN STORY</p>
-          <article class="w6-fourq" data-w6-fourq>
-            <p class="w6-fq-intro">Tap a question to find its answer.</p>
-            <div class="w6-fq-chips" role="group" aria-label="Pick a question">${fourQs.map(item => `<button type="button" class="${item.id}" data-w6-fq="${item.id}">${esc(item.label)}</button>`).join("")}</div>
-            <p class="w6-fq-story" aria-label="The curtain story">${fourQStory.map(([q, text]) => q ? `<span data-q="${q}" data-text="${esc(text)}">${esc(text)}</span>` : esc(text)).join("")}</p>
-            <p class="w6-fq-answer" data-w6-fq-answer aria-live="polite">Tap a question above.</p>
-            <button type="button" class="w6-fq-miss" data-w6-fq-miss disabled>Take that answer away</button>
-          </article>
-          <blockquote>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
-        </section>
+        <blockquote class="w6-hunt-close" ${showExample ? "" : "hidden"}>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
       `, { className: "w6-fourq-screen" });
     } else if (step === 5) {
       page = shell(`
@@ -798,7 +788,7 @@
     const chunk = event.target.closest("[data-chunk]");
     if (chunk) return tapChunk(chunk);
     if (event.target.closest("[data-w6-hunt-skip]")) {
-      update({ huntSkipped: true });
+      update({ huntSkipped: true, huntSolved: [...huntOrder] });
       return renderStep();
     }
 
