@@ -145,6 +145,7 @@
       guidePlayed: false,
       huntSolved: [],
       huntSkipped: false,
+      showMode: "plain",
       toldAloud: false,
       story: {},
       storySeconds: 0,

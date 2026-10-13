@@ -39,14 +39,6 @@
     { id: "endorphins", name: "Endorphins", nick: "The laugh", moment: "A joke at a family dinner, and everyone relaxes.", use: "Break the ice, fast." }
   ];
 
-  const wParts = [
-    { key: "when", text: "Last spring," },
-    { key: "who", text: "I" },
-    { key: "", text: "stood behind the curtain" },
-    { key: "where", text: "of a packed hall," },
-    { key: "", text: "waiting to speak, and" },
-    { key: "what", text: "my heart began to pound." }
-  ];
   // The four questions every story answers, with the curtain story split by question.
   const fourQs = [
     { id: "who", label: "WHO?", answer: "Me, and the person beside me.", missing: "Who is this about? The listener has no one to follow." },
@@ -81,12 +73,12 @@
     { t: "The reason I’m telling you this is because sometimes the best days begin when the plan falls apart.", q: "why" }
   ];
 
-  const senses = [
-    { id: "V", name: "See", full: "Visual", line: "Through a gap in the curtain, I watched three hundred people find their seats." },
-    { id: "A", name: "Hear", full: "Auditory", line: "I could hear them, a low wave of voices that wouldn’t stop." },
-    { id: "K", name: "Feel", full: "Kinesthetic", line: "My mouth was dry, and my hands wouldn’t stop shaking." },
-    { id: "S", name: "Smell", full: "Smell", line: "The air smelled of coffee and warm carpet." }
-  ];
+  // Slide 7: the same moment told plainly, and told with the body.
+  const showVersions = {
+    plain: { parts: ["I was nervous."], read: "We understand it. We don’t feel it." },
+    senses: { parts: ["My heart was pounding,", "my mouth was dry,", "and my hands wouldn’t stop shaking."], read: "Now we feel it in our own bodies." }
+  };
+  const showLine = mode => showVersions[mode].parts.map((part, index) => `<span style="--d:${index}">${esc(part)}</span>`).join(" ");
 
   const characterVersions = {
     told: { label: "TOLD ABOUT", text: "The person beside me told me the nerves were really excitement.", note: "We understand it. We don’t see it." },
@@ -135,7 +127,7 @@
     { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and a speaker with twenty years of experience" },
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
-    { key: "senses", label: "VAKS · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
+    { key: "senses", label: "THE SENSES · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
     { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "Someone walked over, smiled, and said: “Welcome to the team.”" },
     { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" },
     { key: "link", label: "THE LINK", hint: "… is like …", placeholder: "Starting anything new is like that first week…" }
@@ -229,11 +221,15 @@
     return `<i class="w6-cue ${kind}"><b>${cueLecture[kind]}</b>${esc(text)}</i>`;
   }
 
-  function incidentLine(state) {
-    const chosen = new Set(state.senses || []);
-    const base = wParts.map(part => part.key ? `<span class="w6-w ${part.key}"><small>${part.key.toUpperCase()}</small>${esc(part.text)}</span>` : esc(part.text)).join(" ");
-    const extra = senses.filter(sense => chosen.has(sense.id)).map(sense => `<span class="w6-sense-line ${sense.id}"><b>${sense.id}</b>${esc(sense.line)}</span>`).join(" ");
-    return `<p class="w6-incident-text">${base}</p><p class="w6-incident-senses" data-w6-sense-lines>${extra}</p>`;
+  function setShowMode(mode) {
+    update({ showMode: mode });
+    const box = root.querySelector("[data-w6-show]");
+    box.dataset.mode = mode;
+    box.querySelectorAll("[data-w6-show-mode]").forEach(button => button.classList.toggle("selected", button.dataset.w6ShowMode === mode));
+    box.querySelector("[data-w6-show-line]").innerHTML = showLine(mode);
+    const read = box.querySelector("[data-w6-show-read]");
+    read.textContent = showVersions[mode].read;
+    read.classList.remove("in"); void read.offsetWidth; read.classList.add("in");
   }
 
   function timingRead(minutes) {
@@ -365,13 +361,19 @@
         <blockquote>PREP puts the point first.<br /><strong>A story saves the point for after the incident. That is what keeps them curious.</strong></blockquote>
       `, { className: "w6-formula-screen" });
     } else if (step === 6) {
-      const chosen = new Set(state.senses || []);
+      const mode = state.showMode === "senses" ? "senses" : "plain";
       page = shell(`
-        <p class="w3-eyebrow">THE INCIDENT · WHO, WHAT, WHERE, WHEN + VAKS</p>
+        <p class="w3-eyebrow">SHOW, DON’T TELL</p>
         <h1 id="week6PageTitle">Don’t just say what happened.<br /><em>Put them in the room.</em></h1>
-        <article class="w6-incident" data-w6-incident>${incidentLine(state)}</article>
-        <div class="w6-senses" role="group" aria-label="Add a sense">${senses.map(sense => `<button type="button" class="${sense.id} ${chosen.has(sense.id) ? "on" : ""}" data-w6-sense="${sense.id}" aria-pressed="${chosen.has(sense.id)}"><b>${sense.id}</b><strong>${esc(sense.name)}</strong><small>${esc(sense.full)}</small></button>`).join("")}</div>
-        <p class="w3-coach-note">VAKS = what they <b>see</b>, <b>hear</b>, <b>feel</b> and <b>smell</b>. Tap all four senses and watch the story grow. Read it out loud each time.</p>
+        <article class="w6-show" data-w6-show data-mode="${mode}">
+          <div class="w6-show-toggle" role="group" aria-label="Choose a version">
+            <button type="button" class="${mode === "plain" ? "selected" : ""}" data-w6-show-mode="plain">Plain</button>
+            <button type="button" class="${mode === "senses" ? "selected" : ""}" data-w6-show-mode="senses">With the senses</button>
+          </div>
+          <p class="w6-show-line" data-w6-show-line aria-live="polite">${showLine(mode)}</p>
+          <p class="w6-show-read" data-w6-show-read>${esc(showVersions[mode].read)}</p>
+        </article>
+        <p class="w6-show-tip"><b>Don’t say how you felt. Show what your body did.</b><br />This one uses what you feel. You can also use what you see, hear or smell.</p>
       `, { className: "w6-incident-screen" });
     } else if (step === 7) {
       const mode = state.charMode || "";
@@ -477,7 +479,7 @@
         <div class="w6-eyes">${eyes.map((eye, index) => `<button type="button" class="w6-eye ${seen.has(eye.id) ? "flipped" : ""}" data-w6-eye="${eye.id}" data-w3-animate style="--i:${index}" aria-pressed="${seen.has(eye.id)}"><span class="front">${icon(eye.icon)}<strong>${esc(eye.name)}</strong><small>${esc(eye.short)}</small><b>Tap to turn</b></span><span class="back"><strong>${esc(eye.name)}</strong><p>${esc(eye.back)}</p></span></button>`).join("")}</div>
         <article class="w6-template" data-w3-animate style="--i:3">
           <header><small>THE STORY TEMPLATE · USE IT FOR EVERY STORY</small></header>
-          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>VAKS: see, hear, feel, smell</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
+          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>The senses: see, hear, feel, smell</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
         </article>
       `, { className: "w6-eyes-screen" });
     } else if (step === 15) {
@@ -809,18 +811,8 @@
       return;
     }
 
-    const sense = event.target.closest("[data-w6-sense]");
-    if (sense) {
-      const chosen = new Set(getState().senses || []);
-      if (chosen.has(sense.dataset.w6Sense)) chosen.delete(sense.dataset.w6Sense); else chosen.add(sense.dataset.w6Sense);
-      const list = senses.map(item => item.id).filter(id => chosen.has(id));
-      update({ senses: list });
-      sense.classList.toggle("on", chosen.has(sense.dataset.w6Sense));
-      sense.setAttribute("aria-pressed", String(chosen.has(sense.dataset.w6Sense)));
-      root.querySelector("[data-w6-incident]").innerHTML = incidentLine(getState());
-      if (list.length === 4) portal.showToast("Now they are in the room with you.");
-      return;
-    }
+    const showMode = event.target.closest("[data-w6-show-mode]");
+    if (showMode) return setShowMode(showMode.dataset.w6ShowMode);
 
     const charButton = event.target.closest("[data-w6-char]");
     if (charButton) {
