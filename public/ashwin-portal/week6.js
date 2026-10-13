@@ -93,7 +93,7 @@
     { part: "THE CHARACTER", text: "The person beside me turned, smiled, and said quietly: “I still feel this every single time.”", cues: [["pause", "Pause before their line"], ["pitch", "Change your voice for them"]], ms: 300, pauseBefore: true },
     { part: "THE INCIDENT", text: "And I realized I wasn’t the only one.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
     { part: "THE POINT", text: "The reason I’m telling you this is because most people feel nervous before they speak in front of others.", cues: [["voice", "Stronger"], ["pitch", "Step up on “most”"], ["pitch", "Land the ending"]], ms: 280 },
-    { part: "THE LINK", text: "Life is like that curtain. Almost everyone standing behind it feels the same thing.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
+    { part: "THE LINK", text: "Life is like standing behind that curtain. Whenever you’re about to speak up, almost everyone feels what you feel.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
 
@@ -291,11 +291,11 @@
         <p class="w3-eyebrow">THE STORYTELLING FORMULA</p>
         <h1 id="week6PageTitle">Incident. Point. Link.<br /><em>Three parts, every time.</em></h1>
         <div class="w6-formula">
-          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><p>What happened. Who, what, where, when. Bring it to life with the senses and with real characters.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
+          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><strong class="w6-q">What happened?</strong><p>Who, what, where, when. Bring it to life with your senses and real people.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><p>Why you told it. Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because…”</i></article>
+          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><strong class="w6-q">Why does it matter?</strong><p>Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because most people feel nervous before they speak in front of others.”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><p>Connect it to the moment you are in, so it feels useful to them right now.</p><i>“Life is like…”</i></article>
+          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><strong class="w6-q">How does it apply to you?</strong><p>Show how the story applies to the listener’s own life, so it feels useful to them.</p><i>“Life is like standing behind that curtain. Whenever you’re about to speak up, almost everyone feels what you feel.”</i></article>
         </div>
         <div class="w6-timebar" aria-label="Most of the time goes to the incident. The point and the link take one or two sentences each."><span class="incident"><small>INCIDENT · most of your time</small></span><span class="point"><small>POINT</small></span><span class="link"><small>LINK</small></span></div>
         <blockquote>PREP puts the point first.<br /><strong>A story saves the point for after the incident. That is what keeps them curious.</strong></blockquote>

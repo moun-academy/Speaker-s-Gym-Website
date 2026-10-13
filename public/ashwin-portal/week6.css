@@ -375,3 +375,8 @@ body.week6-open { overflow: hidden; }
 .w6-guess button.chosen { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
 .w6-guess .w6-guess-out { min-height: 28px; margin-top: 12px; color: #2f5a44; font: 500 18px/1.4 var(--display); }
 .w6-guess .w6-guess-out.in { animation: w6-slide .5s cubic-bezier(.22,1,.36,1) both; }
+/* slide 5: a plain question for each part */
+.w6-formula .w6-q { color: var(--ink); font: 500 19px/1.3 var(--display); }
+.w6-formula article.incident .w6-q { color: #806727; }
+.w6-formula article.point .w6-q { color: #9b4a3a; }
+.w6-formula article.link .w6-q { color: #2f5a44; }
