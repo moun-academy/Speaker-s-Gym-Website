@@ -276,15 +276,14 @@
       `, { className: "opening w6-opening", nextLabel: "Begin the story" });
     } else if (step === 21) {
       page = shell(`
-        <p class="w3-eyebrow">WHY STORYTELLING MATTERS</p>
-        <h1 id="week6PageTitle">Stories are how people<br /><em>understand each other.</em></h1>
+        <p class="w3-eyebrow">WHY IT MATTERS</p>
+        <h1 id="week6PageTitle">Tell it well<br /><em>and people say yes.</em></h1>
         <div class="w6-whys">
-          <article data-w3-animate style="--i:0"><span aria-hidden="true">1</span><h2>Their mind follows yours</h2><p>When a story is easy to follow, the listener’s brain activity starts to match the speaker’s. The better the match, the better they understand.</p></article>
-          <article data-w3-animate style="--i:1"><span aria-hidden="true">2</span><h2>They feel close to you</h2><p>A story with a real person in it makes listeners care. Research suggests it makes them more willing to help.</p></article>
-          <article data-w3-animate style="--i:2"><span aria-hidden="true">3</span><h2>They remember it</h2><p>A fact is easy to forget. A moment you can picture stays with you.</p></article>
+          <article data-w3-animate style="--i:0"><small>WHAT YOU WIN</small><h2>The job</h2><p>Recruiters were more likely to recommend candidates who answered with a story than candidates who only described themselves.</p><em>Hiring study · Journal of Business and Psychology</em></article>
+          <article data-w3-animate style="--i:1"><small>WHAT YOU WIN</small><h2>The funding</h2><strong class="w6-stat">27%</strong><p>more likely to get funded when the pitch sounded enthusiastic. Over 1,100 pitch videos.</p><em>Yale School of Management</em></article>
+          <article data-w3-animate style="--i:2"><small>WHAT YOU WIN</small><h2>The belief</h2><p>Numbers fade. After a delay, a story changes what people believe more than statistics do.</p><em>Graeber, Roth and Zimmermann</em></article>
         </div>
-        <blockquote>Structure makes your story clear.<br /><strong>Your voice makes people feel it.</strong></blockquote>
-        <p class="w6-whys-source">Based on research from Princeton (Hasson, 2010) and Paul Zak’s lab.</p>
+        <blockquote>Structure makes your story clear.<br /><strong>Your voice makes people say yes.</strong></blockquote>
       `, { className: "w6-whys-screen" });
     } else if (step === 1) {
       const choice = state.memoryChoice || "";
