@@ -7,7 +7,7 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Why Stories Move People", start: 1, end: 3 },
+    { title: "Why Stories Move People", start: 1, end: 2 },
     { title: "Structure + Vocal Variety", start: 4, end: 5 },
     { title: "Build the Incident", start: 6, end: 8 },
     { title: "The Point and the Link", start: 9, end: 10 },
@@ -15,7 +15,7 @@
   ];
 
   const stages = [
-    { name: "WHY", end: 3 },
+    { name: "WHY", end: 2 },
     { name: "FORMULA", end: 5 },
     { name: "INCIDENT", end: 8 },
     { name: "POINT", end: 10 },
@@ -34,20 +34,10 @@
   ];
 
   const chemicals = [
-    { id: "dopamine", name: "Dopamine", nick: "The curiosity chemical", when: "They wonder what happens next.", effects: ["Focus", "Attention", "Motivation", "Memory"], use: "Motivate people." },
-    { id: "oxytocin", name: "Oxytocin", nick: "The trust chemical", when: "You share a true story where you were vulnerable: a struggle, a mistake, a fear.", effects: ["Trust", "Bonding", "Empathy", "Generosity"], use: "Build a deeper connection." },
-    { id: "endorphins", name: "Endorphins", nick: "The feel-good chemical", when: "Your story makes them smile or laugh.", effects: ["Relaxed", "Present", "Creative", "Rapport"], use: "Break the ice and build rapport quickly." }
+    { id: "dopamine", name: "Dopamine", nick: "The cliffhanger", moment: "A friend says, “You won’t believe what happened…” and you lean in to hear the rest.", use: "Keep people curious and motivated." },
+    { id: "oxytocin", name: "Oxytocin", nick: "The honest friend", moment: "Someone admits they were scared before a big day, and you instantly feel closer to them.", use: "Build trust and connection." },
+    { id: "endorphins", name: "Endorphins", nick: "The laugh", moment: "A joke at a family dinner, and everyone relaxes.", use: "Break the ice, fast." }
   ];
-
-  const chemSort = [
-    { id: "ice", text: "You start a talk, and the room of strangers looks tense.", answer: "endorphins", why: "A light, funny story relaxes them and breaks the ice." },
-    { id: "team", text: "Your team is tired, and you want them to keep going.", answer: "dopamine", why: "Curiosity about what comes next gives energy and motivation." },
-    { id: "trust", text: "You want a new client to trust you.", answer: "oxytocin", why: "A true story where you show a struggle builds trust." },
-    { id: "remember", text: "You want people to remember your message next week.", answer: "dopamine", why: "Curiosity locks attention, and attention builds memory." },
-    { id: "network", text: "You meet someone at an event and want to connect fast.", answer: "endorphins", why: "Shared laughter builds rapport in seconds." },
-    { id: "interview", text: "In an interview, you want them to see who you really are.", answer: "oxytocin", why: "Being honest about a hard moment makes you human and trusted." }
-  ];
-  const chemLabels = { dopamine: "DOPAMINE", oxytocin: "OXYTOCIN", endorphins: "ENDORPHINS" };
 
   const wParts = [
     { key: "when", text: "Last spring," },
@@ -133,8 +123,9 @@
     { id: "director", name: "Eye of the Director", icon: "clapper", short: "Choose the angle.", back: "The same story can be told from your eyes, someone else’s eyes, or even from a small object in the room. Choose the angle that fits your point." }
   ];
 
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  const lectureStepCount = 17;
+  // Step 3 (the chemical quiz) was retired; saved positions on it move on to the next slide.
+  const stepOrder = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  const lectureStepCount = 16;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
@@ -265,39 +256,22 @@
         </div>
       `, { className: "w6-why" });
     } else if (step === 2) {
-      const seen = new Set(state.chemicalsSeen || []);
       page = shell(`
-        <p class="w3-eyebrow">WHAT A STORY DOES TO THE BRAIN</p>
-        <h1 id="week6PageTitle">Three chemicals.<br /><em>Your story decides which.</em></h1>
-        <div class="w6-chems">${chemicals.map((chem, index) => `<button type="button" class="w6-chem ${chem.id} ${seen.has(chem.id) ? "open" : ""}" data-w6-chem="${chem.id}" data-w3-animate style="--i:${index}" aria-expanded="${seen.has(chem.id)}">
+        <p class="w3-eyebrow">WHAT A STORY DOES TO US</p>
+        <h1 id="week6PageTitle">Three feelings.<br /><em>Your story decides which.</em></h1>
+        <div class="w6-chems">${chemicals.map((chem, index) => `<article class="w6-chem open static ${chem.id}" data-w3-animate style="--i:${index}">
           <span class="w6-flask" aria-hidden="true"><i></i><em></em><em></em><em></em></span>
-          <small>${esc(chem.nick)}</small>
-          <h2>${esc(chem.name)}</h2>
-          <span class="w6-chem-more">
-            <span class="row"><b>RELEASED WHEN</b>${esc(chem.when)}</span>
-            <span class="tags">${chem.effects.map(effect => `<i>${esc(effect)}</i>`).join("")}</span>
-            <span class="row use"><b>USE IT TO</b>${esc(chem.use)}</span>
-          </span>
-          <strong class="w6-tap">Tap to open</strong>
-        </button>`).join("")}</div>
-        <p class="w3-coach-note">Speaker David JP Phillips calls this mix the “angel’s cocktail”. A good story can serve all three. <span data-w6-chem-count>${seen.size} / 3</span> opened.</p>
+          <small>${esc(chem.name.toUpperCase())}</small>
+          <h2>${esc(chem.nick)}</h2>
+          <p class="w6-moment">${esc(chem.moment)}</p>
+          <p class="w6-use"><b>USE IT TO</b>${esc(chem.use)}</p>
+        </article>`).join("")}</div>
+        <div class="w6-guess" data-w6-guess>
+          <p><b>The curtain story you just read.</b> Which one did it create?</p>
+          <div role="group" aria-label="Which feeling did the curtain story create?">${chemicals.map(chem => `<button type="button" data-w6-guess-choice="${chem.id}">${esc(chem.name)}</button>`).join("")}</div>
+          <p class="w6-guess-out" data-w6-guess-out aria-live="polite"></p>
+        </div>
       `, { className: "w6-chem-screen" });
-    } else if (step === 3) {
-      const answers = state.chemSort || {};
-      page = shell(`
-        <p class="w3-eyebrow">PICK THE RIGHT STORY</p>
-        <h1 id="week6PageTitle">What do you want<br /><em>them to feel?</em></h1>
-        <div class="w6-sorter">${chemSort.map((item, index) => {
-          const chosen = answers[item.id];
-          const correct = chosen && chosen === item.answer;
-          return `<article class="${chosen ? (correct ? "correct" : "wrong") : ""}" data-w3-animate style="--i:${index}">
-            <strong>${esc(item.text)}</strong>
-            <div class="w6-sort-buttons">${Object.keys(chemLabels).map(key => `<button type="button" class="${key} ${chosen === key ? "chosen" : ""}" data-w6-sort="${item.id}" data-w6-choice="${key}" ${chosen ? "disabled" : ""}>${chemLabels[key]}</button>`).join("")}</div>
-            <small>${chosen ? `${correct ? "Yes." : `${chemLabels[item.answer]}.`} ${esc(item.why)}` : "&nbsp;"}</small>
-          </article>`;
-        }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Curious story, honest story or funny story. Choose by the feeling you want.</p><button type="button" class="w3-reset-button" data-w6-action="reset-sort">Reset</button></div>
-      `, { className: "w6-sort-screen" });
     } else if (step === 4) {
       const removed = state.removedNow;
       const piece = skills.find(skill => skill.n === removed);
@@ -654,7 +628,6 @@
       return;
     }
     if (action === "clock") return toggleClock(actionEl);
-    if (action === "reset-sort") { update({ chemSort: {} }); return renderStep(); }
     if (action === "accept-mission") {
       const state = getState();
       const level = getLevel();
@@ -669,29 +642,13 @@
     const memory = event.target.closest("[data-w6-memory]");
     if (memory) { update({ memoryChoice: memory.dataset.w6Memory }); return renderStep(); }
 
-    const chem = event.target.closest("[data-w6-chem]");
-    if (chem) {
-      const seen = addUnique(getState().chemicalsSeen, chem.dataset.w6Chem);
-      update({ chemicalsSeen: seen });
-      chem.classList.add("open");
-      chem.setAttribute("aria-expanded", "true");
-      root.querySelector("[data-w6-chem-count]").textContent = `${seen.length} / 3`;
-      if (seen.length === 3) portal.showToast("Curiosity, trust and a smile. That is the angel’s cocktail.");
-      return;
-    }
-
-    const sort = event.target.closest("[data-w6-sort]");
-    if (sort) {
-      const answers = { ...(getState().chemSort || {}) };
-      const item = chemSort.find(entry => entry.id === sort.dataset.w6Sort);
-      const chosen = sort.dataset.w6Choice;
-      const correct = chosen === item.answer;
-      answers[item.id] = chosen;
-      update({ chemSort: answers });
-      const card = sort.closest("article");
-      card.classList.add(correct ? "correct" : "wrong");
-      card.querySelectorAll("[data-w6-sort]").forEach(button => { button.disabled = true; button.classList.toggle("chosen", button === sort); });
-      card.querySelector("small").textContent = `${correct ? "Yes." : `${chemLabels[item.answer]}.`} ${item.why}`;
+    const guess = event.target.closest("[data-w6-guess-choice]");
+    if (guess) {
+      const out = root.querySelector("[data-w6-guess-out]");
+      const right = guess.dataset.w6GuessChoice === "oxytocin";
+      root.querySelectorAll("[data-w6-guess-choice]").forEach(button => button.classList.toggle("chosen", button === guess));
+      out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
+      out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about being nervous, so you felt close to them.`;
       return;
     }
 

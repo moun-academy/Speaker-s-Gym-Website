@@ -357,3 +357,21 @@ body.week6-open { overflow: hidden; }
 /* the point that closes the slide 2 story */
 .w6-card p.w6-card-point { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(190,161,78,.55); font-size: clamp(16px,1.7vw,19px); color: #6b5520; }
 .w6-card p.w6-card-point b { color: var(--ink); }
+/* slide 3: three feelings, each with a moment everyone knows */
+.w6-chem.static { cursor: default; justify-items: start; text-align: left; gap: 8px; }
+.w6-chem.static:hover { transform: none; box-shadow: none; }
+.w6-chem.static .w6-flask { justify-self: center; }
+.w6-chem.static small { color: var(--tone); filter: brightness(.7); font: 800 12px var(--detail); letter-spacing: .14em; }
+.w6-chem.static h2 { font-size: 26px; }
+.w6-moment { margin: 0; font: 400 18px/1.45 var(--display); }
+.w6-use { display: grid; gap: 3px; width: 100%; margin: 4px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--forest); color: white; font: 400 16px/1.4 var(--display); }
+.w6-use b { color: var(--yellow); font: 800 12px var(--detail); letter-spacing: .12em; }
+.w6-guess { width: min(900px,100%); margin: 18px auto 0; padding: 18px 22px; border: 1px dashed #cdbf95; border-radius: 16px; background: #fbf5e1; text-align: center; }
+.w6-guess > p { margin: 0; font: 400 19px/1.4 var(--display); }
+.w6-guess > p b { font-weight: 600; }
+.w6-guess > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+.w6-guess button { padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); font: 800 13px var(--detail); letter-spacing: .06em; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.w6-guess button:hover { transform: translateY(-2px); }
+.w6-guess button.chosen { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
+.w6-guess .w6-guess-out { min-height: 28px; margin-top: 12px; color: #2f5a44; font: 500 18px/1.4 var(--display); }
+.w6-guess .w6-guess-out.in { animation: w6-slide .5s cubic-bezier(.22,1,.36,1) both; }
