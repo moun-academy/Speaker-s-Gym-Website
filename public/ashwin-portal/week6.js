@@ -58,7 +58,7 @@
   const fourQStory = [
     ["when", "Last spring,"], ["", " "], ["who", "I"], ["", " stood "], ["where", "behind the curtain of a packed hall,"], ["", " waiting to speak. "],
     ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "smiled and said, “That’s not fear. That’s excitement.”"],
-    ["", " "], ["why", "Nervous and excited feel the same in your body."]
+    ["", " "], ["why", "The reason I’m telling you this is because nervous and excited feel the same in your body."]
   ];
 
   // The game on slide 5: find the words that answer each question in a new short story.
@@ -68,7 +68,7 @@
     where: ["WHERE?", "Where does it happen?", "Look for a place."],
     when: ["WHEN?", "When does it happen?", "Look for a day or a time."],
     what: ["WHAT HAPPENED?", "What happened?", "Look for the moment something changed."],
-    why: ["WHY? (THE POINT)", "Why is the story being told? Find the point.", "Look for the lesson at the end."]
+    why: ["WHY? (THE POINT)", "Why is the story being told? Find the point.", "Look for the lesson. It comes after “The reason I’m telling you this is because…”"]
   };
   const huntStory = [
     { t: "On Saturday morning,", q: "when" },
@@ -78,7 +78,7 @@
     { t: "The board said our train was cancelled.", q: "what" },
     { t: "So we ran across town", q: "what" },
     { t: "and caught the last bus.", q: "what" },
-    { t: "Sometimes the best days begin when the plan falls apart.", q: "why" }
+    { t: "The reason I’m telling you this is because sometimes the best days begin when the plan falls apart.", q: "why" }
   ];
 
   const senses = [
