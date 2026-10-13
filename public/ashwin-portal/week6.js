@@ -472,6 +472,7 @@
       page = shell(`
         <p class="w3-eyebrow">YOUR LIBRARY OF STORIES</p>
         <h1 id="week6PageTitle">Great storytellers don’t invent stories.<br /><em>They collect them.</em></h1>
+        <div class="w6-remind"><p>Every story you collect has the same parts. Remember to find them:</p><div><span class="who">Who</span><span class="where">Where</span><span class="when">When</span><span class="what">What happened</span><span class="why">Why (the point)</span></div></div>
         <div class="w6-prompts" role="group" aria-label="Story idea starters">${Object.keys(prompts).map(name => `<button type="button" class="${category === name ? "on" : ""}" data-w6-prompt="${esc(name)}">${esc(name)}</button>`).join("")}</div>
         <p class="w6-prompt-out ${category ? "in" : ""}" data-w6-prompt-out aria-live="polite">${category ? esc(state.promptText || prompts[category][0]) : "Tap a starter. Let a memory come back."}</p>
         <form class="w6-add" data-w6-add><input type="text" maxlength="60" placeholder="Give the story a short title, like “Behind the curtain”" data-w6-book-title aria-label="Story title" /><button type="submit" class="w5-primary">Add to my shelf</button></form>

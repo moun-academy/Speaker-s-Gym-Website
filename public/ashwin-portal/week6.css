@@ -476,3 +476,9 @@ body.week6-open { overflow: hidden; }
 .w6-real > em { display: block; margin-top: 10px; color: var(--muted); font: italic 400 15px var(--display); text-align: right; }
 .w6-tellyours { margin: 26px 0 8px; color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .14em; text-align: center; }
 @media (max-width: 700px) { .w6-real-rows p { grid-template-columns: 1fr; gap: 4px; } }
+/* slide 12: a reminder of what every story has */
+.w6-remind { width: min(820px,100%); margin: 22px auto 0; padding: 14px 20px; border: 1px dashed #cdbf95; border-radius: 16px; background: #fbf5e1; text-align: center; }
+.w6-remind p { margin: 0; font: 400 clamp(17px,1.9vw,20px)/1.4 var(--display); }
+.w6-remind div { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+.w6-remind span { padding: 6px 14px; border-radius: 99px; font: 800 13px var(--detail); letter-spacing: .05em; }
+.w6-remind .who { background: #f5ddd5; color: #7d3b2f; } .w6-remind .where { background: #dbeee0; color: #234a33; } .w6-remind .when { background: #f6ecc9; color: #5f4c17; } .w6-remind .what { background: #e6e1d4; color: #3c3a33; } .w6-remind .why { background: #e3dcf0; color: #4a3a78; }
