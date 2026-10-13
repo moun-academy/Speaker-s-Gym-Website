@@ -261,7 +261,10 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.includes(savedStep) ? savedStep : stepOrder.find(item => item >= savedStep) ?? 0;
+    // A saved spot on a retired slide (3 or 6) moves on to the next slide in the real order.
+    const retiredNext = { 3: 4, 6: 7 };
+    const resumeAt = retiredNext[savedStep] ?? savedStep;
+    const step = stepOrder.includes(resumeAt) ? resumeAt : stepOrder.find(item => item >= resumeAt) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
