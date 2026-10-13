@@ -114,12 +114,12 @@
   };
 
   const storyBeats = [
-    { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
-    { part: "THE SENSES", text: "A blinding spotlight burned on the empty stage. Three hundred voices rumbled like thunder, and the air smelled of burnt coffee.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
-    { part: "THE CHARACTER", text: "The person beside me leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"], ["pitch", "Bright and lifted, like them"]], ms: 300, pauseBefore: true },
-    { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pace", "Slow"], ["voice", "Stronger"], ["pause", "Hold 3 seconds"]], ms: 420, pauseAfter: true },
-    { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Stronger"], ["pitch", "Step up on “excited”"], ["pitch", "Land the ending"]], ms: 280 },
-    { part: "THE LINK", text: "Life is like standing behind that curtain. When your heart pounds, your body is getting ready.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
+    { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"]], ms: 230 },
+    { part: "WHAT IT FELT LIKE", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"]], ms: 330 },
+    { part: "WHAT THEY SAID", text: "The person beside me leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"]], ms: 300, pauseBefore: true },
+    { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pause", "Hold the silence"]], ms: 420, pauseAfter: true },
+    { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Say it stronger"]], ms: 280 },
+    { part: "THE LINK", text: "Life is like standing behind that curtain. When your heart pounds, your body is getting ready.", cues: [["pace", "Slow down"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
 
@@ -219,7 +219,7 @@
 
   /* ---------- small pieces of markup ---------- */
   function cueChip([kind, text]) {
-    return `<i class="w6-cue ${kind}"><b>${cueLecture[kind]}</b>${esc(text)}</i>`;
+    return `<i class="w6-cue ${kind}">${esc(text)}</i>`;
   }
 
   function setShowMode(mode) {
@@ -448,12 +448,21 @@
       `, { className: "w6-link-screen" });
     } else if (step === 11) {
       page = shell(`
-        <p class="w3-eyebrow">PUT IT ALL TOGETHER · L1 TO L5 IN ONE STORY</p>
-        <h1 id="week6PageTitle">Same story.<br /><em>Now tell it with everything.</em></h1>
-        <div class="w6-legend" aria-hidden="true"><span class="voice">L2 Volume</span><span class="pace">L3 Pace</span><span class="pause">L4 Pauses</span><span class="pitch">L5 Melody</span></div>
+        <p class="w3-eyebrow">PUT IT TOGETHER</p>
+        <h1 id="week6PageTitle">Hear it in a real speech.<br /><em>Then tell yours.</em></h1>
+        <article class="w6-real">
+          <header><small>A REAL SPEECH</small><strong>Steve Jobs · Stanford, 2005</strong></header>
+          <div class="w6-real-rows">
+            <p class="incident"><b>INCIDENT</b><span>“I decided to take a calligraphy class to learn how to do this.”</span></p>
+            <p class="point"><b>POINT</b><span>“You can’t connect the dots looking forward. You can only connect them looking backwards.”</span></p>
+            <p class="link"><b>LINK</b><span>“So you have to trust that the dots will somehow connect in your future.”</span></p>
+          </div>
+          <em>The full incident is a longer story. Here is just the key line.</em>
+        </article>
+        <p class="w6-tellyours">NOW TELL YOURS</p>
         <div class="w6-script" data-w6-script>${storyBeats.map((beat, index) => `${beat.pauseBefore ? '<div class="w6-hold" data-w6-hold>‖ pause</div>' : ""}<article class="w6-beat" data-w6-beat="${index}"><header><small>${esc(beat.part)}</small><span>${beat.cues.map(cueChip).join("")}</span></header><p>${esc(beat.text)}</p></article>${beat.pauseAfter ? '<div class="w6-hold long" data-w6-hold>‖ hold the silence · 3 seconds</div>' : ""}`).join("")}</div>
         <div class="w5-actions"><button type="button" class="w5-primary" data-w6-action="play-guide">▶ Play the guide</button><button type="button" class="w5-quiet ${state.toldAloud ? "done" : ""}" data-w6-action="told-aloud">${state.toldAloud ? "✓ I told it out loud" : "I told it out loud"}</button></div>
-        <p class="w3-coach-note">Watch the guide once. Then stand up and tell the story out loud, following the cues.</p>
+        <p class="w3-coach-note">Watch the guide once. Then stand up and tell the story out loud.</p>
       `, { className: "w6-script-screen" });
     } else if (step === 12) {
       const story = state.story || {};

@@ -461,3 +461,18 @@ body.week6-open { overflow: hidden; }
 .w6-link-label { margin: 22px 0 0; color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .14em; text-align: center; }
 .w6-link-label + .w6-link-out { margin-top: 8px; }
 .w6-link-out { font-size: clamp(19px,2.2vw,24px); line-height: 1.45; }
+/* slide 10: a real speech on top, your story below */
+.w6-real { width: min(860px,100%); margin: 24px auto 0; padding: 20px 24px 16px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); }
+.w6-real header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px; }
+.w6-real header small { color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .14em; }
+.w6-real header strong { font: 500 19px var(--display); }
+.w6-real-rows { display: grid; gap: 8px; margin-top: 12px; }
+.w6-real-rows p { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 14px; margin: 0; padding: 10px 14px; border-left: 5px solid var(--gold); border-radius: 10px; background: #f8f4e8; }
+.w6-real-rows p.point { border-left-color: #c8705d; background: #fbeee9; }
+.w6-real-rows p.link { border-left-color: #5d9a74; background: #eaf4ec; }
+.w6-real-rows b { font: 800 12px var(--detail); letter-spacing: .12em; color: #6b5520; }
+.w6-real-rows p.point b { color: #9b4a3a; } .w6-real-rows p.link b { color: #2f5a44; }
+.w6-real-rows span { font: 400 clamp(17px,1.9vw,21px)/1.45 var(--display); }
+.w6-real > em { display: block; margin-top: 10px; color: var(--muted); font: italic 400 15px var(--display); text-align: right; }
+.w6-tellyours { margin: 26px 0 8px; color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .14em; text-align: center; }
+@media (max-width: 700px) { .w6-real-rows p { grid-template-columns: 1fr; gap: 4px; } }
