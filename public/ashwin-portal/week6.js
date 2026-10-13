@@ -279,9 +279,9 @@
         <p class="w3-eyebrow">WHY STORYTELLING MATTERS</p>
         <h1 id="week6PageTitle">Stories are how people<br /><em>understand each other.</em></h1>
         <div class="w6-whys">
-          <article data-w3-animate style="--i:0"><span aria-hidden="true">🧠</span><h2>Their mind follows yours</h2><p>When a story is easy to follow, the listener’s brain activity starts to match the speaker’s. The better the match, the better they understand.</p></article>
-          <article data-w3-animate style="--i:1"><span aria-hidden="true">❤️</span><h2>They feel close to you</h2><p>A story with a real person in it makes listeners care. Research suggests it makes them more willing to help.</p></article>
-          <article data-w3-animate style="--i:2"><span aria-hidden="true">📌</span><h2>They remember it</h2><p>A fact is easy to forget. A moment you can picture stays with you.</p></article>
+          <article data-w3-animate style="--i:0"><span aria-hidden="true">1</span><h2>Their mind follows yours</h2><p>When a story is easy to follow, the listener’s brain activity starts to match the speaker’s. The better the match, the better they understand.</p></article>
+          <article data-w3-animate style="--i:1"><span aria-hidden="true">2</span><h2>They feel close to you</h2><p>A story with a real person in it makes listeners care. Research suggests it makes them more willing to help.</p></article>
+          <article data-w3-animate style="--i:2"><span aria-hidden="true">3</span><h2>They remember it</h2><p>A fact is easy to forget. A moment you can picture stays with you.</p></article>
         </div>
         <blockquote>Structure makes your story clear.<br /><strong>Your voice makes people feel it.</strong></blockquote>
         <p class="w6-whys-source">Based on research from Princeton (Hasson, 2010) and Paul Zak’s lab.</p>

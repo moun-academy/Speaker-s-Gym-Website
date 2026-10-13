@@ -351,7 +351,7 @@
           <div class="w2-contrast-meter"><span>LISTENER</span><div><i data-w2-cmeter style="width:0%"></i></div><strong data-w2-ctag>Waiting</strong></div>
           <p class="w2-contrast-read" data-w2-cread aria-live="polite">${mode ? "Now read it out loud. The highlight moves with you." : "Tap a version. Then read the story out loud the same way."}</p>
           <div class="w2-contrast-go" data-w2-go>
-            ${micSupported() ? `<button type="button" class="w2-follow" data-w2-action="follow-mic" ${mode ? "" : "disabled"}>🎙 Read it, I’ll follow you</button>` : ""}
+            ${micSupported() ? `<button type="button" class="w2-follow" data-w2-action="follow-mic" ${mode ? "" : "disabled"}>Read it, I’ll follow you</button>` : ""}
             <button type="button" class="w2-follow-quiet" data-w2-action="follow-pace" ${mode ? "" : "disabled"}>${micSupported() ? "No mic? Play it at reading pace" : "▶ Play it at reading pace"}</button>
           </div>
           <p class="w2-mic-privacy">${micSupported() ? "The microphone only listens for when you speak and pause. Nothing is recorded or saved." : ""}</p>
@@ -753,7 +753,7 @@
     const micButton = root.querySelector('[data-w2-action="follow-mic"]');
     const paceButton = root.querySelector('[data-w2-action="follow-pace"]');
     const nextButton = root.querySelector('[data-w2-action="follow-next"]');
-    if (micButton) { micButton.disabled = running; micButton.textContent = running ? "Listening…" : "🎙 Read it, I’ll follow you"; }
+    if (micButton) { micButton.disabled = running; micButton.textContent = running ? "Listening…" : "Read it, I’ll follow you"; }
     if (paceButton) paceButton.disabled = running;
     if (running && !nextButton) root.querySelector("[data-w2-go]").insertAdjacentHTML("beforeend", '<button type="button" class="w2-follow-quiet" data-w2-action="follow-next">Next line ›</button>');
     if (!running) nextButton?.remove();
