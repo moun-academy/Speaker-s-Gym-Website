@@ -9,7 +9,7 @@
   const chapters = [
     { title: "Why Stories Move People", start: 1, end: 2 },
     { title: "Structure + Vocal Variety", start: 4, end: 5 },
-    { title: "The Point and the Link", start: 9, end: 10 },
+    { title: "The Point", start: 9, end: 10 },
     { title: "Tell It and Keep It", start: 11, end: 14 }
   ];
 
@@ -151,8 +151,8 @@
   // Step 6 (paint the scene) was retired; saved positions on it move on to the next slide.
   // Step 14 (three eyes) comes before step 13 (collect stories): learn where stories hide, then start collecting.
   // Step 21 (why storytelling matters) is a newer slide placed before the fact-versus-story slide.
-  const stepOrder = [0, 21, 1, 2, 4, 20, 5, 9, 10, 11, 12, 14, 13, 15, 16, 17, 18, 19];
-  const lectureStepCount = 15;
+  const stepOrder = [0, 21, 1, 2, 4, 20, 5, 9, 11, 12, 14, 13, 15, 16, 17, 18, 19];
+  const lectureStepCount = 14;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
@@ -252,8 +252,8 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    // A saved spot on a retired slide (3, 6, 7 or 8) moves on to the next slide in the real order.
-    const retiredNext = { 3: 4, 6: 9, 7: 9, 8: 9 };
+    // A saved spot on a retired slide (3, 6, 7, 8 or 10) moves on to the next slide in the real order.
+    const retiredNext = { 3: 4, 6: 9, 7: 9, 8: 9, 10: 11 };
     const resumeAt = retiredNext[savedStep] ?? savedStep;
     const step = stepOrder.includes(resumeAt) ? resumeAt : stepOrder.find(item => item >= resumeAt) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
