@@ -328,7 +328,7 @@
         </div>
         <div class="w4-practice"><small>WHEN TO USE IT · WHEN THE QUESTION MAKES YOU THINK</small><ul><li>A hard question</li><li>Something a little complicated to explain</li><li>A decision you need to explain</li></ul>
           <p class="w4-practice-note">Easy questions, like “How are you?”, get a quick answer. Save your pause for the moments that need thinking.</p>
-          <a class="w4-app-link" href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎙</span><span><strong>Practise in the Speaker’s Gym app</strong><em>Answer random questions until your pause feels natural. Repeat it until it becomes a habit.</em></span><b aria-hidden="true">↗</b></a></div>
+          <a class="w4-app-link" href="https://the-speaker-s-gym-premium.vercel.app/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎙</span><span><strong>Practice in the Speaker’s Gym app</strong><em>Answer random questions until your pause feels natural. Repeat it until it becomes a habit.</em></span><b aria-hidden="true">↗</b></a></div>
       `, { className: "w4-trigger-screen" });
     } else if (step === 5) {
       const reps = Number(state.trainerReps || 0);
