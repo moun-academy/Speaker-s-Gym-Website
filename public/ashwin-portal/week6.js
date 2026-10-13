@@ -9,7 +9,7 @@
   const chapters = [
     { title: "Why Stories Move People", start: 1, end: 2 },
     { title: "Structure + Vocal Variety", start: 4, end: 5 },
-    { title: "Build the Incident", start: 6, end: 8 },
+    { title: "Build the Incident", start: 7, end: 8 },
     { title: "The Point and the Link", start: 9, end: 10 },
     { title: "Tell It and Keep It", start: 11, end: 14 }
   ];
@@ -159,8 +159,9 @@
 
   // Step 3 (the chemical quiz) was retired; saved positions on it move on to the next slide.
   // Step 20 (the four questions) is a newer slide placed before the formula, so the list order is the real order.
-  const stepOrder = [0, 1, 2, 4, 20, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  const lectureStepCount = 17;
+  // Step 6 (paint the scene) was retired; saved positions on it move on to the next slide.
+  const stepOrder = [0, 1, 2, 4, 20, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  const lectureStepCount = 16;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
