@@ -127,8 +127,6 @@
     { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and a speaker with twenty years of experience" },
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
-    { key: "senses", label: "THE SENSES · SEE, HEAR, SMELL, TOUCH", hint: "Use sharp adjectives. One or two details.", placeholder: "A harsh buzzing filled the room. The air smelled of burnt toast." },
-    { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "Someone walked over, smiled, and said: “Welcome to the team.”" },
     { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" },
     { key: "link", label: "THE LINK", hint: "… is like …", placeholder: "Starting anything new is like that first week…" }
   ];
@@ -355,7 +353,7 @@
         <p class="w3-eyebrow">THE STORYTELLING FORMULA</p>
         <h1 id="week6PageTitle">Incident. Point. Link.<br /><em>Three parts, every time.</em></h1>
         <div class="w6-formula">
-          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><strong class="w6-q">What happened?</strong><p>Who, what, where, when. Bring it to life with your senses and real people.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
+          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><strong class="w6-q">What happened?</strong><p>Who, what, where, when. The moment something happened.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
           <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><strong class="w6-q">Why does it matter?</strong><p>Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because nervous and excited feel the same in your body.”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
@@ -489,7 +487,7 @@
         <div class="w6-eyes">${eyes.map((eye, index) => `<button type="button" class="w6-eye ${seen.has(eye.id) ? "flipped" : ""}" data-w6-eye="${eye.id}" data-w3-animate style="--i:${index}" aria-pressed="${seen.has(eye.id)}"><span class="front">${icon(eye.icon)}<strong>${esc(eye.name)}</strong><small>${esc(eye.short)}</small><b>Tap to turn</b></span><span class="back"><strong>${esc(eye.name)}</strong><p>${esc(eye.back)}</p></span></button>`).join("")}</div>
         <article class="w6-template" data-w3-animate style="--i:3">
           <header><small>THE STORY TEMPLATE · USE IT FOR EVERY STORY</small></header>
-          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>Sharp adjectives: see, hear, smell, touch</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
+          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
         </article>
       `, { className: "w6-eyes-screen" });
     } else if (step === 15) {
@@ -669,7 +667,7 @@
       box.classList.remove("running");
       button.textContent = "Tell it again";
       update({ storySeconds: seconds, storyTold: true });
-      hint.textContent = seconds < 60 ? "Short and sweet. Next time, add one more sense or a line of dialogue." : seconds <= 240 ? "Nicely told. That is a story people can follow and feel." : "A long one. Try cutting the setup so you reach the incident sooner.";
+      hint.textContent = seconds < 60 ? "Short and sweet. Next time, add one more detail about what happened." : seconds <= 240 ? "Nicely told. That is a story people can follow and feel." : "A long one. Try cutting the setup so you reach the incident sooner.";
       return;
     }
     clock = { seconds: 0, interval: null };
