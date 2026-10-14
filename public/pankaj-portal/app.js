@@ -150,7 +150,8 @@
       voice:'<path d="M30 60V64M45 47V77M60 37V87M75 49V75M90 22V102M105 37V87M120 8V116M135 32V92M150 40V84M165 20V104M180 34V90M195 46V78M210 40V84M225 51V73M240 57V67" stroke-width="5" stroke-linecap="round"/>',
       pace:'<path d="M15 89C45 89 45 39 75 39S105 89 135 89S165 19 195 19S225 79 255 79" stroke-width="2"/><circle cx="75" cy="39" r="6"/><circle cx="135" cy="89" r="6"/><circle cx="195" cy="19" r="6"/><path d="M15 108H255" stroke-dasharray="2 5"/>',
       pauses:'<circle cx="135" cy="62" r="51" stroke-opacity=".3"/><circle cx="135" cy="62" r="39" stroke-opacity=".5"/><rect x="120" y="43" width="8" height="38" rx="4"/><rect x="142" y="43" width="8" height="38" rx="4"/><path d="M40 62H62M208 62H230"/>',
-      melody:'<path d="M15 72H70" stroke-opacity=".35" stroke-dasharray="3 5"/><path d="M70 72C90 72 92 40 112 40S136 22 150 22 172 60 190 60 220 92 255 96" stroke-width="2.5" stroke-linecap="round"/><circle cx="112" cy="40" r="5"/><circle cx="150" cy="22" r="5"/><circle cx="190" cy="60" r="5"/><circle cx="255" cy="96" r="5"/>'
+      melody:'<path d="M15 72H70" stroke-opacity=".35" stroke-dasharray="3 5"/><path d="M70 72C90 72 92 40 112 40S136 22 150 22 172 60 190 60 220 92 255 96" stroke-width="2.5" stroke-linecap="round"/><circle cx="112" cy="40" r="5"/><circle cx="150" cy="22" r="5"/><circle cx="190" cy="60" r="5"/><circle cx="255" cy="96" r="5"/>',
+      story:'<path d="M135 30C110 16 70 14 40 22V104C70 96 110 98 135 112C160 98 200 96 230 104V22C200 14 160 16 135 30Z"/><path d="M135 30V112"/><path d="M58 44C78 40 100 42 118 50M58 62C78 58 100 60 118 68M58 80C78 76 100 78 118 86" stroke-opacity=".5"/><path d="M152 50C170 42 192 40 212 44M152 68C170 60 192 58 212 62" stroke-opacity=".5"/><circle cx="190" cy="84" r="5"/><path d="M135 8V0M110 10L104 3M160 10L166 3" stroke-linecap="round"/>'
     };
     return `<svg viewBox="0 0 270 125" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${content[type]}</svg>`;
   }
@@ -169,7 +170,8 @@
     const week=index+1;
     if (week===6) {
       const mission=sync.coach.missions?.[6]||'';const record=state.week6Mission||{};
-      return {week,lecture:null,mission,missionState:record.status==='completed'?'done':mission?'set':'none',result:record.result||'',level:null};
+      const own=state.week6Lecture||{};const ownState=own.lectureCompletedAt?'done':Number(own.currentStep)>0?'started':'none';
+      return {week,lecture:DATA.lectures.find(item=>item.week===6),lectureState:ownState,mission,missionState:record.status==='completed'?'done':mission?'set':'none',result:record.result||'',level:null};
     }
     const lecture=state[`week${week}Lecture`]||{};
     const lectureState=lecture.lectureCompletedAt?'done':Number(lecture.currentStep)>0?'started':'none';
@@ -217,7 +219,7 @@
   function updateLecture(week,patch) {state[`week${week}Lecture`]={...state[`week${week}Lecture`],...patch};saveState();}
   const portal = {
     client:{id:'pankaj',name:'Pankaj',storageKey:DATA.storageKey},getState:()=>state,
-    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),
+    updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),updateWeek6:patch=>updateLecture(6,patch),
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
       if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Pankaj's other progress stays saved.`)) return false;

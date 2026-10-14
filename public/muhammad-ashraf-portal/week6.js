@@ -7,23 +7,23 @@
   if (!portal || !exposure || !root) return;
 
   const chapters = [
-    { title: "Why Stories Move People", start: 1, end: 3 },
+    { title: "Why Stories Move People", start: 1, end: 2 },
     { title: "Structure + Vocal Variety", start: 4, end: 5 },
-    { title: "Build the Incident", start: 6, end: 8 },
-    { title: "The Point and the Link", start: 9, end: 10 },
+    { title: "The Point", start: 9, end: 10 },
     { title: "Tell It and Keep It", start: 11, end: 14 }
   ];
 
   const stages = [
-    { name: "WHY", end: 3 },
+    { name: "WHY", end: 2 },
     { name: "FORMULA", end: 5 },
-    { name: "INCIDENT", end: 8 },
     { name: "POINT", end: 10 },
     { name: "TELL", end: 14 },
     { name: "PROVE", end: 16 }
   ];
 
-  const missionTemplates = window.MUHAMMAD_DATA.levels.map(level => level.behavior + " Use one short true story: set the scene, tell the incident, then say “The reason I’m telling you this is because…”");
+  // The last week has one final assignment, so there are no exposure levels to choose from.
+  const finalAssignment = "Record one final video, 2 minutes long. Tell a story with the who, the when, what happened and the point. Use the vocal variety you learned: volume, pace, pauses and melody.";
+  const missionTemplates = window.MUHAMMAD_DATA.levels.map(() => finalAssignment);
 
   const skills = [
     { n: 1, name: "Structure", side: "structure", lost: "They get lost. Lots of detail, but no point to hold on to." },
@@ -34,51 +34,73 @@
   ];
 
   const chemicals = [
-    { id: "dopamine", name: "Dopamine", nick: "The curiosity chemical", when: "They wonder what happens next.", effects: ["Focus", "Attention", "Motivation", "Memory"], use: "Motivate people." },
-    { id: "oxytocin", name: "Oxytocin", nick: "The trust chemical", when: "You share a true story where you were vulnerable: a struggle, a mistake, a fear.", effects: ["Trust", "Bonding", "Empathy", "Generosity"], use: "Build a deeper connection." },
-    { id: "endorphins", name: "Endorphins", nick: "The feel-good chemical", when: "Your story makes them smile or laugh.", effects: ["Relaxed", "Present", "Creative", "Rapport"], use: "Break the ice and build rapport quickly." }
+    { id: "dopamine", name: "Dopamine", nick: "The cliffhanger", moment: "A friend says, “You won’t believe what happened…” and you lean in to hear the rest.", use: "Keep people curious and motivated." },
+    { id: "oxytocin", name: "Oxytocin", nick: "The honest friend", moment: "Someone admits they were scared before a big day, and you instantly feel closer to them.", use: "Build trust and connection." },
+    { id: "endorphins", name: "Endorphins", nick: "The laugh", moment: "A joke at a family dinner, and everyone relaxes.", use: "Break the ice, fast." }
   ];
 
-  const chemSort = [
-    { id: "ice", text: "You start a talk, and the room of strangers looks tense.", answer: "endorphins", why: "A light, funny story relaxes them and breaks the ice." },
-    { id: "team", text: "Your team is tired, and you want them to keep going.", answer: "dopamine", why: "Curiosity about what comes next gives energy and motivation." },
-    { id: "trust", text: "You want a new client to trust you.", answer: "oxytocin", why: "A true story where you show a struggle builds trust." },
-    { id: "remember", text: "You want people to remember your message next week.", answer: "dopamine", why: "Curiosity locks attention, and attention builds memory." },
-    { id: "network", text: "You meet someone at an event and want to connect fast.", answer: "endorphins", why: "Shared laughter builds rapport in seconds." },
-    { id: "interview", text: "In an interview, you want them to see who you really are.", answer: "oxytocin", why: "Being honest about a hard moment makes you human and trusted." }
+  // The four questions every story answers, with the curtain story split by question.
+  const fourQs = [
+    { id: "who", label: "WHO?", answer: "Me, and the person beside me.", missing: "Who is this about? The listener has no one to follow." },
+    { id: "where", label: "WHERE?", answer: "Behind the curtain of a packed hall.", missing: "Where are we? They can’t picture the scene." },
+    { id: "when", label: "WHEN?", answer: "Last spring, just before I spoke.", missing: "When did this happen? Last week, or long ago?" },
+    { id: "what", label: "WHAT HAPPENED?", answer: "My heart pounded, and someone told me, “That’s not fear. That’s excitement.”", missing: "Then nothing happens. There is no story." },
+    { id: "why", label: "WHY? (THE POINT)", answer: "Nervous and excited feel the same in your body.", missing: "Then it’s only a memory. There is nothing to take away." }
   ];
-  const chemLabels = { dopamine: "DOPAMINE", oxytocin: "OXYTOCIN", endorphins: "ENDORPHINS" };
+  const fourQStory = [
+    ["when", "Last spring,"], ["", " "], ["who", "I"], ["", " stood "], ["where", "behind the curtain of a packed hall,"], ["", " waiting to speak. "],
+    ["what", "My heart was pounding,"], ["", " and "], ["who", "the person beside me"], ["", " "], ["what", "smiled and said, “That’s not fear. That’s excitement.”"],
+    ["", " "], ["why", "The reason I’m telling you this is because nervous and excited feel the same in your body."]
+  ];
 
-  const wParts = [
-    { key: "when", text: "Two years ago," },
-    { key: "who", text: "I" },
-    { key: "", text: "walked into a job interview" },
-    { key: "where", text: "in a small glass meeting room." },
-    { key: "", text: "The manager asked me one simple question, and" },
-    { key: "what", text: "my mind went completely blank." }
+  // The game on slide 5: find the words that answer each question in a new short story.
+  const huntOrder = ["who", "where", "when", "what", "why"];
+  const huntPrompts = {
+    who: ["WHO?", "Who is in the story?", "Look for the people."],
+    where: ["WHERE?", "Where does it happen?", "Look for a place."],
+    when: ["WHEN?", "When does it happen?", "Look for a day or a time."],
+    what: ["WHAT HAPPENED?", "What happened?", "Look for the moment something changed."],
+    why: ["WHY? (THE POINT)", "Why is the story being told? Find the point.", "Look for the lesson. It comes after “The reason I’m telling you this is because…”"]
+  };
+  const huntStory = [
+    { t: "On Saturday morning,", q: "when" },
+    { t: "my brother and I", q: "who" },
+    { t: "were waiting", q: "" },
+    { t: "at the train station.", q: "where" },
+    { t: "The board said our train was cancelled.", q: "what" },
+    { t: "So we ran across town", q: "what" },
+    { t: "and caught the last bus.", q: "what" },
+    { t: "The reason I’m telling you this is because sometimes the best days begin when the plan falls apart.", q: "why" }
   ];
-  const senses = [
-    { id: "V", name: "See", full: "Visual", line: "Three faces were looking at me. One of them stopped writing." },
-    { id: "A", name: "Hear", full: "Auditory", line: "The only sound was the air conditioning, humming." },
-    { id: "K", name: "Feel", full: "Kinesthetic", line: "My face went hot, and my hands were sweating on the table." },
-    { id: "S", name: "Smell", full: "Smell", line: "The room smelled of fresh coffee that nobody was drinking." }
-  ];
+
+  // Slide 7: the same moment told plainly, and told with the body.
+  const showVersions = {
+    plain: { parts: [{ tag: "", html: "I stood behind the curtain, waiting to speak. There were a lot of people out there." }], read: "We understand it. We don’t see it." },
+    senses: {
+      parts: [
+        { tag: "TOUCH", html: "I gripped the <mark>rough</mark>, <mark>heavy</mark> velvet curtain." },
+        { tag: "SEE", html: "A <mark>blinding</mark> white spotlight burned on the <mark>empty</mark> stage." },
+        { tag: "HEAR", html: "Three hundred voices <mark>rumbled</mark> like thunder." },
+        { tag: "SMELL", html: "The air smelled <mark>sharp</mark>, of <mark>burnt</mark> coffee and <mark>hot</mark> dust." }
+      ],
+      read: "Now we are standing there with you."
+    }
+  };
+  const showLine = mode => showVersions[mode].parts.map((part, index) => `<span style="--d:${index}">${part.tag ? `<i class="w6-sense-tag ${part.tag.toLowerCase()}">${part.tag}</i>` : ""}${part.html}</span>`).join(" ");
 
   const characterVersions = {
-    told: { label: "TOLD ABOUT", text: "The manager asked me why they should hire me, and I didn’t know what to say.", note: "We understand it. We don’t see it." },
-    alive: { label: "BROUGHT TO LIFE", text: "She put her pen down. Leaned back in her chair. And said, slowly: “So… why should we hire you?”", note: "Now we are in the room with you." }
+    told: { label: "TOLD ABOUT", text: "The person beside me told me the nerves were really excitement.", note: "We understand it. We don’t see it." },
+    alive: { label: "BROUGHT TO LIFE", text: "They leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", note: "Now we are backstage with you." }
   };
 
   const audiences = [
-    { id: "interview", name: "In a job interview", point: "I learned to stay calm under pressure. When I don’t know an answer, I pause, think, and start with my point. That is what I would bring to this role." },
-    { id: "team", name: "With your team", point: "many of us freeze when we speak up. It is normal. Take two seconds. Nobody minds the silence as much as you do." },
-    { id: "friend", name: "With a friend", point: "you are not the only one who goes blank. It happens to everyone, even in the moments that matter most." }
+    { id: "interview", name: "In a job interview", point: "nervous and excited feel the same in your body. Tell yourself you are excited, and walk in ready." },
+    { id: "team", name: "With your team", point: "nervous and excited feel the same in your body. Before you speak up, say “I’m excited.”" },
+    { id: "friend", name: "With a friend", point: "when your heart pounds, you can call it fear, or you can call it excitement. You get to choose." }
   ];
 
   const linkStories = [
-    { id: "blank", name: "My mind went blank in an interview" },
-    { id: "phone", name: "Teaching my dad to use a smartphone" },
-    { id: "cook", name: "Cooking for ten people for the first time" }
+    { id: "curtain", name: "Standing behind the curtain, heart pounding" }
   ];
   const linkSituations = [
     { id: "job", name: "Starting a new job" },
@@ -86,35 +108,26 @@
     { id: "learn", name: "Learning a new skill" }
   ];
   const links = {
-    "blank-job": "A new job is like that interview room. The silence feels long to you, but to everyone else, it looks like you are thinking.",
-    "blank-talk": "A presentation is like that interview room. If you go blank, a pause looks calm, not lost. Breathe, and start with your point.",
-    "blank-learn": "Learning anything new is like that interview. You will go blank sometimes. That is not failure. It is the moment before you get better.",
-    "phone-job": "A new job is like teaching my dad to use his phone. Nobody expects you to know every button on day one. Ask twice if you need to.",
-    "phone-talk": "A presentation is like teaching my dad his phone. If they look lost, slow down and show one button at a time.",
-    "phone-learn": "Learning a new skill is like my dad with his phone. The first week is all mistakes. Then one day, you are sending everyone photos.",
-    "cook-job": "A new job is like cooking for ten people for the first time. You will burn something, and nobody will remember it by dessert.",
-    "cook-talk": "A presentation is like cooking for ten people. Get the main dish right, and nobody notices the small mistakes.",
-    "cook-learn": "Learning a new skill is like cooking for ten. The second time is always easier than the first."
+    "curtain-job": "A new job is like standing behind that curtain. The pounding heart is excitement, not fear.",
+    "curtain-talk": "A presentation is like standing behind that curtain. Say “I’m excited” and your body is ready.",
+    "curtain-learn": "Learning something new is like standing behind that curtain. Nerves and excitement feel the same, so choose excitement."
   };
 
   const storyBeats = [
-    { part: "SET THE SCENE", text: "Two years ago, I walked into a job interview, in a small glass meeting room.", cues: [["pace", "Steady pace"], ["voice", "Normal volume"]], ms: 230 },
-    { part: "THE SENSES", text: "Three faces were looking at me. The only sound was the air conditioning. My hands were sweating on the table.", cues: [["pace", "Slow down"], ["voice", "Softer"], ["pitch", "Lower"]], ms: 330 },
-    { part: "THE CHARACTER", text: "The manager put her pen down, leaned back, and said: “So… why should we hire you?”", cues: [["pause", "Pause before her line"], ["pitch", "Change your voice for her"]], ms: 300, pauseBefore: true },
-    { part: "THE INCIDENT", text: "And my mind went completely blank.", cues: [["pace", "Very slow"], ["voice", "Soft"], ["pause", "Hold 3 seconds"]], ms: 520, pauseAfter: true },
-    { part: "THE POINT", text: "The reason I’m telling you this is because that silence taught me something: a pause is not a failure.", cues: [["voice", "Stronger"], ["pitch", "Step up on “not”"], ["pitch", "Land the ending"]], ms: 280 },
-    { part: "THE LINK", text: "Life is like that interview room. The silence feels long to you, but to everyone else, it looks like you are thinking.", cues: [["pace", "Slow"], ["pitch", "Land it low"]], ms: 300 }
+    { part: "SET THE SCENE", text: "Last spring, I stood behind the curtain of a packed hall, waiting to speak.", cues: [["pace", "Steady pace"]], ms: 230 },
+    { part: "WHAT IT FELT LIKE", text: "Three hundred people were taking their seats. My mouth was dry, and my hands wouldn’t stop shaking.", cues: [["pace", "Slow down"]], ms: 330 },
+    { part: "WHAT THEY SAID", text: "The person beside me leaned over, smiled, and said: “That’s not fear. That’s excitement. Say it with me: I’m excited!”", cues: [["pause", "Pause before their line"]], ms: 300, pauseBefore: true },
+    { part: "THE INCIDENT", text: "So I said it too. And I walked out smiling.", cues: [["pause", "Hold the silence"]], ms: 420, pauseAfter: true },
+    { part: "THE POINT", text: "The reason I’m telling you this is because nervous and excited feel the same in your body.", cues: [["voice", "Say it stronger"]], ms: 280 },
+    { part: "THE LINK", text: "Life is like standing behind that curtain. When your heart pounds, your body is getting ready.", cues: [["pace", "Slow down"]], ms: 300 }
   ];
   const cueLecture = { pace: "L3", voice: "L2", pause: "L4", pitch: "L5" };
 
   const storyFields = [
-    { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and my first manager" },
+    { key: "who", label: "WHO", hint: "Who is in the story?", placeholder: "Me and a speaker with twenty years of experience" },
     { key: "where", label: "WHERE AND WHEN", hint: "Set the scene.", placeholder: "My first week at work, in a busy open office" },
     { key: "what", label: "WHAT HAPPENED · THE INCIDENT", hint: "The moment everything changed.", placeholder: "I sent an email to the whole company by mistake" },
-    { key: "senses", label: "VAKS · SEE, HEAR, FEEL, SMELL", hint: "One or two details from your senses.", placeholder: "My phone started buzzing. My stomach dropped." },
-    { key: "dialogue", label: "BRING A CHARACTER TO LIFE", hint: "One line someone actually said.", placeholder: "She walked over, smiled, and said: “Welcome to the team.”" },
-    { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" },
-    { key: "link", label: "THE LINK", hint: "… is like …", placeholder: "Starting anything new is like that first week…" }
+    { key: "point", label: "THE POINT", hint: "The reason I’m telling you this is because…", placeholder: "mistakes feel huge to you and small to everyone else" }
   ];
 
   const prompts = {
@@ -133,8 +146,13 @@
     { id: "director", name: "Eye of the Director", icon: "clapper", short: "Choose the angle.", back: "The same story can be told from your eyes, someone else’s eyes, or even from a small object in the room. Choose the angle that fits your point." }
   ];
 
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  const lectureStepCount = 17;
+  // Step 3 (the chemical quiz) was retired; saved positions on it move on to the next slide.
+  // Step 20 (the four questions) is a newer slide placed before the formula, so the list order is the real order.
+  // Step 6 (paint the scene) was retired; saved positions on it move on to the next slide.
+  // Step 14 (three eyes) comes before step 13 (collect stories): learn where stories hide, then start collecting.
+  // Step 21 (why storytelling matters) is a newer slide placed before the fact-versus-story slide.
+  const stepOrder = [0, 21, 1, 2, 4, 20, 5, 9, 11, 12, 14, 13, 15, 16, 17, 18, 19];
+  const lectureStepCount = 14;
   const completeStep = 16;
   let previousFocus = null;
   let timers = [];
@@ -147,8 +165,10 @@
   const getState = () => portal.getState().week6Lecture;
   const update = patch => portal.updateWeek6(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
-  const stageFor = step => stages.find(stage => step <= stage.end) || stages[stages.length - 1];
+  // Step 20 sits in the same chapter and stage as step 4.
+  const slot = step => step === 20 ? 4 : step === 21 ? 1 : step;
+  const chapterFor = step => chapters.find(chapter => slot(step) >= chapter.start && slot(step) <= chapter.end);
+  const stageFor = step => stages.find(stage => slot(step) <= stage.end) || stages[stages.length - 1];
 
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() {
@@ -170,7 +190,7 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step > completeStep;
+    const afterMission = step > completeStep && step < 20;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 6 · FINAL LECTURE";
@@ -198,14 +218,18 @@
 
   /* ---------- small pieces of markup ---------- */
   function cueChip([kind, text]) {
-    return `<i class="w6-cue ${kind}"><b>${cueLecture[kind]}</b>${esc(text)}</i>`;
+    return `<i class="w6-cue ${kind}">${esc(text)}</i>`;
   }
 
-  function incidentLine(state) {
-    const chosen = new Set(state.senses || []);
-    const base = wParts.map(part => part.key ? `<span class="w6-w ${part.key}"><small>${part.key.toUpperCase()}</small>${esc(part.text)}</span>` : esc(part.text)).join(" ");
-    const extra = senses.filter(sense => chosen.has(sense.id)).map(sense => `<span class="w6-sense-line ${sense.id}"><b>${sense.id}</b>${esc(sense.line)}</span>`).join(" ");
-    return `<p class="w6-incident-text">${base}</p><p class="w6-incident-senses" data-w6-sense-lines>${extra}</p>`;
+  function setShowMode(mode) {
+    update({ showMode: mode });
+    const box = root.querySelector("[data-w6-show]");
+    box.dataset.mode = mode;
+    box.querySelectorAll("[data-w6-show-mode]").forEach(button => button.classList.toggle("selected", button.dataset.w6ShowMode === mode));
+    box.querySelector("[data-w6-show-line]").innerHTML = showLine(mode);
+    const read = box.querySelector("[data-w6-show-read]");
+    read.textContent = showVersions[mode].read;
+    read.classList.remove("in"); void read.offsetWidth; read.classList.add("in");
   }
 
   function timingRead(minutes) {
@@ -228,7 +252,10 @@
     clearTimers();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    // A saved spot on a retired slide (3, 6, 7, 8 or 10) moves on to the next slide in the real order.
+    const retiredNext = { 3: 4, 6: 9, 7: 9, 8: 9, 10: 11 };
+    const resumeAt = retiredNext[savedStep] ?? savedStep;
+    const step = stepOrder.includes(resumeAt) ? resumeAt : stepOrder.find(item => item >= resumeAt) ?? 0;
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -245,6 +272,17 @@
         </div>
         <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index + 6}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
       `, { className: "opening w6-opening", nextLabel: "Begin the story" });
+    } else if (step === 21) {
+      page = shell(`
+        <p class="w3-eyebrow">WHY IT MATTERS</p>
+        <h1 id="week6PageTitle">Tell it well<br /><em>and people say yes.</em></h1>
+        <div class="w6-whys">
+          <article data-w3-animate style="--i:0"><small>WHAT YOU WIN</small><h2>The job</h2><p>Recruiters were more likely to recommend candidates who answered with a story than candidates who only described themselves.</p><em>Hiring study · Journal of Business and Psychology</em></article>
+          <article data-w3-animate style="--i:1"><small>WHAT YOU WIN</small><h2>The funding</h2><strong class="w6-stat">27%</strong><p>more likely to get funded when the pitch sounded enthusiastic. Over 1,100 pitch videos.</p><em>Yale School of Management</em></article>
+          <article data-w3-animate style="--i:2"><small>WHAT YOU WIN</small><h2>The belief</h2><p>Numbers fade. After a delay, a story changes what people believe more than statistics do.</p><em>Graeber, Roth and Zimmermann</em></article>
+        </div>
+        <blockquote>Structure makes your story clear.<br /><strong>Your voice makes people say yes.</strong></blockquote>
+      `, { className: "w6-whys-screen" });
     } else if (step === 1) {
       const choice = state.memoryChoice || "";
       page = shell(`
@@ -252,56 +290,35 @@
         <h1 id="week6PageTitle">Facts inform.<br /><em>Stories stay.</em></h1>
         <p class="w3-lede">Read both. Which one will you still remember tomorrow?</p>
         <div class="w6-pair">
-          <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Most people feel nervous before they speak in front of others.”</p></button>
-          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>“Two years ago, in a job interview, the manager asked me one simple question… and my mind went completely blank.”</p></button>
+          <button type="button" class="w6-card fact ${choice === "fact" ? "chosen" : ""}" data-w6-memory="fact"><small>A FACT</small><p>“Nervous and excited feel the same in your body.”</p></button>
+          <button type="button" class="w6-card story ${choice === "story" ? "chosen" : ""}" data-w6-memory="story"><small>A STORY</small><p>I stood behind the curtain, listening to three hundred people talk. My heart was pounding, my mouth was dry, and my hands wouldn’t stop shaking. The person beside me, who had spoken on stages for twenty years, leaned over and smiled. “That’s not fear. That’s excitement. Say it with me: I’m excited!” So I did. And I walked out smiling.</p><p class="w6-card-point"><b>The point:</b> Nervous and excited feel the same in your body.</p></button>
         </div>
         <div class="w6-reveal ${choice ? "in" : ""}" data-w6-reveal>
-          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the room. You feel the blank."}</p>
+          <p class="w6-verdict">${choice === "fact" ? "Most people choose the story. Facts slip away. A moment you can picture stays." : "Most people choose the story too. You can see the curtain. You feel the pounding heart."}</p>
           <div class="w6-three">
-            <article style="--i:0"><span>01</span><strong>Remembered</strong><p>Told well, a story sticks long after the facts are gone.</p></article>
-            <article style="--i:1"><span>02</span><strong>Connected</strong><p>The more stories you tell, the deeper the connection with people.</p></article>
-            <article style="--i:2"><span>03</span><strong>Moved to act</strong><p>Facts make people think. Stories make people do something.</p></article>
-          </div>
-          <div class="w3-research w6-research">
-            <article><small>STANFORD · CHIP HEATH</small><strong>2 in 3 remembered the story</strong><p>Students gave one-minute talks. Afterwards, only about 1 in 20 people remembered a number. About 2 in 3 remembered a story.</p></article>
-            <article><small>BRAIN SCIENCE · PAUL ZAK</small><strong>Stories make people give</strong><p>People watched a short true story about a father and his sick son. Their brains made more of the trust chemical, and they gave more money to charity.</p></article>
+            <article style="--i:0"><span>01</span><strong>Remembered</strong><p>You will remember the curtain long after you forget the fact.</p></article>
+            <article style="--i:1"><span>02</span><strong>Connected</strong><p>You felt the dry mouth and the shaking hands. That feeling connects you to the speaker.</p></article>
+            <article style="--i:2"><span>03</span><strong>Moves you to act</strong><p>Hearing that nerves are really excitement makes it easier to step on stage yourself.</p></article>
           </div>
         </div>
       `, { className: "w6-why" });
     } else if (step === 2) {
-      const seen = new Set(state.chemicalsSeen || []);
       page = shell(`
-        <p class="w3-eyebrow">WHAT A STORY DOES TO THE BRAIN</p>
-        <h1 id="week6PageTitle">Three chemicals.<br /><em>Your story decides which.</em></h1>
-        <div class="w6-chems">${chemicals.map((chem, index) => `<button type="button" class="w6-chem ${chem.id} ${seen.has(chem.id) ? "open" : ""}" data-w6-chem="${chem.id}" data-w3-animate style="--i:${index}" aria-expanded="${seen.has(chem.id)}">
+        <p class="w3-eyebrow">WHAT A STORY DOES TO US</p>
+        <h1 id="week6PageTitle">Three feelings.<br /><em>Your story decides which.</em></h1>
+        <div class="w6-chems">${chemicals.map((chem, index) => `<article class="w6-chem open static ${chem.id}" data-w3-animate style="--i:${index}">
           <span class="w6-flask" aria-hidden="true"><i></i><em></em><em></em><em></em></span>
-          <small>${esc(chem.nick)}</small>
-          <h2>${esc(chem.name)}</h2>
-          <span class="w6-chem-more">
-            <span class="row"><b>RELEASED WHEN</b>${esc(chem.when)}</span>
-            <span class="tags">${chem.effects.map(effect => `<i>${esc(effect)}</i>`).join("")}</span>
-            <span class="row use"><b>USE IT TO</b>${esc(chem.use)}</span>
-          </span>
-          <strong class="w6-tap">Tap to open</strong>
-        </button>`).join("")}</div>
-        <p class="w3-coach-note">Speaker David JP Phillips calls this mix the “angel’s cocktail”. A good story can serve all three. <span data-w6-chem-count>${seen.size} / 3</span> opened.</p>
+          <small>${esc(chem.name.toUpperCase())}</small>
+          <h2>${esc(chem.nick)}</h2>
+          <p class="w6-moment">${esc(chem.moment)}</p>
+          <p class="w6-use"><b>USE IT TO</b>${esc(chem.use)}</p>
+        </article>`).join("")}</div>
+        <div class="w6-guess" data-w6-guess>
+          <p><b>The curtain story you just read.</b> Which one did it create?</p>
+          <div role="group" aria-label="Which feeling did the curtain story create?">${chemicals.map(chem => `<button type="button" data-w6-guess-choice="${chem.id}">${esc(chem.name)}</button>`).join("")}</div>
+          <p class="w6-guess-out" data-w6-guess-out aria-live="polite"></p>
+        </div>
       `, { className: "w6-chem-screen" });
-    } else if (step === 3) {
-      const answers = state.chemSort || {};
-      page = shell(`
-        <p class="w3-eyebrow">PICK THE RIGHT STORY</p>
-        <h1 id="week6PageTitle">What do you want<br /><em>them to feel?</em></h1>
-        <div class="w6-sorter">${chemSort.map((item, index) => {
-          const chosen = answers[item.id];
-          const correct = chosen && chosen === item.answer;
-          return `<article class="${chosen ? (correct ? "correct" : "wrong") : ""}" data-w3-animate style="--i:${index}">
-            <strong>${esc(item.text)}</strong>
-            <div class="w6-sort-buttons">${Object.keys(chemLabels).map(key => `<button type="button" class="${key} ${chosen === key ? "chosen" : ""}" data-w6-sort="${item.id}" data-w6-choice="${key}" ${chosen ? "disabled" : ""}>${chemLabels[key]}</button>`).join("")}</div>
-            <small>${chosen ? `${correct ? "Yes." : `${chemLabels[item.answer]}.`} ${esc(item.why)}` : "&nbsp;"}</small>
-          </article>`;
-        }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Curious story, honest story or funny story. Choose by the feeling you want.</p><button type="button" class="w3-reset-button" data-w6-action="reset-sort">Reset</button></div>
-      `, { className: "w6-sort-screen" });
     } else if (step === 4) {
       const removed = state.removedNow;
       const piece = skills.find(skill => skill.n === removed);
@@ -316,28 +333,51 @@
         <div class="w6-equals ${piece ? "broken" : ""}" data-w6-equals aria-live="polite"><span>${piece ? "≠" : "="}</span><p>${piece ? `<b>Without ${esc(piece.name.toLowerCase())}:</b> ${esc(piece.lost)}` : "A story people remember, and feel."}</p></div>
         <p class="w3-coach-note">Tap any piece to take it away, and see what happens to the story. Try at least two.</p>
       `, { className: "w6-equation-screen" });
+    } else if (step === 20) {
+      const solved = new Set(state.huntSolved || []);
+      const finished = huntOrder.every(id => solved.has(id));
+      const showExample = finished || state.huntSkipped;
+      const current = huntOrder.find(id => !solved.has(id));
+      page = shell(`
+        <p class="w3-eyebrow">YOUR TURN · FIND THE ANSWERS</p>
+        <h1 id="week6PageTitle">Four questions<br /><em>every story answers.</em></h1>
+        <article class="w6-hunt" data-w6-hunt>
+          <ol class="w6-hunt-stars" aria-label="Your stars">${huntOrder.map(id => `<li class="${id} ${solved.has(id) ? "on" : ""} ${id === current ? "now" : ""}" data-hq="${id}"><b>★</b>${esc(huntPrompts[id][0])}</li>`).join("")}</ol>
+          <p class="w6-hunt-prompt" data-w6-hunt-prompt aria-live="polite">${finished ? "★★★★★ You found all five answers." : `Tap the words that answer: <b>${esc(huntPrompts[current][0])}</b> ${esc(huntPrompts[current][1])}`}</p>
+          <p class="w6-hunt-story">${huntStory.map((chunk, index) => `<button type="button" class="w6-chunk ${chunk.q && solved.has(chunk.q) ? `solved ${chunk.q}` : ""}" data-chunk="${index}" ${chunk.q && solved.has(chunk.q) ? "disabled" : ""}>${esc(chunk.t)}</button>`).join(" ")}</p>
+          <p class="w6-hunt-hint" data-w6-hunt-hint aria-live="polite"></p>
+          ${showExample ? "" : '<button type="button" class="w6-fq-miss" data-w6-hunt-skip>Skip, show me the answers</button>'}
+        </article>
+        <blockquote class="w6-hunt-close" ${showExample ? "" : "hidden"}>Who, where, when and what happened make the incident.<br /><strong>Why is the point.</strong></blockquote>
+      `, { className: "w6-fourq-screen" });
     } else if (step === 5) {
       page = shell(`
         <p class="w3-eyebrow">THE STORYTELLING FORMULA</p>
         <h1 id="week6PageTitle">Incident. Point. Link.<br /><em>Three parts, every time.</em></h1>
         <div class="w6-formula">
-          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><p>What happened. Who, what, where, when. Bring it to life with the senses and with real characters.</p><i>“Two years ago, in a job interview…”</i></article>
+          <article class="incident" data-w3-animate style="--i:0"><span>01</span><h2>The Incident</h2><strong class="w6-q">What happened?</strong><p>Who, what, where, when. The moment something happened.</p><i>“I stood behind the curtain, listening to three hundred people talk…”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><p>Why you told it. Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because…”</i></article>
+          <article class="point" data-w3-animate style="--i:1"><span>02</span><h2>The Point</h2><strong class="w6-q">Why does it matter?</strong><p>Every story needs one. It turns a memory into a lesson.</p><i>“The reason I’m telling you this is because nervous and excited feel the same in your body.”</i></article>
           <b class="w6-arrow" aria-hidden="true"></b>
-          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><p>Connect it to the moment you are in, so it feels useful to them right now.</p><i>“Life is like…”</i></article>
+          <article class="link" data-w3-animate style="--i:2"><span>03</span><h2>The Link</h2><strong class="w6-q">How does it apply to you?</strong><p>Show how the story applies to the listener’s own life, so it feels useful to them.</p><i>“Life is like standing behind that curtain. When your heart pounds, your body is getting ready.”</i></article>
         </div>
         <div class="w6-timebar" aria-label="Most of the time goes to the incident. The point and the link take one or two sentences each."><span class="incident"><small>INCIDENT · most of your time</small></span><span class="point"><small>POINT</small></span><span class="link"><small>LINK</small></span></div>
         <blockquote>PREP puts the point first.<br /><strong>A story saves the point for after the incident. That is what keeps them curious.</strong></blockquote>
       `, { className: "w6-formula-screen" });
     } else if (step === 6) {
-      const chosen = new Set(state.senses || []);
+      const mode = state.showMode === "senses" ? "senses" : "plain";
       page = shell(`
-        <p class="w3-eyebrow">THE INCIDENT · WHO, WHAT, WHERE, WHEN + VAKS</p>
+        <p class="w3-eyebrow">PAINT THE SCENE</p>
         <h1 id="week6PageTitle">Don’t just say what happened.<br /><em>Put them in the room.</em></h1>
-        <article class="w6-incident" data-w6-incident>${incidentLine(state)}</article>
-        <div class="w6-senses" role="group" aria-label="Add a sense">${senses.map(sense => `<button type="button" class="${sense.id} ${chosen.has(sense.id) ? "on" : ""}" data-w6-sense="${sense.id}" aria-pressed="${chosen.has(sense.id)}"><b>${sense.id}</b><strong>${esc(sense.name)}</strong><small>${esc(sense.full)}</small></button>`).join("")}</div>
-        <p class="w3-coach-note">VAKS = what they <b>see</b>, <b>hear</b>, <b>feel</b> and <b>smell</b>. Tap all four senses and watch the story grow. Read it out loud each time.</p>
+        <article class="w6-show" data-w6-show data-mode="${mode}">
+          <div class="w6-show-toggle" role="group" aria-label="Choose a version">
+            <button type="button" class="${mode === "plain" ? "selected" : ""}" data-w6-show-mode="plain">Plain</button>
+            <button type="button" class="${mode === "senses" ? "selected" : ""}" data-w6-show-mode="senses">With the senses</button>
+          </div>
+          <p class="w6-show-line" data-w6-show-line aria-live="polite">${showLine(mode)}</p>
+          <p class="w6-show-read" data-w6-show-read>${esc(showVersions[mode].read)}</p>
+        </article>
+        <p class="w6-show-tip"><b>Don’t just say it. Use sharp words to put us there.</b><br />Pick adjectives for what you see, hear, smell and touch.</p>
       `, { className: "w6-incident-screen" });
     } else if (step === 7) {
       const mode = state.charMode || "";
@@ -353,7 +393,7 @@
         </article>
         <div class="w6-char-tips ${mode === "alive" ? "in" : ""}" data-w6-char-tips>
           <article style="--i:0"><span>DIALOGUE</span><strong>Use their real words</strong><p>Quote the line. It makes the moment happen now, in front of them.</p></article>
-          <article style="--i:1"><span>BODY LANGUAGE</span><strong>Show what they did</strong><p>Put the pen down. Lean back. Do it as you say it.</p></article>
+          <article style="--i:1"><span>BODY LANGUAGE</span><strong>Show what they did</strong><p>Turn to them. Smile. Do it as you say it.</p></article>
           <article style="--i:2"><span>VOICE</span><strong>Give them a voice</strong><p>Pause before their line (L4). Then change your pitch and pace for them (L3, L5).</p></article>
         </div>
       `, { className: "w6-char-screen" });
@@ -386,33 +426,39 @@
         <article class="w6-point">
           <p class="w6-magic"><span data-w6-type>The reason I’m telling you this is because…</span></p>
           <div class="w6-audience" role="group" aria-label="Who are you telling?">${audiences.map(item => `<button type="button" class="${active?.id === item.id ? "on" : ""} ${tried.includes(item.id) ? "tried" : ""}" data-w6-audience="${item.id}">${esc(item.name)}</button>`).join("")}</div>
-          <p class="w6-point-out ${active ? "in" : ""}" data-w6-point-out aria-live="polite">${active ? `…${esc(active.point)}` : "Same interview story. Choose who is listening, and see how the point changes."}</p>
+          <p class="w6-point-out ${active ? "in" : ""}" data-w6-point-out aria-live="polite">${active ? `…${esc(active.point)}` : "Same story. Choose who is listening, and see how the point changes."}</p>
         </article>
         <p class="w3-coach-note">Without a point, a story is just a nice memory. With a point, it becomes a lesson people keep. Try at least two listeners.</p>
       `, { className: "w6-point-screen" });
     } else if (step === 10) {
-      const storyId = state.linkStory || "";
       const situationId = state.linkSituation || "";
-      const text = storyId && situationId ? links[`${storyId}-${situationId}`] : "";
+      const text = situationId ? links[`curtain-${situationId}`] : "";
       page = shell(`
-        <p class="w3-eyebrow">THE LINK · MAKE IT MATTER NOW</p>
-        <h1 id="week6PageTitle">Any story can fit<br /><em>any moment.</em></h1>
+        <p class="w3-eyebrow">THE LINK · CONNECT IT TO THEIR LIFE</p>
+        <h1 id="week6PageTitle">The link connects<br /><em>your story to their life.</em></h1>
+        <p class="w3-lede">Your story is finished. Now show your listener where they will meet the same thing.</p>
         <div class="w6-linker">
-          <div class="w6-reel"><small>YOUR STORY</small>${linkStories.map(item => `<button type="button" class="${storyId === item.id ? "on" : ""}" data-w6-link-story="${item.id}">${esc(item.name)}</button>`).join("")}</div>
-          <div class="w6-chain" aria-hidden="true"><i></i><b>is like</b><i></i></div>
-          <div class="w6-reel"><small>THE MOMENT</small>${linkSituations.map(item => `<button type="button" class="${situationId === item.id ? "on" : ""}" data-w6-link-situation="${item.id}">${esc(item.name)}</button>`).join("")}</div>
+          <div class="w6-reel"><small>1 · YOUR STORY</small><p class="w6-link-story">${esc(linkStories[0].name)}</p></div>
+          <div class="w6-chain ${text ? "joined" : ""}" aria-hidden="true"><i></i><b>is like</b><i></i></div>
+          <div class="w6-reel"><small>2 · WHERE THEY MEET IT</small>${linkSituations.map(item => `<button type="button" class="${situationId === item.id ? "on" : ""}" data-w6-link-situation="${item.id}">${esc(item.name)}</button>`).join("")}</div>
         </div>
-        <p class="w6-link-out ${text ? "in" : ""}" data-w6-link-out aria-live="polite">${text ? `“${esc(text)}”` : "Pick one story and one moment."}</p>
-        <p class="w3-coach-note">The pattern: <b>[the moment] is like [your story], because [the lesson].</b> Try at least two pairs. <span data-w6-link-count>${(state.linkTried || []).length}</span> tried.</p>
+        <p class="w6-link-label">3 · THE LINK YOU SAY OUT LOUD</p>
+        <p class="w6-link-out ${text ? "in" : ""}" data-w6-link-out aria-live="polite">${text ? `“${esc(text)}”` : "Pick where they will meet it."}</p>
+        <p class="w3-coach-note">The link says: <b>[their moment] is like [your story]. Here is what that means for you.</b></p>
       `, { className: "w6-link-screen" });
     } else if (step === 11) {
       page = shell(`
-        <p class="w3-eyebrow">PUT IT ALL TOGETHER · L1 TO L5 IN ONE STORY</p>
-        <h1 id="week6PageTitle">Same story.<br /><em>Now tell it with everything.</em></h1>
-        <div class="w6-legend" aria-hidden="true"><span class="voice">L2 Volume</span><span class="pace">L3 Pace</span><span class="pause">L4 Pauses</span><span class="pitch">L5 Melody</span></div>
-        <div class="w6-script" data-w6-script>${storyBeats.map((beat, index) => `${beat.pauseBefore ? '<div class="w6-hold" data-w6-hold>‖ pause</div>' : ""}<article class="w6-beat" data-w6-beat="${index}"><header><small>${esc(beat.part)}</small><span>${beat.cues.map(cueChip).join("")}</span></header><p>${esc(beat.text)}</p></article>${beat.pauseAfter ? '<div class="w6-hold long" data-w6-hold>‖ hold the silence · 3 seconds</div>' : ""}`).join("")}</div>
-        <div class="w5-actions"><button type="button" class="w5-primary" data-w6-action="play-guide">▶ Play the guide</button><button type="button" class="w5-quiet ${state.toldAloud ? "done" : ""}" data-w6-action="told-aloud">${state.toldAloud ? "✓ I told it out loud" : "I told it out loud"}</button></div>
-        <p class="w3-coach-note">Watch the guide once. Then stand up and tell the story out loud, following the cues.</p>
+        <p class="w3-eyebrow">A REAL EXAMPLE</p>
+        <h1 id="week6PageTitle">Hear it in a real speech.<br /><em>Incident. Point. Link.</em></h1>
+        <article class="w6-real">
+          <header><small>A REAL SPEECH</small><strong>Steve Jobs · Stanford, 2005</strong></header>
+          <div class="w6-real-rows">
+            <p class="incident"><b>INCIDENT</b><span>“I decided to take a calligraphy class to learn how to do this.”</span></p>
+            <p class="point"><b>POINT</b><span>“You can’t connect the dots looking forward. You can only connect them looking backwards.”</span></p>
+            <p class="link"><b>LINK</b><span>“So you have to trust that the dots will somehow connect in your future.”</span></p>
+          </div>
+          <em>The full incident is a longer story. Here is just the key line.</em>
+        </article>
       `, { className: "w6-script-screen" });
     } else if (step === 12) {
       const story = state.story || {};
@@ -429,9 +475,10 @@
       page = shell(`
         <p class="w3-eyebrow">YOUR LIBRARY OF STORIES</p>
         <h1 id="week6PageTitle">Great storytellers don’t invent stories.<br /><em>They collect them.</em></h1>
+        <div class="w6-remind"><p>Every story you collect has the same parts. Remember to find them:</p><div><span class="who">Who</span><span class="where">Where</span><span class="when">When</span><span class="what">What happened</span><span class="why">Why (the point)</span></div></div>
         <div class="w6-prompts" role="group" aria-label="Story idea starters">${Object.keys(prompts).map(name => `<button type="button" class="${category === name ? "on" : ""}" data-w6-prompt="${esc(name)}">${esc(name)}</button>`).join("")}</div>
         <p class="w6-prompt-out ${category ? "in" : ""}" data-w6-prompt-out aria-live="polite">${category ? esc(state.promptText || prompts[category][0]) : "Tap a starter. Let a memory come back."}</p>
-        <form class="w6-add" data-w6-add><input type="text" maxlength="60" placeholder="Give the story a short title, like “The blank interview”" data-w6-book-title aria-label="Story title" /><button type="submit" class="w5-primary">Add to my shelf</button></form>
+        <form class="w6-add" data-w6-add><input type="text" maxlength="60" placeholder="Give the story a short title, like “Behind the curtain”" data-w6-book-title aria-label="Story title" /><button type="submit" class="w5-primary">Add to my shelf</button></form>
         <div class="w6-shelf" data-w6-shelf>${shelf(library)}</div>
         <p class="w3-coach-note">Add at least three story ideas. <span data-w6-book-count>${library.length}</span> on your shelf.</p>
       `, { className: "w6-library-screen" });
@@ -443,19 +490,20 @@
         <div class="w6-eyes">${eyes.map((eye, index) => `<button type="button" class="w6-eye ${seen.has(eye.id) ? "flipped" : ""}" data-w6-eye="${eye.id}" data-w3-animate style="--i:${index}" aria-pressed="${seen.has(eye.id)}"><span class="front">${icon(eye.icon)}<strong>${esc(eye.name)}</strong><small>${esc(eye.short)}</small><b>Tap to turn</b></span><span class="back"><strong>${esc(eye.name)}</strong><p>${esc(eye.back)}</p></span></button>`).join("")}</div>
         <article class="w6-template" data-w3-animate style="--i:3">
           <header><small>THE STORY TEMPLATE · USE IT FOR EVERY STORY</small></header>
-          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li><li>VAKS: see, hear, feel, smell</li><li>Bring characters to life (dialogue)</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p><b>THE LINK</b><p>… is like …</p></section></div>
+          <div><section><b>THE INCIDENT</b><ul><li>Who</li><li>What</li><li>Where</li><li>When</li></ul></section><section><b>THE POINT</b><p>The reason I’m telling you this is because…</p></section></div>
         </article>
       `, { className: "w6-eyes-screen" });
     } else if (step === 15) {
-      const mission = state.mission || missionTemplates[level - 1];
       page = shell(`
-        <p class="w3-eyebrow">CHOOSE THE RIGHT-SIZED MISSION</p>
-        <h1 id="week6PageTitle">One real moment.<br /><em>One true story.</em></h1>
-        <div class="w3-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w6-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
-        <div class="w3-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
-        <label class="w3-mission-edit"><span>YOUR WEEK 6 CHALLENGE</span><textarea data-w6-mission rows="3">${esc(mission)}</textarea></label>
-        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I told one true story with an incident and a clear point.</strong></div>
-      `, { footer: '<button class="w3-next mission-accept" type="button" data-w6-action="accept-mission">Accept mission</button>' });
+        <p class="w3-eyebrow">THE LAST WEEK · ONE FINAL VIDEO</p>
+        <h1 id="week6PageTitle">Your final assignment.<br /><em>One video.</em></h1>
+        <ol class="w6-final">
+          <li data-w3-animate style="--i:0"><b>1</b><div><strong>Record one video that is 2 minutes long.</strong></div></li>
+          <li data-w3-animate style="--i:1"><b>2</b><div><strong>Tell a story that includes:</strong><span class="chips"><i class="who">Who</i><i class="when">When</i><i class="what">What happened</i><i class="why">The point</i></span></div></li>
+          <li data-w3-animate style="--i:2"><b>3</b><div><strong>Use the vocal variety you learned:</strong><span class="chips"><i class="vol">Volume</i><i class="pace">Pace</i><i class="pause">Pauses</i><i class="melody">Melody</i></span></div></li>
+        </ol>
+        <p class="w6-final-note">This is your final assignment. It will be used to compare your performance.</p>
+      `, { footer: '<button class="w3-next mission-accept" type="button" data-w6-action="accept-mission">Accept my final assignment</button>' });
     } else if (step === 16) {
       const badges = [...skills.map(skill => skill.name), "Story"];
       page = shell(`
@@ -490,7 +538,7 @@
         <div class="w6-confetti" aria-hidden="true">${Array.from({ length: 26 }, (_, index) => `<i style="--x:${(index * 41) % 100}%;--d:${(index % 6) * 0.2}s;--r:${(index * 53) % 360}deg;--c:${index % 4}"></i>`).join("")}</div>
         <p class="w3-eyebrow">THE SPEAKER’S GYM · COMPLETE</p>
         <h1 id="week6PageTitle">Six weeks ago, you started.<br /><em>Now you have stories to tell.</em></h1>
-        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Storytelling</strong></article><article><small>THE FORMULA</small><strong>Incident · Point · Link</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>STORIES ON YOUR SHELF</small><strong>${(state.library || []).length}</strong></article></div>
+        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Storytelling</strong></article><article><small>THE FORMULA</small><strong>Incident · Point · Link</strong></article><article><small>STORIES ON YOUR SHELF</small><strong>${(state.library || []).length}</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 6</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.action || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
         <div class="w3-week-progress">${[1, 2, 3, 4, 5, 6].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}</div>
         <div class="w3-next-week"><small>KEEP GOING</small><strong>Add one story to your library every week, and tell it to someone.</strong></div>
@@ -518,6 +566,60 @@
   }
 
   /* ---------- slide 11: play the guide ---------- */
+  function tapChunk(button) {
+    const state = getState();
+    const solved = new Set(state.huntSolved || []);
+    const current = huntOrder.find(id => !solved.has(id));
+    if (!current) return;
+    const chunk = huntStory[Number(button.dataset.chunk)];
+    const hint = root.querySelector("[data-w6-hunt-hint]");
+    if (chunk.q !== current) {
+      button.classList.remove("shake");
+      void button.offsetWidth;
+      button.classList.add("shake");
+      hint.textContent = `Not that one. ${huntPrompts[current][2]}`;
+      return;
+    }
+    solved.add(current);
+    update({ huntSolved: [...solved] });
+    const finished = huntOrder.every(id => solved.has(id));
+    if (finished) {
+      portal.showToast("Five stars. You can find the answers in any story.");
+      return renderStep();
+    }
+    root.querySelectorAll(".w6-chunk").forEach((el, index) => {
+      if (huntStory[index].q === current) { el.classList.add("solved", current); el.disabled = true; }
+    });
+    const next = huntOrder.find(id => !solved.has(id));
+    root.querySelectorAll("[data-hq]").forEach(li => {
+      li.classList.toggle("on", solved.has(li.dataset.hq));
+      li.classList.toggle("now", li.dataset.hq === next);
+    });
+    root.querySelector("[data-w6-hunt-prompt]").innerHTML = `Yes! Next, tap the words that answer: <b>${esc(huntPrompts[next][0])}</b> ${esc(huntPrompts[next][1])}`;
+    hint.textContent = "";
+  }
+
+  function showFourQ() {
+    const box = root.querySelector("[data-w6-fourq]");
+    const active = box.dataset.active || "";
+    const missing = Boolean(box.dataset.missing);
+    const item = fourQs.find(entry => entry.id === active);
+    box.classList.toggle("focus", Boolean(active));
+    box.classList.toggle("gone", missing);
+    box.querySelectorAll("[data-q]").forEach(span => {
+      const on = span.dataset.q === active;
+      span.classList.toggle("on", on);
+      span.textContent = on && missing ? "???" : span.dataset.text;
+    });
+    box.querySelectorAll("[data-w6-fq]").forEach(button => button.classList.toggle("selected", button.dataset.w6Fq === active));
+    const out = box.querySelector("[data-w6-fq-answer]");
+    out.textContent = !item ? "Tap a question above." : missing ? item.missing : item.answer;
+    out.classList.toggle("bad", missing);
+    const button = box.querySelector("[data-w6-fq-miss]");
+    button.disabled = !item;
+    button.textContent = missing ? "Put it back" : "Take that answer away";
+  }
+
   function playGuide(button) {
     clearTimers();
     const beatsEls = [...root.querySelectorAll("[data-w6-beat]")];
@@ -569,7 +671,7 @@
       box.classList.remove("running");
       button.textContent = "Tell it again";
       update({ storySeconds: seconds, storyTold: true });
-      hint.textContent = seconds < 60 ? "Short and sweet. Next time, add one more sense or a line of dialogue." : seconds <= 240 ? "Nicely told. That is a story people can follow and feel." : "A long one. Try cutting the setup so you reach the incident sooner.";
+      hint.textContent = seconds < 60 ? "Short and sweet. Next time, add one more detail about what happened." : seconds <= 240 ? "Nicely told. That is a story people can follow and feel." : "A long one. Try cutting the setup so you reach the incident sooner.";
       return;
     }
     clock = { seconds: 0, interval: null };
@@ -588,22 +690,8 @@
   function validateAndNext() {
     const state = getState();
     const step = Number(state.currentStep || 0);
-    const story = state.story || {};
+    // Nothing blocks Continue: every exercise is optional.
     const requirements = {
-      1: [state.memoryChoice, "Choose the one you will remember tomorrow."],
-      2: [(state.chemicalsSeen || []).length >= 3, "Open all three chemicals first."],
-      3: [chemSort.every(item => (state.chemSort || {})[item.id]), "Choose a chemical for every moment."],
-      4: [(state.removedTried || []).length >= 2, "Take away at least two pieces to see what happens."],
-      6: [(state.senses || []).length >= 4, "Add all four senses: see, hear, feel and smell."],
-      7: [(state.charTried || []).length >= 2, "Try both versions out loud."],
-      8: [state.setupHit, "Find the sweet spot on the slider: two to three minutes."],
-      9: [(state.pointTried || []).length >= 2, "Try at least two different listeners."],
-      10: [(state.linkTried || []).length >= 2, "Try at least two story and moment pairs."],
-      11: [state.toldAloud, "Tell the story out loud, then tap “I told it out loud”."],
-      12: [String(story.what || "").trim() && String(story.point || "").trim(), "Write at least the incident and the point."],
-      13: [(state.library || []).length >= 3, "Add at least three story ideas to your shelf."],
-      14: [(state.eyesSeen || []).length >= 3, "Turn all three cards first."],
-      15: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
     if (requirements[step] && !requirements[step][0]) {
       portal.showToast(requirements[step][1]);
@@ -671,12 +759,11 @@
       return;
     }
     if (action === "clock") return toggleClock(actionEl);
-    if (action === "reset-sort") { update({ chemSort: {} }); return renderStep(); }
     if (action === "accept-mission") {
       const state = getState();
       const level = getLevel();
-      update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: completeStep });
-      portal.showToast("Mission accepted. One true story is the win.");
+      update({ mission: finalAssignment, missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: completeStep });
+      portal.showToast("Final assignment accepted. Record your video.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
@@ -686,29 +773,36 @@
     const memory = event.target.closest("[data-w6-memory]");
     if (memory) { update({ memoryChoice: memory.dataset.w6Memory }); return renderStep(); }
 
-    const chem = event.target.closest("[data-w6-chem]");
-    if (chem) {
-      const seen = addUnique(getState().chemicalsSeen, chem.dataset.w6Chem);
-      update({ chemicalsSeen: seen });
-      chem.classList.add("open");
-      chem.setAttribute("aria-expanded", "true");
-      root.querySelector("[data-w6-chem-count]").textContent = `${seen.length} / 3`;
-      if (seen.length === 3) portal.showToast("Curiosity, trust and a smile. That is the angel’s cocktail.");
+    const guess = event.target.closest("[data-w6-guess-choice]");
+    if (guess) {
+      const out = root.querySelector("[data-w6-guess-out]");
+      const right = guess.dataset.w6GuessChoice === "oxytocin";
+      root.querySelectorAll("[data-w6-guess-choice]").forEach(button => button.classList.toggle("chosen", button === guess));
+      out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
+      out.textContent = `${right ? "Yes. " : "Close. "}It was oxytocin. The speaker was honest about the shaking hands, so you felt close to them.`;
       return;
     }
 
-    const sort = event.target.closest("[data-w6-sort]");
-    if (sort) {
-      const answers = { ...(getState().chemSort || {}) };
-      const item = chemSort.find(entry => entry.id === sort.dataset.w6Sort);
-      const chosen = sort.dataset.w6Choice;
-      const correct = chosen === item.answer;
-      answers[item.id] = chosen;
-      update({ chemSort: answers });
-      const card = sort.closest("article");
-      card.classList.add(correct ? "correct" : "wrong");
-      card.querySelectorAll("[data-w6-sort]").forEach(button => { button.disabled = true; button.classList.toggle("chosen", button === sort); });
-      card.querySelector("small").textContent = `${correct ? "Yes." : `${chemLabels[item.answer]}.`} ${item.why}`;
+    const chunk = event.target.closest("[data-chunk]");
+    if (chunk) return tapChunk(chunk);
+    if (event.target.closest("[data-w6-hunt-skip]")) {
+      update({ huntSkipped: true, huntSolved: [...huntOrder] });
+      return renderStep();
+    }
+
+    const fq = event.target.closest("[data-w6-fq]");
+    if (fq) {
+      const box = root.querySelector("[data-w6-fourq]");
+      box.dataset.active = fq.dataset.w6Fq;
+      box.dataset.missing = "";
+      showFourQ();
+      return;
+    }
+    const fqMiss = event.target.closest("[data-w6-fq-miss]");
+    if (fqMiss) {
+      const box = root.querySelector("[data-w6-fourq]");
+      box.dataset.missing = box.dataset.missing ? "" : "1";
+      showFourQ();
       return;
     }
 
@@ -728,18 +822,8 @@
       return;
     }
 
-    const sense = event.target.closest("[data-w6-sense]");
-    if (sense) {
-      const chosen = new Set(getState().senses || []);
-      if (chosen.has(sense.dataset.w6Sense)) chosen.delete(sense.dataset.w6Sense); else chosen.add(sense.dataset.w6Sense);
-      const list = senses.map(item => item.id).filter(id => chosen.has(id));
-      update({ senses: list });
-      sense.classList.toggle("on", chosen.has(sense.dataset.w6Sense));
-      sense.setAttribute("aria-pressed", String(chosen.has(sense.dataset.w6Sense)));
-      root.querySelector("[data-w6-incident]").innerHTML = incidentLine(getState());
-      if (list.length === 4) portal.showToast("Now they are in the room with you.");
-      return;
-    }
+    const showMode = event.target.closest("[data-w6-show-mode]");
+    if (showMode) return setShowMode(showMode.dataset.w6ShowMode);
 
     const charButton = event.target.closest("[data-w6-char]");
     if (charButton) {
@@ -763,22 +847,21 @@
       return;
     }
 
-    const linkStory = event.target.closest("[data-w6-link-story]");
     const linkSituation = event.target.closest("[data-w6-link-situation]");
-    if (linkStory || linkSituation) {
-      const patch = linkStory ? { linkStory: linkStory.dataset.w6LinkStory } : { linkSituation: linkSituation.dataset.w6LinkSituation };
+    if (linkSituation) {
+      const patch = { linkStory: "curtain", linkSituation: linkSituation.dataset.w6LinkSituation };
       const next = { ...getState(), ...patch };
       if (next.linkStory && next.linkSituation) patch.linkTried = addUnique(getState().linkTried, `${next.linkStory}-${next.linkSituation}`);
       update(patch);
-      const group = (linkStory || linkSituation).parentElement;
-      group.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === (linkStory || linkSituation)));
+      const group = linkSituation.parentElement;
+      group.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === linkSituation));
       const out = root.querySelector("[data-w6-link-out]");
       if (next.linkStory && next.linkSituation) {
         out.classList.remove("in"); void out.offsetWidth; out.classList.add("in");
         out.textContent = `“${links[`${next.linkStory}-${next.linkSituation}`]}”`;
         root.querySelector(".w6-chain")?.classList.add("joined");
       }
-      root.querySelector("[data-w6-link-count]").textContent = (getState().linkTried || []).length;
+      const tried = root.querySelector("[data-w6-link-count]"); if (tried) tried.textContent = (getState().linkTried || []).length;
       return;
     }
 

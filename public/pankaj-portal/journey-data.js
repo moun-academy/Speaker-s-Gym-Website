@@ -45,6 +45,14 @@ window.PANKAJ_JOURNEY_DATA = {
     "description": "Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.",
     "art": "melody",
     "trigger": "data-open-week5-lecture"
+  },
+  {
+    "week": 6,
+    "title": "Tell stories that move people.",
+    "skill": "STORYTELLING · THE FINALE",
+    "description": "Incident, point, link. Structure plus vocal variety: every skill you learned, in one story.",
+    "art": "story",
+    "trigger": "data-open-week6-lecture"
   }
 ]
 };
