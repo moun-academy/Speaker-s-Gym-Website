@@ -258,7 +258,7 @@ export default function SalesPage() {
         <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
         <Reveal delay={80}><h1>Speak with confidence <em>in six weeks.</em></h1></Reveal>
         <Reveal delay={160}>
-          <p className="s-hero-sub">Private 1-on-1 coaching or a small group of six. The same proven plan, built for professionals who know their stuff but freeze, ramble or go quiet when it matters.</p>
+          <p className="s-hero-sub">Private 1-on-1 coaching or a small group of six. The same proven plan, built for shy and socially nervous professionals who freeze, ramble or go quiet when it matters.</p>
         </Reveal>
         <Reveal delay={220}>
           <div className="s-transforms">

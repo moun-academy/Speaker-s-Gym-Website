@@ -772,7 +772,7 @@ export default function SpeakersGym() {
       <section className="section" id="who">
         <Reveal>
           <div className="section-label">Find Your Fit</div>
-          <h2 className="section-title">Built for people who <em>know their stuff</em></h2>
+          <h2 className="section-title">Built for people who <em>want to speak up</em></h2>
         </Reveal>
         <div className="fit-grid">
           {FIT_CARDS.map((c, i) => (
