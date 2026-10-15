@@ -101,6 +101,7 @@ function WaitlistModal({ group, onClose }) {
           email: "Please check your email address.",
           phone: "Please enter a phone number with your country code.",
           too_many: "Too many attempts. Please try again in a little while.",
+          store_unavailable: "The waiting list is being set up right now. Please try again in a few minutes.",
         };
         setError(messages[data.error] || "Something went wrong. Please try again.");
         setState("error");
