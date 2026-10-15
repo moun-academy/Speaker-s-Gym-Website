@@ -674,10 +674,14 @@ export default function SpeakersGym() {
         @media(min-width:769px){
           .section { padding-top:112px; padding-bottom:112px; }
           .hero h1 { font-size:clamp(2.6rem,6.4vw,4.4rem); line-height:1.1; margin-bottom:34px; }
+          .hero-btns { display:grid; grid-template-columns:max-content max-content; justify-content:center; justify-items:center; gap:18px 16px; }
+          .hero-btns .btn-primary { grid-column:1 / -1; min-width:400px; padding:24px 64px; font-size:1.08rem; border-radius:12px; text-align:center; box-shadow:0 14px 44px rgba(217,192,111,.3), 0 0 0 6px rgba(217,192,111,.08); }
+          .hero-btns .btn-primary:hover { box-shadow:0 20px 54px rgba(217,192,111,.4), 0 0 0 8px rgba(217,192,111,.1); }
         }
         @media(max-width:768px){
           .hero-transforms { padding:6px 20px; }
           .hero-btns .btn-secondary { background:none; }
+          .hero-btns .btn-primary { font-size:1rem; padding:19px 28px; box-shadow:0 12px 36px rgba(217,192,111,.3); }
           .hero h1 { margin-bottom:26px; text-shadow:0 0 40px rgba(217,192,111,.25); }
           .about-photo-wrap::after { inset:12px -10px -12px 10px; }
           .faq-item { padding:0 14px; }
