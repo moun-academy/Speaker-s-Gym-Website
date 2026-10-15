@@ -69,7 +69,39 @@ test("CSV neutralises spreadsheet formulas", () => {
   assert.match(csv, /"'\+1 555 0100"/);
 });
 
-test("no database configured returns 503", async () => {
+test("no database and no sheet returns 503", async () => {
   const r = await handleWaitlist({ method: "POST", body: valid, env, command: null });
   assert.equal(r.status, 503);
+});
+
+const sheetEnv = { ...env, WAITLIST_SHEET_URL: "https://script.google.com/macros/s/TEST/exec" };
+const okFetch = (calls) => async (url, init) => { calls.push({ url, init }); return { ok: true, json: async () => ({ ok: true }) }; };
+
+test("saves to the Google Sheet when it is configured, without any database", async () => {
+  const calls = [];
+  const r = await handleWaitlist({ method: "POST", body: valid, ip: "3.3.3.3", env: sheetEnv, command: null, fetchImpl: okFetch(calls), now: new Date("2026-10-15T10:00:00Z") });
+  assert.equal(r.status, 200);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, sheetEnv.WAITLIST_SHEET_URL);
+  assert.deepEqual(JSON.parse(calls[0].init.body), { name: "Sara Ali", email: "sara@example.com", phone: "+971 50 123 4567", group: "2026-11-01", createdAt: "2026-10-15T10:00:00.000Z" });
+});
+
+test("sheet failure with no database reports an error, so no sign-up is silently lost", async () => {
+  const badFetch = async () => ({ ok: false, json: async () => ({ ok: false }) });
+  const r = await handleWaitlist({ method: "POST", body: valid, ip: "3.3.3.3", env: sheetEnv, command: null, fetchImpl: badFetch });
+  assert.equal(r.status, 502);
+});
+
+test("sheet failure is covered by the database copy", async () => {
+  const { command, data } = memoryCommand();
+  const badFetch = async () => { throw new Error("network"); };
+  const r = await handleWaitlist({ method: "POST", body: valid, ip: "4.4.4.4", env: sheetEnv, command, fetchImpl: badFetch });
+  assert.equal(r.status, 200);
+  assert.equal(data.get("waitlist:groups").length, 1);
+});
+
+test("honeypot never reaches the sheet", async () => {
+  const calls = [];
+  await handleWaitlist({ method: "POST", body: { ...valid, website: "x.example" }, ip: "5.5.5.5", env: sheetEnv, command: null, fetchImpl: okFetch(calls) });
+  assert.equal(calls.length, 0);
 });

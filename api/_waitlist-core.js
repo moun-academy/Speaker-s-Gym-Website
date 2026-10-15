@@ -62,10 +62,12 @@ export function toCsv(entries) {
   return rows.map((r) => r.map(csvCell).join(",")).join("\r\n");
 }
 
-export async function handleWaitlist({ method, body, authorization, ip, env, command, now = new Date() }) {
-  if (!command) return { status: 503, json: { ok: false, error: "store_unavailable" } };
+export async function handleWaitlist({ method, body, authorization, ip, env, command, now = new Date(), fetchImpl = fetch }) {
+  const sheetUrl = String(env.WAITLIST_SHEET_URL || "").trim();
+  if (!command && !sheetUrl) return { status: 503, json: { ok: false, error: "store_unavailable" } };
 
   if (method === "GET") {
+    if (!command) return { status: 503, json: { ok: false, error: "store_unavailable" } };
     if (!isAdmin(authorization, env.SPEAKERS_GYM_SALES_PASSWORD)) {
       return { status: 401, json: { ok: false, error: "unauthorized" }, headers: { "WWW-Authenticate": 'Basic realm="Speaker\'s Gym waiting list", charset="UTF-8"' } };
     }
@@ -82,11 +84,37 @@ export async function handleWaitlist({ method, body, authorization, ip, env, com
   const { entry, error } = validateEntry(body);
   if (error) return { status: 400, json: { ok: false, error } };
 
-  const rateKey = `waitlist:rate:${clean(ip, 64) || "unknown"}`;
-  const hits = await command(["INCR", rateKey]);
-  if (hits === 1) await command(["EXPIRE", rateKey, "3600"]);
-  if (hits > MAX_PER_IP_PER_HOUR) return { status: 429, json: { ok: false, error: "too_many" } };
+  if (command) {
+    const rateKey = `waitlist:rate:${clean(ip, 64) || "unknown"}`;
+    const hits = await command(["INCR", rateKey]);
+    if (hits === 1) await command(["EXPIRE", rateKey, "3600"]);
+    if (hits > MAX_PER_IP_PER_HOUR) return { status: 429, json: { ok: false, error: "too_many" } };
+  }
 
-  await command(["RPUSH", LIST_KEY, JSON.stringify({ ...entry, createdAt: now.toISOString() })]);
+  const saved = { ...entry, createdAt: now.toISOString() };
+  let stored = false;
+
+  // Main home: the "Group Waitlist" tab in the Google Sheet (via the Apps Script web app).
+  if (sheetUrl) {
+    try {
+      const res = await fetchImpl(sheetUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(saved), redirect: "follow" });
+      const out = await res.json().catch(() => ({}));
+      stored = res.ok && out.ok === true;
+    } catch {
+      stored = false;
+    }
+  }
+
+  // Safety copy in the database (when one is connected), so a sign-up is never lost.
+  if (command) {
+    try {
+      await command(["RPUSH", LIST_KEY, JSON.stringify(saved)]);
+      stored = true;
+    } catch {
+      /* the sheet may still have it */
+    }
+  }
+
+  if (!stored) return { status: 502, json: { ok: false, error: "store_unavailable" } };
   return { status: 200, json: { ok: true } };
 }
