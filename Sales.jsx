@@ -4,14 +4,14 @@ import { COMMUNITY_URL } from "./siteConfig.js";
 import "./Sales.css";
 
 /* ─── Checkout links: paste the Stripe Payment Links here ───
-   While a link is empty, its button shows "Checkout opens soon" and can't be clicked. */
+   While a link is empty, its button shows "Checkout opens soon" and can't be clicked.
+   Early-bird groups don't sell yet: their button opens the waiting list form. */
 const CHECKOUT = {
   oneOnOne: "", // $229 · 6 weeks of private coaching
-  group149: "", // $149 · next group
-  group97: "",  // $97  · early-bird groups
+  group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
 };
 
-const PRICE = { oneOnOne: 229, group: 149, earlyBird: 97 };
+const PRICE = { oneOnOne: 229, group: 129, earlyBird: 97 };
 const GROUP_MAX = 6;
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
 const CLOSE_DAYS_BEFORE = 2;   // a group stops taking sign-ups this many days before it starts
@@ -57,6 +57,99 @@ function CheckoutButton({ href, className, value, name, children }) {
     <a className={cx("s-btn s-btn--block", className)} href={href} target="_blank" rel="noopener" onClick={() => trackCheckout(value, name)}>
       {children} <span aria-hidden="true">→</span>
     </a>
+  );
+}
+
+/* ─── Waiting list form (early-bird groups) ─── */
+function WaitlistModal({ group, onClose }) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", website: "" });
+  const [state, setState] = useState("idle"); // idle | sending | done | error
+  const [error, setError] = useState("");
+  const firstField = useRef(null);
+  const when = fmt(group.date, { weekday: "long", month: "long", day: "numeric" });
+
+  useEffect(() => {
+    const previous = document.activeElement;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    firstField.current?.focus();
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+      previous?.focus?.();
+    };
+  }, [onClose]);
+
+  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  async function submit(e) {
+    e.preventDefault();
+    setState("sending");
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, group: group.key }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        const messages = {
+          name: "Please enter your full name.",
+          email: "Please check your email address.",
+          phone: "Please enter a phone number with your country code.",
+          too_many: "Too many attempts. Please try again in a little while.",
+        };
+        setError(messages[data.error] || "Something went wrong. Please try again.");
+        setState("error");
+        return;
+      }
+      setState("done");
+      try { window.fbq?.("track", "Lead", { content_name: `Waitlist ${group.key}` }); } catch (err) { /* ignore */ }
+      try { window.gtag?.("event", "generate_lead", { item_name: `Waitlist ${group.key}` }); } catch (err) { /* ignore */ }
+    } catch {
+      setError("Couldn't connect. Please check your internet and try again.");
+      setState("error");
+    }
+  }
+
+  return (
+    <div className="s-modal" role="dialog" aria-modal="true" aria-labelledby="wl-title" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="s-modal-card">
+        <button type="button" className="s-modal-close" aria-label="Close" onClick={onClose}>×</button>
+        {state === "done" ? (
+          <div className="s-modal-done">
+            <span className="s-modal-tick" aria-hidden="true"><Check /></span>
+            <h3 id="wl-title">You're on the list!</h3>
+            <p>We've saved your spot on the waiting list for the group starting <b>{when}</b>, at the early-bird price of <b>${PRICE.earlyBird}</b>. We'll be in touch before enrollment opens.</p>
+            <button type="button" className="s-btn s-btn--gold s-btn--block" onClick={onClose}>Done</button>
+          </div>
+        ) : (
+          <form onSubmit={submit} noValidate>
+            <p className="s-modal-kicker">EARLY BIRD · ${PRICE.earlyBird}</p>
+            <h3 id="wl-title">Join the waiting list</h3>
+            <p className="s-modal-sub">Group starting <b>{when}</b>. Six Sundays, 12–1 pm GMT, max {GROUP_MAX} people.</p>
+            <label className="s-field"><span>Full name</span>
+              <input ref={firstField} type="text" autoComplete="name" required value={form.name} onChange={update("name")} />
+            </label>
+            <label className="s-field"><span>Email</span>
+              <input type="email" autoComplete="email" inputMode="email" required value={form.email} onChange={update("email")} />
+            </label>
+            <label className="s-field"><span>Phone (with country code)</span>
+              <input type="tel" autoComplete="tel" inputMode="tel" placeholder="+971 50 123 4567" required value={form.phone} onChange={update("phone")} />
+            </label>
+            <label className="s-hp" aria-hidden="true">Website<input type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={update("website")} /></label>
+            {state === "error" && <p className="s-modal-error" role="alert">{error}</p>}
+            <button type="submit" className="s-btn s-btn--gold s-btn--block" disabled={state === "sending"}>
+              {state === "sending" ? "Saving…" : "Save my spot"}
+            </button>
+            <p className="s-modal-fine">No payment now. We only use your details to contact you about this group.</p>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -118,6 +211,7 @@ const VIDEOS = [["AmX2dVv8qcM", "Imane"], ["cm3G7biEwHI", "Vivek"], ["Kctzf04s41
 
 export default function SalesPage() {
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
+  const [waitFor, setWaitFor] = useState(null);
 
   useEffect(() => {
     const prev = document.title;
@@ -144,7 +238,7 @@ export default function SalesPage() {
           date: d, key, left, early,
           price: early ? PRICE.earlyBird : PRICE.group,
           end: addDays(d, 35),
-          link: withRef(early ? CHECKOUT.group97 : CHECKOUT.group149, `group_${key}`),
+          link: early ? "" : withRef(CHECKOUT.group, `group_${key}`),
         };
       });
   }, [spots]);
@@ -211,7 +305,7 @@ export default function SalesPage() {
               <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX}</p>
               <h3>Small-group coaching</h3>
               <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
-              <div className="s-price"><strong>${PRICE.group}</strong><span>or <b>${PRICE.earlyBird}</b> when you book an early-bird date</span></div>
+              <div className="s-price"><strong>${PRICE.group}</strong><span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates</span></div>
               <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
             </article>
@@ -278,7 +372,13 @@ export default function SalesPage() {
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>
                   ) : (
-                    <CheckoutButton href={g.link} className={g.early ? "s-btn--gold" : "s-btn--ghost"} value={g.price} name={`Group ${g.key}`}>Reserve my seat</CheckoutButton>
+                    g.early ? (
+                      <button type="button" className="s-btn s-btn--ghost s-btn--block" onClick={() => setWaitFor(g)}>
+                        Join the waiting list <span aria-hidden="true">→</span>
+                      </button>
+                    ) : (
+                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`}>Reserve my seat</CheckoutButton>
+                    )
                   )}
                 </article>
               </Reveal>
@@ -388,6 +488,8 @@ export default function SalesPage() {
       </section>
 
       <SiteFooter />
+
+      {waitFor && <WaitlistModal group={waitFor} onClose={() => setWaitFor(null)} />}
 
       <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>
     </div>
