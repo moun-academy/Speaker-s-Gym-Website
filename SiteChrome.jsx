@@ -20,9 +20,18 @@ const methodLinks = [
   ["6-Week Program", "#program"],
 ];
 
+const salesLinks = [
+  ["Plans", "#plans"],
+  ["Group Dates", "#dates"],
+  ["Guarantee", "#guarantee"],
+  ["Program", "#program"],
+  ["Testimonials", "#testimonials"],
+  ["FAQ", "#faq"],
+];
+
 export function SiteHeader({ page = "home" }) {
   const [open, setOpen] = useState(false);
-  const links = page === "method" ? methodLinks : homeLinks;
+  const links = page === "method" ? methodLinks : page === "sales" ? salesLinks : homeLinks;
   const splitAt = Math.ceil(links.length / 2);
   const leftLinks = links.slice(0, splitAt);
   const rightLinks = links.slice(splitAt);

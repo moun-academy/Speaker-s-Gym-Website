@@ -16,6 +16,7 @@ import KiyanPortal from './KiyanPortal.jsx'
 import { installCalendlyBookingTracking } from './metaTracking.js'
 
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
+const SalesPage = lazy(() => import('./Sales.jsx'))
 
 installCalendlyBookingTracking({ redirectTo: '/success' })
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
         <Route path="/method" element={<MethodPage />} />
+        <Route path="/sales" element={<Suspense fallback={null}><SalesPage /></Suspense>} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
         <Route path="/khadija" element={<KhadijaPortal />} />
         <Route path="/nadira" element={<NadiraPortal />} />
