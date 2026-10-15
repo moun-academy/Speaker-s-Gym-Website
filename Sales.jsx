@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { BOOK_URL, COMMUNITY_URL } from "./siteConfig.js";
+import { COMMUNITY_URL } from "./siteConfig.js";
 import "./Sales.css";
 
 /* ─── Checkout links: paste the Stripe Payment Links here ───
-   While a link is empty, its button falls back to booking a call. */
+   While a link is empty, its button shows "Checkout opens soon" and can't be clicked. */
 const CHECKOUT = {
   oneOnOne: "", // $229 · 6 weeks of private coaching
   group149: "", // $149 · next group
@@ -39,15 +39,6 @@ const isoDay = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,
 const fmt = (d, opts) => d.toLocaleDateString("en-US", opts);
 const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
 
-/* 4–5 pm Dubai (UTC+4, no daylight saving) shown in the visitor's own time zone */
-function localSessionTime(d) {
-  const start = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0));
-  const end = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 13, 0));
-  if (start.getTimezoneOffset() === -240) return null;
-  const t = (x) => x.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  return `${t(start)} – ${t(end)} your time`;
-}
-
 function withRef(url, ref) {
   if (!url) return "";
   return `${url}${url.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(ref)}`;
@@ -56,6 +47,17 @@ function withRef(url, ref) {
 function trackCheckout(value, name) {
   try { window.fbq?.("track", "InitiateCheckout", { value, currency: "USD", content_name: name }); } catch (e) { /* ignore */ }
   try { window.gtag?.("event", "begin_checkout", { value, currency: "USD", items: [{ item_name: name }] }); } catch (e) { /* ignore */ }
+}
+
+function CheckoutButton({ href, className, value, name, children }) {
+  if (!href) {
+    return <span className={cx("s-btn s-btn--block s-btn--soon", className)} aria-disabled="true">Checkout opens soon</span>;
+  }
+  return (
+    <a className={cx("s-btn s-btn--block", className)} href={href} target="_blank" rel="noopener" onClick={() => trackCheckout(value, name)}>
+      {children} <span aria-hidden="true">→</span>
+    </a>
+  );
 }
 
 /* ─── Reveal on scroll ─── */
@@ -96,7 +98,7 @@ const ONE_ON_ONE = [
 ];
 
 const GROUP = [
-  "Six live group sessions, Sundays 4–5 pm Dubai time",
+  "Six live group sessions, Sundays 12–1 pm GMT (4–5 pm GMT+4)",
   "Maximum 6 people, so you speak every session",
   "The same 6-week plan as 1-on-1",
   "Speaker's Gym app with AI feedback",
@@ -112,7 +114,7 @@ const WEEKS = [
   ["Storytelling", "Tell stories that move people"],
 ];
 
-const VIDEOS = [["AmX2dVv8qcM", "Imane"], ["cm3G7biEwHI", "Vivek"], ["Kctzf04s41c", "Kevin"]];
+const VIDEOS = [["AmX2dVv8qcM", "Imane"], ["cm3G7biEwHI", "Vivek"], ["Kctzf04s41c", "Kevin"], ["QzFvN_5MPWI", "Seta"], ["fiyvwTk2Iq4", "Marisol"], ["XQ5x8_tnI7M", "Avinash"]];
 
 export default function SalesPage() {
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
@@ -200,14 +202,7 @@ export default function SalesPage() {
               <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
               <div className="s-price"><strong>${PRICE.oneOnOne}</strong><span>one payment · 6 weeks</span></div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <a
-                className="s-btn s-btn--gold s-btn--block"
-                href={oneLink || BOOK_URL}
-                {...(oneLink ? { target: "_blank", rel: "noopener" } : {})}
-                onClick={() => oneLink && trackCheckout(PRICE.oneOnOne, "1-on-1 coaching")}
-              >
-                {oneLink ? "Start my 1-on-1 coaching" : "Reserve via a quick call"} <span aria-hidden="true">→</span>
-              </a>
+              <CheckoutButton href={oneLink} className="s-btn--gold" value={PRICE.oneOnOne} name="1-on-1 coaching">Enroll in 1-on-1 coaching</CheckoutButton>
             </article>
           </Reveal>
           <Reveal delay={120}>
@@ -224,18 +219,37 @@ export default function SalesPage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ── */}
+      <section className="s-section" id="testimonials">
+        <Reveal>
+          <p className="s-label">Real people, real results</p>
+          <h2 className="s-title">Don't take my word for it. <em>Take theirs.</em></h2>
+          <p className="s-sub">Professionals who were nervous, rambled or went quiet, in their own words after The Speaker's Gym.</p>
+        </Reveal>
+        <div className="s-videos">
+          {VIDEOS.map(([id, name], i) => (
+            <Reveal key={id} delay={i * 100}>
+              <article className="s-video">
+                <div className="s-embed">
+                  <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`} title={`${name}'s testimonial`} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                </div>
+                <p>{name}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── GROUP DATES ── */}
       <section className="s-section s-section--tint" id="dates">
         <Reveal>
           <p className="s-label">Upcoming groups</p>
           <h2 className="s-title">Book early, <em>save ${PRICE.group - PRICE.earlyBird}.</em></h2>
-          <p className="s-sub">Each group meets six Sundays in a row, 4–5 pm Dubai time. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
+          <p className="s-sub">Each group meets six Sundays in a row, 12–1 pm GMT (4–5 pm GMT+4). {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
         </Reveal>
         <div className="s-dates">
           {groups.map((g, i) => {
-            const local = localSessionTime(g.date);
             const full = g.left <= 0;
-            const href = g.link || BOOK_URL;
             return (
               <Reveal key={g.key} delay={i * 100}>
                 <article className={cx("s-date", g.early && "s-date--early", full && "s-date--full")}>
@@ -249,7 +263,7 @@ export default function SalesPage() {
                   </div>
                   <h3>Starts {fmt(g.date, { weekday: "long", month: "long", day: "numeric" })}</h3>
                   <p className="s-date-meta">6 Sundays · {fmt(g.date, { month: "short", day: "numeric" })} – {fmt(g.end, { month: "short", day: "numeric" })}</p>
-                  <p className="s-date-meta">4–5 pm Dubai time{local && <><br /><span>{local}</span></>}</p>
+                  <p className="s-date-meta">Every Sunday · <span>12–1 pm GMT (4–5 pm GMT+4)</span></p>
                   <div className="s-seats" aria-label={full ? "This group is full" : `${g.left} of ${spots.max} seats left`}>
                     <div className="s-seat-row" aria-hidden="true">
                       {Array.from({ length: spots.max }, (_, k) => <i key={k} className={k < spots.max - g.left ? "taken" : ""} />)}
@@ -264,14 +278,7 @@ export default function SalesPage() {
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>
                   ) : (
-                    <a
-                      className={cx("s-btn s-btn--block", g.early ? "s-btn--gold" : "s-btn--ghost")}
-                      href={href}
-                      {...(g.link ? { target: "_blank", rel: "noopener" } : {})}
-                      onClick={() => g.link && trackCheckout(g.price, `Group ${g.key}`)}
-                    >
-                      {g.link ? "Reserve my seat" : "Reserve via a quick call"} <span aria-hidden="true">→</span>
-                    </a>
+                    <CheckoutButton href={g.link} className={g.early ? "s-btn--gold" : "s-btn--ghost"} value={g.price} name={`Group ${g.key}`}>Reserve my seat</CheckoutButton>
                   )}
                 </article>
               </Reveal>
@@ -350,26 +357,6 @@ export default function SalesPage() {
         </Reveal>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section className="s-section" id="testimonials">
-        <Reveal>
-          <p className="s-label">Real people, real results</p>
-          <h2 className="s-title">In their <em>own words.</em></h2>
-        </Reveal>
-        <div className="s-videos">
-          {VIDEOS.map(([id, name], i) => (
-            <Reveal key={id} delay={i * 100}>
-              <article className="s-video">
-                <div className="s-embed">
-                  <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`} title={`${name}'s testimonial`} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-                </div>
-                <p>{name}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       {/* ── FAQ ── */}
       <section className="s-section s-section--tint" id="faq">
         <Reveal>
@@ -380,7 +367,7 @@ export default function SalesPage() {
           {[
             ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practise with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade from group to 1-on-1 later with everything you paid counting toward it."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
-            ["When do the group sessions happen?", "Every Sunday from 4 to 5 pm Dubai time, for six weeks in a row. Each date card shows the time in your own time zone too."],
+            ["When do the group sessions happen?", "Every Sunday from 12 to 1 pm GMT (4 to 5 pm GMT+4), for six weeks in a row."],
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world mission each week."],
             ["Is there a money-back guarantee?", "Yes. Complete the six-week program and put the exercises into practice. If you don't feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free."],
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, I'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
@@ -395,7 +382,6 @@ export default function SalesPage() {
           <p>{next ? <>The next group starts <b>{fmt(next.date, { weekday: "long", month: "long", day: "numeric" })}</b>. Seats are limited to {GROUP_MAX}.</> : "Choose the plan that fits you."}</p>
           <div className="s-hero-btns">
             <a href="#plans" className="s-btn s-btn--gold">Choose your plan</a>
-            <a href={BOOK_URL} className="s-btn s-btn--ghost">Not sure? Book a free call</a>
           </div>
           <p className="s-final-small">Prefer to start free? <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer">Join the free community</a>.</p>
         </Reveal>

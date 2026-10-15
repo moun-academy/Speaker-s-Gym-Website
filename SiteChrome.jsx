@@ -22,10 +22,10 @@ const methodLinks = [
 
 const salesLinks = [
   ["Plans", "#plans"],
+  ["Testimonials", "#testimonials"],
   ["Group Dates", "#dates"],
   ["Guarantee", "#guarantee"],
   ["Program", "#program"],
-  ["Testimonials", "#testimonials"],
   ["FAQ", "#faq"],
 ];
 
@@ -62,7 +62,7 @@ export function SiteHeader({ page = "home" }) {
           </a>
           <div className="nav-links nav-links--right">
             {rightLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
-            <a href={BOOK_URL} className="nav-cta">Book a Call</a>
+            {page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
           </div>
           <button
             className="nav-hamburger"
@@ -97,7 +97,9 @@ export function SiteHeader({ page = "home" }) {
                 </a>
               ))}
             </div>
-            <a href={BOOK_URL} className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Book a Strategy Call</a>
+            {page === "sales"
+              ? <a href="#plans" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Enroll Now</a>
+              : <a href={BOOK_URL} className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Book a Strategy Call</a>}
           </div>
         </div>
       )}

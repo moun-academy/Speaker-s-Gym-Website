@@ -79,6 +79,8 @@ html:has(.sales-page) { scroll-behavior: smooth; }
 .s-btn--ghost:hover { border-color: var(--gold); background: rgba(217,192,111,.08); transform: translateY(-2px); }
 .s-btn--block { width: 100%; }
 .s-btn--disabled { border: 1px solid #333; color: #666; cursor: default; }
+.s-btn--soon { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.s-btn--soon:hover { transform: none; }
 
 /* ── hero ── */
 .s-hero { position: relative; overflow: hidden; padding: 168px 24px 96px; text-align: center; }
