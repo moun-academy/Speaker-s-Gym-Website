@@ -489,7 +489,7 @@ function loadState(fromAccount) {
   const update=window.SPEAKERS_GYM_COACHING_UPDATE;
   for(const week of update?.completedLectures||[]) {
     const lecture=loaded['week'+week+'Lecture'];
-    if(lecture && loaded.coachingLectureResets?.[week]!==update.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||update.date;
+    if(lecture && loaded.coachingLectureResets?.[week]!==update.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||update.lectureCompletionDates?.[week]||update.date;
   }
   return loaded;
 }
@@ -499,7 +499,7 @@ function renderCoachingUpdate() {
   const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const done=state.coachingFollowUps?.[update.id]||{};
   const appointment=update.nextCall;
-  const nextCall=appointment?'<div class="coaching-next-call"><strong>Next coaching call</strong><p>'+escape(new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:appointment.timeZone}).format(new Date(appointment.start)))+' · Dubai time · 60 minutes</p><a class="button button-dark" href="'+escape(appointment.meetingLink)+'" target="_blank" rel="noopener">Join coaching call ↗</a></div>':'';
+  const nextCall=update.programCompleted?'<div class="coaching-next-call"><strong>Keep your practice going</strong><p>'+escape(update.continuingPractice)+'</p></div>':appointment?'<div class="coaching-next-call"><strong>Next coaching call</strong><p>'+escape(new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:appointment.timeZone}).format(new Date(appointment.start)))+' · Dubai time · 60 minutes</p><a class="button button-dark" href="'+escape(appointment.meetingLink)+'" target="_blank" rel="noopener">Join coaching call ↗</a></div>':'';
   card.innerHTML='<span class="eyebrow">COACHING NOTES · '+escape(new Date(update.date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}))+'</span><h2>Your focus this week</h2><p>'+escape(update.summary)+'</p><div class="coaching-missions">'+update.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+escape(m.id)+'" '+(done[m.id]?'checked':'')+(window.PortalSync?.isCoach()?' disabled':'')+'><span><strong>'+escape(m.title)+'</strong><small>'+escape(m.text)+'</small></span></label>').join('')+'</div>'+nextCall+'<details><summary>What to work on</summary><ul>'+update.challenges.map(c=>'<li>'+escape(c)+'</li>').join('')+'</ul></details>';
 }
 
@@ -958,6 +958,7 @@ window.SpeakersGymPortal = {
   updateWeek6(patch) { state.week6Lecture = { ...state.week6Lecture, ...patch }; saveState(); },
   resetLecture(week) {
     if (![5, 6].includes(week) || !window.confirm(`Reset Lecture ${week}? Only its answers, mission and evidence will be cleared.`)) return false;
+    state.coachingLectureResets={...(state.coachingLectureResets||{}),[week]:window.SPEAKERS_GYM_COACHING_UPDATE?.id};
     state.evidenceBank = state.evidenceBank.filter(item => Number(item.week) !== week);
     state[`week${week}Lecture`] = structuredClone(defaultState[`week${week}Lecture`]);
     saveState(); renderAll(); showToast(`Lecture ${week} is ready for a fresh start.`); return true;
