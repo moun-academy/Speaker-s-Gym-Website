@@ -1,40 +1,40 @@
 window.MUHAMMAD_COACHING_UPDATE = {
-  "id": "onboarding-2026-10-10",
-  "date": "2026-10-10",
-  "callNumber": 0,
-  "label": "BEFORE CALL 1 · YOUR FIRST WEEK",
-  "title": "Before we meet",
-  "completedLectures": [],
-  "summary": "No preparation needed. We need one recording to see where you stand today, so the six weeks start from your real baseline.",
+  "id": "coaching-1-2026-10-17",
+  "date": "2026-10-17",
+  "callNumber": 1,
+  "label": "CALL 1 · 17 OCTOBER 2026",
+  "title": "One clear answer. Then improve it.",
+  "sourceMessageId": "1a148f0a2806151e",
+  "completedLectures": [
+    1
+  ],
+  "summary": "Your second answer had a clearer structure. Keep one point, one reason, one personal example, then return to your point. Use keywords so you can speak in your own words.",
   "challenges": [
-    "Speak naturally. Your baseline does not need to be good, it just needs to be real",
-    "Hide the structure guide for now. We learn the framework together on our first call",
-    "Choose video if you can, so you can see your body language and facial expressions"
+    "Make your opening answer the question directly.",
+    "Use one concrete personal example instead of staying in theory.",
+    "Pause instead of filling gaps with “so”, “like” or “actually”.",
+    "Use PREP to stay on track when several ideas arrive at once."
   ],
   "missions": [
     {
-      "id": "install-app",
-      "title": "Add the Speaker’s Gym app to your laptop and phone",
-      "text": "Open the practice app and log in with your email. On your laptop, use the three dots in your browser and choose Install. On your iPhone, open it in Safari, tap Share, then Add to Home Screen."
+      "id": "prep-video",
+      "title": "Post your improved PREP answer daily",
+      "text": "Choose an app question or random word. Record your answer, read the feedback, then record a better second take. Download it and post version two in the community’s Speeches category with the practice day and topic."
     },
     {
-      "id": "baseline-video",
-      "title": "Record your baseline video",
-      "text": "Tap Next question, pick any random question, hide the structure guide and answer naturally. One or two minutes is perfect."
-    },
-    {
-      "id": "community-intro",
-      "title": "Say hello in the community",
-      "text": "If you feel comfortable, post your video with the title “Introduction: my first speaking practice”. If not, simply bring it to our first call."
+      "id": "real-prep",
+      "title": "Try PREP with someone you know",
+      "text": "Use the structure in a conversation with a colleague or someone you feel comfortable with. Notice whether you kept your train of thought, then save what actually happened. Mark your win when the mission is done."
     }
   ],
   "nextCall": {
-    "start": "2026-10-17T11:30:00+04:00",
+    "eventId": "u4jq99gil3k0b9ig0ekkl8nsfs",
+    "start": "2026-10-24T11:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/aek-owce-pgq",
+    "meetingLink": "https://meet.google.com/vsz-wdii-jdc",
     "inviteToFollow": false,
-    "prepTitle": "Bring your baseline video.",
-    "prepText": "We’ll watch it together, learn your first framework, and set your mission for the week."
+    "prepTitle": "Bring your practice and questions.",
+    "prepText": "We’ll review your PREP practice and begin working on volume variety."
   }
 };

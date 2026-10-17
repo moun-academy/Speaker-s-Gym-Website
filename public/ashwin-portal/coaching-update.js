@@ -1,39 +1,42 @@
 window.ASHWIN_COACHING_UPDATE = {
-  "id": "coaching-1-2026-10-05",
-  "date": "2026-10-05",
-  "callNumber": 1,
-  "sourceMessageId": "1a10b095a3b6f602",
+  "id": "practice-support-2026-10-15",
+  "date": "2026-10-15",
+  "label": "PRACTICE CHECK-IN · 15 OCTOBER 2026",
+  "sourceMessageId": "1a13e8c234c5ac9c",
   "completedLectures": [
     1
   ],
-  "summary": "One point, one reason, one example, then return to your point. Use keywords to keep your answer clear and natural.",
+  "lectureCompletionDates": {
+    "1": "2026-10-05"
+  },
+  "summary": "Keep practicing PREP on video. Start with your opinion, look at the lens, and download each recording before sharing it in the community.",
   "challenges": [
-    "Keep one main reason",
-    "Pause instead of rushing",
-    "Start directly with your point"
+    "Start directly with your opinion instead of repeating the question.",
+    "Keep eye contact with the lens rather than looking down.",
+    "Download recordings on the device you used; the video file does not move between devices with your practice scores."
   ],
   "missions": [
     {
       "id": "prep-video",
-      "title": "Share a PREP answer (up to 2 minutes)",
-      "text": "Record your point, reason, example and closing point. Post it in the community by Tuesday, October 6."
+      "title": "Share your PREP videos",
+      "text": "Find saved recordings in your device’s Downloads folder. Post them in the community’s Speeches category, titled with the practice day and question. Video is preferred; audio is welcome."
     },
     {
       "id": "daily-prep",
       "title": "Practice for 5–10 minutes daily",
-      "text": "Use the app’s structure guide. Speak from keywords rather than a script."
+      "text": "Record a PREP answer (up to 2 minutes). Start with your opinion, keep eye contact, and select Download recording before you leave."
     },
     {
       "id": "real-prep",
       "title": "Use PREP in a real conversation",
-      "text": "Try it in a meeting or conversation. Record your exposure rep here and save what happened."
+      "text": "Keep applying your existing mission in a meeting or conversation and save what happened."
     }
   ],
   "nextCall": {
-    "eventId": "124cnoeejvdtvrlv6vljj9048h_20261012T070000Z",
-    "start": "2026-10-12T11:30:00+04:00",
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261019T073000Z",
+    "start": "2026-10-19T11:30:00+04:00",
     "timeZone": "Asia/Dubai",
-    "meetingLink": "https://meet.google.com/kwz-hpne-xef",
+    "meetingLink": "https://meet.google.com/oda-koch-ovr",
     "timePending": false
   }
 };

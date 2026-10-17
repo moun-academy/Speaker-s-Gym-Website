@@ -17,7 +17,7 @@
     next.selectedWeek = Math.max(0,Math.min(5,Number(next.selectedWeek)||0));
     if (!Array.isArray(next.reflections)) next.reflections=[];
     if (!Array.isArray(next.evidence)) next.evidence=[];
-    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.date;}
+    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionDates?.[week]||COACHING.date;}
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }
@@ -298,7 +298,7 @@
   function renderCoachingUpdate(){
     if(!COACHING)return;
     const done=state.coachingFollowUps?.[COACHING.id]||{};
-    $('#coachingUpdate').innerHTML='<span class="eyebrow">CALL 1 · 5 OCTOBER 2026</span><h2>Your focus this week</h2><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>What to work on</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
+    $('#coachingUpdate').innerHTML='<span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>Your focus this week</h2><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>What to work on</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
     const call=COACHING.nextCall;
     const formatted=new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:call.timeZone}).format(new Date(call.start));
     $('#coachingSession').innerHTML='<span class="eyebrow">YOUR LIVE COACHING</span><h2>Your next coaching call</h2><p><strong>'+esc(call.timePending?'Monday, 12 October 2026':formatted)+'</strong></p><p>'+(call.timePending?'Time being confirmed':'Dubai time')+' · 60 minutes</p><a class="button dark" href="'+esc(call.meetingLink)+'" target="_blank" rel="noopener">Join coaching call ↗</a><div class="session-prep"><strong>Bring one PREP answer.</strong><p>We’ll review your practice and what happened in a real conversation.</p></div><button class="text-button" id="prepareCall">Save a note for our call →</button>';
