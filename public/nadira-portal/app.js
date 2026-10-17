@@ -105,8 +105,8 @@ const weeks = [
     ]
   },
   {
-    short: "Integration",
-    title: "Communicate Under Pressure",
+    short: "Storytelling",
+    title: "Tell Stories That Connect",
     why: "Your skills become transformation when they remain available in the moments that matter.",
     outcome: "You combine structure, voice and courage in meetings, interviews and family conversations.",
     learn: ["Thinking on the spot", "Recovering when words disappear", "Your permanent communication routine"],
@@ -433,7 +433,9 @@ function weekPillars(index) {
   if (index === 5) {
     const coachMission = window.PortalSync?.coach()?.missions?.[6] || "";
     const record = state.week6Mission || {};
-    return { lecture: null, lectureState: null, mission: coachMission || week.work, suggested: !coachMission, missionState: record.status === "completed" ? "done" : "set", result: record.result || "", level: null };
+    const lecture = state.week6Lecture || {};
+    const lectureState = lecture.lectureCompletedAt ? "done" : Number(lecture.currentStep) > 0 ? "started" : "none";
+    return { lecture, lectureState, mission: coachMission || lecture.mission || week.work, suggested: !coachMission && !lecture.mission, missionState: record.status === "completed" || lecture.missionStatus === "completed" ? "done" : "set", result: record.result || lecture.actualResult || "", level: null };
   }
   const lecture = state[`week${index + 1}Lecture`] || {};
   const lectureState = lecture.lectureCompletedAt ? "done" : Number(lecture.currentStep) > 0 ? "started" : "none";
@@ -457,7 +459,7 @@ function renderJourneySummary() {
       ${updatedAt ? `<p>Last saved ${escapeHTML(new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt)))}</p>` : ""}
     </div>
     <div class="journey-pillars">
-      <div><small>Pillar 1 · Lectures</small><strong>${lecturesDone}<span> of 5 finished</span></strong><i><b style="width:${lecturesDone / 5 * 100}%"></b></i></div>
+      <div><small>Pillar 1 · Lectures</small><strong>${lecturesDone}<span> of 6 finished</span></strong><i><b style="width:${lecturesDone / 6 * 100}%"></b></i></div>
       <div><small>Pillar 2 · Exposure</small><strong>${missionsDone}<span> of 6 missions done</span></strong><i><b style="width:${missionsDone / 6 * 100}%"></b></i></div>
       <div><small>Speaking level</small><strong>${level}<span> of 10 · ${escapeHTML(levelName)}</span></strong><i><b style="width:${level * 10}%"></b></i><a href="#exposure">Open my levels →</a></div>
     </div>`;

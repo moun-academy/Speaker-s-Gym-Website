@@ -33,6 +33,9 @@ for(const client of ['khadija','nadira'])test(client+' confirmed lectures and fo
 test('Nadira final-call lecture resets persist and do not complete the final mission',()=>{
  const app=fixture('nadira',{week6Lecture:{story:'My own story'},week6Mission:{status:'pending'},coachingFollowUps:{'coaching-notes-2026-10-02':{'meeting-pause':true}}});
  assert.equal(app.portal.getState().week6Lecture.story,'My own story');
+ assert.match(app.elements.get('#journeySummary').innerHTML,/6<span> of 6 finished/);
+ assert.match(app.elements.get('#weekRoadmap').innerHTML,/Tell Stories That Connect/);
+ assert.doesNotMatch(app.elements.get('#weekRoadmap').innerHTML,/No lecture/);
  assert.equal(app.portal.getState().week6Mission.status,'pending');
  assert.equal(app.portal.getState().coachingFollowUps['coaching-notes-2026-10-02']['meeting-pause'],true);
  for(const week of [5,6]){
