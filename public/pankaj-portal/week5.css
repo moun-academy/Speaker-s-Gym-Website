@@ -295,3 +295,88 @@ body.week5-open { overflow: hidden; }
 @media (max-width: 760px) { .w5-vs { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .w5-vs .line { animation: none; stroke-dashoffset: 0; } .w5-vs .dots circle { animation: none; opacity: 1; } .w5-vs .listen b { animation: none; width: var(--w); } }
 @keyframes w5-dot { to { opacity: 1; } }
+/* the shared lecture shell in this portal uses small text, so raise it for this lecture (same sizes as the other portals) */
+.week5-page /* ---------- readable text sizes (generated) ---------- */
+/* Small text is raised; anything already larger is left alone. */
+.w3-bars b,
+.week5-page .w3-beat small,
+.week5-page .w3-beat-button,
+.week5-page .w3-belief-change small,
+.week5-page .w3-brand small,
+.week5-page .w3-brand strong,
+.week5-page .w3-chapter-track small,
+.week5-page .w3-completion-stats small,
+.week5-page .w3-demo-buttons small,
+.week5-page .w3-did-it small,
+.week5-page .w3-evidence-card header span,
+.week5-page .w3-evidence-card small,
+.week5-page .w3-eyebrow,
+.week5-page .w3-footer > span,
+.week5-page .w3-footer button,
+.week5-page .w3-footer-hint,
+.week5-page .w3-gauge-bands span,
+.week5-page .w3-gauge-scale,
+.week5-page .w3-gear-pill,
+.week5-page .w3-gears small,
+.week5-page .w3-level-focus > small,
+.week5-page .w3-loop small,
+.week5-page .w3-map-segment header small,
+.week5-page .w3-map-segment strong,
+.week5-page .w3-mission-edit > span,
+.week5-page .w3-mission-mini small,
+.week5-page .w3-mission-mini.active > strong,
+.week5-page .w3-next-week small,
+.week5-page .w3-pacer-buttons .stop-pacer,
+.week5-page .w3-pacer-buttons button small,
+.week5-page .w3-play-button,
+.week5-page .w3-prediction-examples span,
+.week5-page .w3-rate-button,
+.week5-page .w3-rate-clock span,
+.week5-page .w3-rate-result small,
+.week5-page .w3-research small,
+.week5-page .w3-reset,
+.week5-page .w3-reset-button,
+.week5-page .w3-rocky-credit,
+.week5-page .w3-rocky-legend > span,
+.week5-page .w3-rocky-script .pause small,
+.week5-page .w3-rocky-script > .pause,
+.week5-page .w3-rocky-script p > small,
+.week5-page .w3-rocky-script span > small,
+.week5-page .w3-slider-scale,
+.week5-page .w3-sort-buttons button,
+.week5-page .w3-tempo,
+.week5-page .w3-timer > span,
+.week5-page .w3-timer button,
+.week5-page .w3-topic-chip small,
+.week5-page .w3-version-stack span,
+.week5-page .w3-week-progress span,
+.week5-page .w3-win-line small { font-size: 12px; }
+.week5-page .w3-coach-note,
+.week5-page .w3-demo-meaning span,
+.week5-page .w3-gauge-marker b,
+.week5-page .w3-gears p,
+.week5-page .w3-improvement-options button,
+.week5-page .w3-leave-plan p,
+.week5-page .w3-level-focus p,
+.week5-page .w3-level-picker small,
+.week5-page .w3-loop p,
+.week5-page .w3-map-pause small,
+.week5-page .w3-research p,
+.week5-page .w3-slider-label span,
+.week5-page .w3-sorter small { font-size: 14px; }
+.week5-page .w3-bars span,
+.week5-page .w3-loop-return,
+.week5-page .w3-map-segment p,
+.week5-page .w3-map-segment.hold p,
+.week5-page .w3-rate-result p,
+.week5-page .w3-topic-chip { font-size: 15px; }
+
+/* link to the Moun Academy classroom on the final slide */
+.w3-skool-link { width: min(680px,100%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin: 14px auto 0; padding: 16px 20px; border: 1px solid rgba(190,161,78,.6); border-radius: 14px; background: #fbf5e1; color: var(--ink); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.w3-skool-link:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.w3-skool-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; background: var(--forest); color: var(--yellow); font-size: 16px; padding-left: 3px; }
+.w3-skool-link > span:nth-child(2) { display: grid; gap: 3px; }
+.w3-skool-link small { color: #806727; font: 800 12px var(--detail, Inter, sans-serif); letter-spacing: .12em; }
+.w3-skool-link strong { font: 500 20px var(--display); }
+.w3-skool-link em { color: var(--muted); font-size: 15px; font-style: normal; }
+.w3-skool-link b { color: #806727; font-size: 22px; }
