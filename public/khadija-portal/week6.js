@@ -204,7 +204,7 @@
           <div><small>${chapter ? `CHAPTER ${String(chapterIndex + 1).padStart(2, "0")} OF ${String(chapters.length).padStart(2, "0")}` : chapterLabel}</small><strong>${esc(chapterTitle)}</strong></div>
           <div class="w3-chapter-dots" aria-hidden="true">${chapters.map((item, index) => `<i class="${index < chapterIndex || (!chapter && step > 0) ? "done" : index === chapterIndex ? "active" : ""}"></i>`).join("")}</div>
         </div>
-        <div class="w3-header-actions"><button class="w3-reset" type="button" data-w6-action="reset">Reset</button><button class="w3-close" type="button" data-w6-action="close" aria-label="Save and close">&times;</button></div>
+        <div class="w3-header-actions"><button class="w3-reset w3-reset-button" type="button" data-w6-action="reset">Reset</button><button class="w3-close" type="button" data-w6-action="close" aria-label="Save and close">&times;</button></div>
         <div class="w3-progress" aria-hidden="true"><i style="width:${progress}%"></i></div>
       </header>
       <main class="w3-main"><section class="w3-screen ${options.className || ""}">${content}</section></main>
