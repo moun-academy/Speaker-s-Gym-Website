@@ -317,8 +317,7 @@
           </article>
         </div>
         <div class="w5-payoff"><small>WHERE IT PAYS OFF</small><span>Job interviews</span><span>Team meetings</span><span>Client pitches</span></div>
-        <blockquote>A flat voice hides a good message.<br /><strong>Three small moves fix it: step, lift, fall.</strong></blockquote>
-        <p class="w5-why-source">Based on Vinh Giang’s five vocal foundations (Stage Academy) and speech-coaching guidance.</p>
+        <blockquote>A flat voice hides a good message.<br /><strong>Three simple moves fix it: stress a word, go up, come down.</strong></blockquote>
       `, { className: "w5-why-screen" });
     } else if (step === 1) {
       const tried = new Set(state.demoTried || []);
