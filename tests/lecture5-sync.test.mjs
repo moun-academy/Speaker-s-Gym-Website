@@ -26,13 +26,13 @@ for(const client of ['pankaj','khadija']) test(client + ' Lecture 5 preserves pr
  const click=(selector,dataset)=>events.click({target:{closest:s=>s===selector?{dataset,...make()}:null}});
  const action=value=>events.click({target:{closest:s=>s==='[data-w5-action]'?{...make(),dataset:{w5Action:value}}:null}});
  const open=()=>events['doc-click'].forEach(fn=>fn({target:{closest:s=>s==='[data-open-week5-lecture]'?{}:null}}));
- open();assert.match(root.innerHTML,/Why|melody|Melody/);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1,'unperformed exercise blocks progression');
+ open();assert.match(root.innerHTML,/Why|melody|Melody/);action('next');if(client==='pankaj'){assert.equal(portal.getState().week5Lecture.currentStep,20,'the why-melody slide follows the opening');action('next');}assert.equal(portal.getState().week5Lecture.currentStep,1);action('next');assert.equal(portal.getState().week5Lecture.currentStep,1,'unperformed exercise blocks progression');
  portal.updateWeek5({currentStep:3});open();action('siren-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,4);
  portal.updateWeek5({currentStep:6});open();action('land-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,7);
  portal.updateWeek5({currentStep:9});open();action('next');assert.equal(portal.getState().week5Lecture.currentStep,9,'unread story blocks progression');
  action('perform-self');action('next');assert.equal(portal.getState().week5Lecture.currentStep,11,'the own-story slide was retired; reading the story leads to the mission');
  portal.updateWeek5({currentStep:10});open();assert.equal(portal.getState().week5Lecture.currentStep,11,'a student saved on the retired slide resumes at the mission');
- action('accept-mission');assert(portal.getState().week5Lecture.lectureCompletedAt);const chosen=portal.getState().week5Lecture.missionLevel;assert(portal.getState().week5Lecture.mission.startsWith(ownLevels[chosen-1].behavior));if(client!=='pankaj')assert.equal(chosen,4,'uses current personal ladder level');
+ action('accept-mission');assert(portal.getState().week5Lecture.lectureCompletedAt);const chosen=portal.getState().week5Lecture.missionLevel;assert(client==='pankaj'?/Say one important word a little higher/.test(portal.getState().week5Lecture.mission):portal.getState().week5Lecture.mission.startsWith(ownLevels[chosen-1].behavior));if(client!=='pankaj')assert.equal(chosen,4,'uses current personal ladder level');
  action('close');open();assert.equal(portal.getState().week5Lecture.currentStep,12,'resumes saved position');
  events['doc-click'].forEach(fn=>fn({target:{closest:s=>s==='[data-open-week5-reflection]'?{}:null}}));assert.equal(portal.getState().week5Lecture.currentStep,13);
  action('mission-yes');action('collect-evidence');assert.equal(portal.getState().week5Lecture.currentStep,14,'empty report cannot complete');

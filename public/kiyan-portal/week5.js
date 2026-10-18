@@ -279,7 +279,7 @@
     const savedStep = Number(state.currentStep || 0);
     // A saved spot on a retired slide (8) moves on to the next slide in the real order.
     const resumeAt = savedStep === 8 ? 9 : savedStep;
-    const step = stepOrder.includes(resumeAt) ? resumeAt : (stepOrder.find(item => item >= resumeAt) ?? 0);
+    const step = stepOrder.includes(resumeAt) ? resumeAt : (stepOrder.filter(item => item !== 20).find(item => item >= resumeAt) ?? 0);
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
