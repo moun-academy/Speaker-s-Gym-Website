@@ -10,7 +10,7 @@
     { title: "Why Melody Matters", start: 1, end: 2 },
     { title: "Find Your Range", start: 3, end: 4 },
     { title: "Pitch Shapes Meaning", start: 5, end: 7 },
-    { title: "Mix Pace, Volume and Pitch", start: 8, end: 9 },
+    { title: "Mix Pace, Volume and Pitch", start: 9, end: 9 },
     { title: "Take It Into Real Life", start: 11, end: 12 }
   ];
 
@@ -89,8 +89,9 @@
   const landSentence = "I think we should start next Monday.";
 
   // Step 10 (build your own story) was retired; it is now an assignment given after the lecture.
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15];
-  const lectureStepCount = 12;
+  // Step 8 (how should each part sound?) was retired; the read-aloud uses the recommended mix.
+  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15];
+  const lectureStepCount = 11;
   let previousFocus = null;
   let timers = [];
 
@@ -435,7 +436,7 @@
       const mix = state.mix || {};
       const span = state.performSpan;
       page = shell(`
-        <p class="w3-eyebrow">PERFORM · READ ALOUD WITH YOUR MIX</p>
+        <p class="w3-eyebrow">PERFORM · READ ALOUD</p>
         <h1 id="week5PageTitle">Tell it like it happened.<br /><em>Watch your melody move.</em></h1>
         <div class="w5-perform">
           <div class="w5-script">${storyBeats.map(beat => {
@@ -658,13 +659,14 @@
       const card = root.querySelector(`[data-w5-beat="${beat.id}"]`);
       const text = card.querySelector(".w5-beat-text");
       const words = beat.text.split(" ");
-      const perWord = mix[beat.id]?.pace === "slow" ? 430 : 170;
+      const setting = mix[beat.id] || beat.coach;
+      const perWord = setting.pace === "slow" ? 430 : 170;
       later(() => {
         root.querySelectorAll(".w5-beat").forEach(el => el.classList.remove("playing"));
         card.classList.add("playing");
         card.scrollIntoView({ block: "nearest", behavior: "smooth" });
         text.innerHTML = words.map(word => `<span>${esc(word)}</span>`).join(" ");
-        status.textContent = `${beat.label.toLowerCase()} · ${mixStyles[mix[beat.id].style]?.label.toLowerCase() || ""}`;
+        status.textContent = `${beat.label.toLowerCase()} · ${(mixStyles[setting.style]?.label || (setting.pace === "slow" ? "Slow and low" : "Energy up")).toLowerCase()}`;
       }, offset);
       words.forEach((_, index) => later(() => text.children[index]?.classList.add("said"), offset + 120 + index * perWord));
       offset += 120 + words.length * perWord + 500;
@@ -707,7 +709,7 @@
     button.textContent = "Stop";
     button.classList.add("recording");
     feedback.className = "w5-feedback";
-    feedback.textContent = "Read the story aloud. Follow your mix.";
+    feedback.textContent = "Read the story aloud. Follow the cues.";
     later(() => { if (mic.stream) finishPerformance(button, view, true); }, 75000);
   }
 
