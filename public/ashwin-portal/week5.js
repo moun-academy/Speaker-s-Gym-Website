@@ -90,8 +90,9 @@
 
   // Step 10 (build your own story) was retired; it is now an assignment given after the lecture.
   // Step 8 (how should each part sound?) was retired; the read-aloud uses the recommended mix.
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15];
-  const lectureStepCount = 11;
+  // Step 20 (why melody matters to you) is a newer slide placed after the opening slide.
+  const stepOrder = [0, 20, 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15];
+  const lectureStepCount = 12;
   let previousFocus = null;
   let timers = [];
 
@@ -102,8 +103,10 @@
   const getState = () => portal.getState().week5Lecture;
   const update = patch => portal.updateWeek5(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
-  const stageFor = step => stages.find(stage => step <= stage.end) || stages[stages.length - 1];
+  // Step 20 sits in the same chapter and stage as step 1.
+  const slot = step => step === 20 ? 1 : step;
+  const chapterFor = step => chapters.find(chapter => slot(step) >= chapter.start && slot(step) <= chapter.end);
+  const stageFor = step => stages.find(stage => slot(step) <= stage.end) || stages[stages.length - 1];
 
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() { timers.forEach(id => clearTimeout(id)); timers = []; }
@@ -243,7 +246,7 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step >= 13;
+    const afterMission = step >= 13 && step < 20;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 5";
@@ -274,7 +277,9 @@
     micStop();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    // A saved spot on a retired slide (8) moves on to the next slide in the real order.
+    const resumeAt = savedStep === 8 ? 9 : savedStep;
+    const step = stepOrder.includes(resumeAt) ? resumeAt : (stepOrder.find(item => item >= resumeAt) ?? 0);
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -291,6 +296,30 @@
         </div>
         <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
       `, { className: "opening w5-opening", nextLabel: "Find the music" });
+    } else if (step === 20) {
+      page = shell(`
+        <p class="w3-eyebrow">WHY THIS LECTURE MATTERS</p>
+        <h1 id="week5PageTitle">Same words.<br /><em>One voice gets ignored.</em></h1>
+        <div class="w5-vs">
+          <article class="flat" data-w3-animate style="--i:0">
+            <small>MONOTONE</small>
+            <svg viewBox="0 0 220 70" aria-hidden="true"><path class="line" d="M6 36 L40 35 L74 37 L108 35 L142 36 L176 35 L214 36" pathLength="1" /><g class="dots"><circle cx="6" cy="36" r="4"/><circle cx="40" cy="35" r="4"/><circle cx="74" cy="37" r="4"/><circle cx="108" cy="35" r="4"/><circle cx="142" cy="36" r="4"/><circle cx="176" cy="35" r="4"/><circle cx="214" cy="36" r="4"/></g></svg>
+            <div class="listen"><span>LISTENER</span><i><b style="--w:22%"></b></i><strong>Drifting</strong></div>
+            <h2>They drift.</h2>
+            <ul><li>Your key point sounds like every other sentence.</li><li>The ear stops noticing. Nothing changes, so nothing matters.</li></ul>
+          </article>
+          <article class="melody" data-w3-animate style="--i:1">
+            <small>MELODY</small>
+            <svg viewBox="0 0 220 70" aria-hidden="true"><path class="line" d="M6 44 C30 44 36 14 58 14 S86 52 110 52 S132 22 154 22 S184 58 214 26" pathLength="1" /><g class="dots"><circle cx="6" cy="44" r="4"/><circle cx="58" cy="14" r="4"/><circle cx="110" cy="52" r="4"/><circle cx="154" cy="22" r="4"/><circle cx="214" cy="26" r="4"/></g></svg>
+            <div class="listen"><span>LISTENER</span><i><b style="--w:92%"></b></i><strong>Leaning in</strong></div>
+            <h2>They lean in.</h2>
+            <ul><li>The word that matters stands out.</li><li>They hear what you feel, not only what you say.</li></ul>
+          </article>
+        </div>
+        <div class="w5-payoff"><small>WHERE IT PAYS OFF</small><span>Job interviews</span><span>Team meetings</span><span>Client pitches</span></div>
+        <blockquote>A flat voice hides a good message.<br /><strong>Three small moves fix it: step, lift, fall.</strong></blockquote>
+        <p class="w5-why-source">Based on Vinh Giang’s five vocal foundations (Stage Academy) and speech-coaching guidance.</p>
+      `, { className: "w5-why-screen" });
     } else if (step === 1) {
       const tried = new Set(state.demoTried || []);
       const mode = state.demoMode || "";
