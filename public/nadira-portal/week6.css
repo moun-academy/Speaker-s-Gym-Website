@@ -604,3 +604,7 @@ body.week6-open { overflow: hidden; }
 .week6-page .w3-rate-result p,
 .week6-page .w3-topic-chip { font-size: 15px; }
 .week6-page .w3-coach-note { font-size: 15px; }
+/* base form and button defaults, matching the other portals */
+:where(.week6-page) button { color: inherit; }
+.week6-page textarea { padding: 12px; border-radius: 6px; }
+.week6-page .w5-primary { font-size: 12px; letter-spacing: .06em; }
