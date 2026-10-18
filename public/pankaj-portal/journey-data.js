@@ -42,7 +42,7 @@ window.PANKAJ_JOURNEY_DATA = {
     "week": 5,
     "title": "Find the music in your voice.",
     "skill": "PITCH & VOCAL VARIETY",
-    "description": "Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.",
+    "description": "Step, lift and fall. Mix pitch with pace and volume so people hear how you feel.",
     "art": "melody",
     "trigger": "data-open-week5-lecture"
   },

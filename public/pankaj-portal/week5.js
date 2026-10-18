@@ -10,7 +10,7 @@
     { title: "Why Melody Matters", start: 1, end: 2 },
     { title: "Find Your Range", start: 3, end: 4 },
     { title: "Pitch Shapes Meaning", start: 5, end: 7 },
-    { title: "Mix Pace, Volume and Pitch", start: 8, end: 9 },
+    { title: "Mix Pace, Volume and Pitch", start: 9, end: 9 },
     { title: "Take It Into Real Life", start: 11, end: 12 }
   ];
 
@@ -22,41 +22,49 @@
     { name: "PROVE", end: 12 }
   ];
 
-  const missionTemplates = exposure.levels.map(level => level.behavior + " Step up on one key word, and land your final sentence with a falling tone.");
-
-  const research = [
-    { tag: "A 2016 VOICE STUDY", title: "Steve Jobs vs. Mark Zuckerberg", idea: "Researchers compared the two on stage. Jobs used much more variety in his voice: more emphasis, more rhythm, more pauses. That is a big part of why he sounded so inspiring." },
-    { tag: "STAGE ACADEMY · VINH GIANG", title: "Five tools in your voice", idea: "Speed, volume, pitch, tone and pause. You have practised three already. Pitch, how high or low your voice goes, is the one that makes people feel what you say." }
-  ];
+  // One clear action: say one important word a little higher, then let the last sentence come down.
+  const melodyAction = "Say one important word a little higher. Then let your last sentence come down at the end.";
+  const missionTemplates = exposure.levels.map((level, index) => index === 0
+    ? `Answer a question in the Speaker’s Gym app. ${melodyAction}`
+    : `${level.behavior} ${melodyAction}`);
 
   const moves = [
     { id: "step", name: "Step up", when: "on the one word that matters", example: ["It", "took", "three", "weeks."], ys: [0, 0, -22, 4], points: [26, 26, 26, 6, 26, 28] },
     { id: "lift", name: "Lift", when: "new ideas, questions, good news", example: ["And", "then", "we", "found", "it."], ys: [6, 2, -4, -12, -20], points: [34, 30, 24, 16, 8, 4] },
-    { id: "drop", name: "Drop", when: "serious moments, bad news, suspense", example: ["Then", "the", "lights…", "went", "out."], ys: [4, 8, 12, 16, 18], points: [22, 28, 32, 36, 38, 38] },
-    { id: "land", name: "Land", when: "statements, decisions, endings", example: ["I", "think", "we", "should", "wait."], ys: [0, -8, -2, -4, 14], points: [20, 12, 16, 14, 24, 38] }
+    { id: "fall", name: "Fall", when: "statements, decisions, serious moments", example: ["I", "think", "we", "should", "wait."], ys: [0, -8, -2, -4, 14], points: [20, 12, 16, 14, 24, 38] }
   ];
 
   const stressWords = [
     { word: "I", meaning: "Someone else said it. Not me." },
     { word: "didn't", meaning: "I really did not say that." },
     { word: "say", meaning: "I might have hinted at it…" },
-    { word: "he", meaning: "Someone else ate it." },
-    { word: "ate", meaning: "He did something else with it." },
-    { word: "my", meaning: "He ate someone else's sandwich." },
-    { word: "sandwich.", meaning: "He ate something else of mine." }
+    { word: "they", meaning: "Someone else cancelled it." },
+    { word: "cancelled", meaning: "They moved it. It is still happening." },
+    { word: "the", meaning: "A different meeting. Not that one." },
+    { word: "meeting.", meaning: "They cancelled something else, like the lunch." }
   ];
+  const stressWords2 = [
+    { word: "We", meaning: "All of us. Not just me." },
+    { word: "are", meaning: "Yes, it is confirmed." },
+    { word: "meeting", meaning: "A meeting. Not lunch, not a call." },
+    { word: "at", meaning: "Exactly at noon. Not by noon." },
+    { word: "noon.", meaning: "Noon. Not two o’clock." }
+  ];
+  const stressSets = [stressWords, stressWords2];
+  const stressKeys = ["stressTried", "stressTried2"];
   const stressTarget = 4;
+  const stressTriedAll = state => (state.stressTried || []).length + (state.stressTried2 || []).length;
 
   const sortItems = [
     { id: "news", text: "A friend tells you they just got engaged.", answer: "lift", why: "Match their energy first. That is rapport in sound." },
-    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "drop", why: "Low and steady reads as calm and in control." },
-    { id: "recommend", text: "You give your opinion in a meeting.", answer: "land", why: "A falling end tells them you have decided." },
+    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "fall", why: "Coming down reads as calm and in control." },
+    { id: "recommend", text: "You give your opinion in a meeting.", answer: "fall", why: "A falling voice tells them you have decided." },
     { id: "question", text: "You ask a friend where they want to eat tonight.", answer: "lift", why: "A genuine question rises. Curiosity sounds curious." },
-    { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "drop", why: "Lower, slower, softer. They lean in to hear it." },
-    { id: "intro", text: "You introduce yourself: \"I'm a nurse.\"", answer: "land", why: "Statements about you should land, not ask for permission." }
+    { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "fall", why: "Going down makes them lean in to hear it." },
+    { id: "intro", text: "You introduce yourself: \"I'm a nurse.\"", answer: "fall", why: "Statements about you should fall, not ask for permission." }
   ];
   const sortOrder = ["news", "recommend", "delay", "question", "intro", "suspense"];
-  const sortLabels = { lift: "LIFT", drop: "DROP", land: "LAND" };
+  const sortLabels = { lift: "LIFT", fall: "FALL" };
 
   const storyBeats = [
     { id: "setup", label: "SET THE SCENE", text: "We were at the airport, and our flight was boarding in twenty minutes.", coach: { pitch: "mid", pace: "fast", volume: "strong" }, why: "Background they can follow easily. Keep it moving." },
@@ -65,16 +73,25 @@
     { id: "result", label: "THE RESULT", text: "We made the flight with two minutes to spare. And I have never lost that passport again.", coach: { pitch: "low", pace: "slow", volume: "strong" }, why: "Slow down and land it. Ending low sounds sure." }
   ];
   const mixOptions = {
-    pitch: [["high", "Lift"], ["mid", "Middle"], ["low", "Low · land"]],
+    pitch: [["high", "Lift"], ["mid", "Middle"], ["low", "Low · fall"]],
     pace: [["fast", "Fast"], ["slow", "Slow"]],
     volume: [["strong", "Strong"], ["soft", "Soft"]]
   };
+  // One simple choice per part instead of three dials: lift the energy, or go slow and low.
+  const mixStyles = {
+    up: { label: "Energy up", hint: "higher, faster, stronger", settings: { pitch: "high", pace: "fast", volume: "strong" } },
+    down: { label: "Slow and low", hint: "lower, slower, softer", settings: { pitch: "low", pace: "slow", volume: "soft" } }
+  };
+  const coachStyle = { setup: "up", tension: "down", action: "up", result: "down" };
+  const mixDone = mix => storyBeats.every(beat => mix?.[beat.id]?.style);
   const mixLabel = (dial, value) => (mixOptions[dial].find(option => option[0] === value) || [, "?"])[1];
 
   const landSentence = "I think we should start next Monday.";
 
   // Step 10 (build your own story) was retired; it is now an assignment given after the lecture.
-  const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15];
+  // Step 8 (how should each part sound?) was retired; the read-aloud uses the recommended mix.
+  // Step 20 (why melody matters to you) is a newer slide placed after the opening slide.
+  const stepOrder = [0, 20, 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15];
   const lectureStepCount = 12;
   let previousFocus = null;
   let timers = [];
@@ -86,8 +103,10 @@
   const getState = () => portal.getState().week5Lecture;
   const update = patch => portal.updateWeek5(patch);
   const getLevel = () => exposure.clampLevel(getState().currentLevel || portal.getState().currentLevel || portal.getState().week2Lecture?.currentLevel || 1);
-  const chapterFor = step => chapters.find(chapter => step >= chapter.start && step <= chapter.end);
-  const stageFor = step => stages.find(stage => step <= stage.end) || stages[stages.length - 1];
+  // Step 20 sits in the same chapter and stage as step 1.
+  const slot = step => step === 20 ? 1 : step;
+  const chapterFor = step => chapters.find(chapter => slot(step) >= chapter.start && slot(step) <= chapter.end);
+  const stageFor = step => stages.find(stage => slot(step) <= stage.end) || stages[stages.length - 1];
 
   function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() { timers.forEach(id => clearTimeout(id)); timers = []; }
@@ -227,7 +246,7 @@
     const chapter = chapterFor(step);
     const chapterIndex = chapter ? chapters.indexOf(chapter) : -1;
     const slideNumber = stepOrder.indexOf(step) + 1;
-    const afterMission = step >= 13;
+    const afterMission = step >= 13 && step < 20;
     const canBack = step > 0 && !options.lockBack;
     const progress = Math.round((Math.min(lectureStepCount, slideNumber) / lectureStepCount) * 100);
     const chapterLabel = step === 0 ? "YOUR FIVE CHAPTERS" : afterMission ? "MISSION FOLLOW-UP" : "WEEK 5";
@@ -258,7 +277,9 @@
     micStop();
     const state = getState();
     const savedStep = Number(state.currentStep || 0);
-    const step = stepOrder.find(item => item >= savedStep) ?? 0;
+    // A saved spot on a retired slide (8) moves on to the next slide in the real order.
+    const resumeAt = savedStep === 8 ? 9 : savedStep;
+    const step = stepOrder.includes(resumeAt) ? resumeAt : (stepOrder.find(item => item >= resumeAt) ?? 0);
     if (step !== savedStep) update({ currentStep: step });
     const level = getLevel();
     const levelData = exposure.levels[level - 1];
@@ -275,6 +296,29 @@
         </div>
         <div class="w3-agenda">${chapters.map((chapter, index) => `<article data-w3-animate style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(chapter.title)}</strong></article>`).join("")}</div>
       `, { className: "opening w5-opening", nextLabel: "Find the music" });
+    } else if (step === 20) {
+      page = shell(`
+        <p class="w3-eyebrow">WHY THIS LECTURE MATTERS</p>
+        <h1 id="week5PageTitle">Same words.<br /><em>One voice gets ignored.</em></h1>
+        <div class="w5-vs">
+          <article class="flat" data-w3-animate style="--i:0">
+            <small>MONOTONE</small>
+            <svg viewBox="0 0 220 70" aria-hidden="true"><path class="line" d="M6 36 L40 35 L74 37 L108 35 L142 36 L176 35 L214 36" pathLength="1" /><g class="dots"><circle cx="6" cy="36" r="4"/><circle cx="40" cy="35" r="4"/><circle cx="74" cy="37" r="4"/><circle cx="108" cy="35" r="4"/><circle cx="142" cy="36" r="4"/><circle cx="176" cy="35" r="4"/><circle cx="214" cy="36" r="4"/></g></svg>
+            <div class="listen"><span>LISTENER</span><i><b style="--w:22%"></b></i><strong>Drifting</strong></div>
+            <h2>They drift.</h2>
+            <ul><li>Your key point sounds like every other sentence.</li><li>The ear stops noticing. Nothing changes, so nothing matters.</li></ul>
+          </article>
+          <article class="melody" data-w3-animate style="--i:1">
+            <small>MELODY</small>
+            <svg viewBox="0 0 220 70" aria-hidden="true"><path class="line" d="M6 44 C30 44 36 14 58 14 S86 52 110 52 S132 22 154 22 S184 58 214 26" pathLength="1" /><g class="dots"><circle cx="6" cy="44" r="4"/><circle cx="58" cy="14" r="4"/><circle cx="110" cy="52" r="4"/><circle cx="154" cy="22" r="4"/><circle cx="214" cy="26" r="4"/></g></svg>
+            <div class="listen"><span>LISTENER</span><i><b style="--w:92%"></b></i><strong>Leaning in</strong></div>
+            <h2>They lean in.</h2>
+            <ul><li>The word that matters stands out.</li><li>They hear what you feel, not only what you say.</li></ul>
+          </article>
+        </div>
+        <div class="w5-payoff"><small>WHERE IT PAYS OFF</small><span>Job interviews</span><span>Team meetings</span><span>Client pitches</span></div>
+        <blockquote>A flat voice hides a good message.<br /><strong>Three simple moves fix it: stress a word, go up, come down.</strong></blockquote>
+      `, { className: "w5-why-screen" });
     } else if (step === 1) {
       const tried = new Set(state.demoTried || []);
       const mode = state.demoMode || "";
@@ -288,7 +332,6 @@
           <p class="w5-demo-read" data-w5-demo-read aria-live="polite">${mode === "flat" ? "Sounds: unsure, rehearsed, not that excited." : mode === "sung" ? "Sounds: genuinely excited. The words finally match." : "Choose a version, then say it aloud the same way."}</p>
           <div class="w5-toggle"><button type="button" class="${mode === "flat" ? "selected" : ""}" data-w5-demo-mode="flat">One note</button><button type="button" class="${mode === "sung" ? "selected" : ""}" data-w5-demo-mode="sung">With melody</button></div>
         </article>
-        <div class="w3-research w5-research ${tried.size >= 2 ? "in" : ""}" data-w5-research>${research.map(item => `<article><small>${esc(item.tag)}</small><strong>${esc(item.title)}</strong><p>${esc(item.idea)}</p></article>`).join("")}</div>
       `, { className: "w5-why" });
     } else if (step === 2) {
       const choice = state.rapportChoice || "";
@@ -333,8 +376,8 @@
       `, { className: "w5-range-screen" });
     } else if (step === 4) {
       page = shell(`
-        <p class="w3-eyebrow">FOUR PITCH MOVES</p>
-        <h1 id="week5PageTitle">Melody is not singing.<br /><em>It is four small moves.</em></h1>
+        <p class="w3-eyebrow">THREE PITCH MOVES</p>
+        <h1 id="week5PageTitle">Melody is not singing.<br /><em>It is three small moves.</em></h1>
         <div class="w5-moves">${moves.map((move, index) => `<button type="button" class="w5-move ${move.id}" data-w5-move="${move.id}" data-w3-animate style="--i:${index}">
           <small>0${index + 1}</small><h2>${esc(move.name)}</h2>
           ${contour(move.points)}
@@ -345,44 +388,48 @@
         <blockquote>A monotone is not calm. It is one note.<br /><strong>Calm is a low note you chose.</strong></blockquote>
       `, { className: "w5-moves-screen" });
     } else if (step === 5) {
-      const tried = state.stressTried || [];
+      const set = state.stressSet === 1 ? 1 : 0;
+      const words = stressSets[set];
+      const tried = state[stressKeys[set]] || [];
       const active = tried.length ? tried[tried.length - 1] : -1;
       page = shell(`
         <p class="w3-eyebrow">STEP UP · ONE WORD, NEW MEANING</p>
         <h1 id="week5PageTitle">Move the step.<br /><em>Change the story.</em></h1>
         <article class="w5-stress">
-          <p class="w5-stress-line">${stressWords.map((item, index) => `<button type="button" class="${index === active ? "up" : ""} ${tried.includes(index) ? "tried" : ""}" data-w5-stress="${index}">${esc(item.word)}</button>`).join(" ")}</p>
-          <p class="w5-stress-meaning" data-w5-stress-meaning aria-live="polite">${active >= 0 ? `"${esc(stressWords[active].meaning)}"` : "Tap a word. Then say the whole sentence, stepping up on it."}</p>
-          <div class="w5-stress-count"><span data-w5-stress-count>${Math.min(tried.length, stressWords.length)} / ${stressWords.length}</span> meanings heard · try at least ${stressTarget}</div>
+          <div class="w5-stress-sets" role="group" aria-label="Pick an example"><button type="button" class="${set === 0 ? "on" : ""}" data-w5-stress-set="0">Example 1</button><button type="button" class="${set === 1 ? "on" : ""}" data-w5-stress-set="1">Example 2</button></div>
+          <p class="w5-stress-line">${words.map((item, index) => `<button type="button" class="${index === active ? "up" : ""} ${tried.includes(index) ? "tried" : ""}" data-w5-stress="${index}">${esc(item.word)}</button>`).join(" ")}</p>
+          <p class="w5-stress-meaning" data-w5-stress-meaning aria-live="polite">${active >= 0 ? `"${esc(words[active].meaning)}"` : "Tap a word. Then say the whole sentence, stepping up on it."}</p>
+          <div class="w5-stress-count"><span data-w5-stress-count>${Math.min(tried.length, words.length)} / ${words.length}</span> meanings heard · try at least ${stressTarget} across the examples</div>
         </article>
         <p class="w3-coach-note">A step is pitch, volume and pace working together: a little higher, a little stronger, a little slower. Everything you trained in Weeks 2 and 3, on a single word.</p>
       `, { className: "w5-stress-screen" });
     } else if (step === 6) {
       const landed = Number(state.landed || 0);
       page = shell(`
-        <p class="w3-eyebrow">LAND · SOUND LIKE YOU'VE DECIDED</p>
+        <p class="w3-eyebrow">FALL · SOUND LIKE YOU'VE DECIDED</p>
         <h1 id="week5PageTitle">A rising end asks permission.<br /><em>A falling end gives an answer.</em></h1>
         <article class="w5-land" data-w5-land>
           <div class="w5-land-shapes">
             <div class="up">${contour([24, 22, 24, 20, 12, 2])}<small>RISING END · sounds like a question</small></div>
-            <div class="down">${contour([20, 14, 18, 16, 26, 40])}<small>LANDED · sounds like a decision</small></div>
+            <div class="down">${contour([20, 14, 18, 16, 26, 40])}<small>FALLING END · sounds like a decision</small></div>
           </div>
           <p class="w5-land-sentence">"${esc(landSentence)}"</p>
           <canvas class="w5-trace" data-w5-trace aria-hidden="true"></canvas>
-          <p class="w5-feedback ${landed ? "good" : ""}" data-w5-land-feedback role="status">${landed ? `Landed ${landed}×. That is the sound of certainty.` : "Say it once as a question. Then say it again and let the last word fall."}</p>
+          <p class="w5-feedback ${landed ? "good" : ""}" data-w5-land-feedback role="status">${landed ? `Fell ${landed}×. That is the sound of certainty.` : "Say it once as a question. Then say it again and let the last word fall."}</p>
           ${micFallbackNote()}
           <div class="w5-actions">
             ${micSupported() ? `<button type="button" class="w5-primary" data-w5-action="land-record">${landed ? "Try again" : "Listen to me say it"}</button>` : ""}
-            <button type="button" class="w5-quiet" data-w5-action="land-self">${micSupported() ? "No mic? I landed it 3 times" : "I landed it 3 times out loud"}</button>
+            <button type="button" class="w5-quiet" data-w5-action="land-self">${micSupported() ? "No mic? I let it fall 3 times" : "I let it fall 3 times out loud"}</button>
           </div>
         </article>
-        <p class="w3-coach-note">In interviews, land every statement about yourself. Save rising tones for real questions.</p>
+        <p class="w3-coach-note">In interviews, let every statement about yourself fall at the end. Save rising tones for real questions.</p>
       `, { className: "w5-land-screen" });
     } else if (step === 7) {
       const answers = state.sortAnswers || {};
       page = shell(`
         <p class="w3-eyebrow">MATCH THE MOMENT</p>
         <h1 id="week5PageTitle">Which move<br /><em>fits the moment?</em></h1>
+        <ul class="w5-sort-key" aria-label="The two moves"><li><b>LIFT</b> the voice goes up. It asks, it excites.</li><li><b>FALL</b> the voice comes down. It answers, it decides.</li></ul>
         <div class="w3-sorter w5-sorter">${sortOrder.map(id => sortItems.find(item => item.id === id)).map((item, index) => {
           const chosen = answers[item.id];
           const correct = chosen && chosen === item.answer;
@@ -392,30 +439,32 @@
             <small>${chosen ? `${correct ? "Yes." : `${sortLabels[item.answer]}.`} ${esc(item.why)}` : "&nbsp;"}</small>
           </article>`;
         }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Pitch is how your listener knows what you feel. Choose the move for each moment.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
+        <div class="w3-coach-actions"><p class="w3-coach-note">Up asks. Down answers. Pick one for each moment.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
       `);
     } else if (step === 8) {
       const mix = state.mix || {};
-      const complete = storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial]));
+      const complete = mixDone(mix);
       page = shell(`
-        <p class="w3-eyebrow">THE MIXING DESK · WEEKS 2 + 3 + 5</p>
-        <h1 id="week5PageTitle">Volume. Pace. Pitch.<br /><em>Now mix all three.</em></h1>
+        <p class="w3-eyebrow">PUT IT TOGETHER · WEEKS 2, 3 AND 5</p>
+        <h1 id="week5PageTitle">How should each part<br /><em>sound?</em></h1>
+        <p class="w3-lede">Pick one for each part: lift the energy, or go slow and low.</p>
         <div class="w5-desk">${storyBeats.map((beat, index) => {
+          const chosen = mix[beat.id]?.style || "";
           const settings = mix[beat.id] || {};
           return `<article class="w5-beat" data-w5-beat="${beat.id}" data-w3-animate style="--i:${index}">
             <header><small>${String(index + 1).padStart(2, "0")} · ${esc(beat.label)}</small></header>
             <p class="w5-beat-text pitch-${settings.pitch || "mid"} pace-${settings.pace || "none"} vol-${settings.volume || "none"}">${esc(beat.text)}</p>
-            ${Object.keys(mixOptions).map(dial => `<div class="w5-dial" role="group" aria-label="${dial} for ${esc(beat.label)}"><span>${dial.toUpperCase()}</span>${mixOptions[dial].map(([value, label]) => `<button type="button" class="${settings[dial] === value ? "on" : ""}" data-w5-mix="${beat.id}" data-w5-dial="${dial}" data-w5-value="${value}">${esc(label)}</button>`).join("")}</div>`).join("")}
-            <p class="w5-coach-mix" ${complete ? "" : "hidden"}><b>Coach's mix:</b> ${esc(mixLabel("pitch", beat.coach.pitch))} · ${esc(mixLabel("pace", beat.coach.pace))} · ${esc(mixLabel("volume", beat.coach.volume))}. ${esc(beat.why)}</p>
+            <div class="w5-style" role="group" aria-label="How should ${esc(beat.label.toLowerCase())} sound?">${Object.keys(mixStyles).map(key => `<button type="button" class="${chosen === key ? "on" : ""}" data-w5-style="${beat.id}" data-w5-value="${key}"><strong>${esc(mixStyles[key].label)}</strong><small>${esc(mixStyles[key].hint)}</small></button>`).join("")}</div>
+            <p class="w5-coach-mix" ${complete ? "" : "hidden"}><b>Coach's pick: ${esc(mixStyles[coachStyle[beat.id]].label)}.</b> ${esc(beat.why)}</p>
           </article>${beat.pauseAfter ? '<div class="w5-desk-pause" aria-label="pause">‖ PAUSE</div>' : ""}`;
         }).join("")}</div>
-        <div class="w5-actions"><button type="button" class="w5-primary" data-w5-action="play-mix" ${complete ? "" : "disabled"}>▶ Preview my mix</button><span class="w5-mix-status" data-w5-mix-status aria-live="polite">${complete ? "Compare with the coach's mix. Yours is allowed to differ." : "Choose pitch, pace and volume for all four parts."}</span></div>
+        <div class="w5-actions"><button type="button" class="w5-primary" data-w5-action="play-mix" ${complete ? "" : "disabled"}>▶ Preview my choices</button><span class="w5-mix-status" data-w5-mix-status aria-live="polite">${complete ? "Compare with the coach's picks. Yours is allowed to differ." : "Choose one for each of the four parts."}</span></div>
       `, { className: "w5-desk-screen" });
     } else if (step === 9) {
       const mix = state.mix || {};
       const span = state.performSpan;
       page = shell(`
-        <p class="w3-eyebrow">PERFORM · READ ALOUD WITH YOUR MIX</p>
+        <p class="w3-eyebrow">PERFORM · READ ALOUD</p>
         <h1 id="week5PageTitle">Tell it like it happened.<br /><em>Watch your melody move.</em></h1>
         <div class="w5-perform">
           <div class="w5-script">${storyBeats.map(beat => {
@@ -443,14 +492,15 @@
         <div class="w3-level-picker" role="group" aria-label="Exposure level">${exposure.levels.map((item, index) => `<button type="button" class="${index + 1 === level ? "selected" : ""}" data-w5-level="${index + 1}"><span>${index + 1}</span><small>${esc(item.name)}</small></button>`).join("")}</div>
         <div class="w3-level-focus"><small>LEVEL ${level} · SITUATION</small><h2>${esc(levelData.name)}</h2><p>${esc(levelData.behavior)}</p></div>
         <label class="w3-mission-edit"><span>YOUR WEEK 5 CHALLENGE</span><textarea data-w5-mission rows="2">${esc(mission)}</textarea></label>
-        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I used at least one deliberate pitch move: a step up, a lift, or a landed ending.</strong></div>
+        <div class="w3-win-line"><small>WIN CONDITION</small><strong>I said one important word a little higher, or let my last sentence come down.</strong></div>
       `, { footer: '<button class="w3-next mission-accept" type="button" data-w5-action="accept-mission">Accept mission</button>' });
     } else if (step === 12) {
       page = shell(`
         <p class="w3-eyebrow">LECTURE 5 COMPLETE</p>
         <h1 id="week5PageTitle">Your voice has a melody.<br /><em>Your mission is active.</em></h1>
-        <article class="w3-mission-mini active"><small>YOUR WEEK 5 MISSION</small><p>${esc(state.mission)}</p><strong>Win with one deliberate pitch move.</strong></article>
-        <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Step, lift, drop and land. Bring one of them into a real conversation.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>If it feels theatrical to you, it probably sounds natural to them.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
+        <article class="w3-mission-mini active"><small>YOUR WEEK 5 MISSION</small><p>${esc(state.mission)}</p><strong>Win by trying it once. One word higher, or one sentence that comes down.</strong></article>
+        <a class="w3-skool-link" href="https://www.skool.com/moun-academy-2097/classroom/bca062c9?md=6a66c32a60914bd99908e94251a9c246" target="_blank" rel="noopener noreferrer"><span class="w3-skool-icon" aria-hidden="true">▶</span><span><small>MOUN ACADEMY · CLASSROOM</small><strong>Watch the Lecture 5 video</strong><em>Go deeper into melody any time, in your Moun Academy classroom.</em></span><b aria-hidden="true">↗</b></a>
+        <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Step, lift and fall. Bring one of them into a real conversation.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>If it feels theatrical to you, it probably sounds natural to them.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time someone hears how you feel.</strong></blockquote>
       `, { footer: '<button class="w3-next" type="button" data-w5-action="close">Return to my portal</button>' });
     } else if (step === 13) {
@@ -467,18 +517,18 @@
         <h1 id="week5PageTitle">What actually happened?</h1>
         <p class="w3-lede">One short answer. No report and no long reflection.</p>
         <div class="w3-input-card">
-          <textarea data-w5-result rows="3" placeholder="I landed my last sentence when I introduced my work. It sounded more certain, and they asked a follow-up question…">${esc(state.actualResult)}</textarea>
+          <textarea data-w5-result rows="3" placeholder="I let my last sentence fall when I introduced my work. It sounded more certain, and they asked a follow-up question…">${esc(state.actualResult)}</textarea>
         </div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w5-action="collect-evidence">Collect evidence</button>' });
     } else {
-      const evidence = (portal.getState().evidence || portal.getState().evidenceBank || []).find(item => item.id === state.evidenceId);
+      const evidence = (portal.getState().evidence || []).find(item => item.id === state.evidenceId);
       page = shell(`
         <p class="w3-eyebrow">WEEK 5 COMPLETE</p>
         <h1 id="week5PageTitle">They heard the words.<br /><em>Now they hear you.</em></h1>
-        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Vocal Variety</strong></article><article><small>PITCH MOVES</small><strong>Step · Lift · Drop · Land</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
+        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Vocal Variety</strong></article><article><small>PITCH MOVES</small><strong>Step · Lift · Fall</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 5</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.action || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
-        <div class="w3-week-progress">${[1, 2, 3, 4, 5].map(number => `<span class="${portal.getState()[`week${number}Lecture`]?.completedAt ? "complete" : ""}">W${number} <i>${portal.getState()[`week${number}Lecture`]?.completedAt ? "●" : "○"}</i></span>`).join("")}<span>W6 <i>○</i></span></div>
-        <div class="w3-next-week"><small>NEXT</small><strong>Full integration and your real target.</strong></div>
+        <div class="w3-week-progress">${[1, 2, 3, 4, 5].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}<span>W6 <i>○</i></span></div>
+        <div class="w3-next-week"><small>NEXT</small><strong>Lecture 6: tell stories that move people.</strong></div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w5-action="close">Return to my portal</button>' });
     }
 
@@ -526,7 +576,6 @@
     if (!save) return;
     const tried = [...new Set([...(getState().demoTried || []), mode])];
     update({ demoMode: mode, demoTried: tried });
-    if (tried.length >= 2) root.querySelector("[data-w5-research]")?.classList.add("in");
   }
 
   /* ---------- slide 3: siren range finder ---------- */
@@ -603,14 +652,14 @@
         const landed = Number(getState().landed || 0) + 1;
         update({ landed });
         feedback.className = "w5-feedback good";
-        feedback.textContent = "Landed ↘ Your voice went down at the end. That sounds sure.";
-        if (landed === 1) portal.showToast("Landed. That is the sound of certainty.");
+        feedback.textContent = "Fell ↘ Your voice went down at the end. That sounds sure.";
+        if (landed === 1) portal.showToast("Down at the end. That is the sound of certainty.");
       } else if (change >= 1) {
         feedback.className = "w5-feedback soon";
         feedback.textContent = "Rose ↗ at the end. It sounded like a question. Let \"Monday\" go down this time.";
       } else {
         feedback.className = "w5-feedback soon";
-        feedback.textContent = "Level ending. Close to landing. Drop the last word a little lower.";
+        feedback.textContent = "Level ending. Close. Let the last word fall a little lower.";
       }
     };
     try {
@@ -638,13 +687,14 @@
       const card = root.querySelector(`[data-w5-beat="${beat.id}"]`);
       const text = card.querySelector(".w5-beat-text");
       const words = beat.text.split(" ");
-      const perWord = mix[beat.id]?.pace === "slow" ? 430 : 170;
+      const setting = mix[beat.id] || beat.coach;
+      const perWord = setting.pace === "slow" ? 430 : 170;
       later(() => {
         root.querySelectorAll(".w5-beat").forEach(el => el.classList.remove("playing"));
         card.classList.add("playing");
         card.scrollIntoView({ block: "nearest", behavior: "smooth" });
         text.innerHTML = words.map(word => `<span>${esc(word)}</span>`).join(" ");
-        status.textContent = `${beat.label.toLowerCase()} · ${mixLabel("pitch", mix[beat.id].pitch)}, ${mixLabel("pace", mix[beat.id].pace).toLowerCase()}, ${mixLabel("volume", mix[beat.id].volume).toLowerCase()}`;
+        status.textContent = `${beat.label.toLowerCase()} · ${(mixStyles[setting.style]?.label || (setting.pace === "slow" ? "Slow and low" : "Energy up")).toLowerCase()}`;
       }, offset);
       words.forEach((_, index) => later(() => text.children[index]?.classList.add("said"), offset + 120 + index * perWord));
       offset += 120 + words.length * perWord + 500;
@@ -687,7 +737,7 @@
     button.textContent = "Stop";
     button.classList.add("recording");
     feedback.className = "w5-feedback";
-    feedback.textContent = "Read the story aloud. Follow your mix.";
+    feedback.textContent = "Read the story aloud. Follow the cues.";
     later(() => { if (mic.stream) finishPerformance(button, view, true); }, 75000);
   }
 
@@ -719,10 +769,8 @@
       1: [(state.demoTried || []).length >= 2, "Try both versions out loud first."],
       2: [state.rapportChoice, "Pick the reply that feels like you care."],
       3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
-      5: [(state.stressTried || []).length >= stressTarget, `Step up on at least ${stressTarget} different words.`],
-      6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
-      7: [sortItems.every(item => (state.sortAnswers || {})[item.id]), "Choose a move for every moment."],
-      8: [storyBeats.every(beat => ["pitch", "pace", "volume"].every(dial => mix[beat.id]?.[dial])), "Choose pitch, pace and volume for all four parts."],
+      5: [stressTriedAll(state) >= stressTarget, `Step up on at least ${stressTarget} different words.`],
+      6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Let the sentence fall at the end at least once."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
@@ -779,13 +827,13 @@
     const actionEl = event.target.closest("[data-w5-action]");
     const action = actionEl?.dataset.w5Action;
     if (action === "close") return close();
-    if (action === "reset") { clearTimers(); micStop(); if (portal.resetLecture(5)) renderStep(); return; }
+    if (action === "reset") { clearTimers(); if (portal.resetLecture(5)) renderStep(); return; }
     if (action === "back") return back();
     if (action === "next") return validateAndNext();
     if (action === "siren") return runSiren(actionEl);
     if (action === "siren-self") { update({ rangeSelfCheck: true }); return renderStep(); }
     if (action === "land-record") return recordLanding(actionEl);
-    if (action === "land-self") { update({ landSelfCheck: true }); portal.showToast("Good. Keep landing every statement about yourself."); return; }
+    if (action === "land-self") { update({ landSelfCheck: true }); portal.showToast("Good. Keep letting every statement about yourself fall."); return; }
     if (action === "play-mix") return playMix(actionEl);
     if (action === "perform") return performStory(actionEl);
     if (action === "perform-self") { update({ performSelfCheck: true }); portal.showToast("Story performed. Now build your own."); return; }
@@ -794,7 +842,7 @@
       const state = getState();
       const level = getLevel();
       update({ mission: state.mission || missionTemplates[level - 1], missionLevel: level, missionStatus: "accepted", acceptedAt: new Date().toISOString(), lectureCompletedAt: new Date().toISOString(), currentStep: 12 });
-      portal.showToast("Mission accepted. One deliberate pitch move is the win.");
+      portal.showToast("Mission accepted. Trying it once is the win.");
       return renderStep();
     }
     if (action === "mission-not-yet") return close();
@@ -815,20 +863,28 @@
       return;
     }
 
+    const stressSet = event.target.closest("[data-w5-stress-set]");
+    if (stressSet) {
+      update({ stressSet: Number(stressSet.dataset.w5StressSet) });
+      return renderStep();
+    }
+
     const stress = event.target.closest("[data-w5-stress]");
     if (stress) {
+      const set = getState().stressSet === 1 ? 1 : 0;
+      const words = stressSets[set];
       const index = Number(stress.dataset.w5Stress);
-      const tried = [...(getState().stressTried || []).filter(item => item !== index), index];
-      update({ stressTried: tried });
+      const tried = [...(getState()[stressKeys[set]] || []).filter(item => item !== index), index];
+      update({ [stressKeys[set]]: tried });
       root.querySelectorAll("[data-w5-stress]").forEach(button => {
         button.classList.toggle("up", button === stress);
         if (tried.includes(Number(button.dataset.w5Stress))) button.classList.add("tried");
       });
       const meaning = root.querySelector("[data-w5-stress-meaning]");
       meaning.classList.remove("in"); void meaning.offsetWidth; meaning.classList.add("in");
-      meaning.textContent = `"${stressWords[index].meaning}"`;
-      root.querySelector("[data-w5-stress-count]").textContent = `${tried.length} / ${stressWords.length}`;
-      if (tried.length === stressTarget) portal.showToast("One sentence, many meanings. Pitch decides which one they hear.");
+      meaning.textContent = `"${words[index].meaning}"`;
+      root.querySelector("[data-w5-stress-count]").textContent = `${tried.length} / ${words.length}`;
+      if (stressTriedAll(getState()) === stressTarget) portal.showToast("One sentence, many meanings. Pitch decides which one they hear.");
       return;
     }
 
@@ -847,22 +903,22 @@
       return;
     }
 
-    const dial = event.target.closest("[data-w5-mix]");
-    if (dial) {
+    const style = event.target.closest("[data-w5-style]");
+    if (style) {
       const mix = JSON.parse(JSON.stringify(getState().mix || {}));
-      const beat = dial.dataset.w5Mix;
-      mix[beat] = { ...(mix[beat] || {}), [dial.dataset.w5Dial]: dial.dataset.w5Value };
+      const beat = style.dataset.w5Style;
+      const key = style.dataset.w5Value;
+      mix[beat] = { ...mixStyles[key].settings, style: key };
       update({ mix });
-      const card = dial.closest(".w5-beat");
-      dial.parentElement.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === dial));
+      const card = style.closest(".w5-beat");
+      style.parentElement.querySelectorAll("button").forEach(button => button.classList.toggle("on", button === style));
       const settings = mix[beat];
-      card.querySelector(".w5-beat-text").className = `w5-beat-text pitch-${settings.pitch || "mid"} pace-${settings.pace || "none"} vol-${settings.volume || "none"}`;
-      const complete = storyBeats.every(item => ["pitch", "pace", "volume"].every(key => mix[item.id]?.[key]));
-      if (complete) {
+      card.querySelector(".w5-beat-text").className = `w5-beat-text pitch-${settings.pitch} pace-${settings.pace} vol-${settings.volume}`;
+      if (mixDone(mix)) {
         root.querySelectorAll(".w5-coach-mix").forEach(el => { el.hidden = false; });
         const play = root.querySelector('[data-w5-action="play-mix"]');
         if (play.disabled && !timers.length) play.disabled = false;
-        root.querySelector("[data-w5-mix-status]").textContent = "Compare with the coach's mix. Yours is allowed to differ.";
+        root.querySelector("[data-w5-mix-status]").textContent = "Compare with the coach's picks. Yours is allowed to differ.";
       }
       return;
     }

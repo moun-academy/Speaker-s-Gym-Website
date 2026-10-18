@@ -89,15 +89,15 @@ body.week5-open { overflow: hidden; }
 .w5-range .w5-primary, .w5-meter-panel .w5-primary { border-color: var(--yellow); background: var(--yellow); color: #111; }
 
 /* ---------- slide 4: four moves ---------- */
-.w5-moves { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 30px; }
+.w5-moves { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 30px; }
 .w5-move { position: relative; display: grid; align-content: start; gap: 8px; padding: 20px 18px 40px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.8); text-align: left; cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
 .w5-move:hover { transform: translateY(-2px); border-color: var(--gold); }
-.w5-move.land { background: var(--forest); border-color: var(--forest); color: white; }
+.w5-move.fall { background: var(--forest); border-color: var(--forest); color: white; }
 .w5-move small { color: var(--coral-dark); font: 800 8px var(--detail); letter-spacing: .14em; }
-.w5-move.land small, .w5-move.land b { color: var(--yellow); }
+.w5-move.fall small, .w5-move.fall b { color: var(--yellow); }
 .w5-move h2 { margin: 0; font: 400 28px/1 var(--display); letter-spacing: -.02em; }
 .w5-move p { margin: 0; font-size: 11px; line-height: 1.45; opacity: .8; }
-.w5-move.land .w5-melody.mini span { color: white; }
+.w5-move.fall .w5-melody.mini span { color: white; }
 .w5-move b { position: absolute; left: 18px; bottom: 14px; color: var(--muted); font: 800 8px var(--detail); letter-spacing: .1em; text-transform: uppercase; }
 .w5-move.replay .w5-contour path { animation: w5-draw 1.1s cubic-bezier(.22,1,.36,1) forwards; }
 .w5-move.replay .w5-melody span { animation: w5-hop .9s ease both; animation-delay: calc(var(--d) * 90ms); }
@@ -134,8 +134,7 @@ body.week5-open { overflow: hidden; }
 
 /* ---------- slide 7: sorter with three moves ---------- */
 .w5-sorter .w3-sort-buttons button.lift.chosen { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
-.w5-sorter .w3-sort-buttons button.drop.chosen { background: #6b6658; border-color: #6b6658; color: white; }
-.w5-sorter .w3-sort-buttons button.land.chosen { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
+.w5-sorter .w3-sort-buttons button.fall.chosen { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
 .w5-sorter article strong { font-size: 16px; }
 .w5-sorter .w3-sort-buttons button.chosen:disabled { opacity: 1; }
 
@@ -213,3 +212,86 @@ body.week5-open { overflow: hidden; }
   .w5-move.replay .w5-melody span, .w5-primary.recording, .w5-stress-meaning.in { animation: none; }
 }
 .lecture-art.melody{background:#ebe4d2;color:#8c7638}
+
+/* ---------- readable text sizes (generated) ---------- */
+/* Small text is raised; anything already larger is left alone. */
+.w5-beat header small,
+.w5-chips i,
+.w5-demo > small,
+.w5-desk-pause,
+.w5-dial button,
+.w5-dial span,
+.w5-hero-tag,
+.w5-land-shapes small,
+.w5-meter span,
+.w5-meter-panel > small,
+.w5-move b,
+.w5-move small,
+.w5-primary,
+.w5-rapport small,
+.w5-replies small,
+.w5-science small,
+.w5-script-pause,
+.w5-toggle button { font-size: 12px; }
+.w5-coach-mix,
+.w5-mic-note,
+.w5-move p,
+.w5-quiet,
+.w5-stress-count { font-size: 14px; }
+.w5-range-copy small,
+.w5-science p { font-size: 15px; }
+/* slide 9: one simple choice per part */
+.w5-style { display: grid; gap: 6px; }
+.w5-style button { display: grid; justify-items: start; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: white; color: var(--ink); text-align: left; cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+.w5-style button:hover { border-color: var(--gold); transform: translateY(-1px); }
+.w5-style button strong { font: 500 17px var(--display); }
+.w5-style button small { color: var(--muted); font-size: 13px; }
+.w5-style button.on { background: var(--forest); border-color: var(--forest); color: var(--yellow); }
+.w5-style button.on small { color: #d9d6c9; }
+.w5-coach-mix { font-size: 14px; }
+.w5-desk { margin-top: 20px; }
+/* slide 6: pick which sentence to play with */
+.w5-stress-sets { display: inline-flex; margin: 0 auto 10px; padding: 4px; border: 1px solid var(--line); border-radius: 99px; background: #f4f0e6; }
+.w5-stress-sets button { padding: 9px 20px; border-radius: 99px; color: var(--ink); font: 800 13px var(--detail); letter-spacing: .05em; cursor: pointer; transition: background .2s ease, color .2s ease; }
+.w5-stress-sets button.on { background: var(--forest); color: var(--yellow); }
+.w5-stress { text-align: center; }
+/* slide 8: a short key so the three moves are clear at a glance */
+.w5-sort-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px auto 0; padding: 0; list-style: none; }
+.w5-sort-key li { padding: 9px 16px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.88); color: var(--ink); font: 400 17px var(--display); }
+.w5-sort-key b { margin-right: 8px; color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .12em; }
+/* the why slide: a flat line against a melodic one */
+.w5-vs { width: min(940px,100%); display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 26px auto 0; }
+.w5-vs article { display: grid; align-content: start; gap: 10px; padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); text-align: left; }
+.w5-vs article.melody { background: var(--forest); border-color: var(--forest); color: white; }
+.w5-vs small { color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .16em; }
+.w5-vs article.melody small { color: var(--yellow); }
+.w5-vs svg { width: 100%; height: 86px; overflow: visible; }
+.w5-vs .line { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 1; animation: w5-draw 1.6s cubic-bezier(.22,1,.36,1) .4s forwards; }
+.w5-vs .flat .line { stroke: #a9a698; }
+.w5-vs .melody .line { stroke: var(--yellow); stroke-width: 3.5; }
+.w5-vs .dots circle { opacity: 0; animation: w5-dot .5s ease forwards; }
+.w5-vs .flat .dots circle { fill: #a9a698; }
+.w5-vs .melody .dots circle { fill: var(--yellow); }
+.w5-vs .dots circle:nth-child(1) { animation-delay: .5s; } .w5-vs .dots circle:nth-child(2) { animation-delay: .7s; } .w5-vs .dots circle:nth-child(3) { animation-delay: .9s; } .w5-vs .dots circle:nth-child(4) { animation-delay: 1.1s; } .w5-vs .dots circle:nth-child(5) { animation-delay: 1.3s; } .w5-vs .dots circle:nth-child(6) { animation-delay: 1.5s; } .w5-vs .dots circle:nth-child(7) { animation-delay: 1.7s; }
+.w5-vs .listen { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+.w5-vs .listen span { color: var(--muted); font: 800 11px var(--detail); letter-spacing: .14em; }
+.w5-vs .melody .listen span { color: #cfcdc4; }
+.w5-vs .listen i { height: 12px; border-radius: 99px; background: #e8e2d3; overflow: hidden; }
+.w5-vs .melody .listen i { background: #3d3e36; }
+.w5-vs .listen b { display: block; height: 100%; width: 0; border-radius: 99px; background: #a9a698; animation: w5-fill 1.4s cubic-bezier(.22,1,.36,1) 1s forwards; }
+.w5-vs .melody .listen b { background: var(--yellow); }
+.w5-vs .listen strong { font: 500 15px var(--display); }
+@keyframes w5-fill { to { width: var(--w); } }
+.w5-vs h2 { margin: 2px 0 0; font: 500 clamp(30px,3.6vw,42px)/1.1 var(--display); }
+.w5-vs ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.w5-vs li { padding-left: 16px; position: relative; color: var(--muted); font: 400 18px/1.45 var(--display); }
+.w5-vs article.melody li { color: #e6e3d8; }
+.w5-vs li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 50%; background: #a9a698; }
+.w5-vs article.melody li::before { background: var(--yellow); }
+.w5-payoff { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin: 20px auto 0; }
+.w5-payoff small { color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .16em; }
+.w5-payoff span { padding: 8px 16px; border: 1px solid var(--line); border-radius: 99px; background: rgba(255,255,255,.9); color: var(--ink); font: 500 17px var(--display); }
+.w5-why-source { margin: 14px 0 0; color: var(--muted); font: 400 13px var(--detail); text-align: center; }
+@media (max-width: 760px) { .w5-vs { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .w5-vs .line { animation: none; stroke-dashoffset: 0; } .w5-vs .dots circle { animation: none; opacity: 1; } .w5-vs .listen b { animation: none; width: var(--w); } }
+@keyframes w5-dot { to { opacity: 1; } }

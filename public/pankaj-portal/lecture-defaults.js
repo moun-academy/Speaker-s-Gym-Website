@@ -121,6 +121,8 @@
       rangeHigh: null,
       rangeSelfCheck: false,
       stressTried: [],
+      stressTried2: [],
+      stressSet: 0,
       landed: 0,
       landSelfCheck: false,
       sortAnswers: {},
