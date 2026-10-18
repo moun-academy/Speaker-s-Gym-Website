@@ -82,7 +82,7 @@ window.ASHWIN_DATA = {
     {week:2,title:'A voice that carries.',skill:'VOLUME & PRESENCE',description:'Build a supported voice and let your final words be heard.',art:'voice',trigger:'data-open-week2-lecture'},
     {week:3,title:'Find your speaking rhythm.',skill:'PACE & VARIETY',description:'Fast, slow, stop. Give your important ideas the space they need.',art:'pace',trigger:'data-open-week3-lecture'},
     {week:4,title:'The power of a pause.',skill:'SILENCE & COMPOSURE',description:'Take a moment to think. Replace fillers with intentional silence.',art:'pauses',trigger:'data-open-week4-lecture'},
-    {week:5,title:'Find the music in your voice.',skill:'PITCH & VOCAL VARIETY',description:'Step, lift, drop, and land. Mix pitch with pace and volume so people hear how you feel.',art:'melody',trigger:'data-open-week5-lecture'},
+    {week:5,title:'Find the music in your voice.',skill:'PITCH & VOCAL VARIETY',description:'Step, lift and fall. Mix pitch with pace and volume so people hear how you feel.',art:'melody',trigger:'data-open-week5-lecture'},
     {week:6,title:'Tell stories that move people.',skill:'STORYTELLING · THE FINALE',description:'Incident, point, link. Structure plus vocal variety: every skill you learned, in one story.',art:'story',trigger:'data-open-week6-lecture'}
   ]
 };

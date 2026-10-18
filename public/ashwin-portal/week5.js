@@ -31,8 +31,7 @@
   const moves = [
     { id: "step", name: "Step up", when: "on the one word that matters", example: ["It", "took", "three", "weeks."], ys: [0, 0, -22, 4], points: [26, 26, 26, 6, 26, 28] },
     { id: "lift", name: "Lift", when: "new ideas, questions, good news", example: ["And", "then", "we", "found", "it."], ys: [6, 2, -4, -12, -20], points: [34, 30, 24, 16, 8, 4] },
-    { id: "drop", name: "Drop", when: "serious moments, bad news, suspense", example: ["Then", "the", "lights…", "went", "out."], ys: [4, 8, 12, 16, 18], points: [22, 28, 32, 36, 38, 38] },
-    { id: "land", name: "Land", when: "statements, decisions, endings", example: ["I", "think", "we", "should", "wait."], ys: [0, -8, -2, -4, 14], points: [20, 12, 16, 14, 24, 38] }
+    { id: "fall", name: "Fall", when: "statements, decisions, serious moments", example: ["I", "think", "we", "should", "wait."], ys: [0, -8, -2, -4, 14], points: [20, 12, 16, 14, 24, 38] }
   ];
 
   const stressWords = [
@@ -58,14 +57,14 @@
 
   const sortItems = [
     { id: "news", text: "A friend tells you they just got engaged.", answer: "lift", why: "Match their energy first. That is rapport in sound." },
-    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "drop", why: "Low and steady reads as calm and in control." },
-    { id: "recommend", text: "You give your opinion in a meeting.", answer: "land", why: "A falling end tells them you have decided." },
+    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "fall", why: "Coming down reads as calm and in control." },
+    { id: "recommend", text: "You give your opinion in a meeting.", answer: "fall", why: "A falling voice tells them you have decided." },
     { id: "question", text: "You ask a friend where they want to eat tonight.", answer: "lift", why: "A genuine question rises. Curiosity sounds curious." },
-    { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "drop", why: "Lower, slower, softer. They lean in to hear it." },
-    { id: "intro", text: "You introduce yourself: \"I'm a nurse.\"", answer: "land", why: "Statements about you should land, not ask for permission." }
+    { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "fall", why: "Going down makes them lean in to hear it." },
+    { id: "intro", text: "You introduce yourself: \"I'm a nurse.\"", answer: "fall", why: "Statements about you should fall, not ask for permission." }
   ];
-  const sortOrder = ["news", "delay", "recommend"];
-  const sortLabels = { lift: "LIFT", drop: "DROP", land: "LAND" };
+  const sortOrder = ["news", "recommend", "delay", "question", "intro", "suspense"];
+  const sortLabels = { lift: "LIFT", fall: "FALL" };
 
   const storyBeats = [
     { id: "setup", label: "SET THE SCENE", text: "We were at the airport, and our flight was boarding in twenty minutes.", coach: { pitch: "mid", pace: "fast", volume: "strong" }, why: "Background they can follow easily. Keep it moving." },
@@ -74,7 +73,7 @@
     { id: "result", label: "THE RESULT", text: "We made the flight with two minutes to spare. And I have never lost that passport again.", coach: { pitch: "low", pace: "slow", volume: "strong" }, why: "Slow down and land it. Ending low sounds sure." }
   ];
   const mixOptions = {
-    pitch: [["high", "Lift"], ["mid", "Middle"], ["low", "Low · land"]],
+    pitch: [["high", "Lift"], ["mid", "Middle"], ["low", "Low · fall"]],
     pace: [["fast", "Fast"], ["slow", "Slow"]],
     volume: [["strong", "Strong"], ["soft", "Soft"]]
   };
@@ -348,8 +347,8 @@
       `, { className: "w5-range-screen" });
     } else if (step === 4) {
       page = shell(`
-        <p class="w3-eyebrow">FOUR PITCH MOVES</p>
-        <h1 id="week5PageTitle">Melody is not singing.<br /><em>It is four small moves.</em></h1>
+        <p class="w3-eyebrow">THREE PITCH MOVES</p>
+        <h1 id="week5PageTitle">Melody is not singing.<br /><em>It is three small moves.</em></h1>
         <div class="w5-moves">${moves.map((move, index) => `<button type="button" class="w5-move ${move.id}" data-w5-move="${move.id}" data-w3-animate style="--i:${index}">
           <small>0${index + 1}</small><h2>${esc(move.name)}</h2>
           ${contour(move.points)}
@@ -378,30 +377,30 @@
     } else if (step === 6) {
       const landed = Number(state.landed || 0);
       page = shell(`
-        <p class="w3-eyebrow">LAND · SOUND LIKE YOU'VE DECIDED</p>
+        <p class="w3-eyebrow">FALL · SOUND LIKE YOU'VE DECIDED</p>
         <h1 id="week5PageTitle">A rising end asks permission.<br /><em>A falling end gives an answer.</em></h1>
         <article class="w5-land" data-w5-land>
           <div class="w5-land-shapes">
             <div class="up">${contour([24, 22, 24, 20, 12, 2])}<small>RISING END · sounds like a question</small></div>
-            <div class="down">${contour([20, 14, 18, 16, 26, 40])}<small>LANDED · sounds like a decision</small></div>
+            <div class="down">${contour([20, 14, 18, 16, 26, 40])}<small>FALLING END · sounds like a decision</small></div>
           </div>
           <p class="w5-land-sentence">"${esc(landSentence)}"</p>
           <canvas class="w5-trace" data-w5-trace aria-hidden="true"></canvas>
-          <p class="w5-feedback ${landed ? "good" : ""}" data-w5-land-feedback role="status">${landed ? `Landed ${landed}×. That is the sound of certainty.` : "Say it once as a question. Then say it again and let the last word fall."}</p>
+          <p class="w5-feedback ${landed ? "good" : ""}" data-w5-land-feedback role="status">${landed ? `Fell ${landed}×. That is the sound of certainty.` : "Say it once as a question. Then say it again and let the last word fall."}</p>
           ${micFallbackNote()}
           <div class="w5-actions">
             ${micSupported() ? `<button type="button" class="w5-primary" data-w5-action="land-record">${landed ? "Try again" : "Listen to me say it"}</button>` : ""}
-            <button type="button" class="w5-quiet" data-w5-action="land-self">${micSupported() ? "No mic? I landed it 3 times" : "I landed it 3 times out loud"}</button>
+            <button type="button" class="w5-quiet" data-w5-action="land-self">${micSupported() ? "No mic? I let it fall 3 times" : "I let it fall 3 times out loud"}</button>
           </div>
         </article>
-        <p class="w3-coach-note">In interviews, land every statement about yourself. Save rising tones for real questions.</p>
+        <p class="w3-coach-note">In interviews, let every statement about yourself fall at the end. Save rising tones for real questions.</p>
       `, { className: "w5-land-screen" });
     } else if (step === 7) {
       const answers = state.sortAnswers || {};
       page = shell(`
         <p class="w3-eyebrow">MATCH THE MOMENT</p>
         <h1 id="week5PageTitle">Which move<br /><em>fits the moment?</em></h1>
-        <ul class="w5-sort-key" aria-label="The three moves"><li><b>LIFT</b> voice goes up</li><li><b>DROP</b> lower and slower</li><li><b>LAND</b> the end comes down</li></ul>
+        <ul class="w5-sort-key" aria-label="The two moves"><li><b>LIFT</b> the voice goes up. It asks, it excites.</li><li><b>FALL</b> the voice comes down. It answers, it decides.</li></ul>
         <div class="w3-sorter w5-sorter">${sortOrder.map(id => sortItems.find(item => item.id === id)).map((item, index) => {
           const chosen = answers[item.id];
           const correct = chosen && chosen === item.answer;
@@ -411,7 +410,7 @@
             <small>${chosen ? `${correct ? "Yes." : `${sortLabels[item.answer]}.`} ${esc(item.why)}` : "&nbsp;"}</small>
           </article>`;
         }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Three moments. Pick the move that fits each one.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
+        <div class="w3-coach-actions"><p class="w3-coach-note">Up asks. Down answers. Pick one for each moment.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
       `);
     } else if (step === 8) {
       const mix = state.mix || {};
@@ -472,7 +471,7 @@
         <h1 id="week5PageTitle">Your voice has a melody.<br /><em>Your mission is active.</em></h1>
         <article class="w3-mission-mini active"><small>YOUR WEEK 5 MISSION</small><p>${esc(state.mission)}</p><strong>Win by trying it once. One word higher, or one sentence that comes down.</strong></article>
         <a class="w3-skool-link" href="https://www.skool.com/moun-academy-2097/classroom/bca062c9?md=6a66c32a60914bd99908e94251a9c246" target="_blank" rel="noopener noreferrer"><span class="w3-skool-icon" aria-hidden="true">▶</span><span><small>MOUN ACADEMY · CLASSROOM</small><strong>Watch the Lecture 5 video</strong><em>Go deeper into melody any time, in your Moun Academy classroom.</em></span><b aria-hidden="true">↗</b></a>
-        <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Step, lift, drop and land. Bring one of them into a real conversation.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>If it feels theatrical to you, it probably sounds natural to them.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
+        <div class="w3-leave-plan"><article><span>01</span><strong>Leave the lecture</strong><p>Step, lift and fall. Bring one of them into a real conversation.</p></article><article><span>02</span><strong>Attempt the mission</strong><p>If it feels theatrical to you, it probably sounds natural to them.</p></article><article><span>03</span><strong>Return with reality</strong><p>Use "Report mission" in your portal.</p></article></div>
         <blockquote>The lecture ends here.<br /><strong>The evidence begins the first time someone hears how you feel.</strong></blockquote>
       `, { footer: '<button class="w3-next" type="button" data-w5-action="close">Return to my portal</button>' });
     } else if (step === 13) {
@@ -489,7 +488,7 @@
         <h1 id="week5PageTitle">What actually happened?</h1>
         <p class="w3-lede">One short answer. No report and no long reflection.</p>
         <div class="w3-input-card">
-          <textarea data-w5-result rows="3" placeholder="I landed my last sentence when I introduced my work. It sounded more certain, and they asked a follow-up question…">${esc(state.actualResult)}</textarea>
+          <textarea data-w5-result rows="3" placeholder="I let my last sentence fall when I introduced my work. It sounded more certain, and they asked a follow-up question…">${esc(state.actualResult)}</textarea>
         </div>
       `, { lockBack: true, footer: '<button class="w3-next" type="button" data-w5-action="collect-evidence">Collect evidence</button>' });
     } else {
@@ -497,7 +496,7 @@
       page = shell(`
         <p class="w3-eyebrow">WEEK 5 COMPLETE</p>
         <h1 id="week5PageTitle">They heard the words.<br /><em>Now they hear you.</em></h1>
-        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Vocal Variety</strong></article><article><small>PITCH MOVES</small><strong>Step · Lift · Drop · Land</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
+        <div class="w3-completion-stats"><article><small>SKILL UNLOCKED</small><strong>Vocal Variety</strong></article><article><small>PITCH MOVES</small><strong>Step · Lift · Fall</strong></article><article><small>EXPOSURE</small><strong>Level ${state.missionLevel || level}</strong></article><article><small>EVIDENCE COLLECTED</small><strong>1</strong></article></div>
         <article class="w3-evidence-card"><header><small>EVIDENCE COLLECTED</small><span>WEEK 5</span></header><div><small>YOUR MISSION</small><p>${esc(evidence?.action || state.mission)}</p></div><div><small>WHAT HAPPENED</small><p>${esc(evidence?.result || state.actualResult)}</p></div></article>
         <div class="w3-week-progress">${[1, 2, 3, 4, 5].map(number => `<span class="complete">W${number} <i>●</i></span>`).join("")}<span>W6 <i>○</i></span></div>
         <div class="w3-next-week"><small>NEXT</small><strong>Lecture 6: tell stories that move people.</strong></div>
@@ -624,14 +623,14 @@
         const landed = Number(getState().landed || 0) + 1;
         update({ landed });
         feedback.className = "w5-feedback good";
-        feedback.textContent = "Landed ↘ Your voice went down at the end. That sounds sure.";
-        if (landed === 1) portal.showToast("Landed. That is the sound of certainty.");
+        feedback.textContent = "Fell ↘ Your voice went down at the end. That sounds sure.";
+        if (landed === 1) portal.showToast("Down at the end. That is the sound of certainty.");
       } else if (change >= 1) {
         feedback.className = "w5-feedback soon";
         feedback.textContent = "Rose ↗ at the end. It sounded like a question. Let \"Monday\" go down this time.";
       } else {
         feedback.className = "w5-feedback soon";
-        feedback.textContent = "Level ending. Close to landing. Drop the last word a little lower.";
+        feedback.textContent = "Level ending. Close. Let the last word fall a little lower.";
       }
     };
     try {
@@ -741,7 +740,7 @@
       2: [state.rapportChoice, "Pick the reply that feels like you care."],
       3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
       5: [stressTriedAll(state) >= stressTarget, `Step up on at least ${stressTarget} different words.`],
-      6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
+      6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Let the sentence fall at the end at least once."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
     };
@@ -804,7 +803,7 @@
     if (action === "siren") return runSiren(actionEl);
     if (action === "siren-self") { update({ rangeSelfCheck: true }); return renderStep(); }
     if (action === "land-record") return recordLanding(actionEl);
-    if (action === "land-self") { update({ landSelfCheck: true }); portal.showToast("Good. Keep landing every statement about yourself."); return; }
+    if (action === "land-self") { update({ landSelfCheck: true }); portal.showToast("Good. Keep letting every statement about yourself fall."); return; }
     if (action === "play-mix") return playMix(actionEl);
     if (action === "perform") return performStory(actionEl);
     if (action === "perform-self") { update({ performSelfCheck: true }); portal.showToast("Story performed. Now build your own."); return; }
