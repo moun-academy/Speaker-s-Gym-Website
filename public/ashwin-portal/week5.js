@@ -39,10 +39,10 @@
     { word: "I", meaning: "Someone else said it. Not me." },
     { word: "didn't", meaning: "I really did not say that." },
     { word: "say", meaning: "I might have hinted at it…" },
-    { word: "he", meaning: "Someone else ate it." },
-    { word: "ate", meaning: "He did something else with it." },
-    { word: "my", meaning: "He ate someone else's sandwich." },
-    { word: "sandwich.", meaning: "He ate something else of mine." }
+    { word: "they", meaning: "Someone else cancelled it." },
+    { word: "cancelled", meaning: "They moved it. It is still happening." },
+    { word: "the", meaning: "A different meeting. Not that one." },
+    { word: "meeting.", meaning: "They cancelled something else, like the lunch." }
   ];
   const stressTarget = 4;
 
