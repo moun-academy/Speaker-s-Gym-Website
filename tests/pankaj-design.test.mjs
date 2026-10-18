@@ -31,20 +31,20 @@ test('Pankaj dashboard keeps his program and migrates saved daily notes without 
   assert.equal(saved.week5Lecture.currentStep,7);assert.deepEqual(saved.legacyDailyReflections,legacy.reflections);assert.equal(saved.week1Lecture.prep.point,'Keep my point');
   const reload=fixture(saved);assert.equal(reload.portal.getState().reflections.length,1,'migration does not duplicate notes');
 });
-test('published Call 4 updates stale timing once and keeps mission completion separate from lecture progress',async()=>{
+test('published Call 5 updates stale timing once and keeps mission completion separate from lecture progress',async()=>{
   const app=fixture({...legacy,weeklyCoaching:{day:'Saturday',time:'09:00',timeZone:'Europe/Prague'}},null,true);
   for(let i=0;i<8;i++)await Promise.resolve();
-  assert.deepEqual(plain(app.portal.getState().weeklyCoaching),{day:'Sunday',time:'12:00',timeZone:'Asia/Dubai',nextDate:'2026-10-18'});
+  assert.deepEqual(plain(app.portal.getState().weeklyCoaching),{day:'Sunday',time:'12:00',timeZone:'Asia/Dubai',nextDate:'2026-10-25'});
   assert.match(app.elements.get('#coachingUpdate').innerHTML,/Your focus this week/);
-  app.events.change({target:{closest:()=>({dataset:{coachingMission:'pause-point-first'},checked:true})}});
-  assert.equal(app.portal.getState().coachingFollowUps['coaching-4-2026-10-11']['pause-point-first'],true);
+  app.events.change({target:{closest:()=>({dataset:{coachingMission:'melody-with-colleague'},checked:true})}});
+  assert.equal(app.portal.getState().coachingFollowUps['coaching-5-2026-10-18']['melody-with-colleague'],true);
   assert.equal(app.portal.getState().week5Lecture.actualResult,legacy.week5Lecture.actualResult);
   assert.deepEqual(plain(app.portal.getState().completedDays),legacy.completedDays);
   const saved=JSON.parse(app.store.get('speakers-gym-pankaj'));
-  const edited={...saved,weeklyCoaching:{day:'Sunday',time:'13:00',timeZone:'Asia/Dubai',nextDate:'2026-10-18'}};
+  const edited={...saved,weeklyCoaching:{day:'Sunday',time:'13:00',timeZone:'Asia/Dubai',nextDate:'2026-10-25'}};
   const reload=fixture(edited,null,true);
   assert.equal(reload.portal.getState().weeklyCoaching.time,'13:00','same published update does not overwrite a later edit');
-  assert.equal(reload.portal.getState().coachingFollowUps['coaching-4-2026-10-11']['pause-point-first'],true);
+  assert.equal(reload.portal.getState().coachingFollowUps['coaching-5-2026-10-18']['melody-with-colleague'],true);
 });
 test('Pankaj cloud saves retain legacy progress and use only his own client record',async()=>{
   const app=fixture(null,{role:'client',open:true,version:7,state:legacy,coach:{missions:{6:'Give a management update'}}});
@@ -76,14 +76,15 @@ test('weekly coaching time validates, saves and survives reload without changing
   assert.equal(app.portal.getState().weeklyCoaching.time,'15:30');
 });
 
-test('coach-confirmed Lectures 1 to 4 show completed without completing missions, and explicit resets persist',()=>{
+test('coach-confirmed Lectures 1 to 5 show completed without completing missions, and explicit resets persist',()=>{
   const app=fixture(legacy,null,true);
   for(const week of [1,2,3]) assert.equal(app.portal.getState()[`week${week}Lecture`].lectureCompletedAt,'2026-10-04');
-  for(const week of [5]) assert.ok(!app.portal.getState()[`week${week}Lecture`].lectureCompletedAt);
+  assert.equal(app.portal.getState().week5Lecture.lectureCompletedAt,'2026-10-18');
+  assert.ok(!app.portal.getState().week6Lecture.lectureCompletedAt);
   assert.equal(app.portal.getState().week1Lecture.prep.point,'Keep my point');
   assert.equal(app.portal.getState().week4Lecture.lectureCompletedAt,'2026-10-11');
-  assert.match(app.elements.get('#coachingUpdate').innerHTML,/11 OCTOBER 2026/);
-  for(const week of [1,2,3,4]) assert.notEqual(app.portal.getState()[`week${week}Lecture`].missionStatus,'completed');
+  assert.match(app.elements.get('#coachingUpdate').innerHTML,/18 OCTOBER 2026/);
+  for(const week of [1,2,3,4,5]) assert.notEqual(app.portal.getState()[`week${week}Lecture`].missionStatus,'completed');
   app.portal.resetLecture(2);
   const saved=JSON.parse(app.store.get('speakers-gym-pankaj'));
   const reload=fixture(saved,null,true);
