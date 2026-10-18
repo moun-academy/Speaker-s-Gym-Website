@@ -64,7 +64,7 @@
     { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "drop", why: "Lower, slower, softer. They lean in to hear it." },
     { id: "intro", text: "You introduce yourself: \"I'm a nurse.\"", answer: "land", why: "Statements about you should land, not ask for permission." }
   ];
-  const sortOrder = ["news", "recommend", "delay", "question", "intro", "suspense"];
+  const sortOrder = ["news", "delay", "recommend"];
   const sortLabels = { lift: "LIFT", drop: "DROP", land: "LAND" };
 
   const storyBeats = [
@@ -401,6 +401,7 @@
       page = shell(`
         <p class="w3-eyebrow">MATCH THE MOMENT</p>
         <h1 id="week5PageTitle">Which move<br /><em>fits the moment?</em></h1>
+        <ul class="w5-sort-key" aria-label="The three moves"><li><b>LIFT</b> voice goes up</li><li><b>DROP</b> lower and slower</li><li><b>LAND</b> the end comes down</li></ul>
         <div class="w3-sorter w5-sorter">${sortOrder.map(id => sortItems.find(item => item.id === id)).map((item, index) => {
           const chosen = answers[item.id];
           const correct = chosen && chosen === item.answer;
@@ -410,7 +411,7 @@
             <small>${chosen ? `${correct ? "Yes." : `${sortLabels[item.answer]}.`} ${esc(item.why)}` : "&nbsp;"}</small>
           </article>`;
         }).join("")}</div>
-        <div class="w3-coach-actions"><p class="w3-coach-note">Pitch is how your listener knows what you feel. Choose the move for each moment.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
+        <div class="w3-coach-actions"><p class="w3-coach-note">Three moments. Pick the move that fits each one.</p><button type="button" class="w3-reset-button" data-w5-action="reset-sort">Reset</button></div>
       `);
     } else if (step === 8) {
       const mix = state.mix || {};

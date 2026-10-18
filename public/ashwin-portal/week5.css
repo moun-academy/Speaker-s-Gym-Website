@@ -256,3 +256,7 @@ body.week5-open { overflow: hidden; }
 .w5-stress-sets button { padding: 9px 20px; border-radius: 99px; color: var(--ink); font: 800 13px var(--detail); letter-spacing: .05em; cursor: pointer; transition: background .2s ease, color .2s ease; }
 .w5-stress-sets button.on { background: var(--forest); color: var(--yellow); }
 .w5-stress { text-align: center; }
+/* slide 8: a short key so the three moves are clear at a glance */
+.w5-sort-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px auto 0; padding: 0; list-style: none; }
+.w5-sort-key li { padding: 9px 16px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.88); color: var(--ink); font: 400 17px var(--display); }
+.w5-sort-key b { margin-right: 8px; color: var(--coral-dark); font: 800 12px var(--detail); letter-spacing: .12em; }
