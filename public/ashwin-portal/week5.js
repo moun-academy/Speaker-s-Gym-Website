@@ -44,7 +44,17 @@
     { word: "the", meaning: "A different meeting. Not that one." },
     { word: "meeting.", meaning: "They cancelled something else, like the lunch." }
   ];
+  const stressWords2 = [
+    { word: "We", meaning: "All of us. Not just me." },
+    { word: "are", meaning: "Yes, it is confirmed." },
+    { word: "meeting", meaning: "A meeting. Not lunch, not a call." },
+    { word: "at", meaning: "Exactly at noon. Not by noon." },
+    { word: "noon.", meaning: "Noon. Not two o’clock." }
+  ];
+  const stressSets = [stressWords, stressWords2];
+  const stressKeys = ["stressTried", "stressTried2"];
   const stressTarget = 4;
+  const stressTriedAll = state => (state.stressTried || []).length + (state.stressTried2 || []).length;
 
   const sortItems = [
     { id: "news", text: "A friend tells you they just got engaged.", answer: "lift", why: "Match their energy first. That is rapport in sound." },
@@ -350,15 +360,18 @@
         <blockquote>A monotone is not calm. It is one note.<br /><strong>Calm is a low note you chose.</strong></blockquote>
       `, { className: "w5-moves-screen" });
     } else if (step === 5) {
-      const tried = state.stressTried || [];
+      const set = state.stressSet === 1 ? 1 : 0;
+      const words = stressSets[set];
+      const tried = state[stressKeys[set]] || [];
       const active = tried.length ? tried[tried.length - 1] : -1;
       page = shell(`
         <p class="w3-eyebrow">STEP UP · ONE WORD, NEW MEANING</p>
         <h1 id="week5PageTitle">Move the step.<br /><em>Change the story.</em></h1>
         <article class="w5-stress">
-          <p class="w5-stress-line">${stressWords.map((item, index) => `<button type="button" class="${index === active ? "up" : ""} ${tried.includes(index) ? "tried" : ""}" data-w5-stress="${index}">${esc(item.word)}</button>`).join(" ")}</p>
-          <p class="w5-stress-meaning" data-w5-stress-meaning aria-live="polite">${active >= 0 ? `"${esc(stressWords[active].meaning)}"` : "Tap a word. Then say the whole sentence, stepping up on it."}</p>
-          <div class="w5-stress-count"><span data-w5-stress-count>${Math.min(tried.length, stressWords.length)} / ${stressWords.length}</span> meanings heard · try at least ${stressTarget}</div>
+          <div class="w5-stress-sets" role="group" aria-label="Pick an example"><button type="button" class="${set === 0 ? "on" : ""}" data-w5-stress-set="0">Example 1</button><button type="button" class="${set === 1 ? "on" : ""}" data-w5-stress-set="1">Example 2</button></div>
+          <p class="w5-stress-line">${words.map((item, index) => `<button type="button" class="${index === active ? "up" : ""} ${tried.includes(index) ? "tried" : ""}" data-w5-stress="${index}">${esc(item.word)}</button>`).join(" ")}</p>
+          <p class="w5-stress-meaning" data-w5-stress-meaning aria-live="polite">${active >= 0 ? `"${esc(words[active].meaning)}"` : "Tap a word. Then say the whole sentence, stepping up on it."}</p>
+          <div class="w5-stress-count"><span data-w5-stress-count>${Math.min(tried.length, words.length)} / ${words.length}</span> meanings heard · try at least ${stressTarget} across the examples</div>
         </article>
         <p class="w3-coach-note">A step is pitch, volume and pace working together: a little higher, a little stronger, a little slower. Everything you trained in Weeks 2 and 3, on a single word.</p>
       `, { className: "w5-stress-screen" });
@@ -726,7 +739,7 @@
       1: [(state.demoTried || []).length >= 2, "Try both versions out loud first."],
       2: [state.rapportChoice, "Pick the reply that feels like you care."],
       3: [state.rangeLow != null || state.rangeSelfCheck, "Find your range with the siren first."],
-      5: [(state.stressTried || []).length >= stressTarget, `Step up on at least ${stressTarget} different words.`],
+      5: [stressTriedAll(state) >= stressTarget, `Step up on at least ${stressTarget} different words.`],
       6: [Number(state.landed || 0) >= 1 || state.landSelfCheck, "Land the sentence at least once."],
       9: [state.performSpan != null || state.performSelfCheck, "Read the story aloud first."],
       11: [state.mission || missionTemplates[getLevel() - 1], "Choose one small mission."]
@@ -820,20 +833,28 @@
       return;
     }
 
+    const stressSet = event.target.closest("[data-w5-stress-set]");
+    if (stressSet) {
+      update({ stressSet: Number(stressSet.dataset.w5StressSet) });
+      return renderStep();
+    }
+
     const stress = event.target.closest("[data-w5-stress]");
     if (stress) {
+      const set = getState().stressSet === 1 ? 1 : 0;
+      const words = stressSets[set];
       const index = Number(stress.dataset.w5Stress);
-      const tried = [...(getState().stressTried || []).filter(item => item !== index), index];
-      update({ stressTried: tried });
+      const tried = [...(getState()[stressKeys[set]] || []).filter(item => item !== index), index];
+      update({ [stressKeys[set]]: tried });
       root.querySelectorAll("[data-w5-stress]").forEach(button => {
         button.classList.toggle("up", button === stress);
         if (tried.includes(Number(button.dataset.w5Stress))) button.classList.add("tried");
       });
       const meaning = root.querySelector("[data-w5-stress-meaning]");
       meaning.classList.remove("in"); void meaning.offsetWidth; meaning.classList.add("in");
-      meaning.textContent = `"${stressWords[index].meaning}"`;
-      root.querySelector("[data-w5-stress-count]").textContent = `${tried.length} / ${stressWords.length}`;
-      if (tried.length === stressTarget) portal.showToast("One sentence, many meanings. Pitch decides which one they hear.");
+      meaning.textContent = `"${words[index].meaning}"`;
+      root.querySelector("[data-w5-stress-count]").textContent = `${tried.length} / ${words.length}`;
+      if (stressTriedAll(getState()) === stressTarget) portal.showToast("One sentence, many meanings. Pitch decides which one they hear.");
       return;
     }
 

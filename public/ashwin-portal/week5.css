@@ -251,3 +251,8 @@ body.week5-open { overflow: hidden; }
 .w5-style button.on small { color: #d9d6c9; }
 .w5-coach-mix { font-size: 14px; }
 .w5-desk { margin-top: 20px; }
+/* slide 6: pick which sentence to play with */
+.w5-stress-sets { display: inline-flex; margin: 0 auto 10px; padding: 4px; border: 1px solid var(--line); border-radius: 99px; background: #f4f0e6; }
+.w5-stress-sets button { padding: 9px 20px; border-radius: 99px; color: var(--ink); font: 800 13px var(--detail); letter-spacing: .05em; cursor: pointer; transition: background .2s ease, color .2s ease; }
+.w5-stress-sets button.on { background: var(--forest); color: var(--yellow); }
+.w5-stress { text-align: center; }
