@@ -17,7 +17,7 @@
     next.selectedWeek = Math.max(0,Math.min(5,Number(next.selectedWeek)||0));
     if (!Array.isArray(next.reflections)) next.reflections=[];
     if (!Array.isArray(next.evidence)) next.evidence=[];
-    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.date;}
+    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionDates?.[week]||COACHING.date;}
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }
@@ -300,6 +300,7 @@
     const done=state.coachingFollowUps?.[COACHING.id]||{};
     const count=COACHING.missions.filter(m=>done[m.id]).length;
     $('#coachingUpdate').innerHTML='<div class="coaching-head"><div><span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>'+esc(COACHING.title||'Your focus this week')+'</h2></div><span class="coaching-count" aria-label="'+count+' of '+COACHING.missions.length+' done">'+count+'/'+COACHING.missions.length+'</span></div><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map((m,i)=>'<label class="coaching-mission'+(done[m.id]?' is-done':'')+'"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span class="mission-number">'+(i+1)+'</span><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>Your focus this week</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
+    if(COACHING.nextCallPending){$('#coachingSession').innerHTML='<span class="eyebrow">YOUR NEXT COACHING SESSION</span><h2 id="sessionTitle">Next time to be confirmed</h2><p>Your next appointment and meeting link will appear here once confirmed.</p>';return;}
     const call=COACHING.nextCall;const when=new Date(call.start);
     const part=(opts,tz)=>new Intl.DateTimeFormat('en-GB',{...opts,timeZone:tz}).format(when);
     const time=tz=>part({hour:'numeric',minute:'2-digit',hour12:true},tz).replace('am','a.m.').replace('pm','p.m.');
