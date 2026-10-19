@@ -28,19 +28,19 @@ window.KIYAN_COACHING_UPDATE = {
     }
   ],
   "nextCall": {
-    "start": "2026-10-19T12:30:00+04:00",
+    "start": "2026-10-26T13:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/qpv-kxsq-cgo",
-    "calendarEventId": "bbti6c2blki2768fnafeqhumf0",
+    "meetingLink": "https://meet.google.com/nmb-xzbz-fng",
+    "calendarEventId": "ip6hegekqmh028kouregad03ag",
     "inviteToFollow": false,
-    "prepTitle": "Bring your practice and questions.",
-    "prepText": "We’ll review your community videos and build on your PREP practice."
+    "prepTitle": "Bring your volume-variety practice.",
+    "prepText": "We’ll review your recordings and what happened when you tried stronger projection in a real conversation."
   },
   "lectureCompletionDates": {
     "1": "2026-10-12",
     "2": "2026-10-19"
   },
   "sourceTranscriptId": "01M54MTTNMBT50PM6S9WBQ1HQD",
-  "nextCallPending": true
+  "nextCallPending": false
 };

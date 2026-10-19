@@ -18,7 +18,7 @@ test('Ashwin call-one guidance preserves progress and separates lecture completi
  const saved={completedDays:{3:true},reflections:[{id:'keep',action:'My answer',result:'Clearer'}],evidence:[{id:'own',sourceLecture:2}],week1Lecture:{currentStep:4,prep:{point:'My point'}}};
  const app=fixture(saved,null,true);for(let i=0;i<8;i++)await Promise.resolve();
  const state=app.portal.getState();assert.equal(state.week1Lecture.lectureCompletedAt,'2026-10-05');assert.notEqual(state.week1Lecture.missionStatus,'completed');assert.ok(!state.week2Lecture.lectureCompletedAt);assert.equal(state.week1Lecture.prep.point,'My point');assert.equal(state.reflections[0].id,'keep');assert.equal(state.evidence[0].id,'own');assert.equal(state.completedDays[3],true);
- assert.match(app.elements.get('#coachingSession').innerHTML,/11:30/);assert.match(app.elements.get('#coachingSession').innerHTML,/oda-koch-ovr/);assert.match(app.elements.get('#coachingUpdate').innerHTML,/up to 2 minutes/);
+ assert.match(app.elements.get('#coachingSession').innerHTML,/12:00/);assert.match(app.elements.get('#coachingSession').innerHTML,/oda-koch-ovr/);assert.match(app.elements.get('#coachingSession').innerHTML,/26 October/);assert.match(app.elements.get('#coachingSession').innerHTML,/12:30/);assert.match(app.elements.get('#coachingUpdate').innerHTML,/up to 2 minutes/);
  app.events.change({target:{closest:()=>({dataset:{coachingMission:'prep-video'},checked:true})}});
  app.portal.resetLecture(1);const stored=JSON.parse(app.store.get('speakers-gym-ashwin-v1'));const reload=fixture(stored,null,true);assert.ok(!reload.portal.getState().week1Lecture.lectureCompletedAt);assert.equal(reload.portal.getState().coachingFollowUps['practice-support-2026-10-15']['prep-video'],true);
 });
