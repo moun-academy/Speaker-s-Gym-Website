@@ -331,6 +331,59 @@
     .perks p { margin-top: 3px; color: var(--dim); font-size: 15px; line-height: 1.45; }
     .crew-end { margin-top: 22px; font-family: var(--serif); font-style: italic; font-size: clamp(19px, 2vw, 23px); color: var(--gold); }
 
+
+    /* ── offer: deadline, savings, hours, guarantee ── */
+    .now { max-height: calc(var(--n) * 300px); }
+    .save { display: inline-block; margin-top: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(127,211,143,.14); color: #9be0a8; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+    .perhour { margin-top: 14px; padding-top: 14px; border-top: 1px solid #2c2c2c; font-size: 13.5px; color: var(--dim); line-height: 1.45; opacity: var(--t); }
+    .perhour b { color: var(--cream); font-weight: 600; }
+    .deadline { display: inline-flex; align-items: center; gap: 10px; margin: 0 auto 30px; padding: 9px 18px; border: 1px solid rgba(240,201,103,.4); border-radius: 999px; background: rgba(240,201,103,.07); color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .2em; }
+    .deadline i { width: 8px; height: 8px; border-radius: 50%; background: #7fd38f; animation: live 2s infinite; }
+    .deadline span { color: var(--cream); }
+    .deadline span:not(:empty)::before { content: ' · '; color: var(--gold-muted); }
+    @keyframes live { 70% { box-shadow: 0 0 0 9px rgba(127,211,143,0); } 0% { box-shadow: 0 0 0 0 rgba(127,211,143,.6); } }
+    .includes li.bonus { margin: 0 -14px; padding: 14px; border: 1px solid rgba(240,201,103,.4); border-radius: 16px; background: linear-gradient(135deg, rgba(240,201,103,.12), rgba(240,201,103,.03)); }
+    .includes .tag { display: inline-block; margin-left: 10px; padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(240,201,103,.35); color: var(--gold); font-family: var(--sans); font-size: 10px; font-style: normal; font-weight: 700; letter-spacing: .16em; vertical-align: 3px; }
+    .includes li.bonus .tag { background: var(--gold); border-color: var(--gold); color: #141414; }
+    .stats { max-width: 900px; margin: 22px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 20px; background: var(--bg2); overflow: hidden; }
+    .stats > div { padding: 26px 18px; text-align: center; }
+    .stats > div + div { border-left: 1px solid var(--line); }
+    .stats b { display: block; font-family: var(--serif); font-variant-numeric: lining-nums; font-size: clamp(40px, 5vw, 56px); line-height: 1; color: var(--gold); text-shadow: 0 0 36px rgba(240,201,103,.25); }
+    .stats span { display: block; margin-top: 8px; font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--cream); }
+    .stats small { display: block; margin-top: 4px; font-size: 12.5px; color: var(--dim); }
+    .guarantee { max-width: 900px; margin: 22px auto 0; display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 34px 40px; text-align: left; border: 1px solid var(--gold-muted); border-radius: 24px; background: linear-gradient(150deg, #231e10, var(--bg2) 62%); }
+    .seal { position: relative; width: 190px; height: 190px; margin: 0 auto; }
+    .seal svg { width: 100%; height: 100%; animation: spin 40s linear infinite; }
+    .seal-ring { fill: #16140e; stroke: var(--gold); stroke-width: 1.5; }
+    .seal-core { fill: none; stroke: var(--gold-muted); stroke-width: 1; }
+    .seal text { fill: var(--gold); font-family: var(--sans); font-size: 11.5px; font-weight: 700; letter-spacing: 2px; }
+    .seal-mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .seal-mid b { font-family: var(--serif); font-size: 58px; line-height: 1; color: var(--gold); }
+    .seal-mid span { margin-top: 2px; font-size: 11px; font-weight: 800; letter-spacing: .26em; color: var(--cream); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .g-body small { font-size: 12px; font-weight: 700; letter-spacing: .24em; color: var(--gold); }
+    .g-body h3 { margin: 6px 0 16px; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 2.8vw, 32px); color: var(--cream); line-height: 1.2; }
+    .g-body h3 em { color: var(--gold); }
+    .g-body ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .g-body li { display: flex; gap: 12px; align-items: flex-start; color: var(--text); font-size: 15.5px; line-height: 1.45; }
+    .g-body li svg { flex: 0 0 18px; width: 18px; height: 18px; margin-top: 3px; fill: none; stroke: var(--gold); stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+    .g-end { margin-top: 16px; font-family: var(--serif); font-style: italic; font-size: clamp(19px, 2vw, 23px); color: var(--gold); }
+    .g-end b { font-style: normal; font-family: var(--sans); font-weight: 700; font-size: .72em; letter-spacing: .12em; text-transform: uppercase; color: var(--cream); }
+    .cta-row .btn { padding: 22px 56px; font-size: 16px; box-shadow: 0 14px 44px rgba(240,201,103,.28); }
+    @media (max-width: 900px) {
+      .guarantee { grid-template-columns: 1fr; gap: 22px; padding: 30px 24px; text-align: center; }
+      .g-body li { text-align: left; }
+    }
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: 1fr; }
+      .stats > div + div { border-left: 0; border-top: 1px solid var(--line); }
+      .includes li.bonus { margin: 0 -10px; padding: 12px 10px; }
+      .includes .tag { display: block; width: max-content; margin: 6px 0 0; }
+      .deadline { letter-spacing: .12em; font-size: 11px; padding: 9px 14px; }
+      .cta-row .btn { width: 100%; padding: 20px 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .seal svg, .deadline i { animation: none; } }
+
     /* ── responsive ── */
     @media (max-width: 900px) {
       .tracks, .system, .portal, .videos, .effort, .crew { grid-template-columns: 1fr; }
@@ -613,31 +666,59 @@
       <div class="glow" aria-hidden="true"></div>
       <div class="wrap">
         <p class="eyebrow reveal">YOUR INVESTMENT</p>
-        <h2 class="reveal">One program. <em>Everything included.</em></h2>
+        <h2 class="reveal">An offer that's <em>impossible to say no to.</em></h2>
         <p class="promise" id="promise" hidden><small>SIX WEEKS FROM NOW</small><span></span></p>
+        <p class="deadline reveal" data-deadline><i aria-hidden="true"></i>SPECIAL OFFER · ENDS OCTOBER 31<span data-days></span></p>
         <div class="offer reveal">
           <div class="price">
-            <small>1-ON-1 COACHING</small>
-            <div class="was"><span>$199</span><span class="slash" aria-hidden="true"></span></div>
-            <div class="now"><span class="badge">THIS CALL&#39;S PRICE</span><strong>$169</strong></div>
+            <small>1-ON-1 COACHING + 1 YEAR OF GROUP COACHING</small>
+            <div class="was"><span>$220</span><span class="slash" aria-hidden="true"></span></div>
+            <div class="now"><span class="badge">THIS CALL&#39;S PRICE</span><strong>$179</strong><span class="save">You save $41 today</span></div>
             <p class="today">When you join during this call</p>
+            <p class="perhour">58 hours of live coaching for $179. <b>Just over $3 an hour.</b></p>
           </div>
           <div class="includes">
-            <small>WHAT YOU GET</small>
+            <small>EVERYTHING YOU GET</small>
             <ul>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M10.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span><div><strong>6 weeks of 1-on-1 coaching</strong><p>Live sessions with me, built around your goals and your real situations.</p></div></li>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 9v5M12 7.5v8M14 9v5"/></svg></span><div><strong>Speaker's Gym app</strong><p>Daily speaking reps with instant AI feedback. Practise privately, anytime.</p></div></li>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3.5V15H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v2.5L16 18h-3"/></svg></span><div><strong>Community</strong><p>Post your practice, get my feedback, and grow alongside people like you.</p></div></li>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M7 10h10M7 13.5h6"/></svg></span><div><strong>WhatsApp group</strong><p>Meet the other members, cheer each other on and even meet up in person.</p></div></li>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 6.5 4.5 3 5v13.5c3.5-.5 7 0 9 1.5 2-1.5 5.5-2 9-1.5V5c-3.5-.5-7 0-9 1.5zM12 6.5V20"/></svg></span><div><strong>MOUN Academy full course</strong><p>Engaging lectures and assignments you can go through at your own pace.</p></div></li>
-              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="15" rx="2.5"/><path d="M2.5 8.5h19M8 8.5V19"/></svg></span><div><strong>Your private portal</strong><p>Your plan, your progress and your next steps, all in one place.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M10.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span><div><strong>6 weeks of 1-on-1 coaching</strong><p>Six one-hour live sessions with me, built around your goals and your real situations.</p></div></li>
+              <li class="bonus"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="2.6"/><circle cx="5" cy="10" r="2.2"/><circle cx="19" cy="10" r="2.2"/><path d="M7.5 20c0-3.2 2-5 4.5-5s4.5 1.8 4.5 5M1.5 18c0-2.4 1.5-3.8 3.5-3.8M22.5 18c0-2.4-1.5-3.8-3.5-3.8"/></svg></span><div><strong>BONUS: 1 year of weekly group coaching<em class="tag">FREE WITH 1-ON-1</em></strong><p>One live hour every single week, for a full year. Keep practising with the group long after your six weeks end.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 9v5M12 7.5v8M14 9v5"/></svg></span><div><strong>Speaker's Gym app<em class="tag">1 YEAR</em></strong><p>Daily speaking reps with instant AI feedback. Practise privately, anytime.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="15" rx="2.5"/><path d="M2.5 8.5h19M8 8.5V19"/></svg></span><div><strong>Your private portal<em class="tag">1 YEAR</em></strong><p>Your plan, your progress and your next steps, all in one place.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M7 10h10M7 13.5h6"/></svg></span><div><strong>Community + WhatsApp group<em class="tag">1 YEAR</em></strong><p>Get my feedback, find a practice partner and even meet up in person.</p></div></li>
+              <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 6.5 4.5 3 5v13.5c3.5-.5 7 0 9 1.5 2-1.5 5.5-2 9-1.5V5c-3.5-.5-7 0-9 1.5zM12 6.5V20"/></svg></span><div><strong>MOUN Academy full course<em class="tag">1 YEAR</em></strong><p>Engaging lectures and assignments you can go through at your own pace.</p></div></li>
             </ul>
           </div>
         </div>
-        <div class="cta-row reveal">
-          <a class="btn btn-gold js-join" id="join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04" target="_blank" rel="noopener">START MY 6 WEEKS <span aria-hidden="true">→</span></a>
+        <div class="stats reveal">
+          <div><b>58</b><span>HOURS OF LIVE COACHING</span><small>6 one-on-one + 52 group</small></div>
+          <div><b>12</b><span>MONTHS OF FULL ACCESS</span><small>app, portal, community, group</small></div>
+          <div><b>4</b><span>WEEK GUARANTEE</span><small>feel the change or money back</small></div>
         </div>
-        <p class="fine reveal">Secure checkout with Stripe · Six weeks, one skill at a time.</p>
+        <div class="guarantee reveal">
+          <div class="seal" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <defs><path id="sealpath" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs>
+              <circle cx="100" cy="100" r="96" class="seal-ring"/>
+              <circle cx="100" cy="100" r="58" class="seal-core"/>
+              <text textLength="458" lengthAdjust="spacingAndGlyphs"><textPath href="#sealpath" startOffset="0" textLength="458" lengthAdjust="spacingAndGlyphs">MONEY-BACK GUARANTEE · MONEY-BACK GUARANTEE · </textPath></text>
+            </svg>
+            <div class="seal-mid"><b>4</b><span>WEEKS</span></div>
+          </div>
+          <div class="g-body">
+            <small>RISK-FREE</small>
+            <h3>The 4-week <em>"feel the change"</em> guarantee</h3>
+            <ul>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You show up to every 1-on-1 session</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You do the practice in the community</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>After 4 weeks, you don't feel the change in your influence as a communicator</li>
+            </ul>
+            <p class="g-end">Then you get your money back. <b>No questions asked.</b></p>
+          </div>
+        </div>
+        <div class="cta-row reveal">
+          <a class="btn btn-gold js-join" id="join" href="https://buy.stripe.com/4gMfZhcND7VPa4n0at1ck04" target="_blank" rel="noopener">JOIN FOR $179 <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="fine reveal"><span data-deadline>Special offer ends October 31 · </span>Secure checkout with Stripe</p>
         <button class="or reveal" id="groupToggle" type="button" aria-expanded="false" aria-controls="groupOffer">PREFER A GROUP? <span class="or-cue">SEE THE SUNDAY OPTION ↓</span></button>
         <div class="alt reveal" id="groupOffer" hidden>
           <div class="alt-head">
@@ -736,7 +817,7 @@
       sections[next].scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Price: as the card scrolls up the screen, slash $199, shrink it, then bring in $169.
+    // Price: as the card scrolls up the screen, slash $220, shrink it, then bring in $179.
     // Scrolling back up plays it in reverse.
     const price = document.querySelector('.price');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -881,9 +962,20 @@
     applyNotes();
     window.addEventListener('storage', (e) => { if (e.key === 'sgPitchNotes' || e.key === null) applyNotes(); });
 
+    // Special offer deadline: October 31, 2026 (end of day, visitor's time). After that, the deadline lines hide themselves.
+    (function () {
+      const end = new Date(2026, 9, 31, 23, 59, 59);
+      const ms = end - new Date();
+      const all = document.querySelectorAll('[data-deadline]');
+      if (ms <= 0) { all.forEach((e) => { e.hidden = true; }); return; }
+      const days = Math.ceil(ms / 86400000);
+      const label = days <= 1 ? 'LAST DAY' : days + ' DAYS LEFT';
+      document.querySelectorAll('[data-days]').forEach((e) => { e.textContent = label; });
+    })();
+
     document.querySelectorAll('.js-join').forEach((a) => a.addEventListener('click', () => {
-      try { fbq('track', 'InitiateCheckout', { value: 169, currency: 'USD' }); } catch (e) {}
-      try { gtag('event', 'begin_checkout', { value: 169, currency: 'USD' }); } catch (e) {}
+      try { fbq('track', 'InitiateCheckout', { value: 179, currency: 'USD' }); } catch (e) {}
+      try { gtag('event', 'begin_checkout', { value: 179, currency: 'USD' }); } catch (e) {}
     }));
     document.getElementById('joinGroup').addEventListener('click', () => {
       try { fbq('track', 'InitiateCheckout', { value: 129, currency: 'USD', content_name: 'Group coaching' }); } catch (e) {}
