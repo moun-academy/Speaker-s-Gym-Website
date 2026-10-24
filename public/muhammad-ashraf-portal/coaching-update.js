@@ -1,40 +1,50 @@
 window.MUHAMMAD_COACHING_UPDATE = {
-  "id": "coaching-1-2026-10-17",
-  "date": "2026-10-17",
-  "callNumber": 1,
-  "label": "CALL 1 · 17 OCTOBER 2026",
-  "title": "One clear answer. Then improve it.",
-  "sourceMessageId": "1a148f0a2806151e",
+  "id": "coaching-2-2026-10-24",
+  "date": "2026-10-24",
+  "callNumber": 2,
+  "label": "CALL 2 · 24 OCTOBER 2026",
+  "title": "Let your voice carry. Keep your own words.",
+  "sourceMessageId": "1a16d01feaa5a748",
   "completedLectures": [
-    1
+    1,
+    2
   ],
-  "summary": "Your second answer had a clearer structure. Keep one point, one reason, one personal example, then return to your point. Use keywords so you can speak in your own words.",
+  "lectureCompletionDates": {
+    "1": "2026-10-17",
+    "2": "2026-10-24"
+  },
+  "summary": "Your second take sounded more natural with stronger projection. Keep PREP simple: use keywords, a personal example and a clear closing. Get comfortable projecting first, then add softer moments.",
   "challenges": [
-    "Make your opening answer the question directly.",
-    "Use one concrete personal example instead of staying in theory.",
-    "Pause instead of filling gaps with “so”, “like” or “actually”.",
-    "Use PREP to stay on track when several ideas arrive at once."
+    "Pause to breathe, stand tall and keep sentence endings audible. Project without pushing or shouting.",
+    "Use keywords rather than full sentences so you can speak in your own words.",
+    "Keep one personal example and return to your main point to finish.",
+    "Once projection feels comfortable, soften for a personal moment and finish strong."
   ],
   "missions": [
     {
-      "id": "prep-video",
-      "title": "Post your improved PREP answer daily",
-      "text": "Choose an app question or random word. Record your answer, read the feedback, then record a better second take. Download it and post version two in the community’s Speeches category with the practice day and topic."
+      "id": "volume-video",
+      "title": "Post a PREP video each day",
+      "text": "Answer a random app question with a stronger voice. Use keywords, give one personal example and close with your point. Download and post your recording in the community for feedback."
     },
     {
-      "id": "real-prep",
-      "title": "Try PREP with someone you know",
-      "text": "Use the structure in a conversation with a colleague or someone you feel comfortable with. Notice whether you kept your train of thought, then save what actually happened. Mark your win when the mission is done."
+      "id": "real-volume",
+      "title": "Test your voice in two conversations",
+      "text": "Try about 5/10 volume with someone you know and someone new. Tell the familiar person you are practicing. Notice how each responds and save what happened."
+    },
+    {
+      "id": "standing-video",
+      "title": "Set up your first standing video",
+      "text": "Check why mobile recording is blocked, then place your phone on a stand. Record and share a PREP answer so Marouane can give feedback on your voice, gestures and expression."
     }
   ],
   "nextCall": {
-    "eventId": "u4jq99gil3k0b9ig0ekkl8nsfs",
-    "start": "2026-10-24T11:30:00+04:00",
+    "eventId": "k8knp4totk2h30cqma0hc383ds",
+    "start": "2026-10-31T11:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/vsz-wdii-jdc",
+    "meetingLink": "https://meet.google.com/mdk-defb-wox",
     "inviteToFollow": false,
-    "prepTitle": "Bring your practice and questions.",
-    "prepText": "We’ll review your PREP practice and begin working on volume variety."
+    "prepTitle": "Bring a practice video and one real example.",
+    "prepText": "We will review your projection, volume variety and what happened in your conversations."
   }
 };

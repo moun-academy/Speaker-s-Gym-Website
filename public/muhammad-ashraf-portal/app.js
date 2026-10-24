@@ -17,7 +17,7 @@
     next.selectedWeek = Math.max(0,Math.min(5,Number(next.selectedWeek)||0));
     if (!Array.isArray(next.reflections)) next.reflections=[];
     if (!Array.isArray(next.evidence)) next.evidence=[];
-    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.date;}
+    for(const week of COACHING?.completedLectures||[]){const lecture=next['week'+week+'Lecture'];if(lecture&&next.coachingLectureResets?.[week]!==COACHING.id)lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionDates?.[week]||COACHING.date;}
     return next;
   }
   try { state = normalizeState(JSON.parse(localStorage.getItem(DATA.storageKey) || 'null')); }

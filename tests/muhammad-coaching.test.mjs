@@ -14,12 +14,12 @@ function fixture(saved,remote,coaching=false) {
   return {portal:env.window.SpeakersGymPortal,env,store,elements,calls,timers,events};
 }
 
-test('Muhammad call-one guidance preserves progress and separates lecture completion from missions',async()=>{
- const saved={completedDays:{3:true},reflections:[{id:'keep',action:'My answer',result:'Clearer'}],evidence:[{id:'own',sourceLecture:2}],week1Lecture:{currentStep:4,prep:{point:'My point'}}};
+test('Muhammad call-two guidance preserves progress and separates lecture completion from missions',async()=>{
+ const saved={completedDays:{3:true},reflections:[{id:'keep',action:'My answer',result:'Clearer'}],evidence:[{id:'own',sourceLecture:2}],startDate:'2026-10-17',currentLevel:3,coachingFollowUps:{'coaching-1-2026-10-17':{'prep-video':true}},week1Lecture:{currentStep:4,prep:{point:'My point'}},week2Lecture:{currentStep:6}};
  const app=fixture(saved,null,true);for(let i=0;i<8;i++)await Promise.resolve();
- const state=app.portal.getState();assert.equal(state.week1Lecture.lectureCompletedAt,'2026-10-17');assert.notEqual(state.week1Lecture.missionStatus,'completed');assert.ok(!state.week2Lecture.lectureCompletedAt);assert.equal(state.week1Lecture.prep.point,'My point');assert.equal(state.reflections[0].id,'keep');assert.equal(state.evidence[0].id,'own');assert.equal(state.completedDays[3],true);
- assert.match(app.elements.get('#coachingSession').innerHTML,/11:30/);assert.match(app.elements.get('#coachingSession').innerHTML,/vsz-wdii-jdc/);assert.match(app.elements.get('#coachingUpdate').innerHTML,/version two/);
- app.events.change({target:{closest:()=>({dataset:{coachingMission:'prep-video'},checked:true})}});
- app.portal.resetLecture(1);const stored=JSON.parse(app.store.get('speakers-gym-muhammad-ashraf-v1'));const reload=fixture(stored,null,true);assert.ok(!reload.portal.getState().week1Lecture.lectureCompletedAt);assert.equal(reload.portal.getState().coachingFollowUps['coaching-1-2026-10-17']['prep-video'],true);
+ const state=app.portal.getState();assert.equal(state.week1Lecture.lectureCompletedAt,'2026-10-17');assert.notEqual(state.week1Lecture.missionStatus,'completed');assert.equal(state.week2Lecture.lectureCompletedAt,'2026-10-24');assert.equal(state.week2Lecture.currentStep,6);assert.notEqual(state.week2Lecture.missionStatus,'completed');assert.ok(!state.week3Lecture.lectureCompletedAt);assert.equal(state.week1Lecture.prep.point,'My point');assert.equal(state.reflections[0].id,'keep');assert.equal(state.evidence[0].id,'own');assert.equal(state.completedDays[3],true);assert.equal(state.startDate,'2026-10-17');assert.equal(state.currentLevel,3);assert.equal(state.coachingFollowUps['coaching-1-2026-10-17']['prep-video'],true);
+ assert.match(app.elements.get('#coachingSession').innerHTML,/11:30/);assert.match(app.elements.get('#coachingSession').innerHTML,/mdk-defb-wox/);assert.match(app.elements.get('#coachingUpdate').innerHTML,/keywords/);
+ app.events.change({target:{closest:()=>({dataset:{coachingMission:'volume-video'},checked:true})}});
+ app.portal.resetLecture(1);const stored=JSON.parse(app.store.get('speakers-gym-muhammad-ashraf-v1'));const reload=fixture(stored,null,true);assert.ok(!reload.portal.getState().week1Lecture.lectureCompletedAt);assert.equal(reload.portal.getState().coachingFollowUps['coaching-2-2026-10-24']['volume-video'],true);
 });
 
