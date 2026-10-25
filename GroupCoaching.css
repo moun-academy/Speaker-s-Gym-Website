@@ -189,3 +189,18 @@ html:has(.gc-page) { scroll-behavior: smooth; scroll-padding-top: 76px; }
   .gc-floaters span:nth-child(3), .gc-floaters span:nth-child(4) { display: none; }
   .gc-routine li i { display: none; }
 }
+
+/* interactive cards and room moments */
+.gc-badge { align-self: flex-start; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: #101010; font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.gc-badge[data-kind="pick"] { background: var(--coral); }
+.gc-badge[data-kind="pair"] { background: var(--teal); }
+.gc-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.gc-options button { padding: 14px 10px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface); color: var(--text-bright); font: 600 1rem var(--font-body); cursor: pointer; transition: transform .2s, background .2s, border-color .2s; }
+.gc-options button:hover { transform: translateY(-2px); border-color: var(--gold); }
+.gc-options button.is-on { background: var(--gold); border-color: var(--gold); color: #101010; transform: scale(1.04); }
+.gc-moment { margin: 28px 0 0; display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid var(--border-strong); border-left: 4px solid var(--teal); border-radius: 14px; background: rgba(95,199,180,.06); text-align: left; }
+.gc-moment > span { flex: none; font-size: 1.8rem; }
+.gc-moment small { color: var(--teal); font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.gc-moment p { margin: 2px 0 0; color: var(--text-bright); font-size: .98rem; }
+.gc-final .gc-moment { max-width: 620px; margin: 0 auto 28px; }
+@media (max-width: 760px) { .gc-moment { padding: 16px; } }

@@ -22,11 +22,27 @@ const agenda = [
   ["04", "🔥", "The 5-Day Challenge", "Take it into the community and keep going."],
 ];
 
+const KIND = { chat: "Type in the chat", pick: "This or that", pair: "Pair up" };
+
 const introPrompts = [
-  ["🐾", "Which animal would you be, and why?"],
-  ["🍫", "Sweet or salty snacks? What is your go-to?"],
-  ["🏝️", "You are stranded on a desert island. What one thing do you bring?"],
+  { kind: "chat", icon: "🌤️", text: "Type one emoji in the chat for how you feel right now." },
+  { kind: "pick", icon: "☕", text: "Coffee or tea?", options: ["☕ Coffee", "🍵 Tea"] },
+  { kind: "pick", icon: "🏝️", text: "Mountains or beach?", options: ["🏔️ Mountains", "🏖️ Beach"] },
+  { kind: "chat", icon: "🌍", text: "Type where you are joining from and what the weather is like there." },
+  { kind: "pick", icon: "🌙", text: "Early bird or night owl?", options: ["🌅 Early bird", "🦉 Night owl"] },
+  { kind: "pair", icon: "🤝", text: "With your partner, find three things you have in common that are not obvious." },
+  { kind: "pick", icon: "🍕", text: "Pizza or tacos?", options: ["🍕 Pizza", "🌮 Tacos"] },
+  { kind: "pick", icon: "🦸", text: "Pick a superpower for a day.", options: ["🕊️ Flying", "👻 Invisibility"] },
+  { kind: "pair", icon: "🎬", text: "Tell your partner the last show or video that made you laugh." },
+  { kind: "pick", icon: "🐶", text: "Dogs or cats?", options: ["🐶 Dogs", "🐱 Cats"] },
 ];
+
+/* Short prompts that keep the room talking through the whole session. */
+const moments = {
+  prep: { icon: "🗣️", label: "Say it to your partner", text: "Pick any topic. Give your Point with “I believe…” and your Reason with “This matters because…”, then swap." },
+  app: { icon: "💬", label: "Drop it in the chat", text: "After your first recording, type the one thing the AI feedback picked up." },
+  challenge: { icon: "🔥", label: "Tell the room", text: "Say which day you will start, and drop a 🔥 in the chat when you commit." },
+};
 
 /* Questions, phrases and anchors come from the student portals (Week 1). */
 const prep = [
@@ -85,10 +101,20 @@ const challengeDays = [
 const routine = [["📚", "Learn"], ["💪", "Try"], ["🎥", "Record"], ["🤝", "Share"]];
 const heroChips = ["I believe…", "The main reason is…", "For example…", "That’s why…"];
 
+function Moment({ item }) {
+  return (
+    <aside className="gc-moment gc-reveal">
+      <span aria-hidden="true">{item.icon}</span>
+      <div><small>{item.label}</small><p>{item.text}</p></div>
+    </aside>
+  );
+}
+
 function GroupCoaching() {
   const [section, setSection] = useState("");
   const [pick, setPick] = useState(0);
   const [flip, setFlip] = useState(0);
+  const [chosen, setChosen] = useState(null);
   const [active, setActive] = useState(0);
   const [topic, setTopic] = useState(topics[0]);
   const [answers, setAnswers] = useState(["", "", "", ""]);
@@ -99,6 +125,7 @@ function GroupCoaching() {
       while (next === current) next = Math.floor(Math.random() * introPrompts.length);
       return next;
     });
+    setChosen(null);
     setFlip((n) => n + 1);
   };
 
@@ -156,6 +183,7 @@ function GroupCoaching() {
   }, []);
 
   const current = prep[active];
+  const card = introPrompts[pick];
 
   return (
     <div className="gc-page">
@@ -209,16 +237,24 @@ function GroupCoaching() {
             <p className="gc-eyebrow">Step 1</p>
             <h2>Get to know each other</h2>
             <p>
-              Speaking is easier in a room where people know you. Pick a question, answer in a
-              word or a short sentence, then pass it on.
+              Speaking is easier in a room where people know you. Draw a card and do it together. Some you type in the chat, some are quick this-or-thats, some you
+              do with a partner. Then draw another.
             </p>
-            <button type="button" className="gc-btn gc-btn--gold" onClick={drawQuestion}>🎲 Pick a question</button>
+            <button type="button" className="gc-btn gc-btn--gold" onClick={drawQuestion}>🎲 Draw a card</button>
           </div>
           <div className="gc-reveal">
             <div className="gc-card" aria-live="polite" key={flip}>
-              <span className="gc-card-emoji" aria-hidden="true">{introPrompts[pick][0]}</span>
-              <small>Question {pick + 1} of {introPrompts.length}</small>
-              <p>{introPrompts[pick][1]}</p>
+              <span className="gc-badge" data-kind={card.kind}>{KIND[card.kind]}</span>
+              <span className="gc-card-emoji" aria-hidden="true">{card.icon}</span>
+              <small>Card {pick + 1} of {introPrompts.length}</small>
+              <p>{card.text}</p>
+              {card.options && (
+                <div className="gc-options">
+                  {card.options.map((o, i) => (
+                    <button key={o} type="button" className={chosen === i ? "is-on" : ""} onClick={() => setChosen(i)}>{o}</button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -283,6 +319,8 @@ function GroupCoaching() {
             </div>
           </div>
 
+          <Moment item={moments.prep} />
+
           <div className="gc-lab gc-reveal">
             <div className="gc-lab-head">
               <h3>🧪 Try it now</h3>
@@ -330,6 +368,7 @@ function GroupCoaching() {
               Now we put PREP to work. Record a real answer, see what the AI feedback picks up,
               and improve it on the next attempt.
             </p>
+            <Moment item={moments.app} />
             {APP_URL && <a href={APP_URL} className="gc-btn gc-btn--gold" target="_blank" rel="noopener noreferrer">Open the app</a>}
           </div>
           <ol className="gc-steps gc-reveal">
@@ -358,6 +397,7 @@ function GroupCoaching() {
               <li key={d}><em aria-hidden="true">{icon}</em><small>{d}</small><strong>{t}</strong><span>{k}</span></li>
             ))}
           </ul>
+          <Moment item={moments.challenge} />
           <a href={CHALLENGE_URL} className="gc-btn gc-btn--gold gc-btn--big gc-reveal" target="_blank" rel="noopener noreferrer">
             Join the challenge on Skool →
           </a>
