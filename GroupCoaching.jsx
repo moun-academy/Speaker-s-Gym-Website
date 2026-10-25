@@ -15,10 +15,16 @@ const agenda = [
 ];
 
 const introPrompts = [
-  "Your name and where you are joining from",
-  "Where speaking feels hardest: work, meetings, social situations",
-  "One moment you wish you had spoken up",
-  "What would feel like a win after the next six weeks",
+  "Your name, where you are joining from, and one word for how your day is going",
+  "What is a hobby or activity you could talk about for an hour without noticing the time?",
+  "If you could instantly master any skill, what would you pick?",
+  "What is the best meal you have ever had, and where were you?",
+  "What song always puts you in a good mood?",
+  "Would you rather speak to a crowd of 1,000 or have a one-on-one chat with your hero?",
+  "What is a small thing that always makes your day better?",
+  "If you could have dinner with anyone, living or not, who would be at the table?",
+  "What is the best trip you have ever taken?",
+  "What is one thing you would love to feel confident saying out loud by the end of this program?",
 ];
 
 const prep = [
@@ -45,6 +51,13 @@ const challengeDays = [
 
 function GroupCoaching() {
   const [active, setActive] = useState(0);
+  const [pick, setPick] = useState(0);
+  const drawQuestion = () =>
+    setPick((current) => {
+      let next = current;
+      while (next === current) next = Math.floor(Math.random() * introPrompts.length);
+      return next;
+    });
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -128,12 +141,17 @@ function GroupCoaching() {
             <p className="gc-eyebrow">Step 1</p>
             <h2>Get to know each other</h2>
             <p>
-              Speaking is easier in a room where people know you. Take a minute and share:
+              Speaking is easier in a room where people know you. Pick a question, answer it in
+              a sentence or two, then pass it on.
             </p>
+            <button type="button" className="gc-btn gc-btn--gold" onClick={drawQuestion}>Pick a question</button>
           </div>
-          <ul className="gc-prompts gc-reveal">
-            {introPrompts.map((p) => <li key={p}>{p}</li>)}
-          </ul>
+          <div className="gc-reveal">
+            <div className="gc-card" aria-live="polite">
+              <span>Question {pick + 1} of {introPrompts.length}</span>
+              <p>{introPrompts[pick]}</p>
+            </div>
+          </div>
         </div>
       </section>
 
