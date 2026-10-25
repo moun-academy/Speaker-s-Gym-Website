@@ -30,9 +30,9 @@ const introSteps = [
 ];
 
 const roundRules = [
-  ["🎤", "One person goes first. Unmute and introduce yourself in 1 to 2 minutes, then answer the fun question."],
+  ["🎤", "One person goes first. Unmute and introduce yourself in 30 seconds to 1 minute, then answer the fun question."],
   ["💬", "Everyone else: stay on mute and react in the chat while they talk. Emoji, a comment, or your own answer."],
-  ["🙋", "When they finish, one person unmutes and asks one quick follow-up question."],
+  ["🙋", "When they finish, at least one person unmutes and asks a follow-up question. Everyone else can type theirs in the chat."],
   ["➡️", "The speaker passes the mic by name: “Next up, [name]!” Then draw a new card and repeat."],
 ];
 
@@ -126,7 +126,7 @@ function GroupCoaching() {
   const [section, setSection] = useState("");
   const [pick, setPick] = useState(0);
   const [flip, setFlip] = useState(0);
-  const [left, setLeft] = useState(90);
+  const [left, setLeft] = useState(60);
   const [running, setRunning] = useState(false);
   const [active, setActive] = useState(0);
   const [topic, setTopic] = useState(topics[0]);
@@ -159,10 +159,10 @@ function GroupCoaching() {
   }, [running]);
 
   const toggleTimer = () => {
-    if (left === 0) setLeft(90);
+    if (left === 0) setLeft(60);
     setRunning((r) => !r);
   };
-  const resetTimer = () => { setRunning(false); setLeft(90); };
+  const resetTimer = () => { setRunning(false); setLeft(60); };
   const mmss = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
 
   useEffect(() => {
@@ -266,7 +266,7 @@ function GroupCoaching() {
           <p className="gc-eyebrow gc-reveal">Step 1</p>
           <h2 className="gc-reveal">Get to know each other</h2>
           <p className="gc-sub gc-reveal">
-            One person at a time, 1 to 2 minutes each. Cover these four things, in this order.
+            One person at a time, 30 seconds to 1 minute each. Cover these four things, in this order.
           </p>
 
           <ol className="gc-intro-steps gc-reveal">
@@ -286,8 +286,8 @@ function GroupCoaching() {
               <div className="gc-timer" data-low={left <= 15 && left > 0}>
                 <strong>{mmss}</strong>
                 <div>
-                  <button type="button" onClick={toggleTimer}>{running ? "Pause" : left === 0 ? "Restart" : left < 90 ? "Resume" : "Start 90s"}</button>
-                  {left < 90 && <button type="button" onClick={resetTimer}>Reset</button>}
+                  <button type="button" onClick={toggleTimer}>{running ? "Pause" : left === 0 ? "Restart" : left < 60 ? "Resume" : "Start 60s"}</button>
+                  {left < 60 && <button type="button" onClick={resetTimer}>Reset</button>}
                 </div>
               </div>
               <button type="button" className="gc-btn gc-btn--gold" onClick={() => { drawQuestion(); resetTimer(); }}>🎲 Next person, new card</button>
