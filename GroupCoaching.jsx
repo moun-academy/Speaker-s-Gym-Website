@@ -23,16 +23,9 @@ const agenda = [
 ];
 
 const introPrompts = [
-  ["🌤️", "Your name, where you are joining from, and one word for how your day is going"],
-  ["🎣", "What is a hobby or activity you could talk about for an hour without noticing the time?"],
-  ["🦸", "If you could instantly master any skill, what would you pick?"],
-  ["🍜", "What is the best meal you have ever had, and where were you?"],
-  ["🎧", "What song always puts you in a good mood?"],
-  ["🎤", "Would you rather speak to a crowd of 1,000 or have a one-on-one chat with your hero?"],
-  ["☕", "What is a small thing that always makes your day better?"],
-  ["🍽️", "If you could have dinner with anyone, living or not, who would be at the table?"],
-  ["✈️", "What is the best trip you have ever taken?"],
-  ["💬", "What is one thing you would love to feel confident saying out loud by the end of this program?"],
+  ["🐾", "Which animal would you be, and why?"],
+  ["🍫", "Sweet or salty snacks? What is your go-to?"],
+  ["🏝️", "You are stranded on a desert island. What one thing do you bring?"],
 ];
 
 /* Questions, phrases and anchors come from the student portals (Week 1). */
@@ -216,8 +209,8 @@ function GroupCoaching() {
             <p className="gc-eyebrow">Step 1</p>
             <h2>Get to know each other</h2>
             <p>
-              Speaking is easier in a room where people know you. Pick a question, answer it in
-              a sentence or two, then pass it on.
+              Speaking is easier in a room where people know you. Pick a question, answer in a
+              word or a short sentence, then pass it on.
             </p>
             <button type="button" className="gc-btn gc-btn--gold" onClick={drawQuestion}>🎲 Pick a question</button>
           </div>
