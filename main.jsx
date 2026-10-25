@@ -6,6 +6,7 @@ import { ThankYouCall, ThankYouPurchase } from './ThankYou.jsx'
 import Privacy from './Privacy.jsx'
 import DeleteAccount from './DeleteAccount.jsx'
 import BookACall from './BookACall.jsx'
+import GroupCoaching from './GroupCoaching.jsx'
 import MethodPage from './Method.jsx'
 import KhadijaPortal from './KhadijaPortal.jsx'
 import NadiraPortal from './NadiraPortal.jsx'
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
+        <Route path="/group-coaching" element={<GroupCoaching />} />
         <Route path="/method" element={<MethodPage />} />
         <Route path="/sales" element={<Suspense fallback={null}><SalesPage /></Suspense>} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
