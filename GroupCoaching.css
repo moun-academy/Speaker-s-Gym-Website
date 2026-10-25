@@ -204,3 +204,26 @@ html:has(.gc-page) { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .gc-moment p { margin: 2px 0 0; color: var(--text-bright); font-size: .98rem; }
 .gc-final .gc-moment { max-width: 620px; margin: 0 auto 28px; }
 @media (max-width: 760px) { .gc-moment { padding: 16px; } }
+
+/* introductions round */
+.gc-intro-steps { list-style: none; margin: 30px 0 28px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; counter-reset: x; }
+.gc-intro-steps li { position: relative; padding: 18px 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg); color: var(--text-bright); font-weight: 600; display: grid; gap: 6px; justify-items: start; }
+.gc-intro-steps li span { font-size: 1.8rem; line-height: 1; }
+.gc-intro-steps li small { position: absolute; top: 12px; right: 14px; color: var(--gold); font-family: var(--font-display); font-size: 1.2rem; }
+.gc-round { display: grid; grid-template-columns: 1.3fr 1fr; gap: 22px; align-items: stretch; }
+.gc-react { display: flex; gap: 10px; align-items: center; margin-top: 4px; padding: 12px 14px; border-radius: 12px; background: rgba(95,199,180,.08); border: 1px solid rgba(95,199,180,.35); color: var(--text-bright); font-size: .95rem; }
+.gc-react b { font-size: 1.2rem; }
+.gc-controls { display: grid; gap: 16px; align-content: center; justify-items: start; }
+.gc-timer { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--bg); }
+.gc-timer strong { font-family: var(--font-display); font-size: 2.8rem; line-height: 1; color: var(--text-bright); font-variant-numeric: tabular-nums; }
+.gc-timer[data-low="true"] strong { color: var(--coral); animation: gc-breathe 1s ease-in-out infinite; }
+.gc-timer div { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.gc-timer button { padding: 9px 16px; border: 1px solid var(--border-strong); border-radius: 999px; background: transparent; color: var(--text-bright); font: 600 .82rem var(--font-body); cursor: pointer; transition: background .2s, border-color .2s; }
+.gc-timer button:hover { background: rgba(217,192,111,.12); border-color: var(--gold); }
+.gc-rules { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.gc-rules li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg); color: var(--text); font-size: .95rem; }
+.gc-rules li span { flex: none; font-size: 1.5rem; line-height: 1.2; }
+@media (max-width: 760px) {
+  .gc-intro-steps { grid-template-columns: repeat(2, 1fr); }
+  .gc-round, .gc-rules { grid-template-columns: 1fr; }
+}

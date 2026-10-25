@@ -22,24 +22,36 @@ const agenda = [
   ["04", "🔥", "The 5-Day Challenge", "Take it into the community and keep going."],
 ];
 
-const KIND = { chat: "Type in the chat", pick: "This or that", pair: "Pair up" };
+const introSteps = [
+  ["👋", "Your name"],
+  ["🌍", "Where you are from"],
+  ["🎯", "What brings you here"],
+  ["🎲", "Answer the fun question"],
+];
 
-const introPrompts = [
-  { kind: "chat", icon: "🌤️", text: "Type one emoji in the chat for how you feel right now." },
-  { kind: "pick", icon: "☕", text: "Coffee or tea?", options: ["☕ Coffee", "🍵 Tea"] },
-  { kind: "pick", icon: "🏝️", text: "Mountains or beach?", options: ["🏔️ Mountains", "🏖️ Beach"] },
-  { kind: "chat", icon: "🌍", text: "Type where you are joining from and what the weather is like there." },
-  { kind: "pick", icon: "🌙", text: "Early bird or night owl?", options: ["🌅 Early bird", "🦉 Night owl"] },
-  { kind: "pair", icon: "🤝", text: "With your partner, find three things you have in common that are not obvious." },
-  { kind: "pick", icon: "🍕", text: "Pizza or tacos?", options: ["🍕 Pizza", "🌮 Tacos"] },
-  { kind: "pick", icon: "🦸", text: "Pick a superpower for a day.", options: ["🕊️ Flying", "👻 Invisibility"] },
-  { kind: "pair", icon: "🎬", text: "Tell your partner the last show or video that made you laugh." },
-  { kind: "pick", icon: "🐶", text: "Dogs or cats?", options: ["🐶 Dogs", "🐱 Cats"] },
+const roundRules = [
+  ["🎤", "One person goes first. Unmute and introduce yourself in 1 to 2 minutes, then answer the fun question."],
+  ["💬", "Everyone else: stay on mute and react in the chat while they talk. Emoji, a comment, or your own answer."],
+  ["🙋", "When they finish, one person unmutes and asks one quick follow-up question."],
+  ["➡️", "The speaker passes the mic by name: “Next up, [name]!” Then draw a new card and repeat."],
+];
+
+const funQuestions = [
+  { icon: "🍕", q: "Pizza or tacos?", react: "Everyone else: type 🍕 or 🌮 in the chat." },
+  { icon: "☕", q: "Coffee or tea?", react: "Everyone else: type ☕ or 🍵 in the chat." },
+  { icon: "🐶", q: "Dog person or cat person?", react: "Everyone else: type 🐶 or 🐱 in the chat." },
+  { icon: "🌅", q: "Early bird or night owl?", react: "Everyone else: type 🌅 or 🦉 in the chat." },
+  { icon: "🏝️", q: "Mountains or beach?", react: "Everyone else: type 🏔️ or 🏖️ in the chat." },
+  { icon: "🦸", q: "Flying or invisibility, which superpower for a day?", react: "Everyone else: type 🕊️ or 👻 in the chat." },
+  { icon: "🦄", q: "Which animal would you be?", react: "Everyone else: type the animal you think suits them best." },
+  { icon: "🎧", q: "What song makes you instantly happy?", react: "Everyone else: type 🎶 if you love it too." },
+  { icon: "🍫", q: "Sweet or salty snacks?", react: "Everyone else: type 🍬 or 🧂 in the chat." },
+  { icon: "🎬", q: "What is the last thing that made you laugh?", react: "Everyone else: type 😂 if it made you laugh too." },
 ];
 
 /* Short prompts that keep the room talking through the whole session. */
 const moments = {
-  prep: { icon: "🗣️", label: "Say it to your partner", text: "Pick any topic. Give your Point with “I believe…” and your Reason with “This matters because…”, then swap." },
+  prep: { icon: "🗣️", label: "Two volunteers, live", text: "Volunteer A names any topic and gives a Point starting with “I believe…”. Volunteer B asks “Why?” and A answers with “This matters because…”. Everyone else types the Point they heard in the chat. Then swap." },
   app: { icon: "💬", label: "Drop it in the chat", text: "After your first recording, type the one thing the AI feedback picked up." },
   challenge: { icon: "🔥", label: "Tell the room", text: "Say which day you will start, and drop a 🔥 in the chat when you commit." },
 };
@@ -114,7 +126,8 @@ function GroupCoaching() {
   const [section, setSection] = useState("");
   const [pick, setPick] = useState(0);
   const [flip, setFlip] = useState(0);
-  const [chosen, setChosen] = useState(null);
+  const [left, setLeft] = useState(90);
+  const [running, setRunning] = useState(false);
   const [active, setActive] = useState(0);
   const [topic, setTopic] = useState(topics[0]);
   const [answers, setAnswers] = useState(["", "", "", ""]);
@@ -122,10 +135,9 @@ function GroupCoaching() {
   const drawQuestion = () => {
     setPick((current) => {
       let next = current;
-      while (next === current) next = Math.floor(Math.random() * introPrompts.length);
+      while (next === current) next = Math.floor(Math.random() * funQuestions.length);
       return next;
     });
-    setChosen(null);
     setFlip((n) => n + 1);
   };
 
@@ -134,6 +146,24 @@ function GroupCoaching() {
     setAnswers((a) => a.map((v, idx) => (idx === i && !v.trim() ? starter.replace("…", " ") : v)));
   const assembled = useMemo(() => answers.map((a) => a.trim()).filter(Boolean).join(" "), [answers]);
   const filled = answers.filter((a) => a.trim()).length;
+
+  useEffect(() => {
+    if (!running) return undefined;
+    const id = setInterval(() => {
+      setLeft((t) => {
+        if (t <= 1) { setRunning(false); return 0; }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [running]);
+
+  const toggleTimer = () => {
+    if (left === 0) setLeft(90);
+    setRunning((r) => !r);
+  };
+  const resetTimer = () => { setRunning(false); setLeft(90); };
+  const mmss = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -183,7 +213,7 @@ function GroupCoaching() {
   }, []);
 
   const current = prep[active];
-  const card = introPrompts[pick];
+  const card = funQuestions[pick];
 
   return (
     <div className="gc-page">
@@ -232,31 +262,43 @@ function GroupCoaching() {
       </section>
 
       <section id="intros" className="gc-section gc-section--alt">
-        <div className="gc-wrap gc-split">
-          <div className="gc-reveal">
-            <p className="gc-eyebrow">Step 1</p>
-            <h2>Get to know each other</h2>
-            <p>
-              Speaking is easier in a room where people know you. Draw a card and do it together. Some you type in the chat, some are quick this-or-thats, some you
-              do with a partner. Then draw another.
-            </p>
-            <button type="button" className="gc-btn gc-btn--gold" onClick={drawQuestion}>🎲 Draw a card</button>
-          </div>
-          <div className="gc-reveal">
+        <div className="gc-wrap">
+          <p className="gc-eyebrow gc-reveal">Step 1</p>
+          <h2 className="gc-reveal">Get to know each other</h2>
+          <p className="gc-sub gc-reveal">
+            One person at a time, 1 to 2 minutes each. Cover these four things, in this order.
+          </p>
+
+          <ol className="gc-intro-steps gc-reveal">
+            {introSteps.map(([icon, label], i) => (
+              <li key={label}><span aria-hidden="true">{icon}</span><small>{i + 1}</small>{label}</li>
+            ))}
+          </ol>
+
+          <div className="gc-round gc-reveal">
             <div className="gc-card" aria-live="polite" key={flip}>
-              <span className="gc-badge" data-kind={card.kind}>{KIND[card.kind]}</span>
+              <span className="gc-badge">The fun question</span>
               <span className="gc-card-emoji" aria-hidden="true">{card.icon}</span>
-              <small>Card {pick + 1} of {introPrompts.length}</small>
-              <p>{card.text}</p>
-              {card.options && (
-                <div className="gc-options">
-                  {card.options.map((o, i) => (
-                    <button key={o} type="button" className={chosen === i ? "is-on" : ""} onClick={() => setChosen(i)}>{o}</button>
-                  ))}
+              <p>{card.q}</p>
+              <div className="gc-react"><b>👥</b>{card.react}</div>
+            </div>
+            <div className="gc-controls">
+              <div className="gc-timer" data-low={left <= 15 && left > 0}>
+                <strong>{mmss}</strong>
+                <div>
+                  <button type="button" onClick={toggleTimer}>{running ? "Pause" : left === 0 ? "Restart" : left < 90 ? "Resume" : "Start 90s"}</button>
+                  {left < 90 && <button type="button" onClick={resetTimer}>Reset</button>}
                 </div>
-              )}
+              </div>
+              <button type="button" className="gc-btn gc-btn--gold" onClick={() => { drawQuestion(); resetTimer(); }}>🎲 Next person, new card</button>
             </div>
           </div>
+
+          <ol className="gc-rules gc-reveal">
+            {roundRules.map(([icon, text]) => (
+              <li key={text}><span aria-hidden="true">{icon}</span>{text}</li>
+            ))}
+          </ol>
         </div>
       </section>
 
