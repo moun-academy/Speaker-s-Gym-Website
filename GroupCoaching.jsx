@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { COMMUNITY_URL } from "./siteConfig.js";
 import brandLogo from "./Logo.png";
 import "./GroupCoaching.css";
+
+const CHALLENGE_URL = "https://www.skool.com/speakersgym/classroom/452d41c9?md=d4ac2851b073485ea1595cfe6245736b";
 
 /* Paste the Speaker's Gym app link here to show the "Open the app" button. */
 const APP_URL = "";
@@ -35,11 +36,11 @@ const appSteps = [
 ];
 
 const challengeDays = [
-  ["Day 1", "Structure"],
-  ["Day 2", "Volume"],
-  ["Day 3", "Pace"],
-  ["Day 4", "Pauses"],
-  ["Day 5", "Pitch"],
+  ["Day 1", "Clear structure", "PREP"],
+  ["Day 2", "Volume variety", "PREP + volume"],
+  ["Day 3", "Control your pace", "PREP + pace"],
+  ["Day 4", "The power of a pause", "PREP + pauses"],
+  ["Day 5", "Speak with expression", "PREP + pitch"],
 ];
 
 function GroupCoaching() {
@@ -190,15 +191,16 @@ function GroupCoaching() {
           <p className="gc-eyebrow gc-reveal">Step 4</p>
           <h2 className="gc-reveal">Take the 5-Day Challenge</h2>
           <p className="gc-sub gc-reveal">
-            Ten to fifteen minutes a day inside our Skool community. Record a short video each day
-            and get feedback from other members.
+            A clear thought. A voice that brings it to life. Five short practice sessions inside our
+            Skool community, 10 to 15 minutes a day.
           </p>
+          <p className="gc-routine gc-reveal">Learn <i>→</i> Try <i>→</i> Record <i>→</i> Share</p>
           <ul className="gc-days gc-reveal">
-            {challengeDays.map(([d, t]) => (
-              <li key={d}><small>{d}</small><strong>{t}</strong></li>
+            {challengeDays.map(([d, t, k]) => (
+              <li key={d}><small>{d}</small><strong>{t}</strong><span>{k}</span></li>
             ))}
           </ul>
-          <a href={COMMUNITY_URL} className="gc-btn gc-btn--gold gc-reveal" target="_blank" rel="noopener noreferrer">
+          <a href={CHALLENGE_URL} className="gc-btn gc-btn--gold gc-reveal" target="_blank" rel="noopener noreferrer">
             Join the challenge on Skool
           </a>
         </div>
