@@ -1,47 +1,44 @@
 window.ASHWIN_COACHING_UPDATE = {
-  "id": "coaching-volume-2026-10-20",
-  "date": "2026-10-20",
-  "label": "COACHING RECAP · 20 OCTOBER 2026",
-  "sourceTranscriptId": "01M59J5HMHSQGE5KMNH2VP633W",
+  "id": "coaching-pace-2026-10-26",
+  "date": "2026-10-26",
+  "label": "COACHING RECAP · 26 OCTOBER 2026",
+  "sourceTranscriptId": "01M5CXPC46TPDJ579147DAQBXC",
   "completedLectures": [
     1,
-    2
+    2,
+    3
   ],
   "lectureCompletionDates": {
     "1": "2026-10-05",
-    "2": "2026-10-20"
+    "2": "2026-10-20",
+    "3": "2026-10-26"
   },
-  "summary": "You shared your PREP videos and practiced volume variety today. This week, keep your structure and choose when to project and when to soften.",
+  "summary": "You practiced changing pace on purpose. This week, keep your PREP structure, speed up familiar details and slow down your key point.",
   "challenges": [
-    "Keep sentence endings audible instead of letting your voice fade.",
-    "Project with supported breath and open posture, without pushing or shouting.",
-    "Soften deliberately for a personal example, then return to a stronger closing. Treat the recording as a conversation."
+    "Prepare your PREP outline first so you can focus on delivery.",
+    "Pause before your key sentence, then slow down to let it land.",
+    "Keep projecting your voice while varying your pace."
   ],
   "missions": [
     {
-      "id": "daily-volume",
-      "title": "Practice PREP + volume",
-      "text": "Spend 5–10 minutes daily on video, standing tall. Project your point, soften for a personal example, then finish strong. Keep it conversational and within 2 minutes."
+      "id": "daily-pace",
+      "title": "Warm up with pace",
+      "text": "In your 5–10 minutes of daily practice, start with three exercises in Expand your vocal variety → Pace."
     },
     {
-      "id": "share-volume",
-      "title": "Share your practice videos",
-      "text": "Download your recordings and post them in the community so you can get feedback on your volume variety."
+      "id": "share-pace",
+      "title": "Record and share one answer",
+      "text": "Answer a random question using PREP. Plan where to speed up, pause and slow down, then post your video in the community."
     },
     {
-      "id": "real-volume",
-      "title": "Try a slightly stronger voice",
-      "text": "With someone you feel comfortable with, move from about 3/10 to 5/10 volume. Notice their actual response and save what happened in your reflections."
-    },
-    {
-      "id": "group-time",
-      "title": "Add your group-call preference",
-      "text": "Comment on the Sunday group-coaching post in the community with the time that works for you. The group time is still being finalized."
+      "id": "pace-win",
+      "title": "Change pace on purpose",
+      "text": "Your win this week: deliberately change speed at least once in your answer. Notice one strength after recording."
     }
   ],
   "nextCall": {
-    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261026T083000Z",
-    "start": "2026-10-26T12:30:00+04:00",
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261102T083000Z",
+    "start": "2026-11-02T12:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "meetingLink": "https://meet.google.com/oda-koch-ovr",
     "timePending": false
