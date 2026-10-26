@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { COMMUNITY_URL } from "./siteConfig.js";
+import marouanePhoto from "./Marouane.png";
 import "./Sales.css";
 
 /* ─── Checkout links: paste the Stripe Payment Links here ───
@@ -205,32 +206,53 @@ const GROUP = [
   "1 year in the community + private WhatsApp group",
 ];
 
-const WHY_POINTS = [
-  ["🎯", "Live coaching that fits your real situations", "Your meetings, your conversations, your goals. We rehearse the real thing."],
-  ["🤝", "Small group practice", `Speak with a few others on the same journey, so you are never practicing alone.`],
-  ["📈", "Real-world challenges that grow at your pace", "Ten levels, from low pressure to the moments that matter most to you."],
+const THOUGHTS = [
+  ["💭", "I know the answer. Why won't my words come out?", "Nerves"],
+  ["🌀", "I rehearse it in my head, then stay quiet.", "Overthinking"],
+  ["🎢", "I start well, then ramble and lose my point.", "Rambling"],
 ];
 
-const LOOP = ["Rehearse", "Try it for real", "Review", "Repeat"];
+const SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
 
-const OBJECTIONS = [
-  ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan, and talks through what happened in your real meeting."],
-  ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
+const LEVELS = [
+  ["Become Visible", "Initiate one greeting and maintain eye contact."],
+  ["Initiate", "Start one short conversation at work."],
+  ["Participate", "Give one structured answer when someone asks for your opinion."],
+  ["Volunteer", "Contribute once before someone calls on you."],
+  ["Hold the Floor", "Deliver one complete PREP answer without rushing."],
+  ["Disagree Respectfully", "Express one respectful disagreement using PREP."],
+  ["Lead a Moment", "Lead one small moment during a meeting or conversation."],
+  ["Speak Under Pressure", "Answer one unexpected question without escaping or rushing."],
+  ["Influence", "Present one recommendation and explain why it matters."],
+  ["Full Expression", "Express an idea without hiding your personality."],
 ];
 
-const EFFORT = [
-  ["☕", "10 to 15 minutes a day", "Your daily speaking rep in the app. Do it with your morning coffee."],
-  ["🗓️", "One live hour a week", "Sundays for the group, or a time that suits you for 1-on-1."],
-  ["🪜", "One real-world challenge a week", "Small, manageable, and chosen at your level."],
+const LOOP = [
+  ["🎤", "Rehearse", "Practice out loud with me"],
+  ["🏢", "Try it for real", "In your meeting or conversation"],
+  ["🔍", "Review", "See what worked"],
+  ["🔁", "Repeat", "Each time, a little easier"],
+];
+
+const BETWEEN = [
+  ["📱", "Daily reps in the app, with AI feedback"],
+  ["💬", "Feedback from me in the community"],
+  ["📊", "Progress tracking, so you always know where you stand"],
 ];
 
 const WEEKS = [
-  ["Structure & Prep", "Organize your thoughts with PREP"],
-  ["Volume & Presence", "Make your voice heard"],
-  ["Pace", "Take control of your pace"],
-  ["Silence & Composure", "Pause, think and own the silence"],
-  ["Pitch & Vocal Variety", "Find the music in your voice"],
-  ["Storytelling", "Tell stories that move people"],
+  ["Organize Your Thoughts with PREP", "Structure your ideas clearly, answer with confidence and stop rambling under pressure."],
+  ["Make Your Voice Heard", "Develop stronger volume and speak clearly without forcing or straining your voice."],
+  ["Take Control of Your Pace", "Slow down, stay composed and respond spontaneously without rushing."],
+  ["Pause, Think and Own the Silence", "Give yourself time to think and use intentional silence instead of filler words."],
+  ["Find the Music in Your Voice", "Mix pitch with pace and volume so people hear how you feel."],
+  ["Tell Stories That Move People", "Combine every skill and tell a story that drives your point home."],
+];
+
+const WEEK_LIFE = [
+  ["10–15", "minutes a day", "Your speaking rep in the app. Do it with your morning coffee."],
+  ["1", "live hour a week", "Sundays for the group. A time that suits you for 1-on-1."],
+  ["1", "small real-world step", "Chosen at your level. Never a leap."],
 ];
 
 const VIDEOS = [["AmX2dVv8qcM", "Imane"], ["cm3G7biEwHI", "Vivek"], ["Kctzf04s41c", "Kevin"], ["QzFvN_5MPWI", "Seta"], ["fiyvwTk2Iq4", "Marisol"], ["XQ5x8_tnI7M", "Avinash"]];
@@ -238,6 +260,7 @@ const VIDEOS = [["AmX2dVv8qcM", "Imane"], ["cm3G7biEwHI", "Vivek"], ["Kctzf04s41
 export default function SalesPage() {
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
+  const [level, setLevel] = useState(0);
 
   useEffect(() => {
     const prev = document.title;
@@ -277,16 +300,14 @@ export default function SalesPage() {
     <div className="sales-page">
       <SiteHeader page="sales" />
 
-      {/* ── HERO · DREAM OUTCOME ── */}
+      {/* ── 1 · HERO ── */}
       <header className="s-hero">
         <div className="s-hero-glow" aria-hidden="true" />
+        <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
         <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
         <Reveal delay={80}><h1>Trust yourself to find your words <em>when it matters.</em></h1></Reveal>
         <Reveal delay={160}>
           <p className="s-hero-sub">Speak up in meetings and conversations, explain your ideas clearly, and bring them to life with an engaging voice, even when you feel nervous.</p>
-        </Reveal>
-        <Reveal delay={200}>
-          <p className="s-hero-for">A six-week program for shy and nervous professionals. Private 1-on-1 coaching or a small group of {GROUP_MAX}.</p>
         </Reveal>
         <Reveal delay={240}>
           <div className="s-transforms">
@@ -295,66 +316,154 @@ export default function SalesPage() {
             ))}
           </div>
         </Reveal>
-        <Reveal delay={280}>
+        <Reveal delay={300}>
           <div className="s-hero-btns">
-            <a href="#plans" className="s-btn s-btn--gold">Choose your plan</a>
-            {next && <a href="#dates" className="s-btn s-btn--ghost">Next group: {fmt(next.date, { weekday: "short", month: "short", day: "numeric" })}</a>}
+            <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
+            {next && <a href="#plans" className="s-btn s-btn--ghost">Next group: {fmt(next.date, { weekday: "short", month: "short", day: "numeric" })}</a>}
           </div>
         </Reveal>
-        <Reveal delay={340}>
+        <Reveal delay={360}>
           <ul className="s-assure">
-            <li><Check />Money-back guarantee</li>
+            <li><Check />4-week money-back guarantee</li>
             <li><Check />1 year of access included</li>
-            <li><Check />Start this week</li>
           </ul>
         </Reveal>
       </header>
 
-      {/* ── WHY IT WORKS · LIKELIHOOD ── */}
-      <section className="s-section" id="why">
+      {/* ── 2 · IS THIS FOR ME ── */}
+      <section className="s-section" id="you">
+        <Reveal>
+          <p className="s-label">Does this sound like you?</p>
+          <h2 className="s-title">You have plenty to say. <em>It just doesn't come out.</em></h2>
+        </Reveal>
+        <div className="s-thoughts">
+          {THOUGHTS.map(([icon, text, tag], i) => (
+            <Reveal key={tag} delay={i * 110}>
+              <figure className="s-thought">
+                <span className="s-thought-tag">{tag}</span>
+                <blockquote><span aria-hidden="true">{icon}</span>{text}</blockquote>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <div className="s-pivot">
+            <p>Nothing is wrong with you.</p>
+            <strong>Communication is a skill, not a talent. And skills can be trained.</strong>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── 3 · TWO TRACKS ── */}
+      <section className="s-section s-section--tint" id="method">
         <Reveal>
           <p className="s-label">Why it works</p>
-          <h2 className="s-title">You don't get braver by watching videos. <em>You get braver by practicing with someone beside you.</em></h2>
-          <p className="s-sub">In Speaker's Gym you rehearse out loud with me, then take it into your real world. Maybe a point in Monday's meeting, or an idea you have been holding back. We prepare it together, you try it, and we look at what happened.</p>
+          <h2 className="s-title">Learn the skill. <em>Then use it in your world.</em></h2>
+          <p className="s-sub">Most training stops at technique. Here you also practice using it, one small step at a time.</p>
         </Reveal>
-        <div className="s-why">
-          {WHY_POINTS.map(([icon, title, text], i) => (
+        <Reveal>
+          <div className="s-tracks">
+            <article className="s-track">
+              <p>Track one</p>
+              <h3>Technique</h3>
+              <span>Build the skill</span>
+              <div className="s-chips">{SKILLS.map((k) => <b key={k}>{k}</b>)}</div>
+            </article>
+            <div className="s-plus" aria-hidden="true">+</div>
+            <article className="s-track">
+              <p>Track two</p>
+              <h3>Exposure</h3>
+              <span>Build the confidence to use it</span>
+              <div className="s-mini-stairs" aria-hidden="true">{Array.from({ length: 10 }, (_, i) => <i key={i} style={{ height: `${18 + i * 8}%` }} />)}</div>
+            </article>
+          </div>
+          <p className="s-merge">= <b>Confident communication</b></p>
+        </Reveal>
+      </section>
+
+      {/* ── 4 · HOW PRACTICE WORKS ── */}
+      <section className="s-section" id="practice">
+        <Reveal>
+          <p className="s-label">Practice with me</p>
+          <h2 className="s-title">You don't get braver by watching videos. <em>You get braver by practicing with someone beside you.</em></h2>
+        </Reveal>
+        <div className="s-loop-steps">
+          {LOOP.map(([icon, title, text], i) => (
             <Reveal key={title} delay={i * 90}>
-              <article className="s-why-card">
+              <article className="s-loop-step">
                 <span aria-hidden="true">{icon}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
+                {i < LOOP.length - 1 && <i className="s-loop-arrow" aria-hidden="true">→</i>}
               </article>
             </Reveal>
           ))}
         </div>
         <Reveal>
-          <div className="s-loop" aria-label="The practice loop">
-            {LOOP.map((t, i) => <span key={t}>{t}{i < LOOP.length - 1 && <i aria-hidden="true">→</i>}</span>)}
-          </div>
-          <p className="s-loop-note">For example: rehearse a meeting contribution, improve the structure and delivery, try it in a real meeting, then review what happened.</p>
+          <p className="s-example">For example: rehearse your point for Monday's meeting, sharpen the structure and delivery, try it in the real meeting, then review what happened.</p>
         </Reveal>
         <Reveal>
-          <p className="s-wonder-title">You might be wondering</p>
+          <ul className="s-between">
+            {BETWEEN.map(([icon, text]) => <li key={text}><span aria-hidden="true">{icon}</span>{text}</li>)}
+          </ul>
         </Reveal>
-        <div className="s-wonder">
-          {OBJECTIONS.map(([q, a], i) => (
-            <Reveal key={q} delay={i * 90}>
-              <article className="s-offer-item">
-                <h3>{q}</h3>
-                <p>{a}</p>
-              </article>
-            </Reveal>
-          ))}
+      </section>
+
+      {/* ── 5 · COACH ── */}
+      <section className="s-section s-section--tint" id="coach">
+        <div className="s-coach">
+          <Reveal>
+            <div className="s-coach-photo"><img src={marouanePhoto} alt="Marouane Al Mandri, public speaking coach" loading="lazy" /></div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="s-coach-text">
+              <p className="s-label s-label--left">Your coach</p>
+              <h2>Hi, I'm Marouane.</h2>
+              <p>I know what it feels like to have the knowledge but struggle to say it clearly. To freeze in meetings, ramble under pressure, or go unnoticed.</p>
+              <p>I built The Speaker's Gym because <b>communication is a skill, not a talent</b>. No generic tips. No "just be confident." Just structured practice, honest feedback and a system that works in real situations.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section className="s-section" id="testimonials">
+      {/* ── 6 · EXPOSURE LADDER ── */}
+      <section className="s-section" id="ladder">
         <Reveal>
-          <p className="s-label">Real people, in their own words</p>
+          <p className="s-label">At your pace</p>
+          <h2 className="s-title">One level at a time. <em>Never a leap.</em></h2>
+          <p className="s-sub">Tap a level to see what a real step looks like.</p>
+        </Reveal>
+        <Reveal>
+          <div className="s-ladder" role="tablist" aria-label="Exposure levels">
+            {LEVELS.map(([name], i) => (
+              <button
+                key={name}
+                type="button"
+                role="tab"
+                aria-selected={level === i}
+                className={cx("s-rung", i <= level && "s-rung--reached", level === i && "s-rung--on")}
+                style={{ height: `${16 + i * 9}%` }}
+                onClick={() => setLevel(i)}
+              >
+                <b>{i + 1}</b>
+              </button>
+            ))}
+          </div>
+          <div className="s-level-card" aria-live="polite" key={level}>
+            <small>Level {level + 1}</small>
+            <h3>{LEVELS[level][0]}</h3>
+            <p>Your mission: {LEVELS[level][1]}</p>
+          </div>
+          <p className="s-ladder-note">Level 10 does not mean becoming loud or extroverted. It means having the freedom to express yourself fully when you choose.</p>
+        </Reveal>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="s-section s-section--tint" id="results">
+        <Reveal>
+          <p className="s-label">Results</p>
           <h2 className="s-title">Don't take my word for it. <em>Take theirs.</em></h2>
-          <p className="s-sub">Professionals who were nervous, rambled or went quiet, in their own words after The Speaker's Gym.</p>
+          <p className="s-sub">Real students, in their own words.</p>
         </Reveal>
         <div className="s-videos">
           {VIDEOS.map(([id, name], i) => (
@@ -370,39 +479,42 @@ export default function SalesPage() {
         </div>
       </section>
 
-      {/* ── THE PLAN · TIME DELAY ── */}
-      <section className="s-section s-section--tint" id="program">
+      {/* ── 8 · SIX WEEKS ── */}
+      <section className="s-section" id="program">
         <Reveal>
-          <p className="s-label">The 6-week plan</p>
-          <h2 className="s-title">One skill a week. <em>Use it the same week.</em></h2>
-          <p className="s-sub">Both plans follow the same roadmap. Each week you learn one skill, then try it in a real situation, so you feel the change as you go.</p>
+          <p className="s-label">Your six weeks</p>
+          <h2 className="s-title">One skill a week. <em>Used in real life that same week.</em></h2>
+          <p className="s-sub">Real-world practice begins in week 1 and continues every week.</p>
         </Reveal>
-        <div className="s-weeks">
-          {WEEKS.map(([theme, name], i) => (
-            <Reveal key={theme} delay={i * 70}>
-              <article className="s-week">
-                <span className="s-week-n">0{i + 1}</span>
-                <p>{theme}</p>
-                <h3>{name}</h3>
+        <div className="s-timeline">
+          {WEEKS.map(([name, text], i) => (
+            <Reveal key={name} delay={i * 70}>
+              <article className="s-tl">
+                <span className="s-tl-n">{i + 1}</span>
+                <div>
+                  <small>Week {i + 1}</small>
+                  <h3>{name}</h3>
+                  <p>{text}</p>
+                </div>
               </article>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* ── EFFORT AND SACRIFICE ── */}
-      <section className="s-section" id="effort">
+      {/* ── 9 · YOUR WEEK ── */}
+      <section className="s-section s-section--tint" id="effort">
         <Reveal>
-          <p className="s-label">Easy to fit in</p>
-          <h2 className="s-title">Small effort. <em>Real change.</em></h2>
-          <p className="s-sub">No long lectures. No hour-long homework. Just a few minutes a day and one live hour a week.</p>
+          <p className="s-label">Fits your life</p>
+          <h2 className="s-title">This is all it asks <em>of your week.</em></h2>
+          <p className="s-sub">No long lectures. No hour-long homework.</p>
         </Reveal>
-        <div className="s-weeks s-effort">
-          {EFFORT.map(([icon, title, text], i) => (
-            <Reveal key={title} delay={i * 90}>
-              <article className="s-why-card">
-                <span aria-hidden="true">{icon}</span>
-                <h3>{title}</h3>
+        <div className="s-bignums">
+          {WEEK_LIFE.map(([n, unit, text], i) => (
+            <Reveal key={unit} delay={i * 90}>
+              <article className="s-bignum">
+                <strong>{n}</strong>
+                <h3>{unit}</h3>
                 <p>{text}</p>
               </article>
             </Reveal>
@@ -414,7 +526,7 @@ export default function SalesPage() {
       <section className="s-section" id="plans">
         <Reveal>
           <p className="s-label">Choose your plan</p>
-          <h2 className="s-title">Two ways in. <em>One outcome.</em></h2>
+          <h2 className="s-title">Choose how you want <em>to learn.</em></h2>
         </Reveal>
         <div className="s-plans">
           <Reveal>
@@ -496,11 +608,11 @@ export default function SalesPage() {
         <Reveal><p className="s-note">New groups open twice a month: the first Sunday and mid-month.</p></Reveal>
       </section>
 
-      {/* ── THE OFFER ── */}
+      {/* ── GUARANTEE ── */}
       <section className="s-section" id="guarantee">
         <Reveal>
           <p className="s-label">Zero risk</p>
-          <h2 className="s-title">An offer that's <em>easy to say yes to.</em></h2>
+          <h2 className="s-title">The 4-week <em>"feel the change"</em> guarantee</h2>
         </Reveal>
         <div className="s-offer">
           <Reveal>
@@ -511,26 +623,25 @@ export default function SalesPage() {
                 <circle cx="100" cy="100" r="58" className="s-seal-core" />
                 <text textLength="458" lengthAdjust="spacingAndGlyphs"><textPath href="#sealpath" startOffset="0" textLength="458" lengthAdjust="spacingAndGlyphs">MONEY-BACK GUARANTEE · MONEY-BACK GUARANTEE · </textPath></text>
               </svg>
-              <div className="s-seal-mid"><strong>100%</strong><span>REFUND</span></div>
+              <div className="s-seal-mid"><strong>4</strong><span>WEEKS</span></div>
             </div>
           </Reveal>
           <div className="s-offer-items">
             <Reveal>
               <article className="s-offer-item">
-                <h3>The confidence guarantee</h3>
-                <p>Complete the six weeks and put the exercises into practice. If you don't feel significantly more confident speaking by the end, I'll refund every penny <b>and</b> coach you for another 30 days, completely free.</p>
+                <h3>How it works</h3>
+                <ul className="s-guar">
+                  <li><Check />You show up to your sessions</li>
+                  <li><Check />You do the practice in the community</li>
+                  <li><Check />After 4 weeks, you don't feel the change in your influence as a communicator</li>
+                </ul>
+                <p className="s-guar-end">Then you get your money back. <b>No questions asked.</b></p>
               </article>
             </Reveal>
             <Reveal delay={90}>
               <article className="s-offer-item">
                 <h3>Upgrade without losing a cent</h3>
                 <p>Start in a group. If you want private coaching later, everything you paid counts toward 1-on-1.</p>
-              </article>
-            </Reveal>
-            <Reveal delay={180}>
-              <article className="s-offer-item">
-                <h3>You won't do this alone</h3>
-                <p>Every student joins the community and our private WhatsApp group: practice partners, wins shared every day, and meetups in person.</p>
               </article>
             </Reveal>
           </div>
@@ -545,12 +656,14 @@ export default function SalesPage() {
         </Reveal>
         <div className="s-faq-list">
           {[
-            ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practise with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade from group to 1-on-1 later with everything you paid counting toward it."],
-            ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
+            ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practice with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade later with everything you paid counting toward it."],
+            ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
+            ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
-            ["When do the group sessions happen?", "Every Sunday from 12 to 1 pm GMT (4 to 5 pm GMT+4), for six weeks in a row."],
-            ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world mission each week."],
-            ["Is there a money-back guarantee?", "Yes. Complete the six-week program and put the exercises into practice. If you don't feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free."],
+            ["When do the group sessions happen?", "Every Sunday from 12 to 1 pm GMT (4 to 5 pm GMT+4), for six weeks in a row. New groups start on the first Sunday of the month and around the 15th."],
+            ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world step each week."],
+            ["How does the guarantee work?", "Show up to your sessions and do the practice in the community. If after 4 weeks you don't feel the change in your influence as a communicator, you get your money back, no questions asked."],
+            ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, I'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
           ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
@@ -559,9 +672,9 @@ export default function SalesPage() {
       {/* ── CONTACT ── */}
       <section className="s-final" id="contact">
         <Reveal>
-          <p className="s-label">Contact us</p>
-          <h2>Have a question? <em>Send me an email.</em></h2>
-          <p>Ask anything about the program, the dates or which plan fits you best. I reply personally. If it feels like a good fit, we will set up a quick call.</p>
+          <p className="s-label">Contact me</p>
+          <h2>Want to know more? <em>Send me an email.</em></h2>
+          <p>Ask me anything about the program, the dates or which plan fits you best. I answer within <b>24 hours</b>. If you'd like, we can book a quick call.</p>
           <div className="s-hero-btns">
             <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email Marouane</a>
           </div>
