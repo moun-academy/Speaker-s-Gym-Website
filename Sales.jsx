@@ -7,13 +7,15 @@ import "./Sales.css";
    While a link is empty, its button shows "Checkout opens soon" and can't be clicked.
    Early-bird groups don't sell yet: their button opens the waiting list form. */
 const CHECKOUT = {
-  oneOnOne: "", // $229 · 6 weeks of private coaching
+  oneOnOne: "", // $250 · 6 weeks of private coaching. While empty, the button emails Marouane instead.
   group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
 };
 
-const PRICE = { oneOnOne: 229, group: 129, earlyBird: 97 };
-const GROUP_MAX = 6;
+const PRICE = { oneOnOne: 250, group: 129, earlyBird: 97 };
+const GROUP_MAX = 5;
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
+const CONTACT_EMAIL = "marouane@speakers-gym.com";
+const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Question about The Speaker's Gym")}&body=${encodeURIComponent("Hi Marouane,\n\nMy name is \nI'm interested in: 1-on-1 coaching / group coaching\nWhat I'd like to improve: \n\nThank you!")}`;
 const CLOSE_DAYS_BEFORE = 2;   // a group stops taking sign-ups this many days before it starts
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -49,7 +51,10 @@ function trackCheckout(value, name) {
   try { window.gtag?.("event", "begin_checkout", { value, currency: "USD", items: [{ item_name: name }] }); } catch (e) { /* ignore */ }
 }
 
-function CheckoutButton({ href, className, value, name, children }) {
+function CheckoutButton({ href, className, value, name, children, fallbackHref, fallbackLabel }) {
+  if (!href && fallbackHref) {
+    return <a className={cx("s-btn s-btn--block", className)} href={fallbackHref}>{fallbackLabel} <span aria-hidden="true">→</span></a>;
+  }
   if (!href) {
     return <span className={cx("s-btn s-btn--block s-btn--soon", className)} aria-disabled="true">Checkout opens soon</span>;
   }
@@ -184,19 +189,39 @@ const Check = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5
 const ONE_ON_ONE = [
   "Six private 60-minute sessions with Marouane",
   "Personalized roadmap and exposure plan",
-  "MOUN Academy full course (3 hours)",
-  "Speaker's Gym app with AI feedback",
-  "Community + private WhatsApp group",
+  "1 year of weekly group coaching, included",
+  "1 year of the Speaker's Gym app with AI feedback",
+  "1 year in the community + private WhatsApp group",
+  "1 year of the MOUN Academy full course (3 hours)",
   "Your own private portal and progress tracking",
   "Bonus: The Conversation Playbook",
 ];
 
 const GROUP = [
   "Six live group sessions, Sundays 12–1 pm GMT (4–5 pm GMT+4)",
-  "Maximum 6 people, so you speak every session",
+  `Maximum ${GROUP_MAX} people, so you speak every session`,
   "The same 6-week plan as 1-on-1",
-  "Speaker's Gym app with AI feedback",
-  "Community + private WhatsApp group",
+  "1 year of the Speaker's Gym app with AI feedback",
+  "1 year in the community + private WhatsApp group",
+];
+
+const WHY_POINTS = [
+  ["🎯", "Live coaching that fits your real situations", "Your meetings, your conversations, your goals. We rehearse the real thing."],
+  ["🤝", "Small group practice", `Speak with a few others on the same journey, so you are never practicing alone.`],
+  ["📈", "Real-world challenges that grow at your pace", "Ten levels, from low pressure to the moments that matter most to you."],
+];
+
+const LOOP = ["Rehearse", "Try it for real", "Review", "Repeat"];
+
+const OBJECTIONS = [
+  ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan, and talks through what happened in your real meeting."],
+  ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
+];
+
+const EFFORT = [
+  ["☕", "10 to 15 minutes a day", "Your daily speaking rep in the app. Do it with your morning coffee."],
+  ["🗓️", "One live hour a week", "Sundays for the group, or a time that suits you for 1-on-1."],
+  ["🪜", "One real-world challenge a week", "Small, manageable, and chosen at your level."],
 ];
 
 const WEEKS = [
@@ -252,15 +277,18 @@ export default function SalesPage() {
     <div className="sales-page">
       <SiteHeader page="sales" />
 
-      {/* ── HERO ── */}
+      {/* ── HERO · DREAM OUTCOME ── */}
       <header className="s-hero">
         <div className="s-hero-glow" aria-hidden="true" />
         <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
-        <Reveal delay={80}><h1>Speak with confidence <em>in six weeks.</em></h1></Reveal>
+        <Reveal delay={80}><h1>Trust yourself to find your words <em>when it matters.</em></h1></Reveal>
         <Reveal delay={160}>
-          <p className="s-hero-sub">Private 1-on-1 coaching or a small group of six. The same proven plan, built for shy and socially nervous professionals who freeze, ramble or go quiet when it matters.</p>
+          <p className="s-hero-sub">Speak up in meetings and conversations, explain your ideas clearly, and bring them to life with an engaging voice, even when you feel nervous.</p>
         </Reveal>
-        <Reveal delay={220}>
+        <Reveal delay={200}>
+          <p className="s-hero-for">A six-week program for shy and nervous professionals. Private 1-on-1 coaching or a small group of {GROUP_MAX}.</p>
+        </Reveal>
+        <Reveal delay={240}>
           <div className="s-transforms">
             {[["Rambling", "Articulate"], ["Monotone", "Expressive"], ["Shy", "Confident"]].map(([a, b]) => (
               <span key={a}><s>{a}</s><i aria-hidden="true">→</i><b>{b}</b></span>
@@ -276,48 +304,55 @@ export default function SalesPage() {
         <Reveal delay={340}>
           <ul className="s-assure">
             <li><Check />Money-back guarantee</li>
-            <li><Check />Secure checkout with Stripe</li>
+            <li><Check />1 year of access included</li>
             <li><Check />Start this week</li>
           </ul>
         </Reveal>
       </header>
 
-      {/* ── PLANS ── */}
-      <section className="s-section" id="plans">
+      {/* ── WHY IT WORKS · LIKELIHOOD ── */}
+      <section className="s-section" id="why">
         <Reveal>
-          <p className="s-label">Choose your plan</p>
-          <h2 className="s-title">Two ways in. <em>One outcome.</em></h2>
+          <p className="s-label">Why it works</p>
+          <h2 className="s-title">You don't get braver by watching videos. <em>You get braver by practicing with someone beside you.</em></h2>
+          <p className="s-sub">In Speaker's Gym you rehearse out loud with me, then take it into your real world. Maybe a point in Monday's meeting, or an idea you have been holding back. We prepare it together, you try it, and we look at what happened.</p>
         </Reveal>
-        <div className="s-plans">
-          <Reveal>
-            <article className="s-plan s-plan--featured">
-              <span className="s-ribbon">MOST PERSONAL</span>
-              <p className="s-plan-tag">1-ON-1 COACHING</p>
-              <h3>Private coaching with Marouane</h3>
-              <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
-              <div className="s-price"><strong>${PRICE.oneOnOne}</strong><span>one payment · 6 weeks</span></div>
-              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <CheckoutButton href={oneLink} className="s-btn--gold" value={PRICE.oneOnOne} name="1-on-1 coaching">Enroll in 1-on-1 coaching</CheckoutButton>
-            </article>
-          </Reveal>
-          <Reveal delay={120}>
-            <article className="s-plan">
-              <span className="s-ribbon s-ribbon--quiet">BEST VALUE</span>
-              <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX}</p>
-              <h3>Small-group coaching</h3>
-              <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
-              <div className="s-price"><strong>${PRICE.group}</strong><span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates</span></div>
-              <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
-            </article>
-          </Reveal>
+        <div className="s-why">
+          {WHY_POINTS.map(([icon, title, text], i) => (
+            <Reveal key={title} delay={i * 90}>
+              <article className="s-why-card">
+                <span aria-hidden="true">{icon}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <div className="s-loop" aria-label="The practice loop">
+            {LOOP.map((t, i) => <span key={t}>{t}{i < LOOP.length - 1 && <i aria-hidden="true">→</i>}</span>)}
+          </div>
+          <p className="s-loop-note">For example: rehearse a meeting contribution, improve the structure and delivery, try it in a real meeting, then review what happened.</p>
+        </Reveal>
+        <Reveal>
+          <p className="s-wonder-title">You might be wondering</p>
+        </Reveal>
+        <div className="s-wonder">
+          {OBJECTIONS.map(([q, a], i) => (
+            <Reveal key={q} delay={i * 90}>
+              <article className="s-offer-item">
+                <h3>{q}</h3>
+                <p>{a}</p>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </section>
 
       {/* ── TESTIMONIALS ── */}
       <section className="s-section" id="testimonials">
         <Reveal>
-          <p className="s-label">Real people, real results</p>
+          <p className="s-label">Real people, in their own words</p>
           <h2 className="s-title">Don't take my word for it. <em>Take theirs.</em></h2>
           <p className="s-sub">Professionals who were nervous, rambled or went quiet, in their own words after The Speaker's Gym.</p>
         </Reveal>
@@ -332,6 +367,78 @@ export default function SalesPage() {
               </article>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* ── THE PLAN · TIME DELAY ── */}
+      <section className="s-section s-section--tint" id="program">
+        <Reveal>
+          <p className="s-label">The 6-week plan</p>
+          <h2 className="s-title">One skill a week. <em>Use it the same week.</em></h2>
+          <p className="s-sub">Both plans follow the same roadmap. Each week you learn one skill, then try it in a real situation, so you feel the change as you go.</p>
+        </Reveal>
+        <div className="s-weeks">
+          {WEEKS.map(([theme, name], i) => (
+            <Reveal key={theme} delay={i * 70}>
+              <article className="s-week">
+                <span className="s-week-n">0{i + 1}</span>
+                <p>{theme}</p>
+                <h3>{name}</h3>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── EFFORT AND SACRIFICE ── */}
+      <section className="s-section" id="effort">
+        <Reveal>
+          <p className="s-label">Easy to fit in</p>
+          <h2 className="s-title">Small effort. <em>Real change.</em></h2>
+          <p className="s-sub">No long lectures. No hour-long homework. Just a few minutes a day and one live hour a week.</p>
+        </Reveal>
+        <div className="s-weeks s-effort">
+          {EFFORT.map(([icon, title, text], i) => (
+            <Reveal key={title} delay={i * 90}>
+              <article className="s-why-card">
+                <span aria-hidden="true">{icon}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PLANS ── */}
+      <section className="s-section" id="plans">
+        <Reveal>
+          <p className="s-label">Choose your plan</p>
+          <h2 className="s-title">Two ways in. <em>One outcome.</em></h2>
+        </Reveal>
+        <div className="s-plans">
+          <Reveal>
+            <article className="s-plan s-plan--featured">
+              <span className="s-ribbon">MOST PERSONAL</span>
+              <p className="s-plan-tag">1-ON-1 COACHING</p>
+              <h3>Private coaching with Marouane</h3>
+              <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
+              <div className="s-price"><strong>${PRICE.oneOnOne}</strong><span>one payment · 6 weeks + 1 year of access</span></div>
+              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
+              <CheckoutButton href={oneLink} className="s-btn--gold" value={PRICE.oneOnOne} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+            </article>
+          </Reveal>
+          <Reveal delay={120}>
+            <article className="s-plan">
+              <span className="s-ribbon s-ribbon--quiet">BEST VALUE</span>
+              <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX}</p>
+              <h3>Small-group coaching</h3>
+              <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
+              <div className="s-price"><strong>${PRICE.group}</strong><span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates · 1 year of access</span></div>
+              <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
+              <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
+            </article>
+          </Reveal>
         </div>
       </section>
 
@@ -430,34 +537,6 @@ export default function SalesPage() {
         </div>
       </section>
 
-      {/* ── PROGRAM ── */}
-      <section className="s-section s-section--tint" id="program">
-        <Reveal>
-          <p className="s-label">The 6-week plan</p>
-          <h2 className="s-title">One skill a week. <em>Real change.</em></h2>
-          <p className="s-sub">Both plans follow the same roadmap, with real-world exposure from week one.</p>
-        </Reveal>
-        <div className="s-weeks">
-          {WEEKS.map(([theme, name], i) => (
-            <Reveal key={theme} delay={i * 70}>
-              <article className="s-week">
-                <span className="s-week-n">0{i + 1}</span>
-                <p>{theme}</p>
-                <h3>{name}</h3>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal>
-          <div className="s-coffee">
-            <span className="s-coffee-ico" aria-hidden="true">
-              <svg viewBox="0 0 48 48"><path d="M10 18h24v10c0 7-5 12-12 12s-12-5-12-12z" /><path d="M34 21h3c5 0 5 10 0 10h-3" /><path d="M17 6c-3 3 3 5 0 8M24 6c-3 3 3 5 0 8" className="s-steam" /></svg>
-            </span>
-            <p><b>10–15 minutes a day.</b> Do your daily speaking rep with your morning coffee. That's the whole commitment between sessions.</p>
-          </div>
-        </Reveal>
-      </section>
-
       {/* ── FAQ ── */}
       <section className="s-section s-section--tint" id="faq">
         <Reveal>
@@ -467,6 +546,7 @@ export default function SalesPage() {
         <div className="s-faq-list">
           {[
             ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practise with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade from group to 1-on-1 later with everything you paid counting toward it."],
+            ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
             ["When do the group sessions happen?", "Every Sunday from 12 to 1 pm GMT (4 to 5 pm GMT+4), for six weeks in a row."],
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world mission each week."],
@@ -476,14 +556,16 @@ export default function SalesPage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
-      <section className="s-final">
+      {/* ── CONTACT ── */}
+      <section className="s-final" id="contact">
         <Reveal>
-          <h2>Your voice is ready. <em>Are you?</em></h2>
-          <p>{next ? <>The next group starts <b>{fmt(next.date, { weekday: "long", month: "long", day: "numeric" })}</b>. Seats are limited to {GROUP_MAX}.</> : "Choose the plan that fits you."}</p>
+          <p className="s-label">Contact us</p>
+          <h2>Have a question? <em>Send me an email.</em></h2>
+          <p>Ask anything about the program, the dates or which plan fits you best. I reply personally. If it feels like a good fit, we will set up a quick call.</p>
           <div className="s-hero-btns">
-            <a href="#plans" className="s-btn s-btn--gold">Choose your plan</a>
+            <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email Marouane</a>
           </div>
+          <p className="s-final-small">{CONTACT_EMAIL}</p>
           <p className="s-final-small">Prefer to start free? <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer">Join the free community</a>.</p>
         </Reveal>
       </section>
