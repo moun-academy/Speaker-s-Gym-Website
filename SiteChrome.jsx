@@ -21,11 +21,11 @@ const methodLinks = [
 ];
 
 const salesLinks = [
+  ["Why It Works", "#why"],
+  ["Results", "#testimonials"],
+  ["The Plan", "#program"],
   ["Plans", "#plans"],
-  ["Testimonials", "#testimonials"],
   ["Group Dates", "#dates"],
-  ["Guarantee", "#guarantee"],
-  ["Program", "#program"],
   ["FAQ", "#faq"],
 ];
 
