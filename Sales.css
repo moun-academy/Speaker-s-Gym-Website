@@ -410,3 +410,11 @@ button.s-btn { font-family: var(--font-body); }
   .s-wave i:nth-child(n+19) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .s-wave i { animation: none; } .s-level-card { animation: none; } }
+
+/* testimonial captions */
+.s-video { margin: 0; display: flex; flex-direction: column; }
+.s-video figcaption { flex: 1; padding: 18px 20px 20px; background: var(--surface); }
+.s-video blockquote { margin: 0 0 12px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.02rem; font-style: italic; line-height: 1.5; }
+.s-video cite { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-style: normal; }
+.s-video cite b { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.s-video cite span { color: var(--text-dim); font-size: .8rem; }
