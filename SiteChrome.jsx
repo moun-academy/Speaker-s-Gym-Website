@@ -21,11 +21,12 @@ const methodLinks = [
 ];
 
 const salesLinks = [
-  ["Why It Works", "#why"],
-  ["Results", "#testimonials"],
-  ["The Plan", "#program"],
+  ["Is This For Me", "#you"],
+  ["Why It Works", "#method"],
+  ["Meet Marouane", "#coach"],
+  ["Results", "#results"],
+  ["Your Six Weeks", "#program"],
   ["Plans", "#plans"],
-  ["Group Dates", "#dates"],
   ["FAQ", "#faq"],
 ];
 
