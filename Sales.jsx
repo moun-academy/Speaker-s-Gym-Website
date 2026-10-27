@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { COMMUNITY_URL } from "./siteConfig.js";
+import { WHATSAPP_URL, WHATSAPP_NUMBER } from "./siteConfig.js";
+import WhatsAppIcon from "./WhatsAppIcon.jsx";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import "./Sales.css";
@@ -728,13 +729,13 @@ export default function SalesPage() {
       <section className="s-final" id="contact">
         <Reveal>
           <p className="s-label">Contact us</p>
-          <h2>Want to know more? <em>Send us an email.</em></h2>
-          <p>Ask us anything about the program, the dates or which plan fits you best. We answer within <b>24 hours</b>. If you'd like, we can book a quick call.</p>
+          <h2>Want to know more? <em>Send us a message.</em></h2>
+          <p>Ask us anything about the program, the dates or which plan fits you best. We answer within <b>24 hours</b>. If you'd like, we can book a quick discovery call.</p>
           <div className="s-hero-btns">
             <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email us</a>
+            <a href={WHATSAPP_URL} className="s-btn s-btn--ghost s-btn--wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
           </div>
-          <p className="s-final-small">{CONTACT_EMAIL}</p>
-          <p className="s-final-small">Prefer to start free? <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer">Join the free community</a>.</p>
+          <p className="s-final-small">{CONTACT_EMAIL} <i aria-hidden="true">·</i> WhatsApp {WHATSAPP_NUMBER}</p>
         </Reveal>
       </section>
 

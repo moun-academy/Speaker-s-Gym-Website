@@ -3,7 +3,8 @@ import heroVideoThumbnail from "./hero-video-thumbnail.webp";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { BOOK_URL, COMMUNITY_URL } from "./siteConfig.js";
+import { BOOK_URL, WHATSAPP_URL } from "./siteConfig.js";
+import WhatsAppIcon from "./WhatsAppIcon.jsx";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
@@ -733,7 +734,7 @@ export default function SpeakersGym() {
               <div className="hero-btns">
                 <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef}>Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
-                <a href={COMMUNITY_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer">Join Free Community</a>
+                <a href={WHATSAPP_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}><WhatsAppIcon size={16} /> Message Us on WhatsApp</a>
               </div>
             </Reveal>
             <Reveal instant delay={380}>
