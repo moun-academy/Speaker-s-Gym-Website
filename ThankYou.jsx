@@ -183,7 +183,7 @@ export function ThankYouCall() {
           </div>
           <h1 className="tyc-title tyc-rise" style={{ animationDelay: ".22s" }}>You're Booked!</h1>
           <p className="tyc-subtitle tyc-rise" style={{ animationDelay: ".3s" }}>
-            Your free 30-minute strategy call is confirmed. I'm looking forward to speaking with you.
+            Your free 30-minute strategy call is confirmed. We're looking forward to speaking with you.
           </p>
 
           <div className="tyc-rise" style={{ animationDelay: ".4s" }}>

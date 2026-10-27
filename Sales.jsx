@@ -20,7 +20,7 @@ const DEAL_END = Date.UTC(2026, 9, 31, 19, 59, 59);
 const GROUP_MAX = 5;
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
-const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Question about The Speaker's Gym")}&body=${encodeURIComponent("Hi Marouane,\n\nMy name is \nI'm interested in: 1-on-1 coaching / group coaching\nWhat I'd like to improve: \n\nThank you!")}`;
+const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Question about The Speaker's Gym")}&body=${encodeURIComponent("Hello Speaker's Gym team,\n\nMy name is \nI'm interested in: 1-on-1 coaching / group coaching\nWhat I'd like to improve: \n\nThank you!")}`;
 const CLOSE_DAYS_BEFORE = 2;   // a group stops taking sign-ups this many days before it starts
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -243,7 +243,7 @@ const LEVELS = [
 ];
 
 const LOOP = [
-  ["🎤", "Rehearse", "Practice out loud with me"],
+  ["🎤", "Rehearse", "Practice out loud with us"],
   ["🏢", "Try it for real", "In your meeting or conversation"],
   ["🔍", "Review", "See what worked"],
   ["🔁", "Repeat", "Each time, a little easier"],
@@ -251,7 +251,7 @@ const LOOP = [
 
 const BETWEEN = [
   ["📱", "Daily reps in the app, with AI feedback"],
-  ["💬", "Feedback from me in the community"],
+  ["💬", "Feedback from us in the community"],
   ["📊", "Progress tracking, so you always know where you stand"],
 ];
 
@@ -414,7 +414,7 @@ export default function SalesPage() {
       {/* ── 4 · HOW PRACTICE WORKS ── */}
       <section className="s-section" id="practice">
         <Reveal>
-          <p className="s-label">Practice with me</p>
+          <p className="s-label">Practice with us</p>
           <h2 className="s-title">You don't get braver by watching videos. <em>You get braver by practicing with someone beside you.</em></h2>
         </Reveal>
         <div className="s-loop-steps">
@@ -494,7 +494,7 @@ export default function SalesPage() {
       <section className="s-section s-section--tint" id="results">
         <Reveal>
           <p className="s-label">Results</p>
-          <h2 className="s-title">Don't take my word for it. <em>Take theirs.</em></h2>
+          <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
           <p className="s-sub">Real students, in their own words.</p>
         </Reveal>
         <div className="s-videos">
@@ -586,7 +586,7 @@ export default function SalesPage() {
                   <p>Join 1-on-1 and you also get a live group session every week for 12 months. Fifty-two more chances to practice with people on the same journey.</p>
                 </div>
               </div>
-              <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+              <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
             </article>
           </Reveal>
           <Reveal delay={120}>
@@ -719,7 +719,7 @@ export default function SalesPage() {
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world step each week."],
             ["How does the guarantee work?", "Show up to your sessions and do the practice in the community. If after 4 weeks you don't feel the change in your influence as a communicator, you get your money back, no questions asked."],
             ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
-            ["When can I start?", "You get access to the app right after joining. For 1-on-1, I'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
+            ["When can I start?", "You get access to the app right after joining. For 1-on-1, we'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
           ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
       </section>
@@ -727,11 +727,11 @@ export default function SalesPage() {
       {/* ── CONTACT ── */}
       <section className="s-final" id="contact">
         <Reveal>
-          <p className="s-label">Contact me</p>
-          <h2>Want to know more? <em>Send me an email.</em></h2>
-          <p>Ask me anything about the program, the dates or which plan fits you best. I answer within <b>24 hours</b>. If you'd like, we can book a quick call.</p>
+          <p className="s-label">Contact us</p>
+          <h2>Want to know more? <em>Send us an email.</em></h2>
+          <p>Ask us anything about the program, the dates or which plan fits you best. We answer within <b>24 hours</b>. If you'd like, we can book a quick call.</p>
           <div className="s-hero-btns">
-            <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email Marouane</a>
+            <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email us</a>
           </div>
           <p className="s-final-small">{CONTACT_EMAIL}</p>
           <p className="s-final-small">Prefer to start free? <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer">Join the free community</a>.</p>
