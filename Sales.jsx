@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { WHATSAPP_URL, WHATSAPP_NUMBER } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
@@ -6,20 +6,63 @@ import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import "./Sales.css";
 
-/* ─── Checkout links: paste the Stripe Payment Links here ───
-   While a link is empty, its button shows "Checkout opens soon" and can't be clicked.
-   Early-bird groups sell through CHECKOUT.earlyBird; if that link is empty they open the waiting list form. */
-const CHECKOUT = {
-  oneOnOne: "https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03", // $197 special price, until the deal ends
-  oneOnOneFull: "", // paste a $250 Stripe link here for after the deal; while empty, the button emails Marouane
-  group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
-  earlyBird: "https://buy.stripe.com/cNi3cvfZPb81ccv3mF1ck07", // $97 · later groups. While empty, early-bird cards open the waiting list form.
-};
-
-const PRICE = { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 };
-/* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
-const DEAL_END = Date.UTC(2026, 9, 31, 19, 59, 59);
 const GROUP_MAX = 5;
+
+/* ─── Markets: one page, two price lists ───
+   Paste Stripe Payment Links into each market's `checkout`. A link must charge the same amount and currency
+   shown on the page. While a link is empty: 1-on-1 and group buttons email us, early-bird cards open the waiting list. */
+const MARKETS = {
+  usd: {
+    key: "usd",
+    currency: "USD",
+    money: (n) => `$${n}`,
+    node: (n) => `$${n}`,
+    price: { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 },
+    checkout: {
+      oneOnOne: "https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03", // $197 special price, until the deal ends
+      oneOnOneFull: "", // paste a $250 Stripe link here for after the deal; while empty, the button emails us
+      group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
+      earlyBird: "https://buy.stripe.com/cNi3cvfZPb81ccv3mF1ck07", // $97 · later groups
+    },
+    ref: "",
+    time: "12–1 pm GMT (4–5 pm GMT+4)",
+    timeLong: "12 to 1 pm GMT (4 to 5 pm GMT+4)",
+    timeShort: "12–1 pm GMT",
+    title: "Join The Speaker's Gym | 1-on-1 or Group Coaching",
+    kicker: "Enrollment open",
+    heroFor: null,
+    assure: ["4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
+    priceNote: null,
+    extraFaq: null,
+  },
+  aed: {
+    key: "aed",
+    currency: "AED",
+    money: (n) => `AED ${n}`,
+    node: (n) => (<><small className="s-cur">AED</small>{n}</>),
+    price: { oneOnOne: 920, oneOnOneDeal: 725, group: 550, groupDeal: 475, earlyBird: 355 },
+    checkout: {
+      oneOnOne: "", // AED 725 special price, until the deal ends
+      oneOnOneFull: "", // AED 920 after the deal
+      group: "", // AED 475 · next group
+      earlyBird: "", // AED 355 · later groups
+    },
+    ref: "aed_",
+    time: "4–5 pm UAE time (GMT+4)",
+    timeLong: "4 to 5 pm UAE time (GMT+4)",
+    timeShort: "4–5 pm UAE time",
+    title: "Join The Speaker's Gym | UAE",
+    kicker: "Enrollment open · UAE",
+    heroFor: `A six-week program for shy and nervous professionals in the UAE. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
+    assure: ["4-week money-back guarantee", "Pay in UAE dirhams (AED)", "1-on-1 includes a year of group coaching"],
+    priceNote: "All prices are in UAE dirhams (AED). The amount you see is the amount you pay.",
+    extraFaq: ["What currency will I pay in?", "UAE dirhams (AED). The price on this page is the price you pay at checkout, with no currency conversion on our side."],
+  },
+};
+/* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
+const DEAL_END_TS = Date.UTC(2026, 9, 31, 19, 59, 59);
+const MarketContext = createContext(MARKETS.usd);
+const useMarket = () => useContext(MarketContext);
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Question about The Speaker's Gym")}&body=${encodeURIComponent("Hello Speaker's Gym team,\n\nMy name is \nI'm interested in: 1-on-1 coaching / group coaching\nWhat I'd like to improve: \n\nThank you!")}`;
@@ -53,12 +96,13 @@ function withRef(url, ref) {
   return `${url}${url.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(ref)}`;
 }
 
-function trackCheckout(value, name) {
-  try { window.fbq?.("track", "InitiateCheckout", { value, currency: "USD", content_name: name }); } catch (e) { /* ignore */ }
-  try { window.gtag?.("event", "begin_checkout", { value, currency: "USD", items: [{ item_name: name }] }); } catch (e) { /* ignore */ }
+function trackCheckout(value, name, currency = "USD") {
+  try { window.fbq?.("track", "InitiateCheckout", { value, currency, content_name: name }); } catch (e) { /* ignore */ }
+  try { window.gtag?.("event", "begin_checkout", { value, currency, items: [{ item_name: name }] }); } catch (e) { /* ignore */ }
 }
 
 function CheckoutButton({ href, className, value, name, children, fallbackHref, fallbackLabel }) {
+  const M = useMarket();
   if (!href && fallbackHref) {
     return <a className={cx("s-btn s-btn--block", className)} href={fallbackHref}>{fallbackLabel} <span aria-hidden="true">→</span></a>;
   }
@@ -66,7 +110,7 @@ function CheckoutButton({ href, className, value, name, children, fallbackHref, 
     return <span className={cx("s-btn s-btn--block s-btn--soon", className)} aria-disabled="true">Checkout opens soon</span>;
   }
   return (
-    <a className={cx("s-btn s-btn--block", className)} href={href} target="_blank" rel="noopener" onClick={() => trackCheckout(value, name)}>
+    <a className={cx("s-btn s-btn--block", className)} href={href} target="_blank" rel="noopener" onClick={() => trackCheckout(value, name, M.currency)}>
       {children} <span aria-hidden="true">→</span>
     </a>
   );
@@ -74,6 +118,8 @@ function CheckoutButton({ href, className, value, name, children, fallbackHref, 
 
 /* ─── Waiting list form (early-bird groups) ─── */
 function WaitlistModal({ group, onClose }) {
+  const M = useMarket();
+  const PRICE = M.price;
   const [form, setForm] = useState({ name: "", email: "", phone: "", website: "" });
   const [state, setState] = useState("idle"); // idle | sending | done | error
   const [error, setError] = useState("");
@@ -136,14 +182,14 @@ function WaitlistModal({ group, onClose }) {
           <div className="s-modal-done">
             <span className="s-modal-tick" aria-hidden="true"><Check /></span>
             <h3 id="wl-title">You're on the list!</h3>
-            <p>We've saved your spot on the waiting list for the group starting <b>{when}</b>, at the early-bird price of <b>${PRICE.earlyBird}</b>. We'll be in touch before enrollment opens.</p>
+            <p>We've saved your spot on the waiting list for the group starting <b>{when}</b>, at the early-bird price of <b>{M.money(PRICE.earlyBird)}</b>. We'll be in touch before enrollment opens.</p>
             <button type="button" className="s-btn s-btn--gold s-btn--block" onClick={onClose}>Done</button>
           </div>
         ) : (
           <form onSubmit={submit} noValidate>
-            <p className="s-modal-kicker">EARLY BIRD · ${PRICE.earlyBird}</p>
+            <p className="s-modal-kicker">EARLY BIRD · {M.money(PRICE.earlyBird)}</p>
             <h3 id="wl-title">Join the waiting list</h3>
-            <p className="s-modal-sub">Group starting <b>{when}</b>. Six Sundays, 12–1 pm GMT, max {GROUP_MAX} people.</p>
+            <p className="s-modal-sub">Group starting <b>{when}</b>. Six Sundays, {M.timeShort}, max {GROUP_MAX} people.</p>
             <label className="s-field"><span>Full name</span>
               <input ref={firstField} type="text" autoComplete="name" required value={form.name} onChange={update("name")} />
             </label>
@@ -215,8 +261,8 @@ const ONE_ON_ONE = [
   "Bonus: The Conversation Playbook",
 ];
 
-const GROUP = [
-  "Six live group sessions, Sundays 12–1 pm GMT (4–5 pm GMT+4)",
+const groupItems = (M) => [
+  `Six live group sessions, Sundays ${M.time}`,
   `Maximum ${GROUP_MAX} people, so you speak every session`,
   "The same 6-week plan as 1-on-1",
   "1 year of the Speaker's Gym app with AI feedback",
@@ -283,14 +329,18 @@ const VIDEOS = [
   ["XQ5x8_tnI7M", "Avinash", "", "Got to know a lot about vocal variety and also how to structure your speeches. It was very interactive and I'm for sure buying his course."],
 ];
 
-export default function SalesPage() {
+function SalesContent() {
+  const M = useMarket();
+  const PRICE = M.price;
+  const CHECKOUT = M.checkout;
+  const DEAL_END = DEAL_END_TS;
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
   const [level, setLevel] = useState(0);
 
   useEffect(() => {
     const prev = document.title;
-    document.title = "Join The Speaker's Gym | 1-on-1 or Group Coaching";
+    document.title = M.title;
     fetch("/sales/spots.json", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d) setSpots({ max: d.max || GROUP_MAX, taken: d.taken || {}, full: d.full || [] }); })
@@ -313,7 +363,7 @@ export default function SalesPage() {
           date: d, key, left, early,
           price: early ? PRICE.earlyBird : PRICE.groupDeal,
           end: addDays(d, 35),
-          link: withRef(early ? CHECKOUT.earlyBird : CHECKOUT.group, `${early ? "early" : "group"}_${key}`),
+          link: withRef(early ? CHECKOUT.earlyBird : CHECKOUT.group, `${M.ref}${early ? "early" : "group"}_${key}`),
         };
       });
   }, [spots]);
@@ -324,7 +374,7 @@ export default function SalesPage() {
   const dealLive = dealMsLeft > 0;
   const dealDays = Math.ceil(dealMsLeft / 86400000);
   const oneOnOnePrice = dealLive ? PRICE.oneOnOneDeal : PRICE.oneOnOne;
-  const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, "one_on_one");
+  const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, `${M.ref}one_on_one`);
 
   return (
     <div className="sales-page">
@@ -334,11 +384,16 @@ export default function SalesPage() {
       <header className="s-hero">
         <div className="s-hero-glow" aria-hidden="true" />
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
-        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
+        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />{M.kicker}</p></Reveal>
         <Reveal instant delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
         <Reveal instant delay={160}>
           <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>
         </Reveal>
+        {M.heroFor && (
+          <Reveal instant delay={200}>
+            <p className="s-hero-for">{M.heroFor}</p>
+          </Reveal>
+        )}
         <Reveal instant delay={240}>
           <div className="s-transforms">
             {[["Rambling", "Articulate"], ["Monotone", "Expressive"], ["Shy", "Confident"]].map(([a, b]) => (
@@ -354,8 +409,7 @@ export default function SalesPage() {
         </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
-            <li><Check />4-week money-back guarantee</li>
-            <li><Check />1-on-1 includes a year of group coaching</li>
+            {M.assure.map((t) => <li key={t}><Check />{t}</li>)}
           </ul>
         </Reveal>
       </header>
@@ -564,6 +618,7 @@ export default function SalesPage() {
         <Reveal>
           <p className="s-label">Choose your plan</p>
           <h2 className="s-title">Choose how you want <em>to learn.</em></h2>
+          {M.priceNote && <p className="s-sub s-price-note">{M.priceNote}</p>}
         </Reveal>
         <div className="s-plans">
           <Reveal>
@@ -573,10 +628,10 @@ export default function SalesPage() {
               <h3>Private coaching with Marouane</h3>
               <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
               <div className="s-price">
-                {dealLive && <s>${PRICE.oneOnOne}</s>}
-                <strong>${oneOnOnePrice}</strong>
+                {dealLive && <s>{M.node(PRICE.oneOnOne)}</s>}
+                <strong>{M.node(oneOnOnePrice)}</strong>
                 <span>one payment · 6 weeks + 1 year of access</span>
-                {dealLive && <em className="s-deal">You save ${PRICE.oneOnOne - PRICE.oneOnOneDeal} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
+                {dealLive && <em className="s-deal">You save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
               </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <div className="s-bonus">
@@ -597,12 +652,12 @@ export default function SalesPage() {
               <h3>Small-group coaching</h3>
               <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
               <div className="s-price">
-                <s>${PRICE.group}</s>
-                <strong>${PRICE.groupDeal}</strong>
-                <span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates · 1 year of access</span>
-                <em className="s-deal">You save ${PRICE.group - PRICE.groupDeal}</em>
+                <s>{M.node(PRICE.group)}</s>
+                <strong>{M.node(PRICE.groupDeal)}</strong>
+                <span>next group · or <b>{M.money(PRICE.earlyBird)}</b> early-bird for later dates · 1 year of access</span>
+                <em className="s-deal">You save {M.money(PRICE.group - PRICE.groupDeal)}</em>
               </div>
-              <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
+              <ul className="s-list">{groupItems(M).map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
               <p className="s-upsell">Want group coaching every week for a full year? <a href="#one-on-one">It comes free with 1-on-1.</a></p>
             </article>
@@ -614,8 +669,8 @@ export default function SalesPage() {
       <section className="s-section s-section--tint" id="dates">
         <Reveal>
           <p className="s-label">Upcoming groups</p>
-          <h2 className="s-title">Book early, <em>save ${PRICE.group - PRICE.earlyBird}.</em></h2>
-          <p className="s-sub">Each group meets six Sundays in a row, 12–1 pm GMT (4–5 pm GMT+4). {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
+          <h2 className="s-title">Book early, <em>save {M.money(PRICE.group - PRICE.earlyBird)}.</em></h2>
+          <p className="s-sub">Each group meets six Sundays in a row, {M.time}. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
         </Reveal>
         <div className="s-dates">
           {groups.map((g, i) => {
@@ -633,7 +688,7 @@ export default function SalesPage() {
                   </div>
                   <h3>Starts {fmt(g.date, { weekday: "long", month: "long", day: "numeric" })}</h3>
                   <p className="s-date-meta">6 Sundays · {fmt(g.date, { month: "short", day: "numeric" })} – {fmt(g.end, { month: "short", day: "numeric" })}</p>
-                  <p className="s-date-meta">Every Sunday · <span>12–1 pm GMT (4–5 pm GMT+4)</span></p>
+                  <p className="s-date-meta">Every Sunday · <span>{M.time}</span></p>
                   <div className="s-seats" aria-label={full ? "This group is full" : `${g.left} of ${spots.max} seats left`}>
                     <div className="s-seat-row" aria-hidden="true">
                       {Array.from({ length: spots.max }, (_, k) => <i key={k} className={k < spots.max - g.left ? "taken" : ""} />)}
@@ -641,9 +696,9 @@ export default function SalesPage() {
                     <span>{full ? "Full" : g.left === spots.max ? `${spots.max} seats available` : `Only ${g.left} of ${spots.max} seats left`}</span>
                   </div>
                   <div className="s-date-price">
-                    <s>${PRICE.group}</s>
-                    <strong>${g.price}</strong>
-                    <span>Save ${PRICE.group - g.price}</span>
+                    <s>{M.node(PRICE.group)}</s>
+                    <strong>{M.node(g.price)}</strong>
+                    <span>Save {M.money(PRICE.group - g.price)}</span>
                   </div>
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>
@@ -653,7 +708,7 @@ export default function SalesPage() {
                         Join the waiting list <span aria-hidden="true">→</span>
                       </button>
                     ) : (
-                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`}>{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
+                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`} fallbackHref={CONTACT_HREF} fallbackLabel="Email us to reserve">{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
                     )
                   )}
                 </article>
@@ -716,11 +771,12 @@ export default function SalesPage() {
             ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
             ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
-            ["When do the group sessions happen?", "Every Sunday from 12 to 1 pm GMT (4 to 5 pm GMT+4), for six weeks in a row. New groups start on the first Sunday of the month and around the 15th."],
+            ["When do the group sessions happen?", `Every Sunday from ${M.timeLong}, for six weeks in a row. New groups start on the first Sunday of the month and around the 15th.`],
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world step each week."],
             ["How does the guarantee work?", "Show up to your sessions and do the practice in the community. If after 4 weeks you don't feel the change in your influence as a communicator, you get your money back, no questions asked."],
             ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, we'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
+            ...(M.extraFaq ? [M.extraFaq] : []),
           ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
       </section>
@@ -745,5 +801,13 @@ export default function SalesPage() {
 
       <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>
     </div>
+  );
+}
+
+export default function SalesPage({ market = "usd" }) {
+  return (
+    <MarketContext.Provider value={MARKETS[market] || MARKETS.usd}>
+      <SalesContent />
+    </MarketContext.Provider>
   );
 }

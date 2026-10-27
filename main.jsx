@@ -18,6 +18,7 @@ import { installCalendlyBookingTracking } from './metaTracking.js'
 
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
 const SalesPage = lazy(() => import('./Sales.jsx'))
+const SalesAEDPage = lazy(() => import('./SalesAED.jsx'))
 
 installCalendlyBookingTracking({ redirectTo: '/success' })
 
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/group-coaching" element={<GroupCoaching />} />
         <Route path="/method" element={<MethodPage />} />
         <Route path="/sales" element={<Suspense fallback={null}><SalesPage /></Suspense>} />
+        <Route path="/aed" element={<Suspense fallback={null}><SalesAEDPage /></Suspense>} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
         <Route path="/khadija" element={<KhadijaPortal />} />
         <Route path="/nadira" element={<NadiraPortal />} />
