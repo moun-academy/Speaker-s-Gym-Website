@@ -355,7 +355,7 @@ export default function SalesPage() {
       <section className="s-section" id="you">
         <Reveal>
           <p className="s-label">Does this sound like you?</p>
-          <h2 className="s-title">You have plenty to say. <em>It just doesn't come out.</em></h2>
+          <h2 className="s-title">Trust yourself to find your words <em>when it matters.</em></h2>
         </Reveal>
         <div className="s-thoughts">
           {THOUGHTS.map(([icon, text, tag], i) => (
@@ -696,14 +696,6 @@ export default function SalesPage() {
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, I'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
           ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
-      </section>
-
-      {/* ── CLOSING STATEMENT ── */}
-      <section className="s-closing">
-        <Reveal>
-          <h2>Trust yourself to find your words <em>when it matters.</em></h2>
-          <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
-        </Reveal>
       </section>
 
       {/* ── CONTACT ── */}
