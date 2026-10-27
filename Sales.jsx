@@ -173,6 +173,18 @@ function Reveal({ children, delay = 0, className = "" }) {
   return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
+function Pull({ name }) {
+  const v = VIDEOS.find((x) => x[1] === name);
+  if (!v) return null;
+  const [, who, role, quote] = v;
+  return (
+    <figure className="s-pull">
+      <blockquote>“{quote}”</blockquote>
+      <figcaption><b>{who}</b>{role && <span>{role}</span>}</figcaption>
+    </figure>
+  );
+}
+
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -239,6 +251,8 @@ const BETWEEN = [
   ["💬", "Feedback from me in the community"],
   ["📊", "Progress tracking, so you always know where you stand"],
 ];
+
+const WEEK_QUOTES = { 0: "Vivek", 4: "Avinash" };
 
 const WEEKS = [
   ["Organize Your Thoughts with PREP", "Structure your ideas clearly, answer with confidence and stop rambling under pressure."],
@@ -312,9 +326,9 @@ export default function SalesPage() {
         <div className="s-hero-glow" aria-hidden="true" />
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
         <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
-        <Reveal delay={80}><h1>Trust yourself to find your words <em>when it matters.</em></h1></Reveal>
+        <Reveal delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
         <Reveal delay={160}>
-          <p className="s-hero-sub">Speak up in meetings and conversations, explain your ideas clearly, and bring them to life with an engaging voice, even when you feel nervous.</p>
+          <p className="s-hero-sub">Explain your ideas clearly and bring them to life with an engaging voice, even when you feel nervous.</p>
         </Reveal>
         <Reveal delay={240}>
           <div className="s-transforms">
@@ -359,6 +373,7 @@ export default function SalesPage() {
             <strong>Communication is a skill, not a talent. And skills can be trained.</strong>
           </div>
         </Reveal>
+        <Reveal><Pull name="Imane" /></Reveal>
       </section>
 
       {/* ── 3 · TWO TRACKS ── */}
@@ -386,6 +401,7 @@ export default function SalesPage() {
           </div>
           <p className="s-merge">= <b>Confident communication</b></p>
         </Reveal>
+        <Reveal><Pull name="Kevin" /></Reveal>
       </section>
 
       {/* ── 4 · HOW PRACTICE WORKS ── */}
@@ -414,6 +430,7 @@ export default function SalesPage() {
             {BETWEEN.map(([icon, text]) => <li key={text}><span aria-hidden="true">{icon}</span>{text}</li>)}
           </ul>
         </Reveal>
+        <Reveal><Pull name="Marisol" /></Reveal>
       </section>
 
       {/* ── 5 · COACH ── */}
@@ -428,6 +445,7 @@ export default function SalesPage() {
               <h2>Hi, I'm Marouane.</h2>
               <p>I know what it feels like to have the knowledge but struggle to say it clearly. To freeze in meetings, ramble under pressure, or go unnoticed.</p>
               <p>I built The Speaker's Gym because <b>communication is a skill, not a talent</b>. No generic tips. No "just be confident." Just structured practice, honest feedback and a system that works in real situations.</p>
+              <Pull name="Seta" />
             </div>
           </Reveal>
         </div>
@@ -505,6 +523,7 @@ export default function SalesPage() {
                   <small>Week {i + 1}</small>
                   <h3>{name}</h3>
                   <p>{text}</p>
+                  {WEEK_QUOTES[i] && <Pull name={WEEK_QUOTES[i]} />}
                 </div>
               </article>
             </Reveal>
@@ -677,6 +696,14 @@ export default function SalesPage() {
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, I'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
           ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
+      </section>
+
+      {/* ── CLOSING STATEMENT ── */}
+      <section className="s-closing">
+        <Reveal>
+          <h2>Trust yourself to find your words <em>when it matters.</em></h2>
+          <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
+        </Reveal>
       </section>
 
       {/* ── CONTACT ── */}
