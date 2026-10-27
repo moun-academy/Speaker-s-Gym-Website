@@ -41,11 +41,13 @@ const MARKETS = {
     money: (n) => `AED ${n}`,
     node: (n) => (<><small className="s-cur">AED</small>{n}</>),
     price: { oneOnOne: 920, oneOnOneDeal: 725, group: 550, groupDeal: 475, earlyBird: 355 },
+    usdPrice: { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 },
+    // Same Stripe links as USD: Stripe charges in USD and shows buyers their own currency at checkout.
     checkout: {
-      oneOnOne: "", // AED 725 special price, until the deal ends
-      oneOnOneFull: "", // AED 920 after the deal
-      group: "", // AED 475 · next group
-      earlyBird: "", // AED 355 · later groups
+      oneOnOne: "https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03",
+      oneOnOneFull: "",
+      group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05",
+      earlyBird: "https://buy.stripe.com/cNi3cvfZPb81ccv3mF1ck07",
     },
     ref: "aed_",
     time: "4–5 pm UAE time (GMT+4)",
@@ -54,9 +56,9 @@ const MARKETS = {
     title: "Join The Speaker's Gym | UAE",
     kicker: "Enrollment open · UAE",
     heroFor: `A six-week program for shy and nervous professionals in the UAE. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
-    assure: ["4-week money-back guarantee", "Pay in UAE dirhams (AED)", "1-on-1 includes a year of group coaching"],
-    priceNote: "All prices are in UAE dirhams (AED). The amount you see is the amount you pay.",
-    extraFaq: ["What currency will I pay in?", "UAE dirhams (AED). The price on this page is the price you pay at checkout, with no currency conversion on our side."],
+    assure: ["4-week money-back guarantee", "Pay in your own currency", "1-on-1 includes a year of group coaching"],
+    priceNote: "Our prices are set in US dollars. You pay in your own currency, so the final amount may differ slightly depending on the exchange rate.",
+    extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the AED figure shown on this page. The dollar price never changes."],
   },
 };
 /* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
@@ -374,6 +376,7 @@ function SalesContent() {
   const dealLive = dealMsLeft > 0;
   const dealDays = Math.ceil(dealMsLeft / 86400000);
   const oneOnOnePrice = dealLive ? PRICE.oneOnOneDeal : PRICE.oneOnOne;
+  const usdLine = (key) => (M.usdPrice ? <em className="s-usd">Priced at ${M.usdPrice[key]} USD · pay in your own currency</em> : null);
   const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, `${M.ref}one_on_one`);
 
   return (
@@ -631,6 +634,7 @@ function SalesContent() {
                 {dealLive && <s>{M.node(PRICE.oneOnOne)}</s>}
                 <strong>{M.node(oneOnOnePrice)}</strong>
                 <span>one payment · 6 weeks + 1 year of access</span>
+                {usdLine(dealLive ? "oneOnOneDeal" : "oneOnOne")}
                 {dealLive && <em className="s-deal">You save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
               </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
@@ -655,6 +659,7 @@ function SalesContent() {
                 <s>{M.node(PRICE.group)}</s>
                 <strong>{M.node(PRICE.groupDeal)}</strong>
                 <span>next group · or <b>{M.money(PRICE.earlyBird)}</b> early-bird for later dates · 1 year of access</span>
+                {usdLine("groupDeal")}
                 <em className="s-deal">You save {M.money(PRICE.group - PRICE.groupDeal)}</em>
               </div>
               <ul className="s-list">{groupItems(M).map((t) => <li key={t}><Check />{t}</li>)}</ul>
@@ -699,6 +704,7 @@ function SalesContent() {
                     <s>{M.node(PRICE.group)}</s>
                     <strong>{M.node(g.price)}</strong>
                     <span>Save {M.money(PRICE.group - g.price)}</span>
+                    {usdLine(g.early ? "earlyBird" : "groupDeal")}
                   </div>
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>
