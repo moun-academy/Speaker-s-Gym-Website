@@ -418,3 +418,19 @@ button.s-btn { font-family: var(--font-body); }
 .s-video cite { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-style: normal; }
 .s-video cite b { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 .s-video cite span { color: var(--text-dim); font-size: .8rem; }
+
+/* pull quotes next to sections */
+.s-pull { max-width: 640px; margin: 40px auto 0; padding: 22px 26px; border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 14px; background: var(--surface); }
+.s-pull blockquote { margin: 0 0 10px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.1rem; font-style: italic; line-height: 1.5; }
+.s-pull figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.s-pull figcaption b { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.s-pull figcaption span { color: var(--text-dim); font-size: .8rem; }
+.s-coach-text .s-pull { margin: 24px 0 0; max-width: none; text-align: left; }
+.s-tl .s-pull { margin: 14px 0 0; padding: 14px 16px; max-width: none; background: var(--bg); }
+.s-tl .s-pull blockquote { font-size: .98rem; }
+
+/* closing statement */
+.s-closing { padding: 90px 24px; text-align: center; border-top: 1px solid var(--border); background: radial-gradient(ellipse at 50% 100%, rgba(217,192,111,.12), transparent 65%); }
+.s-closing h2 { max-width: 820px; margin: 0 auto 28px; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; color: var(--text-bright); }
+.s-closing h2 em { color: var(--gold); font-weight: 400; }
+@media (max-width: 680px) { .s-pull { padding: 18px 18px; margin-top: 30px; } .s-pull blockquote { font-size: 1.02rem; } .s-closing { padding: 70px 20px; } }
