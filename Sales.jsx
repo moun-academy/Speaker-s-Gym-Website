@@ -8,11 +8,14 @@ import "./Sales.css";
    While a link is empty, its button shows "Checkout opens soon" and can't be clicked.
    Early-bird groups don't sell yet: their button opens the waiting list form. */
 const CHECKOUT = {
-  oneOnOne: "", // $250 · 6 weeks of private coaching. While empty, the button emails Marouane instead.
+  oneOnOne: "https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03", // $197 special price, until the deal ends
+  oneOnOneFull: "", // paste a $250 Stripe link here for after the deal; while empty, the button emails Marouane
   group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
 };
 
-const PRICE = { oneOnOne: 250, group: 129, earlyBird: 97 };
+const PRICE = { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 };
+/* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
+const DEAL_END = Date.UTC(2026, 9, 31, 19, 59, 59);
 const GROUP_MAX = 5;
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
@@ -306,7 +309,7 @@ export default function SalesPage() {
         const early = i > 0;
         return {
           date: d, key, left, early,
-          price: early ? PRICE.earlyBird : PRICE.group,
+          price: early ? PRICE.earlyBird : PRICE.groupDeal,
           end: addDays(d, 35),
           link: early ? "" : withRef(CHECKOUT.group, `group_${key}`),
         };
@@ -315,7 +318,11 @@ export default function SalesPage() {
 
   const next = groups[0];
   const daysToNext = next ? Math.round((next.date - new Date(new Date().toDateString())) / 86400000) : null;
-  const oneLink = withRef(CHECKOUT.oneOnOne, "one_on_one");
+  const dealMsLeft = DEAL_END - Date.now();
+  const dealLive = dealMsLeft > 0;
+  const dealDays = Math.ceil(dealMsLeft / 86400000);
+  const oneOnOnePrice = dealLive ? PRICE.oneOnOneDeal : PRICE.oneOnOne;
+  const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, "one_on_one");
 
   return (
     <div className="sales-page">
@@ -564,9 +571,14 @@ export default function SalesPage() {
               <p className="s-plan-tag">1-ON-1 COACHING</p>
               <h3>Private coaching with Marouane</h3>
               <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
-              <div className="s-price"><strong>${PRICE.oneOnOne}</strong><span>one payment · 6 weeks + 1 year of access</span></div>
+              <div className="s-price">
+                {dealLive && <s>${PRICE.oneOnOne}</s>}
+                <strong>${oneOnOnePrice}</strong>
+                <span>one payment · 6 weeks + 1 year of access</span>
+                {dealLive && <em className="s-deal">Special price · ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
+              </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <CheckoutButton href={oneLink} className="s-btn--gold" value={PRICE.oneOnOne} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+              <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
             </article>
           </Reveal>
           <Reveal delay={120}>
@@ -575,7 +587,11 @@ export default function SalesPage() {
               <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX}</p>
               <h3>Small-group coaching</h3>
               <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
-              <div className="s-price"><strong>${PRICE.group}</strong><span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates · 1 year of access</span></div>
+              <div className="s-price">
+                <s>${PRICE.group}</s>
+                <strong>${PRICE.groupDeal}</strong>
+                <span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates · 1 year of access</span>
+              </div>
               <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
             </article>
@@ -614,9 +630,9 @@ export default function SalesPage() {
                     <span>{full ? "Full" : g.left === spots.max ? `${spots.max} seats available` : `Only ${g.left} of ${spots.max} seats left`}</span>
                   </div>
                   <div className="s-date-price">
-                    {g.early && <s>${PRICE.group}</s>}
+                    <s>${PRICE.group}</s>
                     <strong>${g.price}</strong>
-                    {g.early && <span>Save ${PRICE.group - PRICE.earlyBird}</span>}
+                    <span>Save ${PRICE.group - g.price}</span>
                   </div>
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>

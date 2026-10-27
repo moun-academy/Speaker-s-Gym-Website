@@ -440,3 +440,7 @@ button.s-btn { font-family: var(--font-body); }
 .s-hero-sub::before { content: ""; position: absolute; top: 0; left: 50%; width: 64px; height: 2px; margin-left: -32px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 .s-hero-sub mark { padding: 0; background: none; color: var(--gold-soft); font-style: italic; }
 .s-hero-sub-end { display: inline-block; margin-top: 4px; color: var(--gold); font-style: italic; }
+
+/* discounted prices */
+.s-price s { align-self: center; color: #6f6c66; font-family: var(--font-display); font-size: 1.6rem; text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
+.s-price .s-deal { flex: 0 0 auto; align-self: flex-start; margin-top: 4px; padding: 5px 12px; border-radius: 999px; background: rgba(127,211,143,.12); color: #9be0a8; font-size: .74rem; font-style: normal; font-weight: 700; letter-spacing: .05em; }
