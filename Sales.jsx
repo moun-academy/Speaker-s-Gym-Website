@@ -206,7 +206,6 @@ const Check = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5
 const ONE_ON_ONE = [
   "Six private 60-minute sessions with Marouane",
   "Personalized roadmap and exposure plan",
-  "1 year of weekly group coaching, included",
   "1 year of the Speaker's Gym app with AI feedback",
   "1 year in the community + private WhatsApp group",
   "1 year of the MOUN Academy full course (3 hours)",
@@ -354,7 +353,7 @@ export default function SalesPage() {
         <Reveal delay={360}>
           <ul className="s-assure">
             <li><Check />4-week money-back guarantee</li>
-            <li><Check />1 year of access included</li>
+            <li><Check />1-on-1 includes a year of group coaching</li>
           </ul>
         </Reveal>
       </header>
@@ -567,7 +566,7 @@ export default function SalesPage() {
         </Reveal>
         <div className="s-plans">
           <Reveal>
-            <article className="s-plan s-plan--featured">
+            <article className="s-plan s-plan--featured" id="one-on-one">
               <span className="s-ribbon">MOST PERSONAL</span>
               <p className="s-plan-tag">1-ON-1 COACHING</p>
               <h3>Private coaching with Marouane</h3>
@@ -576,7 +575,15 @@ export default function SalesPage() {
                 {dealLive && <s>${PRICE.oneOnOne}</s>}
                 <strong>${oneOnOnePrice}</strong>
                 <span>one payment · 6 weeks + 1 year of access</span>
-                {dealLive && <em className="s-deal">Special price · ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
+                {dealLive && <em className="s-deal">You save ${PRICE.oneOnOne - PRICE.oneOnOneDeal} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
+              </div>
+              <div className="s-bonus">
+                <span className="s-bonus-ico" aria-hidden="true">🎁</span>
+                <div>
+                  <small>Big bonus · included free</small>
+                  <strong>Weekly group coaching for a full year</strong>
+                  <p>Join 1-on-1 and you also get a live group session every week for 12 months. Fifty-two more chances to practice with people on the same journey.</p>
+                </div>
               </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
@@ -592,9 +599,11 @@ export default function SalesPage() {
                 <s>${PRICE.group}</s>
                 <strong>${PRICE.groupDeal}</strong>
                 <span>next group · or <b>${PRICE.earlyBird}</b> early-bird for later dates · 1 year of access</span>
+                <em className="s-deal">You save ${PRICE.group - PRICE.groupDeal}</em>
               </div>
               <ul className="s-list">{GROUP.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
+              <p className="s-upsell">Want group coaching every week for a full year? <a href="#one-on-one">It comes free with 1-on-1.</a></p>
             </article>
           </Reveal>
         </div>

@@ -444,3 +444,20 @@ button.s-btn { font-family: var(--font-body); }
 /* discounted prices */
 .s-price s { align-self: center; color: #6f6c66; font-family: var(--font-display); font-size: 1.6rem; text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
 .s-price .s-deal { flex: 0 0 auto; align-self: flex-start; margin-top: 4px; padding: 5px 12px; border-radius: 999px; background: rgba(127,211,143,.12); color: #9be0a8; font-size: .74rem; font-style: normal; font-weight: 700; letter-spacing: .05em; }
+
+/* old price vs new price: make the difference obvious */
+.s-price s { position: relative; align-self: center; color: #c9c4b6; font-family: var(--font-display); font-size: 2.3rem; line-height: 1; text-decoration: line-through; text-decoration-color: #f08a6c; text-decoration-thickness: 3px; opacity: .9; }
+.s-price strong { font-size: 4.4rem; text-shadow: 0 0 34px rgba(217,192,111,.4); }
+.s-price .s-deal { background: rgba(127,211,143,.14); color: #a9e6b4; font-size: .78rem; border: 1px solid rgba(127,211,143,.35); }
+.s-date-price s { color: #c9c4b6; font-size: 1.7rem; text-decoration-color: #f08a6c; text-decoration-thickness: 3px; }
+.s-date-price strong { font-size: 3rem; text-shadow: 0 0 26px rgba(217,192,111,.35); }
+
+/* group coaching bonus */
+.s-bonus { position: relative; display: flex; gap: 16px; align-items: flex-start; margin: 0 0 24px; padding: 20px 22px; border: 1px solid var(--gold); border-radius: 16px; background: linear-gradient(135deg, rgba(217,192,111,.2), rgba(217,192,111,.05)); box-shadow: 0 0 40px rgba(217,192,111,.12); }
+.s-bonus-ico { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 14px; background: var(--gold); font-size: 1.6rem; }
+.s-bonus small { display: block; color: var(--gold-soft); font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.s-bonus strong { display: block; margin: 2px 0 6px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.25; }
+.sales-page .s-bonus p { margin: 0; color: var(--text); font-size: .93rem; line-height: 1.5; }
+.sales-page .s-upsell { margin: 14px 0 0; text-align: center; color: var(--text-dim); font-size: .88rem; }
+.s-upsell a { color: var(--gold); font-weight: 600; white-space: nowrap; }
+@media (max-width: 680px) { .s-price s { font-size: 1.9rem; } .s-price strong { font-size: 3.6rem; } .s-bonus { padding: 16px; } .s-date-price strong { font-size: 2.6rem; } }
