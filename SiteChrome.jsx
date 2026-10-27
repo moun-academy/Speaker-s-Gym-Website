@@ -28,6 +28,7 @@ const salesLinks = [
   ["Your Six Weeks", "#program"],
   ["Plans", "#plans"],
   ["FAQ", "#faq"],
+  ["Contact Us", "#contact"],
 ];
 
 export function SiteHeader({ page = "home" }) {
