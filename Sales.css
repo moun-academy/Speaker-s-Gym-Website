@@ -460,3 +460,10 @@ button.s-btn { font-family: var(--font-body); }
 .sales-page .s-upsell { margin: 14px 0 0; text-align: center; color: var(--text-dim); font-size: .88rem; }
 .s-upsell a { color: var(--gold); font-weight: 600; white-space: nowrap; }
 @media (max-width: 680px) { .s-price s { font-size: 1.9rem; } .s-price strong { font-size: 3.6rem; } .s-bonus { padding: 16px; } .s-date-price strong { font-size: 2.6rem; } }
+
+/* WhatsApp button */
+.s-btn--wa { display: inline-flex; align-items: center; justify-content: center; gap: 9px; }
+.s-btn--wa svg { width: 18px; height: 18px; }
+.s-final-small i { margin: 0 6px; font-style: normal; color: var(--text-dim); }
+.s-final .s-hero-btns { flex-wrap: wrap; justify-content: center; }
+.s-final .s-hero-btns + .s-final-small { margin-top: 22px; }

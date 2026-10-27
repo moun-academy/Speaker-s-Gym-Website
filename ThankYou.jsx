@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { WHATSAPP_URL } from "./siteConfig.js";
 
 /* ─── shared theme + layout for the thank-you pages ─── */
 const SCHEDULE_URL = "https://calendly.com/marouane-speakers-gym/30min";
@@ -203,7 +204,7 @@ export function ThankYouCall() {
 
           <div className="tyc-btns tyc-rise" style={{ animationDelay: ".5s" }}>
             <a href="/" className="tyc-btn">Back to Home</a>
-            <a href="https://www.skool.com/moun-academy-2097/about" className="tyc-btn-ghost" target="_blank" rel="noopener noreferrer">Join the Free Community</a>
+            <a href={WHATSAPP_URL} className="tyc-btn-ghost" target="_blank" rel="noopener noreferrer">Message Us on WhatsApp</a>
           </div>
 
           <div className="tyc-footnote tyc-rise" style={{ animationDelay: ".58s" }}>
