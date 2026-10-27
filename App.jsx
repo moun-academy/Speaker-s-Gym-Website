@@ -153,9 +153,9 @@ function ExposureLadder() {
 
 /* ─── How it works: the five-step system cycle ─── */
 const SYSTEM_STEPS = [
-  { tag: "1-on-1 coaching", title: "Learn a new skill", desc: "I teach you a new skill in our live session." },
+  { tag: "1-on-1 coaching", title: "Learn a new skill", desc: "We teach you a new skill in our live session." },
   { tag: "Daily practice", title: "Internalize it", desc: "Practice daily in the Speaker's Gym app, with AI feedback for support." },
-  { tag: "Community", title: "Get my feedback", desc: "Post your practice in the community and get feedback from me." },
+  { tag: "Community", title: "Get our feedback", desc: "Post your practice in the community and get feedback from us." },
   { tag: "MOUN Academy", title: "Study at your own pace", desc: "Go deeper with the course whenever it suits you." },
   { tag: "Your portal", title: "See everything in one place", desc: "Your portal is updated after every meeting we have." },
 ];
@@ -915,7 +915,7 @@ export default function SpeakersGym() {
             <h4>Between Sessions</h4>
             <ul>
               <li>Daily reps on the Speaker's Gym App with AI feedback</li>
-              <li>Post your practice on the community and get feedback from me personally</li>
+              <li>Post your practice on the community and get feedback from us personally</li>
               <li>Individual performance tracking so you always know where you stand</li>
             </ul>
           </div>
@@ -993,8 +993,8 @@ export default function SpeakersGym() {
             { q: "Is the coaching personalized?", a: "Completely. Your sessions, exposure levels, missions, feedback, and practice plan are built around your fears, workplace, goals, and real speaking situations. This is not a generic exposure challenge or a one-size-fits-all course." },
             { q: "How much time should I set aside each week?", a: "You will have one private 60-minute coaching session each week, plus short practice and one manageable real-world mission. The plan is designed to fit into your life and build steady progress without overwhelming you." },
             { q: "What if I still feel nervous while speaking?", a: "You do not need to wait until you feel fearless. We start at a level that feels manageable, practise the next step, and adjust the strategy when needed. The goal is to help you speak with growing freedom while still being yourself." },
-            { q: "Is there a money-back guarantee?", a: "Yes. Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, I'll refund every penny and coach you for another 30 days, completely free. I'm committed to helping you get there." },
-            { q: "When can I start?", a: "You receive immediate access to the course and app after joining. I will personally contact you to schedule your first private coaching session." },
+            { q: "Is there a money-back guarantee?", a: "Yes. Complete the six-week program and put the exercises into practice. If you do not feel significantly more confident speaking by the end, we'll refund every penny and coach you for another 30 days, completely free. We're committed to helping you get there." },
+            { q: "When can I start?", a: "You receive immediate access to the course and app after joining. We will personally contact you to schedule your first private coaching session." },
           ].map((item, i) => (
             <Reveal key={i} delay={i * 60}>
               <FAQ q={item.q} a={item.a} />
