@@ -63,6 +63,23 @@ const MARKETS = {
 };
 /* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
 const DEAL_END_TS = Date.UTC(2026, 9, 31, 19, 59, 59);
+/* Qatar: same page and USD Stripe links, riyal prices (pegged: 1 USD = 3.64 QAR), Qatar time (GMT+3). */
+MARKETS.qar = {
+  ...MARKETS.aed,
+  key: "qar",
+  currency: "QAR",
+  money: (n) => `QAR ${n}`,
+  node: (n) => (<><small className="s-cur">QAR</small>{n}</>),
+  price: { oneOnOne: 910, oneOnOneDeal: 715, group: 540, groupDeal: 470, earlyBird: 355 },
+  ref: "qar_",
+  time: "3–4 pm Qatar time (GMT+3)",
+  timeLong: "3 to 4 pm Qatar time (GMT+3)",
+  timeShort: "3–4 pm Qatar time",
+  title: "Join The Speaker's Gym | Qatar",
+  kicker: "Enrollment open · Qatar",
+  heroFor: `A six-week program for shy and nervous professionals in Qatar. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
+  extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the QAR figure shown on this page. The dollar price never changes."],
+};
 const MarketContext = createContext(MARKETS.usd);
 const useMarket = () => useContext(MarketContext);
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
