@@ -438,5 +438,5 @@ button.s-btn { font-family: var(--font-body); }
 /* hero subtitle */
 .sales-page .s-hero-sub { position: relative; max-width: 700px; margin: 0 auto 34px; padding-top: 26px; color: var(--text-bright); font-family: var(--font-display); font-size: clamp(1.3rem, 2.6vw, 1.85rem); font-weight: 400; line-height: 1.45; }
 .s-hero-sub::before { content: ""; position: absolute; top: 0; left: 50%; width: 64px; height: 2px; margin-left: -32px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-.s-hero-sub mark { padding: 0 .08em; background: linear-gradient(transparent 62%, rgba(217,192,111,.32) 62%); color: var(--gold-soft); font-style: italic; }
+.s-hero-sub mark { padding: 0; background: none; color: var(--gold-soft); font-style: italic; }
 .s-hero-sub-end { display: inline-block; margin-top: 4px; color: var(--gold); font-style: italic; }
