@@ -577,6 +577,7 @@ export default function SalesPage() {
                 <span>one payment · 6 weeks + 1 year of access</span>
                 {dealLive && <em className="s-deal">You save ${PRICE.oneOnOne - PRICE.oneOnOneDeal} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
               </div>
+              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <div className="s-bonus">
                 <span className="s-bonus-ico" aria-hidden="true">🎁</span>
                 <div>
@@ -585,7 +586,6 @@ export default function SalesPage() {
                   <p>Join 1-on-1 and you also get a live group session every week for 12 months. Fifty-two more chances to practice with people on the same journey.</p>
                 </div>
               </div>
-              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email me to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
             </article>
           </Reveal>
