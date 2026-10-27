@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BOOK_URL } from "./siteConfig.js";
-import brandLogo from "./Logo.png";
+import brandLogo from "./Logo.webp";
 
 const homeLinks = [
   ["Who It's For", "#who"],

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import heroVideoThumbnail from "./4X3A5011.jpg";
-import marouanePhoto from "./Marouane.png";
+import heroVideoThumbnail from "./hero-video-thumbnail.webp";
+import marouanePhoto from "./Marouane.webp";
+import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL, COMMUNITY_URL } from "./siteConfig.js";
 
@@ -21,14 +22,15 @@ function useOnScreen(ref, threshold = 0.15) {
   return visible;
 }
 
-function Reveal({ children, className = "", delay = 0 }) {
+function Reveal({ children, className = "", delay = 0, instant = false }) {
   const ref = useRef(null);
-  const visible = useOnScreen(ref);
+  const onScreen = useOnScreen(ref);
+  const visible = instant || onScreen;
   return (
     <div
       ref={ref}
       className={cx("reveal", visible && "reveal--visible", className)}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
@@ -255,7 +257,6 @@ export default function SpeakersGym() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap');
 
         :root {
           --bg: #111111;
@@ -700,17 +701,17 @@ export default function SpeakersGym() {
       <div className="hero-wrap">
         <section className="hero">
           <div className="hero-content">
-            <Reveal delay={100}>
+            <Reveal instant delay={100}>
               <div className="hero-flourish">
                 <div className="hero-flourish-line" />
                 <div className="hero-flourish-diamond" />
                 <div className="hero-flourish-line" />
               </div>
             </Reveal>
-            <Reveal delay={150}>
+            <Reveal instant delay={150}>
               <h1>From Nervous Professional to Confident Communicator</h1>
             </Reveal>
-            <Reveal delay={220}>
+            <Reveal instant delay={220}>
               <div className="hero-transforms">
                 {[
                   ["Rambling", "Articulate"],
@@ -728,14 +729,14 @@ export default function SpeakersGym() {
                 ))}
               </div>
             </Reveal>
-            <Reveal delay={320}>
+            <Reveal instant delay={320}>
               <div className="hero-btns">
                 <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef}>Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
                 <a href={COMMUNITY_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer">Join Free Community</a>
               </div>
             </Reveal>
-            <Reveal delay={380}>
+            <Reveal instant delay={380}>
               <div className="hero-video">
                 <div className="hero-video-embed">
                   {heroVideoPlaying ? (
@@ -756,7 +757,8 @@ export default function SpeakersGym() {
                       <img
                         src={heroVideoThumbnail}
                         alt=""
-                        loading="lazy"
+                        fetchpriority="high"
+                        decoding="async"
                       />
                       <span className="hero-video-play" aria-hidden="true" />
                     </button>
@@ -961,13 +963,7 @@ export default function SpeakersGym() {
             <Reveal key={videoId} delay={i * 80}>
               <div className="testimonial-card">
                 <div className="testimonial-embed">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0`}
-                    title={`Testimonial video ${i + 1}`}
-                    loading="lazy"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
+                  <YouTubeEmbed id={videoId} title={`Testimonial video ${i + 1}`} params="controls=1&modestbranding=1&rel=0" />
                 </div>
               </div>
             </Reveal>

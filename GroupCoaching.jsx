@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import brandLogo from "./Logo.png";
+import brandLogo from "./Logo.webp";
 import "./GroupCoaching.css";
 
 const CHALLENGE_URL = "https://www.skool.com/speakersgym/classroom/452d41c9?md=d4ac2851b073485ea1595cfe6245736b";

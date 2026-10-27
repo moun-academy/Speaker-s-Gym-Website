@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { COMMUNITY_URL } from "./siteConfig.js";
-import marouanePhoto from "./Marouane.png";
+import marouanePhoto from "./Marouane.webp";
+import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import "./Sales.css";
 
 /* ─── Checkout links: paste the Stripe Payment Links here ───
@@ -165,16 +166,16 @@ function WaitlistModal({ group, onClose }) {
 }
 
 /* ─── Reveal on scroll ─── */
-function Reveal({ children, delay = 0, className = "" }) {
+function Reveal({ children, delay = 0, className = "", instant = false }) {
   const ref = useRef(null);
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(instant);
   useEffect(() => {
-    if (!ref.current) return undefined;
+    if (instant || !ref.current) return undefined;
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.12 });
     io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+  return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
 function Pull({ name }) {
@@ -332,25 +333,25 @@ export default function SalesPage() {
       <header className="s-hero">
         <div className="s-hero-glow" aria-hidden="true" />
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
-        <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
-        <Reveal delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
-        <Reveal delay={160}>
+        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
+        <Reveal instant delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
+        <Reveal instant delay={160}>
           <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>
         </Reveal>
-        <Reveal delay={240}>
+        <Reveal instant delay={240}>
           <div className="s-transforms">
             {[["Rambling", "Articulate"], ["Monotone", "Expressive"], ["Shy", "Confident"]].map(([a, b]) => (
               <span key={a}><s>{a}</s><i aria-hidden="true">→</i><b>{b}</b></span>
             ))}
           </div>
         </Reveal>
-        <Reveal delay={300}>
+        <Reveal instant delay={300}>
           <div className="s-hero-btns">
             <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
             {next && <a href="#plans" className="s-btn s-btn--ghost">Next group: {fmt(next.date, { weekday: "short", month: "short", day: "numeric" })}</a>}
           </div>
         </Reveal>
-        <Reveal delay={360}>
+        <Reveal instant delay={360}>
           <ul className="s-assure">
             <li><Check />4-week money-back guarantee</li>
             <li><Check />1-on-1 includes a year of group coaching</li>
@@ -501,7 +502,7 @@ export default function SalesPage() {
             <Reveal key={id} delay={i * 100}>
               <figure className="s-video">
                 <div className="s-embed">
-                  <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`} title={`${name}'s testimonial`} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                  <YouTubeEmbed id={id} title={`${name}'s testimonial`} />
                 </div>
                 <figcaption>
                   <blockquote>“{quote}”</blockquote>
