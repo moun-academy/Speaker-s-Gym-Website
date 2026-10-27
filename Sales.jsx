@@ -328,7 +328,7 @@ export default function SalesPage() {
         <Reveal><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Enrollment open</p></Reveal>
         <Reveal delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
         <Reveal delay={160}>
-          <p className="s-hero-sub">Explain your ideas clearly and bring them to life with an engaging voice, even when you feel nervous.</p>
+          <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>
         </Reveal>
         <Reveal delay={240}>
           <div className="s-transforms">
