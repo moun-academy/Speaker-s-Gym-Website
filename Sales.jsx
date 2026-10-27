@@ -354,7 +354,7 @@ export default function SalesPage() {
       {/* ── 2 · IS THIS FOR ME ── */}
       <section className="s-section" id="you">
         <Reveal>
-          <p className="s-label">Does this sound like you?</p>
+          <p className="s-label">What this is really about</p>
           <h2 className="s-title">Trust yourself to find your words <em>when it matters.</em></h2>
         </Reveal>
         <div className="s-thoughts">
