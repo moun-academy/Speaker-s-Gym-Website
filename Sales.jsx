@@ -6,11 +6,12 @@ import "./Sales.css";
 
 /* ─── Checkout links: paste the Stripe Payment Links here ───
    While a link is empty, its button shows "Checkout opens soon" and can't be clicked.
-   Early-bird groups don't sell yet: their button opens the waiting list form. */
+   Early-bird groups sell through CHECKOUT.earlyBird; if that link is empty they open the waiting list form. */
 const CHECKOUT = {
   oneOnOne: "https://buy.stripe.com/6oU14n5lb3Fz6Sb6yR1ck03", // $197 special price, until the deal ends
   oneOnOneFull: "", // paste a $250 Stripe link here for after the deal; while empty, the button emails Marouane
   group: "https://buy.stripe.com/7sY00jbJz0tndgz0at1ck05", // $129 · next group
+  earlyBird: "https://buy.stripe.com/cNi3cvfZPb81ccv3mF1ck07", // $97 · later groups. While empty, early-bird cards open the waiting list form.
 };
 
 const PRICE = { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 };
@@ -311,7 +312,7 @@ export default function SalesPage() {
           date: d, key, left, early,
           price: early ? PRICE.earlyBird : PRICE.groupDeal,
           end: addDays(d, 35),
-          link: early ? "" : withRef(CHECKOUT.group, `group_${key}`),
+          link: withRef(early ? CHECKOUT.earlyBird : CHECKOUT.group, `${early ? "early" : "group"}_${key}`),
         };
       });
   }, [spots]);
@@ -637,12 +638,12 @@ export default function SalesPage() {
                   {full ? (
                     <span className="s-btn s-btn--disabled s-btn--block">Group full</span>
                   ) : (
-                    g.early ? (
+                    g.early && !g.link ? (
                       <button type="button" className="s-btn s-btn--ghost s-btn--block" onClick={() => setWaitFor(g)}>
                         Join the waiting list <span aria-hidden="true">→</span>
                       </button>
                     ) : (
-                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`}>Reserve my seat</CheckoutButton>
+                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`}>{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
                     )
                   )}
                 </article>
