@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import brandLogo from "./Logo.png";
+import brandLogo from "./Logo.webp";
 const CALENDLY_SLUG = "https://calendly.com/marouane-speakers-gym/30min";
 const CALENDLY_URL =
   `${CALENDLY_SLUG}` +

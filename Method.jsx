@@ -54,10 +54,11 @@ function useOnScreen(ref, threshold = 0.12) {
   return visible;
 }
 
-function Reveal({ children, className = "", delay = 0 }) {
+function Reveal({ children, className = "", delay = 0, instant = false }) {
   const ref = useRef(null);
-  const visible = useOnScreen(ref);
-  return <div ref={ref} className={`method-reveal ${visible ? "is-visible" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+  const onScreen = useOnScreen(ref);
+  const visible = instant || onScreen;
+  return <div ref={ref} className={`method-reveal ${visible ? "is-visible" : ""} ${className}`} style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
 function trackMethodCta(label, isPurchase = false) {
@@ -339,7 +340,7 @@ function MethodPage() {
       <main>
         <section className="method-hero">
           <div className="method-shell method-hero-grid">
-            <Reveal className="method-hero-copy">
+            <Reveal instant className="method-hero-copy">
               <p className="method-eyebrow">The Speaker's Gym Method</p>
               <h1>Your voice is already there.</h1>
               <h2>We train you to use it when it matters.</h2>

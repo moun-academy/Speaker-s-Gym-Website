@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PURCHASE_URL } from "./siteConfig.js";
-import brandLogo from "./Logo.png";
+import brandLogo from "./Logo.webp";
 import "./PrivateSales.css";
 
 const sections = ["Transformation", "The Difference", "Your Levels", "The System", "The Offer"];
