@@ -408,7 +408,6 @@ export default function SalesPage() {
           </div>
           <p className="s-merge">= <b>Confident communication</b></p>
         </Reveal>
-        <Reveal><Pull name="Kevin" /></Reveal>
       </section>
 
       {/* ── 4 · HOW PRACTICE WORKS ── */}
