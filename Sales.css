@@ -467,3 +467,8 @@ button.s-btn { font-family: var(--font-body); }
 .s-final-small i { margin: 0 6px; font-style: normal; color: var(--text-dim); }
 .s-final .s-hero-btns { flex-wrap: wrap; justify-content: center; }
 .s-final .s-hero-btns + .s-final-small { margin-top: 22px; }
+
+/* AED prices: currency code smaller than the number */
+.s-cur { display: inline-block; margin-right: .22em; font-family: var(--font-body); font-size: .36em; font-weight: 700; letter-spacing: .08em; vertical-align: .55em; }
+.s-price s .s-cur, .s-date-price s .s-cur { font-size: .5em; vertical-align: .3em; }
+.sales-page .s-price-note { margin-top: 10px; color: var(--gold-soft); font-size: .95rem; }
