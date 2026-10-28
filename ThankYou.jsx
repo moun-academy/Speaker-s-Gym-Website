@@ -219,9 +219,8 @@ export function ThankYouCall() {
 /* ─── /thank-you-purchase ─── */
 export function ThankYouPurchase() {
   useEffect(() => {
-    if (typeof window !== "undefined" && typeof window.fbq === "function") {
-      window.fbq("track", "Purchase", { value: 0, currency: "USD" });
-    }
+    // Purchase is reported from Stripe-confirmed payments through Conversions API.
+    // A visit or refresh of this page must never create a purchase conversion.
     document.title = "Welcome to The Speaker's Gym!";
   }, []);
 
