@@ -84,7 +84,7 @@ html:has(.sales-page) { scroll-behavior: smooth; }
 /* ── hero ── */
 .s-hero { position: relative; overflow: hidden; padding: 168px 24px 96px; text-align: center; }
 .s-hero-glow { position: absolute; top: -260px; left: 50%; width: 1100px; height: 900px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(217,192,111,.14), rgba(217,192,111,0) 62%); pointer-events: none; }
-.s-hero > :not(.s-hero-glow) { position: relative; }
+.s-hero > :not(.s-hero-glow):not(.s-hero-video) { position: relative; }
 .s-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 26px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
 .s-dot { width: 8px; height: 8px; border-radius: 50%; background: #7fd38f; box-shadow: 0 0 0 0 rgba(127,211,143,.6); animation: s-live 2s infinite; }
 @keyframes s-live { 70% { box-shadow: 0 0 0 9px rgba(127,211,143,0); } 100% { box-shadow: 0 0 0 0 rgba(127,211,143,0); } }
@@ -297,7 +297,7 @@ button.s-btn { font-family: var(--font-body); }
 
 /* ── redesigned sections ── */
 .s-hero { position: relative; overflow: hidden; }
-.s-hero > *:not(.s-hero-glow):not(.s-wave) { position: relative; z-index: 1; }
+.s-hero > *:not(.s-hero-glow):not(.s-wave):not(.s-hero-video) { position: relative; z-index: 1; }
 .s-wave { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; display: flex; align-items: flex-end; justify-content: center; gap: 7px; opacity: .22; pointer-events: none; -webkit-mask-image: linear-gradient(0deg, #000, transparent); mask-image: linear-gradient(0deg, #000, transparent); }
 .s-wave i { width: 6px; border-radius: 4px; background: var(--gold); height: calc(24px + (var(--i) * 37 % 100) * 1.2px); animation: s-wave 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * -.17s); }
 @keyframes s-wave { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
@@ -476,3 +476,14 @@ button.s-btn { font-family: var(--font-body); }
 /* USD reference under AED prices */
 .s-usd { flex-basis: 100%; color: var(--text-dim); font-size: .8rem; font-style: normal; }
 .s-date-price { flex-wrap: wrap; }
+
+/* hero background video, blended into the dark gold look */
+.s-hero-video { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.s-hero-video video { width: 100%; height: 100%; display: block; object-fit: cover; opacity: 0; transform: scale(1.05); filter: grayscale(.55) contrast(1.08) brightness(.8); transition: opacity 1s ease; }
+.s-hero-video video.is-on { opacity: .5; }
+.s-hero-video::before { content: ""; position: absolute; inset: 0; z-index: 1; background: #d9c06f; mix-blend-mode: soft-light; opacity: .55; }
+.s-hero-video::after { content: ""; position: absolute; inset: 0; z-index: 2; background:
+  linear-gradient(180deg, rgba(17,17,17,.78) 0%, rgba(17,17,17,.52) 38%, rgba(17,17,17,.74) 78%, #111 100%),
+  radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.4), rgba(17,17,17,.82) 78%); }
+@media (max-width: 680px) { .s-hero-video video.is-on { opacity: .42; } }
+@media (prefers-reduced-motion: reduce) { .s-hero-video { display: none; } }
