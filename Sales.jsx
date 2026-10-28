@@ -30,9 +30,9 @@ const MARKETS = {
     timeLong: "12 to 1 pm GMT (4 to 5 pm GMT+4)",
     timeShort: "12–1 pm GMT",
     title: "Join The Speaker's Gym | 1-on-1 or Group Coaching",
-    kicker: "Enrollment open",
+    kicker: "Live online program",
     heroFor: null,
-    assure: ["4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
+    assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
     priceNote: null,
     extraFaq: null,
   },
@@ -55,9 +55,9 @@ const MARKETS = {
     timeLong: "4 to 5 pm UAE time (GMT+4)",
     timeShort: "4–5 pm UAE time",
     title: "Join The Speaker's Gym | UAE",
-    kicker: "Enrollment open · UAE",
+    kicker: "Live online program · UAE",
     heroFor: `A six-week program for shy and nervous professionals in the UAE. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
-    assure: ["4-week money-back guarantee", "Pay in your own currency", "1-on-1 includes a year of group coaching"],
+    assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
     priceNote: "Our prices are set in US dollars. You pay in your own currency, so the final amount may differ slightly depending on the exchange rate.",
     extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the AED figure shown on this page. The dollar price never changes."],
   },
@@ -77,7 +77,7 @@ MARKETS.qar = {
   timeLong: "3 to 4 pm Qatar time (GMT+3)",
   timeShort: "3–4 pm Qatar time",
   title: "Join The Speaker's Gym | Qatar",
-  kicker: "Enrollment open · Qatar",
+  kicker: "Live online program · Qatar",
   heroFor: `A six-week program for shy and nervous professionals in Qatar. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the QAR figure shown on this page. The dollar price never changes."],
 };
@@ -260,7 +260,7 @@ function FAQ({ q, a }) {
 const Check = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>;
 
 const ONE_ON_ONE = [
-  "Six private 60-minute sessions with Marouane",
+  "Six private 60-minute online sessions with Marouane",
   "Personalized roadmap and exposure plan",
   "1 year of the Speaker's Gym app with AI feedback",
   "1 year in the community + private WhatsApp group",
@@ -270,7 +270,7 @@ const ONE_ON_ONE = [
 ];
 
 const groupItems = (M) => [
-  `Six live group sessions, Sundays ${M.time}`,
+  `Six live online group sessions, Sundays ${M.time}`,
   `Maximum ${GROUP_MAX} people, so you speak every session`,
   "The same 6-week plan as 1-on-1",
   "1 year of the Speaker's Gym app with AI feedback",
@@ -640,7 +640,7 @@ function SalesContent() {
           <Reveal>
             <article className="s-plan s-plan--featured" id="one-on-one">
               <span className="s-ribbon">MOST PERSONAL</span>
-              <p className="s-plan-tag">1-ON-1 COACHING</p>
+              <p className="s-plan-tag">1-ON-1 COACHING <span className="s-online">Live online</span></p>
               <h3>Private coaching with Marouane</h3>
               <p className="s-plan-desc">Every session built around you: your fears, your workplace, your goals.</p>
               <div className="s-price">
@@ -665,7 +665,7 @@ function SalesContent() {
           <Reveal delay={120}>
             <article className="s-plan">
               <span className="s-ribbon s-ribbon--quiet">BEST VALUE</span>
-              <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX}</p>
+              <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX} <span className="s-online">Live online</span></p>
               <h3>Small-group coaching</h3>
               <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
               <div className="s-price">
@@ -786,6 +786,7 @@ function SalesContent() {
         </Reveal>
         <div className="s-faq-list">
           {[
+            ["Is this in person or online?", "It's fully online. Every session is live on video, so you can join from anywhere. You practice with us in the session, then use it in your own meetings and conversations."],
             ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practice with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade later with everything you paid counting toward it."],
             ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
             ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],

@@ -502,3 +502,7 @@ button.s-btn { font-family: var(--font-body); }
 
 /* sale tag must stay inside the card on phones */
 .s-price .s-deal { max-width: 100%; white-space: normal; line-height: 1.4; border-radius: 14px; }
+
+/* "Live online" pill on plan cards */
+.s-online { display: inline-block; margin-left: 8px; padding: 3px 10px; border-radius: 999px; background: rgba(127,211,143,.14); border: 1px solid rgba(127,211,143,.35); color: #a9e6b4; font-size: .62rem; font-weight: 700; letter-spacing: .12em; vertical-align: middle; text-transform: uppercase; }
+.s-online::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #7fd38f; vertical-align: 1px; }
