@@ -418,16 +418,6 @@ button.s-btn { font-family: var(--font-body); }
 .s-video cite b { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 .s-video cite span { color: var(--text-dim); font-size: .8rem; }
 
-/* pull quotes next to sections */
-.s-pull { max-width: 640px; margin: 40px auto 0; padding: 22px 26px; border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 14px; background: var(--surface); }
-.s-pull blockquote { margin: 0 0 10px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.1rem; font-style: italic; line-height: 1.5; }
-.s-pull figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.s-pull figcaption b { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-.s-pull figcaption span { color: var(--text-dim); font-size: .8rem; }
-.s-coach-text .s-pull { margin: 24px 0 0; max-width: none; text-align: left; }
-.s-tl .s-pull { margin: 14px 0 0; padding: 14px 16px; max-width: none; background: var(--bg); }
-.s-tl .s-pull blockquote { font-size: .98rem; }
-
 /* closing statement */
 .s-closing { padding: 90px 24px; text-align: center; border-top: 1px solid var(--border); background: radial-gradient(ellipse at 50% 100%, rgba(217,192,111,.12), transparent 65%); }
 .s-closing h2 { max-width: 820px; margin: 0 auto 28px; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; color: var(--text-bright); }
@@ -487,3 +477,28 @@ button.s-btn { font-family: var(--font-body); }
   radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.4), rgba(17,17,17,.82) 78%); }
 @media (max-width: 680px) { .s-hero-video video.is-on { opacity: .42; } }
 @media (prefers-reduced-motion: reduce) { .s-hero-video { display: none; } }
+
+/* student videos: 3 on phones until "see more" */
+.s-more-wrap { margin-top: 30px; text-align: center; display: none; }
+@media (max-width: 680px) {
+  .s-videos:not(.s-videos--all) .s-video-extra { display: none; }
+  .s-more-wrap { display: block; }
+}
+@media (min-width: 681px) { .s-more-wrap { display: none !important; } }
+
+/* six weeks: tap a week to read it */
+.s-tl-body { flex: 1; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 12px; padding: 14px 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); text-align: left; font: inherit; cursor: pointer; transition: border-color .25s, background .25s; }
+.s-tl-body:hover, .s-tl--open .s-tl-body { border-color: var(--border-strong); }
+.s-tl > .s-tl-body { padding: 14px 20px; }
+.s-tl-head small { display: block; color: var(--gold); font-size: .66rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.s-tl-head h3 { margin: 2px 0 0; font-family: var(--font-display); font-size: 1.22rem; font-weight: 600; color: var(--text-bright); }
+.s-tl-plus { color: var(--gold); font-size: 1.6rem; line-height: 1; transition: transform .25s; }
+.s-tl--open .s-tl-plus { transform: rotate(45deg); }
+.s-tl-text { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.s-tl--open .s-tl-text { grid-template-rows: 1fr; }
+.s-tl-text > span { overflow: hidden; }
+.s-tl-p { display: block; padding-top: 10px; color: var(--text-dim); font-size: .95rem; }
+.s-tl:hover > .s-tl-body { transform: none; }
+
+/* sale tag must stay inside the card on phones */
+.s-price .s-deal { max-width: 100%; white-space: normal; line-height: 1.4; border-radius: 14px; }
