@@ -263,7 +263,7 @@ const ONE_ON_ONE = [
   "Six private 60-minute online sessions with Marouane",
   "Personalized roadmap and exposure plan",
   "1 year of the Speaker's Gym app with AI feedback",
-  "1 year in the community + private WhatsApp group",
+  "1 year in the community + private WhatsApp group and member meetups",
   "1 year of the MOUN Academy full course (3 hours)",
   "Your own private portal and progress tracking",
   "Bonus: The Conversation Playbook",
@@ -274,7 +274,7 @@ const groupItems = (M) => [
   `Maximum ${GROUP_MAX} people, so you speak every session`,
   "The same 6-week plan as 1-on-1",
   "1 year of the Speaker's Gym app with AI feedback",
-  "1 year in the community + private WhatsApp group",
+  "1 year in the community + private WhatsApp group and member meetups",
 ];
 
 const THOUGHTS = [
@@ -318,6 +318,12 @@ const WEEKS = [
   ["Pause, Think and Own the Silence", "Give yourself time to think and use intentional silence instead of filler words."],
   ["Find the Music in Your Voice", "Mix pitch with pace and volume so people hear how you feel."],
   ["Tell Stories That Move People", "Combine every skill and tell a story that drives your point home."],
+];
+
+const CREW = [
+  ["💬", "Private WhatsApp group", "Share wins, ask anything and get cheered on by people on the same journey."],
+  ["🤝", "Practice partners", "Pair up for a quick call between sessions. It is easier, and more fun, with someone beside you."],
+  ["📍", "In-person meetups", "We encourage members to meet up, put faces to names and practice speaking with real people."],
 ];
 
 const WEEK_LIFE = [
@@ -629,6 +635,26 @@ function SalesContent() {
         </div>
       </section>
 
+      {/* ── COMMUNITY ── */}
+      <section className="s-section" id="crew">
+        <Reveal>
+          <p className="s-label">You won't practice alone</p>
+          <h2 className="s-title">Online sessions. <em>Real-world connection.</em></h2>
+          <p className="s-sub">Every student joins our private WhatsApp group, and we encourage members to meet in person.</p>
+        </Reveal>
+        <div className="s-why s-crew">
+          {CREW.map(([icon, title, text], i) => (
+            <Reveal key={title} delay={i * 90}>
+              <article className="s-why-card">
+                <span aria-hidden="true">{icon}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── PLANS ── */}
       <section className="s-section" id="plans">
         <Reveal>
@@ -786,7 +812,7 @@ function SalesContent() {
         </Reveal>
         <div className="s-faq-list">
           {[
-            ["Is this in person or online?", "It's fully online. Every session is live on video, so you can join from anywhere. You practice with us in the session, then use it in your own meetings and conversations."],
+            ["Is this in person or online?", "It's fully online. Every session is live on video, so you can join from anywhere. You practice with us in the session, then use it in your own meetings and conversations. And you are not on your own: members stay connected in our WhatsApp group, and we encourage in-person meetups."],
             ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practice with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade later with everything you paid counting toward it."],
             ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
             ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
