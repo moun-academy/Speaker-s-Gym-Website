@@ -245,18 +245,6 @@ function Reveal({ children, delay = 0, className = "", instant = false }) {
   return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
-function Pull({ name }) {
-  const v = VIDEOS.find((x) => x[1] === name);
-  if (!v) return null;
-  const [, who, role, quote] = v;
-  return (
-    <figure className="s-pull">
-      <blockquote>“{quote}”</blockquote>
-      <figcaption><b>{who}</b>{role && <span>{role}</span>}</figcaption>
-    </figure>
-  );
-}
-
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -323,8 +311,6 @@ const BETWEEN = [
   ["📊", "Progress tracking, so you always know where you stand"],
 ];
 
-const WEEK_QUOTES = { 0: "Vivek", 4: "Avinash" };
-
 const WEEKS = [
   ["Organize Your Thoughts with PREP", "Structure your ideas clearly, answer with confidence and stop rambling under pressure."],
   ["Make Your Voice Heard", "Develop stronger volume and speak clearly without forcing or straining your voice."],
@@ -357,6 +343,8 @@ function SalesContent() {
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
   const [level, setLevel] = useState(0);
+  const [moreVideos, setMoreVideos] = useState(false);
+  const [openWeek, setOpenWeek] = useState(0);
 
   useEffect(() => {
     const prev = document.title;
@@ -426,7 +414,6 @@ function SalesContent() {
         <Reveal instant delay={300}>
           <div className="s-hero-btns">
             <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
-            {next && <a href="#plans" className="s-btn s-btn--ghost">Next group: {fmt(next.date, { weekday: "short", month: "short", day: "numeric" })}</a>}
           </div>
         </Reveal>
         <Reveal instant delay={360}>
@@ -458,7 +445,6 @@ function SalesContent() {
             <strong>Communication is a skill, not a talent. And skills can be trained.</strong>
           </div>
         </Reveal>
-        <Reveal><Pull name="Imane" /></Reveal>
       </section>
 
       {/* ── 3 · TWO TRACKS ── */}
@@ -514,7 +500,6 @@ function SalesContent() {
             {BETWEEN.map(([icon, text]) => <li key={text}><span aria-hidden="true">{icon}</span>{text}</li>)}
           </ul>
         </Reveal>
-        <Reveal><Pull name="Marisol" /></Reveal>
       </section>
 
       {/* ── 5 · COACH ── */}
@@ -529,7 +514,6 @@ function SalesContent() {
               <h2>Hi, I'm Marouane.</h2>
               <p>I know what it feels like to have the knowledge but struggle to say it clearly. To freeze in meetings, ramble under pressure, or go unnoticed.</p>
               <p>I built The Speaker's Gym because <b>communication is a skill, not a talent</b>. No generic tips. No "just be confident." Just structured practice, honest feedback and a system that works in real situations.</p>
-              <Pull name="Seta" />
             </div>
           </Reveal>
         </div>
@@ -574,9 +558,9 @@ function SalesContent() {
           <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
           <p className="s-sub">Real students, in their own words.</p>
         </Reveal>
-        <div className="s-videos">
+        <div className={cx("s-videos", moreVideos && "s-videos--all")}>
           {VIDEOS.map(([id, name, role, quote], i) => (
-            <Reveal key={id} delay={i * 100}>
+            <Reveal key={id} delay={i * 100} className={i >= 3 ? "s-video-extra" : ""}>
               <figure className="s-video">
                 <div className="s-embed">
                   <YouTubeEmbed id={id} title={`${name}'s testimonial`} />
@@ -589,6 +573,11 @@ function SalesContent() {
             </Reveal>
           ))}
         </div>
+        {!moreVideos && (
+          <div className="s-more-wrap">
+            <button type="button" className="s-btn s-btn--ghost s-more" onClick={() => setMoreVideos(true)}>See more student stories <span aria-hidden="true">↓</span></button>
+          </div>
+        )}
       </section>
 
       {/* ── 8 · SIX WEEKS ── */}
@@ -599,19 +588,24 @@ function SalesContent() {
           <p className="s-sub">Real-world practice begins in week 1 and continues every week.</p>
         </Reveal>
         <div className="s-timeline">
-          {WEEKS.map(([name, text], i) => (
-            <Reveal key={name} delay={i * 70}>
-              <article className="s-tl">
-                <span className="s-tl-n">{i + 1}</span>
-                <div>
-                  <small>Week {i + 1}</small>
-                  <h3>{name}</h3>
-                  <p>{text}</p>
-                  {WEEK_QUOTES[i] && <Pull name={WEEK_QUOTES[i]} />}
-                </div>
-              </article>
-            </Reveal>
-          ))}
+          {WEEKS.map(([name, text], i) => {
+            const open = openWeek === i;
+            return (
+              <Reveal key={name} delay={i * 70}>
+                <article className={cx("s-tl", open && "s-tl--open")}>
+                  <span className="s-tl-n">{i + 1}</span>
+                  <button type="button" className="s-tl-body" aria-expanded={open} onClick={() => setOpenWeek(open ? -1 : i)}>
+                    <span className="s-tl-head">
+                      <small>Week {i + 1}</small>
+                      <h3>{name}</h3>
+                    </span>
+                    <span className="s-tl-plus" aria-hidden="true">+</span>
+                    <span className="s-tl-text"><span><span className="s-tl-p">{text}</span></span></span>
+                  </button>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
