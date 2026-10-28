@@ -4,6 +4,7 @@ import { WHATSAPP_URL, WHATSAPP_NUMBER } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
+import HeroVideo from "./HeroVideo.jsx";
 import "./Sales.css";
 
 const GROUP_MAX = 5;
@@ -402,6 +403,7 @@ function SalesContent() {
 
       {/* ── 1 · HERO ── */}
       <header className="s-hero">
+        <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />{M.kicker}</p></Reveal>
