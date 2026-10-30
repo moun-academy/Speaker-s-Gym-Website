@@ -8,10 +8,10 @@ import "./Corporate.css";
 
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const mail = (subject, body) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-const PROPOSAL = (size) =>
+const PROPOSAL = (label) =>
   mail(
-    size ? `Corporate program enquiry: team of ${size}` : "Corporate program enquiry",
-    `Hello Speaker's Gym team,\n\nCompany: \nName and role: \nTeam size: ${size || "5 / 10"}\nWhat we'd like our people to improve: \n\nThank you!`,
+    label ? `Corporate program enquiry: ${label}` : "Corporate program enquiry",
+    `Hello Speaker's Gym team,\n\nCompany: \nName and role: \nProgram: ${label || "team of 5 / team of 10 / in-person"}\nWhat we'd like our people to improve: \n\nThank you!`,
   );
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
@@ -19,6 +19,8 @@ const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a c
 const LIST = { 5: 599, 10: 799 };
 const OFF = { 5: 20, 10: 25 };
 const PROMO_END = Date.UTC(2026, 10, 30, 19, 59, 59);
+const fmt = (n) => n.toLocaleString("en-US");
+const INPERSON = 1299;
 const dealPrice = (n) => Math.round(LIST[n] * (1 - OFF[n] / 100));
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -109,17 +111,31 @@ const LOOP = [
   ["layers", "Review and refine", "We look at what happened, give feedback and decide the next step."],
 ];
 
-const plans = (promo) => [5, 10].map((n) => ({
-  size: n,
-  name: `Team of ${n}`,
-  list: LIST[n],
-  price: promo ? dealPrice(n) : LIST[n],
-  off: promo ? OFF[n] : 0,
-  note: "per group · 8 weekly 2-hour workshops",
-  items: ["The full 8-week program", `A live 2-hour workshop every week for ${n} participants`, "Practice on real work situations", "Feedback from your coach"],
-  dark: n === 10,
-  tag: promo ? "Holiday offer" : n === 10 ? "Larger teams" : null,
-}));
+const plans = (promo) => [
+  ...[5, 10].map((n) => ({
+    label: `team of ${n}`,
+    name: `Team of ${n}`,
+    lead: "Live online",
+    list: LIST[n],
+    price: promo ? dealPrice(n) : LIST[n],
+    off: promo ? OFF[n] : 0,
+    note: "per group · 8 weekly 2-hour workshops",
+    items: ["The full 8-week program", `A live 2-hour online workshop every week for ${n} participants`, "Practice on real work situations", "Feedback from your coach"],
+    tag: promo ? "Holiday offer" : null,
+  })),
+  {
+    label: "in-person program (3 in-person workshops)",
+    name: "In-person program",
+    lead: "Switzerland, Germany and Austria",
+    list: INPERSON,
+    price: INPERSON,
+    off: 0,
+    note: "per group · 8 weeks · 3 in-person workshops",
+    items: ["The full 8-week program", "Three in-person workshops with your team", "A live 2-hour workshop every week", "Practice on real work situations", "Feedback from your coach"],
+    dark: true,
+    tag: "In-person option",
+  },
+];
 
 const QUOTES = [
   ["What I liked the most was how to structure our speech. This two hour workshop has been completely fruitful for me and I learned so many things.", "Vivek"],
@@ -128,7 +144,8 @@ const QUOTES = [
 ];
 
 const faqs = (promo) => [
-  ["What is the difference between the two programs?", `Group size and price. One is for a team of 5 (${promo ? `$${dealPrice(5)}, down from $${LIST[5]}` : `$${LIST[5]}`}), the other for a team of 10 (${promo ? `$${dealPrice(10)}, down from $${LIST[10]}` : `$${LIST[10]}`}). Both run for 8 weeks with a live 2-hour workshop every week.`],
+  ["What is the difference between the online programs?", `Group size and price. One is for a team of 5 (${promo ? `€${fmt(dealPrice(5))}, down from €${fmt(LIST[5])}` : `€${fmt(LIST[5])}`}), the other for a team of 10 (${promo ? `€${fmt(dealPrice(10))}, down from €${fmt(LIST[10])}` : `€${fmt(LIST[10])}`}). Both run for 8 weeks with a live 2-hour workshop every week.`],
+  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria. The in-person program is the full 8-week program and includes three in-person workshops with your team, for €${fmt(INPERSON)} per group.`],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
   ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
@@ -186,6 +203,9 @@ export default function Corporate() {
               <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>
               <a href={BOOK_URL} className="c-btn c-btn--ghost">Book a discovery call</a>
             </div>
+          </Reveal>
+          <Reveal instant>
+            <p className="c-where">Live online for teams anywhere, or in person in Switzerland, Germany and Austria.</p>
           </Reveal>
           <Reveal instant>
             <ul className="c-facts">
@@ -328,8 +348,8 @@ export default function Corporate() {
         <div className="c-wrap">
           <Reveal>
             <p className="c-label c-label--gold">Programs and pricing</p>
-            <h2 className="c-title c-title--light">Choose the size of <em>your group.</em></h2>
-            <p className="c-sub c-sub--light">Both programs run for 8 weeks, with a live 2-hour workshop every week. Prices are in US dollars.{promo && <> Holiday offer ends November 30.</>}</p>
+            <h2 className="c-title c-title--light">Choose the format <em>that fits your team.</em></h2>
+            <p className="c-sub c-sub--light">Every program runs for 8 weeks, with a live 2-hour workshop every week. Prices are in euros.{promo && <> Holiday offer ends November 30.</>}</p>
           </Reveal>
           <div className="c-plans">
             {PLANS.map((p, i) => (
@@ -337,14 +357,15 @@ export default function Corporate() {
                 <article className={cx("c-plan", p.dark && "c-plan--dark")}>
                   {p.tag && <span className="c-plan-tag">{p.tag}</span>}
                   <h3>{p.name}</h3>
+                  <p className="c-plan-lead">{p.lead}</p>
                   <div className="c-price">
-                    {p.off > 0 && <s>${p.list}</s>}
-                    <strong>${p.price}</strong>
+                    {p.off > 0 && <s>€{fmt(p.list)}</s>}
+                    <strong>€{fmt(p.price)}</strong>
                     <span>{p.note}</span>
-                    {p.off > 0 && <em className="c-deal">{p.off}% off · you save ${p.list - p.price} · ends November 30</em>}
+                    {p.off > 0 && <em className="c-deal">{p.off}% off · save €{fmt(p.list - p.price)} · ends Nov 30</em>}
                   </div>
                   <ul>{p.items.map((t) => <li key={t}><Icon name="check" size={18} />{t}</li>)}</ul>
-                  <a href={PROPOSAL(p.size)} className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")}>Request a proposal</a>
+                  <a href={PROPOSAL(p.label)} className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")}>Request a proposal</a>
                 </article>
               </Reveal>
             ))}
