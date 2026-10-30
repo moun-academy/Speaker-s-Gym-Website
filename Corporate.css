@@ -199,3 +199,13 @@
   .c-plan-tag { left: 24px; }
   .c-wrap { padding: 0 18px; }
 }
+
+/* holiday offer */
+.corp-page .c-promo { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; max-width: 100%; margin: -6px auto 24px; padding: 9px 18px; border-radius: 999px; background: rgba(217,192,111,.14); border: 1px solid rgba(217,192,111,.5); color: #efe6c6; font-size: .86rem; text-decoration: none; transition: background .2s, transform .2s; }
+.corp-page .c-promo:hover { background: rgba(217,192,111,.22); transform: translateY(-1px); }
+.corp-page .c-promo b { color: var(--gold); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .72rem; align-self: center; }
+.c-price s { align-self: center; font-family: var(--serif); font-size: 2rem; line-height: 1; color: #7d828c; text-decoration: line-through; text-decoration-color: #d9775a; text-decoration-thickness: 3px; font-variant-numeric: lining-nums; }
+.c-plan--dark .c-price s { color: #c9c4b6; }
+.c-price .c-deal { flex-basis: 100%; width: fit-content; max-width: 100%; margin-top: 2px; padding: 6px 14px; border-radius: 14px; background: rgba(31,122,58,.1); border: 1px solid rgba(31,122,58,.3); color: #1f7a3a; font-size: .8rem; font-style: normal; font-weight: 700; line-height: 1.4; }
+.c-plan--dark .c-price .c-deal { background: rgba(127,211,143,.14); border-color: rgba(127,211,143,.4); color: #a9e6b4; }
+@media (max-width: 680px) { .c-price s { font-size: 1.7rem; } .corp-page .c-promo { font-size: .8rem; border-radius: 16px; } }

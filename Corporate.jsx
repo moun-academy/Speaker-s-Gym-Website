@@ -15,6 +15,12 @@ const PROPOSAL = (size) =>
   );
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
+/* Holiday promotion: list prices in USD, discount ends at the end of November 30, 2026 (Dubai time, GMT+4). */
+const LIST = { 5: 599, 10: 799 };
+const OFF = { 5: 20, 10: 25 };
+const PROMO_END = Date.UTC(2026, 10, 30, 19, 59, 59);
+const dealPrice = (n) => Math.round(LIST[n] * (1 - OFF[n] / 100));
+
 const cx = (...c) => c.filter(Boolean).join(" ");
 
 const ICONS = {
@@ -53,9 +59,9 @@ function Reveal({ children, delay = 0, instant = false, className = "" }) {
 
 const FACTS = [
   ["8", "weeks", "A complete program"],
+  ["2 hours", "every week", "Live group workshop"],
   ["5 or 10", "participants", "Small, focused groups"],
   ["200+", "professionals", "Trained so far"],
-  ["€499", "from", "Per group"],
 ];
 
 const CHALLENGES = [
@@ -98,29 +104,22 @@ const STEPS = [
 ];
 
 const LOOP = [
-  ["users", "Learn live", "Each session introduces a skill and gives everyone time to practice it with the group."],
+  ["users", "Learn live", "Each 2-hour workshop introduces a skill and gives everyone time to practice it with the group."],
   ["target", "Apply at work", "Between sessions, participants take one manageable step in their own meetings and conversations."],
   ["layers", "Review and refine", "We look at what happened, give feedback and decide the next step."],
 ];
 
-const PLANS = [
-  {
-    size: 5,
-    name: "Team of 5",
-    price: "€499",
-    note: "per group · 8 weeks",
-    items: ["The full 8-week program", "Live group sessions for 5 participants", "Practice on real work situations", "Feedback from your coach"],
-  },
-  {
-    size: 10,
-    name: "Team of 10",
-    price: "€699",
-    note: "per group · 8 weeks",
-    items: ["The full 8-week program", "Live group sessions for 10 participants", "Practice on real work situations", "Feedback from your coach"],
-    dark: true,
-    tag: "Larger teams",
-  },
-];
+const plans = (promo) => [5, 10].map((n) => ({
+  size: n,
+  name: `Team of ${n}`,
+  list: LIST[n],
+  price: promo ? dealPrice(n) : LIST[n],
+  off: promo ? OFF[n] : 0,
+  note: "per group · 8 weekly 2-hour workshops",
+  items: ["The full 8-week program", `A live 2-hour workshop every week for ${n} participants`, "Practice on real work situations", "Feedback from your coach"],
+  dark: n === 10,
+  tag: promo ? "Holiday offer" : n === 10 ? "Larger teams" : null,
+}));
 
 const QUOTES = [
   ["What I liked the most was how to structure our speech. This two hour workshop has been completely fruitful for me and I learned so many things.", "Vivek"],
@@ -128,10 +127,10 @@ const QUOTES = [
   ["Got to know a lot about vocal variety and also how to structure your speeches. It was very interactive and I'm for sure buying his course.", "Avinash"],
 ];
 
-const FAQS = [
-  ["What is the difference between the two programs?", "Group size and price. One is for a team of 5 (€499), the other for a team of 10 (€699). Both run for 8 weeks."],
+const faqs = (promo) => [
+  ["What is the difference between the two programs?", `Group size and price. One is for a team of 5 (${promo ? `$${dealPrice(5)}, down from $${LIST[5]}` : `$${LIST[5]}`}), the other for a team of 10 (${promo ? `$${dealPrice(10)}, down from $${LIST[10]}` : `$${LIST[10]}`}). Both run for 8 weeks with a live 2-hour workshop every week.`],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
-  ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations."],
+  ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
 ];
 
@@ -148,6 +147,9 @@ function FAQ({ q, a }) {
 }
 
 export default function Corporate() {
+  const promo = Date.now() <= PROMO_END;
+  const PLANS = plans(promo);
+  const FAQS = faqs(promo);
   useEffect(() => {
     const prev = document.title;
     document.title = "Corporate Communication Training | The Speaker's Gym";
@@ -170,9 +172,14 @@ export default function Corporate() {
         <div className="c-hero-glow" aria-hidden="true" />
         <div className="c-wrap">
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
+          {promo && (
+            <Reveal instant>
+              <a href="#pricing" className="c-promo"><b>Holiday offer</b> 20% off teams of 5 · 25% off teams of 10 · ends November 30</a>
+            </Reveal>
+          )}
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
           <Reveal instant>
-            <p className="c-hero-sub">An 8-week group program that helps your people speak up in meetings, explain ideas clearly and present with an engaging voice, even when they feel nervous.</p>
+            <p className="c-hero-sub">An 8-week group program, with a live 2-hour workshop every week, that helps your people speak up in meetings, explain ideas clearly and present with an engaging voice, even when they feel nervous.</p>
           </Reveal>
           <Reveal instant>
             <div className="c-btns">
@@ -322,7 +329,7 @@ export default function Corporate() {
           <Reveal>
             <p className="c-label c-label--gold">Programs and pricing</p>
             <h2 className="c-title c-title--light">Choose the size of <em>your group.</em></h2>
-            <p className="c-sub c-sub--light">Both programs run for 8 weeks. Prices are in euros.</p>
+            <p className="c-sub c-sub--light">Both programs run for 8 weeks, with a live 2-hour workshop every week. Prices are in US dollars.{promo && <> Holiday offer ends November 30.</>}</p>
           </Reveal>
           <div className="c-plans">
             {PLANS.map((p, i) => (
@@ -330,7 +337,12 @@ export default function Corporate() {
                 <article className={cx("c-plan", p.dark && "c-plan--dark")}>
                   {p.tag && <span className="c-plan-tag">{p.tag}</span>}
                   <h3>{p.name}</h3>
-                  <div className="c-price"><strong>{p.price}</strong><span>{p.note}</span></div>
+                  <div className="c-price">
+                    {p.off > 0 && <s>${p.list}</s>}
+                    <strong>${p.price}</strong>
+                    <span>{p.note}</span>
+                    {p.off > 0 && <em className="c-deal">{p.off}% off · you save ${p.list - p.price} · ends November 30</em>}
+                  </div>
                   <ul>{p.items.map((t) => <li key={t}><Icon name="check" size={18} />{t}</li>)}</ul>
                   <a href={PROPOSAL(p.size)} className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")}>Request a proposal</a>
                 </article>
