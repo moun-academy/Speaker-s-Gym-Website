@@ -11,17 +11,17 @@ const mail = (subject, body) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComp
 const PROPOSAL = (label) =>
   mail(
     label ? `Corporate program enquiry: ${label}` : "Corporate program enquiry",
-    `Hello Speaker's Gym team,\n\nCompany: \nName and role: \nProgram: ${label || "team of 5 / team of 10 / in-person"}\nWhat we'd like our people to improve: \n\nThank you!`,
+    `Hello Speaker's Gym team,\n\nCompany: \nName and role: \nProgram: ${label || "online / in-person"}\nWhat we'd like our people to improve: \n\nThank you!`,
   );
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
 /* Holiday promotion: list prices in USD, discount ends at the end of November 30, 2026 (Dubai time, GMT+4). */
-const LIST = { 5: 599, 10: 799 };
-const OFF = { 5: 20, 10: 25 };
+const ONLINE_LIST = 599;
+const ONLINE_OFF = 20;
 const PROMO_END = Date.UTC(2026, 10, 30, 19, 59, 59);
 const fmt = (n) => n.toLocaleString("en-US");
 const INPERSON = 1299;
-const dealPrice = (n) => Math.round(LIST[n] * (1 - OFF[n] / 100));
+const onlineDeal = Math.round(ONLINE_LIST * (1 - ONLINE_OFF / 100));
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -62,7 +62,7 @@ function Reveal({ children, delay = 0, instant = false, className = "" }) {
 const FACTS = [
   ["8", "weeks", "A complete program"],
   ["2 hours", "every week", "Live group workshop"],
-  ["5 or 10", "participants", "Small, focused groups"],
+  ["Max 6", "participants", "Small, focused groups"],
   ["200+", "professionals", "Trained so far"],
 ];
 
@@ -118,30 +118,31 @@ const LOOP = [
 ];
 
 const plans = (promo) => [
-  ...[5, 10].map((n) => ({
-    label: `team of ${n}`,
-    name: `Team of ${n}`,
-    lead: "Live online",
-    list: LIST[n],
-    price: promo ? dealPrice(n) : LIST[n],
-    off: promo ? OFF[n] : 0,
-    note: "per group · 8 weekly 2-hour workshops",
-    items: ["The full 8-week program", `A live 2-hour online workshop every week for ${n} participants`, "Practice on real work situations", "Feedback from your coach"],
-    tag: promo ? "Holiday offer" : null,
-  })),
   {
-    label: "in-person program (3 in-person workshops)",
+    label: "online program",
+    name: "Online program",
+    lead: "Fully online",
+    list: ONLINE_LIST,
+    price: promo ? onlineDeal : ONLINE_LIST,
+    off: promo ? ONLINE_OFF : 0,
+    note: "per group of up to 6 · 8 weekly workshops",
+    items: ["The full 8-week program", "A live 2-hour online workshop every week", "Groups of up to 6 participants", "Practice on real work situations", "Feedback from your coach"],
+    tag: promo ? "Holiday offer" : null,
+  },
+  {
+    label: "in-person program (3 in-person sessions)",
     name: "In-person program",
     lead: "Switzerland, Germany and Austria",
     list: INPERSON,
     price: INPERSON,
     off: 0,
-    note: "per group of 5 or 10 · 3 in-person sessions",
+    note: "per group of up to 6 · 3 in-person sessions",
     items: [
       "The full 8-week program",
       "Two in-person workshops at your workplace, on consecutive days you choose (2 hours each)",
       "Weekly live online workshops on your voice and delivery",
       "A final in-person session to close the 8 weeks",
+      "Groups of up to 6 participants",
       "Feedback from your coach",
     ],
     dark: true,
@@ -156,8 +157,8 @@ const QUOTES = [
 ];
 
 const faqs = (promo) => [
-  ["What is the difference between the online programs?", `Group size and price. One is for a team of 5 (${promo ? `€${fmt(dealPrice(5))}, down from €${fmt(LIST[5])}` : `€${fmt(LIST[5])}`}), the other for a team of 10 (${promo ? `€${fmt(dealPrice(10))}, down from €${fmt(LIST[10])}` : `€${fmt(LIST[10])}`}). Both run for 8 weeks with a live 2-hour workshop every week.`],
-  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria, for a group of 5 or 10, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
+  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes three in-person sessions at your workplace, in Switzerland, Germany and Austria. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
+  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria, for a group of up to 6, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
   ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
@@ -184,7 +185,7 @@ export default function Corporate() {
     document.title = "Corporate Communication Training | The Speaker's Gym";
     const meta = document.querySelector('meta[name="description"]');
     const prevDesc = meta?.getAttribute("content");
-    meta?.setAttribute("content", "An 8-week group program that helps teams speak up in meetings, explain ideas clearly and present with confidence. Groups of 5 or 10.");
+    meta?.setAttribute("content", "An 8-week group program that helps teams speak up in meetings, explain ideas clearly and present with confidence. Groups of up to 6.");
     return () => {
       document.title = prev;
       if (meta && prevDesc != null) meta.setAttribute("content", prevDesc);
@@ -203,7 +204,7 @@ export default function Corporate() {
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
           {promo && (
             <Reveal instant>
-              <a href="#pricing" className="c-promo"><b>Holiday offer</b> 20% off teams of 5 · 25% off teams of 10 · ends November 30</a>
+              <a href="#pricing" className="c-promo"><b>Holiday offer</b> 20% off the online program · ends November 30</a>
             </Reveal>
           )}
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
@@ -217,7 +218,7 @@ export default function Corporate() {
             </div>
           </Reveal>
           <Reveal instant>
-            <p className="c-where">Live online for teams anywhere, or in person in Switzerland, Germany and Austria.</p>
+            <p className="c-where">Fully online for teams anywhere, or with three in-person sessions in Switzerland, Germany and Austria.</p>
           </Reveal>
           <Reveal instant>
             <ul className="c-facts">
@@ -326,7 +327,7 @@ export default function Corporate() {
             <div className="c-ip-head">
               <p className="c-label c-label--left">The in-person program</p>
               <h3>How it runs, step by step</h3>
-              <p>Available in Switzerland, Germany and Austria, for a group of 5 or 10.</p>
+              <p>Available in Switzerland, Germany and Austria, for groups of up to 6.</p>
             </div>
           </Reveal>
           <div className="c-ip">
@@ -380,7 +381,7 @@ export default function Corporate() {
           <Reveal>
             <p className="c-label c-label--gold">Programs and pricing</p>
             <h2 className="c-title c-title--light">Choose the format <em>that fits your team.</em></h2>
-            <p className="c-sub c-sub--light">Every program runs for 8 weeks, with a live 2-hour workshop every week. Prices are in euros.{promo && <> Holiday offer ends November 30.</>}</p>
+            <p className="c-sub c-sub--light">Every program runs for 8 weeks, with a live 2-hour workshop every week. Prices are in euros.{promo && <> Holiday offer on the online program ends November 30.</>}</p>
           </Reveal>
           <div className="c-plans">
             {PLANS.map((p, i) => (
