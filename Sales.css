@@ -274,7 +274,7 @@ button.s-btn { font-family: var(--font-body); }
   .s-seal { width: 210px; height: 210px; }
   .s-coffee { flex-direction: column; text-align: center; }
   .sales-page .footer { padding-bottom: 110px; }
-  .s-sticky { position: fixed; z-index: 90; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); display: block; padding: 15px 18px; border-radius: 10px; background: var(--gold); color: #10100e !important; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-align: center; text-decoration: none; text-transform: uppercase; box-shadow: 0 12px 34px rgba(0,0,0,.5); }
+  .s-sticky { position: fixed; z-index: 90; left: 12px; right: 84px; bottom: max(12px, env(safe-area-inset-bottom)); display: block; padding: 15px 18px; border-radius: 10px; background: var(--gold); color: #10100e !important; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-align: center; text-decoration: none; text-transform: uppercase; box-shadow: 0 12px 34px rgba(0,0,0,.5); }
 }
 
 /* ── value-equation sections ── */
@@ -506,3 +506,23 @@ button.s-btn { font-family: var(--font-body); }
 /* "Live online" pill on plan cards */
 .s-online { display: inline-block; margin-left: 8px; padding: 3px 10px; border-radius: 999px; background: rgba(127,211,143,.14); border: 1px solid rgba(127,211,143,.35); color: #a9e6b4; font-size: .62rem; font-weight: 700; letter-spacing: .12em; vertical-align: middle; text-transform: uppercase; }
 .s-online::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #7fd38f; vertical-align: 1px; }
+
+/* easier contact: floating WhatsApp, hero link, plan questions */
+.s-wa-float { position: fixed; z-index: 95; right: 18px; bottom: max(18px, env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 0; height: 58px; min-width: 58px; padding: 0 14px; border-radius: 999px; background: #25d366; color: #fff !important; text-decoration: none; box-shadow: 0 10px 28px rgba(0,0,0,.4), 0 0 0 0 rgba(37,211,102,.5); animation: s-wa-pulse 2.6s ease-out 3; transition: transform .2s, padding .25s; }
+.s-wa-float svg { flex: none; }
+.s-wa-float span { max-width: 0; overflow: hidden; white-space: nowrap; font-size: .85rem; font-weight: 700; letter-spacing: .02em; transition: max-width .3s ease, margin .3s ease; }
+.s-wa-float:hover { transform: translateY(-2px); padding-right: 20px; }
+.s-wa-float:hover span { max-width: 140px; margin-left: 10px; }
+.s-wa-float:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+@keyframes s-wa-pulse { 0% { box-shadow: 0 10px 28px rgba(0,0,0,.4), 0 0 0 0 rgba(37,211,102,.55); } 70% { box-shadow: 0 10px 28px rgba(0,0,0,.4), 0 0 0 18px rgba(37,211,102,0); } 100% { box-shadow: 0 10px 28px rgba(0,0,0,.4), 0 0 0 0 rgba(37,211,102,0); } }
+@media (max-width: 680px) { .s-wa-float { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); height: 52px; min-width: 52px; padding: 0 11px; } .s-wa-float svg { width: 28px; height: 28px; } .s-wa-float:hover span { max-width: 0; margin: 0; } }
+@media (prefers-reduced-motion: reduce) { .s-wa-float { animation: none; } }
+
+.sales-page .s-hero-wa { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 20px auto 0; color: #cfc9b8; font-size: .92rem; text-decoration: none; border-bottom: 1px solid rgba(217,192,111,.35); padding-bottom: 2px; transition: color .2s, border-color .2s; }
+.s-hero-wa svg { color: #25d366; }
+.s-hero-wa:hover { color: var(--gold); border-color: var(--gold); }
+
+.sales-page .s-ask { margin: 14px 0 0; text-align: center; color: var(--text-dim); font-size: .9rem; }
+.s-ask a { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(217,192,111,.4); }
+.s-ask a svg { color: #25d366; }
+.s-ask a:hover { color: var(--gold-soft); }
