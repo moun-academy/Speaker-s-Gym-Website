@@ -20,7 +20,7 @@ const assessmentStatements = [
   { statement: "I avoid eye contact and rarely initiate conversations.", level: 1, capable: "You are noticing the moments when fear asks you to disappear. That awareness is a real starting point.", next: "Become visible in one low-pressure interaction.", mission: levels[0].mission },
   { statement: "I can speak when someone asks me a direct question.", level: 2, capable: "You can respond when the path is opened for you. Your next step is learning to open it yourself.", next: "Begin one simple interaction instead of waiting.", mission: levels[1].mission },
   { statement: "I contribute when invited, but rarely volunteer.", level: 3, capable: "You already have useful thoughts and can share them when invited.", next: "Contribute before someone calls on you.", mission: levels[3].mission },
-  { statement: "I can share opinions, but I rush or minimize them.", level: 5, capable: "You are willing to be heard. Now you can practise staying visible long enough to complete the thought.", next: "Hold the floor with a calm, structured answer.", mission: levels[4].mission },
+  { statement: "I can share opinions, but I rush or minimize them.", level: 5, capable: "You are willing to be heard. Now you can practice staying visible long enough to complete the thought.", next: "Hold the floor with a calm, structured answer.", mission: levels[4].mission },
   { statement: "I can lead conversations, but pressure affects my delivery.", level: 8, capable: "You can lead and contribute. Your next growth edge is keeping access to those skills under pressure.", next: "Pause, recover and continue when the moment becomes unpredictable.", mission: levels[7].mission },
   { statement: "I speak freely and show my personality in most situations.", level: 10, capable: "You can communicate with freedom in most situations and let people experience the real you.", next: "Keep expanding where and when that freedom is available.", mission: levels[9].mission },
 ];
@@ -366,7 +366,7 @@ function MethodPage() {
               <article className="comparison-card traditional">
                 <div className="comparison-icon" aria-hidden="true">◌</div>
                 <p>Traditional training</p><h3>Learn the technique</h3>
-                <ul><li>Watch lessons</li><li>Study frameworks</li><li>Practise alone</li><li>Understand good speaking</li></ul>
+                <ul><li>Watch lessons</li><li>Study frameworks</li><li>Practice alone</li><li>Understand good speaking</li></ul>
                 <div className="comparison-result"><span className="lock-icon">⌁</span><p>The tools exist, but fear keeps them locked when the real moment arrives.</p></div>
               </article>
             </Reveal>
@@ -374,7 +374,7 @@ function MethodPage() {
               <article className="comparison-card method">
                 <div className="comparison-icon" aria-hidden="true">✓</div>
                 <p>The Speaker's Gym Method</p><h3>Learn, apply and collect evidence</h3>
-                <ul><li>Learn one skill</li><li>Practise it safely</li><li>Apply it through gradual exposure</li><li>Reflect, adapt and repeat</li></ul>
+                <ul><li>Learn one skill</li><li>Practice it safely</li><li>Apply it through gradual exposure</li><li>Reflect, adapt and repeat</li></ul>
                 <div className="comparison-result"><span className="unlock-icon">↗</span><p>The student gains access to their skills under real conditions.</p></div>
               </article>
             </Reveal>

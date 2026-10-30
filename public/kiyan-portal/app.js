@@ -29,9 +29,9 @@
   let toastTimer;
   let tourStep=0;
   const tour = [
-    ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practise for 10–15 minutes. Mark it done when you finish.','Today’s speaking reps','Your starting point'],
-    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, pauses, melody and storytelling. Each one ends with a real-life mission.','Your speaking foundations','Learn → Practise → Apply'],
-    ['Keep the evidence of progress.','Save small wins and questions in your reflections. Bring them to your weekly one-hour call with Marouane, and message him on WhatsApp anytime.','Wins and evidence','Learn. Practise. Apply.']
+    ['One small practice each day.','Your home gives you one speaking prompt. Open the app, choose video, and practice for 10–15 minutes. Mark it done when you finish.','Today’s speaking reps','Your starting point'],
+    ['Learn, then try it out loud.','Your lectures guide you through structure, voice, pace, pauses, melody and storytelling. Each one ends with a real-life mission.','Your speaking foundations','Learn → Practice → Apply'],
+    ['Keep the evidence of progress.','Save small wins and questions in your reflections. Bring them to your weekly one-hour call with Marouane, and message him on WhatsApp anytime.','Wins and evidence','Learn. Practice. Apply.']
   ];
 
   function showToast(message) {
@@ -82,7 +82,7 @@
     if (result.status===200) return startCloud(result.json);
     if (result.status===401) return showLogin();
     if (result.status===503 || result.status===404 || result.status===405) {
-      // The online store is not set up (or this is a static preview): keep the original browser-only behaviour.
+      // The online store is not set up (or this is a static preview): keep the original browser-only behavior.
       sync.mode='local'; document.body.classList.remove('portal-locked'); setSaveStatus('local'); return;
     }
     showLogin('We could not reach your account. Check your connection and try again.');

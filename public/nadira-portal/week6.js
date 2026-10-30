@@ -67,7 +67,7 @@
     { t: "my brother and I", q: "who" },
     { t: "were waiting", q: "" },
     { t: "at the train station.", q: "where" },
-    { t: "The board said our train was cancelled.", q: "what" },
+    { t: "The board said our train was canceled.", q: "what" },
     { t: "So we ran across town", q: "what" },
     { t: "and caught the last bus.", q: "what" },
     { t: "The reason I’m telling you this is because sometimes the best days begin when the plan falls apart.", q: "why" }
@@ -81,7 +81,7 @@
         { tag: "TOUCH", html: "I gripped the <mark>rough</mark>, <mark>heavy</mark> velvet curtain." },
         { tag: "SEE", html: "A <mark>blinding</mark> white spotlight burned on the <mark>empty</mark> stage." },
         { tag: "HEAR", html: "Three hundred voices <mark>rumbled</mark> like thunder." },
-        { tag: "SMELL", html: "The air smelled <mark>sharp</mark>, of <mark>burnt</mark> coffee and <mark>hot</mark> dust." }
+        { tag: "SMELL", html: "The air smelled <mark>sharp</mark>, of <mark>burned</mark> coffee and <mark>hot</mark> dust." }
       ],
       read: "Now we are standing there with you."
     }
@@ -137,7 +137,7 @@
     "Life events": ["A day that changed your plans.", "A moment you felt really proud."],
     "Periods of life": ["Your first year in a new city.", "A hard season you got through."],
     "First times": ["Your first job.", "The first time you spoke in front of a group."],
-    "Favourite songs": ["A song that takes you back to one exact moment.", "A song you played on repeat during a big change."]
+    "Favorite songs": ["A song that takes you back to one exact moment.", "A song you played on repeat during a big change."]
   };
 
   const eyes = [

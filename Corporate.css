@@ -106,7 +106,7 @@
 .c-chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
 .c-chips b { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font-size: .8rem; font-weight: 600; }
 
-/* programme */
+/* program */
 .c-parts { margin-top: 48px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 20px; }
 .c-part { height: 100%; padding: 34px 32px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
 .c-parts > div:first-child .c-part { background: var(--ink); border-color: var(--ink); color: #e9e4d6; }

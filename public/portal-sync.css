@@ -1,4 +1,4 @@
-/* Online account pieces shared by client portals. Colours come from each portal's own variables. */
+/* Online account pieces shared by client portals. Colors come from each portal's own variables. */
 body.ps-locked > *:not(.ps-login):not(.ps-toast) { visibility: hidden; }
 .ps-login { position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 16px; background: var(--cream, #f3efe5); }
 .ps-login-card { width: min(400px, 100%); display: grid; gap: 12px; padding: 34px 32px; border: 1px solid var(--line, #e2ded2); border-radius: 14px; background: var(--paper, #fbf9f3); box-shadow: 0 18px 50px rgba(25,21,13,.08); text-align: center; color: var(--ink, #111); }

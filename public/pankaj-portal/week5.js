@@ -38,10 +38,10 @@
     { word: "I", meaning: "Someone else said it. Not me." },
     { word: "didn't", meaning: "I really did not say that." },
     { word: "say", meaning: "I might have hinted at it…" },
-    { word: "they", meaning: "Someone else cancelled it." },
-    { word: "cancelled", meaning: "They moved it. It is still happening." },
+    { word: "they", meaning: "Someone else canceled it." },
+    { word: "canceled", meaning: "They moved it. It is still happening." },
     { word: "the", meaning: "A different meeting. Not that one." },
-    { word: "meeting.", meaning: "They cancelled something else, like the lunch." }
+    { word: "meeting.", meaning: "They canceled something else, like the lunch." }
   ];
   const stressWords2 = [
     { word: "We", meaning: "All of us. Not just me." },
@@ -57,7 +57,7 @@
 
   const sortItems = [
     { id: "news", text: "A friend tells you they just got engaged.", answer: "lift", why: "Match their energy first. That is rapport in sound." },
-    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "fall", why: "Coming down reads as calm and in control." },
+    { id: "delay", text: "You tell your team the trip is canceled.", answer: "fall", why: "Coming down reads as calm and in control." },
     { id: "recommend", text: "You give your opinion in a meeting.", answer: "fall", why: "A falling voice tells them you have decided." },
     { id: "question", text: "You ask a friend where they want to eat tonight.", answer: "lift", why: "A genuine question rises. Curiosity sounds curious." },
     { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "fall", why: "Going down makes them lean in to hear it." },

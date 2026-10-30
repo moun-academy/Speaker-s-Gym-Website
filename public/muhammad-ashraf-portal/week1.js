@@ -167,7 +167,7 @@
             <div class="w1-pain-moments">
               <article><span>01</span><div><strong>When you are called on the spot</strong><p>You know the subject, but too many ideas arrive at once.</p></div></article>
               <article><span>02</span><div><strong>In meetings</strong><p>You come back to the same idea again, and the conclusion gets lost.</p></div></article>
-              <article><span>03</span><div><strong>With a memorised script</strong><p>You step on stage and the words you rehearsed disappear.</p></div></article>
+              <article><span>03</span><div><strong>With a memorized script</strong><p>You step on stage and the words you rehearsed disappear.</p></div></article>
             </div>
             <p class="w1-pain-result">The expertise is there. The listener has to work too hard to find the point.</p>
           </section>

@@ -2,12 +2,12 @@ window.KIYAN_DATA = {
   storageKey: 'speakers-gym-kiyan-v1',
   startDate: '2026-10-12',
   weeks: [
-    { short:'PREP', title:'Organize Your Thoughts with PREP', focus:'Turn on the camera, lead with one clear point, give one reason and one example, then land the point again. No script, no memorising.', outcome:'I can record a 60–90 second video from four keywords, in one take, without a script.', lecture:1, days:[
+    { short:'PREP', title:'Organize Your Thoughts with PREP', focus:'Turn on the camera, lead with one clear point, give one reason and one example, then land the point again. No script, no memorizing.', outcome:'I can record a 60–90 second video from four keywords, in one take, without a script.', lecture:1, days:[
       ['Your starting point','Record one random question in video mode, looking at the lens. Hide the structure guide, speak naturally and keep the first take. This is your baseline, not a test.','Tell us a little about yourself and what you do in Dubai real estate.',['Open the practice app, tap Next question and choose video mode.','Hide the structure guide, look at the lens and answer for about 60–90 seconds, in one take.','Watch it once. Notice one thing you already do well, then bring the video to our first call.']],
       ['One point, before the details','Use PREP: Point, Reason, Example, Point. Say your point in the first sentence, the way you would to a client.','Why is Dubai a good place to invest in property?'],
       ['Keywords, not a script','Write four keywords, one for each part of PREP. Speak from the keywords only. No written sentences.','What should a first-time buyer know before choosing a property?'],
       ['Talk to one person','Picture one client sitting in front of you and talk to them through the lens. This is the person you already speak so well to.','A client asks: “Is now a good time to buy?” How do you answer?'],
-      ['One take','Record a PREP answer and keep the first take. Resist restarting. Done beats perfect.','What makes a neighbourhood a great place to live?'],
+      ['One take','Record a PREP answer and keep the first take. Resist restarting. Done beats perfect.','What makes a neighborhood a great place to live?'],
       ['A short video you could post','Record a 60-second PREP video on a question your clients ask. Do not post it yet, just watch it once.','The one thing I tell every buyer is…'],
       ['Notice the first change','Compare your first recording with today. Save one line about what feels easier.','What feels easier on camera than one week ago?']
     ]},
@@ -26,13 +26,13 @@ window.KIYAN_DATA = {
       ['Move through the context','Keep the setup short. Give more time to what the buyer gains and why it matters.','Tell us about a property that was a perfect fit for a client.'],
       ['Build a pace map','Use a PREP answer: move through the setup, pause, then slow down your point.','Why is buying property worth the research?'],
       ['Keep going after a stumble','Record one take without restarting. If you lose the thread, pause and return to your point.','A client asks you to explain the buying process in 60 seconds. What do you say?'],
-      ['A short introduction','Practise a 30-second introduction you could use at the start of your Instagram or LinkedIn videos, then try it with someone.','Who are you, what do you do, and who do you help?'],
+      ['A short introduction','Practice a 30-second introduction you could use at the start of your Instagram or LinkedIn videos, then try it with someone.','Who are you, what do you do, and who do you help?'],
       ['Listen for the change','Compare two recordings. Save one sentence that became easier to follow.','Where did slowing down help the viewer?']
     ]},
     { short:'Pauses', title:'Pause, Think, and Own the Silence', focus:'Use a short silence to collect your thoughts, so freezing in front of the camera turns into a calm, confident pause.', outcome:'I can take a two-second pause before speaking and start with my point, even when the camera feels intimidating.', lecture:4, days:[
       ['Take two seconds','Answer three random prompts. Pause in silence before each first sentence.','What is a challenge you overcame through consistency?'],
       ['Replace one filler with silence','When you need to think, close your lips and pause instead of filling the space.','How do you stay calm when a deal gets complicated?'],
-      ['If your mind goes blank','Practise this: pause, breathe, and return to your point. The silence feels long to you, not to the viewer.','Why did you decide to build your presence online?'],
+      ['If your mind goes blank','Practice this: pause, breathe, and return to your point. The silence feels long to you, not to the viewer.','Why did you decide to build your presence online?'],
       ['A surprise question','Use a surprise prompt. Pause, find your point, and answer without restarting.','What would you say in a 60-second video about off-plan properties?'],
       ['Pause before the key line','Add one pause right before your most important sentence.','What does a good agent do differently?'],
       ['A calm pause in real life','In a meeting or conversation, take a full breath before you answer one question.','That is a good question. Here is how I see it…'],
@@ -44,7 +44,7 @@ window.KIYAN_DATA = {
       ['Land your statements','End your sentences low and sure. Save the rising tone for real questions.','What do you believe every buyer should know?'],
       ['Mix pitch, pace and volume','Say the same sentence three ways. Choose the one that sounds most alive.','I did not expect it, but it changed everything.'],
       ['Read like a storyteller','Read a short paragraph aloud to the camera and let your voice move with the meaning. Then say it again without reading.','Read one paragraph from a book or article you love.'],
-      ['A property walk-through','Practise the first 60 seconds of a property video. Lift the features that matter and land your close.','Welcome to this home. Let me show you what makes it special…'],
+      ['A property walk-through','Practice the first 60 seconds of a property video. Lift the features that matter and land your close.','Welcome to this home. Let me show you what makes it special…'],
       ['Keep your music','Save a reflection about the moment your voice sounded most like you.','When did my voice carry real feeling this week?']
     ]},
     { short:'Story', title:'Tell Stories That Move People', focus:'Bring everything together in a story. Incident, point and link, plus volume, pace, pauses and melody: this is how your videos get remembered.', outcome:'I can tell a short true story on camera with a clear point, and use my voice to bring it to life.', lecture:6, days:[
@@ -52,9 +52,9 @@ window.KIYAN_DATA = {
       ['A client story','Tell the story of a client you helped find a home. End with the point it taught you.','What did a client teach you about what really matters in a home?'],
       ['The story behind a property','Share how a property found its buyer. Keep it human: one moment, one problem, one change.','How did this property become the right fit for its owner?'],
       ['Your story in Dubai','Tell the story of how you came to Dubai and what you learned along the way.','What has living and working in Dubai taught you?'],
-      ['Your signature story','Choose the story you would open your channel with. Practise it out loud, then record it.','Why does this work matter to you personally?'],
+      ['Your signature story','Choose the story you would open your channel with. Practice it out loud, then record it.','Why does this work matter to you personally?'],
       ['A real audience','Post one story on LinkedIn or Instagram, or tell it to a friend. Ask what they will remember.','One moment that changed the way I see things was…'],
-      ['See the evidence of progress','Compare your latest recording with your first baseline. Save what improved and your next content commitment.','What will I keep practising after these six weeks?']
+      ['See the evidence of progress','Compare your latest recording with your first baseline. Save what improved and your next content commitment.','What will I keep practicing after these six weeks?']
     ]}
   ],
   levels: [
@@ -64,7 +64,7 @@ window.KIYAN_DATA = {
     ['A short community video','Share one short video in the community. Ask for feedback on structure or energy.'],
     ['A 60-second LinkedIn video','Post one 60-second video on LinkedIn: one point, one reason, one example.'],
     ['A first Instagram video','Post one short Reel or story on Instagram, from keywords, not a script.'],
-    ['A property or area video','Film a 90-second property or neighbourhood walk-through in one or two takes.'],
+    ['A property or area video','Film a 90-second property or neighborhood walk-through in one or two takes.'],
     ['A client question on camera','Answer a real question your clients ask, on camera, in under two minutes.'],
     ['A week of content','Film two or three videos in one session and post them across the week.'],
     ['Your content day','Run a full shooting session: three videos, each in two takes or less, ready for your team to edit.']
