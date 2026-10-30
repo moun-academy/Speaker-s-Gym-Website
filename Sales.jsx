@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { WHATSAPP_URL, WHATSAPP_NUMBER } from "./siteConfig.js";
+import { WHATSAPP_URL, WHATSAPP_NUMBER, whatsappLink } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
@@ -245,6 +245,14 @@ function Reveal({ children, delay = 0, className = "", instant = false }) {
   return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
+function AskLink({ topic, className = "s-ask" }) {
+  return (
+    <p className={className}>
+      Questions? <a href={whatsappLink(`Hello Speaker's Gym team, I have a question about ${topic}.`)} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> WhatsApp us</a>
+    </p>
+  );
+}
+
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -421,6 +429,9 @@ function SalesContent() {
           <div className="s-hero-btns">
             <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
           </div>
+        </Reveal>
+        <Reveal instant delay={320}>
+          <a href={WHATSAPP_URL} className="s-hero-wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> Prefer to ask first? Chat with us on WhatsApp</a>
         </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
@@ -686,6 +697,7 @@ function SalesContent() {
                 </div>
               </div>
               <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+              <AskLink topic="1-on-1 coaching" />
             </article>
           </Reveal>
           <Reveal delay={120}>
@@ -703,6 +715,7 @@ function SalesContent() {
               </div>
               <ul className="s-list">{groupItems(M).map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href="#dates">Pick a start date <span aria-hidden="true">↓</span></a>
+              <AskLink topic="group coaching" />
               <p className="s-upsell">Want group coaching every week for a full year? <a href="#one-on-one">It comes free with 1-on-1.</a></p>
             </article>
           </Reveal>
@@ -844,6 +857,11 @@ function SalesContent() {
       <SiteFooter />
 
       {waitFor && <WaitlistModal group={waitFor} onClose={() => setWaitFor(null)} />}
+
+      <a href={WHATSAPP_URL} className="s-wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+        <WhatsAppIcon size={30} />
+        <span>Chat with us</span>
+      </a>
 
       <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>
     </div>
