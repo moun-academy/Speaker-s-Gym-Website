@@ -105,6 +105,12 @@ const STEPS = [
   ["Prove it with exposure", "Practice through a ten-level exposure system, one manageable step at a time."],
 ];
 
+const IP_STEPS = [
+  ["Two days at your workplace", "Two 2-hour workshops on consecutive days, on dates your company chooses. We come to you and break the limiting beliefs together, in person.", "Days 1 and 2"],
+  ["Weekly live online workshops", "Learn to use your voice with confidence: what to say and how to say it. Practiced on real work situations.", "Online"],
+  ["A final in-person session", "We close the 8 weeks together in person, and bring everything into your team's real work.", "Week 8"],
+];
+
 const LOOP = [
   ["users", "Learn live", "Each 2-hour workshop introduces a skill and gives everyone time to practice it with the group."],
   ["target", "Apply at work", "Between sessions, participants take one manageable step in their own meetings and conversations."],
@@ -130,8 +136,14 @@ const plans = (promo) => [
     list: INPERSON,
     price: INPERSON,
     off: 0,
-    note: "per group · 8 weeks · 3 in-person workshops",
-    items: ["The full 8-week program", "Three in-person workshops with your team", "A live 2-hour workshop every week", "Practice on real work situations", "Feedback from your coach"],
+    note: "per group of 5 or 10 · 3 in-person sessions",
+    items: [
+      "The full 8-week program",
+      "Two in-person workshops at your workplace, on consecutive days you choose (2 hours each)",
+      "Weekly live online workshops on your voice and delivery",
+      "A final in-person session to close the 8 weeks",
+      "Feedback from your coach",
+    ],
     dark: true,
     tag: "In-person option",
   },
@@ -145,7 +157,7 @@ const QUOTES = [
 
 const faqs = (promo) => [
   ["What is the difference between the online programs?", `Group size and price. One is for a team of 5 (${promo ? `€${fmt(dealPrice(5))}, down from €${fmt(LIST[5])}` : `€${fmt(LIST[5])}`}), the other for a team of 10 (${promo ? `€${fmt(dealPrice(10))}, down from €${fmt(LIST[10])}` : `€${fmt(LIST[10])}`}). Both run for 8 weeks with a live 2-hour workshop every week.`],
-  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria. The in-person program is the full 8-week program and includes three in-person workshops with your team, for €${fmt(INPERSON)} per group.`],
+  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria, for a group of 5 or 10, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
   ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
@@ -306,6 +318,25 @@ export default function Corporate() {
                   </div>
                   <h3>{p.title}</h3>
                   <p>{p.text}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <div className="c-ip-head">
+              <p className="c-label c-label--left">The in-person program</p>
+              <h3>How it runs, step by step</h3>
+              <p>Available in Switzerland, Germany and Austria, for a group of 5 or 10.</p>
+            </div>
+          </Reveal>
+          <div className="c-ip">
+            {IP_STEPS.map(([title, text, when], i) => (
+              <Reveal key={title} delay={i * 100}>
+                <article className="c-ip-step">
+                  <span className="c-ip-when">{when}</span>
+                  <span className="c-ip-n">{i + 1}</span>
+                  <h4>{title}</h4>
+                  <p>{text}</p>
                 </article>
               </Reveal>
             ))}
