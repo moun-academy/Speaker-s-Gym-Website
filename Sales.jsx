@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { WHATSAPP_URL, WHATSAPP_NUMBER, whatsappLink } from "./siteConfig.js";
+import { BOOK_URL, WHATSAPP_URL, WHATSAPP_NUMBER, whatsappLink } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
@@ -15,6 +15,7 @@ const GROUP_MAX = 5;
 const MARKETS = {
   usd: {
     key: "usd",
+    contact: "whatsapp",
     currency: "USD",
     money: (n) => `$${n}`,
     node: (n) => `$${n}`,
@@ -38,6 +39,7 @@ const MARKETS = {
   },
   aed: {
     key: "aed",
+    contact: "call",
     currency: "AED",
     money: (n) => `AED ${n}`,
     node: (n) => (<><small className="s-cur">AED</small>{n}</>),
@@ -245,7 +247,24 @@ function Reveal({ children, delay = 0, className = "", instant = false }) {
   return <div ref={ref} className={cx("s-reveal", on && "s-reveal--in", className)} style={instant ? { transition: "none" } : { transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
+function CalendarIcon({ size = 18 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flex: "none" }}>
+      <rect x="3" y="5" width="18" height="16" rx="3" />
+      <path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4" />
+    </svg>
+  );
+}
+
 function AskLink({ topic, className = "s-ask" }) {
+  const M = useMarket();
+  if (M.contact === "call") {
+    return (
+      <p className={className}>
+        Questions? <a href={BOOK_URL}><CalendarIcon size={15} /> Book a free call</a>
+      </p>
+    );
+  }
   return (
     <p className={className}>
       Questions? <a href={whatsappLink(`Hello Speaker's Gym team, I have a question about ${topic}.`)} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> WhatsApp us</a>
@@ -431,7 +450,9 @@ function SalesContent() {
           </div>
         </Reveal>
         <Reveal instant delay={320}>
-          <a href={WHATSAPP_URL} className="s-hero-wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> Prefer to ask first? Chat with us on WhatsApp</a>
+          {M.contact === "call"
+            ? <a href={BOOK_URL} className="s-hero-wa s-hero-call"><CalendarIcon size={16} /> Prefer to talk first? Book a free call</a>
+            : <a href={WHATSAPP_URL} className="s-hero-wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> Prefer to ask first? Chat with us on WhatsApp</a>}
         </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
@@ -847,10 +868,19 @@ function SalesContent() {
           <h2>Want to know more? <em>Send us a message.</em></h2>
           <p>Ask us anything about the program, the dates or which plan fits you best. We answer within <b>24 hours</b>. If you'd like, we can book a quick discovery call.</p>
           <div className="s-hero-btns">
-            <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email us</a>
-            <a href={WHATSAPP_URL} className="s-btn s-btn--ghost s-btn--wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
+            {M.contact === "call" ? (
+              <>
+                <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--wa"><CalendarIcon /> Book a free call</a>
+                <a href={CONTACT_HREF} className="s-btn s-btn--ghost">Email us</a>
+              </>
+            ) : (
+              <>
+                <a href={CONTACT_HREF} className="s-btn s-btn--gold">Email us</a>
+                <a href={WHATSAPP_URL} className="s-btn s-btn--ghost s-btn--wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
+              </>
+            )}
           </div>
-          <p className="s-final-small">{CONTACT_EMAIL} <i aria-hidden="true">·</i> WhatsApp {WHATSAPP_NUMBER}</p>
+          <p className="s-final-small">{CONTACT_EMAIL}{M.contact !== "call" && <> <i aria-hidden="true">·</i> WhatsApp {WHATSAPP_NUMBER}</>}</p>
         </Reveal>
       </section>
 
@@ -858,10 +888,17 @@ function SalesContent() {
 
       {waitFor && <WaitlistModal group={waitFor} onClose={() => setWaitFor(null)} />}
 
-      <a href={WHATSAPP_URL} className="s-wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
-        <WhatsAppIcon size={30} />
-        <span>Chat with us</span>
-      </a>
+      {M.contact === "call" ? (
+        <a href={BOOK_URL} className="s-call-float" aria-label="Book a free call">
+          <CalendarIcon size={22} />
+          <span>Book a call</span>
+        </a>
+      ) : (
+        <a href={WHATSAPP_URL} className="s-wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+          <WhatsAppIcon size={30} />
+          <span>Chat with us</span>
+        </a>
+      )}
 
       <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>
     </div>
