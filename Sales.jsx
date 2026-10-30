@@ -261,7 +261,7 @@ function AskLink({ topic, className = "s-ask" }) {
   if (M.contact === "call") {
     return (
       <p className={className}>
-        Questions? <a href={BOOK_URL}><CalendarIcon size={15} /> Book a free call</a>
+        Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={15} /> Book a free call</a>
       </p>
     );
   }
@@ -451,7 +451,7 @@ function SalesContent() {
         </Reveal>
         <Reveal instant delay={320}>
           {M.contact === "call"
-            ? <a href={BOOK_URL} className="s-hero-wa s-hero-call"><CalendarIcon size={16} /> Prefer to talk first? Book a free call</a>
+            ? <a href={BOOK_URL} className="s-hero-wa s-hero-call" target="_blank" rel="noopener noreferrer"><CalendarIcon size={16} /> Prefer to talk first? Book a free call</a>
             : <a href={WHATSAPP_URL} className="s-hero-wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> Prefer to ask first? Chat with us on WhatsApp</a>}
         </Reveal>
         <Reveal instant delay={360}>
@@ -870,7 +870,7 @@ function SalesContent() {
           <div className="s-hero-btns">
             {M.contact === "call" ? (
               <>
-                <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--wa"><CalendarIcon /> Book a free call</a>
+                <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--wa" target="_blank" rel="noopener noreferrer"><CalendarIcon /> Book a free call</a>
                 <a href={CONTACT_HREF} className="s-btn s-btn--ghost">Email us</a>
               </>
             ) : (
@@ -889,7 +889,7 @@ function SalesContent() {
       {waitFor && <WaitlistModal group={waitFor} onClose={() => setWaitFor(null)} />}
 
       {M.contact === "call" ? (
-        <a href={BOOK_URL} className="s-call-float" aria-label="Book a free call">
+        <a href={BOOK_URL} className="s-call-float" aria-label="Book a free call" target="_blank" rel="noopener noreferrer">
           <CalendarIcon size={22} />
           <span>Book a call</span>
         </a>

@@ -214,7 +214,7 @@ export default function Corporate() {
           <Reveal instant>
             <div className="c-btns">
               <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>
-              <a href={BOOK_URL} className="c-btn c-btn--ghost">Book a discovery call</a>
+              <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
           </Reveal>
           <Reveal instant>
@@ -403,7 +403,7 @@ export default function Corporate() {
             ))}
           </div>
           <Reveal>
-            <p className="c-plans-note">Not sure which fits your team? <a href={BOOK_URL}>Book a discovery call</a> and we will recommend one.</p>
+            <p className="c-plans-note">Not sure which fits your team? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a discovery call</a> and we will recommend one.</p>
           </Reveal>
         </div>
       </section>
@@ -469,7 +469,7 @@ export default function Corporate() {
             <div className="c-btns c-btns--center">
               <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>
               <a href={WHATSAPP} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
-              <a href={BOOK_URL} className="c-btn c-btn--ghost">Book a discovery call</a>
+              <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
             <p className="c-contact-line">{CONTACT_EMAIL} <i aria-hidden="true">·</i> WhatsApp {WHATSAPP_NUMBER}</p>
           </Reveal>
