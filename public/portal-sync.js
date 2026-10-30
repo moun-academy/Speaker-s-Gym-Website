@@ -1,7 +1,7 @@
 /* Online account for a Speaker's Gym client portal.
    The portal keeps its own state and rendering; this file adds login, saving to /api/portal,
    a read-only coach view, and the coach-set Week 6 mission. When the online store is not
-   configured (or the page is served without the API), the portal keeps its browser-only behaviour.
+   configured (or the page is served without the API), the portal keeps its browser-only behavior.
 
    Usage from a portal:
      PortalSync.init({ client, storageKey, getState, replaceState, logo, logoutTarget, onChange });

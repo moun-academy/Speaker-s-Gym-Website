@@ -26,13 +26,13 @@ window.MUHAMMAD_DATA = {
       ['Move through the context','Keep the setup short. Give more time to what you did and why it matters.','Tell us about a moment when you presented your product.'],
       ['Build a pace map','Use a PREP answer: move through the setup, pause, then slow down your point.','Why is learning a new skill worth the discomfort?'],
       ['Keep going after a stumble','Record one take without restarting. If you lose the thread, pause and return to your point.','What would you say if you were invited on stage right now?'],
-      ['A short introduction','Practise a 30-second introduction you could give at an event, then try it with someone.','Who are you, what do you work on, and what are you passionate about?'],
+      ['A short introduction','Practice a 30-second introduction you could give at an event, then try it with someone.','Who are you, what do you work on, and what are you passionate about?'],
       ['Listen for the change','Compare two recordings. Save one sentence that became easier to follow.','Where did slowing down help the listener?']
     ]},
     { short:'Pauses', title:'Pause, Think, and Own the Silence', focus:'Use a short silence to collect your thoughts, so blanking turns into a calm, confident pause.', outcome:'I can take a two-second pause before answering and start with my point, even when I am surprised.', lecture:4, days:[
       ['Take two seconds','Answer three random prompts. Pause in silence before each first sentence.','What is a challenge you overcame through consistency?'],
       ['Replace one filler with silence','When you need to think, close your lips and pause instead of filling the space.','How do you stay calm when people around you are not?'],
-      ['If your mind goes blank','Practise this: pause, breathe, and return to your point. The silence feels long to you, not to them.','Why did you decide to invest in your speaking?'],
+      ['If your mind goes blank','Practice this: pause, breathe, and return to your point. The silence feels long to you, not to them.','Why did you decide to invest in your speaking?'],
       ['A surprise question','Use a surprise prompt. Pause, find your point, and answer without restarting.','What would you teach in a 10-minute seminar?'],
       ['Pause before the key line','Add one pause right before your most important sentence.','What does contributing to your community mean to you?'],
       ['A calm pause in real life','In a meeting or conversation, take a full breath before you answer one question.','That is a good question. Here is how I see it…'],
@@ -44,7 +44,7 @@ window.MUHAMMAD_DATA = {
       ['Land your statements','End your sentences low and sure. Save the rising tone for real questions.','What do you believe every parent should teach their children?'],
       ['Mix pitch, pace and volume','Say the same sentence three ways. Choose the one that sounds most alive.','I did not expect it, but it changed everything.'],
       ['Read like a storyteller','Read a short paragraph to your children or a family member. Let your voice move with the meaning.','Read one paragraph from a book you love.'],
-      ['A seminar opening','Practise the first 60 seconds of a seminar you would give to your community.','Good evening, everyone. Tonight I want to talk to you about…'],
+      ['A seminar opening','Practice the first 60 seconds of a seminar you would give to your community.','Good evening, everyone. Tonight I want to talk to you about…'],
       ['Keep your music','Save a reflection about the moment your voice sounded most like you.','When did my voice carry real feeling this week?']
     ]},
     { short:'Story', title:'Tell Stories That Move People', focus:'Bring everything together in a story. Incident, point and link, plus volume, pace, pauses and melody: this is how your seminars will be remembered.', outcome:'I can tell a short true story with a clear point, and use my voice to bring it to life.', lecture:6, days:[
@@ -52,9 +52,9 @@ window.MUHAMMAD_DATA = {
       ['The on-the-spot invitation','Tell the story of being invited on stage without warning. End with the point it taught you.','What did you learn from speaking without preparation?'],
       ['A story behind your product','Share how an idea became a product. Keep it human: one moment, one problem, one change.','How did you come up with your product?'],
       ['A story with a family link','Tell a short story about a lesson you would like to pass on to your children.','What is a value you want your kids to carry?'],
-      ['Your seminar story','Choose the story you would open your first community seminar with. Practise it out loud.','Why does this topic matter to you personally?'],
+      ['Your seminar story','Choose the story you would open your first community seminar with. Practice it out loud.','Why does this topic matter to you personally?'],
       ['A real audience','Tell one story to a friend, a family member, or the community. Ask what they will remember.','One moment that changed the way I see things was…'],
-      ['See the evidence of progress','Compare your latest recording with your first baseline. Save what improved and your next speaking commitment.','What will I keep practising after these six weeks?']
+      ['See the evidence of progress','Compare your latest recording with your first baseline. Save what improved and your next speaking commitment.','What will I keep practicing after these six weeks?']
     ]}
   ],
   levels: [

@@ -13,7 +13,7 @@
       evidence: "The question was asked before the meeting ended."
     },
     {
-      name: "Be Seen Practising",
+      name: "Be Seen Practicing",
       behavior: "Post a 60-second PREP speech on the community.",
       meaning: "Let yourself be seen learning before the speech feels perfect.",
       actions: ["Choose one simple opinion", "Record one honest take", "Ask for one specific point of feedback"],
@@ -78,7 +78,7 @@
       meaning: "Use your voice to create connection with a family member or someone you care about.",
       actions: ["Ask one open question", "Use two natural follow-up questions", "Share one honest thought of your own"],
       starter: "What has been on your mind lately?",
-      practice: "Practise an open question, two follow-ups and a personal response in the app.",
+      practice: "Practice an open question, two follow-ups and a personal response in the app.",
       community: "Post a short role-play and ask whether you sound curious and present.",
       evidence: "The conversation moved beyond small talk and both people shared something meaningful."
     },
@@ -113,7 +113,7 @@
       const number = index + 1;
       const state = number < selected ? "done" : number === selected ? "current" : number === next ? "next" : "ahead";
       const marker = number === selected ? "<em>You are here</em>"
-        : number === next && next !== selected ? "<em>Practise next</em>" : "";
+        : number === next && next !== selected ? "<em>Practice next</em>" : "";
       return `<button type="button" class="step ${state}" ${attribute}="${number}" style="--rise:${index}" aria-pressed="${number === selected}">
         <span class="step-number">${String(number).padStart(2, "0")}</span>
         <span class="step-copy"><strong>${level.name}</strong><small>${level.behavior}</small></span>
@@ -144,7 +144,7 @@
         <ul>${next.actions.map(action => `<li>${action}</li>`).join("")}</ul>
         <blockquote><small>FIRST SENTENCE</small>${next.starter}</blockquote>
         <div class="exposure-plan">
-          <div><small>PRACTISE IN THE APP</small><p>${next.practice}</p></div>
+          <div><small>PRACTICE IN THE APP</small><p>${next.practice}</p></div>
           <div><small>POST ON SKOOL</small><p>${next.community}</p></div>
           <div><small>COLLECT THE EVIDENCE</small><p>${next.evidence}</p></div>
         </div>

@@ -82,7 +82,7 @@
     if (result.status===200) return startCloud(result.json);
     if (result.status===401) return showLogin();
     if (result.status===503 || result.status===404 || result.status===405) {
-      // The online store is not set up (or this is a static preview): keep the original browser-only behaviour.
+      // The online store is not set up (or this is a static preview): keep the original browser-only behavior.
       sync.mode='local'; document.body.classList.remove('portal-locked'); setSaveStatus('local'); return;
     }
     showLogin('We could not reach your account. Check your connection and try again.');

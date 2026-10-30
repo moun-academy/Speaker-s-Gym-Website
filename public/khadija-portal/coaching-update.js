@@ -18,7 +18,7 @@ window.SPEAKERS_GYM_COACHING_UPDATE = {
     {
       "id": "daily-pitch",
       "title": "Practice your pitch daily",
-      "text": "Record and upload a short practice in the app. Try the siren, then emphasise one key word and land your final sentence."
+      "text": "Record and upload a short practice in the app. Try the siren, then emphasize one key word and land your final sentence."
     },
     {
       "id": "community-pitch",
@@ -28,7 +28,7 @@ window.SPEAKERS_GYM_COACHING_UPDATE = {
     {
       "id": "wednesday-speaking",
       "title": "Prepare for Wednesday’s event",
-      "text": "Before October 7, rehearse your introduction and the breathing exercise we practised. Pause for two seconds before speaking. Record your speaking attempt at the event if possible."
+      "text": "Before October 7, rehearse your introduction and the breathing exercise we practiced. Pause for two seconds before speaking. Record your speaking attempt at the event if possible."
     }
   ],
   "nextCall": {

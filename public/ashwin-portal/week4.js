@@ -98,7 +98,7 @@
   const trainerQuestions = [
     "What did you do last weekend?",
     "What do you enjoy most about your work?",
-    "What is your favourite meal?",
+    "What is your favorite meal?",
     "Where would you like to travel next?",
     "What makes a good day for you?",
     "What is a hobby you enjoy?"

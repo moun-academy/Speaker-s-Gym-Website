@@ -111,7 +111,7 @@ body.week3-open { overflow: hidden; }
 [data-w3-animate] { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1); transition-delay: calc(var(--i, 0) * 90ms + 80ms); }
 [data-w3-animate].in { opacity: 1; transform: none; }
 
-/* ---------- gear colours ---------- */
+/* ---------- gear colors ---------- */
 .w3-gear-pill { display: inline-grid; place-items: center; padding: 4px 9px; border-radius: 999px; font: 800 8px Inter,sans-serif; letter-spacing: .12em; }
 .w3-gear-pill.hold, .hold .w3-gear-pill { background: var(--forest); color: var(--yellow); }
 .w3-gear-pill.run, .run .w3-gear-pill { background: var(--yellow); color: var(--ink); }

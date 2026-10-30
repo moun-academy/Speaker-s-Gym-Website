@@ -57,7 +57,7 @@
     { id: "um", text: "Say \"um\" so they know you're still going", answer: "avoid", why: "Your face already tells them. The sound adds nothing." },
     { id: "paraphrase", text: "Repeat the key words back: \"Both priorities?\"", answer: "do", why: "An honest bridge. It buys time and checks understanding." },
     { id: "basically", text: "Start with \"So, basically…\" to buy a second", answer: "avoid", why: "A filler in a suit. Silence buys the same second." },
-    { id: "sorry", text: "Apologise for needing a moment", answer: "avoid", why: "Thinking is not a mistake. Do not label it as one." },
+    { id: "sorry", text: "Apologize for needing a moment", answer: "avoid", why: "Thinking is not a mistake. Do not label it as one." },
     { id: "look", text: "Glance away briefly while you find the point", answer: "do", why: "It reads as thinking. Return your eyes when you speak." }
   ];
   const sortOrder = ["lips", "um", "paraphrase", "basically", "look", "sorry"];

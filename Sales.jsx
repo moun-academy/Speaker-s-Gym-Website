@@ -693,7 +693,7 @@ function SalesContent() {
               <span className="s-ribbon s-ribbon--quiet">BEST VALUE</span>
               <p className="s-plan-tag">GROUP COACHING · MAX {GROUP_MAX} <span className="s-online">Live online</span></p>
               <h3>Small-group coaching</h3>
-              <p className="s-plan-desc">Practise with real people every Sunday. Small enough that everyone speaks.</p>
+              <p className="s-plan-desc">Practice with real people every Sunday. Small enough that everyone speaks.</p>
               <div className="s-price">
                 <s>{M.node(PRICE.group)}</s>
                 <strong>{M.node(PRICE.groupDeal)}</strong>

@@ -10,10 +10,10 @@ const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const mail = (subject, body) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 const PROPOSAL = (size) =>
   mail(
-    size ? `Corporate programme enquiry: team of ${size}` : "Corporate programme enquiry",
+    size ? `Corporate program enquiry: team of ${size}` : "Corporate program enquiry",
     `Hello Speaker's Gym team,\n\nCompany: \nName and role: \nTeam size: ${size || "5 / 10"}\nWhat we'd like our people to improve: \n\nThank you!`,
   );
-const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate programme for my team.");
+const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -52,7 +52,7 @@ function Reveal({ children, delay = 0, instant = false, className = "" }) {
 }
 
 const FACTS = [
-  ["8", "weeks", "A complete programme"],
+  ["8", "weeks", "A complete program"],
   ["5 or 10", "participants", "Small, focused groups"],
   ["200+", "professionals", "Trained so far"],
   ["€499", "from", "Per group"],
@@ -84,7 +84,7 @@ const PARTS = [
     icon: "steps",
     weeks: "6 weeks",
     title: "The communication method",
-    text: "One skill at a time, taught live and practised on real work situations: structure, volume, pace, pauses, pitch and storytelling.",
+    text: "One skill at a time, taught live and practiced on real work situations: structure, volume, pace, pauses, pitch and storytelling.",
   },
 ];
 
@@ -92,13 +92,13 @@ const STEPS = [
   ["Name the worst case", "Identify the worst-case scenario a person fears when they have to speak."],
   ["Uncover the meaning", "List what that scenario would mean to them: status, self-worth, belonging."],
   ["Test the story", "Ask of each meaning: is it actually true?"],
-  ["Reframe it", "Find ten reasons the worst case could work in their favour, so it loses its power."],
+  ["Reframe it", "Find ten reasons the worst case could work in their favor, so it loses its power."],
   ["Make it stick", "Repeat the new meaning every day until it is believed."],
-  ["Prove it with exposure", "Practise through a ten-level exposure system, one manageable step at a time."],
+  ["Prove it with exposure", "Practice through a ten-level exposure system, one manageable step at a time."],
 ];
 
 const LOOP = [
-  ["users", "Learn live", "Each session introduces a skill and gives everyone time to practise it with the group."],
+  ["users", "Learn live", "Each session introduces a skill and gives everyone time to practice it with the group."],
   ["target", "Apply at work", "Between sessions, participants take one manageable step in their own meetings and conversations."],
   ["layers", "Review and refine", "We look at what happened, give feedback and decide the next step."],
 ];
@@ -109,14 +109,14 @@ const PLANS = [
     name: "Team of 5",
     price: "€499",
     note: "per group · 8 weeks",
-    items: ["The full 8-week programme", "Live group sessions for 5 participants", "Practice on real work situations", "Feedback from your coach"],
+    items: ["The full 8-week program", "Live group sessions for 5 participants", "Practice on real work situations", "Feedback from your coach"],
   },
   {
     size: 10,
     name: "Team of 10",
     price: "€699",
     note: "per group · 8 weeks",
-    items: ["The full 8-week programme", "Live group sessions for 10 participants", "Practice on real work situations", "Feedback from your coach"],
+    items: ["The full 8-week program", "Live group sessions for 10 participants", "Practice on real work situations", "Feedback from your coach"],
     dark: true,
     tag: "Larger teams",
   },
@@ -129,9 +129,9 @@ const QUOTES = [
 ];
 
 const FAQS = [
-  ["What is the difference between the two programmes?", "Group size and price. One is for a team of 5 (€499), the other for a team of 10 (€699). Both run for 8 weeks."],
+  ["What is the difference between the two programs?", "Group size and price. One is for a team of 5 (€499), the other for a team of 10 (€699). Both run for 8 weeks."],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
-  ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practised on real work situations."],
+  ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
 ];
 
@@ -153,7 +153,7 @@ export default function Corporate() {
     document.title = "Corporate Communication Training | The Speaker's Gym";
     const meta = document.querySelector('meta[name="description"]');
     const prevDesc = meta?.getAttribute("content");
-    meta?.setAttribute("content", "An 8-week group programme that helps teams speak up in meetings, explain ideas clearly and present with confidence. Groups of 5 or 10.");
+    meta?.setAttribute("content", "An 8-week group program that helps teams speak up in meetings, explain ideas clearly and present with confidence. Groups of 5 or 10.");
     return () => {
       document.title = prev;
       if (meta && prevDesc != null) meta.setAttribute("content", prevDesc);
@@ -172,7 +172,7 @@ export default function Corporate() {
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
           <Reveal instant>
-            <p className="c-hero-sub">An 8-week group programme that helps your people speak up in meetings, explain ideas clearly and present with an engaging voice, even when they feel nervous.</p>
+            <p className="c-hero-sub">An 8-week group program that helps your people speak up in meetings, explain ideas clearly and present with an engaging voice, even when they feel nervous.</p>
           </Reveal>
           <Reveal instant>
             <div className="c-btns">
@@ -227,8 +227,8 @@ export default function Corporate() {
         <div className="c-wrap">
           <Reveal>
             <p className="c-label">The method</p>
-            <h2 className="c-title">Mindset first. <em>Then skill, practised at work.</em></h2>
-            <p className="c-sub">Most training stops at technique. We also work on the beliefs that make capable people hold back, then practise the skills on real work situations.</p>
+            <h2 className="c-title">Mindset first. <em>Then skill, practiced at work.</em></h2>
+            <p className="c-sub">Most training stops at technique. We also work on the beliefs that make capable people hold back, then practice the skills on real work situations.</p>
           </Reveal>
           <div className="c-tracks">
             <Reveal>
@@ -261,13 +261,13 @@ export default function Corporate() {
         </div>
       </section>
 
-      {/* ── PROGRAMME ── */}
-      <section className="c-sec" id="programme">
+      {/* ── PROGRAM ── */}
+      <section className="c-sec" id="program">
         <div className="c-wrap">
           <Reveal>
-            <p className="c-label">The 8-week programme</p>
+            <p className="c-label">The 8-week program</p>
             <h2 className="c-title">Everything in our proven method, <em>plus the psychology.</em></h2>
-            <p className="c-sub">The programme includes our 6-week communication method and adds two weeks on the psychology of confidence.</p>
+            <p className="c-sub">The program includes our 6-week communication method and adds two weeks on the psychology of confidence.</p>
           </Reveal>
           <div className="c-parts">
             {PARTS.map((p, i) => (
@@ -320,9 +320,9 @@ export default function Corporate() {
       <section className="c-sec c-sec--dark" id="pricing">
         <div className="c-wrap">
           <Reveal>
-            <p className="c-label c-label--gold">Programmes and pricing</p>
+            <p className="c-label c-label--gold">Programs and pricing</p>
             <h2 className="c-title c-title--light">Choose the size of <em>your group.</em></h2>
-            <p className="c-sub c-sub--light">Both programmes run for 8 weeks. Prices are in euros.</p>
+            <p className="c-sub c-sub--light">Both programs run for 8 weeks. Prices are in euros.</p>
           </Reveal>
           <div className="c-plans">
             {PLANS.map((p, i) => (
@@ -399,7 +399,7 @@ export default function Corporate() {
         <div className="c-wrap">
           <Reveal>
             <p className="c-label c-label--gold">Contact us</p>
-            <h2 className="c-title c-title--light">Let's plan your team's <em>programme.</em></h2>
+            <h2 className="c-title c-title--light">Let's plan your team's <em>program.</em></h2>
             <p className="c-sub c-sub--light">Tell us about your team. We reply within <b>24 hours</b> and, if it is a good fit, set up a discovery call.</p>
             <div className="c-btns c-btns--center">
               <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>

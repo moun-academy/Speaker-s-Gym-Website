@@ -26,7 +26,7 @@
 
   const research = [
     { tag: "A 2016 VOICE STUDY", title: "Steve Jobs vs. Mark Zuckerberg", idea: "Researchers compared the two on stage. Jobs used much more variety in his voice: more emphasis, more rhythm, more pauses. That is a big part of why he sounded so inspiring." },
-    { tag: "STAGE ACADEMY · VINH GIANG", title: "Five tools in your voice", idea: "Speed, volume, pitch, tone and pause. You have practised three already. Pitch, how high or low your voice goes, is the one that makes people feel what you say." }
+    { tag: "STAGE ACADEMY · VINH GIANG", title: "Five tools in your voice", idea: "Speed, volume, pitch, tone and pause. You have practiced three already. Pitch, how high or low your voice goes, is the one that makes people feel what you say." }
   ];
 
   const moves = [
@@ -49,7 +49,7 @@
 
   const sortItems = [
     { id: "news", text: "A friend tells you they just got engaged.", answer: "lift", why: "Match their energy first. That is rapport in sound." },
-    { id: "delay", text: "You tell your team the trip is cancelled.", answer: "drop", why: "Low and steady reads as calm and in control." },
+    { id: "delay", text: "You tell your team the trip is canceled.", answer: "drop", why: "Low and steady reads as calm and in control." },
     { id: "recommend", text: "You give your opinion in a meeting.", answer: "land", why: "A falling end tells them you have decided." },
     { id: "question", text: "You ask a friend where they want to eat tonight.", answer: "lift", why: "A genuine question rises. Curiosity sounds curious." },
     { id: "suspense", text: "The moment in your story just before the problem appears.", answer: "drop", why: "Lower, slower, softer. They lean in to hear it." },

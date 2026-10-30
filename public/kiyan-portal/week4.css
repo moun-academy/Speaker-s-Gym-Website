@@ -304,7 +304,7 @@ body.week4-open { overflow: hidden; }
 .w4-demo .w4-credit { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin: 2px 4px 0; color: #806727; font: italic 400 15px/1.4 var(--display); letter-spacing: .01em; }
 .w4-demo .w4-credit > span { font: 600 15px var(--display); font-style: normal; color: var(--ink); }
 .w4-demo .w4-credit i { display: inline-block; width: 26px; height: 1px; background: #c9a34a; }
-/* slide 7: when to use the pause, and where to practise it */
+/* slide 7: when to use the pause, and where to practice it */
 .w4-practice small { font-size: 12px; }
 .w4-practice-note { max-width: 560px; margin: 12px auto 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .w4-app-link { width: min(620px,100%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; margin: 16px auto 0; padding: 14px 18px; border: 1px solid rgba(190,161,78,.6); border-radius: 14px; background: #fbf5e1; color: var(--ink); text-align: left; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }

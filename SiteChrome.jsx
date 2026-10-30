@@ -31,7 +31,7 @@ const salesLinks = [
 const corporateLinks = [
   ["Overview", "#overview"],
   ["Method", "#method"],
-  ["Programme", "#programme"],
+  ["Program", "#program"],
   ["Pricing", "#pricing"],
   ["FAQ", "#faq"],
 ];

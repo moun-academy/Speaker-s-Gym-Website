@@ -515,7 +515,7 @@ body.week6-open { overflow: hidden; }
 
 /* brand: numerals instead of emoji on the why slide */
 .w6-whys article > span { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--forest); color: var(--yellow); font: 500 22px var(--display); }
-/* why it matters: real outcomes, brand colours only */
+/* why it matters: real outcomes, brand colors only */
 .w6-whys article { align-content: start; gap: 6px; border-top-color: var(--gold); }
 .w6-whys article:nth-child(2) { border-top-color: var(--forest); } .w6-whys article:nth-child(3) { border-top-color: var(--green); }
 .w6-whys article > small { color: var(--gold-dark); font: 800 11px var(--detail); letter-spacing: .16em; }
