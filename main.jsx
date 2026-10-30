@@ -19,6 +19,7 @@ import { installCalendlyBookingTracking } from './metaTracking.js'
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
 const SalesPage = lazy(() => import('./Sales.jsx'))
 const SalesUAEPage = lazy(() => import('./SalesUAE.jsx'))
+const CorporatePage = lazy(() => import('./Corporate.jsx'))
 const SalesQatarPage = lazy(() => import('./SalesQatar.jsx'))
 
 installCalendlyBookingTracking({ redirectTo: '/success' })
@@ -36,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         {/* Old address, redirected so any shared /aed links keep working */}
         <Route path="/aed" element={<Navigate to="/uae" replace />} />
         <Route path="/qatar" element={<Suspense fallback={null}><SalesQatarPage /></Suspense>} />
+        <Route path="/corporate" element={<Suspense fallback={null}><CorporatePage /></Suspense>} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
         <Route path="/khadija" element={<KhadijaPortal />} />
         <Route path="/nadira" element={<NadiraPortal />} />

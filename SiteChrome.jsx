@@ -28,9 +28,17 @@ const salesLinks = [
   ["Contact Us", "#contact"],
 ];
 
+const corporateLinks = [
+  ["Overview", "#overview"],
+  ["Method", "#method"],
+  ["Programme", "#programme"],
+  ["Pricing", "#pricing"],
+  ["FAQ", "#faq"],
+];
+
 export function SiteHeader({ page = "home" }) {
   const [open, setOpen] = useState(false);
-  const links = page === "method" ? methodLinks : page === "sales" ? salesLinks : homeLinks;
+  const links = page === "method" ? methodLinks : page === "sales" ? salesLinks : page === "corporate" ? corporateLinks : homeLinks;
   const splitAt = Math.ceil(links.length / 2);
   const leftLinks = links.slice(0, splitAt);
   const rightLinks = links.slice(splitAt);
@@ -61,7 +69,7 @@ export function SiteHeader({ page = "home" }) {
           </a>
           <div className="nav-links nav-links--right">
             {rightLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
-            {page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
+            {page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : page === "corporate" ? <a href="#contact" className="nav-cta">Request a Proposal</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
           </div>
           <button
             className="nav-hamburger"
@@ -98,6 +106,8 @@ export function SiteHeader({ page = "home" }) {
             </div>
             {page === "sales"
               ? <a href="#plans" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Enroll Now</a>
+              : page === "corporate"
+              ? <a href="#contact" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Request a Proposal</a>
               : <a href={BOOK_URL} className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Book a Strategy Call</a>}
           </div>
         </div>
