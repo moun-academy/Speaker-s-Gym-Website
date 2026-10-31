@@ -16,8 +16,8 @@ const PROPOSAL = (label) =>
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
 /* Holiday promotion: list prices in USD, discount ends at the end of November 30, 2026 (Dubai time, GMT+4). */
-const ONLINE_LIST = 599;
-const ONLINE_OFF = 20;
+const ONLINE_LIST = 699;
+const ONLINE_OFF = 30;
 const PROMO_END = Date.UTC(2026, 10, 30, 19, 59, 59);
 const fmt = (n) => n.toLocaleString("en-US");
 const INPERSON = 1299;
@@ -204,7 +204,7 @@ export default function Corporate() {
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
           {promo && (
             <Reveal instant>
-              <a href="#pricing" className="c-promo"><b>Holiday offer</b> 20% off the online program · ends November 30</a>
+              <a href="#pricing" className="c-promo"><b>Holiday offer</b> {ONLINE_OFF}% off the online program · ends November 30</a>
             </Reveal>
           )}
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
