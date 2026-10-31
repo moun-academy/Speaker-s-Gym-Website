@@ -274,3 +274,45 @@ a.c-modal-opt:hover { border-color: var(--gold-deep); transform: translateY(-2px
   .c-modal-opt .c-ico { width: 38px; height: 38px; }
   .c-modal-email small { font-size: .76rem; }
 }
+
+/* free taster */
+.c-taster { display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: start; padding: clamp(26px, 4vw, 40px); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 16px; background: var(--card); box-shadow: 0 1px 2px rgba(18,22,29,.04); }
+.c-taster h2 { margin: 0 0 12px; font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 3.2vw, 2.1rem); line-height: 1.2; color: var(--ink); text-align: left; }
+.c-taster p { color: var(--muted); font-size: 1.02rem; }
+.corp-page .c-taster p:not(.c-label) { margin: 0 0 16px; }
+.c-taster-facts { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.c-taster-facts li { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+@media (max-width: 680px) { .c-taster { grid-template-columns: 1fr; gap: 16px; } }
+
+/* founding partner offer */
+.c-founding { max-width: 760px; margin: 38px auto 0; padding: 22px 26px; border: 1px solid rgba(217,192,111,.4); border-radius: 14px; background: rgba(217,192,111,.07); text-align: center; }
+.c-founding-count { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 10px; }
+.c-founding-count b { color: var(--gold); font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.c-dots { display: inline-flex; gap: 6px; }
+.c-dots i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--gold); }
+.c-dots i.on { background: var(--gold); }
+.corp-page .c-founding p { margin: 0; color: #e0dac9; font-size: 1rem; line-height: 1.55; }
+.c-price .c-per { flex-basis: 100%; margin-top: 2px; color: var(--ink); font-size: .92rem; font-style: normal; font-weight: 700; }
+.c-plan--dark .c-price .c-per { color: #f2ecdf; }
+.c-price .c-per small { color: var(--muted); font-size: .78rem; font-weight: 500; }
+.c-plan--dark .c-price .c-per small { color: #b6b09f; }
+
+/* video testimonials */
+.c-videos { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.c-video { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.c-embed { position: relative; aspect-ratio: 16 / 9; background: #000; }
+.c-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.c-video figcaption { padding: 14px 18px 16px; display: grid; gap: 2px; }
+.c-video figcaption b { color: var(--gold-deep); font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.c-video figcaption span { color: var(--muted); font-size: .85rem; }
+.c-more-wrap { margin-top: 28px; text-align: center; display: none; }
+.c-contact-line a { color: #cfc9b8; text-decoration: none; border-bottom: 1px solid rgba(217,192,111,.4); }
+.c-contact-line a:hover { color: var(--gold); border-color: var(--gold); }
+@media (max-width: 980px) { .c-videos { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 680px) {
+  .c-videos { grid-template-columns: 1fr; }
+  .c-videos:not(.c-videos--all) .c-video-extra { display: none; }
+  .c-more-wrap { display: block; }
+}
+@media (min-width: 681px) { .c-more-wrap { display: none !important; } }
+.corp-page .c-taster .c-label { color: var(--gold-deep); margin-bottom: 10px; }
