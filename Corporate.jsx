@@ -184,6 +184,74 @@ const faqs = (promo) => [
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
 ];
 
+function ProposalModal({ label, onClose }) {
+  const [copied, setCopied] = useState(false);
+  const first = useRef(null);
+
+  useEffect(() => {
+    const previous = document.activeElement;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    first.current?.focus();
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      document.removeEventListener("keydown", onKey);
+      previous?.focus?.();
+    };
+  }, [onClose]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+    } catch {
+      const t = document.createElement("textarea");
+      t.value = CONTACT_EMAIL;
+      document.body.appendChild(t);
+      t.select();
+      try { document.execCommand("copy"); } catch { /* ignore */ }
+      t.remove();
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2200);
+  };
+
+  return (
+    <div className="c-modal" role="dialog" aria-modal="true" aria-labelledby="c-modal-title" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="c-modal-card">
+        <button type="button" className="c-modal-close" aria-label="Close" onClick={onClose}>×</button>
+        <p className="c-label c-label--left">Request a proposal</p>
+        <h3 id="c-modal-title">How would you like to reach us?</h3>
+        <p className="c-modal-sub">{label ? <>You are interested in the <b>{label}</b>. </> : null}We reply within 24 hours.</p>
+
+        <a ref={first} href={BOOK_URL} className="c-modal-opt c-modal-opt--main" target="_blank" rel="noopener noreferrer">
+          <span className="c-ico"><Icon name="steps" /></span>
+          <span><b>Book a free discovery call</b><small>Pick a time that suits you. Opens in a new tab.</small></span>
+        </a>
+
+        <div className="c-modal-opt">
+          <span className="c-ico"><Icon name="message" /></span>
+          <span className="c-modal-email">
+            <b>Send us an email</b>
+            <small>{CONTACT_EMAIL}</small>
+            <span className="c-modal-actions">
+              <a href={PROPOSAL(label)} className="c-chip-btn">Open email app</a>
+              <button type="button" className="c-chip-btn" onClick={copy}>{copied ? "Copied" : "Copy address"}</button>
+            </span>
+          </span>
+        </div>
+
+        <a href={WHATSAPP} className="c-modal-opt" target="_blank" rel="noopener noreferrer">
+          <span className="c-ico"><WhatsAppIcon size={22} /></span>
+          <span><b>Message us on WhatsApp</b><small>{WHATSAPP_NUMBER}</small></span>
+        </a>
+        <p className="c-modal-tip">Please include your company, team size and which program you are interested in.</p>
+      </div>
+    </div>
+  );
+}
+
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -200,6 +268,8 @@ export default function Corporate() {
   const promo = Date.now() <= PROMO_END;
   const PLANS = plans(promo);
   const FAQS = faqs(promo);
+  const [proposal, setProposal] = useState(null);
+  const openProposal = (label = "") => setProposal({ label });
   useEffect(() => {
     const prev = document.title;
     document.title = "Corporate Communication Training | The Speaker's Gym";
@@ -233,7 +303,7 @@ export default function Corporate() {
           </Reveal>
           <Reveal instant>
             <div className="c-btns">
-              <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>
+              <button type="button" className="c-btn c-btn--gold" onClick={() => openProposal()}>Request a proposal</button>
               <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
           </Reveal>
@@ -439,7 +509,7 @@ export default function Corporate() {
                     {p.off > 0 && <em className="c-deal">{p.off}% off · save €{fmt(p.list - p.price)} · ends Nov 30</em>}
                   </div>
                   <ul>{p.items.map((t) => <li key={t}><Icon name="check" size={18} />{t}</li>)}</ul>
-                  <a href={PROPOSAL(p.label)} className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")}>Request a proposal</a>
+                  <button type="button" className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")} onClick={() => openProposal(p.name.toLowerCase())}>Request a proposal</button>
                 </article>
               </Reveal>
             ))}
@@ -509,7 +579,7 @@ export default function Corporate() {
             <h2 className="c-title c-title--light">Let's plan your team's <em>program.</em></h2>
             <p className="c-sub c-sub--light">Tell us about your team. We reply within <b>24 hours</b> and, if it is a good fit, set up a discovery call.</p>
             <div className="c-btns c-btns--center">
-              <a href={PROPOSAL()} className="c-btn c-btn--gold">Request a proposal</a>
+              <button type="button" className="c-btn c-btn--gold" onClick={() => openProposal()}>Request a proposal</button>
               <a href={WHATSAPP} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
               <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
@@ -517,6 +587,8 @@ export default function Corporate() {
           </Reveal>
         </div>
       </section>
+
+      {proposal && <ProposalModal label={proposal.label} onClose={() => setProposal(null)} />}
 
       <SiteFooter />
     </div>
