@@ -316,3 +316,5 @@ a.c-modal-opt:hover { border-color: var(--gold-deep); transform: translateY(-2px
 }
 @media (min-width: 681px) { .c-more-wrap { display: none !important; } }
 .corp-page .c-taster .c-label { color: var(--gold-deep); margin-bottom: 10px; }
+
+.c-founding { padding: 20px 26px; }

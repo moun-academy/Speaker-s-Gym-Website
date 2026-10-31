@@ -17,7 +17,7 @@ const PROPOSAL = (label) =>
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
 /* Founding Partner offer: the first 5 companies get the founding rate.
-   Update FOUNDING_LEFT by hand (5 = all places open). At 0 the page shows the regular prices. */
+   Set FOUNDING_LEFT to 0 to end the offer; the page then shows the regular prices. No counter is shown on the page. */
 const FOUNDING_TOTAL = 5;
 const FOUNDING_LEFT = 5;
 const ONLINE_LIST = 699;
@@ -309,7 +309,7 @@ export default function Corporate() {
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
           {founding && (
             <Reveal instant>
-              <a href="#pricing" className="c-promo"><b>Founding Partner offer</b> first {FOUNDING_TOTAL} companies only · {FOUNDING_LEFT} of {FOUNDING_TOTAL} places left</a>
+              <a href="#pricing" className="c-promo"><b>Founding Partner offer</b> first {FOUNDING_TOTAL} companies only</a>
             </Reveal>
           )}
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
@@ -534,12 +534,6 @@ export default function Corporate() {
           {founding && (
             <Reveal>
               <div className="c-founding">
-                <div className="c-founding-count" aria-label={`Founding Partner places left: ${FOUNDING_LEFT} of ${FOUNDING_TOTAL}`}>
-                  <span className="c-dots" aria-hidden="true">
-                    {Array.from({ length: FOUNDING_TOTAL }, (_, i) => <i key={i} className={i < FOUNDING_LEFT ? "on" : ""} />)}
-                  </span>
-                  <b>Founding Partner places left: {FOUNDING_LEFT} of {FOUNDING_TOTAL}</b>
-                </div>
                 <p>We're opening the program to our first {FOUNDING_TOTAL} company partners at a founding rate. In return, we ask for honest feedback and a short case study at the end.</p>
               </div>
             </Reveal>
