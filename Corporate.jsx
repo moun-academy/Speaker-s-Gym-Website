@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL, WHATSAPP_NUMBER, whatsappLink } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
+import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import marouanePhoto from "./Marouane.webp";
 import "./Sales.css";
 import "./Corporate.css";
@@ -15,13 +16,16 @@ const PROPOSAL = (label) =>
   );
 const WHATSAPP = whatsappLink("Hello Speaker's Gym team, I'd like to discuss a corporate program for my team.");
 
-/* Holiday promotion: list prices in USD, discount ends at the end of November 30, 2026 (Dubai time, GMT+4). */
+/* Founding Partner offer: the first 5 companies get the founding rate.
+   Update FOUNDING_LEFT by hand (5 = all places open). At 0 the page shows the regular prices. */
+const FOUNDING_TOTAL = 5;
+const FOUNDING_LEFT = 5;
 const ONLINE_LIST = 699;
-const ONLINE_OFF = 30;
-const PROMO_END = Date.UTC(2026, 10, 30, 19, 59, 59);
+const ONLINE_FOUNDING = 489;
+const GROUP_MAX = 6;
+const perPerson = (price) => Math.round(price / GROUP_MAX);
 const fmt = (n) => n.toLocaleString("en-US");
 const INPERSON = 1299;
-const onlineDeal = Math.round(ONLINE_LIST * (1 - ONLINE_OFF / 100));
 
 const cx = (...c) => c.filter(Boolean).join(" ");
 
@@ -135,17 +139,17 @@ const LOOP = [
   ["layers", "Review and refine", "We look at what happened, give feedback and decide the next step."],
 ];
 
-const plans = (promo) => [
+const plans = (founding) => [
   {
     label: "online program",
     name: "Online program",
     lead: "Fully online",
     list: ONLINE_LIST,
-    price: promo ? onlineDeal : ONLINE_LIST,
-    off: promo ? ONLINE_OFF : 0,
+    price: founding ? ONLINE_FOUNDING : ONLINE_LIST,
+    deal: founding ? `Founding Partner rate · save €${fmt(ONLINE_LIST - ONLINE_FOUNDING)}` : null,
     note: "per group of up to 6 · 8 weekly workshops",
     items: ["The full 8-week program", "A live 2-hour online workshop every week", "Groups of up to 6 participants", "Practice on real work situations", "The Speaker's Gym app, MOUN Academy course and progress tracking", "Feedback from your coach"],
-    tag: promo ? "Holiday offer" : null,
+    tag: founding ? "Founding Partner" : null,
   },
   {
     label: "in-person program (4 in-person workshops)",
@@ -153,7 +157,7 @@ const plans = (promo) => [
     lead: "Switzerland, Germany, Austria, the Czech Republic and Slovakia",
     list: INPERSON,
     price: INPERSON,
-    off: 0,
+    deal: founding ? "Founding Partner rate" : null,
     note: "per group of up to 6 · 4 in-person workshops",
     items: [
       "The full 8-week program",
@@ -169,14 +173,24 @@ const plans = (promo) => [
   },
 ];
 
+const VIDEOS = [
+  ["AmX2dVv8qcM", "Imane", ""],
+  ["cm3G7biEwHI", "Vivek", ""],
+  ["Kctzf04s41c", "Kevin", ""],
+  ["QzFvN_5MPWI", "Seta", "Toastmasters member for over a year"],
+  ["fiyvwTk2Iq4", "Marisol", ""],
+  ["XQ5x8_tnI7M", "Avinash", ""],
+];
+
 const QUOTES = [
   ["What I liked the most was how to structure our speech. This two hour workshop has been completely fruitful for me and I learned so many things.", "Vivek"],
   ["What I took away the most was structuring the scripts. That's something I didn't know much about, the core message and how to make it more impactful.", "Kevin"],
   ["Got to know a lot about vocal variety and also how to structure your speeches. It was very interactive and I'm for sure buying his course.", "Avinash"],
 ];
 
-const faqs = (promo) => [
-  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes four in-person workshops at your workplace or a location you have, in Switzerland, Germany, Austria, the Czech Republic and Slovakia. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
+const faqs = (founding) => [
+  ["What is the difference between the two programs?", `The online program is delivered fully online (${founding ? `€${fmt(ONLINE_FOUNDING)} at the Founding Partner rate, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes four in-person workshops at your workplace or a location you have, in Switzerland, Germany, Austria, the Czech Republic and Slovakia. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
+  ["Can we try it before committing?", "Yes. We offer a free 45-minute online taster for up to 6 people, so your team can experience the method before you decide."],
   ["Can we do it in person?", `Yes, in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for a group of up to 6, for €${fmt(INPERSON)} per group. The program includes four in-person workshops: two on consecutive days at the start, where we break the limiting beliefs, and two on consecutive days at the end. The weekly workshops on your voice and delivery run live online.`],
   ["Where do the in-person workshops take place?", "At your workplace or at another location you have. The two workshops at the start are on consecutive days, and so are the two at the end."],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
@@ -265,9 +279,10 @@ function FAQ({ q, a }) {
 }
 
 export default function Corporate() {
-  const promo = Date.now() <= PROMO_END;
-  const PLANS = plans(promo);
-  const FAQS = faqs(promo);
+  const founding = FOUNDING_LEFT > 0;
+  const PLANS = plans(founding);
+  const FAQS = faqs(founding);
+  const [moreVideos, setMoreVideos] = useState(false);
   const [proposal, setProposal] = useState(null);
   const openProposal = (label = "") => setProposal({ label });
   useEffect(() => {
@@ -292,9 +307,9 @@ export default function Corporate() {
         <div className="c-hero-glow" aria-hidden="true" />
         <div className="c-wrap">
           <Reveal instant><p className="c-eyebrow">Corporate communication training</p></Reveal>
-          {promo && (
+          {founding && (
             <Reveal instant>
-              <a href="#pricing" className="c-promo"><b>Holiday offer</b> {ONLINE_OFF}% off the online program · ends November 30</a>
+              <a href="#pricing" className="c-promo"><b>Founding Partner offer</b> first {FOUNDING_TOTAL} companies only · {FOUNDING_LEFT} of {FOUNDING_TOTAL} places left</a>
             </Reveal>
           )}
           <Reveal instant><h1>From shy to confident, <em>at work.</em></h1></Reveal>
@@ -304,6 +319,7 @@ export default function Corporate() {
           <Reveal instant>
             <div className="c-btns">
               <button type="button" className="c-btn c-btn--gold" onClick={() => openProposal()}>Request a proposal</button>
+              <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a free taster</a>
               <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
           </Reveal>
@@ -487,14 +503,47 @@ export default function Corporate() {
         </div>
       </section>
 
+      {/* ── FREE TASTER ── */}
+      <section className="c-sec" id="taster">
+        <div className="c-wrap c-wrap--narrow">
+          <Reveal>
+            <div className="c-taster">
+              <span className="c-ico c-ico--lg"><Icon name="target" size={26} /></span>
+              <div>
+                <p className="c-label c-label--left">No commitment</p>
+                <h2>Try it first: a free 45-minute taster for your team</h2>
+                <p>Not sure yet? We'll run a free 45-minute online workshop for up to 6 of your people. They'll learn one technique they can use in their next meeting, and you'll see exactly how we coach. No commitment.</p>
+                <ul className="c-taster-facts">
+                  <li>45 minutes</li><li>Online</li><li>Up to 6 people</li><li>Free</li>
+                </ul>
+                <a href={BOOK_URL} className="c-btn c-btn--ink" target="_blank" rel="noopener noreferrer">Book a free taster</a>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── PRICING ── */}
       <section className="c-sec c-sec--dark" id="pricing">
         <div className="c-wrap">
           <Reveal>
             <p className="c-label c-label--gold">Programs and pricing</p>
             <h2 className="c-title c-title--light">Choose the format <em>that fits your team.</em></h2>
-            <p className="c-sub c-sub--light">Every program runs for 8 weeks, with a live 2-hour workshop every week. Prices are in euros.{promo && <> Holiday offer on the online program ends November 30.</>}</p>
+            <p className="c-sub c-sub--light">Every program runs for 8 weeks, with a live 2-hour workshop every week. Prices are in euros.{founding && <> Founding rate available for the first {FOUNDING_TOTAL} companies only.</>}</p>
           </Reveal>
+          {founding && (
+            <Reveal>
+              <div className="c-founding">
+                <div className="c-founding-count" aria-label={`Founding Partner places left: ${FOUNDING_LEFT} of ${FOUNDING_TOTAL}`}>
+                  <span className="c-dots" aria-hidden="true">
+                    {Array.from({ length: FOUNDING_TOTAL }, (_, i) => <i key={i} className={i < FOUNDING_LEFT ? "on" : ""} />)}
+                  </span>
+                  <b>Founding Partner places left: {FOUNDING_LEFT} of {FOUNDING_TOTAL}</b>
+                </div>
+                <p>We're opening the program to our first {FOUNDING_TOTAL} company partners at a founding rate. In return, we ask for honest feedback and a short case study at the end.</p>
+              </div>
+            </Reveal>
+          )}
           <div className="c-plans">
             {PLANS.map((p, i) => (
               <Reveal key={p.name} delay={i * 100}>
@@ -503,10 +552,11 @@ export default function Corporate() {
                   <h3>{p.name}</h3>
                   <p className="c-plan-lead">{p.lead}</p>
                   <div className="c-price">
-                    {p.off > 0 && <s>€{fmt(p.list)}</s>}
+                    {p.price < p.list && <s>€{fmt(p.list)}</s>}
                     <strong>€{fmt(p.price)}</strong>
                     <span>{p.note}</span>
-                    {p.off > 0 && <em className="c-deal">{p.off}% off · save €{fmt(p.list - p.price)} · ends Nov 30</em>}
+                    {p.deal && <em className="c-deal">{p.deal}</em>}
+                    <em className="c-per">About €{fmt(perPerson(p.price))} per participant <small>(full group of {GROUP_MAX})</small></em>
                   </div>
                   <ul>{p.items.map((t) => <li key={t}><Icon name="check" size={18} />{t}</li>)}</ul>
                   <button type="button" className={cx("c-btn c-btn--block", p.dark ? "c-btn--gold" : "c-btn--ink")} onClick={() => openProposal(p.name.toLowerCase())}>Request a proposal</button>
@@ -526,17 +576,36 @@ export default function Corporate() {
           <Reveal>
             <p className="c-label">In their words</p>
             <h2 className="c-title">What workshop participants <em>say.</em></h2>
+            <p className="c-sub">These are from our public workshops. Our first company case studies are coming from our Founding Partners.</p>
           </Reveal>
           <div className="c-cards c-cards--3">
             {QUOTES.map(([q, who], i) => (
               <Reveal key={who} delay={i * 90}>
                 <figure className="c-quote">
                   <blockquote>“{q}”</blockquote>
-                  <figcaption><b>{who}</b><span>Workshop participant</span></figcaption>
+                  <figcaption><b>{who}</b><span>Public workshop participant</span></figcaption>
                 </figure>
               </Reveal>
             ))}
           </div>
+          <Reveal>
+            <p className="c-label c-loop-label">Watch them in their own words</p>
+          </Reveal>
+          <div className={cx("c-videos", moreVideos && "c-videos--all")}>
+            {VIDEOS.map(([id, name, role], i) => (
+              <Reveal key={id} delay={(i % 3) * 90} className={i >= 3 ? "c-video-extra" : ""}>
+                <figure className="c-video">
+                  <div className="c-embed"><YouTubeEmbed id={id} title={`${name}'s testimonial`} /></div>
+                  <figcaption><b>{name}</b><span>{role ? `${role} · ` : ""}Public workshop participant</span></figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+          {!moreVideos && (
+            <div className="c-more-wrap">
+              <button type="button" className="c-btn c-btn--ink" onClick={() => setMoreVideos(true)}>See more participants</button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -577,13 +646,12 @@ export default function Corporate() {
           <Reveal>
             <p className="c-label c-label--gold">Contact us</p>
             <h2 className="c-title c-title--light">Let's plan your team's <em>program.</em></h2>
-            <p className="c-sub c-sub--light">Tell us about your team. We reply within <b>24 hours</b> and, if it is a good fit, set up a discovery call.</p>
+            <p className="c-sub c-sub--light">Start with a free taster, or talk to us about your team. We reply within <b>24 hours</b>.</p>
             <div className="c-btns c-btns--center">
-              <button type="button" className="c-btn c-btn--gold" onClick={() => openProposal()}>Request a proposal</button>
-              <a href={WHATSAPP} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>
+              <a href={BOOK_URL} className="c-btn c-btn--gold" target="_blank" rel="noopener noreferrer">Book a free taster</a>
               <a href={BOOK_URL} className="c-btn c-btn--ghost" target="_blank" rel="noopener noreferrer">Book a discovery call</a>
             </div>
-            <p className="c-contact-line">{CONTACT_EMAIL} <i aria-hidden="true">·</i> WhatsApp {WHATSAPP_NUMBER}</p>
+            <p className="c-contact-line">Or reach us directly: <a href={PROPOSAL()}>{CONTACT_EMAIL}</a> <i aria-hidden="true">·</i> <a href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp {WHATSAPP_NUMBER}</a></p>
           </Reveal>
         </div>
       </section>
