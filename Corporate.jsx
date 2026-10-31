@@ -124,9 +124,9 @@ const BENEFITS = [
 ];
 
 const IP_STEPS = [
-  ["Two days at your workplace", "Two 2-hour workshops on consecutive days, on dates your company chooses. We come to you and break the limiting beliefs together, in person.", "Days 1 and 2"],
+  ["Two days to start", "Two in-person workshops on consecutive days, 2 hours each, at your workplace or a location you have. We break the limiting beliefs together, in person.", "Start of the program"],
   ["Weekly live online workshops", "Learn to use your voice with confidence: what to say and how to say it. Practiced on real work situations.", "Online"],
-  ["A final in-person session", "We close the 8 weeks together in person, and bring everything into your team's real work.", "Week 8"],
+  ["Two days to finish", "Two more in-person workshops on consecutive days at the end of the 8 weeks, at your workplace or a location you have, to bring everything into your team's real work.", "End of the program"],
 ];
 
 const LOOP = [
@@ -148,18 +148,18 @@ const plans = (promo) => [
     tag: promo ? "Holiday offer" : null,
   },
   {
-    label: "in-person program (3 in-person sessions)",
+    label: "in-person program (4 in-person workshops)",
     name: "In-person program",
     lead: "Switzerland, Germany, Austria, the Czech Republic and Slovakia",
     list: INPERSON,
     price: INPERSON,
     off: 0,
-    note: "per group of up to 6 · 3 in-person sessions",
+    note: "per group of up to 6 · 4 in-person workshops",
     items: [
       "The full 8-week program",
-      "Two in-person workshops at your workplace, on consecutive days you choose (2 hours each)",
+      "Four in-person workshops: two on consecutive days at the start, two on consecutive days at the end",
+      "At your workplace or a location you have",
       "Weekly live online workshops on your voice and delivery",
-      "A final in-person session to close the 8 weeks",
       "Groups of up to 6 participants",
       "The Speaker's Gym app, MOUN Academy course and progress tracking",
       "Feedback from your coach",
@@ -176,8 +176,9 @@ const QUOTES = [
 ];
 
 const faqs = (promo) => [
-  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes three in-person sessions at your workplace, in Switzerland, Germany, Austria, the Czech Republic and Slovakia. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
-  ["Can we do it in person?", `Yes, in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for a group of up to 6, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
+  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes four in-person workshops at your workplace or a location you have, in Switzerland, Germany, Austria, the Czech Republic and Slovakia. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
+  ["Can we do it in person?", `Yes, in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for a group of up to 6, for €${fmt(INPERSON)} per group. The program includes four in-person workshops: two on consecutive days at the start, where we break the limiting beliefs, and two on consecutive days at the end. The weekly workshops on your voice and delivery run live online.`],
+  ["Where do the in-person workshops take place?", "At your workplace or at another location you have. The two workshops at the start are on consecutive days, and so are the two at the end."],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
   ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
@@ -237,7 +238,7 @@ export default function Corporate() {
             </div>
           </Reveal>
           <Reveal instant>
-            <p className="c-where">Fully online for teams anywhere, or with three in-person sessions in Switzerland, Germany, Austria, the Czech Republic and Slovakia.</p>
+            <p className="c-where">Fully online for teams anywhere, or with four in-person workshops in Switzerland, Germany, Austria, the Czech Republic and Slovakia.</p>
           </Reveal>
           <Reveal instant>
             <ul className="c-facts">
@@ -346,7 +347,7 @@ export default function Corporate() {
             <div className="c-ip-head">
               <p className="c-label c-label--left">The in-person program</p>
               <h3>How it runs, step by step</h3>
-              <p>Available in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for groups of up to 6.</p>
+              <p>Four in-person workshops: two at the start and two at the end, each pair on consecutive days, at your workplace or a location you have. Available in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for groups of up to 6.</p>
             </div>
           </Reveal>
           <div className="c-ip">
