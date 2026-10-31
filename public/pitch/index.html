@@ -456,6 +456,25 @@
       .about-stats li { padding: 12px 10px; text-align: center; }
       .about-quote { max-width: none; }
     }
+
+    /* about me: larger photo, refined intro */
+    #about .wrap { max-width: 1340px; }
+    .about { grid-template-columns: minmax(320px, 1.9fr) 1fr; gap: clamp(32px, 4.5vw, 64px); }
+    .about-photo { border-radius: 26px; }
+    .about-photo img { aspect-ratio: 3 / 2; }
+    .about .big { margin-bottom: 14px; }
+    .about .lede { font-size: clamp(20px, 2vw, 25px); color: var(--cream); line-height: 1.45; max-width: 520px; }
+    .about-sub { margin-top: 16px; max-width: 500px; font-size: clamp(16px, 1.5vw, 18px); line-height: 1.65; color: var(--dim); }
+    .about-stats { grid-template-columns: repeat(2, auto); gap: 14px; margin-top: 28px; }
+    .about-stats li { padding: 16px 22px; border-radius: 14px; background: linear-gradient(160deg, #1c1c1c, #141414); border: 1px solid rgba(240,201,103,.22); }
+    .about-stats strong { font-size: clamp(22px, 2.3vw, 28px); letter-spacing: .01em; }
+    .about-stats span { display: block; margin-top: 4px; font-size: 10px; letter-spacing: .14em; white-space: nowrap; }
+    @media (max-width: 900px) {
+      .about { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .about-stats li { text-align: left; padding: 14px 16px; }
+      .about-stats strong { font-size: 20px; }
+    }
 </style>
 </head>
 <body>
@@ -510,10 +529,10 @@
           <div>
             <h2 class="big reveal">Hi, I'm <em>Marouane.</em></h2>
             <p class="lede reveal">I have mentored people in Dubai and Montréal for the past 6 years.</p>
+            <p class="about-sub reveal">I coach socially nervous professionals to speak clearly, confidently and with presence: in meetings, in presentations and in everyday conversations.</p>
             <ul class="about-stats reveal" aria-label="Experience">
-              <li><strong>6</strong><span>YEARS</span></li>
-              <li><strong>Dubai</strong><span>MENTORING</span></li>
-              <li><strong>Montréal</strong><span>MENTORING</span></li>
+              <li><strong>6 years</strong><span>OF EXPERIENCE</span></li>
+              <li><strong>Dubai · Montréal</strong><span>WHERE I'VE WORKED</span></li>
             </ul>
             <p class="about-quote reveal">Communication is a skill, not a talent. And skills can be trained.</p>
           </div>
