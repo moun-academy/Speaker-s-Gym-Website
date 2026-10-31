@@ -33,6 +33,12 @@ const ICONS = {
   message: "M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
   steps: "M3 17l6-6 4 4 8-8 M15 7h6v6",
   brain: "M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V4a3 3 0 0 0-3 0z M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 2",
+  map: "M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z M9 3v15 M15 6v15",
+  phone: "M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z M11 18h2",
+  chart: "M4 20V10 M10 20V4 M16 20v-8 M22 20H2",
+  book: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z M4 19V5",
+  clipboard: "M9 3h6v3H9z M7 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1 M9 13l2 2 4-4",
+  gift: "M20 12v9H4v-9 M2 7h20v5H2z M12 22V7 M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
   check: "M5 12.5l4.5 4.5L19 7.5",
 };
 function Icon({ name, size = 22 }) {
@@ -77,6 +83,7 @@ const OUTCOMES = [
   "Structure ideas so others follow and remember them",
   "Speak with a confident, engaging voice",
   "Stay composed when put on the spot",
+  "Present with more clarity and connect with confidence at events and networking",
 ];
 
 const SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
@@ -105,6 +112,17 @@ const STEPS = [
   ["Prove it with exposure", "Practice through a ten-level exposure system, one manageable step at a time."],
 ];
 
+const BENEFITS = [
+  ["map", "Personalized roadmap", "A communication roadmap and exposure plan built around your people's workplace, goals and real speaking situations."],
+  ["phone", "App with AI feedback", "Daily practice with the Speaker's Gym app, with instant AI feedback between workshops."],
+  ["chart", "Performance tracking", "Everyone sees their progress, so they always know where they stand."],
+  ["book", "MOUN Academy course", "Full access to the three-hour course, to go deeper at their own pace."],
+  ["clipboard", "Practical exercises", "Exercises and real-world missions after every session, so skills move from theory to practice."],
+  ["message", "Feedback on real situations", "Personal feedback on how it went in actual meetings, updates and presentations."],
+  ["users", "Between-session support", "Support between workshops, so momentum does not drop."],
+  ["gift", "Conversation Playbook bonus", "A bonus guide for everyday conversations at work."],
+];
+
 const IP_STEPS = [
   ["Two days at your workplace", "Two 2-hour workshops on consecutive days, on dates your company chooses. We come to you and break the limiting beliefs together, in person.", "Days 1 and 2"],
   ["Weekly live online workshops", "Learn to use your voice with confidence: what to say and how to say it. Practiced on real work situations.", "Online"],
@@ -126,13 +144,13 @@ const plans = (promo) => [
     price: promo ? onlineDeal : ONLINE_LIST,
     off: promo ? ONLINE_OFF : 0,
     note: "per group of up to 6 · 8 weekly workshops",
-    items: ["The full 8-week program", "A live 2-hour online workshop every week", "Groups of up to 6 participants", "Practice on real work situations", "Feedback from your coach"],
+    items: ["The full 8-week program", "A live 2-hour online workshop every week", "Groups of up to 6 participants", "Practice on real work situations", "The Speaker's Gym app, MOUN Academy course and progress tracking", "Feedback from your coach"],
     tag: promo ? "Holiday offer" : null,
   },
   {
     label: "in-person program (3 in-person sessions)",
     name: "In-person program",
-    lead: "Switzerland, Germany and Austria",
+    lead: "Switzerland, Germany, Austria, the Czech Republic and Slovakia",
     list: INPERSON,
     price: INPERSON,
     off: 0,
@@ -143,6 +161,7 @@ const plans = (promo) => [
       "Weekly live online workshops on your voice and delivery",
       "A final in-person session to close the 8 weeks",
       "Groups of up to 6 participants",
+      "The Speaker's Gym app, MOUN Academy course and progress tracking",
       "Feedback from your coach",
     ],
     dark: true,
@@ -157,8 +176,8 @@ const QUOTES = [
 ];
 
 const faqs = (promo) => [
-  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes three in-person sessions at your workplace, in Switzerland, Germany and Austria. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
-  ["Can we do it in person?", `Yes, in Switzerland, Germany and Austria, for a group of up to 6, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
+  ["What is the difference between the two programs?", `The online program is delivered fully online (${promo ? `€${fmt(onlineDeal)}, down from €${fmt(ONLINE_LIST)}` : `€${fmt(ONLINE_LIST)}`}). The in-person program (€${fmt(INPERSON)}) includes three in-person sessions at your workplace, in Switzerland, Germany, Austria, the Czech Republic and Slovakia. Both run for 8 weeks, for groups of up to 6, with a live 2-hour workshop every week.`],
+  ["Can we do it in person?", `Yes, in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for a group of up to 6, for €${fmt(INPERSON)} per group. We come to your workplace for two in-person workshops on consecutive days you choose, 2 hours each, where we break the limiting beliefs. The weekly workshops on your voice and delivery run live online, and we close the 8 weeks with a final in-person session.`],
   ["Who is it for?", "Professionals who know their work but hold back when they speak: in meetings, updates, presentations and conversations with clients or leadership."],
   ["What do the 8 weeks include?", "Two weeks on the psychology of confidence, where we break limiting beliefs with a six-step process, and six weeks of the communication method, practiced on real work situations. Every week is a live 2-hour workshop."],
   ["How do we get started?", "Send us a message or book a discovery call. We will talk through your team's goals, confirm the right group size and agree a start date."],
@@ -218,7 +237,7 @@ export default function Corporate() {
             </div>
           </Reveal>
           <Reveal instant>
-            <p className="c-where">Fully online for teams anywhere, or with three in-person sessions in Switzerland, Germany and Austria.</p>
+            <p className="c-where">Fully online for teams anywhere, or with three in-person sessions in Switzerland, Germany, Austria, the Czech Republic and Slovakia.</p>
           </Reveal>
           <Reveal instant>
             <ul className="c-facts">
@@ -327,7 +346,7 @@ export default function Corporate() {
             <div className="c-ip-head">
               <p className="c-label c-label--left">The in-person program</p>
               <h3>How it runs, step by step</h3>
-              <p>Available in Switzerland, Germany and Austria, for groups of up to 6.</p>
+              <p>Available in Switzerland, Germany, Austria, the Czech Republic and Slovakia, for groups of up to 6.</p>
             </div>
           </Reveal>
           <div className="c-ip">
@@ -365,6 +384,28 @@ export default function Corporate() {
               <Reveal key={title} delay={i * 90}>
                 <article className="c-card c-card--step">
                   <span className="c-step-n">{i + 1}</span>
+                  <span className="c-ico"><Icon name={icon} /></span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BENEFITS ── */}
+      <section className="c-sec c-sec--alt" id="benefits">
+        <div className="c-wrap">
+          <Reveal>
+            <p className="c-label">What is included</p>
+            <h2 className="c-title">More than workshops. <em>A complete system.</em></h2>
+            <p className="c-sub">Between sessions, your people keep practicing, keep getting feedback and keep seeing their progress.</p>
+          </Reveal>
+          <div className="c-benefits">
+            {BENEFITS.map(([icon, title, text], i) => (
+              <Reveal key={title} delay={(i % 4) * 70}>
+                <article className="c-benefit">
                   <span className="c-ico"><Icon name={icon} /></span>
                   <h3>{title}</h3>
                   <p>{text}</p>
