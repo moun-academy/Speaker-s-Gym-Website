@@ -475,6 +475,14 @@
       .about-stats li { text-align: left; padding: 14px 16px; }
       .about-stats strong { font-size: 20px; }
     }
+
+    /* about me: highlight clip under the photo */
+    .about-media { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .about-video { position: relative; margin: 0; border-radius: 22px; overflow: hidden; border: 1px solid rgba(240,201,103,.3); background: #000; aspect-ratio: 21 / 9; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+    .about-video video { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .about-video::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(13,13,13,.55)); pointer-events: none; }
+    .about-video-tag { position: absolute; left: 16px; bottom: 14px; z-index: 1; padding: 6px 12px; border-radius: 999px; background: rgba(13,13,13,.7); border: 1px solid rgba(240,201,103,.45); color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: .22em; backdrop-filter: blur(6px); }
+    @media (max-width: 900px) { .about-video { aspect-ratio: 16 / 9; border-radius: 18px; } }
 </style>
 </head>
 <body>
@@ -523,9 +531,15 @@
       <div class="wrap">
         <p class="eyebrow reveal">ABOUT ME</p>
         <div class="about">
-          <figure class="about-photo reveal">
+          <div class="about-media">
+            <figure class="about-photo reveal">
             <img src="/pitch/marouane-group.webp" alt="Marouane with a group of people he has coached" width="1500" height="1000" loading="lazy" decoding="async">
           </figure>
+            <figure class="about-video reveal">
+              <video id="aboutVideo" muted loop playsinline preload="none" poster="/media/about-highlight-poster.webp" aria-label="Highlights from Marouane's workshops" data-src="/media/hero-bg.mp4" data-src-small="/media/hero-bg-mobile.mp4"></video>
+              <span class="about-video-tag">HIGHLIGHTS</span>
+            </figure>
+          </div>
           <div>
             <h2 class="big reveal">Hi, I'm <em>Marouane.</em></h2>
             <p class="lede reveal">I have mentored people in Dubai and Montréal for the past 6 years.</p>
@@ -895,6 +909,28 @@
         btn.replaceWith(f);
       });
     });
+
+    // About me highlight clip: starts only when near the screen, pauses when away.
+    // Skipped (poster only) for reduced motion, Data Saver and slow connections.
+    (() => {
+      const v = document.getElementById('aboutVideo');
+      if (!v) return;
+      const conn = navigator.connection;
+      const slow = conn && (conn.saveData || /^(slow-2g|2g|3g)$/.test(conn.effectiveType || ''));
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches || slow) return;
+      const small = matchMedia('(max-width: 760px)').matches;
+      let loaded = false;
+      new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            if (!loaded) { v.src = small ? v.dataset.srcSmall : v.dataset.src; loaded = true; }
+            v.play().catch(() => {});
+          } else if (loaded) {
+            v.pause();
+          }
+        });
+      }, { rootMargin: '200px 0px' }).observe(v);
+    })();
 
     // Section dots + keyboard navigation (handy when presenting on a call)
     const sections = [...document.querySelectorAll('main section')];
