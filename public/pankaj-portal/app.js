@@ -21,7 +21,7 @@
     }
     if (!Array.isArray(next.evidence)) next.evidence=[];
     // A new coach-published appointment replaces stale browser timing once.
-    if(COACHING && next.coachingScheduleUpdateId!==COACHING.id) {next.weeklyCoaching={...COACHING.weeklyCoaching};next.coachingScheduleUpdateId=COACHING.id;}
+    if(COACHING && COACHING.appointmentStatus!=='completed' && next.coachingScheduleUpdateId!==COACHING.id) {next.weeklyCoaching={...COACHING.weeklyCoaching};next.coachingScheduleUpdateId=COACHING.id;}
     for(const week of COACHING?.completedLectures||[]) {
       const lecture=next[`week${week}Lecture`];
       if(lecture && next.coachingLectureResets?.[week]!==COACHING.id) lecture.lectureCompletedAt=lecture.lectureCompletedAt||COACHING.lectureCompletionDates?.[week]||COACHING.lectureCompletionConfirmedOn||COACHING.date;
@@ -286,6 +286,14 @@
   $('#coachingNotesForm').addEventListener('submit',event=>{event.preventDefault();['appNotes','upcomingMoment','pressureSkill','nextTarget'].forEach(key=>state.coachNotes[key]=$('#'+key).value.trim());saveFeedback('Coaching notes saved.');});
   $('#progressWeekLabels').innerHTML=DATA.weeks.map((week,index)=>'<span>'+String(index+1).padStart(2,'0')+' · '+esc(week.short)+'</span>').join('');
   function renderCoachingSchedule() {
+    if(COACHING?.appointmentStatus==='completed'){
+      $('#sessionTitle').textContent='Your six coaching sessions are complete';
+      $('.session-date').hidden=true;
+      $('#coachingScheduleLabel').textContent='Keep your speaking practice going.';
+      $('#coachingScheduleZone').textContent='Your year of app and community access continues, including group workshops.';
+      $('#coachingJoinLink').hidden=true;$('#coachingJoinLink').removeAttribute('href');
+      $('#coachingScheduleEditor').hidden=true;$('#prepareCall').hidden=true;return;
+    }
     const schedule=state.weeklyCoaching;
     const set=Boolean(schedule.day&&schedule.time&&schedule.timeZone);
     $('#coachingScheduleLabel').textContent=set?schedule.day+' · '+schedule.time:'Weekend timing confirmed together';
