@@ -64,8 +64,8 @@ const MARKETS = {
     extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the AED figure shown on this page. The dollar price never changes."],
   },
 };
-/* The 1-on-1 special price ends at the end of October 31, Dubai time (GMT+4). */
-const DEAL_END_TS = Date.UTC(2026, 9, 31, 19, 59, 59);
+/* The 1-on-1 holiday discount ends at the end of November 30, Dubai time (GMT+4). */
+const DEAL_END_TS = Date.UTC(2026, 10, 30, 19, 59, 59);
 /* Qatar: same page and USD Stripe links, riyal prices (pegged: 1 USD = 3.64 QAR), Qatar time (GMT+3). */
 MARKETS.qar = {
   ...MARKETS.aed,
@@ -706,7 +706,7 @@ function SalesContent() {
                 <strong>{M.node(oneOnOnePrice)}</strong>
                 <span>one payment · 6 weeks + 1 year of access</span>
                 {usdLine(dealLive ? "oneOnOneDeal" : "oneOnOne")}
-                {dealLive && <em className="s-deal">You save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · special price ends October 31 · {dealDays <= 1 ? "last day" : `${dealDays} days left`}</em>}
+                {dealLive && <em className="s-deal">Holiday discount · you save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · limited time, ends November 30{dealDays <= 1 ? " (last day)" : ""}</em>}
               </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <div className="s-bonus">
