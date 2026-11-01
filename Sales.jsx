@@ -312,19 +312,6 @@ const THOUGHTS = [
 
 const SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
 
-const LEVELS = [
-  ["Become Visible", "Initiate one greeting and maintain eye contact."],
-  ["Initiate", "Start one short conversation at work."],
-  ["Participate", "Give one structured answer when someone asks for your opinion."],
-  ["Volunteer", "Contribute once before someone calls on you."],
-  ["Hold the Floor", "Deliver one complete PREP answer without rushing."],
-  ["Disagree Respectfully", "Express one respectful disagreement using PREP."],
-  ["Lead a Moment", "Lead one small moment during a meeting or conversation."],
-  ["Speak Under Pressure", "Answer one unexpected question without escaping or rushing."],
-  ["Influence", "Present one recommendation and explain why it matters."],
-  ["Full Expression", "Express an idea without hiding your personality."],
-];
-
 const LOOP = [
   ["🎤", "Rehearse", "Practice out loud with us"],
   ["🏢", "Try it for real", "In your meeting or conversation"],
@@ -375,7 +362,6 @@ function SalesContent() {
   const DEAL_END = DEAL_END_TS;
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
-  const [level, setLevel] = useState(0);
   const [moreVideos, setMoreVideos] = useState(false);
   const [openWeek, setOpenWeek] = useState(0);
 
@@ -555,38 +541,6 @@ function SalesContent() {
             </div>
           </Reveal>
         </div>
-      </section>
-
-      {/* ── 6 · EXPOSURE LADDER ── */}
-      <section className="s-section" id="ladder">
-        <Reveal>
-          <p className="s-label">At your pace</p>
-          <h2 className="s-title">One level at a time. <em>Never a leap.</em></h2>
-          <p className="s-sub">Tap a level to see what a real step looks like.</p>
-        </Reveal>
-        <Reveal>
-          <div className="s-ladder" role="tablist" aria-label="Exposure levels">
-            {LEVELS.map(([name], i) => (
-              <button
-                key={name}
-                type="button"
-                role="tab"
-                aria-selected={level === i}
-                className={cx("s-rung", i <= level && "s-rung--reached", level === i && "s-rung--on")}
-                style={{ height: `${16 + i * 9}%` }}
-                onClick={() => setLevel(i)}
-              >
-                <b>{i + 1}</b>
-              </button>
-            ))}
-          </div>
-          <div className="s-level-card" aria-live="polite" key={level}>
-            <small>Level {level + 1}</small>
-            <h3>{LEVELS[level][0]}</h3>
-            <p>Your mission: {LEVELS[level][1]}</p>
-          </div>
-          <p className="s-ladder-note">Level 10 does not mean becoming loud or extroverted. It means having the freedom to express yourself fully when you choose.</p>
-        </Reveal>
       </section>
 
       {/* ── TESTIMONIALS ── */}
