@@ -1,35 +1,31 @@
 window.KIYAN_COACHING_UPDATE = {
-  "id": "coaching-3-2026-10-26",
-  "date": "2026-10-26",
-  "callNumber": 3,
-  "label": "CALL 3 · 26 OCTOBER 2026",
-  "title": "Give your key point time to land.",
+  "id": "coaching-4-2026-11-02",
+  "date": "2026-11-02",
+  "callNumber": 4,
+  "label": "CALL 4 · 2 NOVEMBER 2026",
+  "title": "Replace filler sounds with a pause.",
   "completedLectures": [
     1,
     2,
-    3
+    3,
+    4
   ],
-  "summary": "PREP is becoming easier. Today you practiced pace variety: faster for energy, slower for key ideas, with a pause before your final point.",
+  "summary": "Your recent video showed more vocal variety and varied gestures. Today you practiced pauses before answering and between PREP ideas, so your words have room to land.",
   "challenges": [
-    "Prepare your PREP keywords first so you can focus on delivery.",
-    "Exaggerate fast and slow in practice, then make the contrast smaller in everyday conversation. Use a hand beat to slow down key words.",
-    "Keep pace and volume separate: slow does not have to mean quiet. Keep your voice projected while changing speed."
+    "Pause for two seconds before answering. Find your point, then speak.",
+    "Between PREP ideas, pause and breathe instead of filling the gap with “um.”",
+    "Keep your voice and face expressive on camera. When reading, pause at punctuation to scan the next words."
   ],
   "missions": [
     {
-      "id": "pace-video",
-      "title": "Practice, then post version two",
-      "text": "Warm up with the Pace game in Expand your vocal variety. Prepare a PREP answer, try it once, then record and post your second version. Change pace deliberately at least once and pause before the key point."
+      "id": "pause-recording",
+      "title": "Post your pause practice",
+      "text": "Share one short audio or video in the community. Pause before answering and between your PREP ideas. Ask for feedback on your pauses."
     },
     {
-      "id": "pace-conversation",
-      "title": "Try it in a real conversation",
-      "text": "Move through familiar background faster, then slow down a name, number or recommendation you want remembered. Notice the response and save a reflection."
-    },
-    {
-      "id": "notice-pace",
-      "title": "Spot the contrast",
-      "text": "Watch a speaker or a movie scene. Notice where they speed up for energy and slow down for emphasis, then try that contrast yourself."
+      "id": "daily-pauses",
+      "title": "Keep your daily practice going",
+      "text": "Continue your daily community posts. Focus on bridge pauses while keeping vocal variety and natural facial expression."
     }
   ],
   "nextCall": {
@@ -45,8 +41,9 @@ window.KIYAN_COACHING_UPDATE = {
   "lectureCompletionDates": {
     "1": "2026-10-12",
     "2": "2026-10-19",
-    "3": "2026-10-26"
+    "3": "2026-10-26",
+    "4": "2026-11-02"
   },
-  "sourceRecordingId": "sha256:1d92849d34a12caca7bc90f271e102dbf6d7e30970719168a994eb0d542359fb",
-  "nextCallPending": false
+  "nextCallPending": true,
+  "sourceTranscriptId": "01M68XPE3J8YA52X5E65SHDCB1"
 };
