@@ -29,14 +29,14 @@ window.KIYAN_COACHING_UPDATE = {
     }
   ],
   "nextCall": {
-    "start": "2026-11-02T13:30:00+04:00",
+    "start": "2026-11-09T13:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/gyf-frbz-wyr",
-    "calendarEventId": "orqf6up9rs6iubu3pnh0e05ks0",
+    "meetingLink": "https://meet.google.com/iri-bwxj-xty",
+    "calendarEventId": "dgfdad7sg35ml8sit7ecf9dtp0",
     "inviteToFollow": false,
-    "prepTitle": "Bring your pace-variety practice.",
-    "prepText": "We’ll review your second-take videos and how pace variety felt in a real conversation."
+    "prepTitle": "Bring your pause practice.",
+    "prepText": "We’ll review your recording, community feedback and how bridge pauses felt."
   },
   "lectureCompletionDates": {
     "1": "2026-10-12",
@@ -44,6 +44,6 @@ window.KIYAN_COACHING_UPDATE = {
     "3": "2026-10-26",
     "4": "2026-11-02"
   },
-  "nextCallPending": true,
+  "nextCallPending": false,
   "sourceTranscriptId": "01M68XPE3J8YA52X5E65SHDCB1"
 };
