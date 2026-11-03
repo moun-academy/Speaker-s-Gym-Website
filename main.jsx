@@ -15,7 +15,6 @@ import MuhammadAshrafPortal from './MuhammadAshrafPortal.jsx'
 import KiyanPortal from './KiyanPortal.jsx'
 import { installCalendlyBookingTracking } from './metaTracking.js'
 
-const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
 const SalesPage = lazy(() => import('./Sales.jsx'))
 const SalesUAEPage = lazy(() => import('./SalesUAE.jsx'))
 const SalesEuropePage = lazy(() => import('./SalesEurope.jsx'))
@@ -40,7 +39,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/europe" element={<Suspense fallback={null}><SalesEuropePage /></Suspense>} />
         <Route path="/qatar" element={<Suspense fallback={null}><SalesQatarPage /></Suspense>} />
         <Route path="/corporate" element={<Suspense fallback={null}><CorporatePage /></Suspense>} />
-        <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />
+        {/* The private presentation was removed; send old links to the homepage */}
+        <Route path="/private/speakers-gym-program" element={<Navigate to="/" replace />} />
         <Route path="/khadija" element={<KhadijaPortal />} />
         <Route path="/nadira" element={<NadiraPortal />} />
         <Route path="/pankaj" element={<PankajPortal />} />
