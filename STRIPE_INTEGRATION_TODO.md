@@ -14,7 +14,7 @@ The following values are placeholders and must be updated before going live.
 | Field | Current Value | What to Set |
 |-------|--------------|-------------|
 | mode | payment | Set to "payment" for one-time charges or "subscription" for recurring billing. |
-| line_items[].price | `STRIPE_PRICE_EU_ONE_ON_ONE`, `STRIPE_PRICE_EU_GROUP`, `STRIPE_PRICE_EU_EARLY_BIRD` (env vars, currently unset) | Create one Price per plan in the Dashboard (https://dashboard.stripe.com/prices): €180, €110 and €85, in EUR, one-time. Put each Price ID in the matching Vercel env var. |
+| line_items[].price | Price IDs set as defaults in the file | Already filled in (€180, €110, €85). If these are test-mode Prices, set `STRIPE_PRICE_EU_*` in Vercel to the live Price IDs when you go live. |
 
 ## Configured Parameters
 
@@ -53,7 +53,7 @@ Keys: https://dashboard.stripe.com/test/apikeys. Redeploy after adding them, bec
 
 **Safe fallback:** the buttons only open the embedded form when `VITE_STRIPE_PUBLISHABLE_KEY` is set. Without it they open the existing Stripe payment links, as before. If the form fails to load, the popup shows a link to the payment link. `/uae`, `/qatar` and `/sales` are unchanged.
 
-**To switch `/europe` on:** (1) create the 3 Prices, (2) add the 3 `STRIPE_PRICE_EU_*` vars, `STRIPE_SECRET_KEY` and `VITE_STRIPE_PUBLISHABLE_KEY` in Vercel, (3) redeploy, (4) test a payment with a test key before using live keys. After a successful payment the page goes to `/thank-you-purchase`.
+**To switch `/europe` on:** (1) add `STRIPE_SECRET_KEY` and `VITE_STRIPE_PUBLISHABLE_KEY` in Vercel (keys from the same mode, test or live, as the Prices), (2) redeploy, (3) test a payment with a test key before using live keys. After a successful payment the page goes to `/thank-you-purchase`.
 
 **How it works:**
 1. The component loads Stripe.js and calls `POST /api/create-checkout-session`.

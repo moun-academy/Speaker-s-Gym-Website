@@ -1,10 +1,10 @@
 import { Stripe } from "stripe";
 
-// Plan key sent by the Europe page -> Stripe Price ID (set these in Vercel, see STRIPE_INTEGRATION_TODO.md).
+// Plan key sent by the Europe page -> Stripe Price ID (defaults below; the env vars override them, e.g. to switch between test and live Prices).
 const PLAN_PRICES = {
-  eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE, // €180
-  eu_group: process.env.STRIPE_PRICE_EU_GROUP, // €110
-  eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD, // €85
+  eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE || "price_1UXfXeDcLTAmz7c6LbYoVpUU", // €180
+  eu_group: process.env.STRIPE_PRICE_EU_GROUP || "price_1UXfXTDcLTAmz7c6Df1PHCpz", // €110
+  eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD || "price_1UXfWxDcLTAmz7c6icjHfvsX", // €85
 };
 
 function readBody(body) {
