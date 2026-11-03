@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 
 const STRIPE_JS = "https://js.stripe.com/dahlia/stripe.js";
 // Publishable keys are public by design (safe in browser code). VITE_STRIPE_PUBLISHABLE_KEY overrides it.
-const PUBLISHABLE_KEY =
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
-  "pk_live_51TJsndDcLTAmz7c6b5jUGXAoIEpv1Tls1S3h60OBL0htD85dZlT3Pb5cvCCFb2vJTw425EjrLonklGtpn0PNgChZ00StKkaVNN";
+const LIVE_KEY = "pk_live_51TJsndDcLTAmz7c6b5jUGXAoIEpv1Tls1S3h60OBL0htD85dZlT3Pb5cvCCFb2vJTw425EjrLonklGtpn0PNgChZ00StKkaVNN";
+const TEST_KEY = "pk_test_51TJsndDcLTAmz7c6XsRqkWmVmFqjCnMzviDGxrkD4HoeOkVipNifhMJEvLSVLsu0ZwZqrkZV4rDIrIwBULhmNuK700Y6a5FQlI";
+// Vercel preview deployments run in Stripe test mode; production uses live mode.
+const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || (__STRIPE_TEST_MODE__ ? TEST_KEY : LIVE_KEY);
 
 // Stripe.js must come from Stripe's servers (never bundled or self-hosted).
 // Loaded on demand so it does not slow down the landing pages.
