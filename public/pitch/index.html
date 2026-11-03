@@ -483,6 +483,21 @@
     .about-video::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(13,13,13,.55)); pointer-events: none; }
     .about-video-tag { position: absolute; left: 16px; bottom: 14px; z-index: 1; padding: 6px 12px; border-radius: 999px; background: rgba(13,13,13,.7); border: 1px solid rgba(240,201,103,.45); color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: .22em; backdrop-filter: blur(6px); }
     @media (max-width: 900px) { .about-video { aspect-ratio: 16 / 9; border-radius: 18px; } }
+
+    /* every problem has a plan */
+    #solve { min-height: 0; padding-top: 96px; padding-bottom: 96px; }
+    .matrix { margin-top: 8px; display: flex; flex-direction: column; gap: 12px; }
+    .mrow { display: grid; grid-template-columns: 1fr 40px 1.5fr; align-items: center; gap: 18px; padding: 20px 26px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg2); transition: border-color .3s, transform .3s; }
+    .mrow:hover { border-color: var(--gold-muted); transform: translateX(4px); }
+    .mrow small { display: block; font-size: 10.5px; letter-spacing: .22em; font-weight: 700; color: var(--gold-muted); margin-bottom: 4px; }
+    .prob strong { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--dim); }
+    .marrow { color: var(--gold); font-size: 24px; text-align: center; }
+    .sol strong { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--cream); line-height: 1.25; }
+    .sol p { margin-top: 4px; color: var(--dim); font-size: 15px; line-height: 1.5; }
+    @media (max-width: 900px) {
+      .mrow { grid-template-columns: 1fr; gap: 8px; padding: 20px; }
+      .marrow { text-align: left; transform: rotate(90deg); width: 24px; }
+    }
 </style>
 </head>
 <body>
@@ -497,6 +512,7 @@
     <a href="#hero" aria-label="Intro"></a>
     <a href="#about" aria-label="About me"></a>
     <a href="#helped" aria-label="Who I helped"></a>
+    <a href="#solve" aria-label="Every problem has a plan"></a>
     <a href="#method" aria-label="The method"></a>
     <a href="#system" aria-label="How it works"></a>
     <a href="#program" aria-label="The program"></a>
@@ -585,6 +601,21 @@
             <div class="embed"><button class="yt" type="button" data-id="XQ5x8_tnI7M" data-title="Avinash's testimonial" aria-label="Play Avinash's testimonial"><img src="https://i.ytimg.com/vi/XQ5x8_tnI7M/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="play" aria-hidden="true"></span></button></div>
             <div class="vcap"><strong>Avinash</strong><blockquote>“Got to know a lot about vocal variety and also how to structure your speeches. It was very interactive and I'm for sure buying his course.”</blockquote></div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1c · PROBLEM -> SOLUTION -->
+    <section id="solve">
+      <div class="wrap">
+        <p class="eyebrow reveal">BUILT AROUND YOUR PROBLEM</p>
+        <h2 class="reveal">Every problem has <em>a plan.</em></h2>
+        <div class="matrix">
+          <div class="mrow reveal"><div class="prob"><small>IF YOU…</small><strong>Freeze or go blank</strong></div><span class="marrow" aria-hidden="true">→</span><div class="sol"><small>WE USE</small><strong>Private daily reps and the Exposure Ladder</strong><p>Practice in private with instant AI feedback, then take real-world steps one level at a time.</p></div></div>
+          <div class="mrow reveal"><div class="prob"><small>IF YOU…</small><strong>Ramble or lose your point</strong></div><span class="marrow" aria-hidden="true">→</span><div class="sol"><small>WE USE</small><strong>PREP structure and storytelling</strong><p>Weeks 1 and 6 teach you to organize your thoughts and tell a story that lands.</p></div></div>
+          <div class="mrow reveal"><div class="prob"><small>IF YOU…</small><strong>Sound quiet or flat</strong></div><span class="marrow" aria-hidden="true">→</span><div class="sol"><small>WE USE</small><strong>Voice, pace and vocal variety</strong><p>Weeks 2, 3 and 5 build volume, rhythm, pitch and expression.</p></div></div>
+          <div class="mrow reveal"><div class="prob"><small>IF YOU…</small><strong>Rush, or fear the silence</strong></div><span class="marrow" aria-hidden="true">→</span><div class="sol"><small>WE USE</small><strong>The power of a pause</strong><p>Week 4 shows you how to think, pause and own the silence instead of filling it.</p></div></div>
+          <div class="mrow reveal"><div class="prob"><small>IF YOU…</small><strong>Aren't sure what to work on</strong></div><span class="marrow" aria-hidden="true">→</span><div class="sol"><small>WE USE</small><strong>Your roadmap and private portal</strong><p>A personalized plan, and a portal that shows what to do next and tracks your progress.</p></div></div>
         </div>
       </div>
     </section>

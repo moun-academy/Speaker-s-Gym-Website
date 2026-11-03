@@ -83,6 +83,33 @@ MARKETS.qar = {
   heroFor: `A six-week program for shy and nervous professionals in Qatar. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the QAR figure shown on this page. The dollar price never changes."],
 };
+/* Europe: same page, prices in euros, European time (CET). Paste the euro Stripe Payment Links below.
+   While a link is empty: 1-on-1 and group buttons email us, early-bird cards open the waiting list. */
+MARKETS.eur = {
+  ...MARKETS.usd,
+  key: "eur",
+  currency: "EUR",
+  contact: "whatsapp",
+  money: (n) => `€${n}`,
+  node: (n) => `€${n}`,
+  price: { oneOnOne: 250, oneOnOneDeal: 197, group: 149, groupDeal: 129, earlyBird: 97 },
+  checkout: {
+    oneOnOne: "", // €197 holiday discount, until the deal ends
+    oneOnOneFull: "", // €250 after the deal
+    group: "", // €129 · next group
+    earlyBird: "", // €97 · later groups
+  },
+  ref: "eur_",
+  time: "1–2 pm CET (12–1 pm GMT)",
+  timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
+  timeShort: "1–2 pm CET",
+  title: "Join The Speaker's Gym | Europe",
+  kicker: "Live online program · Europe",
+  heroFor: `A six-week program for shy and nervous professionals in Europe. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
+  priceNote: "All prices are in euros.",
+  extraFaq: null,
+};
+
 const MarketContext = createContext(MARKETS.usd);
 const useMarket = () => useContext(MarketContext);
 const GROUPS_SHOWN = 3;        // next group + two early-bird groups
