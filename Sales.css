@@ -84,7 +84,7 @@ html:has(.sales-page) { scroll-behavior: smooth; }
 /* ── hero ── */
 .s-hero { position: relative; overflow: hidden; padding: 168px 24px 96px; text-align: center; }
 .s-hero-glow { position: absolute; top: -260px; left: 50%; width: 1100px; height: 900px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(217,192,111,.14), rgba(217,192,111,0) 62%); pointer-events: none; }
-.s-hero > :not(.s-hero-glow):not(.s-hero-video):not(.s-wave) { position: relative; }
+.s-hero > :not(.s-hero-glow):not(.s-hero-video):not(.s-wave):not(.s-lights) { position: relative; }
 .s-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 26px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
 .s-dot { width: 8px; height: 8px; border-radius: 50%; background: #7fd38f; box-shadow: 0 0 0 0 rgba(127,211,143,.6); animation: s-live 2s infinite; }
 @keyframes s-live { 70% { box-shadow: 0 0 0 9px rgba(127,211,143,0); } 100% { box-shadow: 0 0 0 0 rgba(127,211,143,0); } }
@@ -297,7 +297,7 @@ button.s-btn { font-family: var(--font-body); }
 
 /* ── redesigned sections ── */
 .s-hero { position: relative; overflow: hidden; }
-.s-hero > *:not(.s-hero-glow):not(.s-wave):not(.s-hero-video) { position: relative; z-index: 1; }
+.s-hero > *:not(.s-hero-glow):not(.s-wave):not(.s-hero-video):not(.s-lights) { position: relative; z-index: 1; }
 .s-wave { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; display: flex; align-items: flex-end; justify-content: center; gap: 7px; opacity: .22; pointer-events: none; -webkit-mask-image: linear-gradient(0deg, #000, transparent); mask-image: linear-gradient(0deg, #000, transparent); }
 .s-wave i { width: 6px; border-radius: 4px; background: var(--gold); height: calc(24px + (var(--i) * 37 % 100) * 1.2px); animation: s-wave 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * -.17s); }
 @keyframes s-wave { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
@@ -533,3 +533,42 @@ button.s-btn { font-family: var(--font-body); }
 .s-call-float:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 3px; }
 .s-hero-call svg { color: var(--gold); }
 @media (max-width: 680px) { .s-call-float { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); height: 50px; padding: 0 14px; gap: 7px; font-size: .78rem; } }
+
+/* ── pillars (Europe page) ── */
+.s-pillars { margin-top: 48px; }
+.s-pillar { position: relative; padding-top: 34px; }
+.s-pillar-n { position: absolute; top: 14px; right: 18px; color: var(--gold); font-size: .62rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; opacity: .8; }
+.s-pillar-ico { width: 56px !important; height: 56px !important; font-size: 1.8rem !important; }
+
+/* ── holiday season look (Europe page) ── */
+.s-holiday { --xmas-red: #b3202d; --xmas-red-soft: #ff9aa3; --xmas-green: #2f8f5f; }
+.s-holiday .s-hero-glow { background: radial-gradient(ellipse at center, rgba(179,32,45,.2), rgba(217,192,111,.1) 45%, rgba(217,192,111,0) 70%); }
+.sales-page .s-holiday-pill { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; margin: -6px auto 22px; padding: 10px 20px; border-radius: 999px; background: linear-gradient(135deg, rgba(179,32,45,.55), rgba(110,18,28,.55)); border: 1px solid rgba(217,192,111,.6); color: #fff3d6; font-size: .9rem; font-weight: 600; letter-spacing: .01em; box-shadow: 0 8px 30px rgba(179,32,45,.25); text-align: left; }
+.s-holiday .s-kicker { border-color: rgba(217,192,111,.5); }
+.s-holiday .s-price .s-deal { background: rgba(179,32,45,.2); border-color: rgba(255,154,163,.45); color: var(--xmas-red-soft); }
+.s-holiday .s-plan--featured { border-color: rgba(217,192,111,.7); box-shadow: 0 0 70px rgba(179,32,45,.16), 0 0 0 1px rgba(217,192,111,.25); }
+.s-holiday .s-label { color: #f0d98a; }
+.s-holiday .s-section--tint { background: linear-gradient(180deg, #0d0d0d, #170f10 50%, #0d0d0d); }
+
+/* snow */
+.s-snow { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+.s-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; animation-name: s-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes s-fall { 0% { transform: translate3d(0, -4vh, 0); } 50% { transform: translate3d(22px, 52vh, 0); } 100% { transform: translate3d(-14px, 108vh, 0); } }
+
+/* string lights across the top of the hero */
+.s-lights { position: absolute; top: 84px; left: 0; right: 0; z-index: 1; display: flex; justify-content: space-between; padding: 0 2%; pointer-events: none; }
+.s-lights::before { content: ""; position: absolute; left: 0; right: 0; top: 3px; height: 1px; background: rgba(217,192,111,.35); }
+.s-lights i { position: relative; width: 9px; height: 13px; border-radius: 50% 50% 55% 55%; top: 4px; background: #d9c06f; box-shadow: 0 0 12px 2px rgba(217,192,111,.55); animation: s-twinkle 2.4s ease-in-out infinite; animation-delay: calc(var(--l) * -.19s); }
+.s-lights i:nth-child(3n+1) { background: #e0475a; box-shadow: 0 0 12px 2px rgba(224,71,90,.55); }
+.s-lights i:nth-child(3n+2) { background: #4fc58a; box-shadow: 0 0 12px 2px rgba(79,197,138,.5); }
+.s-lights i:nth-child(even) { top: 9px; }
+@keyframes s-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+@media (max-width: 680px) {
+  .s-snow i:nth-child(even) { display: none; }
+  .s-lights { top: 78px; padding: 0 1%; }
+  .s-lights i { width: 7px; height: 10px; }
+  .s-lights i:nth-child(3n) { display: none; }
+  .sales-page .s-holiday-pill { font-size: .8rem; padding: 9px 16px; border-radius: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .s-snow { display: none; } .s-lights i { animation: none; } }
