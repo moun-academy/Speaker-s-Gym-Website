@@ -391,9 +391,9 @@ const THOUGHTS = [
 ];
 
 const PILLARS = [
-  ["🎯", "Speak on the spot", "Learn structure, so you always know what to say, even when you are put on the spot."],
-  ["🎙️", "Sound convincing", "Leave the monotone behind. Build vocal variety, so your voice carries your message."],
-  ["🧠", "Take action", "The psychology of genuine confidence. We help you get past the hesitation, so you act on what you already know."],
+  ["🎯", "Speak on the spot", "Learn structure, so you always know what to say, even when you are put on the spot.", "Structure"],
+  ["🎙️", "Sound convincing", "Leave the monotone behind. Build vocal variety, so your voice carries your message.", "Vocal variety"],
+  ["🧠", "Take action", "The psychology of genuine confidence. We help you get past the hesitation, so you act on what you already know.", "Psychology"],
 ];
 
 const SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
@@ -491,12 +491,12 @@ function SalesContent() {
   return (
     <div className={cx("sales-page", M.holiday && "s-holiday")}>
       <SiteHeader page="sales" />
-      {M.holiday && <Snow />}
 
       {/* ── 1 · HERO ── */}
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
+        {M.holiday && <Snow />}
         {M.holiday && <Lights />}
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />{M.kicker}</p></Reveal>
@@ -541,6 +541,34 @@ function SalesContent() {
       </header>
 
       {/* ── 2 · IS THIS FOR ME ── */}
+      {/* ── THREE PILLARS (Europe) ── */}
+      {M.pillars && (
+        <section className="s-section s-pillars-sec" id="method">
+          <div className="s-pillars-glow" aria-hidden="true" />
+          <Reveal>
+            <p className="s-label">The heart of the program</p>
+            <h2 className="s-title s-pillars-title">Three pillars. <em>One confident you.</em></h2>
+            <p className="s-sub">Built for shy professionals who know the answer at work, but cannot get themselves to take action.</p>
+          </Reveal>
+          <div className="s-pillars">
+            {PILLARS.map(([icon, title, text, tag], i) => (
+              <Reveal key={title} delay={i * 120}>
+                <article className="s-pillar">
+                  <span className="s-pillar-num" aria-hidden="true">0{i + 1}</span>
+                  <span className="s-pillar-ico" aria-hidden="true">{icon}</span>
+                  <small className="s-pillar-tag">{tag}</small>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="s-pillars-line">Structure gets you started. <b>Voice makes you convincing.</b> Psychology makes you act.</p>
+          </Reveal>
+        </section>
+      )}
+
       <section className="s-section" id="you">
         <Reveal>
           <p className="s-label">What this is really about</p>
@@ -565,27 +593,7 @@ function SalesContent() {
       </section>
 
       {/* ── 3 · TWO TRACKS ── */}
-      {M.pillars ? (
-        <section className="s-section s-section--tint" id="method">
-          <Reveal>
-            <p className="s-label">What we focus on</p>
-            <h2 className="s-title">Three pillars. <em>One confident you.</em></h2>
-            <p className="s-sub">Built for shy professionals who know the answer at work, but cannot get themselves to take action.</p>
-          </Reveal>
-          <div className="s-why s-pillars">
-            {PILLARS.map(([icon, title, text], i) => (
-              <Reveal key={title} delay={i * 100}>
-                <article className="s-why-card s-pillar">
-                  <small className="s-pillar-n">Pillar {i + 1}</small>
-                  <span className="s-pillar-ico" aria-hidden="true">{icon}</span>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-      ) : (
+      {!M.pillars && (
       <section className="s-section s-section--tint" id="method">
           <Reveal>
             <p className="s-label">Why it works</p>
