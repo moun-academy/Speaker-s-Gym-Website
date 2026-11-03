@@ -37,8 +37,8 @@ window.ASHWIN_COACHING_UPDATE = {
     }
   ],
   "nextCall": {
-    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261102T083000Z",
-    "start": "2026-11-02T12:30:00+04:00",
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261109T083000Z",
+    "start": "2026-11-09T12:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "meetingLink": "https://meet.google.com/oda-koch-ovr",
     "timePending": false
