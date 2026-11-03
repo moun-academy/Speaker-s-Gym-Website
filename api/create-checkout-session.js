@@ -63,8 +63,21 @@ export default async function handler(request, response) {
     sessionParams.payment_method_collection = "always";
   }
 
+  // Where Stripe sends the customer after redirect-based payment methods (Bancontact, EPS, ...).
+  const host = request.headers["x-forwarded-host"] || request.headers.host;
+  const withReturn = host
+    ? { ...sessionParams, return_url: `https://${host}/thank-you-purchase?session_id={CHECKOUT_SESSION_ID}` }
+    : sessionParams;
+
   try {
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create(withReturn);
+    } catch (err) {
+      // If Stripe rejects return_url for this mode, retry without it.
+      if (withReturn === sessionParams || !/return_url/i.test(err.message || "")) throw err;
+      session = await stripe.checkout.sessions.create(sessionParams);
+    }
     return response.status(200).json({ client_secret: session.client_secret });
   } catch (err) {
     console.error("Checkout session error:", err.message);

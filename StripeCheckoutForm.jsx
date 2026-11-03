@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const STRIPE_JS = "https://js.stripe.com/dahlia/stripe.js";
 // Publishable keys are public by design (safe in browser code). VITE_STRIPE_PUBLISHABLE_KEY overrides it.
@@ -40,6 +40,7 @@ const appearance = {
 
 export default function StripeCheckoutForm({ plan, reference, onError }) {
   const mountRef = useRef(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     let form;
@@ -61,6 +62,10 @@ export default function StripeCheckoutForm({ plan, reference, onError }) {
         form.mount(mountRef.current);
 
         const loaded = await checkout.loadActions();
+        if (loaded.type !== "success") {
+          console.error("Checkout loadActions failed:", loaded);
+          if (!cancelled) setMessage(loaded.error?.message || "The payment form could not finish loading. Please use the payment page link below.");
+        }
         if (loaded.type === "success") {
           form.on("confirm", async (event) => {
             try {
@@ -69,6 +74,7 @@ export default function StripeCheckoutForm({ plan, reference, onError }) {
               window.location.assign("/thank-you-purchase");
             } catch (error) {
               console.error("Payment confirmation error:", error);
+              setMessage(error?.message || "The payment could not be completed. Please check your details or use the payment page link below.");
             }
           });
         }
@@ -83,5 +89,10 @@ export default function StripeCheckoutForm({ plan, reference, onError }) {
     };
   }, []);
 
-  return <div id="checkout-form" ref={mountRef} />;
+  return (
+    <>
+      <div id="checkout-form" ref={mountRef} />
+      {message && <p role="alert" style={{ marginTop: 12, color: "#b3202d", fontSize: ".92rem" }}>{message}</p>}
+    </>
+  );
 }
