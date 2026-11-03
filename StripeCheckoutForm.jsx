@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 
 const STRIPE_JS = "https://js.stripe.com/dahlia/stripe.js";
+// Publishable keys are public by design (safe in browser code). VITE_STRIPE_PUBLISHABLE_KEY overrides it.
+const PUBLISHABLE_KEY =
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
+  "pk_live_51TJsndDcLTAmz7c6b5jUGXAoIEpv1Tls1S3h60OBL0htD85dZlT3Pb5cvCCFb2vJTw425EjrLonklGtpn0PNgChZ00StKkaVNN";
 
 // Stripe.js must come from Stripe's servers (never bundled or self-hosted).
 // Loaded on demand so it does not slow down the landing pages.
@@ -42,7 +46,7 @@ export default function StripeCheckoutForm({ plan, reference, onError }) {
     (async () => {
       try {
         const Stripe = await loadStripeJs();
-        const stripe = Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+        const stripe = Stripe(PUBLISHABLE_KEY);
         const clientSecret = fetch("/api/create-checkout-session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
