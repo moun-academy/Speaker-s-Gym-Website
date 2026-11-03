@@ -607,3 +607,9 @@ button.s-btn { font-family: var(--font-body); }
 .s-pay-loading, .s-pay-error { color: #66635a; font-size: .95rem; }
 .s-pay-error a, .s-pay-alt { color: #7a6420; }
 .s-pay-alt { display: block; margin-top: 16px; text-align: center; font-size: .85rem; }
+.sales-page .s-pay-card .s-pay-title { color: #1c1b17; }
+.sales-page .s-pay-card .s-pay-sub { color: #55524a; }
+.sales-page .s-pay-card .s-modal-kicker { color: #7a6420; }
+.sales-page .s-pay-card .s-pay-form { font-family: var(--font-body, "DM Sans", sans-serif); color: #1c1b17; }
+.sales-page .s-pay-card .s-pay-loading, .sales-page .s-pay-card .s-pay-error { color: #55524a; }
+.sales-page .s-pay-card .s-modal-close { color: #444; border-color: #bbb; background: #fff; }

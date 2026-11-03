@@ -1,11 +1,19 @@
 import { Stripe } from "stripe";
 
 // Plan key sent by the Europe page -> Stripe Price ID (defaults below; the env vars override them, e.g. to switch between test and live Prices).
-const PLAN_PRICES = {
-  eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE || "price_1UXfXeDcLTAmz7c6LbYoVpUU", // €180
-  eu_group: process.env.STRIPE_PRICE_EU_GROUP || "price_1UXfXTDcLTAmz7c6Df1PHCpz", // €110
-  eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD || "price_1UXfWxDcLTAmz7c6icjHfvsX", // €85
-};
+// Preview deployments run in Stripe test mode, production in live mode.
+const TEST_MODE = process.env.VERCEL_ENV === "preview";
+const PLAN_PRICES = TEST_MODE
+  ? {
+      eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE || "price_1UXgrdDcLTAmz7c6nlvq91cp", // €180 (test)
+      eu_group: process.env.STRIPE_PRICE_EU_GROUP || "price_1UXgt8DcLTAmz7c64vnBg9yw", // €110 (test)
+      eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD || "price_1UXgudDcLTAmz7c6xjFefvvh", // €85 (test)
+    }
+  : {
+      eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE || "price_1UXfXeDcLTAmz7c6LbYoVpUU", // €180
+      eu_group: process.env.STRIPE_PRICE_EU_GROUP || "price_1UXfXTDcLTAmz7c6Df1PHCpz", // €110
+      eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD || "price_1UXfWxDcLTAmz7c6icjHfvsX", // €85
+    };
 
 function readBody(body) {
   try {
@@ -55,8 +63,21 @@ export default async function handler(request, response) {
     sessionParams.payment_method_collection = "always";
   }
 
+  // Where Stripe sends the customer after redirect-based payment methods (Bancontact, EPS, ...).
+  const host = request.headers["x-forwarded-host"] || request.headers.host;
+  const withReturn = host
+    ? { ...sessionParams, return_url: `https://${host}/thank-you-purchase?session_id={CHECKOUT_SESSION_ID}` }
+    : sessionParams;
+
   try {
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create(withReturn);
+    } catch (err) {
+      // If Stripe rejects return_url for this mode, retry without it.
+      if (withReturn === sessionParams || !/return_url/i.test(err.message || "")) throw err;
+      session = await stripe.checkout.sessions.create(sessionParams);
+    }
     return response.status(200).json({ client_secret: session.client_secret });
   } catch (err) {
     console.error("Checkout session error:", err.message);
