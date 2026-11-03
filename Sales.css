@@ -84,7 +84,7 @@ html:has(.sales-page) { scroll-behavior: smooth; }
 /* ── hero ── */
 .s-hero { position: relative; overflow: hidden; padding: 168px 24px 96px; text-align: center; }
 .s-hero-glow { position: absolute; top: -260px; left: 50%; width: 1100px; height: 900px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(217,192,111,.14), rgba(217,192,111,0) 62%); pointer-events: none; }
-.s-hero > :not(.s-hero-glow):not(.s-hero-video):not(.s-wave):not(.s-lights) { position: relative; }
+.s-hero > :not(.s-hero-glow):not(.s-hero-video):not(.s-wave):not(.s-lights):not(.s-snow) { position: relative; }
 .s-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 26px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
 .s-dot { width: 8px; height: 8px; border-radius: 50%; background: #7fd38f; box-shadow: 0 0 0 0 rgba(127,211,143,.6); animation: s-live 2s infinite; }
 @keyframes s-live { 70% { box-shadow: 0 0 0 9px rgba(127,211,143,0); } 100% { box-shadow: 0 0 0 0 rgba(127,211,143,0); } }
@@ -297,7 +297,7 @@ button.s-btn { font-family: var(--font-body); }
 
 /* ── redesigned sections ── */
 .s-hero { position: relative; overflow: hidden; }
-.s-hero > *:not(.s-hero-glow):not(.s-wave):not(.s-hero-video):not(.s-lights) { position: relative; z-index: 1; }
+.s-hero > *:not(.s-hero-glow):not(.s-wave):not(.s-hero-video):not(.s-lights):not(.s-snow) { position: relative; z-index: 1; }
 .s-wave { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; display: flex; align-items: flex-end; justify-content: center; gap: 7px; opacity: .22; pointer-events: none; -webkit-mask-image: linear-gradient(0deg, #000, transparent); mask-image: linear-gradient(0deg, #000, transparent); }
 .s-wave i { width: 6px; border-radius: 4px; background: var(--gold); height: calc(24px + (var(--i) * 37 % 100) * 1.2px); animation: s-wave 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * -.17s); }
 @keyframes s-wave { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
@@ -534,12 +534,6 @@ button.s-btn { font-family: var(--font-body); }
 .s-hero-call svg { color: var(--gold); }
 @media (max-width: 680px) { .s-call-float { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); height: 50px; padding: 0 14px; gap: 7px; font-size: .78rem; } }
 
-/* ── pillars (Europe page) ── */
-.s-pillars { margin-top: 48px; }
-.s-pillar { position: relative; padding-top: 34px; }
-.s-pillar-n { position: absolute; top: 14px; right: 18px; color: var(--gold); font-size: .62rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; opacity: .8; }
-.s-pillar-ico { width: 56px !important; height: 56px !important; font-size: 1.8rem !important; }
-
 /* ── holiday season look (Europe page) ── */
 .s-holiday { --xmas-red: #b3202d; --xmas-red-soft: #ff9aa3; --xmas-green: #2f8f5f; }
 .s-holiday .s-hero-glow { background: radial-gradient(ellipse at center, rgba(179,32,45,.2), rgba(217,192,111,.1) 45%, rgba(217,192,111,0) 70%); }
@@ -551,7 +545,7 @@ button.s-btn { font-family: var(--font-body); }
 .s-holiday .s-section--tint { background: linear-gradient(180deg, #0d0d0d, #170f10 50%, #0d0d0d); }
 
 /* snow */
-.s-snow { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+.s-snow { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .s-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; animation-name: s-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes s-fall { 0% { transform: translate3d(0, -4vh, 0); } 50% { transform: translate3d(22px, 52vh, 0); } 100% { transform: translate3d(-14px, 108vh, 0); } }
 
@@ -572,3 +566,25 @@ button.s-btn { font-family: var(--font-body); }
   .sales-page .s-holiday-pill { font-size: .8rem; padding: 9px 16px; border-radius: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .s-snow { display: none; } .s-lights i { animation: none; } }
+
+/* ── three pillars: the heart of the Europe page ── */
+.s-pillars-sec { position: relative; padding-top: 110px; padding-bottom: 120px; background: linear-gradient(180deg, #0d0d0d, #17120d 45%, #0d0d0d); border-top: 1px solid rgba(217,192,111,.25); border-bottom: 1px solid rgba(217,192,111,.25); overflow: hidden; }
+.s-pillars-glow { position: absolute; top: -120px; left: 50%; width: 1100px; height: 700px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(217,192,111,.16), rgba(217,192,111,0) 65%); pointer-events: none; }
+.s-pillars-sec > * { position: relative; }
+.s-pillars-sec > .s-pillars-glow { position: absolute; }
+.sales-page .s-pillars-title { font-size: clamp(2.5rem, 6vw, 4.6rem); line-height: 1.05; max-width: 900px; }
+.s-pillars-sec .s-label { color: var(--gold-soft); font-size: .8rem; letter-spacing: .3em; }
+.s-pillars-sec .s-sub { font-size: 1.15rem; color: #cfc9b8; max-width: 640px; }
+.s-pillars { max-width: 1180px; margin: 64px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.s-pillars > .s-reveal { display: flex; }
+.s-pillar { position: relative; width: 100%; overflow: hidden; padding: 44px 32px 38px; border-radius: 24px; border: 1px solid transparent; background: linear-gradient(165deg, #1d1914, #121110) padding-box, linear-gradient(160deg, rgba(217,192,111,.85), rgba(217,192,111,.12) 55%, rgba(179,32,45,.4)) border-box; box-shadow: 0 30px 70px rgba(0,0,0,.5); transition: transform .35s, box-shadow .35s; }
+.s-pillar::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: linear-gradient(90deg, var(--gold), rgba(217,192,111,.2)); }
+.s-pillar:hover { transform: translateY(-8px); box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 60px rgba(217,192,111,.18); }
+.s-pillar-num { position: absolute; top: 6px; right: 18px; font-family: var(--font-display); font-size: 7.5rem; font-weight: 700; line-height: 1; color: rgba(217,192,111,.09); pointer-events: none; }
+.s-pillar-ico { position: relative; width: 78px; height: 78px; margin-bottom: 22px; display: grid; place-items: center; border-radius: 50%; font-size: 2.3rem; background: radial-gradient(circle at 30% 25%, rgba(217,192,111,.4), rgba(217,192,111,.1)); border: 1px solid rgba(217,192,111,.6); box-shadow: 0 0 40px rgba(217,192,111,.3); }
+.s-pillar-tag { position: relative; display: inline-block; margin-bottom: 12px; padding: 5px 13px; border-radius: 999px; background: rgba(217,192,111,.14); border: 1px solid rgba(217,192,111,.4); color: var(--gold-soft); font-size: .68rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.s-pillar h3 { position: relative; margin: 0 0 12px; font-family: var(--font-display); font-size: clamp(1.8rem, 2.6vw, 2.3rem); font-weight: 600; line-height: 1.12; color: var(--text-bright); }
+.sales-page .s-pillar p { position: relative; margin: 0; color: #d6d0c0; font-size: 1.06rem; line-height: 1.6; }
+.sales-page .s-pillars-line { max-width: 760px; margin: 52px auto 0; text-align: center; color: var(--text-dim); font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.9rem); line-height: 1.4; }
+.s-pillars-line b { color: var(--gold); font-weight: 600; }
+@media (max-width: 980px) { .s-pillars { grid-template-columns: 1fr; max-width: 560px; gap: 20px; } .s-pillars-sec { padding-top: 80px; padding-bottom: 84px; } .s-pillar { padding: 38px 26px 32px; } .s-pillar-num { font-size: 6rem; } }
