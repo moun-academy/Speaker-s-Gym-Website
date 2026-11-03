@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL, WHATSAPP_URL, WHATSAPP_NUMBER, whatsappLink } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
@@ -6,6 +6,9 @@ import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import HeroVideo from "./HeroVideo.jsx";
 import "./Sales.css";
+
+const StripeCheckoutForm = lazy(() => import("./StripeCheckoutForm.jsx"));
+const EMBED_READY = !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
 const GROUP_MAX = 5;
 
@@ -142,6 +145,7 @@ MARKETS.eur = Object.defineProperties(MARKETS.eur, {
 MARKETS.eur.timeAt = euLabel;
 MARKETS.eur.timeNote = "(the same time in the Czech Republic, Slovakia, Austria and Switzerland)";
 MARKETS.eur.holiday = true;
+MARKETS.eur.embedded = true;
 MARKETS.eur.heroCall = true;
 MARKETS.eur.pillars = true;
 
@@ -185,7 +189,7 @@ function trackCheckout(value, name, currency = "USD") {
   try { window.gtag?.("event", "begin_checkout", { value, currency, items: [{ item_name: name }] }); } catch (e) { /* ignore */ }
 }
 
-function CheckoutButton({ href, className, value, name, children, fallbackHref, fallbackLabel }) {
+function CheckoutButton({ href, className, value, name, children, fallbackHref, fallbackLabel, onEmbed }) {
   const M = useMarket();
   if (!href && fallbackHref) {
     return <a className={cx("s-btn s-btn--block", className)} href={fallbackHref}>{fallbackLabel} <span aria-hidden="true">→</span></a>;
@@ -193,10 +197,49 @@ function CheckoutButton({ href, className, value, name, children, fallbackHref, 
   if (!href) {
     return <span className={cx("s-btn s-btn--block s-btn--soon", className)} aria-disabled="true">Checkout opens soon</span>;
   }
+  if (onEmbed && EMBED_READY) {
+    return (
+      <button type="button" className={cx("s-btn s-btn--block", className)} onClick={() => { trackCheckout(value, name, M.currency); onEmbed(); }}>
+        {children} <span aria-hidden="true">→</span>
+      </button>
+    );
+  }
   return (
     <a className={cx("s-btn s-btn--block", className)} href={href} target="_blank" rel="noopener" onClick={() => trackCheckout(value, name, M.currency)}>
       {children} <span aria-hidden="true">→</span>
     </a>
+  );
+}
+
+/* ─── Embedded payment form (Europe) ─── */
+function PayModal({ pay, onClose }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prevOverflow; document.removeEventListener("keydown", onKey); };
+  }, [onClose]);
+  return (
+    <div className="s-modal" role="dialog" aria-modal="true" aria-label="Secure payment" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="s-modal-card s-pay-card">
+        <button type="button" className="s-modal-close" onClick={onClose} aria-label="Close">×</button>
+        <p className="s-modal-kicker">SECURE PAYMENT</p>
+        <h3 className="s-pay-title">{pay.title}</h3>
+        <p className="s-pay-sub">{pay.price} · 4-week money-back guarantee</p>
+        <div className="s-pay-form">
+          {failed ? (
+            <p className="s-pay-error">We could not load the payment form. <a href={pay.fallback} target="_blank" rel="noopener">Continue on our secure payment page →</a></p>
+          ) : (
+            <Suspense fallback={<p className="s-pay-loading">Loading secure form…</p>}>
+              <StripeCheckoutForm plan={pay.plan} reference={pay.ref} onError={() => setFailed(true)} />
+            </Suspense>
+          )}
+        </div>
+        {!failed && <a className="s-pay-alt" href={pay.fallback} target="_blank" rel="noopener">Trouble paying? Use our payment page</a>}
+      </div>
+    </div>
   );
 }
 
@@ -447,6 +490,7 @@ function SalesContent() {
   const CHECKOUT = M.checkout;
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
+  const [pay, setPay] = useState(null);
   const [moreVideos, setMoreVideos] = useState(false);
   const [openWeek, setOpenWeek] = useState(0);
 
@@ -822,7 +866,7 @@ function SalesContent() {
                   <p>Join 1-on-1 and you also get a live group session every week for 12 months. Fifty-two more chances to practice with people on the same journey.</p>
                 </div>
               </div>
-              <CheckoutButton href={oneLink} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+              <CheckoutButton href={oneLink} onEmbed={M.embedded ? () => setPay({ plan: "eu_one_on_one", ref: `${M.ref}one_on_one`, title: "1-on-1 coaching", price: M.money(oneOnOnePrice), fallback: oneLink }) : undefined} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
               <AskLink topic="1-on-1 coaching" />
             </article>
           </Reveal>
@@ -892,7 +936,7 @@ function SalesContent() {
                         Join the waiting list <span aria-hidden="true">→</span>
                       </button>
                     ) : (
-                      <CheckoutButton href={g.link} className="s-btn--gold" value={g.price} name={`Group ${g.key}`} fallbackHref={CONTACT_HREF} fallbackLabel="Email us to reserve">{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
+                      <CheckoutButton href={g.link} onEmbed={M.embedded ? () => setPay({ plan: g.early ? "eu_early_bird" : "eu_group", ref: `${M.ref}${g.early ? "early" : "group"}_${g.key}`, title: `Group coaching · starts ${fmt(g.date, { month: "long", day: "numeric" })}`, price: M.money(g.price), fallback: g.link }) : undefined} className="s-btn--gold" value={g.price} name={`Group ${g.key}`} fallbackHref={CONTACT_HREF} fallbackLabel="Email us to reserve">{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
                     )
                   )}
                 </article>
@@ -991,6 +1035,7 @@ function SalesContent() {
 
       <SiteFooter />
 
+      {pay && <PayModal pay={pay} onClose={() => setPay(null)} />}
       {waitFor && <WaitlistModal group={waitFor} onClose={() => setWaitFor(null)} />}
 
       {M.contact === "call" ? (
