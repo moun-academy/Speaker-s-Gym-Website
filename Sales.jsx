@@ -64,8 +64,21 @@ const MARKETS = {
     extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the AED figure shown on this page. The dollar price never changes."],
   },
 };
-/* The 1-on-1 holiday discount ends at the end of November 30, Dubai time (GMT+4). */
-const DEAL_END_TS = Date.UTC(2026, 10, 30, 19, 59, 59);
+/* The 1-on-1 holiday discount is always on. The end date shown rolls forward by itself: it is the 30th of the
+   current month (or the last day of a shorter month), and moves to the next month once that day has passed
+   (end of day, Dubai time, GMT+4). */
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+function nextDealEnd(now = new Date()) {
+  const dubai = new Date(now.getTime() + 4 * 3600 * 1000);
+  let y = dubai.getUTCFullYear(), m = dubai.getUTCMonth();
+  for (let i = 0; i < 2; i++) {
+    const day = Math.min(30, new Date(Date.UTC(y, m + 1, 0)).getUTCDate());
+    if (dubai.getTime() <= Date.UTC(y, m, day, 23, 59, 59)) return { label: `${MONTHS[m]} ${day}`, last: dubai.getUTCDate() === day };
+    m += 1;
+    if (m > 11) { m = 0; y += 1; }
+  }
+  return { label: "soon", last: false };
+}
 /* Qatar: same page and USD Stripe links, riyal prices (pegged: 1 USD = 3.64 QAR), Qatar time (GMT+3). */
 MARKETS.qar = {
   ...MARKETS.aed,
@@ -388,7 +401,6 @@ function SalesContent() {
   const M = useMarket();
   const PRICE = M.price;
   const CHECKOUT = M.checkout;
-  const DEAL_END = DEAL_END_TS;
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
   const [moreVideos, setMoreVideos] = useState(false);
@@ -426,9 +438,8 @@ function SalesContent() {
 
   const next = groups[0];
   const daysToNext = next ? Math.round((next.date - new Date(new Date().toDateString())) / 86400000) : null;
-  const dealMsLeft = DEAL_END - Date.now();
-  const dealLive = dealMsLeft > 0;
-  const dealDays = Math.ceil(dealMsLeft / 86400000);
+  const dealLive = true;
+  const dealEnd = nextDealEnd();
   const oneOnOnePrice = dealLive ? PRICE.oneOnOneDeal : PRICE.oneOnOne;
   const usdLine = (key) => (M.usdPrice ? <em className="s-usd">Priced at ${M.usdPrice[key]} USD · pay in your own currency</em> : null);
   const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, `${M.ref}one_on_one`);
@@ -689,7 +700,7 @@ function SalesContent() {
                 <strong>{M.node(oneOnOnePrice)}</strong>
                 <span>one payment · 6 weeks + 1 year of access</span>
                 {usdLine(dealLive ? "oneOnOneDeal" : "oneOnOne")}
-                {dealLive && <em className="s-deal">Holiday discount · you save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · limited time, ends November 30{dealDays <= 1 ? " (last day)" : ""}</em>}
+                {dealLive && <em className="s-deal">Holiday discount · you save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · limited time, ends {dealEnd.label}{dealEnd.last ? " (last day)" : ""}</em>}
               </div>
               <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <div className="s-bonus">
