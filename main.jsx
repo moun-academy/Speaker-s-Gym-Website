@@ -7,7 +7,6 @@ import Privacy from './Privacy.jsx'
 import DeleteAccount from './DeleteAccount.jsx'
 import BookACall from './BookACall.jsx'
 import GroupCoaching from './GroupCoaching.jsx'
-import MethodPage from './Method.jsx'
 import KhadijaPortal from './KhadijaPortal.jsx'
 import NadiraPortal from './NadiraPortal.jsx'
 import PankajPortal from './PankajPortal.jsx'
@@ -19,6 +18,7 @@ import { installCalendlyBookingTracking } from './metaTracking.js'
 const PrivateSalesPage = lazy(() => import('./PrivateSales.jsx'))
 const SalesPage = lazy(() => import('./Sales.jsx'))
 const SalesUAEPage = lazy(() => import('./SalesUAE.jsx'))
+const SalesEuropePage = lazy(() => import('./SalesEurope.jsx'))
 const CorporatePage = lazy(() => import('./Corporate.jsx'))
 const SalesQatarPage = lazy(() => import('./SalesQatar.jsx'))
 
@@ -31,11 +31,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} />
         <Route path="/book-a-call" element={<BookACall />} />
         <Route path="/group-coaching" element={<GroupCoaching />} />
-        <Route path="/method" element={<MethodPage />} />
+        {/* The /method page was removed; send old links to the homepage */}
+        <Route path="/method" element={<Navigate to="/" replace />} />
         <Route path="/sales" element={<Suspense fallback={null}><SalesPage /></Suspense>} />
         <Route path="/uae" element={<Suspense fallback={null}><SalesUAEPage /></Suspense>} />
         {/* Old address, redirected so any shared /aed links keep working */}
         <Route path="/aed" element={<Navigate to="/uae" replace />} />
+        <Route path="/europe" element={<Suspense fallback={null}><SalesEuropePage /></Suspense>} />
         <Route path="/qatar" element={<Suspense fallback={null}><SalesQatarPage /></Suspense>} />
         <Route path="/corporate" element={<Suspense fallback={null}><CorporatePage /></Suspense>} />
         <Route path="/private/speakers-gym-program" element={<Suspense fallback={null}><PrivateSalesPage /></Suspense>} />

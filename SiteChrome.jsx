@@ -12,14 +12,6 @@ const homeLinks = [
   ["FAQ", "#faq"],
 ];
 
-const methodLinks = [
-  ["Why It Works", "#why"],
-  ["Two Engines", "#engines"],
-  ["Exposure Ladder", "#ladder"],
-  ["Find Your Level", "#assessment"],
-  ["6-Week Program", "#program"],
-];
-
 const salesLinks = [
   ["Why It Works", "#method"],
   ["Results", "#results"],
@@ -38,7 +30,7 @@ const corporateLinks = [
 
 export function SiteHeader({ page = "home" }) {
   const [open, setOpen] = useState(false);
-  const links = page === "method" ? methodLinks : page === "sales" ? salesLinks : page === "corporate" ? corporateLinks : homeLinks;
+  const links = page === "sales" ? salesLinks : page === "corporate" ? corporateLinks : homeLinks;
   const splitAt = Math.ceil(links.length / 2);
   const leftLinks = links.slice(0, splitAt);
   const rightLinks = links.slice(splitAt);
