@@ -53,6 +53,8 @@ Keys: https://dashboard.stripe.com/test/apikeys. Redeploy after adding them, bec
 
 **Safe fallback:** the buttons only open the embedded form when `VITE_STRIPE_PUBLISHABLE_KEY` is set. Without it they open the existing Stripe payment links, as before. If the form fails to load, the popup shows a link to the payment link. `/uae`, `/qatar` and `/sales` are unchanged.
 
+**Automatic switch-on:** the publishable key is built into [StripeCheckoutForm.jsx](StripeCheckoutForm.jsx) (it is public by design). The page asks `GET /api/create-checkout-session` first and only shows the embedded form once `STRIPE_SECRET_KEY` exists on the server. Until then the buttons keep using the payment links.
+
 **To switch `/europe` on:** (1) add `STRIPE_SECRET_KEY` and `VITE_STRIPE_PUBLISHABLE_KEY` in Vercel (keys from the same mode, test or live, as the Prices), (2) redeploy, (3) test a payment with a test key before using live keys. After a successful payment the page goes to `/thank-you-purchase`.
 
 **How it works:**

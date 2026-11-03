@@ -8,7 +8,6 @@ import HeroVideo from "./HeroVideo.jsx";
 import "./Sales.css";
 
 const StripeCheckoutForm = lazy(() => import("./StripeCheckoutForm.jsx"));
-const EMBED_READY = !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
 const GROUP_MAX = 5;
 
@@ -197,7 +196,7 @@ function CheckoutButton({ href, className, value, name, children, fallbackHref, 
   if (!href) {
     return <span className={cx("s-btn s-btn--block s-btn--soon", className)} aria-disabled="true">Checkout opens soon</span>;
   }
-  if (onEmbed && EMBED_READY) {
+  if (onEmbed) {
     return (
       <button type="button" className={cx("s-btn s-btn--block", className)} onClick={() => { trackCheckout(value, name, M.currency); onEmbed(); }}>
         {children} <span aria-hidden="true">→</span>
@@ -491,6 +490,13 @@ function SalesContent() {
   const [spots, setSpots] = useState({ max: GROUP_MAX, taken: {}, full: [] });
   const [waitFor, setWaitFor] = useState(null);
   const [pay, setPay] = useState(null);
+  const [embedOk, setEmbedOk] = useState(false);
+  useEffect(() => {
+    if (!M.embedded) return;
+    let live = true;
+    fetch("/api/create-checkout-session").then((r) => r.json()).then((j) => { if (live && j.ready) setEmbedOk(true); }).catch(() => {});
+    return () => { live = false; };
+  }, [M.embedded]);
   const [moreVideos, setMoreVideos] = useState(false);
   const [openWeek, setOpenWeek] = useState(0);
 
@@ -866,7 +872,7 @@ function SalesContent() {
                   <p>Join 1-on-1 and you also get a live group session every week for 12 months. Fifty-two more chances to practice with people on the same journey.</p>
                 </div>
               </div>
-              <CheckoutButton href={oneLink} onEmbed={M.embedded ? () => setPay({ plan: "eu_one_on_one", ref: `${M.ref}one_on_one`, title: "1-on-1 coaching", price: M.money(oneOnOnePrice), fallback: oneLink }) : undefined} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
+              <CheckoutButton href={oneLink} onEmbed={M.embedded && embedOk ? () => setPay({ plan: "eu_one_on_one", ref: `${M.ref}one_on_one`, title: "1-on-1 coaching", price: M.money(oneOnOnePrice), fallback: oneLink }) : undefined} className="s-btn--gold" value={oneOnOnePrice} name="1-on-1 coaching" fallbackHref={CONTACT_HREF} fallbackLabel="Email us to enroll">Enroll in 1-on-1 coaching</CheckoutButton>
               <AskLink topic="1-on-1 coaching" />
             </article>
           </Reveal>
@@ -936,7 +942,7 @@ function SalesContent() {
                         Join the waiting list <span aria-hidden="true">→</span>
                       </button>
                     ) : (
-                      <CheckoutButton href={g.link} onEmbed={M.embedded ? () => setPay({ plan: g.early ? "eu_early_bird" : "eu_group", ref: `${M.ref}${g.early ? "early" : "group"}_${g.key}`, title: `Group coaching · starts ${fmt(g.date, { month: "long", day: "numeric" })}`, price: M.money(g.price), fallback: g.link }) : undefined} className="s-btn--gold" value={g.price} name={`Group ${g.key}`} fallbackHref={CONTACT_HREF} fallbackLabel="Email us to reserve">{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
+                      <CheckoutButton href={g.link} onEmbed={M.embedded && embedOk ? () => setPay({ plan: g.early ? "eu_early_bird" : "eu_group", ref: `${M.ref}${g.early ? "early" : "group"}_${g.key}`, title: `Group coaching · starts ${fmt(g.date, { month: "long", day: "numeric" })}`, price: M.money(g.price), fallback: g.link }) : undefined} className="s-btn--gold" value={g.price} name={`Group ${g.key}`} fallbackHref={CONTACT_HREF} fallbackLabel="Email us to reserve">{g.early ? "Reserve my early-bird seat" : "Reserve my seat"}</CheckoutButton>
                     )
                   )}
                 </article>

@@ -21,8 +21,10 @@ function readBody(body) {
 // See STRIPE_INTEGRATION_TODO.md for the placeholders that must be replaced.
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "private, no-store");
+  // The Europe page asks this first, so the embedded form only appears once the server key is set.
+  if (request.method === "GET") return response.status(200).json({ ready: !!process.env.STRIPE_SECRET_KEY });
   if (request.method !== "POST") {
-    response.setHeader("Allow", "POST");
+    response.setHeader("Allow", "GET, POST");
     return response.status(405).json({ error: "method_not_allowed" });
   }
   if (!process.env.STRIPE_SECRET_KEY) {
