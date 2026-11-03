@@ -488,6 +488,56 @@ function SalesContent() {
   const usdLine = (key) => (M.usdPrice ? <em className="s-usd">Priced at ${M.usdPrice[key]} USD · pay in your own currency</em> : null);
   const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, `${M.ref}one_on_one`);
 
+  const coachSec = (
+      <section className="s-section s-section--tint" id="coach">
+        <div className="s-coach">
+          <Reveal>
+            <div className="s-coach-photo"><img src={marouanePhoto} alt="Marouane Al Mandri, public speaking coach" loading="lazy" /></div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="s-coach-text">
+              <p className="s-label s-label--left">Your coach</p>
+              <h2>Hi, I'm Marouane.</h2>
+              <p>I know what it feels like to have the knowledge but struggle to say it clearly. To freeze in meetings, ramble under pressure, or go unnoticed.</p>
+              <p>I built The Speaker's Gym because <b>communication is a skill, not a talent</b>. No generic tips. No "just be confident." Just structured practice, honest feedback and a system that works in real situations.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+  );
+
+  const resultsSec = (
+      <section className="s-section s-section--tint" id="results">
+        <Reveal>
+          <p className="s-label">Results</p>
+          <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
+          <p className="s-sub">Real students, in their own words.</p>
+        </Reveal>
+        <div className={cx("s-videos", moreVideos && "s-videos--all")}>
+          {VIDEOS.map(([id, name, role, quote], i) => (
+            <Reveal key={id} delay={i * 100} className={i >= 3 ? "s-video-extra" : ""}>
+              <figure className="s-video">
+                <div className="s-embed">
+                  <YouTubeEmbed id={id} title={`${name}'s testimonial`} />
+                </div>
+                <figcaption>
+                  <blockquote>“{quote}”</blockquote>
+                  <cite><b>{name}</b>{role && <span>{role}</span>}</cite>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+        {!moreVideos && (
+          <div className="s-more-wrap">
+            <button type="button" className="s-btn s-btn--ghost s-more" onClick={() => setMoreVideos(true)}>See more student stories <span aria-hidden="true">↓</span></button>
+          </div>
+        )}
+      </section>
+  );
+
+  const lean = !!M.pillars;
+
   return (
     <div className={cx("sales-page", M.holiday && "s-holiday")}>
       <SiteHeader page="sales" />
@@ -528,11 +578,16 @@ function SalesContent() {
               : <a href="#plans" className="s-btn s-btn--gold">See the plans</a>}
           </div>
         </Reveal>
-        <Reveal instant delay={320}>
+        {lean && (
+          <Reveal instant delay={310}>
+            <p className="s-hero-price">From <b>{M.money(PRICE.groupDeal)}</b> · 6 weeks live online · 4-week money-back guarantee</p>
+          </Reveal>
+        )}
+        {!M.heroCall && <Reveal instant delay={320}>
           {M.contact === "call"
             ? <a href={BOOK_URL} className="s-hero-wa s-hero-call" target="_blank" rel="noopener noreferrer"><CalendarIcon size={16} /> Prefer to talk first? Book a free call</a>
             : <a href={WHATSAPP_URL} className="s-hero-wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16} /> Prefer to ask first? Chat with us on WhatsApp</a>}
-        </Reveal>
+        </Reveal>}
         <Reveal instant delay={360}>
           <ul className="s-assure">
             {M.assure.map((t) => <li key={t}><Check />{t}</li>)}
@@ -569,6 +624,9 @@ function SalesContent() {
         </section>
       )}
 
+      {lean && <>{resultsSec}{coachSec}</>}
+
+      {!lean && (
       <section className="s-section" id="you">
         <Reveal>
           <p className="s-label">What this is really about</p>
@@ -591,6 +649,7 @@ function SalesContent() {
           </div>
         </Reveal>
       </section>
+      )}
 
       {/* ── 3 · TWO TRACKS ── */}
       {!M.pillars && (
@@ -649,51 +708,7 @@ function SalesContent() {
         </Reveal>
       </section>
 
-      {/* ── 5 · COACH ── */}
-      <section className="s-section s-section--tint" id="coach">
-        <div className="s-coach">
-          <Reveal>
-            <div className="s-coach-photo"><img src={marouanePhoto} alt="Marouane Al Mandri, public speaking coach" loading="lazy" /></div>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="s-coach-text">
-              <p className="s-label s-label--left">Your coach</p>
-              <h2>Hi, I'm Marouane.</h2>
-              <p>I know what it feels like to have the knowledge but struggle to say it clearly. To freeze in meetings, ramble under pressure, or go unnoticed.</p>
-              <p>I built The Speaker's Gym because <b>communication is a skill, not a talent</b>. No generic tips. No "just be confident." Just structured practice, honest feedback and a system that works in real situations.</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section className="s-section s-section--tint" id="results">
-        <Reveal>
-          <p className="s-label">Results</p>
-          <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
-          <p className="s-sub">Real students, in their own words.</p>
-        </Reveal>
-        <div className={cx("s-videos", moreVideos && "s-videos--all")}>
-          {VIDEOS.map(([id, name, role, quote], i) => (
-            <Reveal key={id} delay={i * 100} className={i >= 3 ? "s-video-extra" : ""}>
-              <figure className="s-video">
-                <div className="s-embed">
-                  <YouTubeEmbed id={id} title={`${name}'s testimonial`} />
-                </div>
-                <figcaption>
-                  <blockquote>“{quote}”</blockquote>
-                  <cite><b>{name}</b>{role && <span>{role}</span>}</cite>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </div>
-        {!moreVideos && (
-          <div className="s-more-wrap">
-            <button type="button" className="s-btn s-btn--ghost s-more" onClick={() => setMoreVideos(true)}>See more student stories <span aria-hidden="true">↓</span></button>
-          </div>
-        )}
-      </section>
+      {!lean && <>{coachSec}{resultsSec}</>}
 
       {/* ── 8 · SIX WEEKS ── */}
       <section className="s-section" id="program">
@@ -725,7 +740,7 @@ function SalesContent() {
       </section>
 
       {/* ── 9 · YOUR WEEK ── */}
-      <section className="s-section s-section--tint" id="effort">
+      <section className={cx("s-section", !lean && "s-section--tint", lean && "s-effort-lean")} id="effort">
         <Reveal>
           <p className="s-label">Fits your life</p>
           <h2 className="s-title">This is all it asks <em>of your week.</em></h2>
@@ -745,6 +760,7 @@ function SalesContent() {
       </section>
 
       {/* ── COMMUNITY ── */}
+      {!lean && (
       <section className="s-section" id="crew">
         <Reveal>
           <p className="s-label">You won't practice alone</p>
@@ -763,6 +779,7 @@ function SalesContent() {
           ))}
         </div>
       </section>
+      )}
 
       {/* ── PLANS ── */}
       <section className="s-section" id="plans">
@@ -780,6 +797,7 @@ function SalesContent() {
             </>
           )}
           {M.priceNote && <p className="s-sub s-price-note">{M.priceNote}</p>}
+          {lean && <p className="s-sub s-plans-guar"><Check /> 4-week money-back guarantee on every plan. <a href="#guarantee">How it works</a></p>}
         </Reveal>
         <div className="s-plans">
           <Reveal>
@@ -944,7 +962,7 @@ function SalesContent() {
             ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, we'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
             ...(M.extraFaq ? [M.extraFaq] : []),
-          ].map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
+          ].filter(([q]) => !(lean && (q === "How big are the groups?" || q === "When do the group sessions happen?" || q === "When can I start?"))).map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
         </div>
       </section>
 
