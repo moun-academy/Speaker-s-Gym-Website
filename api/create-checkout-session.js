@@ -1,5 +1,22 @@
 import { Stripe } from "stripe";
 
+// Plan key sent by the Europe page -> Stripe Price ID (set these in Vercel, see STRIPE_INTEGRATION_TODO.md).
+const PLAN_PRICES = {
+  eu_one_on_one: process.env.STRIPE_PRICE_EU_ONE_ON_ONE, // €180
+  eu_group: process.env.STRIPE_PRICE_EU_GROUP, // €110
+  eu_early_bird: process.env.STRIPE_PRICE_EU_EARLY_BIRD, // €85
+};
+
+function readBody(body) {
+  try {
+    if (!body) return {};
+    if (typeof body === "string") return JSON.parse(body);
+    return body;
+  } catch {
+    return {};
+  }
+}
+
 // Creates a Stripe Checkout Session for the embedded form (ui_mode "form").
 // See STRIPE_INTEGRATION_TODO.md for the placeholders that must be replaced.
 export default async function handler(request, response) {
@@ -11,6 +28,10 @@ export default async function handler(request, response) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return response.status(500).json({ error: "stripe_not_configured" });
   }
+
+  const { plan, ref } = readBody(request.body);
+  const price = PLAN_PRICES[plan];
+  if (!price) return response.status(400).json({ error: "price_not_configured" });
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2026-03-25.dahlia" });
 
@@ -25,9 +46,9 @@ export default async function handler(request, response) {
     submit_type: "auto",
     integration_identifier: "custom_embedded_web_0001",
     mode,
-    // TODO: replace with your real Stripe Price ID.
-    line_items: [{ price: "price_...", quantity: 1 }],
+    line_items: [{ price, quantity: 1 }],
   };
+  if (typeof ref === "string" && /^[\w-]{1,200}$/.test(ref)) sessionParams.client_reference_id = ref;
   if (mode === "subscription") {
     sessionParams.payment_method_collection = "always";
   }

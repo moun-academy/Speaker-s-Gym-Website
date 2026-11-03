@@ -597,3 +597,13 @@ button.s-btn { font-family: var(--font-body); }
 .sales-page .s-plans-guar { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .sales-page .s-plans-guar a { color: inherit; text-decoration: underline; }
 .sales-page .s-plans-guar svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--gold, #d9c06f); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Embedded payment form ── */
+.s-pay-card { width: min(100%, 520px); background: #f7f5ef; color: #1c1b17; }
+.s-pay-card .s-modal-close { color: #555; border-color: #ccc; }
+.s-pay-title { font-family: var(--font-display); font-size: 1.5rem; margin: 2px 0 4px; color: #1c1b17; }
+.s-pay-sub { margin-bottom: 18px; color: #66635a; font-size: .92rem; }
+.s-pay-form { min-height: 220px; }
+.s-pay-loading, .s-pay-error { color: #66635a; font-size: .95rem; }
+.s-pay-error a, .s-pay-alt { color: #7a6420; }
+.s-pay-alt { display: block; margin-top: 16px; text-align: center; font-size: .85rem; }

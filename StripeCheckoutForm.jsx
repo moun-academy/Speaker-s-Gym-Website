@@ -33,7 +33,7 @@ const appearance = {
   },
 };
 
-export default function StripeCheckoutForm() {
+export default function StripeCheckoutForm({ plan, reference, onError }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -43,9 +43,13 @@ export default function StripeCheckoutForm() {
       try {
         const Stripe = await loadStripeJs();
         const stripe = Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-        const clientSecret = fetch("/api/create-checkout-session", { method: "POST" })
+        const clientSecret = fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan, ref: reference }),
+        })
           .then((r) => r.json())
-          .then((j) => j.client_secret);
+          .then((j) => { if (!j.client_secret) throw new Error(j.error || "no_client_secret"); return j.client_secret; });
         const checkout = stripe.initCheckoutFormSdk({ clientSecret, appearance });
         form = checkout.createForm({ layout: "expanded" });
         if (cancelled) return;
@@ -55,7 +59,9 @@ export default function StripeCheckoutForm() {
         if (loaded.type === "success") {
           form.on("confirm", async (event) => {
             try {
-              await loaded.actions.confirm({ formConfirmEvent: event });
+              const result = await loaded.actions.confirm({ formConfirmEvent: event });
+              if (result && result.type === "error") throw new Error(result.error?.message || "confirm_failed");
+              window.location.assign("/thank-you-purchase");
             } catch (error) {
               console.error("Payment confirmation error:", error);
             }
@@ -63,6 +69,7 @@ export default function StripeCheckoutForm() {
         }
       } catch (error) {
         console.error("Checkout failed to load:", error);
+        if (!cancelled && onError) onError(error);
       }
     })();
     return () => {

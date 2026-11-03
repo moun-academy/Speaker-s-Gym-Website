@@ -14,7 +14,7 @@ The following values are placeholders and must be updated before going live.
 | Field | Current Value | What to Set |
 |-------|--------------|-------------|
 | mode | payment | Set to "payment" for one-time charges or "subscription" for recurring billing. |
-| line_items[].price | price_... | Your actual Stripe Price ID from the Dashboard (https://dashboard.stripe.com/prices) or API. |
+| line_items[].price | `STRIPE_PRICE_EU_ONE_ON_ONE`, `STRIPE_PRICE_EU_GROUP`, `STRIPE_PRICE_EU_EARLY_BIRD` (env vars, currently unset) | Create one Price per plan in the Dashboard (https://dashboard.stripe.com/prices): €180, €110 and €85, in EUR, one-time. Put each Price ID in the matching Vercel env var. |
 
 ## Configured Parameters
 
@@ -49,7 +49,11 @@ Keys: https://dashboard.stripe.com/test/apikeys. Redeploy after adding them, bec
 - [StripeCheckoutForm.jsx](StripeCheckoutForm.jsx): React component that loads Stripe.js from `https://js.stripe.com/dahlia/stripe.js` (on demand, so the landing pages stay fast), then mounts and confirms the form.
 - [.env.example](.env.example)
 
-**Using the form:** render `<StripeCheckoutForm />` in the page or modal where you want to take payment. It is not wired into any page yet, so the current Stripe payment links keep working unchanged. Because the endpoint uses one Price ID, add a request body (for example a plan key) if you need several plans.
+**Where it is used:** the `/europe` page. The "Enroll in 1-on-1 coaching" and "Reserve my seat" buttons open the embedded form in a popup (`PayModal` in [Sales.jsx](Sales.jsx)). The page sends a plan key (`eu_one_on_one`, `eu_group`, `eu_early_bird`) and the endpoint maps it to the Price ID above. The page also sends the same `client_reference_id` tag the payment links used (`eur_...`).
+
+**Safe fallback:** the buttons only open the embedded form when `VITE_STRIPE_PUBLISHABLE_KEY` is set. Without it they open the existing Stripe payment links, as before. If the form fails to load, the popup shows a link to the payment link. `/uae`, `/qatar` and `/sales` are unchanged.
+
+**To switch `/europe` on:** (1) create the 3 Prices, (2) add the 3 `STRIPE_PRICE_EU_*` vars, `STRIPE_SECRET_KEY` and `VITE_STRIPE_PUBLISHABLE_KEY` in Vercel, (3) redeploy, (4) test a payment with a test key before using live keys. After a successful payment the page goes to `/thank-you-purchase`.
 
 **How it works:**
 1. The component loads Stripe.js and calls `POST /api/create-checkout-session`.
