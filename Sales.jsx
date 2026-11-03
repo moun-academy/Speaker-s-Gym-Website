@@ -117,13 +117,32 @@ MARKETS.eur = {
   time: "1–2 pm CET (12–1 pm GMT)",
   timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
   timeShort: "1–2 pm CET",
-  title: "Join The Speaker's Gym | Europe",
+  title: "Holiday Offer | The Speaker's Gym Europe",
   kicker: "Live online program · Europe",
   heroFor: `A six-week program for shy and nervous professionals in Europe. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
   priceNote: "All prices are in euros.",
   extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
 };
+
+/* Europe: sessions run 12:00–13:00 GMT. Czech Republic, Slovakia, Austria and Switzerland share one time zone
+   (Europe/Prague, CET in winter and CEST in summer), so the local time is worked out for each date. */
+function euTimeAt(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12));
+  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Prague", hour: "numeric", hour12: false }).format(d)) % 24;
+  const start = hour > 12 ? hour - 12 : hour;
+  return { range: `${start}–${start + 1} pm`, zone: hour === 13 ? "CET" : "CEST", long: `${start} to ${start + 1} pm` };
+}
+const euLabel = (date) => { const t = euTimeAt(date); return `${t.range} ${t.zone}`; };
+MARKETS.eur = Object.defineProperties(MARKETS.eur, {
+  time: { get: () => euLabel(new Date()), enumerable: true },
+  timeLong: { get: () => { const t = euTimeAt(new Date()); return `${t.long} ${t.zone}`; }, enumerable: true },
+  timeShort: { get: () => euLabel(new Date()), enumerable: true },
+});
+MARKETS.eur.timeAt = euLabel;
+MARKETS.eur.timeNote = "(the same time in the Czech Republic, Slovakia, Austria and Switzerland)";
+MARKETS.eur.holiday = true;
+MARKETS.eur.pillars = true;
 
 const MarketContext = createContext(MARKETS.usd);
 const useMarket = () => useContext(MarketContext);
@@ -298,6 +317,24 @@ function CalendarIcon({ size = 18 }) {
   );
 }
 
+function Snow() {
+  return (
+    <div className="s-snow" aria-hidden="true">
+      {Array.from({ length: 26 }, (_, i) => (
+        <i key={i} style={{ left: `${(i * 37) % 100}%`, width: `${3 + ((i * 3) % 5)}px`, height: `${3 + ((i * 3) % 5)}px`, opacity: 0.3 + ((i * 13) % 45) / 100, animationDuration: `${10 + ((i * 7) % 9)}s`, animationDelay: `${-((i * 5) % 16)}s` }} />
+      ))}
+    </div>
+  );
+}
+
+function Lights() {
+  return (
+    <div className="s-lights" aria-hidden="true">
+      {Array.from({ length: 34 }, (_, i) => <i key={i} style={{ "--l": i }} />)}
+    </div>
+  );
+}
+
 function AskLink({ topic, className = "s-ask" }) {
   const M = useMarket();
   if (M.contact === "call") {
@@ -350,6 +387,12 @@ const THOUGHTS = [
   ["💭", "I know the answer. Why won't my words come out?", "Nerves"],
   ["🌀", "I rehearse it in my head, then stay quiet.", "Overthinking"],
   ["🎢", "I start well, then ramble and lose my point.", "Rambling"],
+];
+
+const PILLARS = [
+  ["🎯", "Speak on the spot", "Learn structure, so you always know what to say, even when you are put on the spot."],
+  ["🎙️", "Sound convincing", "Leave the monotone behind. Build vocal variety, so your voice carries your message."],
+  ["🧠", "Take action", "The psychology of genuine confidence. We help you get past the hesitation, so you act on what you already know."],
 ];
 
 const SKILLS = ["Structure", "Volume", "Pace", "Pauses", "Pitch", "Storytelling"];
@@ -445,15 +488,22 @@ function SalesContent() {
   const oneLink = withRef(dealLive ? CHECKOUT.oneOnOne : CHECKOUT.oneOnOneFull, `${M.ref}one_on_one`);
 
   return (
-    <div className="sales-page">
+    <div className={cx("sales-page", M.holiday && "s-holiday")}>
       <SiteHeader page="sales" />
+      {M.holiday && <Snow />}
 
       {/* ── 1 · HERO ── */}
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
+        {M.holiday && <Lights />}
         <div className="s-wave" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</div>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />{M.kicker}</p></Reveal>
+        {M.holiday && (
+          <Reveal instant>
+            <p className="s-holiday-pill"><span aria-hidden="true">🎄</span> Holiday season offer: 1-on-1 coaching {M.money(PRICE.oneOnOneDeal)} instead of {M.money(PRICE.oneOnOne)}</p>
+          </Reveal>
+        )}
         <Reveal instant delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
         <Reveal instant delay={160}>
           <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>
@@ -512,31 +562,53 @@ function SalesContent() {
       </section>
 
       {/* ── 3 · TWO TRACKS ── */}
-      <section className="s-section s-section--tint" id="method">
-        <Reveal>
-          <p className="s-label">Why it works</p>
-          <h2 className="s-title">Learn the skill. <em>Then use it in your world.</em></h2>
-          <p className="s-sub">Most training stops at technique. Here you also practice using it, one small step at a time.</p>
-        </Reveal>
-        <Reveal>
-          <div className="s-tracks">
-            <article className="s-track">
-              <p>Track one</p>
-              <h3>Technique</h3>
-              <span>Build the skill</span>
-              <div className="s-chips">{SKILLS.map((k) => <b key={k}>{k}</b>)}</div>
-            </article>
-            <div className="s-plus" aria-hidden="true">+</div>
-            <article className="s-track">
-              <p>Track two</p>
-              <h3>Exposure</h3>
-              <span>Build the confidence to use it</span>
-              <div className="s-mini-stairs" aria-hidden="true">{Array.from({ length: 10 }, (_, i) => <i key={i} style={{ height: `${18 + i * 8}%` }} />)}</div>
-            </article>
+      {M.pillars ? (
+        <section className="s-section s-section--tint" id="method">
+          <Reveal>
+            <p className="s-label">What we focus on</p>
+            <h2 className="s-title">Three pillars. <em>One confident you.</em></h2>
+            <p className="s-sub">Built for shy professionals who know the answer at work, but cannot get themselves to take action.</p>
+          </Reveal>
+          <div className="s-why s-pillars">
+            {PILLARS.map(([icon, title, text], i) => (
+              <Reveal key={title} delay={i * 100}>
+                <article className="s-why-card s-pillar">
+                  <small className="s-pillar-n">Pillar {i + 1}</small>
+                  <span className="s-pillar-ico" aria-hidden="true">{icon}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
-          <p className="s-merge">= <b>Confident communication</b></p>
-        </Reveal>
-      </section>
+        </section>
+      ) : (
+      <section className="s-section s-section--tint" id="method">
+          <Reveal>
+            <p className="s-label">Why it works</p>
+            <h2 className="s-title">Learn the skill. <em>Then use it in your world.</em></h2>
+            <p className="s-sub">Most training stops at technique. Here you also practice using it, one small step at a time.</p>
+          </Reveal>
+          <Reveal>
+            <div className="s-tracks">
+              <article className="s-track">
+                <p>Track one</p>
+                <h3>Technique</h3>
+                <span>Build the skill</span>
+                <div className="s-chips">{SKILLS.map((k) => <b key={k}>{k}</b>)}</div>
+              </article>
+              <div className="s-plus" aria-hidden="true">+</div>
+              <article className="s-track">
+                <p>Track two</p>
+                <h3>Exposure</h3>
+                <span>Build the confidence to use it</span>
+                <div className="s-mini-stairs" aria-hidden="true">{Array.from({ length: 10 }, (_, i) => <i key={i} style={{ height: `${18 + i * 8}%` }} />)}</div>
+              </article>
+            </div>
+            <p className="s-merge">= <b>Confident communication</b></p>
+          </Reveal>
+        </section>
+      )}
 
       {/* ── 4 · HOW PRACTICE WORKS ── */}
       <section className="s-section" id="practice">
@@ -684,8 +756,18 @@ function SalesContent() {
       {/* ── PLANS ── */}
       <section className="s-section" id="plans">
         <Reveal>
-          <p className="s-label">Choose your plan</p>
-          <h2 className="s-title">Choose how you want <em>to learn.</em></h2>
+          {M.holiday ? (
+            <>
+              <p className="s-label">Holiday season offer</p>
+              <h2 className="s-title">Give yourself the gift of <em>confidence.</em></h2>
+              <p className="s-sub">This holiday season, save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} on 1-on-1 coaching and {M.money(PRICE.group - PRICE.groupDeal)} on group coaching.</p>
+            </>
+          ) : (
+            <>
+              <p className="s-label">Choose your plan</p>
+              <h2 className="s-title">Choose how you want <em>to learn.</em></h2>
+            </>
+          )}
           {M.priceNote && <p className="s-sub s-price-note">{M.priceNote}</p>}
         </Reveal>
         <div className="s-plans">
@@ -742,7 +824,7 @@ function SalesContent() {
         <Reveal>
           <p className="s-label">Upcoming groups</p>
           <h2 className="s-title">Book early, <em>save {M.money(PRICE.group - PRICE.earlyBird)}.</em></h2>
-          <p className="s-sub">Each group meets six Sundays in a row, {M.time}. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
+          <p className="s-sub">Each group meets six Sundays in a row, {M.time}{M.timeNote ? ` ${M.timeNote}` : ""}. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
         </Reveal>
         <div className="s-dates">
           {groups.map((g, i) => {
@@ -760,7 +842,7 @@ function SalesContent() {
                   </div>
                   <h3>Starts {fmt(g.date, { weekday: "long", month: "long", day: "numeric" })}</h3>
                   <p className="s-date-meta">6 Sundays · {fmt(g.date, { month: "short", day: "numeric" })} – {fmt(g.end, { month: "short", day: "numeric" })}</p>
-                  <p className="s-date-meta">Every Sunday · <span>{M.time}</span></p>
+                  <p className="s-date-meta">Every Sunday · <span>{M.timeAt ? M.timeAt(g.date) : M.time}</span></p>
                   <div className="s-seats" aria-label={full ? "This group is full" : `${g.left} of ${spots.max} seats left`}>
                     <div className="s-seat-row" aria-hidden="true">
                       {Array.from({ length: spots.max }, (_, k) => <i key={k} className={k < spots.max - g.left ? "taken" : ""} />)}
@@ -845,7 +927,7 @@ function SalesContent() {
             ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
             ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
-            ["When do the group sessions happen?", `Every Sunday from ${M.timeLong}, for six weeks in a row. New groups start on the first Sunday of the month and around the 15th.`],
+            ["When do the group sessions happen?", `Every Sunday from ${M.timeLong}${M.timeNote ? ` ${M.timeNote}` : ""}, for six weeks in a row. New groups start on the first Sunday of the month and around the 15th.`],
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world step each week."],
             ["How does the guarantee work?", "Show up to your sessions and do the practice in the community. If after 4 weeks you don't feel the change in your influence as a communicator, you get your money back, no questions asked."],
             ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
