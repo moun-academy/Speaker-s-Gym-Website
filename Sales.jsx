@@ -142,6 +142,7 @@ MARKETS.eur = Object.defineProperties(MARKETS.eur, {
 MARKETS.eur.timeAt = euLabel;
 MARKETS.eur.timeNote = "(the same time in the Czech Republic, Slovakia, Austria and Switzerland)";
 MARKETS.eur.holiday = true;
+MARKETS.eur.heroCall = true;
 MARKETS.eur.pillars = true;
 
 const MarketContext = createContext(MARKETS.usd);
@@ -522,7 +523,9 @@ function SalesContent() {
         </Reveal>
         <Reveal instant delay={300}>
           <div className="s-hero-btns">
-            <a href="#plans" className="s-btn s-btn--gold">See the plans</a>
+            {M.heroCall
+              ? <a href={BOOK_URL} className="s-btn s-btn--gold" target="_blank" rel="noopener noreferrer">Book a free discovery call</a>
+              : <a href="#plans" className="s-btn s-btn--gold">See the plans</a>}
           </div>
         </Reveal>
         <Reveal instant delay={320}>
