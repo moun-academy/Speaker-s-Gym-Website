@@ -83,8 +83,9 @@ MARKETS.qar = {
   heroFor: `A six-week program for shy and nervous professionals in Qatar. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the QAR figure shown on this page. The dollar price never changes."],
 };
-/* Europe: a copy of the UAE page. Euro prices are the dollar prices set for Europe, European time (CET), "Book a call" instead of WhatsApp. For now it uses the same USD Stripe links as the UAE
-   page; replace the links below with euro Payment Links when they are ready (then also update `price`). */
+/* Europe: a copy of the UAE page with native euro prices and euro Stripe links, European time (CET),
+   and "Book a call" instead of WhatsApp. oneOnOneFull (the regular €250 link) is not set yet: after the
+   holiday discount ends, the 1-on-1 button emails us until a €250 link is added. */
 MARKETS.eur = {
   ...MARKETS.aed,
   key: "eur",
@@ -92,6 +93,13 @@ MARKETS.eur = {
   money: (n) => `€${n}`,
   node: (n) => `€${n}`,
   price: { oneOnOne: 250, oneOnOneDeal: 180, group: 150, groupDeal: 110, earlyBird: 85 },
+  usdPrice: null,
+  checkout: {
+    oneOnOne: "https://buy.stripe.com/cNi8wP00RekdfoHe1j1ck08", // €180 holiday discount
+    oneOnOneFull: "", // €250 after the discount: paste a link here
+    group: "https://buy.stripe.com/fZubJ128Z2BvdgzaP71ck09", // €110 · next group
+    earlyBird: "https://buy.stripe.com/28E00j00R2Bv7Wf1ex1ck0a", // €85 · later groups
+  },
   ref: "eur_",
   time: "1–2 pm CET (12–1 pm GMT)",
   timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
@@ -99,7 +107,9 @@ MARKETS.eur = {
   title: "Join The Speaker's Gym | Europe",
   kicker: "Live online program · Europe",
   heroFor: `A six-week program for shy and nervous professionals in Europe. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
-  extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 holiday discount, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the euro figure shown on this page. The dollar price never changes."],
+  assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
+  priceNote: "All prices are in euros.",
+  extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
 };
 
 const MarketContext = createContext(MARKETS.usd);
