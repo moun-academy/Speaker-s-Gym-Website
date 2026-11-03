@@ -596,3 +596,4 @@ button.s-btn { font-family: var(--font-body); }
 .sales-page .s-effort-lean .s-label { display: none; }
 .sales-page .s-plans-guar { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .sales-page .s-plans-guar a { color: inherit; text-decoration: underline; }
+.sales-page .s-plans-guar svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--gold, #d9c06f); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
