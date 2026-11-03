@@ -83,8 +83,7 @@ MARKETS.qar = {
   heroFor: `A six-week program for shy and nervous professionals in Qatar. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   extraFaq: ["Which currency do I pay in?", "Our prices are set in US dollars: $197 special price, $250, $129, $149 and $97. At checkout you pay in your own currency, converted at that day's exchange rate, so the final amount can be slightly different from the QAR figure shown on this page. The dollar price never changes."],
 };
-/* Europe: a copy of the UAE page. Euro prices are the dollar prices converted at about 0.87 EUR per USD and
-   rounded, European time (CET), "Book a call" instead of WhatsApp. For now it uses the same USD Stripe links as the UAE
+/* Europe: a copy of the UAE page. Euro prices are the dollar prices set for Europe, European time (CET), "Book a call" instead of WhatsApp. For now it uses the same USD Stripe links as the UAE
    page; replace the links below with euro Payment Links when they are ready (then also update `price`). */
 MARKETS.eur = {
   ...MARKETS.aed,
@@ -92,7 +91,7 @@ MARKETS.eur = {
   currency: "EUR",
   money: (n) => `€${n}`,
   node: (n) => `€${n}`,
-  price: { oneOnOne: 220, oneOnOneDeal: 170, group: 130, groupDeal: 110, earlyBird: 85 },
+  price: { oneOnOne: 250, oneOnOneDeal: 180, group: 150, groupDeal: 110, earlyBird: 85 },
   ref: "eur_",
   time: "1–2 pm CET (12–1 pm GMT)",
   timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
