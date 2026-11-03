@@ -63,7 +63,7 @@ Keys: https://dashboard.stripe.com/test/apikeys. Redeploy after adding them, bec
 3. `stripe.initCheckoutFormSdk` renders the payment form in a Stripe-hosted iframe.
 4. On submit, `actions.confirm` completes the payment.
 
-**Not included (add if needed):** a webhook handler for `checkout.session.completed` (fulfillment, access, emails) and a return/thank-you step. The site already has `/thank-you-purchase`.
+**Webhook:** [api/stripe-webhook.js](api/stripe-webhook.js) verifies Stripe's signature and, on `checkout.session.completed`, logs the payment and (when the site's Redis store is configured) saves it to the `stripe:purchases` list: time, plan tag, email, name, country, amount, live or test. To turn it on, create a webhook endpoint in Stripe (Developers > Webhooks) pointing to `https://YOUR-DOMAIN/api/stripe-webhook` for the event `checkout.session.completed`, then set its signing secret (`whsec_...`) as `STRIPE_WEBHOOK_SECRET` in Vercel. Test and live mode each need their own endpoint and secret. It does not send emails or grant access: add that where marked if you want it.
 
 **Testing:** use test keys. Card `4242 4242 4242 4242`, any future expiry, any CVC, any postal code. Declined card: `4000 0000 0000 0002`. 3D Secure: `4000 0025 0000 3155`. More: https://docs.stripe.com/testing
 
