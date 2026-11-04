@@ -613,3 +613,26 @@ button.s-btn { font-family: var(--font-body); }
 .sales-page .s-pay-card .s-pay-form { font-family: var(--font-body, "DM Sans", sans-serif); color: #1c1b17; }
 .sales-page .s-pay-card .s-pay-loading, .sales-page .s-pay-card .s-pay-error { color: #55524a; }
 .sales-page .s-pay-card .s-modal-close { color: #444; border-color: #bbb; background: #fff; }
+
+/* ── Europe: stronger "book a call" emphasis ── */
+.sales-page .s-btn--xl { padding: 22px 40px; font-size: 1.02rem; letter-spacing: .08em; border-radius: 12px; box-shadow: 0 14px 44px rgba(217,192,111,.38), 0 0 0 0 rgba(217,192,111,.5); animation: s-call-pulse 2.6s ease-in-out infinite; }
+.sales-page .s-btn--xl svg { flex: none; }
+@keyframes s-call-pulse { 0%,100% { box-shadow: 0 14px 44px rgba(217,192,111,.38), 0 0 0 0 rgba(217,192,111,.45); } 50% { box-shadow: 0 14px 44px rgba(217,192,111,.38), 0 0 0 14px rgba(217,192,111,0); } }
+@media (prefers-reduced-motion: reduce) { .sales-page .s-btn--xl { animation: none; } }
+.sales-page .s-callstrip { padding: 84px 24px; text-align: center; background: radial-gradient(ellipse at 50% 0%, rgba(217,192,111,.16), transparent 70%), #141310; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+.sales-page .s-callstrip h2 { font-family: var(--font-display); font-size: clamp(2rem, 4.6vw, 3.2rem); color: var(--text-bright); margin: 6px 0 14px; }
+.sales-page .s-callstrip h2 em { color: var(--gold); }
+.sales-page .s-callstrip p:not(.s-label) { max-width: 560px; margin: 0 auto 28px; color: var(--text-dim); font-size: 1.08rem; }
+.sales-page .s-hero-btns .s-btn--xl { width: min(100%, 460px); }
+
+/* ── Europe: six-step formula ── */
+.sales-page .s-formula { max-width: 1060px; margin: 72px auto 0; }
+.sales-page .s-formula .s-label, .sales-page .s-formula-title { text-align: center; }
+.sales-page .s-formula-title { font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.2rem); color: var(--text-bright); margin: 4px 0 30px; }
+.sales-page .s-formula-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.sales-page .s-formula-card { position: relative; height: 100%; padding: 26px 24px 24px; border: 1px solid var(--border-strong); border-radius: 16px; background: linear-gradient(165deg, #1f1b10, var(--surface) 60%); }
+.sales-page .s-formula-n { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 14px; border-radius: 50%; background: var(--gold); color: #10100e; font-weight: 800; }
+.sales-page .s-formula-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.2rem; color: var(--text-bright); }
+.sales-page .s-formula-card p { margin: 0; color: var(--text-dim); font-size: .96rem; line-height: 1.55; }
+@media (max-width: 980px) { .sales-page .s-formula-grid { grid-template-columns: 1fr; } }
+@media (max-width: 980px) { .sales-page.s-lean .s-call-float { display: none; } .sales-page.s-lean .s-sticky { right: 12px; text-align: center; } }
