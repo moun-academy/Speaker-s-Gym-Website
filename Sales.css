@@ -636,3 +636,7 @@ button.s-btn { font-family: var(--font-body); }
 .sales-page .s-formula-card p { margin: 0; color: var(--text-dim); font-size: .96rem; line-height: 1.55; }
 @media (max-width: 980px) { .sales-page .s-formula-grid { grid-template-columns: 1fr; } }
 @media (max-width: 980px) { .sales-page.s-lean .s-call-float { display: none; } .sales-page.s-lean .s-sticky { right: 12px; text-align: center; } }
+.sales-page .s-holiday-pill-text { display: flex; flex-direction: column; gap: 3px; text-align: left; }
+.sales-page .s-holiday-pill-text b { color: #ffd98a; }
+.sales-page .s-holiday-pill-text small { font-size: .78rem; font-weight: 500; opacity: .9; letter-spacing: .01em; }
+@media (max-width: 680px) { .sales-page .s-holiday-pill-text { text-align: center; } .sales-page .s-holiday-pill { flex-direction: column; gap: 4px; } }
