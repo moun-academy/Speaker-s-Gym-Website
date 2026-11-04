@@ -28,7 +28,7 @@ const corporateLinks = [
   ["FAQ", "#faq"],
 ];
 
-export function SiteHeader({ page = "home" }) {
+export function SiteHeader({ page = "home" , ctaCall }) {
   const [open, setOpen] = useState(false);
   const links = page === "sales" ? salesLinks : page === "corporate" ? corporateLinks : homeLinks;
   const splitAt = Math.ceil(links.length / 2);
@@ -61,7 +61,7 @@ export function SiteHeader({ page = "home" }) {
           </a>
           <div className="nav-links nav-links--right">
             {rightLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
-            {page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : page === "corporate" ? <a href="#contact" className="nav-cta">Request a Proposal</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
+            {page === "sales" && ctaCall ? <a href={BOOK_URL} className="nav-cta" target="_blank" rel="noopener noreferrer">Book a Free Call</a> : page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : page === "corporate" ? <a href="#contact" className="nav-cta">Request a Proposal</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
           </div>
           <button
             className="nav-hamburger"
@@ -96,7 +96,9 @@ export function SiteHeader({ page = "home" }) {
                 </a>
               ))}
             </div>
-            {page === "sales"
+            {page === "sales" && ctaCall
+              ? <a href={BOOK_URL} className="btn-primary mobile-menu-cta" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>Book a Free Discovery Call</a>
+              : page === "sales"
               ? <a href="#plans" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Enroll Now</a>
               : page === "corporate"
               ? <a href="#contact" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Request a Proposal</a>

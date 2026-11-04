@@ -119,9 +119,9 @@ MARKETS.eur = {
   time: "1–2 pm CET (12–1 pm GMT)",
   timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
   timeShort: "1–2 pm CET",
-  title: "Holiday Offer | The Speaker's Gym Europe",
-  kicker: "Live online program · Europe",
-  heroFor: `A six-week program for shy and nervous professionals in Europe. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
+  title: "Confidence Coaching for Shy Professionals | The Speaker's Gym Europe",
+  kicker: "For shy professionals · 8-week live online program",
+  heroFor: `Two weeks of psychology, six weeks of speaking skills. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
   priceNote: "All prices are in euros.",
   extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
@@ -145,6 +145,7 @@ MARKETS.eur.timeAt = euLabel;
 MARKETS.eur.timeNote = "(the same time in the Czech Republic, Slovakia, Austria and Switzerland)";
 MARKETS.eur.holiday = true;
 MARKETS.eur.embedded = true;
+MARKETS.eur.eight = true;
 MARKETS.eur.heroCall = true;
 MARKETS.eur.pillars = true;
 
@@ -315,7 +316,7 @@ function WaitlistModal({ group, onClose }) {
           <form onSubmit={submit} noValidate>
             <p className="s-modal-kicker">EARLY BIRD · {M.money(PRICE.earlyBird)}</p>
             <h3 id="wl-title">Join the waiting list</h3>
-            <p className="s-modal-sub">Group starting <b>{when}</b>. Six Sundays, {M.timeShort}, max {GROUP_MAX} people.</p>
+            <p className="s-modal-sub">Group starting <b>{when}</b>. {M.eight ? "Eight" : "Six"} Sundays, {M.timeShort}, max {GROUP_MAX} people.</p>
             <label className="s-field"><span>Full name</span>
               <input ref={firstField} type="text" autoComplete="name" required value={form.name} onChange={update("name")} />
             </label>
@@ -419,9 +420,9 @@ const ONE_ON_ONE = [
 ];
 
 const groupItems = (M) => [
-  `Six live online group sessions, Sundays ${M.time}`,
+  `${M.eight ? "Eight" : "Six"} live online group sessions, Sundays ${M.time}`,
   `Maximum ${GROUP_MAX} people, so you speak every session`,
-  "The same 6-week plan as 1-on-1",
+  `The same ${M.eight ? "8" : "6"}-week plan as 1-on-1`,
   "1 year of the Speaker's Gym app with AI feedback",
   "1 year in the community + private WhatsApp group and member meetups",
 ];
@@ -451,6 +452,21 @@ const BETWEEN = [
   ["📱", "Daily reps in the app, with AI feedback"],
   ["💬", "Feedback from us in the community"],
   ["📊", "Progress tracking, so you always know where you stand"],
+];
+
+/* Europe: the 8-week program starts with two weeks of psychology (the six-step formula). */
+const PSYCH_WEEKS = [
+  ["Understand what holds you back", "Name the worst case you fear when you have to speak, uncover what it would mean to you, and test whether that story is actually true."],
+  ["Rewire it and prove it", "Reframe the worst case, repeat the new meaning until you believe it, then prove it with exposure: one manageable step at a time."],
+];
+
+const FORMULA = [
+  ["Name the worst case", "Identify the worst-case scenario you fear when you have to speak."],
+  ["Uncover the meaning", "List what it would mean about you: status, self-worth, belonging."],
+  ["Test the story", "Ask of each meaning: is it actually true?"],
+  ["Reframe it", "Find ten reasons the worst case could work in your favor, so it loses its power."],
+  ["Make it stick", "Repeat the new meaning every day until you believe it."],
+  ["Prove it with exposure", "Practice through a ten-level exposure system, one manageable step at a time."],
 ];
 
 const WEEKS = [
@@ -524,7 +540,7 @@ function SalesContent() {
         return {
           date: d, key, left, early,
           price: early ? PRICE.earlyBird : PRICE.groupDeal,
-          end: addDays(d, 35),
+          end: addDays(d, M.eight ? 49 : 35),
           link: withRef(early ? CHECKOUT.earlyBird : CHECKOUT.group, `${M.ref}${early ? "early" : "group"}_${key}`),
         };
       });
@@ -587,10 +603,12 @@ function SalesContent() {
   );
 
   const lean = !!M.pillars;
+  const WK = M.eight ? 8 : 6;
+  const weeks = M.eight ? [...PSYCH_WEEKS, ...WEEKS] : WEEKS;
 
   return (
-    <div className={cx("sales-page", M.holiday && "s-holiday")}>
-      <SiteHeader page="sales" />
+    <div className={cx("sales-page", M.holiday && "s-holiday", lean && "s-lean")}>
+      <SiteHeader page="sales" ctaCall={lean} />
 
       {/* ── 1 · HERO ── */}
       <header className="s-hero">
@@ -605,9 +623,11 @@ function SalesContent() {
             <p className="s-holiday-pill"><span aria-hidden="true">🎄</span> Holiday season offer: 1-on-1 coaching {M.money(PRICE.oneOnOneDeal)} instead of {M.money(PRICE.oneOnOne)}</p>
           </Reveal>
         )}
-        <Reveal instant delay={80}><h1>Speak up in <em>meetings and conversations.</em></h1></Reveal>
+        <Reveal instant delay={80}>
+          {lean ? <h1>Shy at work? Become <em>confident and outspoken.</em></h1> : <h1>Speak up in <em>meetings and conversations.</em></h1>}
+        </Reveal>
         <Reveal instant delay={160}>
-          <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>
+          {lean ? <p className="s-hero-sub">We help shy professionals speak up with confidence, through <mark>three pillars</mark>: structure, <mark>vocal variety</mark> and psychology.</p> : <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>}
         </Reveal>
         {M.heroFor && (
           <Reveal instant delay={200}>
@@ -624,13 +644,13 @@ function SalesContent() {
         <Reveal instant delay={300}>
           <div className="s-hero-btns">
             {M.heroCall
-              ? <a href={BOOK_URL} className="s-btn s-btn--gold" target="_blank" rel="noopener noreferrer">Book a free discovery call</a>
+              ? <a href={BOOK_URL} className={cx("s-btn s-btn--gold", lean && "s-btn--xl")} target="_blank" rel="noopener noreferrer"><CalendarIcon size={20} /> Book a free discovery call</a>
               : <a href="#plans" className="s-btn s-btn--gold">See the plans</a>}
           </div>
         </Reveal>
         {lean && (
           <Reveal instant delay={310}>
-            <p className="s-hero-price">From <b>{M.money(PRICE.groupDeal)}</b> · 6 weeks live online · 4-week money-back guarantee</p>
+            <p className="s-hero-price">From <b>{M.money(PRICE.groupDeal)}</b> · 8 weeks live online · 4-week money-back guarantee</p>
           </Reveal>
         )}
         {!M.heroCall && <Reveal instant delay={320}>
@@ -675,6 +695,17 @@ function SalesContent() {
       )}
 
       {lean && <>{resultsSec}{coachSec}</>}
+
+      {lean && (
+        <section className="s-callstrip" id="discovery-call">
+          <Reveal>
+            <p className="s-label">Not sure it's for you?</p>
+            <h2>Book a free <em>discovery call.</em></h2>
+            <p>Tell us where you get stuck at work. We'll tell you honestly if this program fits you, and which plan makes sense.</p>
+            <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--xl" target="_blank" rel="noopener noreferrer"><CalendarIcon size={20} /> Book a free discovery call</a>
+          </Reveal>
+        </section>
+      )}
 
       {!lean && (
       <section className="s-section" id="you">
@@ -763,12 +794,12 @@ function SalesContent() {
       {/* ── 8 · SIX WEEKS ── */}
       <section className="s-section" id="program">
         <Reveal>
-          <p className="s-label">Your six weeks</p>
-          <h2 className="s-title">One skill a week. <em>Used in real life that same week.</em></h2>
-          <p className="s-sub">Real-world practice begins in week 1 and continues every week.</p>
+          <p className="s-label">{M.eight ? "Your eight weeks" : "Your six weeks"}</p>
+          {M.eight ? <h2 className="s-title">Two weeks of psychology. <em>Six weeks of skills you use at work.</em></h2> : <h2 className="s-title">One skill a week. <em>Used in real life that same week.</em></h2>}
+          <p className="s-sub">{M.eight ? "We start with the psychology that holds shy people back, using our six-step formula. Then we build the speaking skills, and you use them in real work situations every week." : "Real-world practice begins in week 1 and continues every week."}</p>
         </Reveal>
         <div className="s-timeline">
-          {WEEKS.map(([name, text], i) => {
+          {weeks.map(([name, text], i) => {
             const open = openWeek === i;
             return (
               <Reveal key={name} delay={i * 70}>
@@ -787,6 +818,25 @@ function SalesContent() {
             );
           })}
         </div>
+        {M.eight && (
+          <div className="s-formula">
+            <Reveal>
+              <p className="s-label">Weeks 1 and 2</p>
+              <h3 className="s-formula-title">Our six-step formula to break limiting beliefs</h3>
+            </Reveal>
+            <div className="s-formula-grid">
+              {FORMULA.map(([title, text], i) => (
+                <Reveal key={title} delay={(i % 3) * 80}>
+                  <article className="s-formula-card">
+                    <span className="s-formula-n">{i + 1}</span>
+                    <h4>{title}</h4>
+                    <p>{text}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ── 9 · YOUR WEEK ── */}
@@ -859,11 +909,11 @@ function SalesContent() {
               <div className="s-price">
                 {dealLive && <s>{M.node(PRICE.oneOnOne)}</s>}
                 <strong>{M.node(oneOnOnePrice)}</strong>
-                <span>one payment · 6 weeks + 1 year of access</span>
+                <span>one payment · {WK} weeks + 1 year of access</span>
                 {usdLine(dealLive ? "oneOnOneDeal" : "oneOnOne")}
                 {dealLive && <em className="s-deal">Holiday discount · you save {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · limited time, ends {dealEnd.label}{dealEnd.last ? " (last day)" : ""}</em>}
               </div>
-              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{t}</li>)}</ul>
+              <ul className="s-list">{ONE_ON_ONE.map((t) => <li key={t}><Check />{M.eight ? t.replace("Six private", "Eight private") : t}</li>)}</ul>
               <div className="s-bonus">
                 <span className="s-bonus-ico" aria-hidden="true">🎁</span>
                 <div>
@@ -903,7 +953,7 @@ function SalesContent() {
         <Reveal>
           <p className="s-label">Upcoming groups</p>
           <h2 className="s-title">Book early, <em>save {M.money(PRICE.group - PRICE.earlyBird)}.</em></h2>
-          <p className="s-sub">Each group meets six Sundays in a row, {M.time}{M.timeNote ? ` ${M.timeNote}` : ""}. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
+          <p className="s-sub">Each group meets {M.eight ? "eight" : "six"} Sundays in a row, {M.time}{M.timeNote ? ` ${M.timeNote}` : ""}. {daysToNext != null && daysToNext >= 0 && <>The next one starts in <b>{daysToNext} {daysToNext === 1 ? "day" : "days"}</b>.</>}</p>
         </Reveal>
         <div className="s-dates">
           {groups.map((g, i) => {
@@ -920,7 +970,7 @@ function SalesContent() {
                     </div>
                   </div>
                   <h3>Starts {fmt(g.date, { weekday: "long", month: "long", day: "numeric" })}</h3>
-                  <p className="s-date-meta">6 Sundays · {fmt(g.date, { month: "short", day: "numeric" })} – {fmt(g.end, { month: "short", day: "numeric" })}</p>
+                  <p className="s-date-meta">{WK} Sundays · {fmt(g.date, { month: "short", day: "numeric" })} – {fmt(g.end, { month: "short", day: "numeric" })}</p>
                   <p className="s-date-meta">Every Sunday · <span>{M.timeAt ? M.timeAt(g.date) : M.time}</span></p>
                   <div className="s-seats" aria-label={full ? "This group is full" : `${g.left} of ${spots.max} seats left`}>
                     <div className="s-seat-row" aria-hidden="true">
@@ -1002,14 +1052,14 @@ function SalesContent() {
         <div className="s-faq-list">
           {[
             ["Is this in person or online?", "It's fully online. Every session is live on video, so you can join from anywhere. You practice with us in the session, then use it in your own meetings and conversations. And you are not on your own: members stay connected in our WhatsApp group, and we encourage in-person meetups."],
-            ["1-on-1 or group: which should I choose?", "Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practice with real people and keep the investment lower. Both follow the same 6-week plan, and you can upgrade later with everything you paid counting toward it."],
+            ["1-on-1 or group: which should I choose?", `Choose 1-on-1 if you want every session built around your exact situation and schedule. Choose the group if you'd like to practice with real people and keep the investment lower. Both follow the same ${M.eight ? "8" : "6"}-week plan, and you can upgrade later with everything you paid counting toward it.`],
             ["Why pay for coaching when AI can help?", "In Speaker's Gym the app gives you daily reps, including AI feedback. The coaching adds a person who knows you, notices your progress, adjusts your plan and talks through what happened in your real meeting."],
             ["I prefer in-person coaching because it feels more immersive.", "Our sessions are live and interactive. And the most immersive practice is your own life. You take what we rehearse into your real meetings and conversations, then we review how it went."],
             ["How big are the groups?", `Never more than ${GROUP_MAX} people, so everyone speaks and gets feedback in every session.`],
-            ["When do the group sessions happen?", `Every Sunday from ${M.timeLong}${M.timeNote ? ` ${M.timeNote}` : ""}, for six weeks in a row. New groups start on the first Sunday of the month and around the 15th.`],
+            ["When do the group sessions happen?", `Every Sunday from ${M.timeLong}${M.timeNote ? ` ${M.timeNote}` : ""}, for ${M.eight ? "eight" : "six"} weeks in a row. New groups start on the first Sunday of the month and around the 15th.`],
             ["How much time do I need between sessions?", "About 10 to 15 minutes a day for your speaking rep in the app, plus one manageable real-world step each week."],
             ["How does the guarantee work?", "Show up to your sessions and do the practice in the community. If after 4 weeks you don't feel the change in your influence as a communicator, you get your money back, no questions asked."],
-            ["What happens after the six weeks?", "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
+            [`What happens after the ${M.eight ? "eight" : "six"} weeks?`, "You keep one year of access. With 1-on-1 that includes the Speaker's Gym app, the community and WhatsApp group, the MOUN Academy course, your private portal and weekly group coaching. With the group plan you keep the app, the community and the WhatsApp group."],
             ["When can I start?", "You get access to the app right after joining. For 1-on-1, we'll contact you personally to schedule your first session. For groups, you start on the date you chose."],
             ...(M.extraFaq ? [M.extraFaq] : []),
           ].filter(([q]) => !(lean && (q === "How big are the groups?" || q === "When do the group sessions happen?" || q === "When can I start?"))).map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
@@ -1020,7 +1070,7 @@ function SalesContent() {
       <section className="s-final" id="contact">
         <Reveal>
           <p className="s-label">Contact us</p>
-          <h2>Want to know more? <em>Send us a message.</em></h2>
+          {lean ? <h2>Ready to speak up? <em>Book a free discovery call.</em></h2> : <h2>Want to know more? <em>Send us a message.</em></h2>}
           <p>Ask us anything about the program, the dates or which plan fits you best. We answer within <b>24 hours</b>. If you'd like, we can book a quick discovery call.</p>
           <div className="s-hero-btns">
             {M.contact === "call" ? (
@@ -1056,7 +1106,9 @@ function SalesContent() {
         </a>
       )}
 
-      <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>
+      {lean
+        ? <a href={BOOK_URL} className="s-sticky" target="_blank" rel="noopener noreferrer">Book a free discovery call <span aria-hidden="true">→</span></a>
+        : <a href="#plans" className="s-sticky">See plans and dates <span aria-hidden="true">→</span></a>}
     </div>
   );
 }
