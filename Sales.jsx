@@ -127,22 +127,13 @@ MARKETS.eur = {
   extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
 };
 
-/* Europe: sessions run 12:00–13:00 GMT. Czech Republic, Slovakia, Austria and Switzerland share one time zone
-   (Europe/Prague, CET in winter and CEST in summer), so the local time is worked out for each date. */
-function euTimeAt(date = new Date()) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12));
-  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Prague", hour: "numeric", hour12: false }).format(d)) % 24;
-  const start = hour > 12 ? hour - 12 : hour;
-  return { range: `${start}–${start + 1} pm`, zone: hour === 13 ? "CET" : "CEST", long: `${start} to ${start + 1} pm` };
-}
-const euLabel = (date) => { const t = euTimeAt(date); return `${t.range} ${t.zone}`; };
-MARKETS.eur = Object.defineProperties(MARKETS.eur, {
-  time: { get: () => euLabel(new Date()), enumerable: true },
-  timeLong: { get: () => { const t = euTimeAt(new Date()); return `${t.long} ${t.zone}`; }, enumerable: true },
-  timeShort: { get: () => euLabel(new Date()), enumerable: true },
-});
-MARKETS.eur.timeAt = euLabel;
-MARKETS.eur.timeNote = "(the same time in the Czech Republic, Slovakia, Austria and Switzerland)";
+/* Europe: shown as one fixed label for Central European Time (Berlin, Paris, Madrid, Prague). */
+const EU_TIME = "11 - 12pm Central European Time (Berlin, Paris, Madrid, Prague)";
+MARKETS.eur.time = EU_TIME;
+MARKETS.eur.timeLong = EU_TIME;
+MARKETS.eur.timeShort = "11 - 12pm CET";
+MARKETS.eur.timeAt = () => EU_TIME;
+MARKETS.eur.timeNote = "";
 MARKETS.eur.holiday = true;
 MARKETS.eur.embedded = true;
 MARKETS.eur.eight = true;
@@ -420,7 +411,7 @@ const ONE_ON_ONE = [
 ];
 
 const groupItems = (M) => [
-  `${M.eight ? "Eight" : "Six"} live online group sessions, Sundays ${M.time}`,
+  `${M.eight ? "Eight" : "Six"} live online group sessions, Sundays${M.eight ? "," : ""} ${M.time}`,
   `Maximum ${GROUP_MAX} people, so you speak every session`,
   `The same ${M.eight ? "8" : "6"}-week plan as 1-on-1`,
   "1 year of the Speaker's Gym app with AI feedback",
@@ -976,7 +967,7 @@ function SalesContent() {
                     <div className="s-seat-row" aria-hidden="true">
                       {Array.from({ length: spots.max }, (_, k) => <i key={k} className={k < spots.max - g.left ? "taken" : ""} />)}
                     </div>
-                    <span>{full ? "Full" : g.left === spots.max ? `${spots.max} seats available` : `Only ${g.left} of ${spots.max} seats left`}</span>
+                    <span>{full ? "Full" : g.left === spots.max ? (M.eight ? "Max " + spots.max + " people" : `${spots.max} seats available`) : `Only ${g.left} of ${spots.max} seats left`}</span>
                   </div>
                   <div className="s-date-price">
                     <s>{M.node(PRICE.group)}</s>
