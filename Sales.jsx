@@ -127,12 +127,22 @@ MARKETS.eur = {
   extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
 };
 
-/* Europe: shown as one fixed label for Central European Time (Berlin, Paris, Madrid, Prague). */
-const EU_TIME = "11 - 12pm Central European Time (Berlin, Paris, Madrid, Prague)";
-MARKETS.eur.time = EU_TIME;
-MARKETS.eur.timeLong = EU_TIME;
-MARKETS.eur.timeShort = "11 - 12pm CET";
-MARKETS.eur.timeAt = () => EU_TIME;
+/* Europe: sessions run 12:00-13:00 GMT. The Czech Republic, Germany, France, Spain, Slovakia, Austria and Switzerland
+   share one time zone (Europe/Prague), so the local time is worked out for each date: 1-2 pm in winter, 2-3 pm in summer. */
+const EU_CITIES = "(Berlin, Paris, Madrid, Prague)";
+function euLabel(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12));
+  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Prague", hour: "numeric", hour12: false }).format(d)) % 24;
+  const start = hour > 12 ? hour - 12 : hour;
+  const zone = hour === 13 ? "Central European Time" : "Central European Summer Time";
+  return `${start} - ${start + 1}pm ${zone} ${EU_CITIES}`;
+}
+MARKETS.eur = Object.defineProperties(MARKETS.eur, {
+  time: { get: () => euLabel(new Date()), enumerable: true },
+  timeLong: { get: () => euLabel(new Date()), enumerable: true },
+  timeShort: { get: () => euLabel(new Date()).replace("Central European Summer Time", "CEST").replace("Central European Time", "CET").replace(` ${EU_CITIES}`, ""), enumerable: true },
+});
+MARKETS.eur.timeAt = euLabel;
 MARKETS.eur.timeNote = "";
 MARKETS.eur.holiday = true;
 MARKETS.eur.embedded = true;
@@ -641,7 +651,7 @@ function SalesContent() {
         </Reveal>
         {lean && (
           <Reveal instant delay={310}>
-            <p className="s-hero-price">From <b>{M.money(PRICE.groupDeal)}</b> · 8 weeks live online · 4-week money-back guarantee</p>
+            <p className="s-hero-price">From <b>{M.money(PRICE.earlyBird)}</b> · 8 weeks live online · 4-week money-back guarantee</p>
           </Reveal>
         )}
         {!M.heroCall && <Reveal instant delay={320}>
@@ -926,7 +936,7 @@ function SalesContent() {
               <div className="s-price">
                 <s>{M.node(PRICE.group)}</s>
                 <strong>{M.node(PRICE.groupDeal)}</strong>
-                <span>next group · or <b>{M.money(PRICE.earlyBird)}</b> early-bird for later dates · 1 year of access</span>
+                <span>next group · starting from <b>{M.money(PRICE.earlyBird)}</b> with early-bird for later dates · 1 year of access</span>
                 {usdLine("groupDeal")}
                 <em className="s-deal">You save {M.money(PRICE.group - PRICE.groupDeal)}</em>
               </div>
