@@ -614,7 +614,7 @@ function SalesContent() {
             <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
               <span className="s-holiday-pill-text">
                 <span>Holiday season offer: {M.eight ? 8 : 6}-week coaching program starting from <b>{M.money(PRICE.earlyBird)}</b></span>
-                <small>Save up to {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · 1-on-1 {M.money(PRICE.oneOnOneDeal)} instead of {M.money(PRICE.oneOnOne)} · Group {M.money(PRICE.groupDeal)} instead of {M.money(PRICE.group)}</small>
+                <small>{M.money(PRICE.earlyBird)} instead of {M.money(PRICE.group)} · Save {M.money(PRICE.group - PRICE.earlyBird)}</small>
               </span>
             </p>
           </Reveal>
