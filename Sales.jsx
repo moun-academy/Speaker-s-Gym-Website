@@ -120,33 +120,23 @@ MARKETS.eur = {
   timeLong: "1 to 2 pm CET (12 to 1 pm GMT)",
   timeShort: "1–2 pm CET",
   title: "Confidence Coaching for Shy Professionals | The Speaker's Gym Europe",
-  kicker: "For shy professionals · 8-week live online program",
-  heroFor: `Two weeks of psychology, six weeks of speaking skills. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
+  kicker: "For shy professionals · 6-week live online program",
+  heroFor: `A six-week program with the psychology of confidence built in. Private 1-on-1 coaching or a small group of ${GROUP_MAX}.`,
   assure: ["100% online · join from anywhere", "4-week money-back guarantee", "1-on-1 includes a year of group coaching"],
   priceNote: "All prices are in euros.",
   extraFaq: ["Which currency do I pay in?", "Euros (€). The price on this page is the price you pay at checkout."],
 };
 
-/* Europe: sessions run 12:00-13:00 GMT. The Czech Republic, Germany, France, Spain, Slovakia, Austria and Switzerland
-   share one time zone (Europe/Prague), so the local time is worked out for each date: 1-2 pm in winter, 2-3 pm in summer. */
-const EU_CITIES = "(Berlin, Paris, Madrid, Prague)";
-function euLabel(date = new Date()) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12));
-  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Prague", hour: "numeric", hour12: false }).format(d)) % 24;
-  const start = hour > 12 ? hour - 12 : hour;
-  const zone = hour === 13 ? "Central European Time" : "Central European Summer Time";
-  return `${start} - ${start + 1}pm ${zone} ${EU_CITIES}`;
-}
-MARKETS.eur = Object.defineProperties(MARKETS.eur, {
-  time: { get: () => euLabel(new Date()), enumerable: true },
-  timeLong: { get: () => euLabel(new Date()), enumerable: true },
-  timeShort: { get: () => euLabel(new Date()).replace("Central European Summer Time", "CEST").replace("Central European Time", "CET").replace(` ${EU_CITIES}`, ""), enumerable: true },
-});
-MARKETS.eur.timeAt = euLabel;
+/* Europe: shown as one fixed label for Central European Time (Berlin, Paris, Madrid, Prague). */
+const EU_TIME = "11 - 12pm Central European Time (Berlin, Paris, Madrid, Prague)";
+MARKETS.eur.time = EU_TIME;
+MARKETS.eur.timeLong = EU_TIME;
+MARKETS.eur.timeShort = "11 - 12pm CET";
+MARKETS.eur.timeAt = () => EU_TIME;
 MARKETS.eur.timeNote = "";
 MARKETS.eur.holiday = true;
 MARKETS.eur.embedded = true;
-MARKETS.eur.eight = true;
+MARKETS.eur.eight = false; // the 8-week version is kept in the code (PSYCH_WEEKS) but switched off
 MARKETS.eur.heroCall = true;
 MARKETS.eur.pillars = true;
 
@@ -421,7 +411,7 @@ const ONE_ON_ONE = [
 ];
 
 const groupItems = (M) => [
-  `${M.eight ? "Eight" : "Six"} live online group sessions, Sundays${M.eight ? "," : ""} ${M.time}`,
+  `${M.eight ? "Eight" : "Six"} live online group sessions, Sundays${M.pillars ? "," : ""} ${M.time}`,
   `Maximum ${GROUP_MAX} people, so you speak every session`,
   `The same ${M.eight ? "8" : "6"}-week plan as 1-on-1`,
   "1 year of the Speaker's Gym app with AI feedback",
@@ -628,7 +618,7 @@ function SalesContent() {
           {lean ? <h1>Shy at work? Become <em>confident and outspoken.</em></h1> : <h1>Speak up in <em>meetings and conversations.</em></h1>}
         </Reveal>
         <Reveal instant delay={160}>
-          {lean ? <p className="s-hero-sub">We help shy professionals speak up with confidence, through <mark>three pillars</mark>: structure, <mark>vocal variety</mark> and psychology.</p> : <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>}
+          {lean ? <p className="s-hero-sub">We help shy professionals speak up with confidence, through three pillars: structure, vocal variety and psychology.</p> : <p className="s-hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="s-hero-sub-end">even when you feel nervous.</span></p>}
         </Reveal>
         {M.heroFor && (
           <Reveal instant delay={200}>
@@ -651,7 +641,7 @@ function SalesContent() {
         </Reveal>
         {lean && (
           <Reveal instant delay={310}>
-            <p className="s-hero-price">From <b>{M.money(PRICE.earlyBird)}</b> · 8 weeks live online · 4-week money-back guarantee</p>
+            <p className="s-hero-price">From <b>{M.money(PRICE.earlyBird)}</b> · 6 weeks live online · 4-week money-back guarantee</p>
           </Reveal>
         )}
         {!M.heroCall && <Reveal instant delay={320}>
@@ -796,8 +786,8 @@ function SalesContent() {
       <section className="s-section" id="program">
         <Reveal>
           <p className="s-label">{M.eight ? "Your eight weeks" : "Your six weeks"}</p>
-          {M.eight ? <h2 className="s-title">Two weeks of psychology. <em>Six weeks of skills you use at work.</em></h2> : <h2 className="s-title">One skill a week. <em>Used in real life that same week.</em></h2>}
-          <p className="s-sub">{M.eight ? "We start with the psychology that holds shy people back, using our six-step formula. Then we build the speaking skills, and you use them in real work situations every week." : "Real-world practice begins in week 1 and continues every week."}</p>
+          {M.eight ? <h2 className="s-title">Two weeks of psychology. <em>Six weeks of skills you use at work.</em></h2> : lean ? <h2 className="s-title">One skill a week. <em>Psychology built into every one.</em></h2> : <h2 className="s-title">One skill a week. <em>Used in real life that same week.</em></h2>}
+          <p className="s-sub">{M.eight ? "We start with the psychology that holds shy people back, using our six-step formula. Then we build the speaking skills, and you use them in real work situations every week." : lean ? "Every week combines one speaking skill with the psychology of confidence, so you can use it in real work situations that same week." : "Real-world practice begins in week 1 and continues every week."}</p>
         </Reveal>
         <div className="s-timeline">
           {weeks.map(([name, text], i) => {
@@ -819,10 +809,10 @@ function SalesContent() {
             );
           })}
         </div>
-        {M.eight && (
+        {lean && (
           <div className="s-formula">
             <Reveal>
-              <p className="s-label">Weeks 1 and 2</p>
+              <p className="s-label">{M.eight ? "Weeks 1 and 2" : "Built into the program"}</p>
               <h3 className="s-formula-title">Our six-step formula to break limiting beliefs</h3>
             </Reveal>
             <div className="s-formula-grid">
@@ -977,7 +967,7 @@ function SalesContent() {
                     <div className="s-seat-row" aria-hidden="true">
                       {Array.from({ length: spots.max }, (_, k) => <i key={k} className={k < spots.max - g.left ? "taken" : ""} />)}
                     </div>
-                    <span>{full ? "Full" : g.left === spots.max ? (M.eight ? "Max " + spots.max + " people" : `${spots.max} seats available`) : `Only ${g.left} of ${spots.max} seats left`}</span>
+                    <span>{full ? "Full" : g.left === spots.max ? (M.pillars ? "Max " + spots.max + " people" : `${spots.max} seats available`) : `Only ${g.left} of ${spots.max} seats left`}</span>
                   </div>
                   <div className="s-date-price">
                     <s>{M.node(PRICE.group)}</s>
