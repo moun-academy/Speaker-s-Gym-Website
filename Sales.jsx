@@ -611,7 +611,12 @@ function SalesContent() {
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />{M.kicker}</p></Reveal>
         {M.holiday && (
           <Reveal instant>
-            <p className="s-holiday-pill"><span aria-hidden="true">🎄</span> Holiday season offer: 1-on-1 coaching {M.money(PRICE.oneOnOneDeal)} instead of {M.money(PRICE.oneOnOne)}</p>
+            <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
+              <span className="s-holiday-pill-text">
+                <span>Holiday season offer: {M.eight ? 8 : 6}-week coaching program starting from <b>{M.money(PRICE.earlyBird)}</b></span>
+                <small>Save up to {M.money(PRICE.oneOnOne - PRICE.oneOnOneDeal)} · 1-on-1 {M.money(PRICE.oneOnOneDeal)} instead of {M.money(PRICE.oneOnOne)} · Group {M.money(PRICE.groupDeal)} instead of {M.money(PRICE.group)}</small>
+              </span>
+            </p>
           </Reveal>
         )}
         <Reveal instant delay={80}>
