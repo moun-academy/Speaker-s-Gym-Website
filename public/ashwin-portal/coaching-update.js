@@ -1,44 +1,41 @@
 window.ASHWIN_COACHING_UPDATE = {
-  "id": "coaching-pace-2026-10-26",
-  "date": "2026-10-26",
-  "label": "COACHING RECAP · 26 OCTOBER 2026",
-  "sourceTranscriptId": "01M5CXPC46TPDJ579147DAQBXC",
+  "id": "coaching-4-2026-11-05",
+  "date": "2026-11-05",
+  "label": "COACHING RECAP · 5 NOVEMBER 2026",
+  "sourceTranscriptId": "01M68XPE4A84TRSFD2GRH872XE",
   "completedLectures": [
     1,
     2,
-    3
+    3,
+    4
   ],
   "lectureCompletionDates": {
     "1": "2026-10-05",
     "2": "2026-10-20",
-    "3": "2026-10-26"
+    "3": "2026-10-26",
+    "4": "2026-11-05"
   },
-  "summary": "You practiced changing pace on purpose. This week, keep your PREP structure, speed up familiar details and slow down your key point.",
+  "summary": "You practiced a clearer interview introduction using present–past–future, concrete achievements and deliberate pauses. Keep your voice projected and your language conversational.",
   "challenges": [
-    "Prepare your PREP outline first so you can focus on delivery.",
-    "Pause before your key sentence, then slow down to let it land.",
-    "Keep projecting your voice while varying your pace."
+    "Prepare three points each for your present, past and future. Include a concrete achievement and why the role fits your direction.",
+    "Pause for 2–3 seconds before answering and 1–2 seconds between ideas. Use clear transitions and replace filler words with silence.",
+    "Project your voice and use natural expression. If you need more thinking time, try “Let me pull my thoughts together.”"
   ],
   "missions": [
     {
-      "id": "daily-pace",
-      "title": "Warm up with pace",
-      "text": "In your 5–10 minutes of daily practice, start with three exercises in Expand your vocal variety → Pace."
+      "id": "interview-outline",
+      "title": "Prepare your introduction",
+      "text": "Write three points each for present, past and future. Use conversational language and a concrete result from your banking work."
     },
     {
-      "id": "share-pace",
-      "title": "Record and share one answer",
-      "text": "Answer a random question using PREP. Plan where to speed up, pause and slow down, then post your video in the community."
-    },
-    {
-      "id": "pace-win",
-      "title": "Change pace on purpose",
-      "text": "Your win this week: deliberately change speed at least once in your answer. Notice one strength after recording."
+      "id": "interview-video",
+      "title": "Record and share your answer",
+      "text": "Practice “Tell me about yourself” on camera each day. Use transitions, pauses and a projected voice, then share a recording in the community for feedback."
     }
   ],
   "nextCall": {
-    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261102T083000Z",
-    "start": "2026-11-05T12:30:00+04:00",
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261109T083000Z",
+    "start": "2026-11-09T12:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "meetingLink": "https://meet.google.com/oda-koch-ovr",
     "timePending": false
