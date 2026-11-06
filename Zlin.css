@@ -48,3 +48,13 @@
 }
 @media (max-width: 680px) { .zlin-page .z-how { grid-template-columns: 1fr; } }
 .sales-page.zlin-page .s-price s { text-decoration-color: rgba(217,192,111,.8); }
+
+/* curriculum */
+.zlin-page .z-week small { display: block; margin-bottom: 4px; color: var(--gold); font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+.zlin-page .z-week > span { background: var(--gold); color: #10100e; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
+.zlin-page .z-record { display: flex; gap: 18px; align-items: flex-start; max-width: 860px; margin: 40px auto 0; padding: 24px 26px; border: 1px solid var(--gold); border-radius: 18px; background: linear-gradient(135deg, rgba(217,192,111,.14), rgba(217,192,111,.04)); }
+.zlin-page .z-record-ico { flex: none; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 14px; background: var(--gold); font-size: 1.7rem; }
+.zlin-page .z-record small { display: block; color: var(--gold-soft); font-size: .68rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.zlin-page .z-record strong { display: block; margin: 3px 0 6px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1.25; }
+.zlin-page .z-record p { margin: 0; color: var(--text-dim); }
+@media (max-width: 680px) { .zlin-page .z-record { flex-direction: column; } }
