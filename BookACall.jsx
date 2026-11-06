@@ -116,6 +116,7 @@ export default function BookACall() {
           position: relative;
           z-index: 3;
           width: 100%;
+          min-height: 86px;
           display: flex;
           justify-content: flex-end;
           align-items: center;
@@ -133,20 +134,6 @@ export default function BookACall() {
           text-decoration: none;
         }
         .book-logo img { width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 6px 16px rgba(0,0,0,.32)); }
-
-        .book-back {
-          color: var(--text-dim);
-          font-size: .88rem;
-          font-weight: 600;
-          text-decoration: none;
-          border: 1px solid rgba(224,221,212,.18);
-          border-radius: 999px;
-          padding: 9px 16px;
-          background: rgba(10,10,10,.32);
-          backdrop-filter: blur(10px);
-          transition: border-color .2s, color .2s;
-        }
-        .book-back:hover { color: var(--accent); border-color: rgba(217,192,111,.42); }
 
         .book-shell {
           position: relative;
@@ -361,7 +348,6 @@ export default function BookACall() {
         @media (max-width: 520px) {
           .book-nav { padding: 20px; align-items: flex-start; }
           .book-logo { width: 68px; height: 68px; }
-          .book-back { font-size: .8rem; padding: 8px 12px; }
           .book-shell { padding: 20px 16px 34px; gap: 22px; }
           .book-eyebrow { margin-bottom: 12px; }
           .book-title {
@@ -386,7 +372,6 @@ export default function BookACall() {
           <a href="/" className="book-logo" aria-label="The Speaker's Gym home">
             <img src={brandLogo} alt="The Speaker's Gym" />
           </a>
-          <a href="/" className="book-back">Back to site</a>
         </nav>
 
         <section className="book-shell" aria-labelledby="book-call-title">
