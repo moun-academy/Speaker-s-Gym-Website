@@ -1,24 +1,10 @@
-/* Zlín landing page: brick-red accents inspired by the city's red-brick factory architecture, on the dark Speaker's Gym look */
-.sales-page.zlin-page { --brick: #b5402f; --brick-deep: #7d2a1f; --brick-soft: #e0705e; }
-
-/* hero: brick wall texture + Zlín-style skyline along the bottom */
-.zlin-page .s-hero {
-  background:
-    radial-gradient(ellipse at 50% -10%, rgba(181,64,47,.45), transparent 62%),
-    linear-gradient(180deg, #1a100d 0%, #130f0d 70%, #111 100%);
-}
-.zlin-page .s-hero::before {
-  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .9;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='56'%3E%3Cpath d='M0 28H72M0 0H72M36 0V28M0 28V56M72 28V56' fill='none' stroke='rgba(255,255,255,0.045)' stroke-width='2'/%3E%3C/svg%3E");
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%); mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
-}
+/* Zlín landing page: the Speaker's Gym black-and-gold look with a subtle Zlín skyline */
 .zlin-page .s-hero::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: clamp(110px, 18vw, 190px); z-index: 0; pointer-events: none;
   background: url("/zlin/skyline.svg") center bottom / cover no-repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 45%); mask-image: linear-gradient(180deg, transparent, #000 45%);
 }
-.zlin-page .s-hero-glow { background: radial-gradient(ellipse at center, rgba(181,64,47,.22), rgba(181,64,47,0) 62%); }
-.zlin-page .s-kicker { border-color: rgba(224,112,94,.55); color: #f0b3a8; }
+.zlin-page .z-logo { display: block; width: 92px; height: auto; margin: 0 auto 18px; filter: drop-shadow(0 6px 24px rgba(217,192,111,.25)); }
 .sales-page.zlin-page .s-hero-price { margin: 14px auto 0; font-size: .98rem; color: rgba(255,255,255,.82); text-align: center; }
 .sales-page.zlin-page .s-hero-price b { color: var(--gold); }
 
@@ -29,30 +15,42 @@
 @media (prefers-reduced-motion: reduce) { .sales-page.zlin-page .s-btn--xl { animation: none; } }
 .sales-page.zlin-page .s-hero-btns .s-btn--xl { width: min(100%, 460px); }
 
-/* holiday banner text */
+/* holiday banner: gold, not red */
+.sales-page.zlin-page .s-holiday-pill { box-shadow: 0 8px 30px rgba(217,192,111,.14); background: linear-gradient(135deg, rgba(217,192,111,.16), rgba(217,192,111,.06)); border: 1px solid rgba(217,192,111,.55); color: #f4ecd2; }
 .sales-page.zlin-page .s-holiday-pill-text { display: flex; flex-direction: column; gap: 3px; text-align: left; }
-.sales-page.zlin-page .s-holiday-pill-text b { color: #ffd98a; }
+.sales-page.zlin-page .s-holiday-pill-text b { color: var(--gold); }
 .sales-page.zlin-page .s-holiday-pill-text small { font-size: .78rem; font-weight: 500; opacity: .9; }
+.sales-page.zlin-page .s-deal { background: rgba(217,192,111,.14); border: 1px solid rgba(217,192,111,.5); color: var(--gold); }
 
-/* section accents */
-.zlin-page .s-label { color: var(--brick-soft); }
-.zlin-page .s-why-card { border-color: rgba(181,64,47,.35); background: linear-gradient(165deg, #1e1411, var(--surface) 65%); }
-.zlin-page .s-why-card:hover { border-color: rgba(224,112,94,.7); }
-.zlin-page .s-why-card > span { background: rgba(181,64,47,.22); }
 .zlin-page .z-how { grid-template-columns: repeat(4, 1fr); }
-.zlin-page .z-ribbon { background: var(--brick); color: #fff; }
-.zlin-page .s-plan--featured { border-color: var(--brick-soft); background: linear-gradient(165deg, #2a1713, var(--surface) 55%); box-shadow: 0 30px 90px rgba(181,64,47,.18); }
 .zlin-page .z-ask-price { font-size: 2.2rem !important; }
+
+/* about the coach */
+.zlin-page .z-coach { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: clamp(30px, 6vw, 72px); align-items: center; }
+.zlin-page .z-coach .s-coach-photo { max-width: 380px; }
+.zlin-page .z-coach-text h2 { margin: 0 0 14px; font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 4.6vw, 3.4rem); color: var(--text-bright); line-height: 1.08; }
+.zlin-page .z-coach-text h2 em { color: var(--gold); font-weight: 400; }
+.zlin-page .z-coach-text p { color: var(--text); font-size: 1.03rem; }
+.zlin-page .z-coach-text .z-lede { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-bright); line-height: 1.4; }
+.zlin-page .z-creds { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+.zlin-page .z-creds li { display: flex; gap: 12px; align-items: flex-start; color: var(--text); }
+.zlin-page .z-creds svg { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 3px; fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.zlin-page .z-creds b { color: var(--gold-soft); }
+.zlin-page .z-video { position: relative; max-width: 1060px; margin: 56px auto 0; overflow: hidden; border: 1px solid var(--border-strong); border-radius: 20px; background: #000; aspect-ratio: 16 / 9; box-shadow: 0 24px 70px rgba(0,0,0,.5); }
+.zlin-page .z-video video { width: 100%; height: 100%; display: block; object-fit: cover; }
+.zlin-page .z-video-tag { position: absolute; left: 16px; top: 16px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,9,.72); border: 1px solid var(--border-strong); color: var(--gold); font-size: .66rem; font-weight: 800; letter-spacing: .2em; }
 
 /* "this is for you" list */
 .zlin-page .z-for { list-style: none; max-width: 720px; margin: 40px auto 0; padding: 0; display: grid; gap: 14px; }
-.zlin-page .z-for li { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border: 1px solid rgba(181,64,47,.35); border-radius: 14px; background: #1b1311; color: var(--text-bright); font-size: 1.04rem; }
+.zlin-page .z-for li { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border: 1px solid var(--border-strong); border-radius: 14px; background: var(--surface); color: var(--text-bright); font-size: 1.04rem; }
 .zlin-page .z-for svg { flex: 0 0 22px; width: 22px; height: 22px; margin-top: 2px; fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .zlin-page .z-for-cta { margin-top: 38px; }
-.zlin-page .s-final { background: radial-gradient(ellipse at 50% 0%, rgba(181,64,47,.22), transparent 62%); }
 
 @media (max-width: 980px) {
   .zlin-page .z-how { grid-template-columns: repeat(2, 1fr); }
+  .zlin-page .z-coach { grid-template-columns: 1fr; text-align: center; }
+  .zlin-page .z-coach .s-coach-photo { margin: 0 auto; max-width: 320px; }
+  .zlin-page .z-creds li { text-align: left; }
   .sales-page.zlin-page .s-holiday-pill-text { text-align: center; }
   .sales-page.zlin-page .s-holiday-pill { flex-direction: column; gap: 4px; }
 }
