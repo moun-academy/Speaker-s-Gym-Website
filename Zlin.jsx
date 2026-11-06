@@ -17,6 +17,7 @@ const RESERVE_URL = whatsappLink("Hello Speaker's Gym team, I'd like to reserve 
 /* Prices are in Czech crowns, per person. The holiday offer halves the regular price. */
 const LIST_PRICE = 4000;
 const DEAL_PRICE = 2000;
+const ONE_PRICE = 3000;
 const GROUP_MAX = 10;
 const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
 
@@ -67,31 +68,6 @@ const FAQS = [
   ["What is the holiday season offer?", `The in-person group is ${kc(DEAL_PRICE)} per person instead of ${kc(LIST_PRICE)}. Prices are in Czech crowns.`],
   ["How do I reserve my spot?", "Book a free discovery call or message us on WhatsApp. We will answer your questions and send you the details to confirm your place."],
 ];
-
-/* Workshop highlights: loads and plays only when it is on screen. */
-function HighlightVideo() {
-  const ref = useRef(null);
-  const [src, setSrc] = useState(null);
-  useEffect(() => {
-    const v = ref.current;
-    if (!v || !("IntersectionObserver" in window)) return undefined;
-    const small = window.matchMedia("(max-width: 760px)").matches;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        setSrc((cur) => cur || (small ? "/media/hero-bg-mobile.mp4" : "/media/hero-bg.mp4"));
-        v.play().catch(() => {});
-      } else v.pause();
-    }, { threshold: 0.25 });
-    io.observe(v);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <figure className="z-video">
-      <video ref={ref} src={src || undefined} poster="/media/about-highlight-poster.webp" muted loop playsInline preload="none" aria-label="Highlights from Marouane's workshops" />
-      <span className="z-video-tag">WORKSHOP HIGHLIGHTS</span>
-    </figure>
-  );
-}
 
 function Reveal({ children, delay = 0, className = "", instant = false }) {
   const ref = useRef(null);
@@ -231,7 +207,6 @@ export default function Zlin() {
             </div>
           </Reveal>
         </div>
-        <Reveal><HighlightVideo /></Reveal>
       </section>
 
       {/* ── RESULTS ── */}
@@ -242,8 +217,8 @@ export default function Zlin() {
           <p className="s-sub">Workshop participants, in their own words.</p>
         </Reveal>
         <div className="s-videos">
-          {VIDEOS.slice(0, 3).map(([id, name, role, quote], i) => (
-            <Reveal key={id} delay={i * 100}>
+          {VIDEOS.map(([id, name, role, quote], i) => (
+            <Reveal key={id} delay={(i % 3) * 100}>
               <figure className="s-video">
                 <div className="s-embed"><YouTubeEmbed id={id} title={`${name}'s testimonial`} /></div>
                 <figcaption>
@@ -304,8 +279,8 @@ export default function Zlin() {
               <h3>Private coaching with Marouane</h3>
               <p className="s-plan-desc">The same 4-week intensive, one-to-one and fully online. Every session built around you.</p>
               <div className="s-price">
-                <strong className="z-ask-price">Let's talk</strong>
-                <span>Book a free call and we will tell you the price and the next available start.</span>
+                <strong>{kc(ONE_PRICE)}</strong>
+                <span>per person · 4 weeks · live online</span>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={18} /> Book a free discovery call</a>

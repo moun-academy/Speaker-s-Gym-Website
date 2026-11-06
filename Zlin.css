@@ -1,9 +1,4 @@
-/* Zlín landing page: the Speaker's Gym black-and-gold look with a subtle Zlín skyline */
-.zlin-page .s-hero::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: clamp(110px, 18vw, 190px); z-index: 0; pointer-events: none;
-  background: url("/zlin/skyline.svg") center bottom / cover no-repeat;
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 45%); mask-image: linear-gradient(180deg, transparent, #000 45%);
-}
+/* Zlín landing page: the Speaker's Gym black-and-gold look */
 .zlin-page .z-logo { display: block; width: 92px; height: auto; margin: 0 auto 18px; filter: drop-shadow(0 6px 24px rgba(217,192,111,.25)); }
 .sales-page.zlin-page .s-hero-price { margin: 14px auto 0; font-size: .98rem; color: rgba(255,255,255,.82); text-align: center; }
 .sales-page.zlin-page .s-hero-price b { color: var(--gold); }
@@ -23,7 +18,6 @@
 .sales-page.zlin-page .s-deal { background: rgba(217,192,111,.14); border: 1px solid rgba(217,192,111,.5); color: var(--gold); }
 
 .zlin-page .z-how { grid-template-columns: repeat(4, 1fr); }
-.zlin-page .z-ask-price { font-size: 2.2rem !important; }
 
 /* about the coach */
 .zlin-page .z-coach { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: clamp(30px, 6vw, 72px); align-items: center; }
@@ -32,13 +26,11 @@
 .zlin-page .z-coach-text h2 em { color: var(--gold); font-weight: 400; }
 .zlin-page .z-coach-text p { color: var(--text); font-size: 1.03rem; }
 .zlin-page .z-coach-text .z-lede { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-bright); line-height: 1.4; }
+
 .zlin-page .z-creds { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
 .zlin-page .z-creds li { display: flex; gap: 12px; align-items: flex-start; color: var(--text); }
 .zlin-page .z-creds svg { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 3px; fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .zlin-page .z-creds b { color: var(--gold-soft); }
-.zlin-page .z-video { position: relative; max-width: 1060px; margin: 56px auto 0; overflow: hidden; border: 1px solid var(--border-strong); border-radius: 20px; background: #000; aspect-ratio: 16 / 9; box-shadow: 0 24px 70px rgba(0,0,0,.5); }
-.zlin-page .z-video video { width: 100%; height: 100%; display: block; object-fit: cover; }
-.zlin-page .z-video-tag { position: absolute; left: 16px; top: 16px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,9,.72); border: 1px solid var(--border-strong); color: var(--gold); font-size: .66rem; font-weight: 800; letter-spacing: .2em; }
 
 /* "this is for you" list */
 .zlin-page .z-for { list-style: none; max-width: 720px; margin: 40px auto 0; padding: 0; display: grid; gap: 14px; }
@@ -55,3 +47,4 @@
   .sales-page.zlin-page .s-holiday-pill { flex-direction: column; gap: 4px; }
 }
 @media (max-width: 680px) { .zlin-page .z-how { grid-template-columns: 1fr; } }
+.sales-page.zlin-page .s-price s { text-decoration-color: rgba(217,192,111,.8); }
