@@ -20,6 +20,14 @@ const salesLinks = [
   ["Contact Us", "#contact"],
 ];
 
+const zlinLinks = [
+  ["Outcomes", "#outcomes"],
+  ["How It Works", "#how"],
+  ["Plans", "#plans"],
+  ["FAQ", "#faq"],
+  ["Contact Us", "#contact"],
+];
+
 const corporateLinks = [
   ["Overview", "#overview"],
   ["Method", "#method"],
@@ -30,7 +38,7 @@ const corporateLinks = [
 
 export function SiteHeader({ page = "home" , ctaCall }) {
   const [open, setOpen] = useState(false);
-  const links = page === "sales" ? salesLinks : page === "corporate" ? corporateLinks : homeLinks;
+  const links = page === "sales" ? salesLinks : page === "zlin" ? zlinLinks : page === "corporate" ? corporateLinks : homeLinks;
   const splitAt = Math.ceil(links.length / 2);
   const leftLinks = links.slice(0, splitAt);
   const rightLinks = links.slice(splitAt);
@@ -61,7 +69,7 @@ export function SiteHeader({ page = "home" , ctaCall }) {
           </a>
           <div className="nav-links nav-links--right">
             {rightLinks.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
-            {page === "sales" && ctaCall ? <a href={BOOK_URL} className="nav-cta" target="_blank" rel="noopener noreferrer">Book a Free Call</a> : page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : page === "corporate" ? <a href="#contact" className="nav-cta">Request a Proposal</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
+            {(page === "sales" || page === "zlin") && ctaCall ? <a href={BOOK_URL} className="nav-cta" target="_blank" rel="noopener noreferrer">Book a Free Call</a> : page === "sales" ? <a href="#plans" className="nav-cta">Enroll Now</a> : page === "corporate" ? <a href="#contact" className="nav-cta">Request a Proposal</a> : <a href={BOOK_URL} className="nav-cta">Book a Call</a>}
           </div>
           <button
             className="nav-hamburger"
@@ -96,7 +104,7 @@ export function SiteHeader({ page = "home" , ctaCall }) {
                 </a>
               ))}
             </div>
-            {page === "sales" && ctaCall
+            {(page === "sales" || page === "zlin") && ctaCall
               ? <a href={BOOK_URL} className="btn-primary mobile-menu-cta" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>Book a Free Discovery Call</a>
               : page === "sales"
               ? <a href="#plans" className="btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Enroll Now</a>
