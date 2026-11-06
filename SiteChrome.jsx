@@ -24,6 +24,7 @@ const zlinLinks = [
   ["Outcomes", "#outcomes"],
   ["Your Coach", "#coach"],
   ["Results", "#results"],
+  ["Curriculum", "#curriculum"],
   ["Plans", "#plans"],
   ["FAQ", "#faq"],
   ["Contact Us", "#contact"],

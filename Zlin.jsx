@@ -30,10 +30,17 @@ const OUTCOMES = [
 ];
 
 const HOW = [
-  ["🤝", "Weekly coaching", "A weekly in-person coaching session in Zlín for the group. Private sessions are online for 1-on-1."],
+  ["🤝", "Weekly coaching", "A weekly in-person coaching session in Zlín for the group. Private 1-on-1 sessions are online and last 90 minutes."],
   ["📱", "Practice every day", "The Speaker's Gym app gives you a daily speaking rep, so practice becomes a habit."],
   ["💬", "Feedback every day", "In our online community, we give you feedback every single day."],
   ["📲", "We follow up with you", "We stay in touch on WhatsApp and in the school community, so your momentum never drops."],
+];
+
+const CURRICULUM = [
+  ["Speak on the spot", "Learn to organize your thoughts and answer in the moment, without rehearsing every sentence."],
+  ["Volume and vocal variety", "Use your volume and the variety in your voice, so people hear what you mean."],
+  ["Pace", "Control your pace and speak in an influential way."],
+  ["The pitch", "Bring it all together in a pitch. Then we apply everything in a gamified challenge, like an interview or a speech that needs every skill."],
 ];
 
 const GROUP_LIST = [
@@ -45,7 +52,7 @@ const GROUP_LIST = [
 ];
 
 const ONE_LIST = [
-  "Weekly 1-on-1 coaching sessions, live online",
+  "Weekly 90-minute 1-on-1 coaching session, live online",
   "Every session built around you and your goals",
   "Speaker's Gym app: practice every day",
   "Online community: feedback every single day",
@@ -64,6 +71,7 @@ const FAQS = [
   ["Where and when does it take place?", "In Zlín, Czech Republic. We confirm the venue and the start date when you reserve your spot, so book a free call or message us on WhatsApp."],
   ["Is the program in English?", "Yes. It is for people who already speak English and want to take it to the next level: speaking on the spot and speaking in an influential way."],
   ["What is the Speaker's Gym app?", "Your daily practice. You do a short speaking rep every day and get feedback, so improving feels like a game and not like homework."],
+  ["How long are the sessions?", "The 1-on-1 coaching session is 90 minutes, once a week, for 4 weeks. The group meets in person in Zlín every week."],
   ["How do I get feedback between sessions?", "Every day, in our online community. We also follow up with you on WhatsApp and in the school community."],
   ["What is the holiday season offer?", `The in-person group is ${kc(DEAL_PRICE)} per person instead of ${kc(LIST_PRICE)}. Prices are in Czech crowns.`],
   ["How do I reserve my spot?", "Book a free discovery call or message us on WhatsApp. We will answer your questions and send you the details to confirm your place."],
@@ -197,7 +205,8 @@ export default function Zlin() {
               <p className="s-label s-label--left">Your communication coach</p>
               <h2>Hi, I'm <em>Marouane.</em></h2>
               <p className="z-lede">I'm a communication coach. I have mentored people in Dubai and Montréal for the past 6 years.</p>
-              <p>I help professionals speak on the spot and speak with influence, through structured practice, honest feedback and a system that works in real situations.</p>
+              <p>I have taken shy people and transformed them into confident communicators, by simply changing how they structure their thoughts and how they think about what they are about to say.</p>
+              <p>I can watch what you do when you speak and tell you the exact point you need to work on, so you improve faster.</p>
               <ul className="z-creds">
                 <li><Check /><span><b>6 years</b> mentoring people in Dubai and Montréal</span></li>
                 <li><Check /><span>Founder of <b>The Speaker's Gym</b> and the Speaker's Gym app</span></li>
@@ -229,6 +238,37 @@ export default function Zlin() {
             </Reveal>
           ))}
         </div>
+      </section>
+
+      {/* ── CURRICULUM ── */}
+      <section className="s-section" id="curriculum">
+        <Reveal>
+          <p className="s-label">The curriculum</p>
+          <h2 className="s-title">Four weeks. <em>Every skill builds on the one before.</em></h2>
+          <p className="s-sub">One focus each week, and each week stacks on the last.</p>
+        </Reveal>
+        <div className="s-why z-how">
+          {CURRICULUM.map(([title, text], i) => (
+            <Reveal key={title} delay={i * 90}>
+              <article className="s-why-card z-week">
+                <span aria-hidden="true">{i + 1}</span>
+                <small>Week {i + 1}</small>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <div className="z-record">
+            <span className="z-record-ico" aria-hidden="true">🎥</span>
+            <div>
+              <small>Gamified, with video feedback</small>
+              <strong>We record you, and you see exactly what we see.</strong>
+              <p>You watch how you use your hand gestures and your voice. Then we tell you the exact point to improve, and you play again.</p>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── HOW IT WORKS ── */}
@@ -280,7 +320,7 @@ export default function Zlin() {
               <p className="s-plan-desc">The same 4-week intensive, one-to-one and fully online. Every session built around you.</p>
               <div className="s-price">
                 <strong>{kc(ONE_PRICE)}</strong>
-                <span>per person · 4 weeks · live online</span>
+                <span>per person · 4 weeks · weekly 90-minute sessions, live online</span>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={18} /> Book a free discovery call</a>
