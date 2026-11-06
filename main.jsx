@@ -19,6 +19,7 @@ const SalesPage = lazy(() => import('./Sales.jsx'))
 const SalesUAEPage = lazy(() => import('./SalesUAE.jsx'))
 const SalesEuropePage = lazy(() => import('./SalesEurope.jsx'))
 const CorporatePage = lazy(() => import('./Corporate.jsx'))
+const ZlinPage = lazy(() => import('./Zlin.jsx'))
 const SalesQatarPage = lazy(() => import('./SalesQatar.jsx'))
 
 installCalendlyBookingTracking({ redirectTo: '/success' })
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/aed" element={<Navigate to="/uae" replace />} />
         <Route path="/europe" element={<Suspense fallback={null}><SalesEuropePage /></Suspense>} />
         <Route path="/qatar" element={<Suspense fallback={null}><SalesQatarPage /></Suspense>} />
+        <Route path="/zlin" element={<Suspense fallback={null}><ZlinPage /></Suspense>} />
         <Route path="/corporate" element={<Suspense fallback={null}><CorporatePage /></Suspense>} />
         {/* The private presentation was removed; send old links to the homepage */}
         <Route path="/private/speakers-gym-program" element={<Navigate to="/" replace />} />
