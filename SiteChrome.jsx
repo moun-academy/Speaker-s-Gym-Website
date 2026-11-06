@@ -22,7 +22,8 @@ const salesLinks = [
 
 const zlinLinks = [
   ["Outcomes", "#outcomes"],
-  ["How It Works", "#how"],
+  ["Your Coach", "#coach"],
+  ["Results", "#results"],
   ["Plans", "#plans"],
   ["FAQ", "#faq"],
   ["Contact Us", "#contact"],

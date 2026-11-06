@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL, WHATSAPP_NUMBER, WHATSAPP_URL, whatsappLink } from "./siteConfig.js";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
+import HeroVideo from "./HeroVideo.jsx";
+import YouTubeEmbed from "./YouTubeEmbed.jsx";
+import { VIDEOS } from "./testimonials.js";
+import marouanePhoto from "./Marouane.webp";
+import brandLogo from "./Logo.webp";
 import "./Sales.css";
 import "./Zlin.css";
 
@@ -63,6 +68,31 @@ const FAQS = [
   ["How do I reserve my spot?", "Book a free discovery call or message us on WhatsApp. We will answer your questions and send you the details to confirm your place."],
 ];
 
+/* Workshop highlights: loads and plays only when it is on screen. */
+function HighlightVideo() {
+  const ref = useRef(null);
+  const [src, setSrc] = useState(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || !("IntersectionObserver" in window)) return undefined;
+    const small = window.matchMedia("(max-width: 760px)").matches;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setSrc((cur) => cur || (small ? "/media/hero-bg-mobile.mp4" : "/media/hero-bg.mp4"));
+        v.play().catch(() => {});
+      } else v.pause();
+    }, { threshold: 0.25 });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <figure className="z-video">
+      <video ref={ref} src={src || undefined} poster="/media/about-highlight-poster.webp" muted loop playsInline preload="none" aria-label="Highlights from Marouane's workshops" />
+      <span className="z-video-tag">WORKSHOP HIGHLIGHTS</span>
+    </figure>
+  );
+}
+
 function Reveal({ children, delay = 0, className = "", instant = false }) {
   const ref = useRef(null);
   const [on, setOn] = useState(instant);
@@ -96,14 +126,6 @@ function Snow() {
   );
 }
 
-function Lights() {
-  return (
-    <div className="s-lights" aria-hidden="true">
-      {Array.from({ length: 34 }, (_, i) => <i key={i} style={{ "--l": i }} />)}
-    </div>
-  );
-}
-
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -124,14 +146,15 @@ export default function Zlin() {
   }, []);
 
   return (
-    <div className="sales-page zlin-page s-holiday s-lean">
+    <div className="sales-page zlin-page s-lean">
       <SiteHeader page="zlin" ctaCall />
 
       {/* ── HERO ── */}
       <header className="s-hero">
+        <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
         <Snow />
-        <Lights />
+        <Reveal instant><img className="z-logo" src={brandLogo} alt="The Speaker's Gym" width="120" height="120" /></Reveal>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In-person 4-week intensive</p></Reveal>
         <Reveal instant>
           <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
@@ -141,13 +164,13 @@ export default function Zlin() {
             </span>
           </p>
         </Reveal>
-        <Reveal instant delay={80}><h1>Already speak English? Become a <em>communicator.</em></h1></Reveal>
+        <Reveal instant delay={80}><h1>Take your English communication to the <em>next level.</em></h1></Reveal>
         <Reveal instant delay={160}>
-          <p className="s-hero-sub">A 4-week intensive in Zlín. Speak on the spot, speak in an influential way and take your communication to the next level, in a gamified way.</p>
+          <p className="s-hero-sub">A 4-week in-person intensive in Zlín for people who speak English and want to communicate with more impact. Speak on the spot and speak in an influential way, in a gamified way.</p>
         </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
-            {[["Knowing the words", "Using them on the spot"], ["Being understood", "Being influential"], ["Good English", "Next-level communicator"]].map(([a, b]) => (
+            {[["Rehearsing every sentence", "Speaking on the spot"], ["Being understood", "Being influential"], ["Good English", "Next-level communicator"]].map(([a, b]) => (
               <span key={a}><s>{a}</s><i aria-hidden="true">→</i><b>{b}</b></span>
             ))}
           </div>
@@ -185,6 +208,54 @@ export default function Zlin() {
         </div>
       </section>
 
+      {/* ── COACH ── */}
+      <section className="s-section s-section--tint" id="coach">
+        <div className="z-coach">
+          <Reveal>
+            <div className="z-coach-media">
+              <div className="s-coach-photo"><img src={marouanePhoto} alt="Marouane Al Mandri, communication coach" loading="lazy" /></div>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="z-coach-text">
+              <p className="s-label s-label--left">Your communication coach</p>
+              <h2>Hi, I'm <em>Marouane.</em></h2>
+              <p className="z-lede">I'm a communication coach. I have mentored people in Dubai and Montréal for the past 6 years.</p>
+              <p>I help professionals speak on the spot and speak with influence, through structured practice, honest feedback and a system that works in real situations.</p>
+              <ul className="z-creds">
+                <li><Check /><span><b>6 years</b> mentoring people in Dubai and Montréal</span></li>
+                <li><Check /><span>Founder of <b>The Speaker's Gym</b> and the Speaker's Gym app</span></li>
+                <li><Check /><span>Creator of the <b>MOUN Academy</b> communication course</span></li>
+                <li><Check /><span>Now coaching in person in <b>Zlín</b></span></li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal><HighlightVideo /></Reveal>
+      </section>
+
+      {/* ── RESULTS ── */}
+      <section className="s-section" id="results">
+        <Reveal>
+          <p className="s-label">Results</p>
+          <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
+          <p className="s-sub">Workshop participants, in their own words.</p>
+        </Reveal>
+        <div className="s-videos">
+          {VIDEOS.slice(0, 3).map(([id, name, role, quote], i) => (
+            <Reveal key={id} delay={i * 100}>
+              <figure className="s-video">
+                <div className="s-embed"><YouTubeEmbed id={id} title={`${name}'s testimonial`} /></div>
+                <figcaption>
+                  <blockquote>“{quote}”</blockquote>
+                  <cite><b>{name}</b>{role && <span>{role}</span>}</cite>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── HOW IT WORKS ── */}
       <section className="s-section s-section--tint" id="how">
         <Reveal>
@@ -211,7 +282,7 @@ export default function Zlin() {
         <div className="s-plans">
           <Reveal>
             <article className="s-plan s-plan--featured" id="in-person">
-              <span className="s-ribbon z-ribbon">IN PERSON · ZLÍN</span>
+              <span className="s-ribbon">IN PERSON · ZLÍN</span>
               <p className="s-plan-tag">IN-PERSON GROUP · MAX {GROUP_MAX}</p>
               <h3>Small-group intensive in Zlín</h3>
               <p className="s-plan-desc">Four weeks of in-person coaching with a group of up to {GROUP_MAX} people. Practice with real people, face to face.</p>
