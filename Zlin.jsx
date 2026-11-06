@@ -24,57 +24,57 @@ const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
 const cx = (...c) => c.filter(Boolean).join(" ");
 
 const OUTCOMES = [
-  ["🎯", "Speak on the spot", "Answer questions, join discussions and share ideas in English without freezing or over-preparing."],
-  ["🔥", "Speak in an influential way", "Be clear, convincing and memorable, so people listen and act on what you say."],
-  ["🚀", "Take your communication to the next level", "Go from speaking English well to communicating like a leader."],
+  ["🎯", "Speak on the spot", "Answer with clarity the moment you are asked. No scripts. No hesitation."],
+  ["🔥", "Speak with influence", "Be clear and persuasive. Make people listen, and act."],
+  ["🚀", "Reach the next level", "Move from speaking English well to communicating like a leader."],
 ];
 
 const HOW = [
-  ["🤝", "Weekly coaching", "A weekly in-person coaching session in Zlín for the group. Private 1-on-1 sessions are online and last 90 minutes."],
-  ["📱", "Practice every day", "The Speaker's Gym app gives you a daily speaking rep, so practice becomes a habit."],
-  ["💬", "Feedback every day", "In our online community, we give you feedback every single day."],
-  ["📲", "We follow up with you", "We stay in touch on WhatsApp and in the school community, so your momentum never drops."],
+  ["🤝", "Weekly coaching", "One session a week. In person in Zlín for the group, 90 minutes online for 1-on-1."],
+  ["📱", "Daily practice", "A daily speaking rep in the Speaker's Gym app. Practice becomes a habit."],
+  ["💬", "Daily feedback", "We review your work in our online community, every day."],
+  ["📲", "Ongoing follow-up", "We stay in touch on WhatsApp and in the school community."],
 ];
 
 const CURRICULUM = [
-  ["Speak on the spot", "Learn to organize your thoughts and answer in the moment, without rehearsing every sentence."],
-  ["Volume and vocal variety", "Use your volume and the variety in your voice, so people hear what you mean."],
-  ["Pace", "Control your pace and speak in an influential way."],
-  ["The pitch", "Bring it all together in a pitch. Then we apply everything in a gamified challenge, like an interview or a speech that needs every skill."],
+  ["Speak on the spot", "Organize your thoughts in seconds and answer without rehearsing."],
+  ["Volume and vocal variety", "Use volume and vocal range so your message lands."],
+  ["Pace", "Control your pace. Speak with composure and influence."],
+  ["The pitch", "Bring every skill together in one pitch, then prove it in a gamified challenge, such as an interview or a speech."],
 ];
 
 const GROUP_LIST = [
-  "Weekly in-person coaching sessions in Zlín",
-  `In person, in a group of max ${GROUP_MAX} people`,
-  "Speaker's Gym app: practice every day",
-  "Online community: feedback every single day",
+  "Weekly in-person coaching in Zlín",
+  `Small group, maximum ${GROUP_MAX} people`,
+  "Daily practice in the Speaker's Gym app",
+  "Daily feedback in our online community",
   "Follow-up on WhatsApp and in the school community",
 ];
 
 const ONE_LIST = [
-  "Weekly 90-minute 1-on-1 coaching session, live online",
-  "Every session built around you and your goals",
-  "Speaker's Gym app: practice every day",
-  "Online community: feedback every single day",
+  "Weekly 90-minute private session, live online",
+  "Built around your goals",
+  "Daily practice in the Speaker's Gym app",
+  "Daily feedback in our online community",
   "Follow-up on WhatsApp and in the school community",
 ];
 
 const FOR_YOU = [
-  "You already speak English and want to use it with more ease.",
-  "You want to speak on the spot, without rehearsing every sentence.",
-  "You want to sound clear, confident and influential in meetings and conversations.",
-  "You learn best with real people in the room, and a bit of play.",
+  "You speak English and want to speak it with command.",
+  "You want to answer on the spot, without rehearsing.",
+  "You want to sound clear, confident and influential.",
+  "You learn best face to face, and through play.",
 ];
 
 const FAQS = [
-  ["Is the group really in person?", `Yes. The group is in person in Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
-  ["Where and when does it take place?", "In Zlín, Czech Republic. We confirm the venue and the start date when you reserve your spot, so book a free call or message us on WhatsApp."],
-  ["Is the program in English?", "Yes. It is for people who already speak English and want to take it to the next level: speaking on the spot and speaking in an influential way."],
-  ["What is the Speaker's Gym app?", "Your daily practice. You do a short speaking rep every day and get feedback, so improving feels like a game and not like homework."],
-  ["How long are the sessions?", "The 1-on-1 coaching session is 90 minutes, once a week, for 4 weeks. The group meets in person in Zlín every week."],
-  ["How do I get feedback between sessions?", "Every day, in our online community. We also follow up with you on WhatsApp and in the school community."],
-  ["What is the holiday season offer?", `The in-person group is ${kc(DEAL_PRICE)} per person instead of ${kc(LIST_PRICE)}. Prices are in Czech crowns.`],
-  ["How do I reserve my spot?", "Book a free discovery call or message us on WhatsApp. We will answer your questions and send you the details to confirm your place."],
+  ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
+  ["Where and when does it take place?", "In Zlín, Czech Republic. We confirm the venue and start date when you reserve your spot."],
+  ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
+  ["What is the Speaker's Gym app?", "Your daily practice: a short speaking rep each day, with feedback. It feels like a game, not homework."],
+  ["How long are the sessions?", "The 1-on-1 session lasts 90 minutes, weekly, for four weeks. The group meets in person in Zlín every week."],
+  ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
+  ["What is the holiday offer?", `The in-person group costs ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}.`],
+  ["How do I reserve a spot?", "Book a free discovery call or message us on WhatsApp. We will confirm your place."],
 ];
 
 function Reveal({ children, delay = 0, className = "", instant = false }) {
@@ -99,16 +99,6 @@ function CalendarIcon({ size = 18 }) {
 }
 
 const Check = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>;
-
-function Snow() {
-  return (
-    <div className="s-snow" aria-hidden="true">
-      {Array.from({ length: 26 }, (_, i) => (
-        <i key={i} style={{ left: `${(i * 37) % 100}%`, width: `${3 + ((i * 3) % 5)}px`, height: `${3 + ((i * 3) % 5)}px`, opacity: 0.3 + ((i * 13) % 45) / 100, animationDuration: `${10 + ((i * 7) % 9)}s`, animationDelay: `${-((i * 5) % 14)}s` }} />
-      ))}
-    </div>
-  );
-}
 
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
@@ -137,24 +127,23 @@ export default function Zlin() {
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
-        <Snow />
         <Reveal instant><img className="z-logo" src={brandLogo} alt="The Speaker's Gym" width="120" height="120" /></Reveal>
-        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In-person 4-week intensive</p></Reveal>
+        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In person · Four weeks</p></Reveal>
         <Reveal instant>
           <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
             <span className="s-holiday-pill-text">
-              <span>Holiday season offer: <b>{kc(DEAL_PRICE)}</b> per person instead of {kc(LIST_PRICE)}</span>
-              <small>In person in Zlín · max {GROUP_MAX} people</small>
+              <span>Holiday offer: <b>{kc(DEAL_PRICE)}</b> per person, down from {kc(LIST_PRICE)}</span>
+              <small>In person in Zlín · limited to {GROUP_MAX} people</small>
             </span>
           </p>
         </Reveal>
-        <Reveal instant delay={80}><h1>Take your English communication to the <em>next level.</em></h1></Reveal>
+        <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
         <Reveal instant delay={160}>
-          <p className="s-hero-sub">A 4-week in-person intensive in Zlín for people who speak English and want to communicate with more impact. Speak on the spot and speak in an influential way, in a gamified way.</p>
+          <p className="s-hero-sub">A four-week intensive in Zlín, for professionals who already speak English and want to lead with it.</p>
         </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
-            {[["Rehearsing every sentence", "Speaking on the spot"], ["Being understood", "Being influential"], ["Good English", "Next-level communicator"]].map(([a, b]) => (
+            {[["Rehearsed", "Spontaneous"], ["Understood", "Influential"], ["Fluent", "Commanding"]].map(([a, b]) => (
               <span key={a}><s>{a}</s><i aria-hidden="true">→</i><b>{b}</b></span>
             ))}
           </div>
@@ -165,12 +154,12 @@ export default function Zlin() {
           </div>
         </Reveal>
         <Reveal instant delay={330}>
-          <p className="s-hero-price">In person in Zlín from <b>{kc(DEAL_PRICE)}</b> · 4 weeks · max {GROUP_MAX} people</p>
+          <p className="s-hero-price">In person in Zlín from <b>{kc(DEAL_PRICE)}</b> · Four weeks · {GROUP_MAX} seats</p>
         </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
             <li><Check />In person in Zlín</li>
-            <li><Check />4-week intensive</li>
+            <li><Check />Four-week intensive</li>
             <li><Check />Daily practice and feedback</li>
           </ul>
         </Reveal>
@@ -179,9 +168,9 @@ export default function Zlin() {
       {/* ── OUTCOMES ── */}
       <section className="s-section" id="outcomes">
         <Reveal>
-          <p className="s-label">What you walk away with</p>
-          <h2 className="s-title">Speak on the spot. <em>Speak with influence.</em></h2>
-          <p className="s-sub">For people who already speak English and are ready for the next level.</p>
+          <p className="s-label">The outcome</p>
+          <h2 className="s-title">Think clearly. <em>Speak powerfully.</em></h2>
+          <p className="s-sub">Built for professionals who already speak English.</p>
         </Reveal>
         <div className="s-why">
           {OUTCOMES.map(([icon, title, text], i) => (
@@ -203,14 +192,14 @@ export default function Zlin() {
           <Reveal delay={100}>
             <div className="z-coach-text">
               <p className="s-label s-label--left">Your communication coach</p>
-              <h2>Hi, I'm <em>Marouane.</em></h2>
-              <p className="z-lede">I'm a communication coach. I have mentored people in Dubai and Montréal for the past 6 years.</p>
-              <p>I have taken shy people and transformed them into confident communicators, by simply changing how they structure their thoughts and how they think about what they are about to say.</p>
-              <p>I can watch what you do when you speak and tell you the exact point you need to work on, so you improve faster.</p>
+              <h2>Marouane <em>Al Mandri</em></h2>
+              <p className="z-lede">I have mentored people in Dubai and Montréal for six years.</p>
+              <p>I turn shy people into confident communicators. Not with tricks, but by changing how they structure their thoughts, and how they think about what they are about to say.</p>
+              <p>I watch how you speak, and tell you the one thing to fix next.</p>
               <ul className="z-creds">
-                <li><Check /><span><b>6 years</b> mentoring people in Dubai and Montréal</span></li>
-                <li><Check /><span>Founder of <b>The Speaker's Gym</b> and the Speaker's Gym app</span></li>
-                <li><Check /><span>Creator of the <b>MOUN Academy</b> communication course</span></li>
+                <li><Check /><span><b>Six years</b> mentoring in Dubai and Montréal</span></li>
+                <li><Check /><span>Founder of <b>The Speaker's Gym</b> and its app</span></li>
+                <li><Check /><span>Creator of the <b>MOUN Academy</b> course</span></li>
                 <li><Check /><span>Now coaching in person in <b>Zlín</b></span></li>
               </ul>
             </div>
@@ -222,7 +211,7 @@ export default function Zlin() {
       <section className="s-section" id="results">
         <Reveal>
           <p className="s-label">Results</p>
-          <h2 className="s-title">Don't take our word for it. <em>Take theirs.</em></h2>
+          <h2 className="s-title">Hear it from <em>them.</em></h2>
           <p className="s-sub">Workshop participants, in their own words.</p>
         </Reveal>
         <div className="s-videos">
@@ -244,8 +233,8 @@ export default function Zlin() {
       <section className="s-section" id="curriculum">
         <Reveal>
           <p className="s-label">The curriculum</p>
-          <h2 className="s-title">Four weeks. <em>Every skill builds on the one before.</em></h2>
-          <p className="s-sub">One focus each week, and each week stacks on the last.</p>
+          <h2 className="s-title">Four weeks. <em>Each skill builds on the last.</em></h2>
+          <p className="s-sub">One focus per week.</p>
         </Reveal>
         <div className="s-why z-how">
           {CURRICULUM.map(([title, text], i) => (
@@ -263,9 +252,9 @@ export default function Zlin() {
           <div className="z-record">
             <span className="z-record-ico" aria-hidden="true">🎥</span>
             <div>
-              <small>Gamified, with video feedback</small>
-              <strong>We record you, and you see exactly what we see.</strong>
-              <p>You watch how you use your hand gestures and your voice. Then we tell you the exact point to improve, and you play again.</p>
+              <small>Gamified, with video</small>
+              <strong>We record you. You see what we see.</strong>
+              <p>Watch your gestures and your voice on screen. We pinpoint exactly what to improve, and you go again.</p>
             </div>
           </div>
         </Reveal>
@@ -274,9 +263,9 @@ export default function Zlin() {
       {/* ── HOW IT WORKS ── */}
       <section className="s-section s-section--tint" id="how">
         <Reveal>
-          <p className="s-label">4 weeks. Gamified.</p>
-          <h2 className="s-title">Practice that feels like a game, <em>coaching that gets results.</em></h2>
-          <p className="s-sub">Every week you meet, every day you practice, and you are never on your own.</p>
+          <p className="s-label">How it works</p>
+          <h2 className="s-title">Practice daily. <em>Improve weekly.</em></h2>
+          <p className="s-sub">You are never practicing alone.</p>
         </Reveal>
         <div className="s-why z-how">
           {HOW.map(([icon, title, text], i) => (
@@ -290,22 +279,22 @@ export default function Zlin() {
       {/* ── PLANS ── */}
       <section className="s-section" id="plans">
         <Reveal>
-          <p className="s-label">Holiday season offer</p>
-          <h2 className="s-title">Train in your own city. <em>Face to face.</em></h2>
-          <p className="s-sub">Choose the in-person group in Zlín, or private coaching online. Prices are in Czech crowns (Kč) per person.</p>
+          <p className="s-label">Holiday offer</p>
+          <h2 className="s-title">Train in your city. <em>Face to face.</em></h2>
+          <p className="s-sub">Two ways to join. Prices are in Czech crowns, per person.</p>
         </Reveal>
         <div className="s-plans">
           <Reveal>
             <article className="s-plan s-plan--featured" id="in-person">
               <span className="s-ribbon">IN PERSON · ZLÍN</span>
               <p className="s-plan-tag">IN-PERSON GROUP · MAX {GROUP_MAX}</p>
-              <h3>Small-group intensive in Zlín</h3>
-              <p className="s-plan-desc">Four weeks of in-person coaching with a group of up to {GROUP_MAX} people. Practice with real people, face to face.</p>
+              <h3>The Zlín intensive</h3>
+              <p className="s-plan-desc">Four weeks, face to face, with a small group of up to {GROUP_MAX}.</p>
               <div className="s-price">
                 <s>{kc(LIST_PRICE)}</s>
                 <strong>{kc(DEAL_PRICE)}</strong>
-                <span>per person · 4 weeks</span>
-                <em className="s-deal">Holiday season offer · you save {kc(LIST_PRICE - DEAL_PRICE)}</em>
+                <span>per person · Four weeks</span>
+                <em className="s-deal">Holiday offer · save {kc(LIST_PRICE - DEAL_PRICE)}</em>
               </div>
               <ul className="s-list">{GROUP_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Reserve my spot <span aria-hidden="true">→</span></a>
@@ -316,11 +305,11 @@ export default function Zlin() {
             <article className="s-plan">
               <span className="s-ribbon s-ribbon--quiet">ONLINE</span>
               <p className="s-plan-tag">1-ON-1 COACHING <span className="s-online">Live online</span></p>
-              <h3>Private coaching with Marouane</h3>
-              <p className="s-plan-desc">The same 4-week intensive, one-to-one and fully online. Every session built around you.</p>
+              <h3>Private coaching</h3>
+              <p className="s-plan-desc">The same four weeks, one to one, fully online.</p>
               <div className="s-price">
                 <strong>{kc(ONE_PRICE)}</strong>
-                <span>per person · 4 weeks · weekly 90-minute sessions, live online</span>
+                <span>per person · Four weeks · weekly 90-minute sessions</span>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={18} /> Book a free discovery call</a>
@@ -349,8 +338,8 @@ export default function Zlin() {
       {/* ── FAQ ── */}
       <section className="s-section" id="faq">
         <Reveal>
-          <p className="s-label">Still deciding?</p>
-          <h2 className="s-title">Questions, <em>answered.</em></h2>
+          <p className="s-label">Questions</p>
+          <h2 className="s-title">Everything <em>you need to know.</em></h2>
         </Reveal>
         <div className="s-faq-list">
           {FAQS.map(([q, a]) => <Reveal key={q}><FAQ q={q} a={a} /></Reveal>)}
@@ -360,9 +349,9 @@ export default function Zlin() {
       {/* ── CONTACT ── */}
       <section className="s-final" id="contact">
         <Reveal>
-          <p className="s-label">Ready when you are</p>
-          <h2>Ready to take it to the next level? <em>Book a free discovery call.</em></h2>
-          <p>Tell us where you want your English communication to go. We will tell you honestly if this program fits you, and answer within <b>24 hours</b>.</p>
+          <p className="s-label">Next step</p>
+          <h2>Ready to lead the room? <em>Book a free discovery call.</em></h2>
+          <p>Tell us where you want your communication to go. We will tell you honestly if the program fits, and reply within <b>24 hours</b>.</p>
           <div className="s-hero-btns">
             <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--xl" target="_blank" rel="noopener noreferrer"><CalendarIcon size={20} /> Book a free discovery call</a>
             <a href={WHATSAPP_URL} className="s-btn s-btn--ghost s-btn--wa" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp us</a>

@@ -58,3 +58,11 @@
 .zlin-page .z-record strong { display: block; margin: 3px 0 6px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1.25; }
 .zlin-page .z-record p { margin: 0; color: var(--text-dim); }
 @media (max-width: 680px) { .zlin-page .z-record { flex-direction: column; } }
+
+/* hero video: a little clearer (less dark) than the default */
+.zlin-page .s-hero-video video { filter: grayscale(.35) contrast(1.05) brightness(.98); }
+.zlin-page .s-hero-video video.is-on { opacity: .7; }
+.zlin-page .s-hero-video::after { background:
+  linear-gradient(180deg, rgba(17,17,17,.62) 0%, rgba(17,17,17,.3) 38%, rgba(17,17,17,.55) 78%, #111 100%),
+  radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.2), rgba(17,17,17,.66) 78%); }
+@media (max-width: 680px) { .zlin-page .s-hero-video video.is-on { opacity: .58; } }
