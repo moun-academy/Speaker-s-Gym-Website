@@ -3,8 +3,7 @@ import heroVideoThumbnail from "./hero-video-thumbnail.webp";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
-import { BOOK_URL, WHATSAPP_URL } from "./siteConfig.js";
-import WhatsAppIcon from "./WhatsAppIcon.jsx";
+import { BOOK_URL } from "./siteConfig.js";
 
 /* ─── tiny helpers ─── */
 const cx = (...cls) => cls.filter(Boolean).join(" ");
@@ -676,7 +675,7 @@ export default function SpeakersGym() {
         @media(min-width:769px){
           .section { padding-top:112px; padding-bottom:112px; }
           .hero h1 { font-size:clamp(2.6rem,6.4vw,4.4rem); line-height:1.1; margin-bottom:34px; }
-          .hero-btns { display:grid; grid-template-columns:max-content max-content; justify-content:center; justify-items:center; gap:18px 16px; }
+          .hero-btns { display:grid; grid-template-columns:max-content; justify-content:center; justify-items:center; gap:18px 16px; }
           .hero-btns .btn-primary { grid-column:1 / -1; min-width:400px; padding:24px 64px; font-size:1.08rem; border-radius:12px; text-align:center; box-shadow:0 14px 44px rgba(217,192,111,.3), 0 0 0 6px rgba(217,192,111,.08); }
           .hero-btns .btn-primary:hover { box-shadow:0 20px 54px rgba(217,192,111,.4), 0 0 0 8px rgba(217,192,111,.1); }
         }
@@ -732,9 +731,8 @@ export default function SpeakersGym() {
             </Reveal>
             <Reveal instant delay={320}>
               <div className="hero-btns">
-                <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef}>Book a Strategy Call</a>
+                <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef} target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
-                <a href={WHATSAPP_URL} className="btn-secondary" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}><WhatsAppIcon size={16} /> Message Us on WhatsApp</a>
               </div>
             </Reveal>
             <Reveal instant delay={380}>
@@ -1001,7 +999,7 @@ export default function SpeakersGym() {
 
         <Reveal>
           <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a href={BOOK_URL} className="btn-primary" ref={finalCtaRef}>Book a Free Strategy Call</a>
+            <a href={BOOK_URL} className="btn-primary" ref={finalCtaRef} target="_blank" rel="noopener noreferrer">Book a Free Strategy Call</a>
           </div>
         </Reveal>
       </section>
@@ -1010,7 +1008,7 @@ export default function SpeakersGym() {
 
       {/* ── STICKY MOBILE CTA ── */}
       <div className={cx("sticky-cta", showStickyCta && "sticky-cta--visible")} aria-hidden={!showStickyCta}>
-        <a href={BOOK_URL} tabIndex={showStickyCta ? 0 : -1}>Book a free call <span aria-hidden="true">→</span></a>
+        <a href={BOOK_URL} tabIndex={showStickyCta ? 0 : -1} target="_blank" rel="noopener noreferrer">Book a free call <span aria-hidden="true">→</span></a>
       </div>
     </>
   );
