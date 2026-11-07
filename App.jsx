@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import heroVideoThumbnail from "./hero-video-thumbnail.webp";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
+import HeroVideo from "./HeroVideo.jsx";
 import { SiteFooter, SiteHeader } from "./SiteChrome.jsx";
 import { BOOK_URL } from "./siteConfig.js";
 
@@ -693,6 +694,29 @@ export default function SpeakersGym() {
           .reveal { opacity:1; transform:none; transition:none; }
           .btn-primary:hover, .btn-secondary:hover, .fit-card:hover, .testimonial-card:hover, .chip:hover { transform:none; }
         }
+
+        /* hero: same look as the sales pages (background video, headline, subtitle, chips) */
+        .s-hero-video { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+        .s-hero-video video { width:100%; height:100%; display:block; object-fit:cover; opacity:0; transform:scale(1.05); filter:grayscale(.55) contrast(1.08) brightness(.8); transition:opacity 1s ease; }
+        .s-hero-video video.is-on { opacity:.5; }
+        .s-hero-video::before { content:""; position:absolute; inset:0; z-index:1; background:#d9c06f; mix-blend-mode:soft-light; opacity:.55; }
+        .s-hero-video::after { content:""; position:absolute; inset:0; z-index:2; background:
+          linear-gradient(180deg, rgba(17,17,17,.78) 0%, rgba(17,17,17,.52) 38%, rgba(17,17,17,.74) 78%, #111 100%),
+          radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.4), rgba(17,17,17,.82) 78%); }
+        @media (max-width:680px) { .s-hero-video video.is-on { opacity:.42; } }
+        @media (prefers-reduced-motion:reduce) { .s-hero-video { display:none; } }
+        .hero h1.hero-title { font-style:normal; font-weight:600; font-size:clamp(2.5rem,6.4vw,4.6rem); line-height:1.06; color:#f4f1e8; margin-bottom:22px; }
+        .hero h1.hero-title em { font-style:italic; font-weight:400; color:var(--accent); }
+        .hero p.hero-sub { position:relative; max-width:700px; margin:0 auto 22px; padding-top:26px; color:#f4f1e8; font-family:var(--font-display); font-size:clamp(1.3rem,2.6vw,1.85rem); font-weight:400; line-height:1.45; }
+        .hero p.hero-sub::before { content:""; position:absolute; top:0; left:50%; width:64px; height:2px; margin-left:-32px; border-radius:2px; background:linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .hero p.hero-sub mark { padding:0; background:none; color:var(--accent-dim); font-style:italic; }
+        .hero p.hero-sub .hero-sub-end { display:inline-block; margin-top:4px; color:var(--accent); font-style:italic; }
+        .hero p.hero-for { max-width:640px; margin:0 auto 30px; color:var(--text-dim); font-size:clamp(1.02rem,1.6vw,1.18rem); line-height:1.6; }
+        .hero-chips { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 26px; margin:0 auto 38px; font-size:.95rem; }
+        .hero-chips span { display:inline-flex; align-items:center; gap:10px; }
+        .hero-chips s { color:#6f6c66; text-decoration-color:rgba(217,192,111,.5); }
+        .hero-chips i { color:var(--accent); font-style:normal; }
+        .hero-chips b { color:#f4f1e8; font-weight:600; }
       `}</style>
 
       <SiteHeader />
@@ -700,6 +724,7 @@ export default function SpeakersGym() {
       {/* ── HERO ── */}
       <div className="hero-wrap">
         <section className="hero">
+          <HeroVideo />
           <div className="hero-content">
             <Reveal instant delay={100}>
               <div className="hero-flourish">
@@ -709,23 +734,16 @@ export default function SpeakersGym() {
               </div>
             </Reveal>
             <Reveal instant delay={150}>
-              <h1>From Nervous Professional to Confident Communicator</h1>
+              <h1 className="hero-title">Speak up in <em>meetings and conversations.</em></h1>
+            </Reveal>
+            <Reveal instant delay={190}>
+              <p className="hero-sub">Explain your ideas <mark>clearly</mark> and bring them to life with an <mark>engaging voice</mark>, <span className="hero-sub-end">even when you feel nervous.</span></p>
+              <p className="hero-for">A six-week program for shy and nervous professionals. Private 1-on-1 coaching or a small group of 5.</p>
             </Reveal>
             <Reveal instant delay={220}>
-              <div className="hero-transforms">
-                {[
-                  ["Rambling", "Articulate"],
-                  ["Monotone", "Expressive"],
-                  ["Shy", "Confident"],
-                ].map(([from, to]) => (
-                  <div key={from} className="hero-transform-line">
-                    <span className="hero-transform-from">{from}</span>
-                    <span className="hero-transform-arrow">
-                      <span className="hero-transform-arrow-line" />
-                      <span className="hero-transform-arrow-tip" />
-                    </span>
-                    <span className="hero-transform-to">{to}</span>
-                  </div>
+              <div className="hero-chips">
+                {[["Rambling", "Articulate"], ["Monotone", "Expressive"], ["Shy", "Confident"]].map(([from, to]) => (
+                  <span key={from}><s>{from}</s><i aria-hidden="true">→</i><b>{to}</b></span>
                 ))}
               </div>
             </Reveal>
