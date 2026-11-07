@@ -12,7 +12,9 @@ import "./Zlin.css";
 
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Zlín program question")}&body=${encodeURIComponent("Hello Speaker's Gym team,\n\nI'm interested in the Zlín program.\n\nThank you!")}`;
-const RESERVE_URL = whatsappLink("Hello Speaker's Gym team, I'd like to reserve a spot in the in-person group in Zlín.");
+/* Stripe payment link (Czech crowns): in-person group, 2 000 Kč. The tag lets us see which page the payment came from. */
+const RESERVE_URL = "https://buy.stripe.com/3cI6oHfZPdg9a4n8GZ1ck0b?client_reference_id=zlin_group";
+const START_DATE = "22 November";
 
 /* Prices are in Czech crowns, per person. The holiday offer halves the regular price. */
 const LIST_PRICE = 4000;
@@ -68,7 +70,7 @@ const FOR_YOU = [
 
 const FAQS = [
   ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
-  ["Where and when does it take place?", "In Zlín, Czech Republic. We confirm the venue and start date when you reserve your spot."],
+  ["Where and when does it take place?", `In Zlín, Czech Republic. The first group starts on ${START_DATE}. We confirm the venue when you reserve your spot.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
   ["What is the Speaker's Gym app?", "Your daily practice: a short speaking rep each day, with feedback. It feels like a game, not homework."],
   ["How long are the sessions?", "The 1-on-1 session lasts 90 minutes, weekly, for four weeks. The group meets in person in Zlín every week."],
@@ -133,7 +135,7 @@ export default function Zlin() {
           <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
             <span className="s-holiday-pill-text">
               <span>Holiday offer: <b>{kc(DEAL_PRICE)}</b> per person, down from {kc(LIST_PRICE)}</span>
-              <small>In person in Zlín · limited to {GROUP_MAX} people</small>
+              <small>First group starts {START_DATE} · limited to {GROUP_MAX} people</small>
             </span>
           </p>
         </Reveal>
@@ -289,7 +291,7 @@ export default function Zlin() {
               <span className="s-ribbon">IN PERSON · ZLÍN</span>
               <p className="s-plan-tag">IN-PERSON GROUP · MAX {GROUP_MAX}</p>
               <h3>The Zlín intensive</h3>
-              <p className="s-plan-desc">Four weeks, face to face, with a small group of up to {GROUP_MAX}.</p>
+              <p className="s-plan-desc">Four weeks, face to face, with a small group of up to {GROUP_MAX}. The first group starts on <b>{START_DATE}</b>.</p>
               <div className="s-price">
                 <s>{kc(LIST_PRICE)}</s>
                 <strong>{kc(DEAL_PRICE)}</strong>
@@ -297,7 +299,7 @@ export default function Zlin() {
                 <em className="s-deal">Holiday offer · save {kc(LIST_PRICE - DEAL_PRICE)}</em>
               </div>
               <ul className="s-list">{GROUP_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Reserve my spot <span aria-hidden="true">→</span></a>
+              <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Reserve my spot · {kc(DEAL_PRICE)} <span aria-hidden="true">→</span></a>
               <p className="s-ask">Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={15} /> Book a free call</a></p>
             </article>
           </Reveal>
