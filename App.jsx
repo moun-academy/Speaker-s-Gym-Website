@@ -697,13 +697,13 @@ export default function SpeakersGym() {
 
         /* hero: same look as the sales pages (background video, headline, subtitle, chips) */
         .s-hero-video { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
-        .s-hero-video video { width:100%; height:100%; display:block; object-fit:cover; opacity:0; transform:scale(1.05); filter:grayscale(.55) contrast(1.08) brightness(.8); transition:opacity 1s ease; }
-        .s-hero-video video.is-on { opacity:.5; }
+        .s-hero-video video { width:100%; height:100%; display:block; object-fit:cover; opacity:0; transform:scale(1.05); filter:grayscale(.45) contrast(1.06) brightness(.92); transition:opacity 1s ease; }
+        .s-hero-video video.is-on { opacity:.62; }
         .s-hero-video::before { content:""; position:absolute; inset:0; z-index:1; background:#d9c06f; mix-blend-mode:soft-light; opacity:.55; }
         .s-hero-video::after { content:""; position:absolute; inset:0; z-index:2; background:
-          linear-gradient(180deg, rgba(17,17,17,.78) 0%, rgba(17,17,17,.52) 38%, rgba(17,17,17,.74) 78%, #111 100%),
-          radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.4), rgba(17,17,17,.82) 78%); }
-        @media (max-width:680px) { .s-hero-video video.is-on { opacity:.42; } }
+          linear-gradient(180deg, rgba(17,17,17,.7) 0%, rgba(17,17,17,.4) 38%, rgba(17,17,17,.64) 78%, #111 100%),
+          radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.28), rgba(17,17,17,.74) 78%); }
+        @media (max-width:680px) { .s-hero-video video.is-on { opacity:.5; } }
         @media (prefers-reduced-motion:reduce) { .s-hero-video { display:none; } }
         .hero h1.hero-title { font-style:normal; font-weight:600; font-size:clamp(2.5rem,6.4vw,4.6rem); line-height:1.06; color:#f4f1e8; margin-bottom:22px; }
         .hero h1.hero-title em { font-style:italic; font-weight:400; color:var(--accent); }
