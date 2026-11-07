@@ -703,7 +703,13 @@ export default function SpeakersGym() {
         .s-hero-video::after { content:""; position:absolute; inset:0; z-index:2; background:
           linear-gradient(180deg, rgba(17,17,17,.7) 0%, rgba(17,17,17,.4) 38%, rgba(17,17,17,.64) 78%, #111 100%),
           radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.28), rgba(17,17,17,.74) 78%); }
-        @media (max-width:680px) { .s-hero-video video.is-on { opacity:.5; } }
+        @media (max-width:680px) {
+          /* phones: show the video as a clear band at the top (not a stretched, cropped slice), fading into the page */
+          .hero .s-hero-video { bottom:auto; height:520px; }
+          .hero .s-hero-video video { transform:none; object-position:50% 25%; }
+          .hero .s-hero-video video.is-on { opacity:.62; }
+          .hero .s-hero-video::after { background:linear-gradient(180deg, rgba(17,17,17,.72) 0%, rgba(17,17,17,.42) 45%, rgba(17,17,17,.7) 78%, #111 100%); }
+        }
         @media (prefers-reduced-motion:reduce) { .s-hero-video { display:none; } }
         .hero h1.hero-title { font-style:normal; font-weight:600; font-size:clamp(2.5rem,6.4vw,4.6rem); line-height:1.06; color:#f4f1e8; margin-bottom:22px; }
         .hero h1.hero-title em { font-style:italic; font-weight:400; color:var(--accent); }
