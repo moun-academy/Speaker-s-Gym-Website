@@ -34,10 +34,18 @@ window.ASHWIN_COACHING_UPDATE = {
     }
   ],
   "nextCall": {
-    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261109T083000Z",
-    "start": "2026-11-09T12:30:00+04:00",
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261116T083000Z",
+    "start": "2026-11-16T12:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "meetingLink": "https://meet.google.com/oda-koch-ovr",
-    "timePending": false
+    "timePending": false,
+    "label": "Your fifth coaching call"
+  },
+  "followingCall": {
+    "eventId": "3ri0mndnofuh2nv001b0i5jrak_20261123T083000Z",
+    "start": "2026-11-23T12:30:00+04:00",
+    "timeZone": "Asia/Dubai",
+    "meetingLink": "https://meet.google.com/oda-koch-ovr",
+    "label": "Sixth coaching call"
   }
 };
