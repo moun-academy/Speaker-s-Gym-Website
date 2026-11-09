@@ -35,11 +35,11 @@ window.KIYAN_COACHING_UPDATE = {
     }
   ],
   "nextCall": {
-    "start": "2026-11-09T13:30:00+04:00",
+    "start": "2026-11-16T13:30:00+04:00",
     "timeZone": "Asia/Dubai",
     "coachTimeZone": "Europe/Prague",
-    "meetingLink": "https://meet.google.com/iri-bwxj-xty",
-    "calendarEventId": "dgfdad7sg35ml8sit7ecf9dtp0",
+    "meetingLink": "https://meet.google.com/mgu-uirb-ozd",
+    "calendarEventId": "frf5e5c8vha6il46r03uvnv1sc",
     "inviteToFollow": false,
     "prepTitle": "Bring your vocal-variety practice.",
     "prepText": "We’ll review your labeled videos and the vocal skill you focused on."
@@ -51,6 +51,6 @@ window.KIYAN_COACHING_UPDATE = {
     "4": "2026-11-02",
     "5": "2026-11-09"
   },
-  "nextCallPending": true,
+  "nextCallPending": false,
   "sourceTranscriptId": "01M6TYFF0CVRP4TP0PBDMRQS0D"
 };
