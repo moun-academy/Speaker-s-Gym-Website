@@ -32,7 +32,7 @@ const OUTCOMES = [
 ];
 
 const HOW = [
-  ["🤝", "Weekly coaching", "One session a week. In person in Zlín for the group, 90 minutes online for 1-on-1."],
+  ["🤝", "Weekly coaching", "One session a week. In person in Zlín for the group, 60 minutes online for 1-on-1."],
   ["📱", "Daily practice", "A daily speaking rep in the Speaker's Gym app. Practice becomes a habit."],
   ["💬", "Daily feedback", "We review your work in our online community, every day."],
   ["📲", "Ongoing follow-up", "We stay in touch on WhatsApp and in the school community."],
@@ -54,7 +54,7 @@ const GROUP_LIST = [
 ];
 
 const ONE_LIST = [
-  "Weekly 90-minute private session, live online",
+  "Weekly 60-minute private session, live online",
   "Built around your goals",
   "Daily practice in the Speaker's Gym app",
   "Daily feedback in our online community",
@@ -73,7 +73,7 @@ const FAQS = [
   ["Where and when does it take place?", `In Zlín, Czech Republic. The first group starts on ${START_DATE}. We confirm the venue when you reserve your spot.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
   ["What is the Speaker's Gym app?", "Your daily practice: a short speaking rep each day, with feedback. It feels like a game, not homework."],
-  ["How long are the sessions?", "The 1-on-1 session lasts 90 minutes, weekly, for four weeks. The group meets in person in Zlín every week."],
+  ["How long are the sessions?", "The 1-on-1 session lasts 60 minutes, weekly, for four weeks. The group meets in person in Zlín every week."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
   ["What is the holiday offer?", `The in-person group costs ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}.`],
   ["How do I reserve a spot?", "Book a free discovery call or message us on WhatsApp. We will confirm your place."],
@@ -311,7 +311,7 @@ export default function Zlin() {
               <p className="s-plan-desc">The same four weeks, one to one, fully online.</p>
               <div className="s-price">
                 <strong>{kc(ONE_PRICE)}</strong>
-                <span>per person · Four weeks · weekly 90-minute sessions</span>
+                <span>per person · Four weeks · weekly 60-minute sessions</span>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={18} /> Book a free discovery call</a>
