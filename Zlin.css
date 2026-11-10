@@ -47,14 +47,6 @@
 .sales-page.zlin-page .s-price s { text-decoration-color: rgba(217,192,111,.8); }
 
 /* curriculum */
-.zlin-page .z-week small { display: block; margin-bottom: 4px; color: var(--gold); font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
-.zlin-page .z-week > span { background: var(--gold); color: #10100e; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
-.zlin-page .z-record { display: flex; gap: 18px; align-items: flex-start; max-width: 860px; margin: 40px auto 0; padding: 24px 26px; border: 1px solid var(--gold); border-radius: 18px; background: linear-gradient(135deg, rgba(217,192,111,.14), rgba(217,192,111,.04)); }
-.zlin-page .z-record-ico { flex: none; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 14px; background: var(--gold); font-size: 1.7rem; }
-.zlin-page .z-record small { display: block; color: var(--gold-soft); font-size: .68rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-.zlin-page .z-record strong { display: block; margin: 3px 0 6px; color: var(--text-bright); font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1.25; }
-.zlin-page .z-record p { margin: 0; color: var(--text-dim); }
-@media (max-width: 680px) { .zlin-page .z-record { flex-direction: column; } }
 
 /* hero video: a little clearer (less dark) than the default */
 .zlin-page .s-hero-video video { filter: grayscale(.35) contrast(1.05) brightness(.98); }
@@ -80,3 +72,45 @@
 .zlin-page .z-venue strong em { color: var(--gold); font-weight: 400; }
 .zlin-page .z-venue span:not(.z-venue-pin) { display: block; color: var(--text); font-size: .94rem; line-height: 1.55; }
 .zlin-page .z-venue a { display: inline-block; margin-top: 6px; color: var(--gold); font-weight: 600; font-size: .9rem; text-decoration: none; border-bottom: 1px solid rgba(217,192,111,.4); }
+
+
+/* curriculum: a rising staircase, each week stacks on the last */
+.zlin-page .z-curr-title { max-width: 760px; margin-left: auto; margin-right: auto; text-wrap: balance; }
+.zlin-page .z-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: end; max-width: 1132px; margin: 56px auto 0; }
+.zlin-page .z-step-wrap { height: 100%; display: flex; align-items: flex-end; }
+.zlin-page .z-step { position: relative; width: 100%; overflow: hidden; padding: 70px 24px 24px; border: 1px solid rgba(217,192,111, calc(.12 + var(--n) * .07)); border-radius: 20px; background: linear-gradient(170deg, rgba(217,192,111, calc(.03 + var(--n) * .035)), var(--surface) 70%); transition: transform .3s ease, border-color .3s ease; min-height: calc(270px + var(--n) * 38px); display: flex; flex-direction: column; }
+.zlin-page .z-step::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: calc(.25 + var(--n) * .18); }
+.zlin-page .z-step:hover { transform: translateY(-6px); border-color: var(--gold); }
+.zlin-page .z-step-num { position: absolute; left: 22px; top: 10px; font-family: var(--font-display); font-size: 3.6rem; font-weight: 700; line-height: 1; color: rgba(217,192,111,.55); pointer-events: none; }
+.zlin-page .z-step small { display: block; margin-bottom: 8px; color: var(--gold); font-size: .68rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+.zlin-page .z-step h3 { margin: 0 0 10px; font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; line-height: 1.2; color: var(--text-bright); }
+.zlin-page .z-step p { margin: 0; color: var(--text-dim); font-size: .96rem; line-height: 1.6; }
+.zlin-page .z-pips { margin-top: auto; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.zlin-page .z-pips-dots { display: inline-flex; gap: 6px; }
+.zlin-page .z-pips-dots i { width: 22px; height: 6px; border-radius: 6px; background: rgba(217,192,111,.18); }
+.zlin-page .z-pips-dots i.on { background: var(--gold); box-shadow: 0 0 10px rgba(217,192,111,.45); }
+.zlin-page .z-pips b { color: var(--gold-soft); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+
+/* gamified loop */
+.zlin-page .z-loop { max-width: 1132px; margin: 44px auto 0; padding: 30px 34px 34px; border: 1px solid var(--gold); border-radius: 24px; background: radial-gradient(ellipse at 50% 0%, rgba(217,192,111,.16), transparent 70%), var(--surface); box-shadow: 0 30px 80px rgba(0,0,0,.4); }
+.zlin-page .z-loop-head { text-align: center; margin-bottom: 26px; }
+.zlin-page .z-loop-head small { display: block; color: var(--gold); font-size: .7rem; font-weight: 800; letter-spacing: .26em; text-transform: uppercase; }
+.zlin-page .z-loop-head strong { display: block; margin-top: 6px; font-family: var(--font-display); font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 600; color: var(--text-bright); }
+.zlin-page .z-loop-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.zlin-page .z-loop-step { position: relative; text-align: center; padding: 8px 18px; }
+.zlin-page .z-loop-ico { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto 14px; border-radius: 18px; background: var(--gold); font-size: 1.8rem; box-shadow: 0 10px 28px rgba(217,192,111,.3); }
+.zlin-page .z-loop-step h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--text-bright); }
+.zlin-page .z-loop-step p { margin: 0 auto; max-width: 260px; color: var(--text-dim); font-size: .96rem; line-height: 1.55; }
+.zlin-page .z-loop-arrow { position: absolute; right: -16px; top: 18px; color: var(--gold); font-style: normal; font-size: 1.5rem; opacity: .7; }
+
+@media (max-width: 980px) {
+  .zlin-page .z-steps { grid-template-columns: repeat(2, 1fr); align-items: stretch; }
+  .zlin-page .z-step { min-height: 280px; }
+}
+@media (max-width: 680px) {
+  .zlin-page .z-steps { grid-template-columns: 1fr; }
+  .zlin-page .z-step { min-height: 0; }
+  .zlin-page .z-loop { padding: 24px 20px 26px; }
+  .zlin-page .z-loop-steps { grid-template-columns: 1fr; gap: 24px; }
+  .zlin-page .z-loop-arrow { right: auto; left: 50%; top: auto; bottom: -22px; transform: translateX(-50%) rotate(90deg); }
+}
