@@ -33,7 +33,7 @@ const OUTCOMES = [
 
 const HOW = [
   ["🤝", "Weekly coaching", "One session a week. In person in Zlín for the group, 60 minutes online for 1-on-1."],
-  ["📱", "Daily practice", "A daily speaking rep in the Speaker's Gym app. Practice becomes a habit."],
+  ["📱", "Daily practice with AI", "Record yourself in the Speaker's Gym app and get instant AI feedback. Practice becomes a habit."],
   ["💬", "Daily feedback", "We review your work in our online community, every day."],
   ["📲", "Ongoing follow-up", "We stay in touch on WhatsApp and in the school community."],
 ];
@@ -48,7 +48,7 @@ const CURRICULUM = [
 const GROUP_LIST = [
   "Weekly in-person coaching in Zlín",
   `Small group, maximum ${GROUP_MAX} people`,
-  "Daily practice in the Speaker's Gym app",
+  "Speaker's Gym app: daily practice with AI feedback",
   "Daily feedback in our online community",
   "Follow-up on WhatsApp and in the school community",
 ];
@@ -56,7 +56,7 @@ const GROUP_LIST = [
 const ONE_LIST = [
   "Weekly 60-minute private session, live online",
   "Built around your goals",
-  "Daily practice in the Speaker's Gym app",
+  "Speaker's Gym app: daily practice with AI feedback",
   "Daily feedback in our online community",
   "Follow-up on WhatsApp and in the school community",
 ];
@@ -72,7 +72,7 @@ const FAQS = [
   ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
   ["Where and when does it take place?", `In Zlín, Czech Republic. The first group runs from ${GROUP_DATES}. We confirm the venue when you reserve your spot.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
-  ["What is the Speaker's Gym app?", "Your daily practice: a short speaking rep each day, with feedback. It feels like a game, not homework."],
+  ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How long are the sessions?", "The 1-on-1 session lasts 60 minutes, weekly, for four weeks. The group meets in person in Zlín every week."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
   ["What is the holiday offer?", `The in-person group costs ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}.`],
