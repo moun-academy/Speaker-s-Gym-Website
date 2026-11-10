@@ -31,9 +31,9 @@ const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
 const cx = (...c) => c.filter(Boolean).join(" ");
 
 const OUTCOMES = [
-  ["🎯", "Speak on the spot", "Answer with clarity the moment you are asked. No scripts. No hesitation."],
-  ["🔥", "Speak with influence", "Be clear and persuasive. Make people listen, and act."],
-  ["🚀", "Reach the next level", "Move from speaking English well to communicating like a leader."],
+  ["🎯", "Speak on the spot", "Answer with clarity the moment you are asked. No scripts. No hesitation.", "Rehearsed", "Spontaneous"],
+  ["🔥", "Speak with influence", "Be clear and persuasive. Make people listen, and act.", "Understood", "Influential"],
+  ["🚀", "Reach the next level", "Move from speaking English well to communicating like a leader.", "Fluent", "Commanding"],
 ];
 
 const HOW = [
@@ -167,16 +167,23 @@ export default function Zlin() {
       </header>
 
       {/* ── OUTCOMES ── */}
-      <section className="s-section" id="outcomes">
+      <section className="s-section z-out-sec" id="outcomes">
+        <div className="z-out-glow" aria-hidden="true" />
         <Reveal>
           <p className="s-label">The outcome</p>
           <h2 className="s-title">Think clearly. <em>Speak powerfully.</em></h2>
           <p className="s-sub">Built for professionals who already speak English.</p>
         </Reveal>
-        <div className="s-why">
-          {OUTCOMES.map(([icon, title, text], i) => (
-            <Reveal key={title} delay={i * 100}>
-              <article className="s-why-card"><span aria-hidden="true">{icon}</span><h3>{title}</h3><p>{text}</p></article>
+        <div className="z-out">
+          {OUTCOMES.map(([icon, title, text, from, to], i) => (
+            <Reveal key={title} delay={i * 110} className="z-out-wrap">
+              <article className={cx("z-out-card", i === 1 && "z-out-card--mid")}>
+                <span className="z-out-num" aria-hidden="true">0{i + 1}</span>
+                <span className="z-out-ico" aria-hidden="true">{icon}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+                <div className="z-out-shift"><s>{from}</s><i aria-hidden="true">→</i><b>{to}</b></div>
+              </article>
             </Reveal>
           ))}
         </div>
