@@ -66,3 +66,4 @@
   linear-gradient(180deg, rgba(17,17,17,.62) 0%, rgba(17,17,17,.3) 38%, rgba(17,17,17,.55) 78%, #111 100%),
   radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.2), rgba(17,17,17,.66) 78%); }
 @media (max-width: 680px) { .zlin-page .s-hero-video video.is-on { opacity: .58; } }
+.zlin-page .s-faq-a a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
