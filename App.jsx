@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import heroVideoThumbnail from "./hero-video-thumbnail.webp";
 import marouanePhoto from "./Marouane.webp";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import HeroVideo from "./HeroVideo.jsx";
@@ -228,7 +227,6 @@ function SystemCycle() {
 
 /* ─────────────────── MAIN ─────────────────── */
 export default function SpeakersGym() {
-  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
   const heroCtaRef = useRef(null);
   const finalCtaRef = useRef(null);
   const [showStickyCta, setShowStickyCta] = useState(false);
@@ -373,19 +371,6 @@ export default function SpeakersGym() {
         .btn-secondary { border:1px solid var(--border); color:var(--text); font-weight:600; font-size:.85rem; padding:14px 32px; border-radius:8px; text-decoration:none; letter-spacing:.02em; transition: border-color .2s, color .2s; display:inline-block; }
         .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
 
-        .hero-video { max-width:900px; width:100%; margin:48px auto 0; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
-        .hero-video-embed { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; }
-        .hero-video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
-        .hero-video-poster { position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; cursor:pointer; background:#000; color:#fff; display:block; }
-        .hero-video-poster img { width:100%; height:100%; object-fit:cover; display:block; }
-        .hero-video-poster::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(0,0,0,.3)); transition:background .2s ease; }
-        .hero-video-poster:hover::after { background:rgba(0,0,0,.12); }
-        .hero-video-play { position:absolute; z-index:1; left:50%; top:58%; width:56px; height:56px; transform:translate(-50%,-50%); border:1px solid rgba(255,255,255,.9); border-radius:50%; background:transparent; display:grid; place-items:center; filter:drop-shadow(0 1px 3px rgba(0,0,0,.65)); transition:transform .2s ease, border-color .2s ease; }
-        .hero-video-play::before { content:''; width:0; height:0; margin-left:4px; border-top:9px solid transparent; border-bottom:9px solid transparent; border-left:14px solid #fff; }
-        .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translate(-50%,-50%) scale(1.06); border-color:var(--accent); }
-        .hero-video-poster:focus-visible { outline:3px solid var(--accent); outline-offset:-3px; }
-        @media(max-width:600px) { .hero-video-play { width:44px; height:44px; } .hero-video-play::before { border-top-width:7px; border-bottom-width:7px; border-left-width:11px; } }
-        @media(prefers-reduced-motion:reduce) { .hero-video-play { transition:none; } .hero-video-poster:hover .hero-video-play, .hero-video-poster:focus-visible .hero-video-play { transform:translate(-50%,-50%); } }
 
         /* ── PROOF STAT BAND ── */
         .proof-band { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px; padding:36px 32px; background:var(--surface); border:1px solid var(--border); border-radius:16px; }
@@ -569,7 +554,6 @@ export default function SpeakersGym() {
           .hero-btns { flex-direction:column; align-items:center; gap:12px; }
           .hero-btns .btn-primary { width:100%; max-width:340px; text-align:center; }
           .hero-btns .btn-secondary { border:none; padding:6px 12px; color:var(--text-dim); text-decoration:underline; text-underline-offset:4px; text-decoration-color:rgba(217,192,111,.4); }
-          .hero-video { margin-top:36px; }
           .fit-grid, .tracks, .system { margin-top:36px; }
         }
 
@@ -600,9 +584,6 @@ export default function SpeakersGym() {
         .hero-transform-from { color:#706b63; }
         .hero-transform-arrow-line { opacity:.65; }
         .hero-transform-to { color:#f5f0e6; text-shadow:0 0 24px rgba(217,192,111,.3); }
-        .hero-video { border:1px solid var(--border-strong); border-radius:22px; box-shadow:0 40px 120px rgba(0,0,0,.65), 0 0 100px rgba(217,192,111,.10); }
-        .hero-video-play { width:78px; height:78px; border-color:rgba(217,192,111,.95); background:rgba(17,17,17,.4); backdrop-filter:blur(6px); box-shadow:0 0 0 10px rgba(217,192,111,.13); }
-        .hero-video-play::before { border-left-color:var(--accent); }
 
         /* buttons */
         .btn-primary { border-radius:10px; padding:16px 34px; box-shadow:0 10px 30px rgba(217,192,111,.22); transition:transform .25s var(--ease-out), box-shadow .25s, background .2s; }
@@ -689,12 +670,14 @@ export default function SpeakersGym() {
           .faq-item { padding:0 14px; }
         }
         @media(max-width:680px){ .proof-stat + .proof-stat { border-left:0; } }
-        @media(max-width:600px){ .hero-video-play { width:56px; height:56px; } }
         @media(prefers-reduced-motion:reduce){
           .reveal { opacity:1; transform:none; transition:none; }
           .btn-primary:hover, .btn-secondary:hover, .fit-card:hover, .testimonial-card:hover, .chip:hover { transform:none; }
         }
 
+        /* hero: sized to its content, with no empty band below the buttons */
+        .hero { min-height:0; padding:112px 24px 84px; }
+        @media(max-width:768px){ .hero { padding:92px 20px 64px; } }
         /* hero: same look as the sales pages (background video, headline, subtitle, chips) */
         .s-hero-video { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
         .s-hero-video video { width:100%; height:100%; display:block; object-fit:cover; opacity:0; transform:scale(1.05); filter:grayscale(.45) contrast(1.06) brightness(.92); transition:opacity 1s ease; }
@@ -757,36 +740,6 @@ export default function SpeakersGym() {
               <div className="hero-btns">
                 <a href={BOOK_URL} className="btn-primary" ref={heroCtaRef} target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
                 <a href="#roadmap" className="btn-secondary">View Program</a>
-              </div>
-            </Reveal>
-            <Reveal instant delay={380}>
-              <div className="hero-video">
-                <div className="hero-video-embed">
-                  {heroVideoPlaying ? (
-                    <iframe
-                      src="https://player.vimeo.com/video/1238519623?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
-                      title="Speaker's Gym program introduction"
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      className="hero-video-poster"
-                      onClick={() => setHeroVideoPlaying(true)}
-                      aria-label="Play Speaker's Gym video with sound"
-                    >
-                      <img
-                        src={heroVideoThumbnail}
-                        alt=""
-                        fetchpriority="high"
-                        decoding="async"
-                      />
-                      <span className="hero-video-play" aria-hidden="true" />
-                    </button>
-                  )}
-                </div>
               </div>
             </Reveal>
           </div>
