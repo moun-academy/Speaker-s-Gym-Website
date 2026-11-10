@@ -13,7 +13,13 @@ const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Zlín program question")}&body=${encodeURIComponent("Hello Speaker's Gym team,\n\nI'm interested in the Zlín program.\n\nThank you!")}`;
 /* Stripe payment link (Czech crowns): in-person group, 2 000 Kč. The tag lets us see which page the payment came from. */
 const RESERVE_URL = "https://buy.stripe.com/3cI6oHfZPdg9a4n8GZ1ck0b?client_reference_id=zlin_group";
-const GROUP_DATES = "22 November to 20 December";
+/* In-person group: venue, schedule and session dates */
+const VENUE = "House of Culture";
+const VENUE_CZ = "Dům kultury";
+const VENUE_ADDRESS = "Gahurova 5265, 760 01 Zlín";
+const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Dům kultury Zlín, Gahurova 5265, 760 01 Zlín")}`;
+const GROUP_TIME = "5 PM – 6:30 PM";
+const SESSION_DATES = "22 Nov, 29 Nov, 6 Dec and 13 Dec";
 
 /* Prices are in Czech crowns, per person. The holiday offer halves the regular price. */
 const LIST_PRICE = 4000;
@@ -69,7 +75,7 @@ const FOR_YOU = [
 
 const FAQS = [
   ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
-  ["Where and when does it take place?", `In Zlín, Czech Republic. The first group runs from ${GROUP_DATES}. We confirm the venue when you reserve your spot.`],
+  ["Where and when does it take place?", `We meet at the ${VENUE} (${VENUE_CZ}), ${VENUE_ADDRESS}, every Sunday from ${GROUP_TIME.replace(" – ", " to ")}. Four sessions: ${SESSION_DATES}. Each one lasts 90 minutes. Maximum ${GROUP_MAX} people.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
   ["How long are the sessions?", "The in-person group meets in Zlín for 90 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
@@ -278,7 +284,17 @@ export default function Zlin() {
               <span className="s-ribbon">IN PERSON · ZLÍN</span>
               <p className="s-plan-tag">IN-PERSON GROUP · MAX {GROUP_MAX}</p>
               <h3>The Zlín intensive</h3>
-              <p className="s-plan-desc">Four weeks, face to face, with a small group of up to {GROUP_MAX}. Runs from <b>{GROUP_DATES}</b>.</p>
+              <p className="s-plan-desc">Four Sunday sessions, face to face, in a small group of up to {GROUP_MAX}.</p>
+              <div className="z-venue">
+                <span className="z-venue-pin" aria-hidden="true">📍</span>
+                <div>
+                  <strong>{VENUE} <em>({VENUE_CZ})</em></strong>
+                  <span>{VENUE_ADDRESS}</span>
+                  <span>Every Sunday · {GROUP_TIME} · 90 minutes</span>
+                  <span>{SESSION_DATES}</span>
+                  <a href={MAP_URL} target="_blank" rel="noopener noreferrer">View on map →</a>
+                </div>
+              </div>
               <div className="s-price">
                 <s>{kc(LIST_PRICE)}</s>
                 <strong>{kc(DEAL_PRICE)}</strong>
