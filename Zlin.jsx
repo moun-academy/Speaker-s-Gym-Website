@@ -131,14 +131,6 @@ export default function Zlin() {
         <div className="s-hero-glow" aria-hidden="true" />
         <Reveal instant><img className="z-logo" src={brandLogo} alt="The Speaker's Gym" width="120" height="120" /></Reveal>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In person · Four weeks</p></Reveal>
-        <Reveal instant>
-          <p className="s-holiday-pill"><span aria-hidden="true">🎄</span>
-            <span className="s-holiday-pill-text">
-              <span>Holiday offer: <b>{kc(DEAL_PRICE)}</b> per person, down from {kc(LIST_PRICE)}</span>
-              <small>First group: {GROUP_DATES} · limited to {GROUP_MAX} people</small>
-            </span>
-          </p>
-        </Reveal>
         <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
         <Reveal instant delay={160}>
           <p className="s-hero-sub">A four-week intensive in Zlín, for professionals who already speak English and want to lead with it.</p>
