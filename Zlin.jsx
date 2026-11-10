@@ -145,9 +145,6 @@ export default function Zlin() {
             <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--xl" target="_blank" rel="noopener noreferrer"><CalendarIcon size={20} /> Book a free discovery call</a>
           </div>
         </Reveal>
-        <Reveal instant delay={330}>
-          <p className="s-hero-price">In person in Zlín from <b>{kc(DEAL_PRICE)}</b> · Four weeks · {GROUP_MAX} seats</p>
-        </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
             <li><Check />In person in Zlín</li>
