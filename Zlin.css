@@ -1,6 +1,4 @@
 /* Zlín landing page: the Speaker's Gym black-and-gold look */
-.sales-page.zlin-page .s-hero-price { margin: 14px auto 0; font-size: .98rem; color: rgba(255,255,255,.82); text-align: center; }
-.sales-page.zlin-page .s-hero-price b { color: var(--gold); }
 
 /* call to action emphasis (same treatment as the Europe page) */
 .sales-page.zlin-page .s-btn--xl { padding: 22px 40px; font-size: 1.02rem; letter-spacing: .08em; border-radius: 12px; box-shadow: 0 14px 44px rgba(217,192,111,.38); animation: z-pulse 2.6s ease-in-out infinite; }
