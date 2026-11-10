@@ -64,3 +64,11 @@
   radial-gradient(ellipse at 50% 42%, rgba(17,17,17,.2), rgba(17,17,17,.66) 78%); }
 @media (max-width: 680px) { .zlin-page .s-hero-video video.is-on { opacity: .58; } }
 .zlin-page .s-faq-a a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+
+/* phones: show the video as a clear band at the top (not a stretched, cropped slice), fading into the page */
+@media (max-width: 680px) {
+  .zlin-page .s-hero-video { bottom: auto; height: 540px; }
+  .zlin-page .s-hero-video video { transform: none; object-position: 50% 25%; }
+  .zlin-page .s-hero-video video.is-on { opacity: .72; }
+  .zlin-page .s-hero-video::after { background: linear-gradient(180deg, rgba(17,17,17,.62) 0%, rgba(17,17,17,.32) 45%, rgba(17,17,17,.62) 78%, #111 100%); }
+}
