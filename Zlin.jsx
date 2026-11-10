@@ -6,7 +6,6 @@ import HeroVideo from "./HeroVideo.jsx";
 import YouTubeEmbed from "./YouTubeEmbed.jsx";
 import { VIDEOS } from "./testimonials.js";
 import marouanePhoto from "./Marouane.webp";
-import brandLogo from "./Logo.webp";
 import "./Sales.css";
 import "./Zlin.css";
 
@@ -129,7 +128,6 @@ export default function Zlin() {
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
-        <Reveal instant><img className="z-logo" src={brandLogo} alt="The Speaker's Gym" width="120" height="120" /></Reveal>
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In person · Four weeks</p></Reveal>
         <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
         <Reveal instant delay={160}>
