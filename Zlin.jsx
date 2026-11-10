@@ -44,10 +44,16 @@ const HOW = [
 ];
 
 const CURRICULUM = [
-  ["Speak on the spot", "Organize your thoughts in seconds and answer without rehearsing."],
-  ["Volume and vocal variety", "Use volume and vocal range so your message lands."],
-  ["Pace", "Control your pace. Speak with composure and influence."],
-  ["The pitch", "Bring every skill together in one pitch, then prove it in a gamified challenge, such as an interview or a speech."],
+  ["Speak on the spot", "Organize your thoughts in seconds and answer without rehearsing.", "Structure"],
+  ["Volume and vocal variety", "Use volume and vocal range so your message lands.", "Voice"],
+  ["Pace", "Control your pace. Speak with composure and influence.", "Pace"],
+  ["The pitch", "Bring every skill together in one pitch, then prove it in a gamified challenge, such as an interview or a speech.", "Everything"],
+];
+
+const LOOP = [
+  ["🎮", "Play", "Every skill is trained as a challenge, not a lecture."],
+  ["🔍", "Review", "See your voice and your gestures with fresh eyes."],
+  ["🚀", "Level up", "Get the one exact point to sharpen next, then go again."],
 ];
 
 const GROUP_LIST = [
@@ -225,31 +231,43 @@ export default function Zlin() {
       </section>
 
       {/* ── CURRICULUM ── */}
-      <section className="s-section" id="curriculum">
+      <section className="s-section z-curr" id="curriculum">
         <Reveal>
           <p className="s-label">The curriculum</p>
-          <h2 className="s-title">Four weeks. <em>Each skill builds on the last.</em></h2>
-          <p className="s-sub">One focus per week.</p>
+          <h2 className="s-title z-curr-title">Four weeks. <em>Each skill builds on the last.</em></h2>
+          <p className="s-sub">One focus per week. By week four, you use them all.</p>
         </Reveal>
-        <div className="s-why z-how">
-          {CURRICULUM.map(([title, text], i) => (
-            <Reveal key={title} delay={i * 90}>
-              <article className="s-why-card z-week">
-                <span aria-hidden="true">{i + 1}</span>
+        <div className="z-steps">
+          {CURRICULUM.map(([title, text, tag], i) => (
+            <Reveal key={title} delay={i * 110} className="z-step-wrap">
+              <article className="z-step" style={{ "--n": i + 1 }}>
+                <span className="z-step-num" aria-hidden="true">0{i + 1}</span>
                 <small>Week {i + 1}</small>
                 <h3>{title}</h3>
                 <p>{text}</p>
+                <div className="z-pips" role="img" aria-label={`${i + 1} of 4 skills in play`}>
+                  <span className="z-pips-dots">{[0, 1, 2, 3].map((k) => <i key={k} className={k <= i ? "on" : ""} />)}</span>
+                  <b>{tag}</b>
+                </div>
               </article>
             </Reveal>
           ))}
         </div>
         <Reveal>
-          <div className="z-record">
-            <span className="z-record-ico" aria-hidden="true">🎥</span>
-            <div>
-              <small>Gamified, with video</small>
-              <strong>We record you. You see what we see.</strong>
-              <p>Watch your gestures and your voice on screen. We pinpoint exactly what to improve, and you go again.</p>
+          <div className="z-loop">
+            <div className="z-loop-head">
+              <small>Gamified</small>
+              <strong>Play. Review. Level up.</strong>
+            </div>
+            <div className="z-loop-steps">
+              {LOOP.map(([icon, title, text], i) => (
+                <div className="z-loop-step" key={title}>
+                  <span className="z-loop-ico" aria-hidden="true">{icon}</span>
+                  <h4>{title}</h4>
+                  <p>{text}</p>
+                  {i < LOOP.length - 1 && <i className="z-loop-arrow" aria-hidden="true">→</i>}
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>
