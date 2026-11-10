@@ -16,6 +16,10 @@
       "destination": "/pitch/call.html"
     },
     {
+      "source": "/pitch-zlin",
+      "destination": "/pitch-zlin/index.html"
+    },
+    {
       "source": "/links",
       "destination": "/links/index.html"
     },
