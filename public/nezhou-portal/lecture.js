@@ -982,5 +982,3 @@
     if (event.key === "Escape" && document.body.classList.contains("lecture-open")) close();
   });
 })();
-
-

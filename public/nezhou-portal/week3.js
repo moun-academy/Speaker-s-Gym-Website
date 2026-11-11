@@ -597,5 +597,3 @@
     if (event.key === "Escape" && document.body.classList.contains("week3-open")) close();
   });
 })();
-
-
