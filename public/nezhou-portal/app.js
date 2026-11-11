@@ -236,11 +236,11 @@
   }
   function updateLecture(week,patch) {state[`week${week}Lecture`]={...state[`week${week}Lecture`],...patch};saveState();}
   const portal = {
-    client:{id:'nezhou',name:'Nezha',storageKey:DATA.storageKey},getState:()=>state,
+    client:{id:'nezhou',name:'Nezhou',storageKey:DATA.storageKey},getState:()=>state,
     updateWeek1:patch=>updateLecture(1,patch),updateLecture:patch=>updateLecture(2,patch),updateWeek3:patch=>updateLecture(3,patch),updateWeek4:patch=>updateLecture(4,patch),updateWeek5:patch=>updateLecture(5,patch),updateWeek6:patch=>updateLecture(6,patch),
     setExposureLevel(level){state.currentLevel=clampLevel(level);state.week2Lecture.currentLevel=state.currentLevel;saveState();renderJourney();},
     resetLecture(week){
-      if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Nezha's other progress stays saved.`)) return false;
+      if(!window.confirm(`Reset Lecture ${week}? This clears its answers and mission. Nezhou's other progress stays saved.`)) return false;
       state.coachingLectureResets={...(state.coachingLectureResets||{}),[week]:COACHING?.id};state[`week${week}Lecture`]=structuredClone(defaults[`week${week}Lecture`]);state.evidence=state.evidence.filter(item=>Number(item.sourceLecture)!==Number(week));saveState();renderAll();showToast(`Lecture ${week} is ready for a fresh start.`);return true;
     },
     saveEvidence(card){
@@ -274,7 +274,7 @@
   });
   async function saveCoachMission() {
     const missions={...(sync.coach.missions||{}),6:$('#coachMission6').value.trim()};
-    try { const result=await api('PUT','coach',{coach:{...sync.coach,missions}}); if(result.status!==200) throw new Error(); sync.coach={...sync.coach,missions}; showToast('Week 6 mission saved. Nezha will see it.'); renderProgress(); }
+    try { const result=await api('PUT','coach',{coach:{...sync.coach,missions}}); if(result.status!==200) throw new Error(); sync.coach={...sync.coach,missions}; showToast('Week 6 mission saved. Nezhou will see it.'); renderProgress(); }
     catch { showToast('The mission could not be saved. Please try again.'); }
   }
   // Pick up changes made on another device when someone comes back to this tab.
@@ -287,7 +287,7 @@
   $('#reflectionForm').addEventListener('submit',event=>{event.preventDefault();const action=$('#reflectionAction').value.trim(),result=$('#reflectionResult').value.trim();if(!action||!result){showToast('Add what you tried and what you noticed.');return;}state.reflections.unshift({id:crypto.randomUUID(),action,result,next:$('#reflectionNext').value.trim(),createdAt:new Date().toISOString()});saveFeedback('Your reflection is saved.');$('#reflectionForm').reset();renderReflections();});
   $('#exportNotes').addEventListener('click',()=>{
     const moments=[...state.reflections,...state.evidence];
-    const text=["Nezha's Speaker's Gym notes",'',`Coaching note: ${state.callNote||'No note yet.'}`,'',...moments.flatMap(item=>[new Date(item.createdAt).toLocaleDateString('en-GB'),`Tried: ${item.action||''}`,`Noticed: ${item.result||''}`,`Next: ${item.next||''}`,''])].join('\n');
+    const text=["Nezhou's Speaker's Gym notes",'',`Coaching note: ${state.callNote||'No note yet.'}`,'',...moments.flatMap(item=>[new Date(item.createdAt).toLocaleDateString('en-GB'),`Tried: ${item.action||''}`,`Noticed: ${item.result||''}`,`Next: ${item.next||''}`,''])].join('\n');
     const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='nezhou-coaching-notes.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   $('#closeTour').addEventListener('click',()=>$('#tourDialog').close());
@@ -300,6 +300,11 @@
     const done=state.coachingFollowUps?.[COACHING.id]||{};
     $('#coachingUpdate').innerHTML='<span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>'+esc(COACHING.title||'Your focus this week')+'</h2><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map(m=>'<label class="coaching-mission"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>What to work on</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
     const call=COACHING.nextCall;
+    if(call?.status==='proposed'){
+      const proposed=new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:call.timeZone}).format(new Date(call.start));
+      $('#coachingSession').innerHTML='<span class="eyebrow">YOUR LIVE COACHING</span><h2>Your first coaching call</h2><p><strong>'+esc(proposed)+'</strong><br>Dubai time · 60 minutes</p><span class="status-pill"><i></i>Proposed · awaiting your confirmation</span><p class="helper">Does this time work for you? Please confirm with Marouane. Your calendar invitation and meeting link will follow once agreed.</p><div class="session-prep"><strong>Explore before we meet.</strong><p>Try random app questions, play with PREP and post your community introduction.</p></div><button class="text-button" id="prepareCall">Save a note for our call →</button>';
+      $('#prepareCall').addEventListener('click',()=>{location.hash='reflections';$('#callNote').focus();});return;
+    }
     if(!call){
       $('#coachingSession').innerHTML='<span class="eyebrow">YOUR LIVE COACHING</span><h2>Your first coaching call</h2><span class="status-pill"><i></i>To be arranged</span><p class="helper">We’ll agree a date and time together. Your calendar invitation and meeting link will appear here once confirmed.</p><div class="session-prep"><strong>Bring what matters to you.</strong><p>One interview question, a role you are considering and a real example from your experience.</p></div><button class="text-button" id="prepareCall">Save a note for our call →</button>';
       $('#prepareCall').addEventListener('click',()=>{location.hash='reflections';$('#callNote').focus();});

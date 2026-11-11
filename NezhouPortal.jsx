@@ -8,7 +8,7 @@ export default function NezhouPortal() {
     const previous = existing?.getAttribute('content');
     const robots = existing || document.createElement('meta');
     if (!existing) { robots.name = 'robots'; document.head.appendChild(robots); }
-    document.title = "Nezha's Journey | The Speaker's Gym";
+    document.title = "Nezhou's Journey | The Speaker's Gym";
     robots.setAttribute('content', 'noindex, nofollow, noarchive, nosnippet');
     return () => {
       document.title = previousTitle;
@@ -17,5 +17,5 @@ export default function NezhouPortal() {
       else robots.setAttribute('content', previous);
     };
   }, []);
-  return <main className="nezhou-portal-shell"><iframe className="nezhou-portal-frame" src="/nezhou-portal/index.html" title="Nezha's personal Speaker's Gym coaching space" /></main>;
+  return <main className="nezhou-portal-shell"><iframe className="nezhou-portal-frame" src="/nezhou-portal/index.html" title="Nezhou's personal Speaker's Gym coaching space" /></main>;
 }

@@ -5,49 +5,49 @@ window.NEZHOU_DATA = {
     {
       "short": "PREP",
       "title": "Organize Your Thoughts with PREP",
-      "focus": "Develop full interview answers that show your experience, one clear point and one real example.",
-      "outcome": "I can introduce my pharmacy and regulatory-affairs experience in 60–90 seconds and explain the leadership direction I want next.",
+      "focus": "Get comfortable with the app and community, then explore how PREP gives a random answer a clear shape.",
+      "outcome": "I can try a random question using PREP and share a short introduction in the community.",
       "lecture": 1,
       "days": [
         [
-          "Your first clear introduction",
-          "Record a natural starting point. You do not need to sound polished.",
-          "Tell me about yourself.",
+          "Explore a random question",
+          "Open the app, choose a random question and have a go. This is a chance to explore, without pressure to perform.",
+          "Choose a random question in the Speaker’s Gym app.",
           [
-            "Open the practice app in video mode.",
-            "Introduce your pharmacy background, your regulatory-affairs experience and the leadership role you want next in 60–90 seconds.",
-            "Watch once. Notice one strength and choose one thing to make clearer."
+            "Open the practice app and try a random question.",
+            "Play with PREP: Point → Reason → Example → Point. Use keywords rather than writing a script.",
+            "Try another question, look at the feedback and notice one thing to try next."
           ]
         ],
         [
-          "One point, then the evidence",
-          "Practice PREP: Point, Reason, Example, Point. Develop one answer beyond a single sentence.",
-          "What strength would you bring to a pharmaceutical leadership team?"
+          "Play with structure",
+          "Try two random questions. Give a point, a reason, an example and return to your point.",
+          "Choose a new random question in the app."
         ],
         [
-          "Make your contribution visible",
-          "Choose a real example. Explain your own action and its value without confidential details.",
-          "Tell me about a regulatory-affairs challenge you helped resolve."
+          "Introduce yourself to the community",
+          "Post a short, friendly introduction video in the community. Share what you would like to work on; this is not an interview answer.",
+          "Say hello, share a little about yourself and what you hope to get from Speaker’s Gym."
         ],
         [
-          "Business wording that sounds like you",
-          "Choose one useful expression, such as “My recommendation is…”. Use it in a real example rather than memorizing jargon.",
-          "What would you recommend, and why?"
+          "Find your way around",
+          "Explore your portal, app, community and lectures. Save a question for your first coaching call.",
+          "Which part of the platform would I like help with?"
         ],
         [
-          "Your introduction in one minute",
-          "Keep your relevant experience, one supporting example and your next direction.",
-          "How does your experience prepare you for a leadership role?"
+          "Try one professional expression",
+          "Pick one word from your vocabulary toolkit. Use it naturally in a practice answer.",
+          "Try “clarify”, “prioritize” or “align” in an answer of your choice."
         ],
         [
-          "Say it to a trusted listener",
-          "Share your introduction with someone you trust. Ask which contribution they remember.",
-          "How would you explain your work to someone outside the pharmaceutical sector?"
+          "Share one practice recording",
+          "Download a short random-question answer from the app and share it for feedback. Focus on one skill.",
+          "Choose any random question and experiment with PREP."
         ],
         [
-          "Notice the first change",
-          "Compare your first recording with one recent answer. Keep one useful observation.",
-          "Where did I develop my answer more clearly?"
+          "Bring one observation to coaching",
+          "Keep exploring for 10–15 minutes a day. Save one thing that felt useful and one question for Marouane.",
+          "What would I like to practice together in our first call?"
         ]
       ]
     },
@@ -326,8 +326,8 @@ window.NEZHOU_DATA = {
   ],
   "wins": {
     "1": {
-      "title": "Post your PREP speech in the community",
-      "hint": "Record your PREP answer (up to 2 minutes) and share it. Done beats perfect."
+      "title": "Share a PREP answer in the community",
+      "hint": "Choose a random app question, try PREP and share a short recording. Keep it simple."
     },
     "2": {
       "title": "Answer questions in the app, standing up, in a louder voice",
