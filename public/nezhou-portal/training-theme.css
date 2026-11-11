@@ -1,0 +1,22 @@
+/* Brand treatment for the existing interactive lecture engines. */
+.week1-page,.week2-page,.week3-page{background:radial-gradient(ellipse at 90% 0%,#f1cb3d08,transparent 45%),#111!important;color:#f2f1eb}
+.w1-header,.w2-header,.w3-header,.w1-footer,.w2-footer,.w3-footer{background:#141411!important;border-color:#4a4029}
+.w1-chapter-track,.w2-chapter-track,.w3-chapter-track{background:#20201a!important;border-color:#4d442a;border-left-color:var(--yellow);border-radius:5px}
+.w1-screen h1,.w2-screen h1,.w3-screen h1{font-weight:700;font-style:normal}
+.w1-screen h1 em,.w2-screen h1 em,.w3-screen h1 em{font-weight:700;color:var(--yellow)}
+.w1-next,.w2-next,.w3-next,.w4-primary,.w4-speak,.w1-next.mission-accept,.w2-next.mission-accept,.w3-next.mission-accept{background:var(--yellow)!important;border-color:var(--yellow)!important;color:#111!important;border-radius:3px}
+.w1-next:hover,.w2-next:hover,.w3-next:hover,.w4-primary:hover{background:#ffe178!important}
+.w1-back,.w2-back,.w3-back,.w1-secondary,.w2-secondary,.w3-secondary,.w1-reset,.w2-reset,.w3-reset{border-color:#68572f;border-radius:4px}
+.w1-shift-arrow span,.w1-prep-rail>div.active span,.w1-prep-rail>div:nth-of-type(3) span,.w1-question-grid article:nth-child(3) span,.w1-question-grid article:nth-child(4) span,.w4-pause-types .thinking b,.w4-cycle li,.w4-phases li:last-child.active{color:#111}
+.w1-agenda article,.w2-agenda article,.w3-agenda article{border-radius:5px;border-color:#4a4029}
+.w1-agenda strong,.w2-agenda strong,.w3-agenda strong{font-weight:600}
+.w1-screen p,.w2-screen p,.w3-screen p{line-height:1.6}
+.w1-demo p,.w1-full-answer p,.w2-demo p,.w2-full-answer p,.w3-script p{font-family:var(--sans);font-size:15px}
+.w1-open-quote,.w2-open-quote,.w3-open-quote{background:#202018;border-left:3px solid var(--yellow);border-radius:3px}
+.w1-form input,.w1-form textarea,.w2-form input,.w2-form textarea,.w3-form input,.w3-form textarea,.w1-builder input,.w1-builder textarea{background:#151511;color:#eee7ce;border-color:#68572f}
+.w1-framework-gain{background:#181815!important;border-color:#746029}
+.w4-clock-card.running,.w4-swap,.w4-escape-lines span,.w4-pause-types b,.w4-word:hover{background:#29251b!important}
+.w4-pause-types .thinking b{background:var(--yellow)!important}
+.w1-choices button.selected,.w1-level-picker button.active,.w2-choices button.selected,.w2-level-picker button.active,.w3-level-picker button.active{border-color:var(--yellow)!important;background:#f1cb3d16!important;color:#f5e3a5!important}
+.w1-level-focus,.w2-level-focus,.w3-level-focus{border-left:2px solid var(--yellow)}
+.w3-top-track,.w2-top-track{background:#1d1d17!important}
