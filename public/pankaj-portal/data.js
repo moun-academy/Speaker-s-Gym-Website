@@ -2,7 +2,7 @@ window.PANKAJ_PORTAL_DATA = {
   storageKey: "speakers-gym-pankaj",
   links: {
     app: "https://the-speaker-s-gym-premium.vercel.app/",
-    community: "https://www.skool.com/moun-academy-2097"
+    community: "https://www.skool.com/moun-academy-2097/about"
   },
   evidenceCategories: [
     "I spoke before the moment passed.",

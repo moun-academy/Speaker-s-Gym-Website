@@ -39,7 +39,7 @@ window.PANKAJ_COACHING_UPDATE = {
       "id": "final-story-video",
       "title": "Record and share your two-minute story",
       "text": "Practice the cafeteria story from our call. Include the setting, what happened, and the lesson: learn from mistakes and move on. Use volume, pace, pauses and melody, then post your video in the community for feedback.",
-      "link": "https://www.skool.com/moun-academy-2097",
+      "link": "https://www.skool.com/moun-academy-2097/about",
       "linkLabel": "Open community"
     },
     {
