@@ -49,7 +49,7 @@ window.PANKAJ_COACHING_UPDATE = {
       "id": "revisit-pitch",
       "title": "Optional: revisit pitch practice",
       "text": "Return to Lecture 5 for the pitch exercises, or watch the short pitch-variation lesson and try its examples in the community classroom.",
-      "link": "https://www.skool.com/moun-academy-2097",
+      "link": "https://www.skool.com/moun-academy-2097/about",
       "linkLabel": "Open community"
     }
   ],

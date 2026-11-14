@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import brandLogo from "./Logo.webp";
 import "./GroupCoaching.css";
 
-const CHALLENGE_URL = "https://www.skool.com/speakersgym/classroom/452d41c9?md=d4ac2851b073485ea1595cfe6245736b";
+const CHALLENGE_URL = "https://www.skool.com/moun-academy-2097/about";
 
 /* Paste the Speaker's Gym app link here to show the "Open the app" button. */
 const APP_URL = "";
