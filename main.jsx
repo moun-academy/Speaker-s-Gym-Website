@@ -12,6 +12,7 @@ import NadiraPortal from './NadiraPortal.jsx'
 import PankajPortal from './PankajPortal.jsx'
 import AshwinPortal from './AshwinPortal.jsx'
 import NezhouPortal from './NezhouPortal.jsx'
+import AhmedPortal from './AhmedPortal.jsx'
 import MuhammadAshrafPortal from './MuhammadAshrafPortal.jsx'
 import KiyanPortal from './KiyanPortal.jsx'
 import { installCalendlyBookingTracking } from './metaTracking.js'
@@ -49,6 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/pankaj" element={<PankajPortal />} />
         <Route path="/ashwin" element={<AshwinPortal />} />
         <Route path="/nezhou" element={<NezhouPortal />} />
+        <Route path="/ahmed" element={<AhmedPortal />} />
         <Route path="/muhammad-ashraf" element={<MuhammadAshrafPortal />} />
         <Route path="/kiyan" element={<KiyanPortal />} />
         <Route path="/success" element={<ThankYouCall />} />
