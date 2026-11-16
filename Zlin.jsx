@@ -12,7 +12,7 @@ import "./Zlin.css";
 const CONTACT_EMAIL = "marouane@speakers-gym.com";
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Zlín program question")}&body=${encodeURIComponent("Hello Speaker's Gym team,\n\nI'm interested in the Zlín program.\n\nThank you!")}`;
 /* Stripe payment link (Czech crowns): in-person group, 2 000 Kč. The tag lets us see which page the payment came from. */
-const RESERVE_URL = "https://buy.stripe.com/3cI6oHfZPdg9a4n8GZ1ck0b?client_reference_id=zlin_group";
+const RESERVE_URL = "https://buy.stripe.com/fZu28r8xn3Fz4K34qJ1ck0c?client_reference_id=zlin_group";
 /* In-person group: venue, schedule and session dates */
 const VENUE = "House of Culture";
 const VENUE_CZ = "Dům kultury";
@@ -21,9 +21,9 @@ const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
 const GROUP_TIME = "5 PM – 6:30 PM";
 const SESSION_DATES = "22 Nov, 29 Nov, 6 Dec and 13 Dec";
 
-/* Prices are in Czech crowns, per person. The holiday offer halves the regular price. */
+/* Prices are in Czech crowns, per person. Black Friday founding member price for the first group in Zlín. */
 const LIST_PRICE = 4000;
-const DEAL_PRICE = 2000;
+const DEAL_PRICE = 1200;
 const ONE_PRICE = 3000;
 const GROUP_MAX = 10;
 const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
@@ -33,7 +33,7 @@ const cx = (...c) => c.filter(Boolean).join(" ");
 const OUTCOMES = [
   ["🎯", "Speak on the spot", "Answer with clarity the moment you are asked. No scripts. No hesitation.", "Rehearsed", "Spontaneous"],
   ["🔥", "Speak with influence", "Be clear and persuasive. Make people listen, and act.", "Understood", "Influential"],
-  ["🚀", "Reach the next level", "Move from speaking English well to communicating like a leader.", "Fluent", "Commanding"],
+  ["💼", "Land jobs in English", "Interview with confidence and present yourself as the candidate they want to hire.", "Qualified", "Hired"],
 ];
 
 const HOW = [
@@ -86,7 +86,7 @@ const FAQS = [
   ["How long are the sessions?", "The in-person group meets in Zlín for 90 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
-  ["How much does it cost?", `The in-person group is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, as a holiday offer. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
+  ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
   ["How do I reserve a spot?", <>Pay online to secure your place in the group: <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">reserve my spot</a>. If you want more information, <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
 ];
 
@@ -128,7 +128,7 @@ function FAQ({ q, a }) {
 export default function Zlin() {
   useEffect(() => {
     const prev = document.title;
-    document.title = "In-Person Communication Coaching in Zlín | The Speaker's Gym";
+    document.title = "Communication Masterclass in Zlín | The Speaker's Gym";
     return () => { document.title = prev; };
   }, []);
 
@@ -140,10 +140,10 @@ export default function Zlin() {
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
-        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · In person · Four weeks</p></Reveal>
+        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />From Dubai and Montréal · Now in Zlín</p></Reveal>
         <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
         <Reveal instant delay={160}>
-          <p className="s-hero-sub">A four-week intensive in Zlín, for professionals who already speak English and want to lead with it.</p>
+          <p className="s-hero-sub">A four-week communication masterclass, in person in Zlín. Speak with more influence. Land the job, in English.</p>
         </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
@@ -160,11 +160,37 @@ export default function Zlin() {
         <Reveal instant delay={360}>
           <ul className="s-assure">
             <li><Check />In person in Zlín</li>
-            <li><Check />Four-week intensive</li>
+            <li><Check />Four-week masterclass</li>
             <li><Check />Daily practice and feedback</li>
           </ul>
         </Reveal>
       </header>
+
+      {/* ── NOW IN ZLÍN ── */}
+      <section className="s-section z-city" id="zlin">
+        <Reveal>
+          <p className="s-label">Now in Zlín</p>
+          <h2 className="s-title">After years in Dubai and Montréal, <em>The Speaker&apos;s Gym comes to Zlín.</em></h2>
+          <p className="s-sub">Six years of coaching in two of the world&apos;s most international cities. Now in person, in your city.</p>
+        </Reveal>
+        <Reveal>
+          <ol className="z-route" aria-label="Dubai, then Montréal, now Zlín">
+            <li><span className="z-route-dot" aria-hidden="true" /><b>Dubai</b><small>Where it started</small></li>
+            <li><span className="z-route-dot" aria-hidden="true" /><b>Montréal</b><small>Where it grew</small></li>
+            <li className="z-route-now"><span className="z-route-dot" aria-hidden="true" /><b>Zlín</b><small>Now, every Sunday</small></li>
+          </ol>
+        </Reveal>
+        <Reveal>
+          <div className="z-city-card">
+            <span className="z-venue-pin" aria-hidden="true">📍</span>
+            <div>
+              <strong>{VENUE} <em>({VENUE_CZ})</em></strong>
+              <span>{VENUE_ADDRESS} · Sundays, {GROUP_TIME} · First session 22 November</span>
+            </div>
+            <a href={MAP_URL} target="_blank" rel="noopener noreferrer">View on map →</a>
+          </div>
+        </Reveal>
+      </section>
 
       {/* ── OUTCOMES ── */}
       <section className="s-section z-out-sec" id="outcomes">
@@ -299,16 +325,16 @@ export default function Zlin() {
       {/* ── PLANS ── */}
       <section className="s-section" id="plans">
         <Reveal>
-          <p className="s-label">Holiday offer</p>
-          <h2 className="s-title">Train in your city. <em>Face to face.</em></h2>
-          <p className="s-sub">Two ways to join. Prices are in Czech crowns, per person.</p>
+          <p className="s-label">Black Friday · Founding members</p>
+          <h2 className="s-title">Become a <em>founding member.</em></h2>
+          <p className="s-sub">We just arrived in Zlín, and we are building our first group. The first {GROUP_MAX} people get the founding member price.</p>
         </Reveal>
         <div className="s-plans">
           <Reveal>
             <article className="s-plan s-plan--featured" id="in-person">
-              <span className="s-ribbon">IN PERSON · ZLÍN</span>
-              <p className="s-plan-tag">IN-PERSON GROUP · MAX {GROUP_MAX}</p>
-              <h3>The Zlín intensive</h3>
+              <span className="s-ribbon z-bf-ribbon">BLACK FRIDAY · FOUNDING MEMBERS</span>
+              <p className="s-plan-tag">IN PERSON · ZLÍN · MAX {GROUP_MAX}</p>
+              <h3>4-week communication masterclass</h3>
               <p className="s-plan-desc">Four Sunday sessions, face to face, in a small group of up to {GROUP_MAX}.</p>
               <div className="z-venue">
                 <span className="z-venue-pin" aria-hidden="true">📍</span>
@@ -324,10 +350,10 @@ export default function Zlin() {
                 <s>{kc(LIST_PRICE)}</s>
                 <strong>{kc(DEAL_PRICE)}</strong>
                 <span>per person · Four weeks</span>
-                <em className="s-deal">Holiday offer · save {kc(LIST_PRICE - DEAL_PRICE)}</em>
+                <em className="s-deal">Black Friday founding member deal · save {kc(LIST_PRICE - DEAL_PRICE)}</em>
               </div>
               <ul className="s-list">{GROUP_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
-              <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Reserve my spot · {kc(DEAL_PRICE)} <span aria-hidden="true">→</span></a>
+              <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Claim my founding spot · {kc(DEAL_PRICE)} <span aria-hidden="true">→</span></a>
               <p className="s-ask">Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={15} /> Book a free call</a></p>
             </article>
           </Reveal>

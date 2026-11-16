@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-  <meta name="description" content="The Speaker's Gym Zlín Intensive: four in-person weeks to speak on the spot and speak with influence.">
+  <meta name="description" content="The Speaker's Gym Zlín Masterclass: four in-person weeks to speak on the spot and speak with influence.">
   <meta name="theme-color" content="#0d0d0d">
-  <title>The Zlín Intensive | The Speaker's Gym</title>
+  <title>The Zlín Masterclass | The Speaker's Gym</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -520,7 +520,7 @@
 
   <header class="topbar">
     <a class="brand" href="/"><img src="/pitch/dumbbell.png" alt=""><span>THE SPEAKER'S GYM</span></a>
-    <a class="btn btn-gold js-join" href="https://buy.stripe.com/3cI6oHfZPdg9a4n8GZ1ck0b?client_reference_id=zlin_pitch" target="_blank" rel="noopener">Join the program</a>
+    <a class="btn btn-gold js-join" href="https://buy.stripe.com/fZu28r8xn3Fz4K34qJ1ck0c?client_reference_id=zlin_pitch" target="_blank" rel="noopener">Join the program</a>
   </header>
 
   <nav class="dots" aria-label="Sections">
@@ -543,8 +543,8 @@
       <div class="wrap">
         <p class="presents reveal">MOUN ACADEMY PRESENTS</p>
         <h1 class="reveal">SPEAKER'S<br><span>GYM</span></h1>
-        <p class="program reveal">The Zlín Intensive</p>
-        <p class="lede reveal">From speaking English well to communicating with influence.</p>
+        <p class="program reveal">The Zlín Masterclass</p>
+        <p class="lede reveal">Speak with more influence. Land the job, in English.</p>
         <div class="pills reveal">
           <span class="pill"><b>4</b> WEEKS</span>
           <span class="pill">IN PERSON IN ZLÍN</span>
@@ -793,14 +793,14 @@
         <p class="eyebrow reveal">YOUR INVESTMENT</p>
         <h2 class="reveal">An offer that's <em>impossible to say no to.</em></h2>
         <p class="promise" id="promise" hidden><small>FOUR WEEKS FROM NOW</small><span></span></p>
-        <p class="deadline reveal" data-deadline><i aria-hidden="true"></i>HOLIDAY OFFER · FIRST GROUP STARTS 22 NOVEMBER<span data-days></span></p>
+        <p class="deadline reveal" data-deadline><i aria-hidden="true"></i>BLACK FRIDAY · FOUNDING MEMBERS · FIRST GROUP STARTS 22 NOVEMBER<span data-days></span></p>
         <div class="offer reveal">
           <div class="price">
-            <small>IN-PERSON GROUP · ZLÍN · 4 SESSIONS</small>
+            <small>4-WEEK COMMUNICATION MASTERCLASS · ZLÍN</small>
             <div class="was"><span>4 000 Kč</span><span class="slash" aria-hidden="true"></span></div>
-            <div class="now"><span class="badge">THIS CALL&#39;S PRICE</span><strong>2 000 Kč</strong><span class="save">You save 2 000 Kč today</span></div>
+            <div class="now"><span class="badge">FOUNDING MEMBER PRICE</span><strong>1 200 Kč</strong><span class="save">You save 2 800 Kč today</span></div>
             <p class="today">When you join during this call</p>
-            <p class="perhour">6 hours of live coaching for 2 000 Kč. <b>About 333 Kč an hour.</b></p>
+            <p class="perhour">6 hours of live coaching for 1 200 Kč. <b>200 Kč an hour.</b></p>
           </div>
           <div class="includes">
             <small>EVERYTHING YOU GET</small>
@@ -818,9 +818,9 @@
           <div><b>10</b><span>PEOPLE MAXIMUM</span><small>a small, in-person group</small></div>
         </div>
         <div class="cta-row reveal">
-          <a class="btn btn-gold js-join" id="join" href="https://buy.stripe.com/3cI6oHfZPdg9a4n8GZ1ck0b?client_reference_id=zlin_pitch" target="_blank" rel="noopener">JOIN FOR 2 000 Kč <span aria-hidden="true">→</span></a>
+          <a class="btn btn-gold js-join" id="join" href="https://buy.stripe.com/fZu28r8xn3Fz4K34qJ1ck0c?client_reference_id=zlin_pitch" target="_blank" rel="noopener">CLAIM MY FOUNDING SPOT · 1 200 Kč <span aria-hidden="true">→</span></a>
         </div>
-        <p class="fine reveal"><span data-deadline>Holiday offer · </span>Secure checkout with Stripe</p>
+        <p class="fine reveal"><span data-deadline>Black Friday founding member deal · </span>Secure checkout with Stripe</p>
         <button class="or reveal" id="groupToggle" type="button" aria-expanded="false" aria-controls="groupOffer">PREFER ONE-TO-ONE? <span class="or-cue">SEE THE ONLINE OPTION ↓</span></button>
         <div class="alt reveal" id="groupOffer" hidden>
           <div class="alt-head">
@@ -952,7 +952,7 @@
       sections[next].scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Price: as the card scrolls up the screen, slash 4 000 Kč, shrink it, then bring in 2 000 Kč.
+    // Price: as the card scrolls up the screen, slash 4 000 Kč, shrink it, then bring in 1 200 Kč.
     // Scrolling back up plays it in reverse.
     const price = document.querySelector('.price');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1109,8 +1109,8 @@
     })();
 
     document.querySelectorAll('.js-join').forEach((a) => a.addEventListener('click', () => {
-      try { fbq('track', 'InitiateCheckout', { value: 2000, currency: 'CZK' }); } catch (e) {}
-      try { gtag('event', 'begin_checkout', { value: 2000, currency: 'CZK' }); } catch (e) {}
+      try { fbq('track', 'InitiateCheckout', { value: 1200, currency: 'CZK' }); } catch (e) {}
+      try { gtag('event', 'begin_checkout', { value: 1200, currency: 'CZK' }); } catch (e) {}
     }));
     document.getElementById('joinGroup').addEventListener('click', () => {
       try { fbq('track', 'Lead', { content_name: '1-on-1 coaching, Zlín' }); } catch (e) {}

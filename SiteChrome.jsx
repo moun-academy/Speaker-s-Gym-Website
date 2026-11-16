@@ -21,6 +21,7 @@ const salesLinks = [
 ];
 
 const zlinLinks = [
+  ["Now in Zlín", "#zlin"],
   ["Outcomes", "#outcomes"],
   ["Your Coach", "#coach"],
   ["Results", "#results"],

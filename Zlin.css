@@ -141,3 +141,31 @@
   .zlin-page .z-out { grid-template-columns: 1fr; gap: 18px; }
   .zlin-page .z-out-card--mid { height: 100%; margin: 0; padding-top: 34px; padding-bottom: 28px; }
 }
+
+
+/* now in Zlín: the route from Dubai and Montréal */
+.zlin-page .z-city { position: relative; }
+.zlin-page .z-city .s-title { max-width: 820px; margin-left: auto; margin-right: auto; text-wrap: balance; }
+.zlin-page .z-route { list-style: none; position: relative; display: grid; grid-template-columns: repeat(3, 1fr); max-width: 860px; margin: 52px auto 0; padding: 0; }
+.zlin-page .z-route::before { content: ""; position: absolute; left: 16.66%; right: 16.66%; top: 13px; height: 2px; background: linear-gradient(90deg, rgba(217,192,111,.25), var(--gold)); }
+.zlin-page .z-route li { position: relative; text-align: center; }
+.zlin-page .z-route-dot { display: block; width: 28px; height: 28px; margin: 0 auto 16px; border-radius: 50%; background: #1b1a17; border: 2px solid rgba(217,192,111,.55); }
+.zlin-page .z-route b { display: block; font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 600; color: var(--text-dim); }
+.zlin-page .z-route small { display: block; margin-top: 4px; color: var(--text-dim); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+.zlin-page .z-route-now .z-route-dot { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 0 rgba(217,192,111,.55); animation: z-here 2.2s infinite; }
+.zlin-page .z-route-now b { color: var(--gold); font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-style: italic; }
+.zlin-page .z-route-now small { color: var(--text-bright); font-weight: 700; }
+@keyframes z-here { 70% { box-shadow: 0 0 0 14px rgba(217,192,111,0); } 100% { box-shadow: 0 0 0 0 rgba(217,192,111,0); } }
+@media (prefers-reduced-motion: reduce) { .zlin-page .z-route-now .z-route-dot { animation: none; } }
+.zlin-page .z-city-card { display: flex; align-items: center; gap: 16px; max-width: 860px; margin: 44px auto 0; padding: 18px 22px; border: 1px solid var(--gold); border-radius: 18px; background: rgba(217,192,111,.07); }
+.zlin-page .z-city-card strong { display: block; color: var(--text-bright); font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+.zlin-page .z-city-card strong em { color: var(--gold); font-weight: 400; }
+.zlin-page .z-city-card span:not(.z-venue-pin) { display: block; color: var(--text); font-size: .95rem; }
+.zlin-page .z-city-card a { margin-left: auto; flex: none; color: var(--gold); font-weight: 600; font-size: .92rem; text-decoration: none; border-bottom: 1px solid rgba(217,192,111,.4); }
+@media (max-width: 680px) {
+  .zlin-page .z-city-card { flex-direction: column; align-items: flex-start; }
+  .zlin-page .z-city-card a { margin-left: 0; }
+}
+
+/* Black Friday founding member ribbon */
+.zlin-page .z-bf-ribbon { background: #0d0d0d; color: var(--gold); border: 1px solid var(--gold); }
