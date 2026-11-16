@@ -4,3 +4,11 @@
 .session-schedule{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.session-schedule summary{cursor:pointer;font-weight:600;font-size:13px}.session-schedule ol{padding-left:20px;margin:12px 0;font-size:13px;line-height:1.9}.session-schedule .helper{margin-top:8px}
 
 .pitch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:24px}.pitch-grid label{display:flex;flex-direction:column;gap:9px;font-size:13px}.pitch-grid label>span{color:var(--muted);min-height:42px}.pitch-grid textarea{width:100%;box-sizing:border-box;min-height:110px;background:#f6f3e8;border:1px solid var(--line);border-radius:10px;padding:13px;font:inherit;resize:vertical}.pitch-grid textarea:focus{outline:2px solid var(--gold-dark);outline-offset:2px}@media(max-width:700px){.pitch-grid{grid-template-columns:1fr}.pitch-grid label>span{min-height:0}}
+
+/* Keep the intro logo and its captions together, centered at every size. */
+.hero-art{min-width:0;padding:28px 20px;gap:12px;text-align:center}
+.hero-logo{display:block;width:245px;height:245px;max-width:100%;flex-shrink:0}
+.art-caption{font-size:9px;line-height:1.5}
+.art-footer{font-size:8px;line-height:1.5;margin:0;white-space:normal}
+@media(max-width:1100px){.hero-logo{width:215px;height:215px}.art-caption{font-size:8px}.art-footer{font-size:7px}}
+@media(max-width:600px){.hero-art{display:flex;position:relative;inset:auto;width:auto;height:auto;opacity:1;padding:0 27px 28px;gap:10px}.hero-logo{width:180px;height:180px}.hero-art .art-caption,.hero-art .art-footer{display:block}.hero-art .art-footer{margin:0}}
