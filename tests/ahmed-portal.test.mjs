@@ -15,12 +15,12 @@ function fixture(saved,remote,coaching=false) {
 }
 
 
-test('Ahmed starts clean, with proposed rather than confirmed booking and no automatic lecture completion',async()=>{
+test('Ahmed starts clean, with the verified booking and no automatic lecture completion',async()=>{
  const app=fixture(null,null,true);for(let i=0;i<8;i++)await Promise.resolve();
  assert.equal(app.portal.client.id,'ahmed');assert.equal(app.portal.client.name,'Ahmed');
  const s=app.portal.getState();assert.equal(s.reflections.length,0);assert.equal(s.evidence.length,0);
  for(let week=1;week<=6;week++){assert.equal(s['week'+week+'Lecture'].lectureCompletedAt,null);assert.equal(s['week'+week+'Lecture'].missionStatus,'not-started');}
- const card=app.elements.get('#coachingSession').innerHTML;assert.match(card,/20 November 2026/);assert.match(card,/5:00/);assert.match(card,/awaiting confirmation from Marouane/);assert.doesNotMatch(card,/meet.google.com/);
+ const card=app.elements.get('#coachingSession').innerHTML;assert.match(card,/20 November 2026/);assert.match(card,/5:00/);assert.match(card,/jdv-cfqi-qef/);assert.doesNotMatch(card,/Proposed|awaiting confirmation/);
  assert.ok(app.calls.every(call=>call.url.includes('client=ahmed')));
 });
 test('Introduction workshop persists across reload alongside answers, reflections, start date and independent missions',()=>{
@@ -33,7 +33,7 @@ test('Introduction workshop persists across reload alongside answers, reflection
 });
 test('Ahmed has six weeks, 42 workplace prompts, ten exposure steps and no copied client identity or schedule',()=>{
  const ctx=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(root+'/data.js','utf8'),ctx);const d=ctx.window.AHMED_DATA;assert.equal(d.storageKey,'speakers-gym-ahmed-v1');assert.equal(d.weeks.length,6);assert.equal(d.weeks.flatMap(w=>w.days).length,42);assert.equal(d.levels.length,10);assert.match(d.weeks[0].days[0].join(' '),/30-second/);
- const copy=fs.readdirSync(root).filter(f=>/\.(js|html)$/.test(f)).map(f=>fs.readFileSync(root+'/'+f,'utf8')).join(' ');assert.doesNotMatch(copy,/nezhou|nezha|ashwin|pharmacy|regulatory.affairs|ijr-vkhi|ihnsiefutt9/i);assert.match(copy,/noindex, nofollow, noarchive, nosnippet/);assert.match(copy,/speakersgym\/about/);assert.match(copy,/the-speaker-s-gym-premium.vercel.app/);
+ const copy=fs.readdirSync(root).filter(f=>/\.(js|html)$/.test(f)).map(f=>fs.readFileSync(root+'/'+f,'utf8')).join(' ');assert.doesNotMatch(copy,/nezhou|nezha|ashwin|pharmacy|regulatory.affairs|ijr-vkhi|ihnsiefutt9/i);assert.match(copy,/noindex, nofollow, noarchive, nosnippet/);assert.match(copy,/moun-academy-2097\/about/);assert.match(copy,/the-speaker-s-gym-premium.vercel.app/);
 });
 test('Ahmed progress record cannot leak into another client',async()=>{
  const {handlePortal,memoryStore}=await import('../api/_portal-core.js');const store=memoryStore();const req=(client,method='GET',body)=>handlePortal({env:{},store,method,action:'state',client,body});

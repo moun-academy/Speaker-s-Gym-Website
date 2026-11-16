@@ -30,9 +30,12 @@ window.AHMED_COACHING_UPDATE = {
     "Keep space to think when speaking to a larger or more senior audience."
   ],
   "nextCall": {
-    "status": "proposed",
+    "status": "confirmed",
+    "label": "Your first coaching call",
+    "eventId": "su2fea8mg5jbeu9jmg8ki1fvpg",
     "start": "2026-11-20T17:00:00+04:00",
     "end": "2026-11-20T18:00:00+04:00",
-    "timeZone": "Asia/Dubai"
+    "timeZone": "Asia/Dubai",
+    "meetingLink": "https://meet.google.com/jdv-cfqi-qef"
   }
 };
