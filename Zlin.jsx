@@ -26,6 +26,8 @@ const LIST_PRICE = 4000;
 const DEAL_PRICE = 1200;
 const ONE_PRICE = 3000;
 const GROUP_MAX = 10;
+/* The mobile bar names the first session until it has started. */
+const FIRST_SESSION_UPCOMING = new Date() < new Date(2026, 10, 22, 17, 0);
 const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -422,7 +424,14 @@ export default function Zlin() {
         <CalendarIcon size={22} />
         <span>Book a call</span>
       </a>
-      <a href={BOOK_URL} className="s-sticky" target="_blank" rel="noopener noreferrer">Book a free discovery call <span aria-hidden="true">→</span></a>
+      <a href="#in-person" className="s-sticky z-sticky">
+        <span className="z-sticky-dot" aria-hidden="true" />
+        <span className="z-sticky-text">
+          <small>Founding members · {kc(DEAL_PRICE)}</small>
+          <b>{FIRST_SESSION_UPCOMING ? "Join us this Sunday, 22 November" : "Join us this Sunday"}</b>
+        </span>
+        <span className="z-sticky-arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   );
 }
