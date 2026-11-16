@@ -140,7 +140,7 @@ export default function Zlin() {
       <header className="s-hero">
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
-        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />From Dubai and Montréal · Now in Zlín</p></Reveal>
+        <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · Now in person</p></Reveal>
         <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
         <Reveal instant delay={160}>
           <p className="s-hero-sub">A four-week communication masterclass, in person in Zlín. Speak with more influence. Land the job, in English.</p>
@@ -227,11 +227,11 @@ export default function Zlin() {
             <div className="z-coach-text">
               <p className="s-label s-label--left">Your communication coach</p>
               <h2>Marouane <em>Al Mandri</em></h2>
-              <p className="z-lede">I have mentored people in Dubai and Montréal for six years.</p>
+              <p className="z-lede">I&apos;m a communication coach with six years of experience.</p>
               <p>I turn shy people into confident communicators. Not with tricks, but by changing how they structure their thoughts, and how they think about what they are about to say.</p>
               <p>I watch how you speak, and tell you the one thing to fix next.</p>
               <ul className="z-creds">
-                <li><Check /><span><b>Six years</b> mentoring in Dubai and Montréal</span></li>
+                <li><Check /><span><b>Six years</b> of coaching experience</span></li>
                 <li><Check /><span>Founder of <b>The Speaker's Gym</b> and its app</span></li>
                 <li><Check /><span>Creator of the <b>MOUN Academy</b> course</span></li>
                 <li><Check /><span>Now coaching in person in <b>Zlín</b></span></li>
