@@ -214,3 +214,6 @@
   .sales-page.zlin-page .z-cz { flex-direction: column; text-align: center; gap: 12px; margin: 0 4px 24px; padding: 20px 18px; }
   .sales-page.zlin-page .z-cz-ico { width: 52px; height: 52px; font-size: 1.5rem; }
 }
+
+/* Czech subline under the Czech headline */
+.sales-page.zlin-page .z-cz-sub { max-width: 760px; margin: -6px auto 22px; font-family: var(--font-display); font-style: italic; font-size: clamp(1.25rem, 2.8vw, 1.75rem); line-height: 1.4; color: var(--gold); text-shadow: 0 2px 18px rgba(0,0,0,.6); }

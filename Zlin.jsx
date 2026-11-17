@@ -180,18 +180,12 @@ export default function Zlin() {
         <HeroVideo />
         <div className="s-hero-glow" aria-hidden="true" />
         <Reveal instant><p className="s-kicker"><span className="s-dot" aria-hidden="true" />Ahoj, Zlín · Now in person</p></Reveal>
-        <Reveal instant delay={80}><h1>Speak on the spot. Speak with <em>influence.</em></h1></Reveal>
+        <Reveal instant delay={80}><h1 lang="cs">Stydíte se mluvit <em>anglicky?</em></h1></Reveal>
+        <Reveal instant delay={120}>
+          <p className="z-cz-sub" lang="cs">Připravte se na pohovor v angličtině, přímo tady ve Zlíně.</p>
+        </Reveal>
         <Reveal instant delay={160}>
           <p className="s-hero-sub">A four-week communication masterclass, in person in Zlín. Speak with more influence. Land the job, in English.</p>
-        </Reveal>
-        <Reveal instant delay={200}>
-          <div className="z-cz" lang="cs">
-            <span className="z-cz-ico" aria-hidden="true">💬</span>
-            <div>
-              <b>Stydíte se mluvit anglicky?</b>
-              <span>Připravte se na pohovor v angličtině, přímo tady ve Zlíně.</span>
-            </div>
-          </div>
         </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
