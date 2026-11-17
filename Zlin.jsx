@@ -155,7 +155,7 @@ function FreeSessionModal({ onClose }) {
       <div className="s-modal-card z-cal-card">
         <button type="button" className="s-modal-close" aria-label="Close" onClick={onClose}>×</button>
         <p className="s-modal-kicker">FIRST SESSION FREE · SUNDAY 22 NOVEMBER</p>
-        <iframe className="z-cal-frame" src={CALENDLY_EMBED} title="Book the free first session in Zlín" loading="eager" />
+        <iframe className="z-cal-frame" src={`${CALENDLY_EMBED}&embed_domain=${encodeURIComponent(window.location.hostname)}&embed_type=Inline`} title="Book the free first session in Zlín" loading="eager" />
         <a className="z-cal-open" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Not loading? Open the booking page in a new tab →</a>
       </div>
     </div>
