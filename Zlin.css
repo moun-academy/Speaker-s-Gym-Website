@@ -195,3 +195,12 @@
 .zlin-page button.s-btn--ghost { border: 1px solid var(--border-strong); background: transparent; color: var(--gold); }
 .zlin-page .z-wa-fallback { margin: 4px 0 12px; }
 .zlin-page .z-done-btn { margin-top: 10px; }
+
+
+/* Calendly booking in a modal */
+.zlin-page .z-cal-card { width: min(100%, 780px); max-height: calc(100vh - 24px); padding: 22px 14px 12px; display: flex; flex-direction: column; }
+.zlin-page .z-cal-card .s-modal-kicker { padding: 0 8px; margin-bottom: 8px; }
+.zlin-page .z-cal-frame { width: 100%; height: min(78vh, 700px); border: 0; border-radius: 14px; background: #171717; }
+.zlin-page .z-cal-open { display: block; padding: 12px 8px 4px; text-align: center; color: var(--text-dim); font-size: .85rem; }
+.zlin-page .z-cal-open:hover { color: var(--gold); }
+@media (max-width: 680px) { .zlin-page .z-cal-card { width: 100%; padding: 18px 6px 8px; } .zlin-page .z-cal-frame { height: calc(100vh - 150px); } }

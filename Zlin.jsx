@@ -92,8 +92,8 @@ const FAQS = [
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
   ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
-  ["Is the first session really free?", "Yes. Fill in the short form and come to the first session on Sunday 22 November, free. If you love it, continue as a founding member for the rest of the masterclass."],
-  ["How do I join?", <>Fill in the form to join the first session for free. To secure your place in the full masterclass, <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">claim your founding spot</a>. Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
+  ["Is the first session really free?", "Yes. Pick your spot in the booking calendar and come to the first session on Sunday 22 November, free. If you love it, continue as a founding member for the rest of the masterclass."],
+  ["How do I join?", <>Book your spot to join the first session for free. To secure your place in the full masterclass, <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">claim your founding spot</a>. Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
 ];
 
 function Reveal({ children, delay = 0, className = "", instant = false }) {
@@ -131,22 +131,18 @@ function FAQ({ q, a }) {
   );
 }
 
-/* Free first session: name, email and phone. If the server cannot save the sign-up,
-   the person can still send the same details on WhatsApp, so no one is lost. */
-function FreeSessionModal({ onClose }) {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", website: "" });
-  const [state, setState] = useState("idle"); // idle | sending | done | error
-  const [error, setError] = useState("");
-  const [fallback, setFallback] = useState(false);
-  const firstField = useRef(null);
+/* Free first session: booked in Calendly (group event, max 10, Sunday 22 November). */
+const CALENDLY_URL = "https://calendly.com/marouane-speakers-gym/zlin-workshop";
+const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=171717&text_color=f4f1e8&primary_color=d9c06f`;
 
+function FreeSessionModal({ onClose }) {
   useEffect(() => {
     const previous = document.activeElement;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    firstField.current?.focus();
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
+    try { window.fbq?.("track", "Lead", { content_name: "Zlín free session (booking opened)" }); } catch (err) { /* ignore */ }
     return () => {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
@@ -154,81 +150,13 @@ function FreeSessionModal({ onClose }) {
     };
   }, [onClose]);
 
-  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-  const whatsappDetails = whatsappLink(`Hello Speaker's Gym team, I'd like to join the free first session in Zlín on ${FREE_SESSION_LABEL}.\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}`);
-
-  async function submit(e) {
-    e.preventDefault();
-    setState("sending");
-    setError("");
-    setFallback(false);
-    try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, group: FREE_SESSION_DATE, source: "zlin-free-session" }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) {
-        const messages = {
-          name: "Please enter your full name.",
-          email: "Please check your email address.",
-          phone: "Please enter a phone number with your country code.",
-          too_many: "Too many attempts. Please try again in a little while.",
-        };
-        const known = messages[data.error];
-        setError(known || "We could not save your details just now. Send them to us on WhatsApp and we will confirm your spot.");
-        setFallback(!known);
-        setState("error");
-        return;
-      }
-      setState("done");
-      try { window.fbq?.("track", "Lead", { content_name: "Zlín free session" }); } catch (err) { /* ignore */ }
-      try { window.gtag?.("event", "generate_lead", { item_name: "Zlín free session" }); } catch (err) { /* ignore */ }
-    } catch {
-      setError("Could not connect. Send your details on WhatsApp and we will confirm your spot.");
-      setFallback(true);
-      setState("error");
-    }
-  }
-
   return (
-    <div className="s-modal" role="dialog" aria-modal="true" aria-labelledby="fs-title" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="s-modal-card">
+    <div className="s-modal" role="dialog" aria-modal="true" aria-label="Book your free first session" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="s-modal-card z-cal-card">
         <button type="button" className="s-modal-close" aria-label="Close" onClick={onClose}>×</button>
-        {state === "done" ? (
-          <div className="s-modal-done">
-            <span className="s-modal-tick" aria-hidden="true"><Check /></span>
-            <h3 id="fs-title">You&apos;re in. See you Sunday!</h3>
-            <p>Your free first session is on <b>{FREE_SESSION_LABEL}</b>, {GROUP_TIME}, at the <b>{VENUE} ({VENUE_CZ})</b>, {VENUE_ADDRESS}. We will confirm on WhatsApp or email.</p>
-            <a className="s-btn s-btn--ghost s-btn--block" href={MAP_URL} target="_blank" rel="noopener noreferrer">View on map</a>
-            <button type="button" className="s-btn s-btn--gold s-btn--block z-done-btn" onClick={onClose}>Done</button>
-          </div>
-        ) : (
-          <form onSubmit={submit} noValidate>
-            <p className="s-modal-kicker">FIRST SESSION FREE · {FREE_SESSION_LABEL.toUpperCase()}</p>
-            <h3 id="fs-title">Join us this Sunday</h3>
-            <p className="s-modal-sub">{GROUP_TIME} at the {VENUE} ({VENUE_CZ}), Zlín. Max {GROUP_MAX} people.</p>
-            <label className="s-field"><span>Full name</span>
-              <input ref={firstField} type="text" autoComplete="name" required value={form.name} onChange={update("name")} />
-            </label>
-            <label className="s-field"><span>Email</span>
-              <input type="email" autoComplete="email" inputMode="email" required value={form.email} onChange={update("email")} />
-            </label>
-            <label className="s-field"><span>Phone (with country code)</span>
-              <input type="tel" autoComplete="tel" inputMode="tel" placeholder="+420 600 123 456" required value={form.phone} onChange={update("phone")} />
-            </label>
-            <label className="s-hp" aria-hidden="true">Website<input type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={update("website")} /></label>
-            {state === "error" && <p className="s-modal-error" role="alert">{error}</p>}
-            {state === "error" && fallback && (
-              <a className="s-btn s-btn--ghost s-btn--block z-wa-fallback" href={whatsappDetails} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18} /> Send my details on WhatsApp</a>
-            )}
-            <button type="submit" className="s-btn s-btn--gold s-btn--block" disabled={state === "sending"}>
-              {state === "sending" ? "Saving…" : "Save my free spot"}
-            </button>
-            <p className="s-modal-fine">Free, no payment. We only use your details to contact you about this session.</p>
-          </form>
-        )}
+        <p className="s-modal-kicker">FIRST SESSION FREE · SUNDAY 22 NOVEMBER</p>
+        <iframe className="z-cal-frame" src={CALENDLY_EMBED} title="Book the free first session in Zlín" loading="eager" />
+        <a className="z-cal-open" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Not loading? Open the booking page in a new tab →</a>
       </div>
     </div>
   );
