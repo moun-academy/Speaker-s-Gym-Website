@@ -76,12 +76,28 @@ function ThankYouLayout({ badge, title, subtitle, body, footerNote }) {
 /* ─── /success ───
    Dedicated booking-confirmation page. The Schedule conversion is sent from
    BookACall only after Calendly confirms the booking, before this redirect. */
-export function ThankYouCall() {
-  useEffect(() => {
-    document.title = "You're Booked! — The Speaker's Gym";
-  }, []);
+const ZLIN_STEPS = [
+  {
+    title: "Check your inbox",
+    desc: "Your confirmation and calendar invite are on their way. Add it to your calendar so the time is blocked off.",
+  },
+  {
+    title: "Meet us at House of Culture",
+    desc: "Sunday 22 November, 3 PM – 4 PM at Dům kultury, Gahurova 5265, Zlín. Arrive a few minutes early.",
+  },
+  {
+    title: "Come ready to speak",
+    desc: "No prep needed. Think of one moment you'd like to handle better in English — a meeting, an interview, a conversation.",
+  },
+];
 
-  const steps = [
+export function ThankYouCall() {
+  const isZlin = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("event") === "zlin";
+  useEffect(() => {
+    document.title = isZlin ? "You're In! — Zlín · The Speaker's Gym" : "You're Booked! — The Speaker's Gym";
+  }, [isZlin]);
+
+  const callSteps = [
     {
       title: "Check your inbox",
       desc: "Your confirmation and calendar invite are on their way. Add it to your calendar so the time is blocked off.",
@@ -95,6 +111,7 @@ export function ThankYouCall() {
       desc: "30 minutes, 1-on-1. We map where you are, what's holding you back, and whether the Speaker's Gym is the right fit. No pressure, no pitch.",
     },
   ];
+  const steps = isZlin ? ZLIN_STEPS : callSteps;
 
   return (
     <>
@@ -180,11 +197,13 @@ export function ThankYouCall() {
           </div>
 
           <div className="tyc-rise" style={{ animationDelay: ".15s" }}>
-            <div className="tyc-badge">Call Confirmed</div>
+            <div className="tyc-badge">{isZlin ? "Spot Confirmed · Zlín" : "Call Confirmed"}</div>
           </div>
-          <h1 className="tyc-title tyc-rise" style={{ animationDelay: ".22s" }}>You're Booked!</h1>
+          <h1 className="tyc-title tyc-rise" style={{ animationDelay: ".22s" }}>{isZlin ? "You're In!" : "You're Booked!"}</h1>
           <p className="tyc-subtitle tyc-rise" style={{ animationDelay: ".3s" }}>
-            Your free 30-minute strategy call is confirmed. We're looking forward to speaking with you.
+            {isZlin
+              ? "Your free first session in Zlín is confirmed. We're looking forward to seeing you this Sunday."
+              : "Your free 30-minute strategy call is confirmed. We're looking forward to speaking with you."}
           </p>
 
           <div className="tyc-rise" style={{ animationDelay: ".4s" }}>
@@ -203,12 +222,12 @@ export function ThankYouCall() {
           </div>
 
           <div className="tyc-btns tyc-rise" style={{ animationDelay: ".5s" }}>
-            <a href="/" className="tyc-btn">Back to Home</a>
+            <a href={isZlin ? "/zlin" : "/"} className="tyc-btn">{isZlin ? "Back to the Zlín Page" : "Back to Home"}</a>
             <a href={WHATSAPP_URL} className="tyc-btn-ghost" target="_blank" rel="noopener noreferrer">Message Us on WhatsApp</a>
           </div>
 
           <div className="tyc-footnote tyc-rise" style={{ animationDelay: ".58s" }}>
-            Need to reschedule? <a href={SCHEDULE_URL} target="_blank" rel="noopener noreferrer">Manage your booking</a>
+            {isZlin ? "Can't make it?" : "Need to reschedule?"} <a href={isZlin ? "https://calendly.com/marouane-speakers-gym/zlin-workshop" : SCHEDULE_URL} target="_blank" rel="noopener noreferrer">Manage your booking</a>
           </div>
         </div>
       </main>

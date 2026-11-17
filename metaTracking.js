@@ -106,8 +106,10 @@ export function installCalendlyBookingTracking({ redirectTo = "/success" } = {})
     const redirect = () => {
       if (redirected) return;
       redirected = true;
-      if (window.location.pathname !== redirectTo) {
-        window.location.assign(redirectTo);
+      // Zlín workshop bookings get their own confirmation copy.
+      const target = window.location.pathname.startsWith("/zlin") ? `${redirectTo}?event=zlin` : redirectTo;
+      if (window.location.pathname + window.location.search !== target) {
+        window.location.assign(target);
       }
     };
 
