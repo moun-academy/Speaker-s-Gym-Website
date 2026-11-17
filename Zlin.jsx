@@ -185,7 +185,13 @@ export default function Zlin() {
           <p className="s-hero-sub">A four-week communication masterclass, in person in Zlín. Speak with more influence. Land the job, in English.</p>
         </Reveal>
         <Reveal instant delay={200}>
-          <p className="z-cz" lang="cs">Stydíte se mluvit anglicky? <em>Připravte se na pohovor v angličtině, přímo tady ve Zlíně.</em></p>
+          <div className="z-cz" lang="cs">
+            <span className="z-cz-ico" aria-hidden="true">💬</span>
+            <div>
+              <b>Stydíte se mluvit anglicky?</b>
+              <span>Připravte se na pohovor v angličtině, přímo tady ve Zlíně.</span>
+            </div>
+          </div>
         </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
