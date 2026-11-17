@@ -18,7 +18,7 @@ const VENUE = "House of Culture";
 const VENUE_CZ = "Dům kultury";
 const VENUE_ADDRESS = "Gahurova 5265, 760 01 Zlín";
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Dům kultury Zlín, Gahurova 5265, 760 01 Zlín")}`;
-const GROUP_TIME = "5 PM – 6:30 PM";
+const GROUP_TIME = "3 PM – 4 PM";
 const SESSION_DATES = "22 Nov, 29 Nov, 6 Dec and 13 Dec";
 
 /* Prices are in Czech crowns, per person. Black Friday founding member price for the first group in Zlín. */
@@ -30,7 +30,7 @@ const GROUP_MAX = 10;
 const FREE_SESSION_DATE = "2026-11-22";
 const FREE_SESSION_LABEL = "Sunday 22 November";
 /* The mobile bar names the first session until it has started. */
-const FIRST_SESSION_UPCOMING = new Date() < new Date(2026, 10, 22, 17, 0);
+const FIRST_SESSION_UPCOMING = new Date() < new Date(2026, 10, 22, 15, 0);
 const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -42,7 +42,7 @@ const OUTCOMES = [
 ];
 
 const HOW = [
-  ["🤝", "Weekly coaching", "One session a week. 90 minutes in person in Zlín for the group, 60 minutes online for 1-on-1."],
+  ["🤝", "Weekly coaching", "One session a week. 60 minutes in person in Zlín for the group, 60 minutes online for 1-on-1."],
   ["📱", "Daily practice with AI", "Record yourself in the Speaker's Gym app and get instant AI feedback. Practice becomes a habit."],
   ["💬", "Daily feedback", "We review your work in our online community, every day."],
   ["📲", "Ongoing follow-up", "We stay in touch on WhatsApp and in the school community."],
@@ -62,7 +62,7 @@ const LOOP = [
 ];
 
 const GROUP_LIST = [
-  "Weekly 90-minute in-person coaching in Zlín",
+  "Weekly 60-minute in-person coaching in Zlín",
   `Small group, maximum ${GROUP_MAX} people`,
   "Speaker's Gym app: daily practice with AI feedback",
   "Daily feedback in our online community",
@@ -86,9 +86,9 @@ const FOR_YOU = [
 
 const FAQS = [
   ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
-  ["Where and when does it take place?", `We meet at the ${VENUE} (${VENUE_CZ}), ${VENUE_ADDRESS}, every Sunday from ${GROUP_TIME.replace(" – ", " to ")}. Four sessions: ${SESSION_DATES}. Each one lasts 90 minutes. Maximum ${GROUP_MAX} people.`],
+  ["Where and when does it take place?", `We meet at the ${VENUE} (${VENUE_CZ}), ${VENUE_ADDRESS}, every Sunday from ${GROUP_TIME.replace(" – ", " to ")}. Four sessions: ${SESSION_DATES}. Each one lasts 60 minutes. Maximum ${GROUP_MAX} people.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
-  ["How long are the sessions?", "The in-person group meets in Zlín for 90 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
+  ["How long are the sessions?", "The in-person group meets in Zlín for 60 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
   ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
@@ -454,7 +454,7 @@ export default function Zlin() {
                 <div>
                   <strong>{VENUE} <em>({VENUE_CZ})</em></strong>
                   <span>{VENUE_ADDRESS}</span>
-                  <span>Every Sunday · {GROUP_TIME} · 90 minutes</span>
+                  <span>Every Sunday · {GROUP_TIME} · 60 minutes</span>
                   <span>{SESSION_DATES}</span>
                   <a href={MAP_URL} target="_blank" rel="noopener noreferrer">View on map →</a>
                 </div>
