@@ -1,5 +1,5 @@
-// Waiting list for upcoming groups on /sales.
-// POST saves { name, email, phone, group }; GET (password protected) downloads everything as CSV.
+// Waiting list for upcoming groups on /sales, and free-session sign-ups on /zlin.
+// POST saves { name, email, phone, group, source? }; GET (password protected) downloads everything as CSV.
 
 const LIST_KEY = "waitlist:groups";
 const ADMIN_USER = "speaker";
@@ -8,6 +8,7 @@ const MAX_PER_IP_PER_HOUR = 10;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^\+?[0-9 ()\-.]{6,24}$/;
 const GROUP_RE = /^\d{4}-\d{2}-\d{2}$/;
+const SOURCE_RE = /^[a-z0-9-]{1,40}$/;
 
 // Upstash Redis REST, same variables as the client portals.
 export function redisCommand(env, fetchImpl = fetch) {
@@ -31,6 +32,9 @@ export function validateEntry(body) {
     phone: clean(body?.phone, 24),
     group: clean(body?.group, 10),
   };
+  // Optional tag for where the sign-up came from (for example "zlin-free-session").
+  const source = clean(body?.source, 40).toLowerCase();
+  if (source && SOURCE_RE.test(source)) entry.source = source;
   if (entry.name.length < 2) return { error: "name" };
   if (!EMAIL_RE.test(entry.email)) return { error: "email" };
   if (!PHONE_RE.test(entry.phone) || entry.phone.replace(/\D/g, "").length < 6) return { error: "phone" };
@@ -57,8 +61,8 @@ const csvCell = (v) => {
 };
 
 export function toCsv(entries) {
-  const rows = [["Signed up (UTC)", "Group start", "Name", "Email", "Phone"]];
-  for (const e of entries) rows.push([e.createdAt, e.group, e.name, e.email, e.phone]);
+  const rows = [["Signed up (UTC)", "Group start", "Name", "Email", "Phone", "Source"]];
+  for (const e of entries) rows.push([e.createdAt, e.group, e.name, e.email, e.phone, e.source || ""]);
   return rows.map((r) => r.map(csvCell).join(",")).join("\r\n");
 }
 

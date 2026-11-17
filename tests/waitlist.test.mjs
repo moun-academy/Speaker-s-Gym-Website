@@ -105,3 +105,14 @@ test("honeypot never reaches the sheet", async () => {
   await handleWaitlist({ method: "POST", body: { ...valid, website: "x.example" }, ip: "5.5.5.5", env: sheetEnv, command: null, fetchImpl: okFetch(calls) });
   assert.equal(calls.length, 0);
 });
+
+test("keeps an optional source tag and ignores a bad one", async () => {
+  const { data, command } = memoryCommand();
+  const r = await handleWaitlist({ method: "POST", body: { ...valid, group: "2026-11-22", source: "zlin-free-session" }, ip: "9.9.9.9", env, command });
+  assert.equal(r.status, 200);
+  assert.equal(JSON.parse(data.get("waitlist:groups")[0]).source, "zlin-free-session");
+  const bad = await handleWaitlist({ method: "POST", body: { ...valid, source: "<script>" }, ip: "9.9.9.8", env, command });
+  assert.equal(bad.status, 200);
+  assert.equal(JSON.parse(data.get("waitlist:groups")[1]).source, undefined);
+  assert.match(toCsv([{ createdAt: "x", group: "2026-11-22", name: "A B", email: "a@b.co", phone: "+420 600 000 000", source: "zlin-free-session" }]), /zlin-free-session/);
+});

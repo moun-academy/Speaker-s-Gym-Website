@@ -26,6 +26,9 @@ const LIST_PRICE = 4000;
 const DEAL_PRICE = 1200;
 const ONE_PRICE = 3000;
 const GROUP_MAX = 10;
+/* First session is free: people sign up with a short form (saved through /api/waitlist, tagged "zlin-free-session"). */
+const FREE_SESSION_DATE = "2026-11-22";
+const FREE_SESSION_LABEL = "Sunday 22 November";
 /* The mobile bar names the first session until it has started. */
 const FIRST_SESSION_UPCOMING = new Date() < new Date(2026, 10, 22, 17, 0);
 const kc = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
@@ -89,7 +92,8 @@ const FAQS = [
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
   ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
-  ["How do I reserve a spot?", <>Pay online to secure your place in the group: <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">reserve my spot</a>. If you want more information, <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
+  ["Is the first session really free?", "Yes. Fill in the short form and come to the first session on Sunday 22 November, free. If you love it, continue as a founding member for the rest of the masterclass."],
+  ["How do I join?", <>Fill in the form to join the first session for free. To secure your place in the full masterclass, <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">claim your founding spot</a>. Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
 ];
 
 function Reveal({ children, delay = 0, className = "", instant = false }) {
@@ -127,7 +131,112 @@ function FAQ({ q, a }) {
   );
 }
 
+/* Free first session: name, email and phone. If the server cannot save the sign-up,
+   the person can still send the same details on WhatsApp, so no one is lost. */
+function FreeSessionModal({ onClose }) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", website: "" });
+  const [state, setState] = useState("idle"); // idle | sending | done | error
+  const [error, setError] = useState("");
+  const [fallback, setFallback] = useState(false);
+  const firstField = useRef(null);
+
+  useEffect(() => {
+    const previous = document.activeElement;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    firstField.current?.focus();
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+      previous?.focus?.();
+    };
+  }, [onClose]);
+
+  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const whatsappDetails = whatsappLink(`Hello Speaker's Gym team, I'd like to join the free first session in Zlín on ${FREE_SESSION_LABEL}.\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}`);
+
+  async function submit(e) {
+    e.preventDefault();
+    setState("sending");
+    setError("");
+    setFallback(false);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, group: FREE_SESSION_DATE, source: "zlin-free-session" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        const messages = {
+          name: "Please enter your full name.",
+          email: "Please check your email address.",
+          phone: "Please enter a phone number with your country code.",
+          too_many: "Too many attempts. Please try again in a little while.",
+        };
+        const known = messages[data.error];
+        setError(known || "We could not save your details just now. Send them to us on WhatsApp and we will confirm your spot.");
+        setFallback(!known);
+        setState("error");
+        return;
+      }
+      setState("done");
+      try { window.fbq?.("track", "Lead", { content_name: "Zlín free session" }); } catch (err) { /* ignore */ }
+      try { window.gtag?.("event", "generate_lead", { item_name: "Zlín free session" }); } catch (err) { /* ignore */ }
+    } catch {
+      setError("Could not connect. Send your details on WhatsApp and we will confirm your spot.");
+      setFallback(true);
+      setState("error");
+    }
+  }
+
+  return (
+    <div className="s-modal" role="dialog" aria-modal="true" aria-labelledby="fs-title" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="s-modal-card">
+        <button type="button" className="s-modal-close" aria-label="Close" onClick={onClose}>×</button>
+        {state === "done" ? (
+          <div className="s-modal-done">
+            <span className="s-modal-tick" aria-hidden="true"><Check /></span>
+            <h3 id="fs-title">You&apos;re in. See you Sunday!</h3>
+            <p>Your free first session is on <b>{FREE_SESSION_LABEL}</b>, {GROUP_TIME}, at the <b>{VENUE} ({VENUE_CZ})</b>, {VENUE_ADDRESS}. We will confirm on WhatsApp or email.</p>
+            <a className="s-btn s-btn--ghost s-btn--block" href={MAP_URL} target="_blank" rel="noopener noreferrer">View on map</a>
+            <button type="button" className="s-btn s-btn--gold s-btn--block z-done-btn" onClick={onClose}>Done</button>
+          </div>
+        ) : (
+          <form onSubmit={submit} noValidate>
+            <p className="s-modal-kicker">FIRST SESSION FREE · {FREE_SESSION_LABEL.toUpperCase()}</p>
+            <h3 id="fs-title">Join us this Sunday</h3>
+            <p className="s-modal-sub">{GROUP_TIME} at the {VENUE} ({VENUE_CZ}), Zlín. Max {GROUP_MAX} people.</p>
+            <label className="s-field"><span>Full name</span>
+              <input ref={firstField} type="text" autoComplete="name" required value={form.name} onChange={update("name")} />
+            </label>
+            <label className="s-field"><span>Email</span>
+              <input type="email" autoComplete="email" inputMode="email" required value={form.email} onChange={update("email")} />
+            </label>
+            <label className="s-field"><span>Phone (with country code)</span>
+              <input type="tel" autoComplete="tel" inputMode="tel" placeholder="+420 600 123 456" required value={form.phone} onChange={update("phone")} />
+            </label>
+            <label className="s-hp" aria-hidden="true">Website<input type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={update("website")} /></label>
+            {state === "error" && <p className="s-modal-error" role="alert">{error}</p>}
+            {state === "error" && fallback && (
+              <a className="s-btn s-btn--ghost s-btn--block z-wa-fallback" href={whatsappDetails} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18} /> Send my details on WhatsApp</a>
+            )}
+            <button type="submit" className="s-btn s-btn--gold s-btn--block" disabled={state === "sending"}>
+              {state === "sending" ? "Saving…" : "Save my free spot"}
+            </button>
+            <p className="s-modal-fine">Free, no payment. We only use your details to contact you about this session.</p>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Zlin() {
+  const [freeOpen, setFreeOpen] = useState(false);
+  const openFree = (e) => { e?.preventDefault?.(); setFreeOpen(true); };
   useEffect(() => {
     const prev = document.title;
     document.title = "Communication Masterclass in Zlín | The Speaker's Gym";
@@ -156,8 +265,9 @@ export default function Zlin() {
         </Reveal>
         <Reveal instant delay={300}>
           <div className="s-hero-btns">
-            <a href={BOOK_URL} className="s-btn s-btn--gold s-btn--xl" target="_blank" rel="noopener noreferrer"><CalendarIcon size={20} /> Book a free discovery call</a>
+            <button type="button" className="s-btn s-btn--gold s-btn--xl" onClick={openFree}><CalendarIcon size={20} /> Join the first session free</button>
           </div>
+          <p className="z-hero-alt">Sunday 22 November · {GROUP_TIME} · <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">or book a free discovery call</a></p>
         </Reveal>
         <Reveal instant delay={360}>
           <ul className="s-assure">
@@ -338,6 +448,7 @@ export default function Zlin() {
               <p className="s-plan-tag">IN PERSON · ZLÍN · MAX {GROUP_MAX}</p>
               <h3>4-week communication masterclass</h3>
               <p className="s-plan-desc">Four Sunday sessions, face to face, in a small group of up to {GROUP_MAX}.</p>
+              <div className="z-free-note"><b>First session free.</b> Try it on {FREE_SESSION_LABEL}, then continue as a founding member.</div>
               <div className="z-venue">
                 <span className="z-venue-pin" aria-hidden="true">📍</span>
                 <div>
@@ -356,6 +467,7 @@ export default function Zlin() {
               </div>
               <ul className="s-list">{GROUP_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--gold s-btn--block" href={RESERVE_URL} target="_blank" rel="noopener noreferrer">Claim my founding spot · {kc(DEAL_PRICE)} <span aria-hidden="true">→</span></a>
+              <button type="button" className="s-btn s-btn--ghost s-btn--block z-free-btn" onClick={openFree}>Try the first session free</button>
               <p className="s-ask">Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={15} /> Book a free call</a></p>
             </article>
           </Reveal>
@@ -420,14 +532,16 @@ export default function Zlin() {
 
       <SiteFooter />
 
+      {freeOpen && <FreeSessionModal onClose={() => setFreeOpen(false)} />}
+
       <a href={BOOK_URL} className="s-call-float" aria-label="Book a free call" target="_blank" rel="noopener noreferrer">
         <CalendarIcon size={22} />
         <span>Book a call</span>
       </a>
-      <a href="#in-person" className="s-sticky z-sticky">
+      <a href="#in-person" className="s-sticky z-sticky" onClick={openFree}>
         <span className="z-sticky-dot" aria-hidden="true" />
         <span className="z-sticky-text">
-          <small>Founding members · {kc(DEAL_PRICE)}</small>
+          <small>First session free · Zlín</small>
           <b>{FIRST_SESSION_UPCOMING ? "Join us this Sunday, 22 November" : "Join us this Sunday"}</b>
         </span>
         <span className="z-sticky-arrow" aria-hidden="true">→</span>

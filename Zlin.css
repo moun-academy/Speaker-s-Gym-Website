@@ -183,3 +183,15 @@
 @media (prefers-reduced-motion: reduce) { .zlin-page .z-sticky-dot { animation: none; } }
 /* land the jump so the card's venue and price are in view under the top bar */
 .zlin-page #in-person { scroll-margin-top: 96px; }
+
+
+/* free first session */
+.zlin-page .z-hero-alt { margin: 14px auto 0; color: rgba(255,255,255,.8); font-size: .95rem; text-align: center; }
+.zlin-page .z-hero-alt a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+.zlin-page .z-free-note { margin: 0 0 18px; padding: 12px 16px; border-radius: 12px; background: rgba(127,211,143,.1); border: 1px solid rgba(127,211,143,.35); color: #cfeed6; font-size: .95rem; }
+.zlin-page .z-free-note b { color: #a9e6b4; }
+.zlin-page .z-free-btn { margin-top: 10px; }
+.zlin-page button.s-btn { font-family: var(--font-body); border: 0; }
+.zlin-page button.s-btn--ghost { border: 1px solid var(--border-strong); background: transparent; color: var(--gold); }
+.zlin-page .z-wa-fallback { margin: 4px 0 12px; }
+.zlin-page .z-done-btn { margin-top: 10px; }
