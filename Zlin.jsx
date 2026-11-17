@@ -86,13 +86,13 @@ const FOR_YOU = [
 ];
 
 const FAQS = [
-  ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is online.`],
+  ["Is the group in person?", `Yes. In Zlín, face to face, with a maximum of ${GROUP_MAX} people. The 1-on-1 coaching is a six-week program, online.`],
   ["Where and when does it take place?", `We meet at the ${VENUE} (${VENUE_CZ}), ${VENUE_ADDRESS}, every Sunday from ${GROUP_TIME.replace(" – ", " to ")}. Four sessions: ${SESSION_DATES}. Each one lasts 60 minutes. Maximum ${GROUP_MAX} people.`],
   ["In which language is the program?", "English. It is built for people who already speak it and want to use it with more impact."],
-  ["How long are the sessions?", "The in-person group meets in Zlín for 60 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
+  ["How long are the sessions?", "The in-person group meets in Zlín for 60 minutes every week. The 1-on-1 program runs for six weeks, with a 60-minute online session every week, focused on you and your personalized goals."],
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
-  ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}, 30% off the usual ${kc(ONE_LIST_PRICE)}.`],
+  ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online, a six-week program, is ${kc(ONE_PRICE)}, 30% off the usual ${kc(ONE_LIST_PRICE)}.`],
   ["Is the first session really free?", "Yes. Pick your spot in the booking calendar and come to the first session on Sunday 22 November, free. If you love it, continue as a founding member for the rest of the masterclass."],
   ["How do I join?", <>Book your spot to join the first session for free. To secure your place in the full masterclass, <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">claim your founding spot</a>. Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
 ];
@@ -408,11 +408,11 @@ export default function Zlin() {
               <span className="s-ribbon s-ribbon--quiet">ONLINE</span>
               <p className="s-plan-tag">1-ON-1 COACHING <span className="s-online">Live online</span></p>
               <h3>Private coaching</h3>
-              <p className="s-plan-desc">The same four weeks, one to one, fully online.</p>
+              <p className="s-plan-desc">A six-week program, one to one, fully online.</p>
               <div className="s-price">
                 <s>{kc(ONE_LIST_PRICE)}</s>
                 <strong>{kc(ONE_PRICE)}</strong>
-                <span>per person · Four weeks · weekly 60-minute sessions</span>
+                <span>per person · Six-week program · weekly 60-minute sessions</span>
                 <em className="s-deal">30% off · save {kc(ONE_LIST_PRICE - ONE_PRICE)}</em>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
