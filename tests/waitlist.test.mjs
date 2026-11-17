@@ -116,3 +116,15 @@ test("keeps an optional source tag and ignores a bad one", async () => {
   assert.equal(JSON.parse(data.get("waitlist:groups")[1]).source, undefined);
   assert.match(toCsv([{ createdAt: "x", group: "2026-11-22", name: "A B", email: "a@b.co", phone: "+420 600 000 000", source: "zlin-free-session" }]), /zlin-free-session/);
 });
+
+test("tagged sign-ups go to the leads webhook, even with no database or sheet", async () => {
+  const calls = [];
+  const fetchImpl = async (url, init) => { calls.push({ url, init }); return { ok: true, json: async () => ({}) }; };
+  const r = await handleWaitlist({ method: "POST", body: { ...valid, group: "2026-11-22", source: "zlin-free-session" }, env: { LEADS_WEBHOOK_URL: "https://hook.example/x" }, command: null, fetchImpl, now: new Date("2026-11-17T10:00:00Z") });
+  assert.equal(r.status, 200);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, "https://hook.example/x");
+  assert.equal(JSON.parse(calls[0].init.body).source, "zlin-free-session");
+  const fail = await handleWaitlist({ method: "POST", body: { ...valid, source: "zlin-free-session" }, env: { LEADS_WEBHOOK_URL: "https://hook.example/x" }, command: null, fetchImpl: async () => ({ ok: false }) });
+  assert.equal(fail.status, 502);
+});

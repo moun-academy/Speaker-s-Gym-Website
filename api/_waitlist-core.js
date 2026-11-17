@@ -9,6 +9,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^\+?[0-9 ()\-.]{6,24}$/;
 const GROUP_RE = /^\d{4}-\d{2}-\d{2}$/;
 const SOURCE_RE = /^[a-z0-9-]{1,40}$/;
+// Tagged sign-ups (for example the Zlín free session) go to this Make webhook, which writes them to the CRM sheet.
+const DEFAULT_LEADS_WEBHOOK = "https://hook.eu1.make.com/ddyp9o5vdg6dthi4b6nnvrciporcxlwh";
 
 // Upstash Redis REST, same variables as the client portals.
 export function redisCommand(env, fetchImpl = fetch) {
@@ -68,7 +70,9 @@ export function toCsv(entries) {
 
 export async function handleWaitlist({ method, body, authorization, ip, env, command, now = new Date(), fetchImpl = fetch }) {
   const sheetUrl = String(env.WAITLIST_SHEET_URL || "").trim();
-  if (!command && !sheetUrl) return { status: 503, json: { ok: false, error: "store_unavailable" } };
+  const leadsHook = String(env.LEADS_WEBHOOK_URL || DEFAULT_LEADS_WEBHOOK).trim();
+  const tagged = method === "POST" && Boolean(validateEntry(body).entry?.source);
+  if (!command && !sheetUrl && !(tagged && leadsHook)) return { status: 503, json: { ok: false, error: "store_unavailable" } };
 
   if (method === "GET") {
     if (!command) return { status: 503, json: { ok: false, error: "store_unavailable" } };
@@ -98,8 +102,18 @@ export async function handleWaitlist({ method, body, authorization, ip, env, com
   const saved = { ...entry, createdAt: now.toISOString() };
   let stored = false;
 
-  // Main home: the "Group Waitlist" tab in the Google Sheet (via the Apps Script web app).
-  if (sheetUrl) {
+  // Tagged sign-ups: the Make webhook (it adds a row to the matching CRM tab).
+  if (saved.source && leadsHook) {
+    try {
+      const res = await fetchImpl(leadsHook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(saved) });
+      stored = stored || res.ok;
+    } catch {
+      /* the database copy below may still have it */
+    }
+  }
+
+  // Main home for the group waiting list: the "Group Waitlist" tab in the Google Sheet (via the Apps Script web app).
+  if (sheetUrl && !saved.source) {
     try {
       const res = await fetchImpl(sheetUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(saved), redirect: "follow" });
       const out = await res.json().catch(() => ({}));
