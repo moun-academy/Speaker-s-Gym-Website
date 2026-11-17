@@ -24,7 +24,8 @@ const SESSION_DATES = "22 Nov, 29 Nov, 6 Dec and 13 Dec";
 /* Prices are in Czech crowns, per person. Black Friday founding member price for the first group in Zlín. */
 const LIST_PRICE = 4000;
 const DEAL_PRICE = 1200;
-const ONE_PRICE = 3000;
+const ONE_LIST_PRICE = 5400;
+const ONE_PRICE = 3500; // 35% off ONE_LIST_PRICE
 const GROUP_MAX = 10;
 /* First session is free: people sign up with a short form (saved through /api/waitlist, tagged "zlin-free-session"). */
 const FREE_SESSION_DATE = "2026-11-22";
@@ -91,7 +92,7 @@ const FAQS = [
   ["How long are the sessions?", "The in-person group meets in Zlín for 60 minutes every week. The 1-on-1 session is 60 minutes online every week, focused on you and your personalized goals."],
   ["What is the Speaker's Gym app?", "Your personal speaking gym, in your pocket. Record yourself in audio or video and receive an AI report on your structure, pace, pauses, vocal variety and filler words, with a full transcript. Then ask the AI how to improve. Add speaking games, vocal warm-ups, a guided program, levels, streaks and a progress tracker with weekly insights."],
   ["How does feedback work?", "Daily, in our online community, with follow-up on WhatsApp and in the school community."],
-  ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}.`],
+  ["How much does it cost?", `The Black Friday founding member price is ${kc(DEAL_PRICE)} per person, down from ${kc(LIST_PRICE)}, for the first group in Zlín. Private 1-on-1 coaching online is ${kc(ONE_PRICE)}, 35% off the usual ${kc(ONE_LIST_PRICE)}.`],
   ["Is the first session really free?", "Yes. Pick your spot in the booking calendar and come to the first session on Sunday 22 November, free. If you love it, continue as a founding member for the rest of the masterclass."],
   ["How do I join?", <>Book your spot to join the first session for free. To secure your place in the full masterclass, <a href={RESERVE_URL} target="_blank" rel="noopener noreferrer">claim your founding spot</a>. Questions? <a href={BOOK_URL} target="_blank" rel="noopener noreferrer">Book a free discovery call</a> or <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">contact us on WhatsApp</a>.</>],
 ];
@@ -409,8 +410,10 @@ export default function Zlin() {
               <h3>Private coaching</h3>
               <p className="s-plan-desc">The same four weeks, one to one, fully online.</p>
               <div className="s-price">
+                <s>{kc(ONE_LIST_PRICE)}</s>
                 <strong>{kc(ONE_PRICE)}</strong>
                 <span>per person · Four weeks · weekly 60-minute sessions</span>
+                <em className="s-deal">35% off · save {kc(ONE_LIST_PRICE - ONE_PRICE)}</em>
               </div>
               <ul className="s-list">{ONE_LIST.map((t) => <li key={t}><Check />{t}</li>)}</ul>
               <a className="s-btn s-btn--ghost s-btn--block" href={BOOK_URL} target="_blank" rel="noopener noreferrer"><CalendarIcon size={18} /> Book a free discovery call</a>
