@@ -142,7 +142,7 @@ function FreeSessionModal({ onClose }) {
     document.body.style.overflow = "hidden";
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
-    try { window.fbq?.("track", "Lead", { content_name: "Zlín free session (booking opened)" }); } catch (err) { /* ignore */ }
+    // Meta "Schedule" is sent site-wide by installCalendlyBookingTracking (main.jsx) when Calendly confirms the booking.
     return () => {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
