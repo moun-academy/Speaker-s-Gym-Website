@@ -184,6 +184,9 @@ export default function Zlin() {
         <Reveal instant delay={160}>
           <p className="s-hero-sub">A four-week communication masterclass, in person in Zlín. Speak with more influence. Land the job, in English.</p>
         </Reveal>
+        <Reveal instant delay={200}>
+          <p className="z-cz" lang="cs">Stydíte se mluvit anglicky? <em>Připravte se na pohovor v angličtině, přímo tady ve Zlíně.</em></p>
+        </Reveal>
         <Reveal instant delay={240}>
           <div className="s-transforms">
             {[["Rehearsed", "Spontaneous"], ["Understood", "Influential"], ["Fluent", "Commanding"]].map(([a, b]) => (

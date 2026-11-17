@@ -204,3 +204,8 @@
 .zlin-page .z-cal-open { display: block; padding: 12px 8px 4px; text-align: center; color: var(--text-dim); font-size: .85rem; }
 .zlin-page .z-cal-open:hover { color: var(--gold); }
 @media (max-width: 680px) { .zlin-page .z-cal-card { width: 100%; padding: 18px 6px 8px; } .zlin-page .z-cal-frame { height: calc(100vh - 150px); } }
+
+/* Czech hook line in the hero */
+.sales-page.zlin-page .z-cz { max-width: 640px; margin: -6px auto 26px; padding: 14px 20px; border-left: 3px solid var(--gold); border-radius: 4px 12px 12px 4px; background: rgba(217,192,111,.1); color: var(--text-bright); font-family: var(--font-display); font-size: clamp(1.1rem, 2.2vw, 1.35rem); line-height: 1.45; text-align: left; }
+.sales-page.zlin-page .z-cz em { color: var(--gold); font-style: italic; }
+@media (max-width: 680px) { .sales-page.zlin-page .z-cz { margin: -2px 6px 22px; padding: 12px 16px; text-align: left; } }
