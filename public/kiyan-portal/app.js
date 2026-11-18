@@ -300,6 +300,10 @@
     const done=state.coachingFollowUps?.[COACHING.id]||{};
     const count=COACHING.missions.filter(m=>done[m.id]).length;
     $('#coachingUpdate').innerHTML='<div class="coaching-head"><div><span class="eyebrow">'+esc(COACHING.label||'YOUR LATEST CALL')+'</span><h2>'+esc(COACHING.title||'Your focus this week')+'</h2></div><span class="coaching-count" aria-label="'+count+' of '+COACHING.missions.length+' done">'+count+'/'+COACHING.missions.length+'</span></div><p>'+esc(COACHING.summary)+'</p><div class="coaching-missions">'+COACHING.missions.map((m,i)=>'<label class="coaching-mission'+(done[m.id]?' is-done':'')+'"><input type="checkbox" data-coaching-mission="'+esc(m.id)+'" '+(done[m.id]?'checked':'')+(sync.role==='coach'?' disabled':'')+'><span class="mission-number">'+(i+1)+'</span><span><strong>'+esc(m.title)+'</strong><small>'+esc(m.text)+'</small></span></label>').join('')+'</div><details><summary>Your focus this week</summary><ul>'+COACHING.challenges.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></details>';
+    if(COACHING.programCompleted){
+      $('#coachingSession').innerHTML='<span class="eyebrow">YOUR NEXT CHAPTER</span><h2 id="sessionTitle">Your practice continues</h2><p>'+esc(COACHING.continuingPractice)+'</p><div class="session-prep"><strong>Your final assignment</strong><p>Record a two-minute story and share it in the community for feedback.</p></div><a class="button dark" href="https://www.skool.com/moun-academy-2097/about" target="_blank" rel="noopener noreferrer">Open the community ↗</a><button class="text-button" id="prepareCall">Save a practice note <span>→</span></button>';
+      $('#prepareCall').addEventListener('click',()=>{location.hash='reflections';$('#callNote').focus();});return;
+    }
     if(COACHING.nextCallPending){$('#coachingSession').innerHTML='<span class="eyebrow">YOUR NEXT COACHING SESSION</span><h2 id="sessionTitle">Next time to be confirmed</h2><p>Your next appointment and meeting link will appear here once confirmed.</p>';return;}
     const call=COACHING.nextCall;const when=new Date(call.start);
     const part=(opts,tz)=>new Intl.DateTimeFormat('en-GB',{...opts,timeZone:tz}).format(when);
