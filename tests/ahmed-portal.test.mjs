@@ -15,21 +15,25 @@ function fixture(saved,remote,coaching=false) {
 }
 
 
-test('Ahmed starts clean, with the verified booking and no automatic lecture completion',async()=>{
+test('Ahmed’s first coaching update marks only Lecture 1 and renders the verified second booking',async()=>{
  const app=fixture(null,null,true);for(let i=0;i<8;i++)await Promise.resolve();
  assert.equal(app.portal.client.id,'ahmed');assert.equal(app.portal.client.name,'Ahmed');
  const s=app.portal.getState();assert.equal(s.reflections.length,0);assert.equal(s.evidence.length,0);
- for(let week=1;week<=6;week++){assert.equal(s['week'+week+'Lecture'].lectureCompletedAt,null);assert.equal(s['week'+week+'Lecture'].missionStatus,'not-started');}
- const card=app.elements.get('#coachingSession').innerHTML;assert.match(card,/20 November 2026/);assert.match(card,/5:00/);assert.match(card,/jdv-cfqi-qef/);assert.doesNotMatch(card,/Proposed|awaiting confirmation/);
+ assert.equal(s.week1Lecture.lectureCompletedAt,'2026-11-20');
+ for(let week=1;week<=6;week++){if(week>1)assert.equal(s['week'+week+'Lecture'].lectureCompletedAt,null);assert.equal(s['week'+week+'Lecture'].missionStatus,'not-started');}
+ assert.deepEqual(s.coachingFollowUps,undefined);
+ const card=app.elements.get('#coachingSession').innerHTML;assert.match(card,/11 December 2026/);assert.match(card,/5:00/);assert.match(card,/pne-cnqj-ecr/);assert.doesNotMatch(card,/Proposed|awaiting confirmation/);
  assert.ok(app.calls.every(call=>call.url.includes('client=ahmed')));
 });
 test('Introduction workshop persists across reload alongside answers, reflections, start date and independent missions',()=>{
- const saved={startDate:'2026-11-20',completedDays:{3:true},currentLevel:4,reflections:[{id:'my-reflection'}],evidence:[{id:'my-evidence'}],week1Lecture:{prep:{point:'My own answer'},lectureCompletedAt:'2026-11-20',missionStatus:'not-started'},introductionWorkshop:{who:'Ahmed - my role'},callNote:'My meeting question'};
+ const saved={startDate:'2026-11-20',completedDays:{3:true},currentLevel:4,reflections:[{id:'my-reflection'}],evidence:[{id:'my-evidence'}],week1Lecture:{prep:{point:'My own answer'},lectureCompletedAt:'2026-11-20',missionStatus:'not-started'},introductionWorkshop:{who:'Ahmed - my role'},callNote:'My meeting question',coachingFollowUps:{'onboarding-2026-11-16':{'baseline-introduction':true}}};
  const app=fixture(saved,null,true);const who=app.elements.get('pitch-who');assert.equal(who.value,'Ahmed - my role');
  const focus=app.elements.get('pitch-focus');focus.value='A genuine responsibility';focus.input();
  const reload=fixture(JSON.parse(app.store.get('speakers-gym-ahmed-v1')),null,true), s=reload.portal.getState();
  assert.equal(s.introductionWorkshop.focus,'A genuine responsibility');assert.equal(s.introductionWorkshop.who,'Ahmed - my role');assert.equal(s.week1Lecture.prep.point,'My own answer');assert.equal(s.week1Lecture.missionStatus,'not-started');assert.equal(s.week1Lecture.lectureCompletedAt,'2026-11-20');assert.equal(s.startDate,'2026-11-20');assert.equal(s.currentLevel,4);assert.equal(s.reflections[0].id,'my-reflection');assert.equal(s.evidence[0].id,'my-evidence');assert.equal(s.completedDays[3],true);assert.equal(s.callNote,'My meeting question');
- app.events.change({target:{closest:()=>({dataset:{coachingMission:'baseline-introduction'},checked:true})}});const again=fixture(JSON.parse(app.store.get('speakers-gym-ahmed-v1')),null,true);assert.equal(again.portal.getState().coachingFollowUps['onboarding-2026-11-16']['baseline-introduction'],true);
+ app.events.change({target:{closest:()=>({dataset:{coachingMission:'real-life-prep'},checked:true})}});const again=fixture(JSON.parse(app.store.get('speakers-gym-ahmed-v1')),null,true);assert.equal(again.portal.getState().coachingFollowUps['onboarding-2026-11-16']['baseline-introduction'],true);
+ assert.equal(again.portal.getState().coachingFollowUps['coaching-1-2026-11-20']['real-life-prep'],true);
+ assert.equal(again.portal.getState().week1Lecture.missionStatus,'not-started');
 });
 test('Ahmed has six weeks, 42 workplace prompts, ten exposure steps and no copied client identity or schedule',()=>{
  const ctx=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(root+'/data.js','utf8'),ctx);const d=ctx.window.AHMED_DATA;assert.equal(d.storageKey,'speakers-gym-ahmed-v1');assert.equal(d.weeks.length,6);assert.equal(d.weeks.flatMap(w=>w.days).length,42);assert.equal(d.levels.length,10);assert.match(d.weeks[0].days[0].join(' '),/30-second/);
